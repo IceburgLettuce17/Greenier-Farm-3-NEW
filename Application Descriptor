@@ -1,0 +1,6 @@
+MIDlet-Vendor: Gameloft SA (built from decomp)
+MIDlet-Version: 1.0.6
+MicroEdition-Configuration: CLDC-1.8
+MIDlet-Name: Green Farm 3
+MicroEdition-Profile: MIDP-2.1
+MIDlet-Jar-URL: Greenier_Farm_3_(NEW).jar
