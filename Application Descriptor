@@ -1,22 +1,25 @@
 URL-OPERATOR: http://youroperatorurlhere.site
-MIDlet-Version: 1.0.6
+IAP-EnableIAP: 1
 MIDlet-Touch-Support: true
-URL-SUPPORT: http://github.com/IceburgLettuce17/Greenier-Farm-3-NEW/
 MicroEdition-Configuration: CLDC-1.0
-IGP-CATEGORIES: SCFR=SCFR;GMCL=GMCL;CCTL=CCTL;
 MIDlet-Name: Green Farm 3
 IGP-FREEMIUM: PSHF=0;
 MIDlet-Jar-Size: 3344667
-TITLE-FREEMIUM: 0
 IGP-VERSION: 2.3
 IGP-PROMOS: KLMP=KLMP;BLB3=BLB3;DIT2=DIT2;
 MIDlet-Vendor: Gameloft SA
+Has-Push-Notification: 1
 MIDlet-Scaleup-Support: false
-MIDlet-Icon: /icon.png
 URL-TEMPLATE-GAME: http://whatisthisfor.idk
 MIDlet-1: Green Farm 3, /icon.png, GloftGF2M
 MIDlet-Description: Discover farming in a new and fun way
 TITLE-GLCLUB: 0
-MicroEdition-Profile: MIDP-1.0
 MIDlet-Jar-URL: GreenFarm3_Samsung_GT_S8000_EN_IGP_EU_IAP_TS_106_BUILD.jar
+MIDlet-Version: 1.0.6
+URL-SUPPORT: http://github.com/IceburgLettuce17/Greenier-Farm-3-NEW/
+IGP-CATEGORIES: SCFR=SCFR;GMCL=GMCL;CCTL=CCTL;
+TITLE-FREEMIUM: 0
+MIDlet-Icon: /icon.png
+MicroEdition-Profile: MIDP-1.0
 MIDlet-Permissions: javax.wireless.messaging.sms.send,javax.microedition.io.Connector.sms,javax.microedition.io.Connector.http
+GameVer: 1.0.6

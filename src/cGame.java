@@ -29380,7 +29380,7 @@ public final class cGame extends GLLib implements Class_b {
 		cGame.var_67ec = 0;
 		cGame.var_67f4 = 0;
 		cGame.var_67dc = new int[15];
-		cGame.var_67dc[0] = 44;
+		//cGame.var_67dc[0] = 44;
 		cGame.var_67e4 = new byte[6];
 		for (int i = 0; i < 45; ++i) {
 			sub_818c(i, true);

@@ -608,7 +608,7 @@ public final class Class_o
             final int n = Class_o.var_298d.var_68f ? (var_2995 = -1) : (Class_o.var_298d.var_69f ? (var_2995 = -2) : (var_2995 = Class_o.var_2995));
             final int var_2afd = var_2995;
             if (n == 0) {
-                if (sub_40d2(Integer.parseInt(Class_o.var_2a45))) {
+                if (verifyRequest(Integer.parseInt(Class_o.var_2a45))) {
                     Class_o.var_2afd = 0;
                     sub_437f();
                     return 7;
@@ -649,7 +649,7 @@ public final class Class_o
         return int1;
     }
     
-    public static boolean sub_40d2(int c) {
+    public static boolean verifyRequest(int c) {
         boolean equals = false;
         if ((Class_o.var_2a45 = sub_6d7d()) != null && Class_o.var_2a45.length() > 0) {
             equals = String.valueOf(c).equals(String.valueOf(Integer.parseInt(Class_o.var_2a45) ^ 0xD0A4));
