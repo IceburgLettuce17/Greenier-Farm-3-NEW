@@ -15,8 +15,8 @@ public final class Class_o
 {
     private static MIDlet application;
     static int var_2965;
-    static String var_296d;
-    static int var_2975;
+    static String itemType;
+    static int pricePoint;
     private static String language;
     private static String VERSION;
     private static Class_d var_298d;
@@ -28,22 +28,22 @@ public final class Class_o
     private static String[][] var_29bd;
     private static String[][] var_29c5;
     private static int var_29cd;
-    private static Vector var_29d5;
+    private static Vector currentValidProfiles;
     private static int var_29dd;
     private static String[] var_29e5;
     private static int var_29ed;
     private static String[][] var_29f5;
     private static String[] var_29fd;
-    private static String var_2a05;
-    private static String var_2a0d;
-    private static String var_2a15;
+    private static String debugNum;
+    private static String debugMnc;
+    private static String smsProperty;
     private static String var_2a1d;
-    private static String var_2a25;
-    private static String var_2a2d;
+    private static String igpCode;
+    private static String phoneModel;
     private static String var_2a35;
     private static String var_2a3d;
     private static String var_2a45;
-    private static int var_2a4d;
+    private static int currentProfile;
     private static long var_2a55;
     public static final String[] rmsNames;
     private static boolean var_2a65;
@@ -51,13 +51,13 @@ public final class Class_o
     private static boolean var_2a75;
     private static boolean var_2a7d;
     private static boolean var_2a85;
-    private static String var_2a8d;
+    private static String overrideFromJad;
     private static String var_2a95;
     private static String var_2a9d;
     private static String var_2aa5;
     private static String var_2aad;
-    private static String var_2ab5;
-    private static String var_2abd;
+    private static String billingUrl;
+    private static String billingType;
     private static String profilesFile;
     private static String textFile;
     private static Timer var_2ad5;
@@ -72,11 +72,11 @@ public final class Class_o
     private static String iapTestField;
     private static String useTestProfile;
     private static String[] currencys;
-    private static Vector var_2b35;
+    private static Vector validContentIds;
     private static Vector var_2b3d;
     private static Vector var_2b45;
     private static String[] var_2b4d;
-    private static boolean var_2b55;
+    private static boolean creditCardEnabled;
     private static boolean var_2b5d;
     private static String[] var_2b65;
     private static String[] var_2b6d;
@@ -127,8 +127,8 @@ public final class Class_o
         Class_o.language = language;
         Class_o.application = GLLib.s_application;
         Class_o.var_2afd = 0;
-        if (Class_o.var_29d5 == null) {
-            Class_o.var_29d5 = new Vector();
+        if (Class_o.currentValidProfiles == null) {
+            Class_o.currentValidProfiles = new Vector();
         }
         if (Class_o.var_29c5 == null) {
             Class_o.var_29c5 = loadSpecificTextsFile();
@@ -189,32 +189,32 @@ public final class Class_o
     
     public static boolean parseJadFields() {
         Class_o.var_2b8d = 6;
-        final String sub_6b21;
-        boolean b;
-        if ((sub_6b21 = rmsLoad(Class_o.rmsNames[6])) != null && !sub_6b21.equals("1") && sub_6b21.equals("0")) {
-            b = false;
+        final String unlocked = rmsLoad(Class_o.rmsNames[6]);
+        boolean isUnlocked;
+        if (unlocked != null && !unlocked.equals("1") && unlocked.equals("0")) {
+            isUnlocked = false;
             Class_o.var_2afd = -10;
         }
         else {
             Class_o.application = GLLib.s_application;
-            if ((Class_o.var_2a8d = getAppProperty("IAP-OverrideFromJad")).equals("1")) {
-                if ((Class_o.var_2abd = getAppProperty("IAP-BillingType").toUpperCase()).equals("HTTP")) {
-                    if ((Class_o.var_2ab5 = getAppProperty("IAP-BillingURL")).equals("")) {
-                        Class_o.var_2a8d = "0";
+            if ((Class_o.overrideFromJad = getAppProperty("IAP-OverrideFromJad")).equals("1")) {
+                if ((Class_o.billingType = getAppProperty("IAP-BillingType").toUpperCase()).equals("HTTP")) {
+                    if ((Class_o.billingUrl = getAppProperty("IAP-BillingURL")).equals("")) {
+                        Class_o.overrideFromJad = "0";
                     }
                 }
-                else if (!Class_o.var_2abd.equals("SMS")) {
-                    Class_o.var_2a8d = "0";
+                else if (!Class_o.billingType.equals("SMS")) {
+                    Class_o.overrideFromJad = "0";
                 }
             }
             getAppProperty("IAP-Version");
-            boolean var_2b55;
-            if ((Class_o.var_2a25 = getAppProperty("IAP-GameCodeIGP")).length() == 0) {
-                var_2b55 = false;
+            boolean hasIGPCode;
+            if ((Class_o.igpCode = getAppProperty("IAP-GameCodeIGP")).length() == 0) {
+                hasIGPCode = false;
             }
             else {
-                if ((Class_o.var_2a2d = getAppProperty("IAP-PhoneModel")).length() == 0) {
-                    Class_o.var_2a2d = "5477";
+                if ((Class_o.phoneModel = getAppProperty("IAP-PhoneModel")).length() == 0) {
+                    Class_o.phoneModel = "5477";
                 }
                 if ((Class_o.iapTestField = getAppProperty("IAP-Test")).length() == 0) {
                     Class_o.iapTestField = "0";
@@ -232,58 +232,58 @@ public final class Class_o
                     }
                 }
                 new StringBuffer().append("PaySMS.parseJadFields:iapTestField: ").append(Class_o.iapTestField).append(" useTestProfile: ").append(Class_o.useTestProfile);
-                Class_o.var_2a05 = getAppProperty("IAP-DebugNumber");
-                final String property;
-                if ((property = System.getProperty("wireless.messaging.sms.smsc")) != null && property.length() > 0) {
-                    Class_o.var_2a15 = property;
+                Class_o.debugNum = getAppProperty("IAP-DebugNumber");
+                final String smsProp;
+                if ((smsProp = System.getProperty("wireless.messaging.sms.smsc")) != null && smsProp.length() > 0) {
+                    Class_o.smsProperty = smsProp;
                 }
-                final String sub_5e3c = getAppProperty("IAP-DebugSMSCenter");
-                Class_o.var_2a0d = getAppProperty("IAP-DebugMNC");
-                if (!sub_5e3c.equals("")) {
-                    Class_o.var_2a15 = sub_5e3c;
+                final String debugSmsCenter = getAppProperty("IAP-DebugSMSCenter");
+                Class_o.debugMnc = getAppProperty("IAP-DebugMNC");
+                if (!debugSmsCenter.equals("")) {
+                    Class_o.smsProperty = debugSmsCenter;
                 }
-                if (!Class_o.var_2a0d.equals("")) {
-                    Class_o.var_2a1d = Class_o.var_2a0d;
+                if (!Class_o.debugMnc.equals("")) {
+                    Class_o.var_2a1d = Class_o.debugMnc;
                 }
                 Class_o.var_2a35 = getAppProperty("Download-Code");
                 if (getAppProperty("IAP-EnableCreditCard").equals("1")) {
-                    Class_o.var_2b55 = true;
+                    Class_o.creditCardEnabled = true;
                 }
-                Class_o.var_2b35 = new Vector();
+                Class_o.validContentIds = new Vector();
                 Class_o.var_2b3d = new Vector();
                 Class_o.var_2b45 = new Vector();
                 for (int i = 0; i < Class_o.currencys.length; ++i) {
                     for (int j = 1; j <= Class_o.var_2b8d; ++j) {
-                        final String sub_5e3c2;
-                        if ((sub_5e3c2 = getAppProperty("IAP-ContentID-" + Class_o.currencys[i] + "-" + j)) != null && !sub_5e3c2.equals("")) {
-                            Class_o.var_2b35.addElement(sub_5e3c2);
+                        final String contentID;
+                        if ((contentID = getAppProperty("IAP-ContentID-" + Class_o.currencys[i] + "-" + j)) != null && !contentID.equals("")) {
+                            Class_o.validContentIds.addElement(contentID);
                         }
                     }
                 }
-                new StringBuffer().append("PaySMS.parseJadFields: ValidContentIDs: ").append(Class_o.var_2b35);
-                for (int k = 0; k < Class_o.var_2b35.size(); ++k) {
-                    final String obj = (String)Class_o.var_2b35.elementAt(k);
+                new StringBuffer().append("PaySMS.parseJadFields: ValidContentIDs: ").append(Class_o.validContentIds);
+                for (int k = 0; k < Class_o.validContentIds.size(); ++k) {
+                    final String obj = (String)Class_o.validContentIds.elementAt(k);
                     boolean b2 = false;
-                    for (int l = k + 1; l < Class_o.var_2b35.size(); ++l) {
-                        if (Class_o.var_2b35.elementAt(l).equals(obj)) {
+                    for (int l = k + 1; l < Class_o.validContentIds.size(); ++l) {
+                        if (Class_o.validContentIds.elementAt(l).equals(obj)) {
                             b2 = true;
-                            Class_o.var_2b35.removeElementAt(l);
+                            Class_o.validContentIds.removeElementAt(l);
                             --l;
                         }
                     }
                     if (b2) {
-                        Class_o.var_2b35.removeElementAt(k);
+                        Class_o.validContentIds.removeElementAt(k);
                         --k;
                     }
                 }
-                if (Class_o.var_2b35.size() == 0) {
-                    var_2b55 = false;
+                if (Class_o.validContentIds.size() == 0) {
+                    hasIGPCode = false;
                 }
                 else {
-                    new StringBuffer().append("PaySMS.parseJadFields: ValidContentIDs: ").append(Class_o.var_2b35);
+                    new StringBuffer().append("PaySMS.parseJadFields: ValidContentIDs: ").append(Class_o.validContentIds);
                     String str;
                     if ((str = getAppProperty("IAP-Profiles")).equals("")) {
-                        var_2b55 = false;
+                        hasIGPCode = false;
                     }
                     else {
                         if (str.length() > 0 && str.charAt(str.length() - 1) != ';') {
@@ -291,54 +291,53 @@ public final class Class_o
                         }
                         final String[] sub_6617;
                         if ((sub_6617 = sub_6617(str)) == null) {
-                            var_2b55 = false;
+                            hasIGPCode = false;
                         }
                         else if (!loadProfileConfiguration(null, sub_6617, readFile(Class_o.profilesFile))) {
-                            var_2b55 = Class_o.var_2b55;
+                            hasIGPCode = Class_o.creditCardEnabled;
                         }
                         else {
                             Class_o.var_29ad = true;
-                            var_2b55 = true;
+                            hasIGPCode = true;
                         }
                     }
                 }
             }
-            final boolean b3 = var_2b55;
-            new StringBuffer().append("PaySMS.checkAvailable:parseJadFields: ").append(b3 ? "true" : "false");
-            b = (b3 && sub_3396());
+            new StringBuffer().append("PaySMS.checkAvailable:parseJadFields: ").append(hasIGPCode ? "true" : "false");
+            isUnlocked = (hasIGPCode && checkAvailable());
         }
-        return b;
+        return isUnlocked;
     }
     
-    private static boolean sub_3396() {
-        boolean b;
+    private static boolean checkAvailable() {
+        boolean retbool;
         if (getTestFieldInt() != 0) {
-            b = true;
+            retbool = true;
         }
-        else if (Class_o.var_2b55 && (Class_o.var_29a5 == null || Class_o.var_29a5.length == 0)) {
-            b = true;
+        else if (Class_o.creditCardEnabled && (Class_o.var_29a5 == null || Class_o.var_29a5.length == 0)) {
+            retbool = true;
         }
         else if (Class_o.var_29a5.length == 1) {
-            b = true;
+            retbool = true;
         }
         else if (Class_o.var_29a5.length > 1) {
             final String s = Class_o.var_29a5[0][2];
             final String s2 = Class_o.var_29a5[0][3];
-            b = true;
+            retbool = true;
             for (int i = 1; i < Class_o.var_29a5.length; ++i) {
                 final String anObject = Class_o.var_29a5[i][2];
                 final String anObject2 = Class_o.var_29a5[i][3];
                 if (!s.equals(anObject) || !s2.equals(anObject2)) {
-                    b = false;
+                    retbool = false;
                     break;
                 }
             }
         }
         else {
-            b = false;
+            retbool = false;
         }
-        new StringBuffer().append("PaySMS.checkAvailable:validProfiles: ").append(b ? "true" : "false");
-        return b;
+        new StringBuffer().append("PaySMS.checkAvailable:validProfiles: ").append(retbool ? "true" : "false");
+        return retbool;
     }
     
     public static boolean sub_34dd() {
@@ -347,72 +346,72 @@ public final class Class_o
         return Class_o.var_2a6d || Class_o.var_2a7d;
     }
     
-    public static void sub_3527(final int n, String str) {
-        new StringBuffer().append("PaySMS.sendRequest: start (PricePoint:").append(n).append(") (Item Type: ").append(str).append(")");
-        Class_o.var_2975 = n;
-        Class_o.var_2965 = sub_59b0(n, str);
-        Class_o.var_296d = str;
+    public static void sendRequest(final int pricePoint, String itemType) {
+        new StringBuffer().append("PaySMS.sendRequest: start (PricePoint:").append(pricePoint).append(") (Item Type: ").append(itemType).append(")");
+        Class_o.pricePoint = pricePoint;
+        Class_o.var_2965 = sub_59b0(pricePoint, itemType);
+        Class_o.itemType = itemType;
         boolean b = false;
-        String var_2abd = "";
-        if (Class_o.var_2a8d.equals("1")) {
-            var_2abd = Class_o.var_2abd;
+        String type = "";
+        if (Class_o.overrideFromJad.equals("1")) {
+            type = Class_o.billingType;
         }
         else {
             if (getTestFieldInt() != 0) {
                 Class_o.var_29a5 = Class_o.var_29bd;
                 if (getTestFieldInt() == 1) {
-                    var_2abd = "SMS";
+                    type = "SMS";
                 }
                 else if (getTestFieldInt() == 2) {
-                    var_2abd = "HTTP";
+                    type = "HTTP";
                 }
                 for (int i = 0; i < Class_o.var_29a5.length; ++i) {
                     if (Class_o.var_29a5[i][0].equals(Class_o.useTestProfile)) {
-                        Class_o.var_2a4d = i;
+                        Class_o.currentProfile = i;
                         b = true;
                         break;
                     }
                 }
             }
             else {
-                new StringBuffer().append("PaySMS.sendRequest: currentValidProfiles: ").append((Class_o.var_29d5 == null) ? "null" : ("Size: " + Class_o.var_29d5.size()));
-                if (Class_o.var_29d5 == null || Class_o.var_29d5.size() == 0) {
-                    Class_o.var_2a4d = -1;
+                new StringBuffer().append("PaySMS.sendRequest: currentValidProfiles: ").append((Class_o.currentValidProfiles == null) ? "null" : ("Size: " + Class_o.currentValidProfiles.size()));
+                if (Class_o.currentValidProfiles == null || Class_o.currentValidProfiles.size() == 0) {
+                    Class_o.currentProfile = -1;
                 }
                 else {
-                    Class_o.var_2a4d = 0;
-                    for (int j = 0; j < Class_o.var_29d5.size(); ++j) {
-                        final int intValue = ((Integer) Class_o.var_29d5.elementAt(j)).intValue();
+                    Class_o.currentProfile = 0;
+                    for (int j = 0; j < Class_o.currentValidProfiles.size(); ++j) {
+                        final int intValue = ((Integer) Class_o.currentValidProfiles.elementAt(j)).intValue();
                         try {
-                            if (Integer.parseInt(Class_o.var_29a5[intValue][14]) == n) {
-                                Class_o.var_2a4d = intValue;
+                            if (Integer.parseInt(Class_o.var_29a5[intValue][14]) == pricePoint) {
+                                Class_o.currentProfile = intValue;
                                 b = true;
-                                var_2abd = Class_o.var_29a5[Class_o.var_2a4d][6];
+                                type = Class_o.var_29a5[Class_o.currentProfile][6];
                                 break;
                             }
                         }
                         catch (final Exception ex) {
-                            Class_o.var_2a4d = 0;
+                            Class_o.currentProfile = 0;
                         }
                     }
                 }
             }
-            new StringBuffer().append("PaySMS.sendRequest: currentProfile: ").append(Class_o.var_2a4d);
-            if (b && Class_o.var_2a4d != -1) {
-                new StringBuffer().append("PaySMS.sendRequest: Id: ").append(Class_o.var_29a5[Class_o.var_2a4d][0]).append(" Billing: ").append(Class_o.var_29a5[Class_o.var_2a4d][6]).append(" Region: ").append(Class_o.var_29a5[Class_o.var_2a4d][2]).append(" Carrier: ").append(Class_o.var_29a5[Class_o.var_2a4d][3]).append(" Pricepoint: ").append(Class_o.var_29a5[Class_o.var_2a4d][14]);
+            new StringBuffer().append("PaySMS.sendRequest: currentProfile: ").append(Class_o.currentProfile);
+            if (b && Class_o.currentProfile != -1) {
+                new StringBuffer().append("PaySMS.sendRequest: Id: ").append(Class_o.var_29a5[Class_o.currentProfile][0]).append(" Billing: ").append(Class_o.var_29a5[Class_o.currentProfile][6]).append(" Region: ").append(Class_o.var_29a5[Class_o.currentProfile][2]).append(" Carrier: ").append(Class_o.var_29a5[Class_o.currentProfile][3]).append(" Pricepoint: ").append(Class_o.var_29a5[Class_o.currentProfile][14]);
             }
         }
         if (!Class_o.var_299d) {
             return;
         }
-        new StringBuffer().append("creditCardEnabled: ").append(Class_o.var_2b55);
-        if (b && var_2abd.equals("SMS")) {
+        new StringBuffer().append("creditCardEnabled: ").append(Class_o.creditCardEnabled);
+        if (b && type.equals("SMS")) {
             Class_o.var_2a65 = true;
             Class_o.var_2a6d = false;
             rmsSave(Class_o.rmsNames[0], "0");
             Class_o.var_2a3d = "";
-            if (Class_o.var_2a8d.equals("1")) {
-                Class_o.var_2aa5 = getAppProperty("IAP-Alias-PP" + Class_o.var_2975);
+            if (Class_o.overrideFromJad.equals("1")) {
+                Class_o.var_2aa5 = getAppProperty("IAP-Alias-PP" + Class_o.pricePoint);
             }
             else {
                 Class_o.var_2aa5 = "";
@@ -420,21 +419,21 @@ public final class Class_o
             if (!Class_o.var_2aa5.equals("")) {
                 sub_4c7d(Class_o.var_2aa5);
             }
-            else if (Class_o.var_2a4d != -1 && !Class_o.var_29a5[Class_o.var_2a4d][10].equals("")) {
-                sub_4c7d(Class_o.var_29a5[Class_o.var_2a4d][10]);
+            else if (Class_o.currentProfile != -1 && !Class_o.var_29a5[Class_o.currentProfile][10].equals("")) {
+                sub_4c7d(Class_o.var_29a5[Class_o.currentProfile][10]);
             }
-            if (Class_o.var_29a5[Class_o.var_2a4d][12].equals("7")) {
+            if (Class_o.var_29a5[Class_o.currentProfile][12].equals("7")) {
                 sub_4c7d("UNLOCK");
             }
             else {
                 sub_4c7d("INAPP");
             }
             sub_4c7d("V009");
-            sub_4c7d(Class_o.var_2a25);
+            sub_4c7d(Class_o.igpCode);
             sub_4c7d(Class_o.var_2a45);
-            sub_4c7d(Class_o.var_2a2d);
-            if (Class_o.var_2a8d.equals("1")) {
-                Class_o.var_2a9d = getAppProperty("IAP-ProfileID-PP" + Class_o.var_2975);
+            sub_4c7d(Class_o.phoneModel);
+            if (Class_o.overrideFromJad.equals("1")) {
+                Class_o.var_2a9d = getAppProperty("IAP-ProfileID-PP" + Class_o.pricePoint);
             }
             else {
                 Class_o.var_2a9d = "";
@@ -443,11 +442,11 @@ public final class Class_o
                 sub_4c7d(Class_o.var_2a9d);
             }
             else {
-                if (Class_o.var_2a4d == -1) {
+                if (Class_o.currentProfile == -1) {
                     Class_o.var_2afd = 7;
                     return;
                 }
-                sub_4c7d(Class_o.var_29a5[Class_o.var_2a4d][0]);
+                sub_4c7d(Class_o.var_29a5[Class_o.currentProfile][0]);
             }
             if (!Class_o.language.equals("")) {
                 sub_4c7d(Class_o.language);
@@ -455,14 +454,14 @@ public final class Class_o
             else {
                 sub_4c7d("EN");
             }
-            if (Class_o.var_29a5[Class_o.var_2a4d][12].equals("7")) {
+            if (Class_o.var_29a5[Class_o.currentProfile][12].equals("7")) {
                 sub_4c7d("7");
             }
             else {
                 sub_4c7d("1");
             }
             final String sub_5e3c;
-            if (!(sub_5e3c = getAppProperty("IAP-ContentID-" + Class_o.var_296d + "-" + Class_o.var_2975)).equals("")) {
+            if (!(sub_5e3c = getAppProperty("IAP-ContentID-" + Class_o.itemType + "-" + Class_o.pricePoint)).equals("")) {
                 sub_4c7d(sub_5e3c);
                 sub_4c7d(Class_o.var_2a35);
                 sub_4c7d("ct" + Class_o.var_2a55);
@@ -471,25 +470,25 @@ public final class Class_o
                 new Class_c().start();
                 return;
             }
-            new StringBuffer().append("PaySMS.sendHTTP:Error: Wrong Item. IAP-ContentID-").append(Class_o.var_296d).append("-").append(Class_o.var_2975).append(" missing in JAD");
+            new StringBuffer().append("PaySMS.sendHTTP:Error: Wrong Item. IAP-ContentID-").append(Class_o.itemType).append("-").append(Class_o.pricePoint).append(" missing in JAD");
             Class_o.var_2afd = -2;
         }
-        else if (b && var_2abd.equals("HTTP")) {
+        else if (b && type.equals("HTTP")) {
             Class_o.var_298d = new Class_d(false);
             String str2;
-            if (Class_o.var_2a8d.equals("1")) {
-                str2 = Class_o.var_2ab5;
-                str = (Class_o.var_2a9d = getAppProperty("IAP-ProfileID-PP" + Class_o.var_2975));
+            if (Class_o.overrideFromJad.equals("1")) {
+                str2 = Class_o.billingUrl;
+                itemType = (Class_o.var_2a9d = getAppProperty("IAP-ProfileID-PP" + Class_o.pricePoint));
             }
             else {
-                if (Class_o.var_2a4d == -1) {
+                if (Class_o.currentProfile == -1) {
                     Class_o.var_2afd = 7;
                     return;
                 }
-                str2 = Class_o.var_29a5[Class_o.var_2a4d][11];
-                str = Class_o.var_29a5[Class_o.var_2a4d][0];
+                str2 = Class_o.var_29a5[Class_o.currentProfile][11];
+                itemType = Class_o.var_29a5[Class_o.currentProfile][0];
             }
-            if (str2.equals("") || str.equals("")) {
+            if (str2.equals("") || itemType.equals("")) {
                 Class_o.var_2afd = 4;
                 return;
             }
@@ -501,28 +500,28 @@ public final class Class_o
                 str2 += "?";
             }
             final String sub_5e3c2;
-            if ((sub_5e3c2 = getAppProperty("IAP-ContentID-" + Class_o.var_296d + "-" + Class_o.var_2975)).equals("")) {
-                new StringBuffer().append("PaySMS.sendHTTP:Error: Wrong Item. IAP-ContentID-").append(Class_o.var_296d).append("-").append(Class_o.var_2975).append(" missing in JAD");
+            if ((sub_5e3c2 = getAppProperty("IAP-ContentID-" + Class_o.itemType + "-" + Class_o.pricePoint)).equals("")) {
+                new StringBuffer().append("PaySMS.sendHTTP:Error: Wrong Item. IAP-ContentID-").append(Class_o.itemType).append("-").append(Class_o.pricePoint).append(" missing in JAD");
                 Class_o.var_2afd = -2;
                 return;
             }
             final String s = str2;
             final String s2 = sub_5e3c2;
-            final String s3 = str;
-            final String var_2a25 = Class_o.var_2a25;
+            final String s3 = itemType;
+            final String var_2a25 = Class_o.igpCode;
             final String var_2a26 = Class_o.var_2a45;
             final String var_2a27 = Class_o.var_2a35;
-            final String var_2a2d = Class_o.var_2a2d;
+            final String var_2a2d = Class_o.phoneModel;
             final String str3 = var_2a27;
             final String str4 = var_2a26;
             final String str5 = var_2a25;
             final String str6 = s3;
-            str = s2;
+            itemType = s2;
             final String s4 = s;
             Class_o.var_298d.sub_71b();
             final String s5 = "%7C";
             final String s6 = s4;
-            String s7 = "b=contentpurchase" + s5 + str5 + s5 + str + s5 + str6 + s5 + str4;
+            String s7 = "b=contentpurchase" + s5 + str5 + s5 + itemType + s5 + str6 + s5 + str4;
             if (!str3.equals("")) {
                 s7 = s7 + "&d=" + str3;
             }
@@ -531,19 +530,19 @@ public final class Class_o
             Class_o.var_298d.sub_895(s6, string);
             rmsSave(Class_o.rmsNames[1], Class_o.var_2a45);
             rmsSave(Class_o.rmsNames[2], String.valueOf(Class_o.var_2965));
-            rmsSave(Class_o.rmsNames[5], Class_o.var_296d);
-            if (!Class_o.var_2a8d.equals("1")) {
-                sub_6ef9(Class_o.var_29d5);
+            rmsSave(Class_o.rmsNames[5], Class_o.itemType);
+            if (!Class_o.overrideFromJad.equals("1")) {
+                sub_6ef9(Class_o.currentValidProfiles);
             }
             Class_o.var_2af5 = 1;
         }
         else {
-            if (Class_o.var_2b55 && Class_o.var_2a4d == -1) {
-                sub_4aec(n, str);
+            if (Class_o.creditCardEnabled && Class_o.currentProfile == -1) {
+                sub_4aec(pricePoint, itemType);
                 return;
             }
-            if (Class_o.var_2b55) {
-                sub_4aec(n, str);
+            if (Class_o.creditCardEnabled) {
+                sub_4aec(pricePoint, itemType);
                 return;
             }
             Class_o.var_2afd = -2;
@@ -555,7 +554,7 @@ public final class Class_o
         rmsSave(Class_o.rmsNames[4], "1");
         final int sub_4060 = sub_4060();
         final String sub_6e15 = sub_6e15();
-        sub_3527(sub_591c(sub_4060, sub_6e15), sub_6e15);
+        sendRequest(sub_591c(sub_4060, sub_6e15), sub_6e15);
     }
     
     public static int sub_3e90() {
@@ -584,16 +583,16 @@ public final class Class_o
         }
         else {
             if (Class_o.var_2af5 != 1) {
-                if (!Class_o.var_2a8d.equals("1") && getTestFieldInt() == 0) {
+                if (!Class_o.overrideFromJad.equals("1") && getTestFieldInt() == 0) {
                     if (Class_o.var_2afd != 0) {
                         return 3;
                     }
-                    if ((Class_o.var_29d5 == null || Class_o.var_29d5.size() < 1) && (!Class_o.var_2b55 || Class_o.var_29ad)) {
+                    if ((Class_o.currentValidProfiles == null || Class_o.currentValidProfiles.size() < 1) && (!Class_o.creditCardEnabled || Class_o.var_29ad)) {
                         if (Class_o.var_29ed < 0) {
                             Class_o.var_2afd = -3;
                             return 3;
                         }
-                        if (Class_o.var_29d5.size() < 1) {
+                        if (Class_o.currentValidProfiles.size() < 1) {
                             Class_o.var_2afd = -3;
                             return 3;
                         }
@@ -708,7 +707,7 @@ public final class Class_o
     public static void sub_43d0() {
         Class_o.var_29cd = -1;
         Class_o.var_29ed = -1;
-        Class_o.var_29d5 = null;
+        Class_o.currentValidProfiles = null;
         Class_o.var_2a85 = false;
         rmsSave(Class_o.rmsNames[2], "");
         rmsSave(Class_o.rmsNames[5], "");
@@ -720,17 +719,17 @@ public final class Class_o
     }
     
     private static boolean sub_4436() {
-        if (Class_o.var_29d5 == null) {
-            Class_o.var_29d5 = new Vector();
+        if (Class_o.currentValidProfiles == null) {
+            Class_o.currentValidProfiles = new Vector();
         }
-        if (Class_o.var_29d5.size() == 1) {
-            Class_o.var_2a4d = ((Integer) Class_o.var_29d5.elementAt(0)).intValue();
-            new StringBuffer().append("PaySMS.detectCarrier: Carrier selection skipped, detected profile: ").append(Class_o.var_2a4d);
+        if (Class_o.currentValidProfiles.size() == 1) {
+            Class_o.currentProfile = ((Integer) Class_o.currentValidProfiles.elementAt(0)).intValue();
+            new StringBuffer().append("PaySMS.detectCarrier: Carrier selection skipped, detected profile: ").append(Class_o.currentProfile);
             return true;
         }
         Class_o.var_29dd = -1;
-        Class_o.var_2a4d = -1;
-        Class_o.var_29d5.removeAllElements();
+        Class_o.currentProfile = -1;
+        Class_o.currentValidProfiles.removeAllElements();
         final String[][] sub_4cc9;
         Class_o.var_29e5 = new String[(sub_4cc9 = sub_4cc9(Class_o.var_29f5[Class_o.var_29ed][0])).length];
         final String[] array = new String[sub_4cc9.length];
@@ -745,10 +744,10 @@ public final class Class_o
             Class_o.var_29dd = 0;
             for (int j = 0; j < Class_o.var_29a5.length; ++j) {
                 if (Class_o.var_29a5[j][0].equals(sub_70ca[0])) {
-                    Class_o.var_29d5.addElement(new Integer(j));
+                    Class_o.currentValidProfiles.addElement(new Integer(j));
                 }
             }
-            new StringBuffer().append("PaySMS.detectCarrier: Carrier selection skipped, only one profile. currentValidProfiles.size() ").append(Class_o.var_29d5.size());
+            new StringBuffer().append("PaySMS.detectCarrier: Carrier selection skipped, only one profile. currentValidProfiles.size() ").append(Class_o.currentValidProfiles.size());
             return true;
         }
         if (Class_o.var_29e5.length == 1) {
@@ -758,12 +757,12 @@ public final class Class_o
                 if (Class_o.var_29a5[k][2].indexOf(Class_o.var_29f5[Class_o.var_29ed][0]) != -1) {
                     for (int l = 0; l < Class_o.var_29b5[k].size(); ++l) {
                         if (((String)Class_o.var_29b5[k].elementAt(l)).indexOf(Class_o.var_29e5[Class_o.var_29dd]) != -1) {
-                            Class_o.var_29d5.addElement(new Integer(k));
+                            Class_o.currentValidProfiles.addElement(new Integer(k));
                         }
                     }
                 }
             }
-            new StringBuffer().append("PaySMS.detectCarrier: currentValidProfiles.size =  ").append(Class_o.var_29d5.size());
+            new StringBuffer().append("PaySMS.detectCarrier: currentValidProfiles.size =  ").append(Class_o.currentValidProfiles.size());
             return true;
         }
         if (Class_o.var_29e5.length >= 1) {
@@ -801,12 +800,12 @@ public final class Class_o
                 for (int n2 = 0; n2 < sub_70ca.length; ++n2) {
                     for (int value = 0; value < Class_o.var_29a5.length; ++value) {
                         if (Class_o.var_29a5[value][0].equals(sub_70ca[n2])) {
-                            Class_o.var_29d5.addElement(new Integer(value));
+                            Class_o.currentValidProfiles.addElement(new Integer(value));
                             break;
                         }
                     }
                 }
-                new StringBuffer().append("PaySMS.detectCarrier: Dont auto skip carrier selection(except OpenMarket). currentValidProfiles.size() ").append(Class_o.var_29d5.size());
+                new StringBuffer().append("PaySMS.detectCarrier: Dont auto skip carrier selection(except OpenMarket). currentValidProfiles.size() ").append(Class_o.currentValidProfiles.size());
                 new StringBuffer().append("PaySMS.detectCarrier: More than one carrier, but multicarrier profiles: ").append(array2[0][0]);
                 return true;
             }
@@ -829,19 +828,19 @@ public final class Class_o
             return true;
         }
         Class_o.var_29ed = -1;
-        Class_o.var_2a4d = -1;
-        Class_o.var_29d5 = null;
+        Class_o.currentProfile = -1;
+        Class_o.currentValidProfiles = null;
         Class_o.var_29fd = new String[Class_o.var_29f5.length];
         for (int i = 0; i < Class_o.var_29fd.length; ++i) {
             Class_o.var_29fd[i] = Class_o.var_29f5[i][0];
         }
-        if (Class_o.var_29fd.length == 1 && (Class_o.var_2a15 == null || Class_o.var_29cd == -1)) {
+        if (Class_o.var_29fd.length == 1 && (Class_o.smsProperty == null || Class_o.var_29cd == -1)) {
             Class_o.var_29ed = 0;
             Class_o.var_29cd = 0;
             new StringBuffer().append("PaySMS.detectRegion: Region selection skipped, only one region: ").append(Class_o.var_29fd[Class_o.var_29ed]);
             return true;
         }
-        if (Class_o.var_2a15 != null && Class_o.var_29cd != -1) {
+        if (Class_o.smsProperty != null && Class_o.var_29cd != -1) {
             Class_o.var_29ed = Class_o.var_29cd;
             new StringBuffer().append("PaySMS.detectRegion: Region selection skipped, region auto-detected: ").append(Class_o.var_29cd);
             return true;
@@ -868,7 +867,7 @@ public final class Class_o
             return;
         }
         str = "";
-        str = str + "?igpcode=" + Class_o.var_2a25;
+        str = str + "?igpcode=" + Class_o.igpCode;
         str = str + "&content_id=" + sub_5e3c;
         str = str + "&tier=" + n;
         str = str + "&code=" + Class_o.var_2a45;
@@ -882,7 +881,7 @@ public final class Class_o
         rmsSave(Class_o.rmsNames[0], "1");
         rmsSave(Class_o.rmsNames[1], Class_o.var_2a45);
         rmsSave(Class_o.rmsNames[2], String.valueOf(Class_o.var_2965));
-        rmsSave(Class_o.rmsNames[5], Class_o.var_296d);
+        rmsSave(Class_o.rmsNames[5], Class_o.itemType);
     }
     
     private static void sub_4c7d(final String str) {
@@ -922,16 +921,16 @@ public final class Class_o
     
     private static String sub_4e51(final int n) {
         new StringBuffer().append("PaySMS.getPrice: begin (").append(n).append(")");
-        if (Class_o.var_2a8d.equals("1")) {
+        if (Class_o.overrideFromJad.equals("1")) {
             if ((Class_o.var_2aad = getAppProperty("IAP-Price-PP" + n)).equals("")) {
                 return null;
             }
             return Class_o.var_2aad;
         }
         else {
-            new StringBuffer().append("PaySMS.getPrice: currentValidProfiles: ").append((Class_o.var_29d5 == null) ? "NULL" : ("Size: " + Class_o.var_29d5.size()));
-            if (Class_o.var_29d5 == null) {
-                if (Class_o.var_2b55) {
+            new StringBuffer().append("PaySMS.getPrice: currentValidProfiles: ").append((Class_o.currentValidProfiles == null) ? "NULL" : ("Size: " + Class_o.currentValidProfiles.size()));
+            if (Class_o.currentValidProfiles == null) {
+                if (Class_o.creditCardEnabled) {
                     return " ";
                 }
                 return null;
@@ -939,8 +938,8 @@ public final class Class_o
             else {
                 int i = -1;
                 if (getTestFieldInt() == 0) {
-                    for (int j = 0; j < Class_o.var_29d5.size(); ++j) {
-                        final int intValue = ((Integer) Class_o.var_29d5.elementAt(j)).intValue();
+                    for (int j = 0; j < Class_o.currentValidProfiles.size(); ++j) {
+                        final int intValue = ((Integer) Class_o.currentValidProfiles.elementAt(j)).intValue();
                         try {
                             if (Integer.parseInt(Class_o.var_29a5[intValue][14]) == n) {
                                 i = intValue;
@@ -961,7 +960,7 @@ public final class Class_o
                 if (i != -1) {
                     return Class_o.var_29a5[i][4];
                 }
-                if (Class_o.var_2b55) {
+                if (Class_o.creditCardEnabled) {
                     return " ";
                 }
                 return null;
@@ -972,9 +971,9 @@ public final class Class_o
     public static long sub_5038(final long lng, final int i) {
         new StringBuffer().append("PaySMS.getVirtualCurrency: begin basecurrency ").append(lng).append(", pricepoint").append(i);
         long lng2 = 0L;
-        if (getTestFieldInt() == 0 && Class_o.var_29d5 != null && Class_o.var_29d5.size() > 0) {
-            for (int j = 0; j < Class_o.var_29d5.size(); ++j) {
-                final int intValue = ((Integer) Class_o.var_29d5.elementAt(j)).intValue();
+        if (getTestFieldInt() == 0 && Class_o.currentValidProfiles != null && Class_o.currentValidProfiles.size() > 0) {
+            for (int j = 0; j < Class_o.currentValidProfiles.size(); ++j) {
+                final int intValue = ((Integer) Class_o.currentValidProfiles.elementAt(j)).intValue();
                 try {
                     if (Integer.parseInt(Class_o.var_29a5[intValue][14]) == i) {
                         lng2 = lng * Long.parseLong(Class_o.var_29a5[intValue][16]) / 10000000L;
@@ -1009,8 +1008,8 @@ public final class Class_o
     
     private static String sub_5260(final int n, final int i) {
         if (getTestFieldInt() == 0) {
-            for (int j = 0; j < Class_o.var_29d5.size(); ++j) {
-                final int intValue = ((Integer) Class_o.var_29d5.elementAt(j)).intValue();
+            for (int j = 0; j < Class_o.currentValidProfiles.size(); ++j) {
+                final int intValue = ((Integer) Class_o.currentValidProfiles.elementAt(j)).intValue();
                 if (Class_o.var_29a5[intValue][14].equals(String.valueOf(i))) {
                     return Class_o.var_29a5[intValue][n];
                 }
@@ -1038,14 +1037,14 @@ public final class Class_o
                 return "cc_2d";
             }
         }
-        new StringBuffer().append("PaySMS.GetBillingType: currentValidProfiles: ").append((Class_o.var_29d5 == null) ? "NULL" : ("Size: " + Class_o.var_29d5.size()));
-        if (Class_o.var_29d5 == null) {
+        new StringBuffer().append("PaySMS.GetBillingType: currentValidProfiles: ").append((Class_o.currentValidProfiles == null) ? "NULL" : ("Size: " + Class_o.currentValidProfiles.size()));
+        if (Class_o.currentValidProfiles == null) {
             return "cc_2d";
         }
         int n2 = 0;
         boolean b = false;
-        for (int i = 0; i < Class_o.var_29d5.size(); ++i) {
-            final int intValue = ((Integer)Class_o.var_29d5.elementAt(i)).intValue();
+        for (int i = 0; i < Class_o.currentValidProfiles.size(); ++i) {
+            final int intValue = ((Integer)Class_o.currentValidProfiles.elementAt(i)).intValue();
             try {
                 if (Integer.parseInt(Class_o.var_29a5[intValue][14]) == n) {
                     n2 = intValue;
@@ -1068,15 +1067,15 @@ public final class Class_o
     }
     
     public static String sub_54b2() {
-        new StringBuffer().append("PaySMS.GetTermsAndConditions: currentValidProfiles: ").append((Class_o.var_29d5 == null) ? "NULL" : ("Size: " + Class_o.var_29d5.size()));
-        if (Class_o.var_29d5 == null) {
+        new StringBuffer().append("PaySMS.GetTermsAndConditions: currentValidProfiles: ").append((Class_o.currentValidProfiles == null) ? "NULL" : ("Size: " + Class_o.currentValidProfiles.size()));
+        if (Class_o.currentValidProfiles == null) {
             return null;
         }
         String str = null;
         String str2 = null;
         if (getTestFieldInt() == 0) {
-            if (Class_o.var_29d5.size() > 0) {
-                final int intValue = ((Integer) Class_o.var_29d5.elementAt(0)).intValue();
+            if (Class_o.currentValidProfiles.size() > 0) {
+                final int intValue = ((Integer) Class_o.currentValidProfiles.elementAt(0)).intValue();
                 try {
                     str = Class_o.var_29a5[intValue][13];
                     str2 = Class_o.var_29a5[intValue][15];
@@ -1114,10 +1113,10 @@ public final class Class_o
     private static void sub_568e() {
         Class_o.var_2b3d.removeAllElements();
         Class_o.var_2b45.removeAllElements();
-        if (getTestFieldInt() == 0 && Class_o.var_29d5 != null && Class_o.var_29d5.size() > 0) {
-            for (int i = 0; i < Class_o.var_29d5.size(); ++i) {
+        if (getTestFieldInt() == 0 && Class_o.currentValidProfiles != null && Class_o.currentValidProfiles.size() > 0) {
+            for (int i = 0; i < Class_o.currentValidProfiles.size(); ++i) {
                 final int int1;
-                if (sub_5a7c(int1 = Integer.parseInt(Class_o.var_29a5[((Integer)Class_o.var_29d5.elementAt(i)).intValue()][14]), "Cash")) {
+                if (sub_5a7c(int1 = Integer.parseInt(Class_o.var_29a5[((Integer)Class_o.currentValidProfiles.elementAt(i)).intValue()][14]), "Cash")) {
                     Class_o.var_2b3d.addElement(new Integer(int1));
                 }
                 if (sub_5a7c(int1, "Coin")) {
@@ -1125,8 +1124,8 @@ public final class Class_o
                 }
             }
         }
-        else if (Class_o.var_2b55 || getTestFieldInt() != 0) {
-            new StringBuffer().append("PaySMS.parseValidItems: IAP_TEST_FIELD or CC. creditCardEnabled = ").append(Class_o.var_2b55);
+        else if (Class_o.creditCardEnabled || getTestFieldInt() != 0) {
+            new StringBuffer().append("PaySMS.parseValidItems: IAP_TEST_FIELD or CC. creditCardEnabled = ").append(Class_o.creditCardEnabled);
             for (int j = 1; j <= Class_o.var_2b8d; ++j) {
                 if (sub_5a7c(j, "Cash")) {
                     Class_o.var_2b3d.addElement(new Integer(j));
@@ -1195,7 +1194,7 @@ public final class Class_o
     private static boolean sub_5a7c(final int n, final String s) {
         final String sub_5e3c = getAppProperty("IAP-ContentID-" + s + "-" + n);
         boolean b = false;
-        if (Class_o.var_2b35.contains(sub_5e3c)) {
+        if (Class_o.validContentIds.contains(sub_5e3c)) {
             b = true;
         }
         new StringBuffer().append("PaySMS.isValidContentID: IAP-ContentID-").append(s).append("-").append(n).append(": ").append(sub_5e3c).append(b ? " - Valid" : " - Invalid");
@@ -1209,7 +1208,7 @@ public final class Class_o
         }
         for (int i = 0; i < Class_o.var_29c5.length; ++i) {
             new StringBuffer().append("PaySMS.retrieveTermsAndConditions: profilesTexts[").append(i).append("][TEXT_PROFILE_ID] = '").append(Class_o.var_29c5[i][0]).append("'");
-            if (sub_7779(Class_o.var_29c5[i][0], str)) {
+            if (equalsIgnoreCase(Class_o.var_29c5[i][0], str)) {
                 return Class_o.var_29c5[i][1];
             }
         }
@@ -1473,7 +1472,7 @@ public final class Class_o
             final String s = Class_o.var_29a5[i][2];
             int n = 0;
             for (int index = 0; n == 0 && index < vector.size(); ++index) {
-                if (sub_7779(s, (String)vector.elementAt(index))) {
+                if (equalsIgnoreCase(s, (String)vector.elementAt(index))) {
                     n = 1;
                 }
             }
@@ -1481,7 +1480,7 @@ public final class Class_o
                 vector.addElement(Class_o.var_29a5[i][2]);
             }
         }
-        if (Class_o.var_2b4d != null && Class_o.var_2b55 && vector.size() > 1) {
+        if (Class_o.var_2b4d != null && Class_o.creditCardEnabled && vector.size() > 1) {
             vector.addElement("Other");
         }
         final String[] anArray = new String[vector.size()];
@@ -1501,7 +1500,7 @@ public final class Class_o
                 rmsLoad(Class_o.rmsNames[8]);
                 if (index3 != -1) {
                     anArray2[j][1] = s2.substring(index2, index3);
-                    if (Class_o.var_2a15 != null && Class_o.var_2a15.startsWith(anArray2[j][1], 1) && n2 <= index3 - index2) {
+                    if (Class_o.smsProperty != null && Class_o.smsProperty.startsWith(anArray2[j][1], 1) && n2 <= index3 - index2) {
                         n2 = index3 - index2;
                         Class_o.var_29cd = j;
                         new StringBuffer().append("currentAutoDetectedRegion ").append(Class_o.var_29cd);
@@ -1624,7 +1623,7 @@ public final class Class_o
             var_29d5.addElement(new Integer(Integer.parseInt(sub_6b21.substring(n, i))));
             n = i + 1;
         }
-        Class_o.var_29d5 = var_29d5;
+        Class_o.currentValidProfiles = var_29d5;
         return true;
     }
     
@@ -1654,7 +1653,7 @@ public final class Class_o
             return false;
         }
         for (int length = s2.length(), i = 0; i <= s.length() - length; ++i) {
-            if (sub_7779(s.substring(i, i + length), s2)) {
+            if (equalsIgnoreCase(s.substring(i, i + length), s2)) {
                 return true;
             }
         }
@@ -1681,14 +1680,14 @@ public final class Class_o
     }
     
     public static int sub_7195() {
-        if (Class_o.var_29d5 == null || Class_o.var_29d5.size() <= 0) {
+        if (Class_o.currentValidProfiles == null || Class_o.currentValidProfiles.size() <= 0) {
             return 0;
         }
         if (getTestFieldInt() != 0) {
             return 8;
         }
         try {
-            final int intValue = ((Integer) Class_o.var_29d5.elementAt(0)).intValue();
+            final int intValue = ((Integer) Class_o.currentValidProfiles.elementAt(0)).intValue();
             final String str = Class_o.var_29a5[intValue][0];
             new StringBuffer().append("profileID : ").append(str);
             for (int i = 0; i < Class_o.var_2b65.length; ++i) {
@@ -1750,11 +1749,11 @@ public final class Class_o
     
     public static int sub_74c8(final int n) {
         if (sub_7195() == 6) {
-            if (Class_o.var_29d5 == null) {
+            if (Class_o.currentValidProfiles == null) {
                 return 0;
             }
-            for (int i = 0; i < Class_o.var_29d5.size(); ++i) {
-                final int intValue = ((Integer)Class_o.var_29d5.elementAt(i)).intValue();
+            for (int i = 0; i < Class_o.currentValidProfiles.size(); ++i) {
+                final int intValue = ((Integer)Class_o.currentValidProfiles.elementAt(i)).intValue();
                 try {
                     if (Integer.parseInt(Class_o.var_29a5[intValue][14]) == n) {
                         final long sub_7695 = sub_7695(Class_o.var_29a5[intValue][9]);
@@ -1774,15 +1773,15 @@ public final class Class_o
     
     public static String sub_75be() {
         try {
-            final String appProperty = GLLib.s_application.getAppProperty("URL-SUPPORT");
-            if (appProperty == null) {
+            final String supportUrl = GLLib.s_application.getAppProperty("URL-SUPPORT");
+            if (supportUrl == null) {
                 return null;
             }
             final String moneySpent = rmsLoad(Class_o.rmsNames[7]);
             if (moneySpent == null || moneySpent.equals("")) {
-                return appProperty;
+                return supportUrl;
             }
-            return appProperty + "&extra_1=" + GLLib.sub_4545(GLLib.sub_4655(moneySpent.substring(0, moneySpent.indexOf(95)).getBytes(), "a8bc1a23a89", true)) + "&extra_2=" + moneySpent.substring(moneySpent.indexOf(95) + 1);
+            return supportUrl + "&extra_1=" + GLLib.sub_4545(GLLib.sub_4655(moneySpent.substring(0, moneySpent.indexOf(95)).getBytes(), "a8bc1a23a89", true)) + "&extra_2=" + moneySpent.substring(moneySpent.indexOf(95) + 1);
         }
         catch (final Exception ex) {
             return null;
@@ -1808,20 +1807,20 @@ public final class Class_o
         }
     }
     
-    private static boolean sub_7779(final String str, final String str2) {
-        if (str == null || str2 == null) {
-            new StringBuffer().append("PaySMS.equalsIgnoreCase: s1 = '").append(str).append("', s2 = '").append(str2).append("'");
+    private static boolean equalsIgnoreCase(final String s1, final String s2) {
+        if (s1 == null || s2 == null) {
+            new StringBuffer().append("PaySMS.equalsIgnoreCase: s1 = '").append(s1).append("', s2 = '").append(s2).append("'");
             return false;
         }
-        return str.toUpperCase().equals(str2.toUpperCase());
+        return s1.toUpperCase().equals(s2.toUpperCase());
     }
     
     static String sub_77e8() {
-        return Class_o.var_2a05;
+        return Class_o.debugNum;
     }
     
     static String sub_7806() {
-        return Class_o.var_2a8d;
+        return Class_o.overrideFromJad;
     }
     
     static String sub_7824(final String var_2a95) {
@@ -1837,7 +1836,7 @@ public final class Class_o
     }
     
     static int sub_7881() {
-        return Class_o.var_2a4d;
+        return Class_o.currentProfile;
     }
     
     static String[][] sub_789f() {
@@ -1881,7 +1880,7 @@ public final class Class_o
     }
     
     static Vector sub_79d9() {
-        return Class_o.var_29d5;
+        return Class_o.currentValidProfiles;
     }
     
     static void sub_79f7(final Vector vector) {
@@ -1891,8 +1890,8 @@ public final class Class_o
     static {
         Class_o.application = null;
         Class_o.var_2965 = -1;
-        Class_o.var_296d = "";
-        Class_o.var_2975 = -1;
+        Class_o.itemType = "";
+        Class_o.pricePoint = -1;
         Class_o.language = "";
         Class_o.VERSION = "PaySMS.IAP.Version:1.1.8";
         Class_o.var_299d = false;
@@ -1902,22 +1901,22 @@ public final class Class_o
         Class_o.var_29bd = null;
         Class_o.var_29c5 = null;
         Class_o.var_29cd = -1;
-        Class_o.var_29d5 = null;
+        Class_o.currentValidProfiles = null;
         Class_o.var_29dd = -1;
         Class_o.var_29e5 = null;
         Class_o.var_29ed = -1;
         Class_o.var_29f5 = null;
         Class_o.var_29fd = null;
-        Class_o.var_2a05 = null;
-        Class_o.var_2a0d = null;
-        Class_o.var_2a15 = null;
+        Class_o.debugNum = null;
+        Class_o.debugMnc = null;
+        Class_o.smsProperty = null;
         Class_o.var_2a1d = null;
-        Class_o.var_2a25 = null;
-        Class_o.var_2a2d = null;
+        Class_o.igpCode = null;
+        Class_o.phoneModel = null;
         Class_o.var_2a35 = null;
         Class_o.var_2a3d = "";
         Class_o.var_2a45 = "";
-        Class_o.var_2a4d = -1;
+        Class_o.currentProfile = -1;
         Class_o.var_2a55 = 1L;
         rmsNames = new String[] { "rmsSMS", "Cm1zY2", "rmsPackageId", "rmsAvailableProfiles", "rmsRedeemUnlocked", "rmsItemType", "rmsUnlocked", "rmsMoneySpent", "rmsCurrentRegion", "rmsCurrentCarrier", "Cm1zY1", "rmsSMSCnt" };
         Class_o.var_2a65 = false;
@@ -1925,13 +1924,13 @@ public final class Class_o
         Class_o.var_2a75 = false;
         Class_o.var_2a7d = false;
         Class_o.var_2a85 = false;
-        Class_o.var_2a8d = "";
+        Class_o.overrideFromJad = "";
         Class_o.var_2a95 = "";
         Class_o.var_2a9d = "";
         Class_o.var_2aa5 = "";
         Class_o.var_2aad = "";
-        Class_o.var_2ab5 = "";
-        Class_o.var_2abd = "";
+        Class_o.billingUrl = "";
+        Class_o.billingType = "";
         Class_o.profilesFile = "/IAP_profiles";
         Class_o.textFile = "/IAP_texts";
         Class_o.var_2ad5 = null;
@@ -1946,11 +1945,11 @@ public final class Class_o
         Class_o.iapTestField = "";
         Class_o.useTestProfile = "";
         Class_o.currencys = new String[] { "Cash", "Coin" };
-        Class_o.var_2b35 = null;
+        Class_o.validContentIds = null;
         Class_o.var_2b3d = null;
         Class_o.var_2b45 = null;
         Class_o.var_2b4d = null;
-        Class_o.var_2b55 = false;
+        Class_o.creditCardEnabled = false;
         Class_o.var_2b5d = false;
         Class_o.var_2b65 = new String[] { "2124", "2126", "2128", "2130", "3501", "3503", "3505", "3507", "3509", "3511" };
         Class_o.var_2b6d = new String[] { "1152", "1154", "1049", "1156", "2741", "2743", "2745", "2878" };

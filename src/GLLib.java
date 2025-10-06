@@ -2329,7 +2329,7 @@ public abstract class GLLib extends Canvas implements Runnable
             return;
         }
         GLLib.var_206f = System.currentTimeMillis();
-        Class_o.sub_3527(Class_o.sub_591c(n, s), s);
+        Class_o.sendRequest(Class_o.sub_591c(n, s), s);
     }
     
     static void sub_77ca() {

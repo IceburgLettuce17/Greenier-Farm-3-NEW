@@ -21,7 +21,7 @@ final class Class_c extends Thread
             }
             else {
                 if (Class_o.sub_7806().equals("1")) {
-                    Class_o.sub_7824(Class_o.sub_7844("IAP-ShortCode-PP" + Class_o.var_2975));
+                    Class_o.sub_7824(Class_o.sub_7844("IAP-ShortCode-PP" + Class_o.pricePoint));
                 }
                 else {
                     Class_o.sub_7824("");
@@ -59,7 +59,7 @@ final class Class_c extends Thread
             Class_o.rmsSave(Class_o.rmsNames[0], "1");
             Class_o.rmsSave(Class_o.rmsNames[1], Class_o.sub_7979());
             Class_o.rmsSave(Class_o.rmsNames[2], String.valueOf(Class_o.var_2965));
-            Class_o.rmsSave(Class_o.rmsNames[5], Class_o.var_296d);
+            Class_o.rmsSave(Class_o.rmsNames[5], Class_o.itemType);
             Class_o.sub_7997();
             Class_o.rmsSave(Class_o.rmsNames[11], "" + Class_o.sub_79bb());
             if (!Class_o.sub_7806().equals("1")) {
