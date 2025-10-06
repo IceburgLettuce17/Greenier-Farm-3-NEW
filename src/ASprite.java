@@ -984,7 +984,7 @@ public final class ASprite
                 final int n6 = ASprite.var_10ef[n4];
                 n4 = height;
                 n = width;
-                GLLib.sub_3966(GLLib.var_1daf, class_l, 0, 0, n, n4, n6, n2, n3, 20, false);
+                GLLib.sub_3966(GLLib.g, class_l, 0, 0, n, n4, n6, n2, n3, 20, false);
                 return true;
             }
         }
@@ -1012,7 +1012,7 @@ public final class ASprite
             n4 = ASprite.var_10ef[n4];
             final int n8 = height;
             n = width;
-            GLLib.sub_3966(GLLib.var_1daf, class_l3, 0, 0, n, n8, n4, n2, n3, 20, false);
+            GLLib.sub_3966(GLLib.g, class_l3, 0, 0, n, n8, n4, n2, n3, 20, false);
             return true;
         }
         return false;
@@ -1936,13 +1936,13 @@ public final class ASprite
                     }
                     this6.sub_71ae(graphics, n9, n10, n11, 0);
                     if ((n12 & 0x4) != 0x0) {
-                        final int var_1ddf = GLLib.var_1ddf;
-                        final int var_1de7 = GLLib.var_1de7;
+                        final int var_1ddf = GLLib.s_screenWidth;
+                        final int var_1de7 = GLLib.s_screenHeight;
                         ASprite.var_10c7 = var_1ddf;
                         ASprite.var_10cf = var_1de7;
                     }
                     GLLib.sub_3d3b(sub_1b2, array3, 0, sub_312c2, 0, 0, sub_312c2, sub_3719);
-                    final int displayColor = GLLib.var_1daf.getDisplayColor(16711935);
+                    final int displayColor = GLLib.g.getDisplayColor(16711935);
                     while (j > 0) {
                         --j;
                         if ((array3[j] & 0xFFFFFF) == displayColor) {
@@ -1963,7 +1963,7 @@ public final class ASprite
     }
     
     private static boolean sub_6ef1(final Graphics graphics, final int n, final int n2, int n3, int n4) {
-        final int sub_35c6 = GLLib.sub_35c6(graphics, true);
+        final int sub_35c6 = GLLib.GetClip(graphics, true);
         final int sub_3600 = GLLib.sub_3600(graphics, true);
         final int sub_3601 = GLLib.sub_3643(graphics, true);
         final int sub_367d = GLLib.sub_367d(graphics, true);
@@ -2291,7 +2291,7 @@ public final class ASprite
             switch (this.var_110f[n30]) {
                 case 2: {
                     if ((color & 0xFF000000) == 0xFF000000 || (color & 0xFF000000) == 0x0) {
-                        GLLib.sub_3773(graphics4, n27, n26, n29, n28, true);
+                        GLLib.FillRect(graphics4, n27, n26, n29, n28, true);
                         return;
                     }
                     GLLib.sub_56ff(color);
@@ -2456,7 +2456,7 @@ public final class ASprite
                 n3 &= 0xFFFFFFFB;
                 n44 += 90 * GLLib.var_1ed7 / 360;
             }
-            GLLib.sub_5cfb(GLLib.sub_2be7(GLLib.var_1edf - n44), GLLib.sub_2be7(n44), a, var_1148, ASprite.var_1147);
+            GLLib.sub_5cfb(GLLib.Math_Cos(GLLib.Math_Angle90 - n44), GLLib.Math_Cos(n44), a, var_1148, ASprite.var_1147);
             int n45 = ASprite.var_1147[0];
             int n46 = ASprite.var_1147[1];
             int n47 = a - GLLib.var_1fef[16][2];
@@ -2470,7 +2470,7 @@ public final class ASprite
                 n46 = n46 * GLLib.sub_5bbb() / 100;
             }
             final int n49 = n44;
-            GLLib.sub_5cbc(GLLib.sub_2be7(GLLib.var_1edf - n49), GLLib.sub_2be7(n49), (a >> 1) - n47, (var_1148 >> 1) - n48, ASprite.var_1147);
+            GLLib.sub_5cbc(GLLib.Math_Cos(GLLib.Math_Angle90 - n49), GLLib.Math_Cos(n49), (a >> 1) - n47, (var_1148 >> 1) - n48, ASprite.var_1147);
             n += ASprite.var_1147[0] - n45 / 2 + n47;
             n2 += ASprite.var_1147[1] - n46 / 2 + n48;
         }

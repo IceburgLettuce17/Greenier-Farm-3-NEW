@@ -13,12 +13,12 @@ import javax.microedition.midlet.MIDlet;
 
 public final class Class_o
 {
-    private static MIDlet var_295d;
+    private static MIDlet application;
     static int var_2965;
     static String var_296d;
     static int var_2975;
-    private static String var_297d;
-    private static String var_2985;
+    private static String language;
+    private static String VERSION;
     private static Class_d var_298d;
     private static int var_2995;
     private static boolean var_299d;
@@ -45,7 +45,7 @@ public final class Class_o
     private static String var_2a45;
     private static int var_2a4d;
     private static long var_2a55;
-    public static final String[] var_2a5d;
+    public static final String[] rmsNames;
     private static boolean var_2a65;
     private static boolean var_2a6d;
     private static boolean var_2a75;
@@ -58,8 +58,8 @@ public final class Class_o
     private static String var_2aad;
     private static String var_2ab5;
     private static String var_2abd;
-    private static String var_2ac5;
-    private static String var_2acd;
+    private static String profilesFile;
+    private static String textFile;
     private static Timer var_2ad5;
     public static MessageConnection var_2add;
     public static boolean var_2ae5;
@@ -69,9 +69,9 @@ public final class Class_o
     private static String var_2b05;
     private static String var_2b0d;
     private static String var_2b15;
-    private static String var_2b1d;
-    private static String var_2b25;
-    private static String[] var_2b2d;
+    private static String iapTestField;
+    private static String useTestProfile;
+    private static String[] currencys;
     private static Vector var_2b35;
     private static Vector var_2b3d;
     private static Vector var_2b45;
@@ -123,29 +123,29 @@ public final class Class_o
         }
     }
     
-    public static void sub_2ce9(final String var_297d) {
-        Class_o.var_297d = var_297d;
-        Class_o.var_295d = GLLib.s_application;
+    public static void sub_2ce9(final String language) {
+        Class_o.language = language;
+        Class_o.application = GLLib.s_application;
         Class_o.var_2afd = 0;
         if (Class_o.var_29d5 == null) {
             Class_o.var_29d5 = new Vector();
         }
         if (Class_o.var_29c5 == null) {
-            Class_o.var_29c5 = sub_5d4b();
+            Class_o.var_29c5 = loadSpecificTextsFile();
         }
         Class_o.var_29f5 = sub_67fc();
         Class_o.var_2a6d = sub_6cf3();
         Class_o.var_2a7d = sub_6d38();
         if ((Class_o.var_2a45 = sub_6d7d()).equals("")) {
             Class_o.var_2a45 = sub_6f82();
-            sub_6c0f(Class_o.var_2a5d[1], Class_o.var_2a45);
+            rmsSave(Class_o.rmsNames[1], Class_o.var_2a45);
         }
         Class_o.var_2a55 = sub_6dba();
         Class_o.var_299d = true;
-        if (Class_o.var_2985 != null) {
-            Class_o.var_2985 += "";
+        if (Class_o.VERSION != null) {
+            Class_o.VERSION += "";
         }
-        if (!sub_6e52() && sub_5e78() == 0 && Class_o.var_29ad && sub_498c()) {
+        if (!sub_6e52() && getTestFieldInt() == 0 && Class_o.var_29ad && sub_498c()) {
             sub_4436();
         }
         sub_568e();
@@ -187,19 +187,19 @@ public final class Class_o
         return true;
     }
     
-    public static boolean sub_2f03() {
+    public static boolean parseJadFields() {
         Class_o.var_2b8d = 6;
         final String sub_6b21;
         boolean b;
-        if ((sub_6b21 = sub_6b21(Class_o.var_2a5d[6])) != null && !sub_6b21.equals("1") && sub_6b21.equals("0")) {
+        if ((sub_6b21 = rmsLoad(Class_o.rmsNames[6])) != null && !sub_6b21.equals("1") && sub_6b21.equals("0")) {
             b = false;
             Class_o.var_2afd = -10;
         }
         else {
-            Class_o.var_295d = GLLib.s_application;
-            if ((Class_o.var_2a8d = sub_5e3c("IAP-OverrideFromJad")).equals("1")) {
-                if ((Class_o.var_2abd = sub_5e3c("IAP-BillingType").toUpperCase()).equals("HTTP")) {
-                    if ((Class_o.var_2ab5 = sub_5e3c("IAP-BillingURL")).equals("")) {
+            Class_o.application = GLLib.s_application;
+            if ((Class_o.var_2a8d = getAppProperty("IAP-OverrideFromJad")).equals("1")) {
+                if ((Class_o.var_2abd = getAppProperty("IAP-BillingType").toUpperCase()).equals("HTTP")) {
+                    if ((Class_o.var_2ab5 = getAppProperty("IAP-BillingURL")).equals("")) {
                         Class_o.var_2a8d = "0";
                     }
                 }
@@ -207,55 +207,55 @@ public final class Class_o
                     Class_o.var_2a8d = "0";
                 }
             }
-            sub_5e3c("IAP-Version");
+            getAppProperty("IAP-Version");
             boolean var_2b55;
-            if ((Class_o.var_2a25 = sub_5e3c("IAP-GameCodeIGP")).length() == 0) {
+            if ((Class_o.var_2a25 = getAppProperty("IAP-GameCodeIGP")).length() == 0) {
                 var_2b55 = false;
             }
             else {
-                if ((Class_o.var_2a2d = sub_5e3c("IAP-PhoneModel")).length() == 0) {
+                if ((Class_o.var_2a2d = getAppProperty("IAP-PhoneModel")).length() == 0) {
                     Class_o.var_2a2d = "5477";
                 }
-                if ((Class_o.var_2b1d = sub_5e3c("IAP-Test")).length() == 0) {
-                    Class_o.var_2b1d = "0";
+                if ((Class_o.iapTestField = getAppProperty("IAP-Test")).length() == 0) {
+                    Class_o.iapTestField = "0";
                 }
-                if (sub_5e78() != 0) {
-                    if (sub_5e78() == 1) {
-                        Class_o.var_2b25 = Class_o.var_2b05;
+                if (getTestFieldInt() != 0) {
+                    if (getTestFieldInt() == 1) {
+                        Class_o.useTestProfile = Class_o.var_2b05;
                     }
-                    else if (sub_5e78() == 2) {
-                        Class_o.var_2b25 = Class_o.var_2b0d;
+                    else if (getTestFieldInt() == 2) {
+                        Class_o.useTestProfile = Class_o.var_2b0d;
                     }
                     else {
-                        Class_o.var_2b1d = "0";
-                        Class_o.var_2b25 = "";
+                        Class_o.iapTestField = "0";
+                        Class_o.useTestProfile = "";
                     }
                 }
-                new StringBuffer().append("PaySMS.parseJadFields:iapTestField: ").append(Class_o.var_2b1d).append(" useTestProfile: ").append(Class_o.var_2b25);
-                Class_o.var_2a05 = sub_5e3c("IAP-DebugNumber");
+                new StringBuffer().append("PaySMS.parseJadFields:iapTestField: ").append(Class_o.iapTestField).append(" useTestProfile: ").append(Class_o.useTestProfile);
+                Class_o.var_2a05 = getAppProperty("IAP-DebugNumber");
                 final String property;
                 if ((property = System.getProperty("wireless.messaging.sms.smsc")) != null && property.length() > 0) {
                     Class_o.var_2a15 = property;
                 }
-                final String sub_5e3c = sub_5e3c("IAP-DebugSMSCenter");
-                Class_o.var_2a0d = sub_5e3c("IAP-DebugMNC");
+                final String sub_5e3c = getAppProperty("IAP-DebugSMSCenter");
+                Class_o.var_2a0d = getAppProperty("IAP-DebugMNC");
                 if (!sub_5e3c.equals("")) {
                     Class_o.var_2a15 = sub_5e3c;
                 }
                 if (!Class_o.var_2a0d.equals("")) {
                     Class_o.var_2a1d = Class_o.var_2a0d;
                 }
-                Class_o.var_2a35 = sub_5e3c("Download-Code");
-                if (sub_5e3c("IAP-EnableCreditCard").equals("1")) {
+                Class_o.var_2a35 = getAppProperty("Download-Code");
+                if (getAppProperty("IAP-EnableCreditCard").equals("1")) {
                     Class_o.var_2b55 = true;
                 }
                 Class_o.var_2b35 = new Vector();
                 Class_o.var_2b3d = new Vector();
                 Class_o.var_2b45 = new Vector();
-                for (int i = 0; i < Class_o.var_2b2d.length; ++i) {
+                for (int i = 0; i < Class_o.currencys.length; ++i) {
                     for (int j = 1; j <= Class_o.var_2b8d; ++j) {
                         final String sub_5e3c2;
-                        if ((sub_5e3c2 = sub_5e3c("IAP-ContentID-" + Class_o.var_2b2d[i] + "-" + j)) != null && !sub_5e3c2.equals("")) {
+                        if ((sub_5e3c2 = getAppProperty("IAP-ContentID-" + Class_o.currencys[i] + "-" + j)) != null && !sub_5e3c2.equals("")) {
                             Class_o.var_2b35.addElement(sub_5e3c2);
                         }
                     }
@@ -282,7 +282,7 @@ public final class Class_o
                 else {
                     new StringBuffer().append("PaySMS.parseJadFields: ValidContentIDs: ").append(Class_o.var_2b35);
                     String str;
-                    if ((str = sub_5e3c("IAP-Profiles")).equals("")) {
+                    if ((str = getAppProperty("IAP-Profiles")).equals("")) {
                         var_2b55 = false;
                     }
                     else {
@@ -293,7 +293,7 @@ public final class Class_o
                         if ((sub_6617 = sub_6617(str)) == null) {
                             var_2b55 = false;
                         }
-                        else if (!sub_5ed5(null, sub_6617, sub_66b7(Class_o.var_2ac5))) {
+                        else if (!loadProfileConfiguration(null, sub_6617, readFile(Class_o.profilesFile))) {
                             var_2b55 = Class_o.var_2b55;
                         }
                         else {
@@ -312,7 +312,7 @@ public final class Class_o
     
     private static boolean sub_3396() {
         boolean b;
-        if (sub_5e78() != 0) {
+        if (getTestFieldInt() != 0) {
             b = true;
         }
         else if (Class_o.var_2b55 && (Class_o.var_29a5 == null || Class_o.var_29a5.length == 0)) {
@@ -358,16 +358,16 @@ public final class Class_o
             var_2abd = Class_o.var_2abd;
         }
         else {
-            if (sub_5e78() != 0) {
+            if (getTestFieldInt() != 0) {
                 Class_o.var_29a5 = Class_o.var_29bd;
-                if (sub_5e78() == 1) {
+                if (getTestFieldInt() == 1) {
                     var_2abd = "SMS";
                 }
-                else if (sub_5e78() == 2) {
+                else if (getTestFieldInt() == 2) {
                     var_2abd = "HTTP";
                 }
                 for (int i = 0; i < Class_o.var_29a5.length; ++i) {
-                    if (Class_o.var_29a5[i][0].equals(Class_o.var_2b25)) {
+                    if (Class_o.var_29a5[i][0].equals(Class_o.useTestProfile)) {
                         Class_o.var_2a4d = i;
                         b = true;
                         break;
@@ -409,10 +409,10 @@ public final class Class_o
         if (b && var_2abd.equals("SMS")) {
             Class_o.var_2a65 = true;
             Class_o.var_2a6d = false;
-            sub_6c0f(Class_o.var_2a5d[0], "0");
+            rmsSave(Class_o.rmsNames[0], "0");
             Class_o.var_2a3d = "";
             if (Class_o.var_2a8d.equals("1")) {
-                Class_o.var_2aa5 = sub_5e3c("IAP-Alias-PP" + Class_o.var_2975);
+                Class_o.var_2aa5 = getAppProperty("IAP-Alias-PP" + Class_o.var_2975);
             }
             else {
                 Class_o.var_2aa5 = "";
@@ -434,7 +434,7 @@ public final class Class_o
             sub_4c7d(Class_o.var_2a45);
             sub_4c7d(Class_o.var_2a2d);
             if (Class_o.var_2a8d.equals("1")) {
-                Class_o.var_2a9d = sub_5e3c("IAP-ProfileID-PP" + Class_o.var_2975);
+                Class_o.var_2a9d = getAppProperty("IAP-ProfileID-PP" + Class_o.var_2975);
             }
             else {
                 Class_o.var_2a9d = "";
@@ -449,8 +449,8 @@ public final class Class_o
                 }
                 sub_4c7d(Class_o.var_29a5[Class_o.var_2a4d][0]);
             }
-            if (!Class_o.var_297d.equals("")) {
-                sub_4c7d(Class_o.var_297d);
+            if (!Class_o.language.equals("")) {
+                sub_4c7d(Class_o.language);
             }
             else {
                 sub_4c7d("EN");
@@ -462,7 +462,7 @@ public final class Class_o
                 sub_4c7d("1");
             }
             final String sub_5e3c;
-            if (!(sub_5e3c = sub_5e3c("IAP-ContentID-" + Class_o.var_296d + "-" + Class_o.var_2975)).equals("")) {
+            if (!(sub_5e3c = getAppProperty("IAP-ContentID-" + Class_o.var_296d + "-" + Class_o.var_2975)).equals("")) {
                 sub_4c7d(sub_5e3c);
                 sub_4c7d(Class_o.var_2a35);
                 sub_4c7d("ct" + Class_o.var_2a55);
@@ -479,7 +479,7 @@ public final class Class_o
             String str2;
             if (Class_o.var_2a8d.equals("1")) {
                 str2 = Class_o.var_2ab5;
-                str = (Class_o.var_2a9d = sub_5e3c("IAP-ProfileID-PP" + Class_o.var_2975));
+                str = (Class_o.var_2a9d = getAppProperty("IAP-ProfileID-PP" + Class_o.var_2975));
             }
             else {
                 if (Class_o.var_2a4d == -1) {
@@ -501,7 +501,7 @@ public final class Class_o
                 str2 += "?";
             }
             final String sub_5e3c2;
-            if ((sub_5e3c2 = sub_5e3c("IAP-ContentID-" + Class_o.var_296d + "-" + Class_o.var_2975)).equals("")) {
+            if ((sub_5e3c2 = getAppProperty("IAP-ContentID-" + Class_o.var_296d + "-" + Class_o.var_2975)).equals("")) {
                 new StringBuffer().append("PaySMS.sendHTTP:Error: Wrong Item. IAP-ContentID-").append(Class_o.var_296d).append("-").append(Class_o.var_2975).append(" missing in JAD");
                 Class_o.var_2afd = -2;
                 return;
@@ -529,9 +529,9 @@ public final class Class_o
             final String string = s7 + "&phoneId=" + var_2a2d;
             Class_o.var_2995 = -100;
             Class_o.var_298d.sub_895(s6, string);
-            sub_6c0f(Class_o.var_2a5d[1], Class_o.var_2a45);
-            sub_6c0f(Class_o.var_2a5d[2], String.valueOf(Class_o.var_2965));
-            sub_6c0f(Class_o.var_2a5d[5], Class_o.var_296d);
+            rmsSave(Class_o.rmsNames[1], Class_o.var_2a45);
+            rmsSave(Class_o.rmsNames[2], String.valueOf(Class_o.var_2965));
+            rmsSave(Class_o.rmsNames[5], Class_o.var_296d);
             if (!Class_o.var_2a8d.equals("1")) {
                 sub_6ef9(Class_o.var_29d5);
             }
@@ -552,7 +552,7 @@ public final class Class_o
     
     public static void sub_3e56() {
         Class_o.var_2a7d = true;
-        sub_6c0f(Class_o.var_2a5d[4], "1");
+        rmsSave(Class_o.rmsNames[4], "1");
         final int sub_4060 = sub_4060();
         final String sub_6e15 = sub_6e15();
         sub_3527(sub_591c(sub_4060, sub_6e15), sub_6e15);
@@ -576,7 +576,7 @@ public final class Class_o
             if (Class_o.var_2a7d) {
                 Class_o.var_2a65 = false;
                 Class_o.var_2a6d = true;
-                sub_6c0f(Class_o.var_2a5d[0], "1");
+                rmsSave(Class_o.rmsNames[0], "1");
                 return 8;
             }
             sub_437f();
@@ -584,7 +584,7 @@ public final class Class_o
         }
         else {
             if (Class_o.var_2af5 != 1) {
-                if (!Class_o.var_2a8d.equals("1") && sub_5e78() == 0) {
+                if (!Class_o.var_2a8d.equals("1") && getTestFieldInt() == 0) {
                     if (Class_o.var_2afd != 0) {
                         return 3;
                     }
@@ -637,7 +637,7 @@ public final class Class_o
     
     public static int sub_4060() {
         final String sub_6b21;
-        if ((sub_6b21 = sub_6b21(Class_o.var_2a5d[2])) == null || sub_6b21.length() == 0) {
+        if ((sub_6b21 = rmsLoad(Class_o.rmsNames[2])) == null || sub_6b21.length() == 0) {
             return -1;
         }
         int int1;
@@ -658,7 +658,7 @@ public final class Class_o
         new StringBuffer().append("PaySMS.verifyRequest: inputCode: ").append(c).append(" ").append(equals ? "Unlocked" : "Still Locked");
         if (equals) {
             try {
-                final String sub_6b21 = sub_6b21(Class_o.var_2a5d[7]);
+                final String sub_6b21 = rmsLoad(Class_o.rmsNames[7]);
                 String substring = "0";
                 if (sub_6b21 != null && !sub_6b21.equals("")) {
                     substring = sub_6b21.substring(0, sub_6b21.indexOf(95));
@@ -679,7 +679,7 @@ public final class Class_o
                 final long n = sub_5262 + sub_5263;
                 final String s5 = (c == 32) ? (n / 100000L + "") : ("" + n / 100000L + (char)c + n % 100000L);
                 new StringBuffer().append("totalMoneySpent : ").append(s5).append("  profileID: ").append(sub_5260);
-                sub_6c0f(Class_o.var_2a5d[7], s5 + "_" + sub_5260);
+                rmsSave(Class_o.rmsNames[7], s5 + "_" + sub_5260);
             }
             catch (final Exception obj) {
                 new StringBuffer().append("Exception : ").append(obj);
@@ -697,11 +697,11 @@ public final class Class_o
         Class_o.var_2a75 = false;
         Class_o.var_2a65 = false;
         Class_o.var_299d = false;
-        sub_6c0f(Class_o.var_2a5d[1], "");
+        rmsSave(Class_o.rmsNames[1], "");
         Class_o.var_2a6d = false;
-        sub_6c0f(Class_o.var_2a5d[0], "0");
+        rmsSave(Class_o.rmsNames[0], "0");
         Class_o.var_2a7d = false;
-        sub_6c0f(Class_o.var_2a5d[4], "0");
+        rmsSave(Class_o.rmsNames[4], "0");
         Class_o.var_2b5d = false;
     }
     
@@ -710,11 +710,11 @@ public final class Class_o
         Class_o.var_29ed = -1;
         Class_o.var_29d5 = null;
         Class_o.var_2a85 = false;
-        sub_6c0f(Class_o.var_2a5d[2], "");
-        sub_6c0f(Class_o.var_2a5d[5], "");
-        sub_6c0f(Class_o.var_2a5d[3], "");
-        sub_6c0f(Class_o.var_2a5d[8], "");
-        sub_6c0f(Class_o.var_2a5d[9], "");
+        rmsSave(Class_o.rmsNames[2], "");
+        rmsSave(Class_o.rmsNames[5], "");
+        rmsSave(Class_o.rmsNames[3], "");
+        rmsSave(Class_o.rmsNames[8], "");
+        rmsSave(Class_o.rmsNames[9], "");
         Class_o.var_2a1d = null;
         sub_437f();
     }
@@ -862,7 +862,7 @@ public final class Class_o
         new StringBuffer().append("PaySMS.sendRequest CREDIT CARD: Pricepoint:").append(n).append(" Type:").append(str);
         final String str2 = Class_o.var_2b4d[11];
         final String sub_5e3c;
-        if ((sub_5e3c = sub_5e3c("IAP-ContentID-" + str + "-" + n)).equals("")) {
+        if ((sub_5e3c = getAppProperty("IAP-ContentID-" + str + "-" + n)).equals("")) {
             new StringBuffer().append("PaySMS.sendCCARD: Wrong Item. IAP-ContentID-").append(str).append("-").append(n).append(" missing in JAD");
             Class_o.var_2afd = -2;
             return;
@@ -879,10 +879,10 @@ public final class Class_o
         if ((s = string) != null) {
             GLLib.sub_28bf(s);
         }
-        sub_6c0f(Class_o.var_2a5d[0], "1");
-        sub_6c0f(Class_o.var_2a5d[1], Class_o.var_2a45);
-        sub_6c0f(Class_o.var_2a5d[2], String.valueOf(Class_o.var_2965));
-        sub_6c0f(Class_o.var_2a5d[5], Class_o.var_296d);
+        rmsSave(Class_o.rmsNames[0], "1");
+        rmsSave(Class_o.rmsNames[1], Class_o.var_2a45);
+        rmsSave(Class_o.rmsNames[2], String.valueOf(Class_o.var_2965));
+        rmsSave(Class_o.rmsNames[5], Class_o.var_296d);
     }
     
     private static void sub_4c7d(final String str) {
@@ -923,7 +923,7 @@ public final class Class_o
     private static String sub_4e51(final int n) {
         new StringBuffer().append("PaySMS.getPrice: begin (").append(n).append(")");
         if (Class_o.var_2a8d.equals("1")) {
-            if ((Class_o.var_2aad = sub_5e3c("IAP-Price-PP" + n)).equals("")) {
+            if ((Class_o.var_2aad = getAppProperty("IAP-Price-PP" + n)).equals("")) {
                 return null;
             }
             return Class_o.var_2aad;
@@ -938,7 +938,7 @@ public final class Class_o
             }
             else {
                 int i = -1;
-                if (sub_5e78() == 0) {
+                if (getTestFieldInt() == 0) {
                     for (int j = 0; j < Class_o.var_29d5.size(); ++j) {
                         final int intValue = ((Integer) Class_o.var_29d5.elementAt(j)).intValue();
                         try {
@@ -952,7 +952,7 @@ public final class Class_o
                 }
                 else {
                     for (int k = 0; k < Class_o.var_29bd.length; ++k) {
-                        if (Class_o.var_29bd[k][0].equals(Class_o.var_2b25)) {
+                        if (Class_o.var_29bd[k][0].equals(Class_o.useTestProfile)) {
                             return Class_o.var_29bd[k][9];
                         }
                     }
@@ -972,7 +972,7 @@ public final class Class_o
     public static long sub_5038(final long lng, final int i) {
         new StringBuffer().append("PaySMS.getVirtualCurrency: begin basecurrency ").append(lng).append(", pricepoint").append(i);
         long lng2 = 0L;
-        if (sub_5e78() == 0 && Class_o.var_29d5 != null && Class_o.var_29d5.size() > 0) {
+        if (getTestFieldInt() == 0 && Class_o.var_29d5 != null && Class_o.var_29d5.size() > 0) {
             for (int j = 0; j < Class_o.var_29d5.size(); ++j) {
                 final int intValue = ((Integer) Class_o.var_29d5.elementAt(j)).intValue();
                 try {
@@ -1008,7 +1008,7 @@ public final class Class_o
     }
     
     private static String sub_5260(final int n, final int i) {
-        if (sub_5e78() == 0) {
+        if (getTestFieldInt() == 0) {
             for (int j = 0; j < Class_o.var_29d5.size(); ++j) {
                 final int intValue = ((Integer) Class_o.var_29d5.elementAt(j)).intValue();
                 if (Class_o.var_29a5[intValue][14].equals(String.valueOf(i))) {
@@ -1018,7 +1018,7 @@ public final class Class_o
         }
         else {
             for (int k = 0; k < Class_o.var_29bd.length; ++k) {
-                if (Class_o.var_29bd[k][0].equals(Class_o.var_2b25)) {
+                if (Class_o.var_29bd[k][0].equals(Class_o.useTestProfile)) {
                     return Class_o.var_29bd[k][n];
                 }
             }
@@ -1027,14 +1027,14 @@ public final class Class_o
     }
     
     private static String sub_532f(final int n) {
-        if (sub_5e78() != 0) {
-            if (sub_5e78() == 1) {
+        if (getTestFieldInt() != 0) {
+            if (getTestFieldInt() == 1) {
                 return "sms_2d";
             }
-            if (sub_5e78() == 2) {
+            if (getTestFieldInt() == 2) {
                 return "http_2d";
             }
-            if (sub_5e78() == 3) {
+            if (getTestFieldInt() == 3) {
                 return "cc_2d";
             }
         }
@@ -1074,7 +1074,7 @@ public final class Class_o
         }
         String str = null;
         String str2 = null;
-        if (sub_5e78() == 0) {
+        if (getTestFieldInt() == 0) {
             if (Class_o.var_29d5.size() > 0) {
                 final int intValue = ((Integer) Class_o.var_29d5.elementAt(0)).intValue();
                 try {
@@ -1086,7 +1086,7 @@ public final class Class_o
         }
         else if (Class_o.var_29bd.length > 0) {
             for (int i = 0; i < Class_o.var_29bd.length; ++i) {
-                if (Class_o.var_29bd[i][0].equals(Class_o.var_2b25)) {
+                if (Class_o.var_29bd[i][0].equals(Class_o.useTestProfile)) {
                     str = Class_o.var_29bd[i][13];
                     break;
                 }
@@ -1114,7 +1114,7 @@ public final class Class_o
     private static void sub_568e() {
         Class_o.var_2b3d.removeAllElements();
         Class_o.var_2b45.removeAllElements();
-        if (sub_5e78() == 0 && Class_o.var_29d5 != null && Class_o.var_29d5.size() > 0) {
+        if (getTestFieldInt() == 0 && Class_o.var_29d5 != null && Class_o.var_29d5.size() > 0) {
             for (int i = 0; i < Class_o.var_29d5.size(); ++i) {
                 final int int1;
                 if (sub_5a7c(int1 = Integer.parseInt(Class_o.var_29a5[((Integer)Class_o.var_29d5.elementAt(i)).intValue()][14]), "Cash")) {
@@ -1125,7 +1125,7 @@ public final class Class_o
                 }
             }
         }
-        else if (Class_o.var_2b55 || sub_5e78() != 0) {
+        else if (Class_o.var_2b55 || getTestFieldInt() != 0) {
             new StringBuffer().append("PaySMS.parseValidItems: IAP_TEST_FIELD or CC. creditCardEnabled = ").append(Class_o.var_2b55);
             for (int j = 1; j <= Class_o.var_2b8d; ++j) {
                 if (sub_5a7c(j, "Cash")) {
@@ -1193,7 +1193,7 @@ public final class Class_o
     }
     
     private static boolean sub_5a7c(final int n, final String s) {
-        final String sub_5e3c = sub_5e3c("IAP-ContentID-" + s + "-" + n);
+        final String sub_5e3c = getAppProperty("IAP-ContentID-" + s + "-" + n);
         boolean b = false;
         if (Class_o.var_2b35.contains(sub_5e3c)) {
             b = true;
@@ -1241,15 +1241,15 @@ public final class Class_o
         return s2;
     }
     
-    private static String[][] sub_5d4b() {
-        final String[] sub_66b7;
-        if ((sub_66b7 = sub_66b7(Class_o.var_2acd)) == null) {
+    private static String[][] loadSpecificTextsFile() {
+        final String[] sub_66b7 = readFile(Class_o.textFile);
+        if (sub_66b7 == null) {
             return null;
         }
         final String[][] array = new String[sub_66b7.length][2];
         for (int i = 0; i < sub_66b7.length; ++i) {
-            final int index;
-            if ((index = sub_66b7[i].indexOf(59)) != -1) {
+            final int index = sub_66b7[i].indexOf(59);
+            if (index != -1) {
                 array[i][0] = sub_66b7[i].substring(0, index);
                 array[i][1] = sub_66b7[i].substring(index + 1, sub_66b7[i].length());
             }
@@ -1260,45 +1260,46 @@ public final class Class_o
         return array;
     }
     
-    private static String sub_5e3c(String appProperty) {
-        if ((appProperty = Class_o.var_295d.getAppProperty(appProperty)) == null) {
-            appProperty = "";
+    private static String getAppProperty(String prop) {
+    	prop = Class_o.application.getAppProperty(prop);
+        if (prop == null) {
+            prop = "";
         }
-        return appProperty;
+        return prop;
     }
     
-    private static int sub_5e78() {
-        if (Class_o.var_2b1d.equals("0")) {
+    private static int getTestFieldInt() {
+        if (Class_o.iapTestField.equals("0")) {
             return 0;
         }
-        if (Class_o.var_2b1d.equals("1")) {
+        if (Class_o.iapTestField.equals("1")) {
             return 1;
         }
-        if (Class_o.var_2b1d.equals("2")) {
+        if (Class_o.iapTestField.equals("2")) {
             return 2;
         }
         return 0;
     }
     
-    private static boolean sub_5ed5(String[] array, final String[] array2, final String[] array3) {
-        if (array3 == null) {
+    private static boolean loadProfileConfiguration(String[] array, final String[] array2, final String[] profilesArgs) {
+        if (profilesArgs == null) {
             Class_o.var_2afd = 8;
             return false;
         }
-        for (int i = 0; i < array3.length; ++i) {
-            new StringBuffer().append("PaySMS.loadProfileConfiguration: profilesArgs[").append(i).append("]: ").append(array3[i]);
+        for (int i = 0; i < profilesArgs.length; ++i) {
+            new StringBuffer().append("PaySMS.loadProfileConfiguration: profilesArgs[").append(i).append("]: ").append(profilesArgs[i]);
         }
         array = array2;
         int n = 0;
-        final int[] array4 = new int[array3.length];
-        final String[][] array5 = new String[array3.length][17];
+        final int[] array4 = new int[profilesArgs.length];
+        final String[][] array5 = new String[profilesArgs.length][17];
         int n2 = 0;
-        final int[] array6 = new int[array3.length];
-        for (int j = 0; j < array3.length; ++j) {
+        final int[] array6 = new int[profilesArgs.length];
+        for (int j = 0; j < profilesArgs.length; ++j) {
             int n3 = 0;
             for (int k = 0; k < 16; ++k) {
-                final int index = array3[j].indexOf(";", n3);
-                array5[j][k] = array3[j].substring(n3, index);
+                final int index = profilesArgs[j].indexOf(";", n3);
+                array5[j][k] = profilesArgs[j].substring(n3, index);
                 n3 = index + 1;
             }
             if (sub_65c1(array5[j][0])) {
@@ -1349,11 +1350,11 @@ public final class Class_o
             }
         }
         catch (final Exception ex) {}
-        sub_6366();
+        parseMultipleCarriers();
         return true;
     }
     
-    private static void sub_6366() {
+    private static void parseMultipleCarriers() {
         int length = Class_o.var_29a5.length;
         if (Class_o.var_2b4d != null) {
             ++length;
@@ -1430,7 +1431,7 @@ public final class Class_o
         return anArray;
     }
     
-    private static String[] sub_66b7(final String s) {
+    private static String[] readFile(final String s) {
         final InputStream resourceAsStream = "".getClass().getResourceAsStream(s);
         String s2;
         try {
@@ -1464,7 +1465,7 @@ public final class Class_o
     }
     
     private static String[][] sub_67fc() {
-        if (!Class_o.var_29ad || sub_5e78() != 0) {
+        if (!Class_o.var_29ad || getTestFieldInt() != 0) {
             return null;
         }
         final Vector vector = new Vector();
@@ -1497,7 +1498,7 @@ public final class Class_o
                 anArray2[j][0] = s2.substring(0, index2);
                 ++index2;
                 final int index3 = s2.indexOf(58, index2);
-                sub_6b21(Class_o.var_2a5d[8]);
+                rmsLoad(Class_o.rmsNames[8]);
                 if (index3 != -1) {
                     anArray2[j][1] = s2.substring(index2, index3);
                     if (Class_o.var_2a15 != null && Class_o.var_2a15.startsWith(anArray2[j][1], 1) && n2 <= index3 - index2) {
@@ -1528,45 +1529,47 @@ public final class Class_o
         return anArray2;
     }
     
-    private static String sub_6b21(final String s) {
-        RecordStore openRecordStore = null;
-        String s2 = null;
+    private static String rmsLoad(final String s) {
+        RecordStore rs = null;
+        String recordStr = null;
         try {
             final byte[] record;
-            if ((openRecordStore = RecordStore.openRecordStore(s, (boolean)(1 != 0))).getNumRecords() >= 1 && (record = openRecordStore.getRecord(1)) != null) {
-                s2 = new String(record);
+            rs = RecordStore.openRecordStore(s, (boolean)(1 != 0));
+            record = rs.getRecord(1);
+            if (rs.getNumRecords() >= 1 && record != null) {
+                recordStr = new String(record);
             }
         }
         catch (final Exception ex) {
             new StringBuffer().append("PaySMS.rmsLoad: Exception: ").append(s).append(" ").append(ex.toString());
         }
         try {
-            openRecordStore.closeRecordStore();
+            rs.closeRecordStore();
         }
         catch (final Exception ex2) {
             new StringBuffer().append("PaySMS.rmsLoad: Exception: ").append(s).append(" ").append(ex2.toString());
         }
-        return s2;
+        return recordStr;
     }
     
-    public static void sub_6c0f(final String s, final String s2) {
-        RecordStore openRecordStore = null;
+    public static void rmsSave(final String s, final String s2) {
+        RecordStore rs = null;
         try {
-            openRecordStore = RecordStore.openRecordStore(s, true);
+            rs = RecordStore.openRecordStore(s, true);
             final byte[] bytes = s2.getBytes();
-            if (openRecordStore.getNumRecords() >= 1) {
-                openRecordStore.setRecord(1, bytes, 0, bytes.length);
+            if (rs.getNumRecords() >= 1) {
+                rs.setRecord(1, bytes, 0, bytes.length);
             }
             else {
-                openRecordStore.addRecord(bytes, 0, bytes.length);
+                rs.addRecord(bytes, 0, bytes.length);
             }
         }
         catch (final Exception ex) {
             new StringBuffer().append("PaySMS.rmsSave: Exception: ").append(ex.toString());
         }
-        if (openRecordStore != null) {
+        if (rs != null) {
             try {
-                openRecordStore.closeRecordStore();
+                rs.closeRecordStore();
             }
             catch (final Exception ex2) {
                 new StringBuffer().append("PaySMS.rmsSave: Exception: ").append(ex2.toString());
@@ -1576,17 +1579,17 @@ public final class Class_o
     
     private static boolean sub_6cf3() {
         final String sub_6b21;
-        return (sub_6b21 = sub_6b21(Class_o.var_2a5d[0])) != null && sub_6b21.equals("1");
+        return (sub_6b21 = rmsLoad(Class_o.rmsNames[0])) != null && sub_6b21.equals("1");
     }
     
     private static boolean sub_6d38() {
         final String sub_6b21;
-        return (sub_6b21 = sub_6b21(Class_o.var_2a5d[4])) != null && sub_6b21.equals("1");
+        return (sub_6b21 = rmsLoad(Class_o.rmsNames[4])) != null && sub_6b21.equals("1");
     }
     
     private static String sub_6d7d() {
         final String sub_6b21;
-        if ((sub_6b21 = sub_6b21(Class_o.var_2a5d[1])) != null) {
+        if ((sub_6b21 = rmsLoad(Class_o.rmsNames[1])) != null) {
             return sub_6b21;
         }
         return "";
@@ -1595,7 +1598,7 @@ public final class Class_o
     private static long sub_6dba() {
         try {
             final String sub_6b21;
-            if ((sub_6b21 = sub_6b21(Class_o.var_2a5d[11])) != null) {
+            if ((sub_6b21 = rmsLoad(Class_o.rmsNames[11])) != null) {
                 return Long.parseLong(sub_6b21);
             }
         }
@@ -1605,7 +1608,7 @@ public final class Class_o
     
     public static String sub_6e15() {
         final String sub_6b21;
-        if ((sub_6b21 = sub_6b21(Class_o.var_2a5d[5])) != null) {
+        if ((sub_6b21 = rmsLoad(Class_o.rmsNames[5])) != null) {
             return sub_6b21;
         }
         return "";
@@ -1613,7 +1616,7 @@ public final class Class_o
     
     private static boolean sub_6e52() {
         final String sub_6b21;
-        if ((sub_6b21 = sub_6b21(Class_o.var_2a5d[3])) == null || sub_6b21.length() == 0) {
+        if ((sub_6b21 = rmsLoad(Class_o.rmsNames[3])) == null || sub_6b21.length() == 0) {
             return false;
         }
         final Vector var_29d5 = new Vector();
@@ -1631,7 +1634,7 @@ public final class Class_o
             string = string + vector.elementAt(i) + ";";
         }
         new StringBuffer().append("PaySMS.storeProfileID: ").append(string);
-        sub_6c0f(Class_o.var_2a5d[3], String.valueOf(string));
+        rmsSave(Class_o.rmsNames[3], String.valueOf(string));
     }
     
     private static String sub_6f82() {
@@ -1681,7 +1684,7 @@ public final class Class_o
         if (Class_o.var_29d5 == null || Class_o.var_29d5.size() <= 0) {
             return 0;
         }
-        if (sub_5e78() != 0) {
+        if (getTestFieldInt() != 0) {
             return 8;
         }
         try {
@@ -1776,7 +1779,7 @@ public final class Class_o
                 return null;
             }
             final String sub_6b21;
-            if ((sub_6b21 = sub_6b21(Class_o.var_2a5d[7])) == null || sub_6b21.equals("")) {
+            if ((sub_6b21 = rmsLoad(Class_o.rmsNames[7])) == null || sub_6b21.equals("")) {
                 return appProperty;
             }
             return appProperty + "&extra_1=" + GLLib.sub_4545(GLLib.sub_4655(sub_6b21.substring(0, sub_6b21.indexOf(95)).getBytes(), "a8bc1a23a89", true)) + "&extra_2=" + sub_6b21.substring(sub_6b21.indexOf(95) + 1);
@@ -1826,7 +1829,7 @@ public final class Class_o
     }
     
     static String sub_7844(final String s) {
-        return sub_5e3c(s);
+        return getAppProperty(s);
     }
     
     static String sub_7863() {
@@ -1886,12 +1889,12 @@ public final class Class_o
     }
     
     static {
-        Class_o.var_295d = null;
+        Class_o.application = null;
         Class_o.var_2965 = -1;
         Class_o.var_296d = "";
         Class_o.var_2975 = -1;
-        Class_o.var_297d = "";
-        Class_o.var_2985 = "PaySMS.IAP.Version:1.1.8";
+        Class_o.language = "";
+        Class_o.VERSION = "PaySMS.IAP.Version:1.1.8";
         Class_o.var_299d = false;
         Class_o.var_29a5 = null;
         Class_o.var_29ad = false;
@@ -1916,7 +1919,7 @@ public final class Class_o
         Class_o.var_2a45 = "";
         Class_o.var_2a4d = -1;
         Class_o.var_2a55 = 1L;
-        var_2a5d = new String[] { "rmsSMS", "Cm1zY2", "rmsPackageId", "rmsAvailableProfiles", "rmsRedeemUnlocked", "rmsItemType", "rmsUnlocked", "rmsMoneySpent", "rmsCurrentRegion", "rmsCurrentCarrier", "Cm1zY1", "rmsSMSCnt" };
+        rmsNames = new String[] { "rmsSMS", "Cm1zY2", "rmsPackageId", "rmsAvailableProfiles", "rmsRedeemUnlocked", "rmsItemType", "rmsUnlocked", "rmsMoneySpent", "rmsCurrentRegion", "rmsCurrentCarrier", "Cm1zY1", "rmsSMSCnt" };
         Class_o.var_2a65 = false;
         Class_o.var_2a6d = false;
         Class_o.var_2a75 = false;
@@ -1929,8 +1932,8 @@ public final class Class_o
         Class_o.var_2aad = "";
         Class_o.var_2ab5 = "";
         Class_o.var_2abd = "";
-        Class_o.var_2ac5 = "/IAP_profiles";
-        Class_o.var_2acd = "/IAP_texts";
+        Class_o.profilesFile = "/IAP_profiles";
+        Class_o.textFile = "/IAP_texts";
         Class_o.var_2ad5 = null;
         Class_o.var_2add = null;
         Class_o.var_2ae5 = false;
@@ -1940,9 +1943,9 @@ public final class Class_o
         Class_o.var_2b05 = "933";
         Class_o.var_2b0d = "5023";
         Class_o.var_2b15 = "5025";
-        Class_o.var_2b1d = "";
-        Class_o.var_2b25 = "";
-        Class_o.var_2b2d = new String[] { "Cash", "Coin" };
+        Class_o.iapTestField = "";
+        Class_o.useTestProfile = "";
+        Class_o.currencys = new String[] { "Cash", "Coin" };
         Class_o.var_2b35 = null;
         Class_o.var_2b3d = null;
         Class_o.var_2b45 = null;
@@ -1954,7 +1957,6 @@ public final class Class_o
         Class_o.var_2b75 = new String[] { "1104", "1106", "1108", "1110" };
         Class_o.var_2b7d = new int[] { 100, 110, 120, 130, 140, 150 };
         Class_o.var_2b85 = new int[] { 199, 399, 999, 1999, 2999, 3999 };
-        final int[] array = { 25, 50, 100, 150 };
         Class_o.var_2b8d = 4;
         Class_o.var_2b95 = '.';
     }

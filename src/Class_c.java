@@ -32,7 +32,7 @@ final class Class_c extends Thread
                 else {
                     if (Class_o.sub_7881() == -1) {
                         Class_o.sub_78bd(false);
-                        Class_o.sub_6c0f(Class_o.var_2a5d[0], "0");
+                        Class_o.rmsSave(Class_o.rmsNames[0], "0");
                         Class_o.sub_78dd();
                         Class_o.sub_78fd(-1);
                         return;
@@ -56,12 +56,12 @@ final class Class_c extends Thread
             Class_o.sub_795b().schedule(new Class_i(), 30000);
             Class_o.var_2add.send((Message)obj);
             Class_o.sub_78bd(Class_o.var_2aed = true);
-            Class_o.sub_6c0f(Class_o.var_2a5d[0], "1");
-            Class_o.sub_6c0f(Class_o.var_2a5d[1], Class_o.sub_7979());
-            Class_o.sub_6c0f(Class_o.var_2a5d[2], String.valueOf(Class_o.var_2965));
-            Class_o.sub_6c0f(Class_o.var_2a5d[5], Class_o.var_296d);
+            Class_o.rmsSave(Class_o.rmsNames[0], "1");
+            Class_o.rmsSave(Class_o.rmsNames[1], Class_o.sub_7979());
+            Class_o.rmsSave(Class_o.rmsNames[2], String.valueOf(Class_o.var_2965));
+            Class_o.rmsSave(Class_o.rmsNames[5], Class_o.var_296d);
             Class_o.sub_7997();
-            Class_o.sub_6c0f(Class_o.var_2a5d[11], "" + Class_o.sub_79bb());
+            Class_o.rmsSave(Class_o.rmsNames[11], "" + Class_o.sub_79bb());
             if (!Class_o.sub_7806().equals("1")) {
                 Class_o.sub_79f7(Class_o.sub_79d9());
             }
@@ -74,13 +74,13 @@ final class Class_c extends Thread
         }
         catch (final SecurityException ex3) {
             Class_o.sub_78bd(false);
-            Class_o.sub_6c0f(Class_o.var_2a5d[0], "0");
+            Class_o.rmsSave(Class_o.rmsNames[0], "0");
             Class_o.sub_78fd(-9);
             new StringBuffer().append("PaySMS.buy: SMS sent failed! Security Exception: ").append(ex3.toString());
         }
         catch (final Throwable t) {
             Class_o.sub_78bd(false);
-            Class_o.sub_6c0f(Class_o.var_2a5d[0], "0");
+            Class_o.rmsSave(Class_o.rmsNames[0], "0");
             if (Class_o.var_2ae5) {
                 Class_o.sub_78fd(-4);
             }

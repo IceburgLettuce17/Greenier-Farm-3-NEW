@@ -753,9 +753,9 @@ public final class Class_m implements Runnable, CommandListener
                 }
                 case 2: {
                     GLLib.Pack_Open("/11");
-                    (Class_m.var_1fd5 = sub_680f(Class_m.var_1d35, 3, true, false)).sub_46d6((short[])GLLib.sub_3451(Class_m.var_1d45));
+                    (Class_m.var_1fd5 = sub_680f(Class_m.var_1d35, 3, true, false)).sub_46d6((short[])GLLib.Pack_ReadArray(Class_m.var_1d45));
                     Class_m.var_1e35 = Class_m.var_1fd5.sub_494e();
-                    (Class_m.var_1fdd = sub_680f(Class_m.var_1d3d, 3, true, false)).sub_46d6((short[])GLLib.sub_3451(Class_m.var_1d4d));
+                    (Class_m.var_1fdd = sub_680f(Class_m.var_1d3d, 3, true, false)).sub_46d6((short[])GLLib.Pack_ReadArray(Class_m.var_1d4d));
                     if (Class_m.var_2065 > 160 && Class_m.var_2065 > 220) {
                         if (Class_m.var_2065 <= 320) {
                             Class_m.var_1fd5.sub_4a1a(-1);
@@ -1332,7 +1332,7 @@ public final class Class_m implements Runnable, CommandListener
         switch (Class_m.var_1f9d) {
             case 0: {
                 graphics.setColor(0);
-                GLLib.sub_3773(graphics, 0, 0, Class_m.var_2065, Class_m.var_205d, true);
+                GLLib.FillRect(graphics, 0, 0, Class_m.var_2065, Class_m.var_205d, true);
                 final Graphics graphics2 = graphics;
                 final int var_206d = Class_m.var_206d;
                 final int n = Class_m.var_2065 * 3 / 4;
@@ -1349,37 +1349,37 @@ public final class Class_m implements Runnable, CommandListener
                 final int n6 = (n3 - 2 - 2) * n2 / var_1fc5 + 1;
                 sub_669f(graphics3, 0, 0, Class_m.var_205d, Class_m.var_2065);
                 graphics3.setColor(16777215);
-                GLLib.sub_3773(graphics3, n5, n4, n3, 6, true);
+                GLLib.FillRect(graphics3, n5, n4, n3, 6, true);
                 graphics3.setColor(0);
                 final Graphics graphics4 = graphics3;
                 final int n7 = n5 + 1 + 1;
                 final int n8 = n4 + 1 + 1;
                 final int n9 = n3 - 2 - 1;
                 final int n10 = n8;
-                GLLib.sub_3773(graphics4, n7, n10, n9, 3, true);
+                GLLib.FillRect(graphics4, n7, n10, n9, 3, true);
                 graphics3.setColor(16711680);
-                GLLib.sub_3773(graphics3, n5 + 1 + 1, n10, n6, 3, true);
+                GLLib.FillRect(graphics3, n5 + 1 + 1, n10, n6, 3, true);
                 if (Class_m.var_2035 != null && !Class_m.var_2035.trim().equals("")) {
                     final Image image;
                     final Graphics graphics5;
                     (graphics5 = (image = Image.createImage(Class_m.var_2065, 30)).getGraphics()).setColor(0);
-                    GLLib.sub_3773(graphics5, 0, 0, 30, Class_m.var_2065, true);
+                    GLLib.FillRect(graphics5, 0, 0, 30, Class_m.var_2065, true);
                     graphics5.setColor(16777215);
                     final Graphics var_1daf2 = graphics5;
                     // REST IN PEACE YOU POOR SOUL
                     if (var_1daf2 == null) {
-                        GLLib.var_1daf = GLLib.var_1db7;
+                        GLLib.g = GLLib.s_lastPaintGraphics;
                     }
                     else {
-                        GLLib.var_1daf = var_1daf2;
+                        GLLib.g = var_1daf2;
                     }
-                    GLLib.var_1daf.setFont(Class_m.var_1c1d);
+                    GLLib.g.setFont(Class_m.var_1c1d);
                     GLLib.sub_3877(Class_m.var_2035, Class_m.var_2075, 25, 33);
                     if (var_1daf == null) {
-                        GLLib.var_1daf = GLLib.var_1db7;
+                        GLLib.g = GLLib.s_lastPaintGraphics;
                     }
                     else {
-                        GLLib.var_1daf = var_1daf;
+                        GLLib.g = var_1daf;
                     }
                     graphics.drawRegion(image, 0, 0, Class_m.var_205d, 30, 5, Class_m.var_206d + 5 + 30, 0, 0);
                     return;
@@ -1411,9 +1411,9 @@ public final class Class_m implements Runnable, CommandListener
                 sub_52f7(graphics, 0, n11 - 1, var_2065, var_205d - (n11 - 1 << 1), -1);
                 sub_52f7(graphics, 0, n11, var_2065, var_205d - (n11 << 1), -220209185);
                 graphics.setColor(16777215);
-                GLLib.sub_3773(graphics, 0, var_205d - (n12 + 1), var_2065, n12 + 1, true);
+                GLLib.FillRect(graphics, 0, var_205d - (n12 + 1), var_2065, n12 + 1, true);
                 graphics.setColor(-220209185);
-                GLLib.sub_3773(graphics, 0, var_205d - n12, var_2065, n12, true);
+                GLLib.FillRect(graphics, 0, var_205d - n12, var_2065, n12, true);
                 Class_m.var_1e3d = 1;
                 sub_2361(sub_2306(Class_m.var_1c8d), graphics, Class_m.var_205d, var_2065 >> 1, var_205d >> 1, 3, true);
                 sub_6621(graphics);
@@ -1438,7 +1438,7 @@ public final class Class_m implements Runnable, CommandListener
             graphics.setColor(0);
         }
         graphics.setColor(16777215);
-        GLLib.sub_3773(graphics, 0, 0, var_2065, var_205d, true);
+        GLLib.FillRect(graphics, 0, 0, var_2065, var_205d, true);
         final int n = Class_m.var_1f4d[0][0];
         final int n2 = Class_m.var_1f4d[0][1];
         final int n3 = Class_m.var_1f4d[Class_m.var_1d5d][0];

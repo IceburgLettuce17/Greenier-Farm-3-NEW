@@ -139,7 +139,7 @@ final class GLLibPlayer implements Runnable
     }
     
     final void sub_1941() {
-        this.var_1597 = GLLib.sub_2b97(0, this.sub_1aa9());
+        this.var_1597 = GLLib.Math_Rand(0, this.sub_1aa9());
         this.var_159f = 0;
     }
     
@@ -226,11 +226,11 @@ final class GLLibPlayer implements Runnable
         if (this.var_15cf != -1) {
             final int sub_6475 = this.sprite.sub_6475();
             this.sprite.sub_6434(this.var_15cf);
-            this.sprite.sub_700c(GLLib.var_1daf, this.curAnim, this.var_1597, this.posX, this.posY, this.var_157f);
+            this.sprite.sub_700c(GLLib.g, this.curAnim, this.var_1597, this.posX, this.posY, this.var_157f);
             this.sprite.sub_6434(sub_6475);
         }
         else {
-            this.sprite.sub_700c(GLLib.var_1daf, this.curAnim, this.var_1597, this.posX, this.posY, this.var_157f);
+            this.sprite.sub_700c(GLLib.g, this.curAnim, this.var_1597, this.posX, this.posY, this.var_157f);
         }
         if (b) {
             GLLib.var_1fe7 &= 0xFFF0081F;
@@ -382,7 +382,7 @@ final class GLLibPlayer implements Runnable
         }
         GLLib.Pack_Open(dataFileName);
         final byte[] pData = GLLib.Pack_ReadData(resourceIndex);
-        resourceIndex = GLLib.var_1f57;
+        resourceIndex = GLLib.s_pack_lastDataReadMimeType;
         if (GLLibPlayer.s_snd_isSoundEngineInitialized) {
             if (pData == null || pData.length <= 0) {
                 return;
@@ -442,7 +442,7 @@ final class GLLibPlayer implements Runnable
             if (GLLibPlayer.s_snd_sndSlot[n2] == null) {
                 return;
             }
-			GLLibPlayer.s_snd_Player[n] = Manager.createPlayer((InputStream)new ByteArrayInputStream(GLLibPlayer.s_snd_sndSlot[n2]), GLLib.sub_3535(GLLibPlayer.s_snd_sndType[n2]));
+			GLLibPlayer.s_snd_Player[n] = Manager.createPlayer((InputStream)new ByteArrayInputStream(GLLibPlayer.s_snd_sndSlot[n2]), GLLib.GetMIME(GLLibPlayer.s_snd_sndType[n2]));
         }
         if (GLLibPlayer.s_snd_Player[n] == null) {
             return;
@@ -729,7 +729,7 @@ final class GLLibPlayer implements Runnable
     }
     
     private static void sub_2d9e(final int n) {
-        if ((GLLibPlayer.var_169f += GLLib.var_1e1f) < 0) {
+        if ((GLLibPlayer.var_169f += GLLib.s_game_frameDT) < 0) {
             return;
         }
         final int var_169f = GLLibPlayer.var_169f;
@@ -881,11 +881,11 @@ final class GLLibPlayer implements Runnable
                         }
                         if (b) {
                             GLLibPlayer.var_167f[n24] = 6;
-                            GLLibPlayer.var_167f[n24 + 8] = GLLib.sub_2b97(GLLibPlayer.var_167f[n24 + 4], GLLibPlayer.var_167f[n24 + 5] + 1);
+                            GLLibPlayer.var_167f[n24 + 8] = GLLib.Math_Rand(GLLibPlayer.var_167f[n24 + 4], GLLibPlayer.var_167f[n24 + 5] + 1);
                             break;
                         }
                         GLLibPlayer.var_167f[n24] = 7;
-                        GLLibPlayer.var_167f[n24 + 8] = GLLib.sub_2b97(GLLibPlayer.var_167f[n24 + 6], GLLibPlayer.var_167f[n24 + 7] + 1);
+                        GLLibPlayer.var_167f[n24 + 8] = GLLib.Math_Rand(GLLibPlayer.var_167f[n24 + 6], GLLibPlayer.var_167f[n24 + 7] + 1);
                         break;
                     }
                 }
@@ -1067,7 +1067,7 @@ final class GLLibPlayer implements Runnable
                 int sub_3601 = 0;
                 int sub_367d = 0;
                 if (graphics != null) {
-                    sub_35c6 = GLLib.sub_35c6(graphics, true);
+                    sub_35c6 = GLLib.GetClip(graphics, true);
                     sub_3600 = GLLib.sub_3600(graphics, true);
                     sub_3601 = GLLib.sub_3643(graphics, true);
                     sub_367d = GLLib.sub_367d(graphics, true);
@@ -1419,8 +1419,8 @@ final class GLLibPlayer implements Runnable
                 n = n5 - i - 1;
             }
             if (n < 0) {
-                final int var_1ddf = GLLib.var_1ddf;
-                var_10cf = GLLib.var_1de7;
+                final int var_1ddf = GLLib.s_screenWidth;
+                var_10cf = GLLib.s_screenHeight;
                 ASprite.var_10c7 = var_1ddf;
                 ASprite.var_10cf = var_10cf;
                 return;
@@ -1447,8 +1447,8 @@ final class GLLibPlayer implements Runnable
                 n2 = n6 - j - 1;
             }
             if (n2 < 0) {
-                final int var_1ddf2 = GLLib.var_1ddf;
-                var_10cf = GLLib.var_1de7;
+                final int var_1ddf2 = GLLib.s_screenWidth;
+                var_10cf = GLLib.s_screenHeight;
                 ASprite.var_10c7 = var_1ddf2;
                 ASprite.var_10cf = var_10cf;
                 return;
@@ -1553,8 +1553,8 @@ final class GLLibPlayer implements Runnable
                 }
             }
         }
-        final int var_1ddf3 = GLLib.var_1ddf;
-        var_10cf = GLLib.var_1de7;
+        final int var_1ddf3 = GLLib.s_screenWidth;
+        var_10cf = GLLib.s_screenHeight;
         ASprite.var_10c7 = var_1ddf3;
         ASprite.var_10cf = var_10cf;
     }
@@ -1755,7 +1755,7 @@ final class GLLibPlayer implements Runnable
         final int n5 = 0 - sub_5b8b(0);
         n2 = 0 - sub_5c0b(0);
         n = n5;
-        GLLib.sub_3773(GLLib.var_1daf, n, n2, n3, n4, true);
+        GLLib.FillRect(GLLib.g, n, n2, n3, n4, true);
     }
     
     static final void sub_6133(int var_1707, final ASprite class_e, final int n, final int n2, final int n3, final boolean b, final int[] array) {
@@ -1769,7 +1769,7 @@ final class GLLibPlayer implements Runnable
             sub_61f8(0, 0, class_e, 0, n, n2, n3, 0, 0, 0, b, array);
         }
         else {
-            class_e.sub_71ae(GLLib.var_1daf, n, n2 - sub_5b8b(0), n3 - sub_5c0b(0), 0);
+            class_e.sub_71ae(GLLib.g, n, n2 - sub_5b8b(0), n3 - sub_5c0b(0), 0);
         }
         if (GLLibPlayer.var_1707 != 100) {
             GLLib.sub_5c77(false);
@@ -1860,7 +1860,7 @@ final class GLLibPlayer implements Runnable
             final int var_10cf = GLLibPlayer.s_TilesetLayerInfo[0][8];
             ASprite.var_10c7 = var_10c7;
             ASprite.var_10cf = var_10cf;
-            final int sub_35c6 = GLLib.sub_35c6(graphics, true);
+            final int sub_35c6 = GLLib.GetClip(graphics, true);
             final int sub_3240 = GLLib.sub_3600(graphics, true);
             final int sub_3241 = GLLib.sub_3643(graphics, true);
             final int sub_367d = GLLib.sub_367d(graphics, true);
@@ -2023,8 +2023,8 @@ final class GLLibPlayer implements Runnable
             var_1de7 = var_10cf2;
             ASprite.var_10c7 = var_10c10;
             ASprite.var_10cf = var_1de7;
-            final int var_1ddf = GLLib.var_1ddf;
-            var_1de7 = GLLib.var_1de7;
+            final int var_1ddf = GLLib.s_screenWidth;
+            var_1de7 = GLLib.s_screenHeight;
             ASprite.var_10c7 = var_1ddf;
             ASprite.var_10cf = var_1de7;
         }
@@ -2057,7 +2057,7 @@ final class GLLibPlayer implements Runnable
             GLLib.sub_37b0(graphics, n7, n8, n9, n10, true);
         }
         else if (n11 == 2) {
-            GLLib.sub_3773(graphics, n7, n8, n9, n10, true);
+            GLLib.FillRect(graphics, n7, n8, n9, n10, true);
         }
         else if (n11 == 3) {
             GLLib.sub_57eb(graphics, n7, n8, n9, n10);
@@ -2089,23 +2089,23 @@ final class GLLibPlayer implements Runnable
         if (var_1de7 + n3 > var_10c7) {
             int n5 = n4;
             if (n2 + n4 > var_10cf) {
-                GLLib.sub_3773(graphics, 0, 0, var_1de7 + n3 - var_10c7, n2 + n4 - var_10cf, true);
+                GLLib.FillRect(graphics, 0, 0, var_1de7 + n3 - var_10c7, n2 + n4 - var_10cf, true);
                 sub_59b2(n, 0, 0, var_1de7 + n3 - var_10c7, n2 + n4 - var_10cf);
                 n5 = var_10cf - n2;
             }
-            GLLib.sub_3773(graphics, 0, n2, var_1de7 + n3 - var_10c7, n5, true);
+            GLLib.FillRect(graphics, 0, n2, var_1de7 + n3 - var_10c7, n5, true);
             sub_59b2(n, 0, n2, var_1de7 + n3 - var_10c7, n5);
             n3 = var_10c7 - var_1de7;
         }
         if (n2 + n4 > var_10cf) {
-            GLLib.sub_3773(graphics, var_1de7, 0, n3, n2 + n4 - var_10cf, true);
+            GLLib.FillRect(graphics, var_1de7, 0, n3, n2 + n4 - var_10cf, true);
             sub_59b2(n, var_1de7, 0, n3, n2 + n4 - var_10cf);
             n4 = var_10cf - n2;
         }
-        GLLib.sub_3773(graphics, var_1de7, n2, n3, n4, true);
+        GLLib.FillRect(graphics, var_1de7, n2, n3, n4, true);
         sub_59b2(n, var_1de7, n2, n3, n4);
-        final int var_1ddf = GLLib.var_1ddf;
-        var_1de7 = GLLib.var_1de7;
+        final int var_1ddf = GLLib.s_screenWidth;
+        var_1de7 = GLLib.s_screenHeight;
         ASprite.var_10c7 = var_1ddf;
         ASprite.var_10cf = var_1de7;
     }
