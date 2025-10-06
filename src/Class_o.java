@@ -1774,15 +1774,15 @@ public final class Class_o
     
     public static String sub_75be() {
         try {
-            final String appProperty;
-            if ((appProperty = GLLib.s_application.getAppProperty("URL-SUPPORT")) == null) {
+            final String appProperty = GLLib.s_application.getAppProperty("URL-SUPPORT");
+            if (appProperty == null) {
                 return null;
             }
-            final String sub_6b21;
-            if ((sub_6b21 = rmsLoad(Class_o.rmsNames[7])) == null || sub_6b21.equals("")) {
+            final String moneySpent = rmsLoad(Class_o.rmsNames[7]);
+            if (moneySpent == null || moneySpent.equals("")) {
                 return appProperty;
             }
-            return appProperty + "&extra_1=" + GLLib.sub_4545(GLLib.sub_4655(sub_6b21.substring(0, sub_6b21.indexOf(95)).getBytes(), "a8bc1a23a89", true)) + "&extra_2=" + sub_6b21.substring(sub_6b21.indexOf(95) + 1);
+            return appProperty + "&extra_1=" + GLLib.sub_4545(GLLib.sub_4655(moneySpent.substring(0, moneySpent.indexOf(95)).getBytes(), "a8bc1a23a89", true)) + "&extra_2=" + moneySpent.substring(moneySpent.indexOf(95) + 1);
         }
         catch (final Exception ex) {
             return null;
