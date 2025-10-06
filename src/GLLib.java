@@ -2345,7 +2345,7 @@ public abstract class GLLib extends Canvas implements Runnable
     }
     
     static boolean sub_7829(final int n) {
-        return Class_o.sub_40d2(n);
+        return Class_o.verifyRequest(n);
     }
     
     static boolean sub_7848() {

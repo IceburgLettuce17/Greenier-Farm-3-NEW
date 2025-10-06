@@ -16,12 +16,12 @@ final class Class_c extends Thread
         try {
             final String str = "sms://";
             String str2;
-            if (!Class_o.sub_77e8().equals("")) {
-                str2 = str + Class_o.sub_77e8();
+            if (!Class_o.getDebugNumber().equals("")) {
+                str2 = str + Class_o.getDebugNumber();
             }
             else {
-                if (Class_o.sub_7806().equals("1")) {
-                    Class_o.sub_7824(Class_o.sub_7844("IAP-ShortCode-PP" + Class_o.pricePoint));
+                if (Class_o.getOverrideFromJad().equals("1")) {
+                    Class_o.sub_7824(Class_o.getProperty("IAP-ShortCode-PP" + Class_o.pricePoint));
                 }
                 else {
                     Class_o.sub_7824("");
@@ -30,14 +30,14 @@ final class Class_c extends Thread
                     str2 = str + Class_o.sub_7863();
                 }
                 else {
-                    if (Class_o.sub_7881() == -1) {
+                    if (Class_o.getCurrentProfile() == -1) {
                         Class_o.sub_78bd(false);
                         Class_o.rmsSave(Class_o.rmsNames[0], "0");
                         Class_o.sub_78dd();
                         Class_o.sub_78fd(-1);
                         return;
                     }
-                    str2 = str + Class_o.sub_789f()[Class_o.sub_7881()][11];
+                    str2 = str + Class_o.sub_789f()[Class_o.getCurrentProfile()][11];
                 }
             }
             new StringBuffer().append("PaySMS.buy: smsAdress: ").append(str2);
@@ -62,7 +62,7 @@ final class Class_c extends Thread
             Class_o.rmsSave(Class_o.rmsNames[5], Class_o.itemType);
             Class_o.sub_7997();
             Class_o.rmsSave(Class_o.rmsNames[11], "" + Class_o.sub_79bb());
-            if (!Class_o.sub_7806().equals("1")) {
+            if (!Class_o.getOverrideFromJad().equals("1")) {
                 Class_o.sub_79f7(Class_o.sub_79d9());
             }
             try {

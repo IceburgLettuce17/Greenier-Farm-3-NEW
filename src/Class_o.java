@@ -1815,11 +1815,11 @@ public final class Class_o
         return s1.toUpperCase().equals(s2.toUpperCase());
     }
     
-    static String sub_77e8() {
+    static String getDebugNumber() {
         return Class_o.debugNum;
     }
     
-    static String sub_7806() {
+    static String getOverrideFromJad() {
         return Class_o.overrideFromJad;
     }
     
@@ -1827,15 +1827,15 @@ public final class Class_o
         return Class_o.var_2a95 = var_2a95;
     }
     
-    static String sub_7844(final String s) {
-        return getAppProperty(s);
+    static String getProperty(final String prop) {
+        return getAppProperty(prop);
     }
     
     static String sub_7863() {
         return Class_o.var_2a95;
     }
     
-    static int sub_7881() {
+    static int getCurrentProfile() {
         return Class_o.currentProfile;
     }
     
