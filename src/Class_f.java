@@ -3458,7 +3458,7 @@ final class Class_f
                 this.var_1625 = 0;
             }
             cGame.var_8044 = 100;
-            cGame.var_804c = "0:0:0";
+            cGame.s_plantGrowTime = "0:0:0";
             return;
         }
         if (this.var_17c5 == 52) {

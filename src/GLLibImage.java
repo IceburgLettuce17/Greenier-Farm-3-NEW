@@ -16,7 +16,8 @@ public final class GLLibImage
         return new GLLibImage(Image.createRGBImage(array, n, n2, b));
     }
     
-    public final void sub_202(final int[] array, final int n, final int n2, final int n3, final int n4, final int n5, final int n6) {
+    // Re-refactor because the refactoring went wrong
+    public final void getRGB(final int[] array, final int n, final int n2, final int n3, final int n4, final int n5, final int n6) {
         this.image.getRGB(array, n, n2, n3, n4, n5, n6);
     }
     
