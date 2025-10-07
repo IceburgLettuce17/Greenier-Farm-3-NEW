@@ -266,22 +266,22 @@ public final class Class_m implements Runnable, CommandListener
         }
     }
     
-    public static void sub_2484(MIDlet miDlet, Canvas canvas, int n, final int n2) {
-        final MIDlet miDlet2 = miDlet;
-        final Canvas canvas2 = canvas;
-        canvas = canvas2;
-        miDlet = miDlet2;
-        new StringBuffer().append("initialize(midlet = ").append(miDlet).append(", game = ").append(canvas).append(", screenWidth = ").append(n).append(", screenHeight = ").append(n2).append(", cmdListener = ").append((Object)null).append(")");
-        Class_m.var_205d = n2;
-        Class_m.var_2065 = n;
+    public static void initialize(MIDlet midlet, Canvas game, int screenWidth, final int screenHeight) {
+        final MIDlet miDlet2 = midlet;
+        final Canvas canvas2 = game;
+        game = canvas2;
+        midlet = miDlet2;
+        new StringBuffer().append("initialize(midlet = ").append(midlet).append(", game = ").append(game).append(", screenWidth = ").append(screenWidth).append(", screenHeight = ").append(screenHeight).append(", cmdListener = ").append((Object)null).append(")");
+        Class_m.var_205d = screenHeight;
+        Class_m.var_2065 = screenWidth;
         Class_m.var_206d = Class_m.var_205d >> 1;
         Class_m.var_2075 = Class_m.var_2065 >> 1;
         if (2 > Class_m.var_205d) {
             Class_m.var_1c2d = 2;
         }
-        if (Class_m.var_1f5d == null && canvas != null) {
-            Class_m.var_1f5d = miDlet;
-            Class_m.var_1f65 = canvas;
+        if (Class_m.var_1f5d == null && game != null) {
+            Class_m.var_1f5d = midlet;
+            Class_m.var_1f65 = game;
             sub_2bc9();
             new StringBuffer().append(Class_m.var_1c05).append("");
             sub_3367();

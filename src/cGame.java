@@ -2332,7 +2332,7 @@ public final class cGame extends GLLib implements Class_b {
 					break;
 				}
 				case 34: {
-					Class_m.sub_2484(GloftGF2M.s_instance, GLLib.s_gllib_instance, GLLib.s_screenWidth, GLLib.s_screenHeight);
+					Class_m.initialize(GloftGF2M.s_instance, GLLib.s_gllib_instance, GLLib.s_screenWidth, GLLib.s_screenHeight);
 					break;
 				}
 				case 45: {
