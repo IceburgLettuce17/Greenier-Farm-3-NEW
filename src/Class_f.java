@@ -1810,12 +1810,10 @@ final class Class_f
             if (GLLib.sub_762d() && cGame.var_6aa4 == -1) {
                 if (cGame.sub_2ceb1(array2[0], array2[1])) {
                     b = true;
-                    final int var_2037 = GLLib.s_screenX;
-                    final int var_203f = GLLib.s_screenY;
                     final int[] array3 = new int[2];
                     int[] array4 = new int[2];
-                    array4[0] = var_2037;
-                    array4[1] = var_203f;
+                    array4[0] = GLLib.s_screenX;
+                    array4[1] = GLLib.s_screenY;
                     cGame.sub_26427(array4, array3);
                     this.sub_66d8(array3[0], array3[1]);
                 }

@@ -1999,7 +1999,7 @@ public final class cGame extends GLLib implements Class_b {
 					if ((n14 = sub_2b09) == 0) {
 						sub_23d73();
 						final String sub_4e1f46;
-						Class_m.enterIGP(((sub_4e1f46 = GLLib.TODO_sub_4e1f(46)) == null) ? "" : sub_4e1f46, 0);
+						IGP.enterIGP(((sub_4e1f46 = GLLib.TODO_sub_4e1f(46)) == null) ? "" : sub_4e1f46, 0);
 					}
 					if (n14 == 2) {
 						sub_2b09 = GLLib.IsAnyKeyDown();
@@ -2035,19 +2035,19 @@ public final class cGame extends GLLib implements Class_b {
 							break;
 						}
 						}
-						if (Class_m.sub_3b75(n)) {
+						if (IGP.sub_3b75(n)) {
 							cGame.var_67cc = 1;
 							sub_2c69b();
 						}
 					}
 					if (n14 == 3) {
-						Class_m.sub_4f8f(GLLib.g);
+						IGP.sub_4f8f(GLLib.g);
 					}
 					if (n14 == 6) {
-						Class_m.sub_3b06(false);
+						IGP.sub_3b06(false);
 					}
 					if (n14 == 7) {
-						Class_m.sub_3b06(true);
+						IGP.sub_3b06(true);
 					}
 					b = false;
 					break;
@@ -2332,7 +2332,7 @@ public final class cGame extends GLLib implements Class_b {
 					break;
 				}
 				case 34: {
-					Class_m.initialize(GloftGF2M.s_instance, GLLib.s_gllib_instance, GLLib.s_screenWidth, GLLib.s_screenHeight);
+					IGP.initialize(GloftGF2M.s_instance, GLLib.s_gllib_instance, GLLib.s_screenWidth, GLLib.s_screenHeight);
 					break;
 				}
 				case 45: {
@@ -2654,7 +2654,7 @@ public final class cGame extends GLLib implements Class_b {
 						cGame.var_808c = 0;
 						cGame.var_77f4 = 0;
 					}
-					sub_f59d(false);
+					setValuesFromGameplaySave(false);
 					break;
 				}
 				case 47: {
@@ -3639,7 +3639,7 @@ public final class cGame extends GLLib implements Class_b {
 		return sub_10216;
 	}
 
-	private static boolean sub_f59d(final boolean b) {
+	private static boolean setValuesFromGameplaySave(final boolean b) {
 		// Load the RMS file "save_gameplay"
 		byte[] rmsGameplay = GLLib.Rms_ReadFromBytes("save_gameplay");
 		if (rmsGameplay == null) {
@@ -8796,7 +8796,7 @@ public final class cGame extends GLLib implements Class_b {
 
 	private static void sub_1aacc() {
 		sub_23a84(61);
-		sub_2e254(0);
+		setExperience(0);
 	}
 
 	private static void sub_1aaf0() {
@@ -9081,7 +9081,7 @@ public final class cGame extends GLLib implements Class_b {
 			sub_2024d(15, 7, true);
 			sub_2000c(15, 9, true);
 			sub_2024d(15, 9, true);
-			if (Class_m.sub_320d()) {
+			if (IGP.sub_320d()) {
 				sub_2000c(15, 148, true);
 				sub_2024d(15, 148, true);
 				sub_2000c(15, 149, true);
@@ -17052,14 +17052,14 @@ public final class cGame extends GLLib implements Class_b {
 
 	protected final void pointerReleased(final int n, final int n2) {
 		if (cGame.var_67dc[cGame.field_a_int] == 44) {
-			Class_m.sub_48ef(n, n2);
+			IGP.sub_48ef(n, n2);
 		}
 		super.pointerReleased(n, n2);
 	}
 
 	protected final void pointerPressed(final int n, final int n2) {
 		if (cGame.var_67dc[cGame.field_a_int] == 44) {
-			Class_m.sub_4acf(n, n2);
+			IGP.sub_4acf(n, n2);
 		}
 		super.pointerPressed(n, n2);
 		cGame.var_6f0c = GLLib.s_screenX;
@@ -17078,7 +17078,7 @@ public final class cGame extends GLLib implements Class_b {
 
 	protected final void pointerDragged(final int n, final int var_6f1c) {
 		if (cGame.var_67dc[cGame.field_a_int] == 44) {
-			Class_m.sub_4b41(n, var_6f1c);
+			IGP.sub_4b41(n, var_6f1c);
 		}
 		cGame.var_6f1c = var_6f1c;
 		cGame.var_6f24 = 480 - n;
@@ -18002,13 +18002,13 @@ public final class cGame extends GLLib implements Class_b {
 		cGame.s_level = (cGame.s_rmsLevel = sub_30161(n));
 	}
 
-	private static void sub_2e254(final int n) {
+	private static void setExperience(final int n) {
 		cGame.s_experienceAmount = (cGame.s_rmsExp = sub_30161(n));
 	}
 
 	private static void sub_2e27a(final boolean b) {
 		setLevel(1);
-		sub_2e254(0);
+		setExperience(0);
 		if (b) {
 			sub_2e1e1(cGame.var_8064[0]);
 			sub_2e208(cGame.var_8064[1]);
@@ -18175,11 +18175,11 @@ public final class cGame extends GLLib implements Class_b {
 		if (getLevel() >= 50) {
 			return;
 		}
-		sub_2e254(experience + amount);
+		setExperience(experience + amount);
 		cGame.var_6c84 = true;
 		amount = sub_2e8f8();
 		for (int i = getExperience(); amount > 0 && i >= amount; amount = sub_2e8f8()) {
-			sub_2e254(i -= amount);
+			setExperience(i -= amount);
 			onLevelUp();
 		}
 	}
