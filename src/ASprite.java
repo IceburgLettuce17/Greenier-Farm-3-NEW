@@ -52,8 +52,8 @@ public final class ASprite
     private int[] var_10bf;
     static int var_10c7;
     static int var_10cf;
-    Class_l[][] var_10d7;
-    private Class_l[][][] var_10df;
+    GLLibImage[][] var_10d7;
+    private GLLibImage[][][] var_10df;
     private static boolean var_10e7;
     private static int[] var_10ef;
     private static int[] var_10f7;
@@ -69,7 +69,7 @@ public final class ASprite
     static int[] var_1147;
     private static boolean var_114f;
     private static char var_1157;
-    private Class_l[][] var_115f;
+    private GLLibImage[][] var_115f;
     private int[][] var_1167;
     private int var_116f;
     private static short[][] var_1177;
@@ -958,7 +958,7 @@ public final class ASprite
     }
     
     public final void sub_3af1() {
-        this.var_115f = new Class_l[this.var_107f][this.var_f77];
+        this.var_115f = new GLLibImage[this.var_107f][this.var_f77];
         this.var_1167 = new int[this.var_107f][this.var_f77];
     }
     
@@ -977,10 +977,10 @@ public final class ASprite
             final int n5 = sub_5a53;
             final int[] array = sub_5a52;
             if (this.var_115f != null && this.var_115f[this.var_108f][n] != null && sub_3b62(array, n5) == this.var_1167[this.var_108f][n]) {
-                final Class_l class_l2;
-                final Class_l class_l = class_l2 = this.var_115f[this.var_108f][n];
-                final int width = class_l.var_192.getWidth();
-                final int height = class_l2.var_192.getHeight();
+                final GLLibImage class_l2;
+                final GLLibImage class_l = class_l2 = this.var_115f[this.var_108f][n];
+                final int width = class_l.image.getWidth();
+                final int height = class_l2.image.getHeight();
                 final int n6 = ASprite.var_10ef[n4];
                 n4 = height;
                 n = width;
@@ -995,20 +995,20 @@ public final class ASprite
         if (this.sub_3b2c() && array != null) {
             final int sub_5a53;
             final int[] sub_5a52 = GLLib.sub_5a52(sub_5a53 = GLLib.sub_5a72());
-            final Class_l sub_1d9 = Class_l.sub_1d9(array, GLLib.var_201f, GLLib.var_2027, true);
+            final GLLibImage sub_1d9 = GLLibImage.createRGBImage(array, GLLib.var_201f, GLLib.var_2027, true);
             
             final int n5 = n;
-            final Class_l class_l = sub_1d9;
+            final GLLibImage class_l = sub_1d9;
             final int n6 = sub_5a53;
             final int[] array2 = sub_5a52;
             final int n7 = n6;
-            final Class_l class_l2 = class_l;
+            final GLLibImage class_l2 = class_l;
             n = n5;
             this.var_115f[this.var_108f][n] = class_l2;
             this.var_1167[this.var_108f][n] = sub_3b62(array2, n7);
-            final Class_l class_l3 = sub_1d9;
-            final int width = sub_1d9.var_192.getWidth();
-            final int height = sub_1d9.var_192.getHeight();
+            final GLLibImage class_l3 = sub_1d9;
+            final int width = sub_1d9.image.getWidth();
+            final int height = sub_1d9.image.getHeight();
             n4 = ASprite.var_10ef[n4];
             final int n8 = height;
             n = width;
@@ -1037,9 +1037,9 @@ public final class ASprite
     final void sub_3dee(int i) {
         this.var_116f = i;
         if (this.var_10d7 == null) {
-            this.var_10d7 = new Class_l[this.var_107f][];
+            this.var_10d7 = new GLLibImage[this.var_107f][];
             for (i = 0; i < this.var_107f; ++i) {
-                this.var_10d7[i] = new Class_l[this.var_f77];
+                this.var_10d7[i] = new GLLibImage[this.var_f77];
             }
         }
     }
@@ -1071,7 +1071,7 @@ public final class ASprite
             ASprite.var_1177[this.var_116f][n2] = (short)((n & 0x3FF) + (this.var_108f << 10));
             ASprite.var_118f[this.var_116f][n2] = this;
             ASprite.var_117f[this.var_116f] = (ASprite.var_117f[this.var_116f] + 1) % ASprite.var_1187[this.var_116f];
-            this.var_10d7[this.var_108f][n] = (Class_l)o;
+            this.var_10d7[this.var_108f][n] = (GLLibImage)o;
         }
     }
     
@@ -1758,10 +1758,10 @@ public final class ASprite
     
     final void sub_64d8(final int var_108f, int i, int n, int var_108f2) {
         if (this.var_10d7 == null) {
-            this.var_10d7 = new Class_l[this.var_107f][];
+            this.var_10d7 = new GLLibImage[this.var_107f][];
         }
         if (this.var_10d7[var_108f] == null) {
-            this.var_10d7[var_108f] = new Class_l[this.var_f77];
+            this.var_10d7[var_108f] = new GLLibImage[this.var_f77];
         }
         if (this.var_f77 == 0) {
             return;
@@ -1802,7 +1802,7 @@ public final class ASprite
                                 break;
                             }
                         }
-                        this.var_10d7[var_108f][n5] = Class_l.sub_1d9(sub_9c11(array3, n6, n7, 4, null), n6, n7, b);
+                        this.var_10d7[var_108f][n5] = GLLibImage.createRGBImage(sub_9c11(array3, n6, n7, 4, null), n6, n7, b);
                     }
                 }
                 ++i;
@@ -1847,7 +1847,7 @@ public final class ASprite
             n2 = sub_3717 - 1;
         }
         if (this.var_10df == null) {
-            this.var_10df = new Class_l[this.var_107f][][];
+            this.var_10df = new GLLibImage[this.var_107f][][];
         }
         final int n4 = this.var_1057 + 1;
         if (this.var_10df[n] == null) {
@@ -1865,13 +1865,13 @@ public final class ASprite
                 }
                 length = n5;
             }
-            this.var_10df[n] = new Class_l[length + 1][];
+            this.var_10df[n] = new GLLibImage[length + 1][];
         }
         if (this.var_10df[n][n4] == null) {
-            this.var_10df[n][n4] = new Class_l[sub_3717];
+            this.var_10df[n][n4] = new GLLibImage[sub_3717];
         }
         for (int i = sub_312c; i <= n2; ++i) {
-            final Class_l[] array = this.var_10df[n][n4];
+            final GLLibImage[] array = this.var_10df[n][n4];
             final int n6 = i;
             
             final int n7 = i;
@@ -1884,7 +1884,7 @@ public final class ASprite
                 sub_312c = sub_312c * sub_5bbb / 100;
                 sub_3718 = sub_3718 * sub_5bfe / 100;
             }
-            Class_l class_l;
+            GLLibImage class_l;
             if (sub_312c == 0 || sub_3718 == 0) {
                 class_l = null;
             }
@@ -1924,9 +1924,9 @@ public final class ASprite
                         sub_312c2 = sub_3719;
                         sub_3719 = n13;
                     }
-                    final Class_l sub_1b2;
+                    final GLLibImage sub_1b2;
                     final Graphics graphics;
-                    (graphics = (sub_1b2 = Class_l.sub_1b2(sub_312c2, sub_3719)).var_192.getGraphics()).setColor(-65281);
+                    (graphics = (sub_1b2 = GLLibImage.createImage(sub_312c2, sub_3719)).image.getGraphics()).setColor(-65281);
                     graphics.fillRect(0, 0, sub_312c2, sub_3719);
                     if ((n12 & 0x4) != 0x0) {
                         final int var_10c7 = sub_3719;
@@ -1956,7 +1956,7 @@ public final class ASprite
                 }
                 final int[] array4 = array2;
                 final int n14 = ASprite.var_1107[0];
-                class_l = ((array4 == null) ? null : (((n14 & 0x4) != 0x0) ? Class_l.sub_1d9(array4, sub_3718, sub_312c, ASprite.var_10e7) : Class_l.sub_1d9(array4, sub_312c, sub_3718, ASprite.var_10e7)));
+                class_l = ((array4 == null) ? null : (((n14 & 0x4) != 0x0) ? GLLibImage.createRGBImage(array4, sub_3718, sub_312c, ASprite.var_10e7) : GLLibImage.createRGBImage(array4, sub_312c, sub_3718, ASprite.var_10e7)));
             }
             array[n6] = class_l;
         }
@@ -2079,11 +2079,11 @@ public final class ASprite
                         final int n18 = sub_3020;
                         final int n19 = n17;
                         final int var_108f2 = this.var_108f;
-                        final Class_l class_l;
+                        final GLLibImage class_l;
                         if ((class_l = ((this.var_10df == null || this.var_10df[var_108f2] == null) ? null : this.var_10df[var_108f2][this.var_1057 + 1][n])) != null) {
                             Label_0733: {
                                 if (GLLib.var_1fdf && (GLLib.var_1fe7 & 0xFF7E0) != 0x0) {
-                                    final Class_l class_l2 = class_l;
+                                    final GLLibImage class_l2 = class_l;
                                     final int n20 = n15;
                                     final int n21 = n16;
                                     final int n22 = n18;
@@ -2093,12 +2093,12 @@ public final class ASprite
                                     final int n26 = n22;
                                     final int n27 = n21;
                                     final int n28 = n20;
-                                    final Class_l class_l3 = class_l2;
+                                    final GLLibImage class_l3 = class_l2;
                                     boolean b;
                                     if (class_l3 != null) {
-                                        final Class_l class_l4 = class_l3;
+                                        final GLLibImage class_l4 = class_l3;
                                         final boolean var_1097 = this.var_1097;
-                                        final Class_l class_l5 = class_l4;
+                                        final GLLibImage class_l5 = class_l4;
                                         final int[] sub_39a6 = sub_39a6(null);
                                         GLLib.sub_3d3b(class_l5, sub_39a6, 0, n26, 0, 0, n26, n25);
                                         final int[] sub_5d84 = GLLib.sub_5d84(graphics, sub_39a6, n28, n27, n26, n25, n24, var_1097, false, true);
@@ -2478,7 +2478,7 @@ public final class ASprite
             return;
         }
         if (graphics == null || sub_6ef1(graphics, a2, n8, var_1148, a)) {
-            Class_l class_l = null;
+            GLLibImage class_l = null;
             if ((this.var_106f & 0x1000008) != 0x0) {
                 if (this.var_10d7 != null && this.var_10d7[this.var_108f] != null) {
                     class_l = this.var_10d7[this.var_108f][color];
@@ -2522,12 +2522,12 @@ public final class ASprite
                         }
                         if (this.var_116f >= 0) {
                             if (this.var_10d7 == null) {
-                                this.var_10d7 = new Class_l[this.var_107f][];
+                                this.var_10d7 = new GLLibImage[this.var_107f][];
                                 for (int i = 0; i < this.var_107f; ++i) {
-                                    this.var_10d7[i] = new Class_l[this.var_f77];
+                                    this.var_10d7[i] = new GLLibImage[this.var_f77];
                                 }
                             }
-                            Class_l class_l2;
+                            GLLibImage class_l2;
                             if (!b2) {
                                 final int[] array2 = new int[a * var_1148];
                                 a2 = var_1148;
@@ -2542,17 +2542,17 @@ public final class ASprite
                                     }
                                 }
                                 if ((n3 & 0x4) != 0x0) {
-                                    class_l2 = Class_l.sub_1d9(array2, var_1148, a, this.var_1097);
+                                    class_l2 = GLLibImage.createRGBImage(array2, var_1148, a, this.var_1097);
                                 }
                                 else {
-                                    class_l2 = Class_l.sub_1d9(array2, a, var_1148, this.var_1097);
+                                    class_l2 = GLLibImage.createRGBImage(array2, a, var_1148, this.var_1097);
                                 }
                             }
                             else if ((n3 & 0x4) != 0x0) {
-                                class_l2 = Class_l.sub_1d9(array, var_1148, a, this.var_1097);
+                                class_l2 = GLLibImage.createRGBImage(array, var_1148, a, this.var_1097);
                             }
                             else {
-                                class_l2 = Class_l.sub_1d9(array, a, var_1148, this.var_1097);
+                                class_l2 = GLLibImage.createRGBImage(array, a, var_1148, this.var_1097);
                             }
                             this.sub_3eec(color, class_l2);
                             if (!b2) {
@@ -2606,7 +2606,7 @@ public final class ASprite
                     if (!this.sub_3b85(color, n, n2, n3)) {
                         final boolean sub_3b2c2 = this.sub_3b2c();
                         final Graphics graphics6 = graphics;
-                        final Class_l class_l3 = class_l;
+                        final GLLibImage class_l3 = class_l;
                         final int n65 = n;
                         final int n66 = n2;
                         final int n67 = n18;
@@ -2620,7 +2620,7 @@ public final class ASprite
                         final int n72 = n67;
                         final int n73 = n66;
                         final int n74 = n65;
-                        final Class_l class_l4 = class_l3;
+                        final GLLibImage class_l4 = class_l3;
                         final Graphics graphics7 = graphics6;
                         final int[] sub_39a6 = sub_39a6(null);
                         GLLib.sub_3d3b(class_l4, sub_39a6, 0, n72, 0, 0, n72, n71);
@@ -2643,7 +2643,7 @@ public final class ASprite
                     a = n76;
                     final int n78 = n77;
                     this.sub_3eec(color, class_l);
-                    final Class_l class_l5;
+                    final GLLibImage class_l5;
                     if ((class_l5 = class_l) != null) {
                         if (ASprite.var_10ef[n3 & 0x7] == 0) {
                             GLLib.sub_38df(graphics, class_l, n, n2, 20, false);

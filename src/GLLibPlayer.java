@@ -64,7 +64,7 @@ final class GLLibPlayer implements Runnable
     private static int[] var_16c7;
     private static int[][] s_TilesetLayerInfo;
     private static byte[][][] s_TilesetLayerData;
-    private static Class_l[][] s_TilesetLayerImage;
+    private static GLLibImage[][] s_TilesetLayerImage;
     static Graphics[][] s_TilesetLayerGraphics;
     private static int[][][] var_16ef;
     private static int var_16f7;
@@ -912,7 +912,7 @@ final class GLLibPlayer implements Runnable
     static void sub_3661(final int n, final int n2, final int n3, final int n4) {
         GLLibPlayer.var_16c7 = new int[8];
         GLLibPlayer.s_TilesetLayerInfo = new int[GLLibPlayer.var_16af][GLLibPlayer.var_16b7];
-        GLLibPlayer.s_TilesetLayerImage = new Class_l[GLLibPlayer.var_16af][1];
+        GLLibPlayer.s_TilesetLayerImage = new GLLibImage[GLLibPlayer.var_16af][1];
         GLLibPlayer.s_TilesetLayerGraphics = new Graphics[GLLibPlayer.var_16af][1];
         if (n3 > 0 && n4 > 0) {
             GLLibPlayer.s_TilesetLayerData = new byte[GLLibPlayer.var_16af][2][];
@@ -940,8 +940,8 @@ final class GLLibPlayer implements Runnable
     
     private static void sub_37be(final int n) {
         try {
-            GLLibPlayer.s_TilesetLayerImage[0][0] = Class_l.sub_1b2(GLLibPlayer.s_TilesetLayerInfo[0][8], GLLibPlayer.s_TilesetLayerInfo[0][7]);
-            GLLibPlayer.s_TilesetLayerGraphics[0][0] = GLLibPlayer.s_TilesetLayerImage[0][0].var_192.getGraphics();
+            GLLibPlayer.s_TilesetLayerImage[0][0] = GLLibImage.createImage(GLLibPlayer.s_TilesetLayerInfo[0][8], GLLibPlayer.s_TilesetLayerInfo[0][7]);
+            GLLibPlayer.s_TilesetLayerGraphics[0][0] = GLLibPlayer.s_TilesetLayerImage[0][0].image.getGraphics();
         }
         catch (final Exception ex) {
             new StringBuffer().append("GLLibPlayer.Tileset_LoadLayer.pb while ceating circular buffer : ").append(ex.toString());
@@ -991,7 +991,7 @@ final class GLLibPlayer implements Runnable
             GLLibPlayer.s_TilesetLayerInfo[0][6] = GLLibPlayer.s_TilesetLayerInfo[0][3] * GLLibPlayer.var_16c7[5];
             GLLibPlayer.s_TilesetSprite[0] = class_e;
             sub_370b(0);
-            if (GLLibPlayer.s_TilesetLayerImage[0][0] == null || GLLibPlayer.s_TilesetLayerImage[0][0].var_192.getWidth() != GLLibPlayer.s_TilesetLayerInfo[0][8] || GLLibPlayer.s_TilesetLayerImage[0][0].var_192.getHeight() != GLLibPlayer.s_TilesetLayerInfo[0][7]) {
+            if (GLLibPlayer.s_TilesetLayerImage[0][0] == null || GLLibPlayer.s_TilesetLayerImage[0][0].image.getWidth() != GLLibPlayer.s_TilesetLayerInfo[0][8] || GLLibPlayer.s_TilesetLayerImage[0][0].image.getHeight() != GLLibPlayer.s_TilesetLayerInfo[0][7]) {
                 sub_37be(0);
             }
             sub_38aa(0, 64, true);
@@ -1024,7 +1024,7 @@ final class GLLibPlayer implements Runnable
         }
         GLLibPlayer.s_TilesetLayerInfo[nLayer] = new int[GLLibPlayer.var_16b7];
         if (bFreeBufferImage) {
-            GLLibPlayer.s_TilesetLayerImage[nLayer] = new Class_l[1];
+            GLLibPlayer.s_TilesetLayerImage[nLayer] = new GLLibImage[1];
             GLLibPlayer.s_TilesetLayerGraphics[nLayer] = new Graphics[1];
         }
         if (GLLibPlayer.s_TilesetLayerData != null) {
@@ -1693,7 +1693,7 @@ final class GLLibPlayer implements Runnable
         return sub_7ab4(0, 0, n * i + sub_59f0, false);
     }
     
-    static final Class_l sub_5ecf() {
+    static final GLLibImage sub_5ecf() {
         if (!GLLibPlayer.s_bTilesetPlayerInitialized) {
             return null;
         }
@@ -2051,7 +2051,7 @@ final class GLLibPlayer implements Runnable
             GLLib.sub_3bae(graphics, (int[])o, 0, n10, n7, n, n10, n9, true, false, n2, -1, false);
         }
         else if (n11 == 4) {
-            GLLib.sub_38df(graphics, (Class_l)o, n7, n8, 20, true);
+            GLLib.sub_38df(graphics, (GLLibImage)o, n7, n8, 20, true);
         }
         else if (n11 == 1) {
             GLLib.sub_37b0(graphics, n7, n8, n9, n10, true);

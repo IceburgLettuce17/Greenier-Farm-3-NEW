@@ -44,7 +44,7 @@ public abstract class GLLib extends Canvas implements Runnable
     private static int s_game_currentFrameNB;
     static GLLib s_gllib_instance;
     static boolean var_1e47;
-    private static String var_1e4f;
+    private static String s_platformRequestUrl;
     private static int m_keys_pressed;
     private static int m_keys_state;
     private static int m_current_keys_state;
@@ -84,7 +84,7 @@ public abstract class GLLib extends Canvas implements Runnable
     private static char[] var_1f77;
     private static int[] var_1f7f;
     private static boolean var_1f87;
-    static String var_1f8f;
+    static String text_encoding;
     private static int[] var_1f97;
     private static byte[][] var_1f9f;
     private static int[] var_1fa7;
@@ -105,8 +105,8 @@ public abstract class GLLib extends Canvas implements Runnable
     static int var_201f;
     static int var_2027;
     static int var_202f;
-    static int var_2037;
-    static int var_203f;
+    static int s_screenX;
+    static int s_screenY;
     private static int var_2047;
     private static int var_204f;
     private static boolean var_2057;
@@ -307,8 +307,8 @@ public abstract class GLLib extends Canvas implements Runnable
             GLLib.var_202f = 3;
             GLLib.var_2067 = false;
         }
-        GLLib.var_2047 = GLLib.var_2037;
-        GLLib.var_204f = GLLib.var_203f;
+        GLLib.var_2047 = GLLib.s_screenX;
+        GLLib.var_204f = GLLib.s_screenY;
         if ((GLLib.s_game_frameDT = (int)((GLLib.s_game_timeWhenFrameStart = System.currentTimeMillis()) - GLLib.s_game_frameDTTimer)) < 0) {
             GLLib.s_game_frameDT = 0;
         }
@@ -329,17 +329,17 @@ public abstract class GLLib extends Canvas implements Runnable
         GLLib.s_game_isInPaint = false;
     }
     
-    static final void sub_28bf(final String var_1e4f) {
+    static final void PlatformRequestThread(final String url) {
         GLLib.var_1e47 = true;
-        GLLib.var_1e4f = var_1e4f;
-        new Thread(new Class_j()).start();
+        GLLib.s_platformRequestUrl = url;
+        new Thread(new PlatformRequester()).start();
     }
     
-    static final void sub_28f3() {
+    static final void PlatformRequest() {
         GLLib.var_1e47 = false;
-        if (GLLib.var_1e4f != null) {
+        if (GLLib.s_platformRequestUrl != null) {
             try {
-                GLLib.s_application.platformRequest(GLLib.var_1e4f);
+                GLLib.s_application.platformRequest(GLLib.s_platformRequestUrl);
             }
             catch (final Exception ex) {}
         }
@@ -854,23 +854,23 @@ public abstract class GLLib extends Canvas implements Runnable
         catch (final Exception ex) {}
     }
     
-    static final void sub_38df(final Graphics graphics, Class_l class_l, final int n, final int n2, int n3, final boolean b) {
+    static final void sub_38df(final Graphics graphics, GLLibImage class_l, final int n, final int n2, int n3, final boolean b) {
         try {
             if (b) {
-                final Class_l class_l2 = class_l;
-                final int width = class_l.var_192.getWidth();
-                final int height = class_l.var_192.getHeight();
+                final GLLibImage class_l2 = class_l;
+                final int width = class_l.image.getWidth();
+                final int height = class_l.image.getHeight();
                 n3 = width;
                 class_l = class_l2;
                 sub_3966(graphics, class_l2, 0, 0, n3, height, 0, n, n2, 20, true);
                 return;
             }
-            graphics.drawImage(class_l.var_192, n, n2, 20);
+            graphics.drawImage(class_l.image, n, n2, 20);
         }
         catch (final Exception ex) {}
     }
     
-    static final void sub_3966(final Graphics graphics, final Class_l class_l, final int n, int n2, int n3, int n4, int n5, int n6, int n7, int n8, final boolean b) {
+    static final void sub_3966(final Graphics graphics, final GLLibImage class_l, final int n, int n2, int n3, int n4, int n5, int n6, int n7, int n8, final boolean b) {
         if (b) {
             if (n5 == 0) {
                 n5 = 5;
@@ -892,17 +892,17 @@ public abstract class GLLib extends Canvas implements Runnable
             n7 = n2;
             n8 = 24;
         }
-        if (n3 >= class_l.var_192.getWidth()) {
-            n3 += class_l.var_192.getWidth() - n3;
+        if (n3 >= class_l.image.getWidth()) {
+            n3 += class_l.image.getWidth() - n3;
         }
-        if (n4 >= class_l.var_192.getHeight()) {
-            n4 += class_l.var_192.getHeight() - n4;
+        if (n4 >= class_l.image.getHeight()) {
+            n4 += class_l.image.getHeight() - n4;
         }
         if (n4 <= 0 || n3 <= 0) {
             return;
         }
         try {
-            graphics.drawRegion(class_l.var_192, 0, 0, n3, n4, n5, n6, n7, n8);
+            graphics.drawRegion(class_l.image, 0, 0, n3, n4, n5, n6, n7, n8);
         }
         catch (final Exception ex) {}
     }
@@ -978,8 +978,8 @@ public abstract class GLLib extends Canvas implements Runnable
         graphics.drawRGB(sub_9c11, 0, n2, n3, n4, n5, n6, b);
     }
     
-    static final void sub_3d3b(final Class_l class_l, final int[] array, final int n, final int n2, final int n3, final int n4, final int n5, final int n6) {
-        class_l.sub_202(array, 0, n2, 0, 0, n5, n6);
+    static final void sub_3d3b(final GLLibImage class_l, final int[] array, final int n, final int n2, final int n3, final int n4, final int n5, final int n6) {
+        class_l.getRGB(array, 0, n2, 0, 0, n5, n6);
     }
     
     static int sub_3d63(final byte[] array, int n, final byte b) {
@@ -1447,7 +1447,7 @@ public abstract class GLLib extends Canvas implements Runnable
             if ((length = GLLib.var_1faf[n2][n + 1] - GLLib.var_1faf[n2][n]) == 0) {
                 return null;
             }
-            return new String(GLLib.var_1f9f[n2], GLLib.var_1faf[n2][n], length, GLLib.var_1f8f);
+            return new String(GLLib.var_1f9f[n2], GLLib.var_1faf[n2][n], length, GLLib.text_encoding);
         }
         catch (final Exception ex) {
             return null;
@@ -2269,30 +2269,32 @@ public abstract class GLLib extends Canvas implements Runnable
         GLLib.var_202f = 0;
     }
     
-    private static final void sub_757c() {
-        final int var_203f = GLLib.var_203f;
-        GLLib.var_203f = GLLib.s_screenHeight - GLLib.var_2037;
-        GLLib.var_2037 = var_203f;
+    private static final void SetCoordinateValues() {
+        GLLib.s_screenY = GLLib.s_screenHeight - GLLib.s_screenX;
+        GLLib.s_screenX = s_screenY;
     }
     
-    protected void pointerReleased(int var_2037, final int var_203f) {
-        var_2037 = (GLLib.var_2037 = var_2037);
-        GLLib.var_203f = var_203f;
-        sub_757c();
+    protected void pointerReleased(int x, final int y) {
+    	GLLib.s_screenX = x;
+        //x = (GLLib.s_screenX = x);
+        GLLib.s_screenY = y;
+        SetCoordinateValues();
         GLLib.var_205f = true;
     }
     
-    protected void pointerPressed(int var_2037, final int var_203f) {
-        var_2037 = (GLLib.var_2037 = var_2037);
-        GLLib.var_203f = var_203f;
-        sub_757c();
+    protected void pointerPressed(int x, final int y) {
+    	GLLib.s_screenX = x;
+        //x = (GLLib.s_screenX = x);
+        GLLib.s_screenY = y;
+        SetCoordinateValues();
         GLLib.var_2057 = true;
     }
     
-    protected void pointerDragged(int var_2037, final int var_203f) {
-        var_2037 = (GLLib.var_2037 = var_2037);
-        GLLib.var_203f = var_203f;
-        sub_757c();
+    protected void pointerDragged(int x, final int y) {
+    	GLLib.s_screenX = x;
+        //x = (GLLib.s_screenX = x);
+        GLLib.s_screenY = y;
+        SetCoordinateValues();
         GLLib.var_2067 = true;
     }
     
@@ -2320,16 +2322,16 @@ public abstract class GLLib extends Canvas implements Runnable
         return Class_o.parseJadFields();
     }
     
-    static void sub_775e(final String s) {
-        Class_o.sub_2ce9(s);
+    static void IAP_Init(final String language) {
+        Class_o.Init(language);
     }
     
-    static void sub_777d(final int n, final String s) {
+    static void IAP_SendRequest(final int itemIndex, final String itemType) {
         if (System.currentTimeMillis() - GLLib.var_206f <= 3000L) {
             return;
         }
         GLLib.var_206f = System.currentTimeMillis();
-        Class_o.sendRequest(Class_o.sub_591c(n, s), s);
+        Class_o.sendRequest(Class_o.getPricePoint(itemIndex, itemType), itemType);
     }
     
     static void sub_77ca() {
@@ -2344,16 +2346,16 @@ public abstract class GLLib extends Canvas implements Runnable
         return Class_o.sub_3e90();
     }
     
-    static boolean sub_7829(final int n) {
-        return Class_o.verifyRequest(n);
+    static boolean IAP_VerifyRequest(final int inputCode) {
+        return Class_o.verifyRequest(inputCode);
     }
     
     static boolean sub_7848() {
         return Class_o.sub_34dd();
     }
     
-    static int sub_7866() {
-        return Class_o.sub_4060();
+    static int IAP_GetPackageIDInt() {
+        return Class_o.getPackageIdInt();
     }
     
     static int sub_7884() {
@@ -2361,7 +2363,7 @@ public abstract class GLLib extends Canvas implements Runnable
     }
     
     static String sub_78a2(final int n, final String s) {
-        return Class_o.sub_4e32(Class_o.sub_591c(n, s));
+        return Class_o.sub_4e32(Class_o.getPricePoint(n, s));
     }
     
     static String sub_78c7() {
@@ -2376,29 +2378,29 @@ public abstract class GLLib extends Canvas implements Runnable
         Class_o.sub_43d0();
     }
     
-    static long sub_7921(final long n, int sub_591c, final String s) {
-        sub_591c = Class_o.sub_591c(sub_591c, s);
-        return Class_o.sub_5038(n, sub_591c);
+    static long IAP_GetVirtualCurrency(final long basecurrency, int itemIndex, final String itemType) {
+        itemIndex = Class_o.getPricePoint(itemIndex, itemType);
+        return Class_o.getVirtualCurrency(basecurrency, itemIndex);
     }
     
-    static int sub_7947() {
-        return Class_o.sub_7195();
+    static int IAP_GetSpecialFlow() {
+        return Class_o.GetSpecialFlow();
     }
     
-    static int sub_7965(final int n, final String s) {
-        return Class_o.sub_74c8(Class_o.sub_591c(n, s));
+    static int IAP_GetPrice(final int itemIndex, final String itemType) {
+        return Class_o.getPrice(Class_o.getPricePoint(itemIndex, itemType));
     }
     
-    static int sub_7988(final String s) {
-        return Class_o.sub_5638(s);
+    static int IAP_GetCurrencyAmount(final String currency) {
+        return Class_o.getCurrencyAmount(currency);
     }
     
-    static int sub_79a7(final int n, final String s) {
-        return Class_o.sub_591c(n, s);
+    static int IAP_GetPricePoint(final int itemIndex, final String itemType) {
+        return Class_o.getPricePoint(itemIndex, itemType);
     }
     
-    static long sub_79c7(final long n) {
-        return sub_7921(n, Class_o.sub_4060(), Class_o.sub_6e15());
+    static long IAP_GetVirtualCurrencyFromBase(final long basecurrency) {
+        return IAP_GetVirtualCurrency(basecurrency, Class_o.getPackageIdInt(), Class_o.getItemType());
     }
     
     static {
@@ -2409,7 +2411,7 @@ public abstract class GLLib extends Canvas implements Runnable
         GLLib.m_FPSLimiter = 50;
         GLLib.var_1e17 = -1;
         GLLib.var_1e47 = false;
-        GLLib.var_1e4f = null;
+        GLLib.s_platformRequestUrl = null;
         GLLib.var_1e97 = 25;
         var_1e9f = 256;
         var_1ea7 = 128;
@@ -2420,7 +2422,7 @@ public abstract class GLLib extends Canvas implements Runnable
         GLLib.Math_Angle360 = 360 * GLLib.var_1ed7 / 360;
         GLLib.Stream_readOffset = 0;
         GLLib.var_1f77 = new char[] { '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C', 'D', 'E', 'F' };
-        GLLib.var_1f8f = "UTF-8";
+        GLLib.text_encoding = "UTF-8";
         var_1fdf = true;
         GLLib.var_1fe7 = 0;
         GLLib.var_1fef = null;
