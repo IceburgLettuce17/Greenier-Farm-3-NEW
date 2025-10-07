@@ -1999,7 +1999,7 @@ public final class cGame extends GLLib implements Class_b {
 					if ((n14 = sub_2b09) == 0) {
 						sub_23d73();
 						final String sub_4e1f46;
-						Class_m.sub_322b(((sub_4e1f46 = GLLib.TODO_sub_4e1f(46)) == null) ? "" : sub_4e1f46, 0);
+						Class_m.enterIGP(((sub_4e1f46 = GLLib.TODO_sub_4e1f(46)) == null) ? "" : sub_4e1f46, 0);
 					}
 					if (n14 == 2) {
 						sub_2b09 = GLLib.IsAnyKeyDown();

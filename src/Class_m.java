@@ -16,11 +16,11 @@ import javax.microedition.lcdui.CommandListener;
 
 public final class Class_m implements Runnable, CommandListener
 {
-    private static String var_1bfd;
-    private static String var_1c05;
-    private static String var_1c0d;
+    private static String s_igpClassVersion;
+    private static String s_fullIgpSignature;
+    private static String s_dataIGPVersion;
     private static String var_1c15;
-    private static Font var_1c1d;
+    private static Font s_igpFont;
     private static String var_1c25;
     private static int var_1c2d;
     private static boolean[] var_1c35;
@@ -50,7 +50,7 @@ public final class Class_m implements Runnable, CommandListener
     private static String var_1cf5;
     private static String var_1cfd;
     private static String var_1d05;
-    private static String var_1d0d;
+    private static String s_operatorUrlProp;
     private static int var_1d15;
     private static int var_1d1d;
     private static int var_1d25;
@@ -96,10 +96,10 @@ public final class Class_m implements Runnable, CommandListener
     private static String var_1e65;
     private static String var_1e6d;
     private static String var_1e75;
-    private static String var_1e7d;
-    private static String var_1e85;
-    private static String var_1e8d;
-    private static String var_1e95;
+    private static String s_moreGamesUrlProp;
+    private static String s_moreGamesStatProp;
+    private static String s_moreGamesAppProp;
+    private static String moreGamesStatAppProp;
     private static String var_1e9d;
     private static String var_1ea5;
     private static String var_1ead;
@@ -124,14 +124,14 @@ public final class Class_m implements Runnable, CommandListener
     private static boolean var_1f45;
     private static int[][] var_1f4d;
     private static boolean var_1f55;
-    private static MIDlet var_1f5d;
-    private static Canvas var_1f65;
+    private static MIDlet s_midlet;
+    private static Canvas s_game;
     private static boolean var_1f6d;
-    private static CommandListener var_1f75;
+    private static CommandListener s_cmdListener;
     private static Class_m var_1f7d;
     private static boolean var_1f85;
     private static String var_1f8d;
-    private static boolean var_1f95;
+    private static boolean s_isAvailable;
     private static int var_1f9d;
     private static int var_1fa5;
     private static int var_1fad;
@@ -151,13 +151,13 @@ public final class Class_m implements Runnable, CommandListener
     private static int var_201d;
     private static String var_2025;
     private static String var_202d;
-    private static String var_2035;
+    private static String s_igpLoadingMsg;
     private static String var_203d;
     private static String var_2045;
     private static String var_204d;
     private static boolean var_2055;
-    private static int var_205d;
-    private static int var_2065;
+    private static int s_screenHeight;
+    private static int s_screenWidth;
     private static int var_206d;
     private static int var_2075;
     private static int var_207d;
@@ -173,7 +173,7 @@ public final class Class_m implements Runnable, CommandListener
         sub_21d0();
         try {
             final InputStream sub_67eb;
-            Class_m.var_1e25 = new int[Class_m.var_1e1d = (Class_m.var_1e1d = ((sub_67eb = sub_67eb("/dataIGP")).read() & 0xFF)) + ((sub_67eb.read() & 0xFF) << 8)];
+            Class_m.var_1e25 = new int[Class_m.var_1e1d = (Class_m.var_1e1d = ((sub_67eb = getResourceAsStream("/dataIGP")).read() & 0xFF)) + ((sub_67eb.read() & 0xFF) << 8)];
             for (int i = 0; i < Class_m.var_1e1d; ++i) {
                 Class_m.var_1e25[i] = (sub_67eb.read() & 0xFF);
                 final int[] var_1e25 = Class_m.var_1e25;
@@ -210,8 +210,8 @@ public final class Class_m implements Runnable, CommandListener
         }
         byte[] b = null;
         try {
-            final InputStream sub_67eb;
-            (sub_67eb = sub_67eb("/dataIGP")).skip(2 + 4 * Class_m.var_1e1d + Class_m.var_1e25[i]);
+            InputStream sub_67eb = getResourceAsStream("/dataIGP");
+            sub_67eb.skip(2 + 4 * Class_m.var_1e1d + Class_m.var_1e25[i]);
             for (i = (b = new byte[n]).length; i > 0; i -= sub_67eb.read(b)) {}
             sub_67eb.close();
         }
@@ -267,23 +267,19 @@ public final class Class_m implements Runnable, CommandListener
     }
     
     public static void initialize(MIDlet midlet, Canvas game, int screenWidth, final int screenHeight) {
-        final MIDlet miDlet2 = midlet;
-        final Canvas canvas2 = game;
-        game = canvas2;
-        midlet = miDlet2;
         new StringBuffer().append("initialize(midlet = ").append(midlet).append(", game = ").append(game).append(", screenWidth = ").append(screenWidth).append(", screenHeight = ").append(screenHeight).append(", cmdListener = ").append((Object)null).append(")");
-        Class_m.var_205d = screenHeight;
-        Class_m.var_2065 = screenWidth;
-        Class_m.var_206d = Class_m.var_205d >> 1;
-        Class_m.var_2075 = Class_m.var_2065 >> 1;
-        if (2 > Class_m.var_205d) {
+        Class_m.s_screenHeight = screenHeight;
+        Class_m.s_screenWidth = screenWidth;
+        Class_m.var_206d = Class_m.s_screenHeight >> 1;
+        Class_m.var_2075 = Class_m.s_screenWidth >> 1;
+        if (2 > Class_m.s_screenHeight) {
             Class_m.var_1c2d = 2;
         }
-        if (Class_m.var_1f5d == null && game != null) {
-            Class_m.var_1f5d = midlet;
-            Class_m.var_1f65 = game;
+        if (Class_m.s_midlet == null && game != null) {
+            Class_m.s_midlet = midlet;
+            Class_m.s_game = game;
             sub_2bc9();
-            new StringBuffer().append(Class_m.var_1c05).append("");
+            new StringBuffer().append(Class_m.s_fullIgpSignature).append("");
             sub_3367();
             Class_m.var_1ecd = null;
             Class_m.var_1edd = null;
@@ -291,7 +287,7 @@ public final class Class_m implements Runnable, CommandListener
             Class_m.var_1e5d = null;
             Class_m.var_1cfd = null;
             Class_m.var_1d05 = null;
-            Class_m.var_1d0d = null;
+            Class_m.s_operatorUrlProp = null;
             Class_m.var_1c25 = null;
             Class_m.var_1ea5 = null;
             Class_m.var_1ead = null;
@@ -345,10 +341,10 @@ public final class Class_m implements Runnable, CommandListener
             String s3 = "";
             String s4;
             if (Class_m.var_1eed) {
-                s4 = sub_25ff(Class_m.var_1f5d.getAppProperty(s), str, s2);
+                s4 = sub_25ff(Class_m.s_midlet.getAppProperty(s), str, s2);
                 if (str.equals(Class_m.var_1ce5)) {
                     s = Class_m.var_1e6d;
-                    s3 = sub_25ff(Class_m.var_1f5d.getAppProperty(s), Class_m.var_1f25[n - Class_m.var_1f2d.length], s2);
+                    s3 = sub_25ff(Class_m.s_midlet.getAppProperty(s), Class_m.var_1f25[n - Class_m.var_1f2d.length], s2);
                 }
             }
             else if (str.equals(Class_m.var_1cf5)) {
@@ -356,7 +352,7 @@ public final class Class_m implements Runnable, CommandListener
             }
             else {
                 s = Class_m.var_1c25 + "-" + str;
-                s4 = Class_m.var_1f5d.getAppProperty(s);
+                s4 = Class_m.s_midlet.getAppProperty(s);
             }
             if (str.equals(Class_m.var_1ce5)) {
                 if (Class_m.var_1eed) {
@@ -367,9 +363,9 @@ public final class Class_m implements Runnable, CommandListener
                 }
                 else {
                     s = Class_m.var_1c25 + "-" + Class_m.var_1ce5 + "-" + Class_m.var_1f25[n - Class_m.var_1f2d.length];
-                    s4 = Class_m.var_1f5d.getAppProperty(s);
+                    s4 = Class_m.s_midlet.getAppProperty(s);
                     s = Class_m.var_1c25 + "-" + Class_m.var_1ce5 + "-" + Class_m.var_1f25[n - Class_m.var_1f2d.length];
-                    s3 = Class_m.var_1f5d.getAppProperty(s);
+                    s3 = Class_m.s_midlet.getAppProperty(s);
                 }
             }
             final boolean sub_258f = sub_258f(s4, 7);
@@ -440,7 +436,7 @@ public final class Class_m implements Runnable, CommandListener
     private static void sub_2bc9() {
         try {
             if (!sub_20f4()) {
-                Class_m.var_1f95 = false;
+                Class_m.s_isAvailable = false;
                 return;
             }
             final byte[] sub_21f6;
@@ -463,21 +459,21 @@ public final class Class_m implements Runnable, CommandListener
                 Class_m.var_1c35[i] = (sub_22c9(sub_21f6) == 1);
             }
             try {
-                Class_m.var_1c0d = new String(sub_21f6, Class_m.var_1e2d, sub_22c9(sub_21f6));
-                new StringBuffer().append("IGP dataIGP version: ").append(Class_m.var_1c0d);
-                new StringBuffer().append(Class_m.var_1bfd).append("z");
-                if (!Class_m.var_1c0d.startsWith(Class_m.var_1bfd)) {
-                    new StringBuffer().append("Invalid dataIGP file, dataIGP file IGP Version : ").append(Class_m.var_1c0d);
-                    new StringBuffer().append("IGP Class version : ").append(Class_m.var_1bfd);
+                Class_m.s_dataIGPVersion = new String(sub_21f6, Class_m.var_1e2d, sub_22c9(sub_21f6));
+                new StringBuffer().append("IGP dataIGP version: ").append(Class_m.s_dataIGPVersion);
+                new StringBuffer().append(Class_m.s_igpClassVersion).append("z");
+                if (!Class_m.s_dataIGPVersion.startsWith(Class_m.s_igpClassVersion)) {
+                    new StringBuffer().append("Invalid dataIGP file, dataIGP file IGP Version : ").append(Class_m.s_dataIGPVersion);
+                    new StringBuffer().append("IGP Class version : ").append(Class_m.s_igpClassVersion);
                 }
             }
             catch (final Exception ex) {
-                Class_m.var_1f95 = false;
+                Class_m.s_isAvailable = false;
             }
             sub_21d0();
         }
         catch (final Exception ex2) {
-            Class_m.var_1f95 = false;
+            Class_m.s_isAvailable = false;
             return;
         }
         final String[] var_1f2d = Class_m.var_1f2d;
@@ -502,16 +498,16 @@ public final class Class_m implements Runnable, CommandListener
             Class_m.var_1ffd[k] = false;
         }
         Class_m.var_1c65 = (Class_m.var_1c5d = (Class_m.var_1c55 = Class_m.var_1f2d.length) + Class_m.var_1f25.length) + 1;
-        Class_m.var_1e8d = Class_m.var_1f5d.getAppProperty(Class_m.var_1e7d);
-        Class_m.var_1e95 = Class_m.var_1f5d.getAppProperty(Class_m.var_1e85);
-        if (Class_m.var_1e8d != null && Class_m.var_1e95.toLowerCase().equals(Class_m.var_1e9d.toLowerCase())) {
-            Class_m.var_204d = Class_m.var_1e8d;
+        Class_m.s_moreGamesAppProp = Class_m.s_midlet.getAppProperty(Class_m.s_moreGamesUrlProp);
+        Class_m.moreGamesStatAppProp = Class_m.s_midlet.getAppProperty(Class_m.s_moreGamesStatProp);
+        if (Class_m.s_moreGamesAppProp != null && Class_m.moreGamesStatAppProp.toLowerCase().equals(Class_m.var_1e9d.toLowerCase())) {
+            Class_m.var_204d = Class_m.s_moreGamesAppProp;
             Class_m.var_2055 = true;
-            Class_m.var_1f95 = true;
+            Class_m.s_isAvailable = true;
             return;
         }
         try {
-            if ((Class_m.var_1edd = Class_m.var_1f5d.getAppProperty(Class_m.var_1e75)) != null) {
+            if ((Class_m.var_1edd = Class_m.s_midlet.getAppProperty(Class_m.var_1e75)) != null) {
                 Class_m.var_1edd = Class_m.var_1edd.trim();
                 Class_m.var_1eed = true;
                 if (Class_m.var_1edd.indexOf(Class_m.var_1ecd) != -1) {
@@ -528,20 +524,20 @@ public final class Class_m implements Runnable, CommandListener
         }
         try {
             final String trim;
-            if (sub_258f(trim = Class_m.var_1f5d.getAppProperty(Class_m.var_1d0d).trim(), 7)) {
+            if (sub_258f(trim = Class_m.s_midlet.getAppProperty(Class_m.s_operatorUrlProp).trim(), 7)) {
                 Class_m.var_203d = trim;
             }
         }
         catch (final Exception ex4) {}
         sub_277b(Class_m.var_1c5d, Class_m.var_1ced, 7, Class_m.var_1e5d, Class_m.var_1edd, 7);
         sub_277b(Class_m.var_1c65, Class_m.var_1cf5, 7, Class_m.var_1e5d, Class_m.var_1edd, 8);
-        Class_m.var_2025 = sub_3135(Class_m.var_1f5d.getAppProperty(Class_m.var_1cfd));
-        Class_m.var_202d = sub_3135(Class_m.var_1f5d.getAppProperty(Class_m.var_1d05));
+        Class_m.var_2025 = sub_3135(Class_m.s_midlet.getAppProperty(Class_m.var_1cfd));
+        Class_m.var_202d = sub_3135(Class_m.s_midlet.getAppProperty(Class_m.var_1d05));
         Class_m.var_1fe5 = sub_357f();
         if (sub_3607() > 0) {
-            Class_m.var_1f95 = true;
+            Class_m.s_isAvailable = true;
         }
-        new StringBuffer().append("isAvailable = ").append(Class_m.var_1f95);
+        new StringBuffer().append("isAvailable = ").append(Class_m.s_isAvailable);
     }
     
     private static String sub_3135(String upperCase) {
@@ -551,8 +547,8 @@ public final class Class_m implements Runnable, CommandListener
         String string = "";
         upperCase = upperCase.toUpperCase();
         boolean b = false;
-        final int var_2065 = Class_m.var_2065;
-        if (var_2065 >= Class_m.var_205d && var_2065 == 320) {
+        final int var_2065 = Class_m.s_screenWidth;
+        if (var_2065 >= Class_m.s_screenHeight && var_2065 == 320) {
             b = true;
         }
         final char[] charArray = upperCase.toCharArray();
@@ -566,11 +562,11 @@ public final class Class_m implements Runnable, CommandListener
     }
     
     public static boolean sub_320d() {
-        return Class_m.var_1f95;
+        return Class_m.s_isAvailable;
     }
     
-    public static void sub_322b(String s, final int n) {
-        new StringBuffer().append("enterIGP(loadingMsg = ").append(s).append(", appLanguage = ").append(0).append(" (").append(Class_m.var_1f05[0]).append(")");
+    public static void enterIGP(String loadingMsg, final int appLanguage) {
+        new StringBuffer().append("enterIGP(loadingMsg = ").append(loadingMsg).append(", appLanguage = ").append(0).append(" (").append(Class_m.var_1f05[0]).append(")");
         if (Class_m.var_2055) {
             sub_3539();
             Class_m.var_1f85 = true;
@@ -579,15 +575,14 @@ public final class Class_m implements Runnable, CommandListener
         else {
             sub_4f48();
             if (0 < Class_m.var_1f05.length) {
-                final int length = Class_m.var_1f05.length;
                 Class_m.var_201d = 0;
-                Class_m.var_2035 = s;
+                Class_m.s_igpLoadingMsg = loadingMsg;
                 Class_m.var_1fbd = -1;
                 Class_m.var_1f9d = 0;
                 Class_m.var_1fb5 = -1;
                 Class_m.var_1fad = 0;
                 Class_m.var_1f85 = true;
-                Class_m.var_1c1d = Font.getFont(0, 0, 8);
+                Class_m.s_igpFont = Font.getFont(0, 0, 8);
                 sub_3539();
             }
             Class_m.var_1fc5 = 4 + Class_m.var_1f0d;
@@ -604,7 +599,7 @@ public final class Class_m implements Runnable, CommandListener
             catch (final Exception ex2) {}
         }
         try {
-            if (s != null) {
+            if (loadingMsg != null) {
                 store.closeRecordStore();
             }
         }
@@ -623,8 +618,8 @@ public final class Class_m implements Runnable, CommandListener
         }
         try {
             final String appProperty;
-            if ((appProperty = Class_m.var_1f5d.getAppProperty(Class_m.var_1e5d)) == null || appProperty.indexOf(Class_m.var_1cdd) == -1) {
-                return (Class_m.var_2045 = Class_m.var_1f5d.getAppProperty(Class_m.var_1c25 + "-" + Class_m.var_1cdd)) != null;
+            if ((appProperty = Class_m.s_midlet.getAppProperty(Class_m.var_1e5d)) == null || appProperty.indexOf(Class_m.var_1cdd) == -1) {
+                return (Class_m.var_2045 = Class_m.s_midlet.getAppProperty(Class_m.var_1c25 + "-" + Class_m.var_1cdd)) != null;
             }
             final int beginIndex;
             final int endIndex;
@@ -756,14 +751,14 @@ public final class Class_m implements Runnable, CommandListener
                     (Class_m.var_1fd5 = sub_680f(Class_m.var_1d35, 3, true, false)).sub_46d6((short[])GLLib.Pack_ReadArray(Class_m.var_1d45));
                     Class_m.var_1e35 = Class_m.var_1fd5.sub_494e();
                     (Class_m.var_1fdd = sub_680f(Class_m.var_1d3d, 3, true, false)).sub_46d6((short[])GLLib.Pack_ReadArray(Class_m.var_1d4d));
-                    if (Class_m.var_2065 > 160 && Class_m.var_2065 > 220) {
-                        if (Class_m.var_2065 <= 320) {
+                    if (Class_m.s_screenWidth > 160 && Class_m.s_screenWidth > 220) {
+                        if (Class_m.s_screenWidth <= 320) {
                             Class_m.var_1fd5.sub_4a1a(-1);
-                            if (Class_m.var_205d == 240 || Class_m.var_1efd) {
+                            if (Class_m.s_screenHeight == 240 || Class_m.var_1efd) {
                                 Class_m.var_1fd5.sub_4a1a(0);
                             }
                         }
-                        else if (Class_m.var_2065 <= 480) {
+                        else if (Class_m.s_screenWidth <= 480) {
                             Class_m.var_1fdd.sub_4a1a(-1);
                         }
                     }
@@ -797,7 +792,7 @@ public final class Class_m implements Runnable, CommandListener
             GLLib.Pack_FullyClose();
             Class_m.var_1f1d = null;
             Class_m.var_1f15 = null;
-            Class_m.var_2035 = null;
+            Class_m.s_igpLoadingMsg = null;
             for (int j = 0; j < Class_m.var_1d55; ++j) {
                 if (Class_m.var_1fcd[j] != null) {
                     Class_m.var_1fcd[j].sub_123f();
@@ -832,7 +827,7 @@ public final class Class_m implements Runnable, CommandListener
         if (Class_m.var_2055) {
             return true;
         }
-        if (!Class_m.var_1f95) {
+        if (!Class_m.s_isAvailable) {
             return true;
         }
         if (Class_m.var_2085) {
@@ -847,8 +842,8 @@ public final class Class_m implements Runnable, CommandListener
                     if (Class_m.var_1fbd >= Class_m.var_1fc5) {
                         Class_m.var_1f9d = 1;
                         Class_m.var_2015 = Class_m.var_1fad;
-                        var_1fa5 = Class_m.var_2065;
-                        final int var_205d = Class_m.var_205d;
+                        var_1fa5 = Class_m.s_screenWidth;
+                        final int var_205d = Class_m.s_screenHeight;
                         Class_m.var_1f4d = new int[Class_m.var_1e15][];
                         for (int i = 0; i < Class_m.var_1e15; ++i) {
                             (Class_m.var_1f4d[i] = new int[2])[0] = 0;
@@ -1179,8 +1174,8 @@ public final class Class_m implements Runnable, CommandListener
     
     public static void sub_48ef(int n, int n2) {
         int sub_4b75 = sub_4b75(n, n2);
-        final int var_2065 = Class_m.var_2065;
-        final int var_205d = Class_m.var_205d;
+        final int var_2065 = Class_m.s_screenWidth;
+        final int var_205d = Class_m.s_screenHeight;
         final int n3 = n;
         n = n2;
         n2 = n3;
@@ -1222,7 +1217,7 @@ public final class Class_m implements Runnable, CommandListener
         if ((sub_4b75 = sub_4b75(var_20ad, var_20b5)) != 0) {
             Class_m.var_207d = sub_4b75;
         }
-        final int var_205d = Class_m.var_205d;
+        final int var_205d = Class_m.s_screenHeight;
         final int n = var_20ad;
         var_20ad = var_20b5;
         var_20b5 = n;
@@ -1243,8 +1238,8 @@ public final class Class_m implements Runnable, CommandListener
     }
     
     private static int sub_4b75(int n, int n2) {
-        final int var_2065 = Class_m.var_2065;
-        final int var_205d = Class_m.var_205d;
+        final int var_2065 = Class_m.s_screenWidth;
+        final int var_205d = Class_m.s_screenHeight;
         final int n3 = n;
         n = n2;
         n2 = n3;
@@ -1324,64 +1319,60 @@ public final class Class_m implements Runnable, CommandListener
         if (Class_m.var_2055) {
             return;
         }
-        if (!Class_m.var_1f95) {
+        if (!Class_m.s_isAvailable) {
             return;
         }
         final Graphics graphics;
-        sub_669f(graphics = var_1daf, 0, 0, Class_m.var_205d, Class_m.var_2065);
+        sub_669f(graphics = var_1daf, 0, 0, Class_m.s_screenHeight, Class_m.s_screenWidth);
         switch (Class_m.var_1f9d) {
             case 0: {
                 graphics.setColor(0);
-                GLLib.FillRect(graphics, 0, 0, Class_m.var_2065, Class_m.var_205d, true);
-                final Graphics graphics2 = graphics;
+                GLLib.FillRect(graphics, 0, 0, Class_m.s_screenWidth, Class_m.s_screenHeight, true);
                 final int var_206d = Class_m.var_206d;
-                final int n = Class_m.var_2065 * 3 / 4;
+                final int n = Class_m.s_screenWidth * 3 / 4;
                 final int var_1fbd = Class_m.var_1fbd;
                 final int var_1fc5 = Class_m.var_1fc5;
                 int n2 = var_1fbd;
                 final int n3 = n;
                 final int n4 = var_206d;
-                final Graphics graphics3 = graphics2;
                 if (n2 > var_1fc5) {
                     n2 = var_1fc5;
                 }
-                final int n5 = (Class_m.var_2065 - n3) / 2;
+                final int n5 = (Class_m.s_screenWidth - n3) / 2;
                 final int n6 = (n3 - 2 - 2) * n2 / var_1fc5 + 1;
-                sub_669f(graphics3, 0, 0, Class_m.var_205d, Class_m.var_2065);
-                graphics3.setColor(16777215);
-                GLLib.FillRect(graphics3, n5, n4, n3, 6, true);
-                graphics3.setColor(0);
-                final Graphics graphics4 = graphics3;
+                sub_669f(graphics, 0, 0, Class_m.s_screenHeight, Class_m.s_screenWidth);
+                graphics.setColor(16777215);
+                GLLib.FillRect(graphics, n5, n4, n3, 6, true);
+                graphics.setColor(0);
                 final int n7 = n5 + 1 + 1;
                 final int n8 = n4 + 1 + 1;
                 final int n9 = n3 - 2 - 1;
                 final int n10 = n8;
-                GLLib.FillRect(graphics4, n7, n10, n9, 3, true);
-                graphics3.setColor(16711680);
-                GLLib.FillRect(graphics3, n5 + 1 + 1, n10, n6, 3, true);
-                if (Class_m.var_2035 != null && !Class_m.var_2035.trim().equals("")) {
-                    final Image image;
-                    final Graphics graphics5;
-                    (graphics5 = (image = Image.createImage(Class_m.var_2065, 30)).getGraphics()).setColor(0);
-                    GLLib.FillRect(graphics5, 0, 0, 30, Class_m.var_2065, true);
+                GLLib.FillRect(graphics, n7, n10, n9, 3, true);
+                graphics.setColor(16711680);
+                GLLib.FillRect(graphics, n5 + 1 + 1, n10, n6, 3, true);
+                if (Class_m.s_igpLoadingMsg != null && !Class_m.s_igpLoadingMsg.trim().equals("")) {
+                    Image image = Image.createImage(Class_m.s_screenWidth, 30);
+                    final Graphics graphics5 = image.getGraphics();
+                    graphics5.setColor(0);
+                    GLLib.FillRect(graphics5, 0, 0, 30, Class_m.s_screenWidth, true);
                     graphics5.setColor(16777215);
-                    final Graphics var_1daf2 = graphics5;
                     // REST IN PEACE YOU POOR SOUL
-                    if (var_1daf2 == null) {
-                        GLLib.g = GLLib.s_lastPaintGraphics;
-                    }
-                    else {
-                        GLLib.g = var_1daf2;
-                    }
-                    GLLib.g.setFont(Class_m.var_1c1d);
-                    GLLib.sub_3877(Class_m.var_2035, Class_m.var_2075, 25, 33);
+                    //if (graphics5 == null) {
+                    //    GLLib.g = GLLib.s_lastPaintGraphics;
+                    //}
+                    //else {
+                    GLLib.g = graphics5;
+                    //}
+                    GLLib.g.setFont(Class_m.s_igpFont);
+                    GLLib.sub_3877(Class_m.s_igpLoadingMsg, Class_m.var_2075, 25, 33);
                     if (var_1daf == null) {
                         GLLib.g = GLLib.s_lastPaintGraphics;
                     }
                     else {
                         GLLib.g = var_1daf;
                     }
-                    graphics.drawRegion(image, 0, 0, Class_m.var_205d, 30, 5, Class_m.var_206d + 5 + 30, 0, 0);
+                    graphics.drawRegion(image, 0, 0, Class_m.s_screenHeight, 30, 5, Class_m.var_206d + 5 + 30, 0, 0);
                     return;
                 }
                 break;
@@ -1404,8 +1395,8 @@ public final class Class_m implements Runnable, CommandListener
             }
             case 3: {
                 sub_5366(graphics);
-                final int var_205d = Class_m.var_205d;
-                final int var_2065 = Class_m.var_2065;
+                final int var_205d = Class_m.s_screenHeight;
+                final int var_2065 = Class_m.s_screenWidth;
                 final int n11 = var_205d * 40 / 100;
                 final int n12 = sub_48a7(0, 0) - 5;
                 sub_52f7(graphics, 0, n11 - 1, var_2065, var_205d - (n11 - 1 << 1), -1);
@@ -1415,7 +1406,7 @@ public final class Class_m implements Runnable, CommandListener
                 graphics.setColor(-220209185);
                 GLLib.FillRect(graphics, 0, var_205d - n12, var_2065, n12, true);
                 Class_m.var_1e3d = 1;
-                sub_2361(sub_2306(Class_m.var_1c8d), graphics, Class_m.var_205d, var_2065 >> 1, var_205d >> 1, 3, true);
+                sub_2361(sub_2306(Class_m.var_1c8d), graphics, Class_m.s_screenHeight, var_2065 >> 1, var_205d >> 1, 3, true);
                 sub_6621(graphics);
                 break;
             }
@@ -1431,8 +1422,8 @@ public final class Class_m implements Runnable, CommandListener
     }
     
     private static void sub_5366(final Graphics graphics) {
-        final int var_2065 = Class_m.var_2065;
-        final int var_205d = Class_m.var_205d;
+        final int var_2065 = Class_m.s_screenWidth;
+        final int var_205d = Class_m.s_screenHeight;
         graphics.setColor(16777215);
         if (Class_m.var_1c35[0]) {
             graphics.setColor(0);
@@ -1705,8 +1696,8 @@ public final class Class_m implements Runnable, CommandListener
     private static void sub_669f(final Graphics graphics, int max, int max2, int min, int min2) {
         max = Math.max(0, 0);
         max2 = Math.max(0, 0);
-        min = Math.min(min, Class_m.var_205d);
-        min2 = Math.min(min2, Class_m.var_2065);
+        min = Math.min(min, Class_m.s_screenHeight);
+        min2 = Math.min(min2, Class_m.s_screenWidth);
         GLLib.sub_36f4(graphics, max, max2, min2, min, true);
     }
     
@@ -1715,13 +1706,14 @@ public final class Class_m implements Runnable, CommandListener
         while (Class_m.var_1f85) {
             try {
                 if (Class_m.var_1f8d != null) {
-                    if ((Class_m.var_1c15 = Class_m.var_1f8d) != null && Class_m.var_1c15.length() > 0) {
+                	Class_m.var_1c15 = Class_m.var_1f8d;
+                    if (Class_m.var_1c15 != null && Class_m.var_1c15.length() > 0) {
                         Class_m.var_1f55 = false;
-                        final String var_1c15 = Class_m.var_1c15;
+                        final String urlPlatformRequest = Class_m.var_1c15;
                         Class_m.var_1c15 = null;
-                        new StringBuffer().append("urlPlatformRequest = ").append(var_1c15);
+                        new StringBuffer().append("urlPlatformRequest = ").append(urlPlatformRequest);
                         try {
-                            Class_m.var_1f5d.platformRequest(var_1c15);
+                            Class_m.s_midlet.platformRequest(urlPlatformRequest);
                             Thread.sleep(200L);
                         }
                         catch (final Exception ex) {}
@@ -1738,7 +1730,7 @@ public final class Class_m implements Runnable, CommandListener
     public final void commandAction(final Command command, final Displayable displayable) {
     }
     
-    private static InputStream sub_67eb(final String name) {
+    private static InputStream getResourceAsStream(final String name) {
         return "a".getClass().getResourceAsStream(name);
     }
     
@@ -1759,9 +1751,9 @@ public final class Class_m implements Runnable, CommandListener
     }
     
     static {
-        Class_m.var_1bfd = "2.3";
-        Class_m.var_1c05 = "IGP-Signature=" + Class_m.var_1bfd;
-        Class_m.var_1c0d = "";
+        Class_m.s_igpClassVersion = "2.3";
+        Class_m.s_fullIgpSignature = "IGP-Signature=" + Class_m.s_igpClassVersion;
+        Class_m.s_dataIGPVersion = "";
         Class_m.var_1c25 = "URL";
         Class_m.var_1c2d = 2;
         Class_m.var_1c35 = new boolean[1];
@@ -1774,7 +1766,7 @@ public final class Class_m implements Runnable, CommandListener
         Class_m.var_1cf5 = "CCTL";
         Class_m.var_1cfd = "TITLE-FREEMIUM";
         Class_m.var_1d05 = "TITLE-GLCLUB";
-        Class_m.var_1d0d = "URL-OPERATOR";
+        Class_m.s_operatorUrlProp = "URL-OPERATOR";
         Class_m.var_1d15 = 1;
         Class_m.var_1d1d = 4;
         Class_m.var_1d25 = 8;
@@ -1812,10 +1804,10 @@ public final class Class_m implements Runnable, CommandListener
         Class_m.var_1e65 = "IGP-PROMOS";
         Class_m.var_1e6d = "IGP-FREEMIUM";
         Class_m.var_1e75 = "URL-TEMPLATE-GAME";
-        Class_m.var_1e7d = "more_games_url";
-        Class_m.var_1e85 = "more_games_status";
-        Class_m.var_1e8d = null;
-        Class_m.var_1e95 = null;
+        Class_m.s_moreGamesUrlProp = "more_games_url";
+        Class_m.s_moreGamesStatProp = "more_games_status";
+        Class_m.s_moreGamesAppProp = null;
+        Class_m.moreGamesStatAppProp = null;
         Class_m.var_1e9d = "on";
         Class_m.var_1ea5 = "XXXX";
         Class_m.var_1ead = "&ctg=" + Class_m.var_1ea5;
@@ -1828,11 +1820,11 @@ public final class Class_m implements Runnable, CommandListener
         Class_m.var_1f05 = new String[0];
         Class_m.var_1f55 = false;
         Class_m.var_1f6d = false;
-        Class_m.var_1f75 = null;
+        Class_m.s_cmdListener = null;
         Class_m.var_1f7d = null;
         Class_m.var_1f85 = false;
         Class_m.var_1f8d = null;
-        Class_m.var_1f95 = false;
+        Class_m.s_isAvailable = false;
         Class_m.var_1fe5 = new int[2];
         Class_m.var_2005 = 0;
         Class_m.var_200d = 0;
