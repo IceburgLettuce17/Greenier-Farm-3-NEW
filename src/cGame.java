@@ -692,7 +692,7 @@ public final class cGame extends GLLib implements Class_b {
 	private static int var_7ce4;
 	private static long[] var_7cec;
 	private static int[] var_7cf4;
-	private static int[] var_7cfc;
+	private static int[] s_iapCashIndices;
 	private static int[] var_7d04;
 	private static int[] var_7d0c;
 	private static int[] var_7d14;
@@ -1504,8 +1504,8 @@ public final class cGame extends GLLib implements Class_b {
 						final String sub_4e1f16;
 						sub_1e2f2(((sub_4e1f16 = GLLib.TODO_sub_4e1f(cGame.var_739c)) == null) ? "" : sub_4e1f16, 7, 27,
 								0, 0);
-						sub_1df06("+" + GLLib.CurrencySeparator_just_a_guess(cGame.var_737c, cGame.var_7fe4, " "), 7, 30, 0, 0);
-						sub_1df06("+" + GLLib.CurrencySeparator_just_a_guess(cGame.var_7384, cGame.var_7fe4, " "), 7, 32, 0, 0);
+						sub_1df06("+" + GLLib.CurrencySeparator(cGame.var_737c, cGame.var_7fe4, " "), 7, 30, 0, 0);
+						sub_1df06("+" + GLLib.CurrencySeparator(cGame.var_7384, cGame.var_7fe4, " "), 7, 32, 0, 0);
 						sub_1df06(cGame.var_7394, 7, 34, 0, 0);
 						final String sub_4e1f17;
 						sub_1df06(((sub_4e1f17 = GLLib.TODO_sub_4e1f(387)) == null) ? "" : sub_4e1f17, 7, 36, 0, 0);
@@ -1727,13 +1727,13 @@ public final class cGame extends GLLib implements Class_b {
 							final String sub_4e1f30;
 							sub_1df06(((sub_4e1f30 = GLLib.TODO_sub_4e1f(cGame.var_77d4)) == null) ? "" : sub_4e1f30, 14,
 									2, 0, 0);
-							sub_1df06(GLLib.CurrencySeparator_just_a_guess(cGame.var_77e4, cGame.var_7fe4, " "), 14, 12, 0, 0);
+							sub_1df06(GLLib.CurrencySeparator(cGame.var_77e4, cGame.var_7fe4, " "), 14, 12, 0, 0);
 							final String sub_4e1f31;
 							sub_1e2f2(((sub_4e1f31 = GLLib.TODO_sub_4e1f(285)) == null) ? "" : sub_4e1f31, 14, 11, 0, 0);
 							if (!sub_20167(14, 66)) {
 								break;
 							}
-							sub_1df06(GLLib.CurrencySeparator_just_a_guess(cGame.var_781c, cGame.var_7fe4, " "), 14, 72, 0, 0);
+							sub_1df06(GLLib.CurrencySeparator(cGame.var_781c, cGame.var_7fe4, " "), 14, 72, 0, 0);
 							if (cGame.var_808c < 3) {
 								sub_1e2f2(cGame.var_783c, 14, 75, 0, 0);
 							} else {
@@ -1881,8 +1881,8 @@ public final class cGame extends GLLib implements Class_b {
 							sub_1e2f2(((sub_4e1f43 = GLLib.TODO_sub_4e1f(312 + (cGame.var_6d54 - 1) - 1)) == null) ? ""
 									: sub_4e1f43, 11, 13, 0, 0);
 							sub_1df06(
-									GLLib.CurrencySeparator_just_a_guess(sub_301eb(cGame.var_6d9c), cGame.var_7fe4, " ") + " / "
-											+ GLLib.CurrencySeparator_just_a_guess(sub_301eb(cGame.var_6d94), cGame.var_7fe4, " "),
+									GLLib.CurrencySeparator(sub_301eb(cGame.var_6d9c), cGame.var_7fe4, " ") + " / "
+											+ GLLib.CurrencySeparator(sub_301eb(cGame.var_6d94), cGame.var_7fe4, " "),
 									11, 32, 0, 0);
 							if (!sub_2a117()) {
 								final String sub_4e1f44;
@@ -5128,7 +5128,7 @@ public final class cGame extends GLLib implements Class_b {
 			final String sub_4e1f;
 			cGame.var_7ab4 = (cGame.var_7acc = GLLib.sub_547c(
 					((sub_4e1f = GLLib.TODO_sub_4e1f(381)) == null) ? "" : sub_4e1f, "%d",
-					GLLib.CurrencySeparator_just_a_guess(cGame.var_7eb4[cGame.var_7f6c] - getCash(), cGame.var_7fe4, " ")));
+					GLLib.CurrencySeparator(cGame.var_7eb4[cGame.var_7f6c] - getCash(), cGame.var_7fe4, " ")));
 			cGame.var_7aac = 19;
 			cGame.var_7d24 = true;
 			cGame.var_815c = true;
@@ -5150,7 +5150,7 @@ public final class cGame extends GLLib implements Class_b {
 			final String sub_4e1f;
 			cGame.var_7ab4 = (cGame.var_7acc = GLLib.sub_547c(
 					((sub_4e1f = GLLib.TODO_sub_4e1f(381)) == null) ? "" : sub_4e1f, "%d",
-					GLLib.CurrencySeparator_just_a_guess(cGame.var_7eec[cGame.var_7f6c] - getCash(), cGame.var_7fe4, " ")));
+					GLLib.CurrencySeparator(cGame.var_7eec[cGame.var_7f6c] - getCash(), cGame.var_7fe4, " ")));
 			cGame.var_7aac = 19;
 			cGame.var_7d24 = true;
 			cGame.var_815c = true;
@@ -5172,7 +5172,7 @@ public final class cGame extends GLLib implements Class_b {
 			final String sub_4e1f;
 			cGame.var_7ab4 = (cGame.var_7acc = GLLib.sub_547c(
 					((sub_4e1f = GLLib.TODO_sub_4e1f(381)) == null) ? "" : sub_4e1f, "%d",
-					GLLib.CurrencySeparator_just_a_guess(cGame.var_7f24[cGame.var_7f6c] - getCash(), cGame.var_7fe4, " ")));
+					GLLib.CurrencySeparator(cGame.var_7f24[cGame.var_7f6c] - getCash(), cGame.var_7fe4, " ")));
 			cGame.var_7aac = 19;
 			cGame.var_7d24 = true;
 			cGame.var_815c = true;
@@ -5757,7 +5757,7 @@ public final class cGame extends GLLib implements Class_b {
 			if (cGame.var_7684 > 0) {
 				final String sub_4e1f;
 				cGame.var_7ab4 = GLLib.sub_547c(((sub_4e1f = GLLib.TODO_sub_4e1f(381)) == null) ? "" : sub_4e1f, "%d",
-						GLLib.CurrencySeparator_just_a_guess(cGame.var_7684 - getCash(), cGame.var_7fe4, " "));
+						GLLib.CurrencySeparator(cGame.var_7684 - getCash(), cGame.var_7fe4, " "));
 				cGame.var_7aac = 19;
 				cGame.var_7d24 = true;
 				cGame.var_815c = true;
@@ -5783,7 +5783,7 @@ public final class cGame extends GLLib implements Class_b {
 			if (cGame.var_768c > 0) {
 				final String sub_4e1f;
 				cGame.var_7ab4 = GLLib.sub_547c(((sub_4e1f = GLLib.TODO_sub_4e1f(381)) == null) ? "" : sub_4e1f, "%d",
-						GLLib.CurrencySeparator_just_a_guess(cGame.var_768c - getCash(), cGame.var_7fe4, " "));
+						GLLib.CurrencySeparator(cGame.var_768c - getCash(), cGame.var_7fe4, " "));
 				cGame.var_7aac = 19;
 				cGame.var_7d24 = true;
 				cGame.var_815c = true;
@@ -5917,7 +5917,7 @@ public final class cGame extends GLLib implements Class_b {
 			if (cGame.var_73f4 > 0) {
 				final String sub_4e1f;
 				cGame.var_7ab4 = GLLib.sub_547c(((sub_4e1f = GLLib.TODO_sub_4e1f(381)) == null) ? "" : sub_4e1f, "%d",
-						GLLib.CurrencySeparator_just_a_guess(cGame.var_73f4 - getCash(), cGame.var_7fe4, " "));
+						GLLib.CurrencySeparator(cGame.var_73f4 - getCash(), cGame.var_7fe4, " "));
 				cGame.var_7aac = 19;
 				cGame.var_815c = true;
 				cGame.var_7d24 = true;
@@ -5943,7 +5943,7 @@ public final class cGame extends GLLib implements Class_b {
 			if (cGame.var_73fc > 0) {
 				final String sub_4e1f;
 				cGame.var_7ab4 = GLLib.sub_547c(((sub_4e1f = GLLib.TODO_sub_4e1f(381)) == null) ? "" : sub_4e1f, "%d",
-						GLLib.CurrencySeparator_just_a_guess(cGame.var_73fc - getCash(), cGame.var_7fe4, " "));
+						GLLib.CurrencySeparator(cGame.var_73fc - getCash(), cGame.var_7fe4, " "));
 				cGame.var_7aac = 19;
 				cGame.var_815c = true;
 				cGame.var_7d24 = true;
@@ -6262,7 +6262,7 @@ public final class cGame extends GLLib implements Class_b {
 		if (cGame.var_756c[n] > 0) {
 			final String sub_4e1f;
 			cGame.var_7ab4 = GLLib.sub_547c(((sub_4e1f = GLLib.TODO_sub_4e1f(381)) == null) ? "" : sub_4e1f, "%d",
-					GLLib.CurrencySeparator_just_a_guess(cGame.var_756c[n] - getCash(), cGame.var_7fe4, " "));
+					GLLib.CurrencySeparator(cGame.var_756c[n] - getCash(), cGame.var_7fe4, " "));
 			cGame.var_7aac = 19;
 			cGame.var_815c = true;
 			cGame.var_7d24 = true;
@@ -6280,7 +6280,7 @@ public final class cGame extends GLLib implements Class_b {
 		if (cGame.var_74cc[n] > 0) {
 			final String sub_4e1f;
 			cGame.var_7ab4 = GLLib.sub_547c(((sub_4e1f = GLLib.TODO_sub_4e1f(381)) == null) ? "" : sub_4e1f, "%d",
-					GLLib.CurrencySeparator_just_a_guess(cGame.var_74cc[n] - getCash(), cGame.var_7fe4, " "));
+					GLLib.CurrencySeparator(cGame.var_74cc[n] - getCash(), cGame.var_7fe4, " "));
 			cGame.var_7aac = 19;
 			cGame.var_815c = true;
 			cGame.var_7d24 = true;
@@ -6407,7 +6407,7 @@ public final class cGame extends GLLib implements Class_b {
 				sub_23a84(56);
 				final String sub_4e1f;
 				cGame.var_7ab4 = GLLib.sub_547c(((sub_4e1f = GLLib.TODO_sub_4e1f(381)) == null) ? "" : sub_4e1f, "%d",
-						GLLib.CurrencySeparator_just_a_guess(sub_27050 - getCash(), cGame.var_7fe4, " "));
+						GLLib.CurrencySeparator(sub_27050 - getCash(), cGame.var_7fe4, " "));
 				cGame.var_7aac = 19;
 				cGame.var_815c = true;
 				cGame.var_7d24 = true;
@@ -6428,7 +6428,7 @@ public final class cGame extends GLLib implements Class_b {
 			sub_23a84(56);
 			final String sub_4e1f2;
 			cGame.var_7ab4 = GLLib.sub_547c(((sub_4e1f2 = GLLib.TODO_sub_4e1f(381)) == null) ? "" : sub_4e1f2, "%d",
-					GLLib.CurrencySeparator_just_a_guess(sub_27051 - getCash(), cGame.var_7fe4, " "));
+					GLLib.CurrencySeparator(sub_27051 - getCash(), cGame.var_7fe4, " "));
 			cGame.var_7aac = 19;
 			cGame.var_815c = true;
 			cGame.var_7d24 = true;
@@ -6669,7 +6669,7 @@ public final class cGame extends GLLib implements Class_b {
 			sub_81e0(42);
 			return;
 		}
-		GLLib.IAP_SendRequest(cGame.var_7cfc[cGame.var_7ce4], "Cash");
+		GLLib.IAP_SendRequest(cGame.s_iapCashIndices[cGame.var_7ce4], "Cash");
 		cGame.var_6944 = false;
 		sub_1715b();
 	}
@@ -6681,7 +6681,7 @@ public final class cGame extends GLLib implements Class_b {
 			sub_81e0(42);
 			return;
 		}
-		GLLib.IAP_SendRequest(cGame.var_7cfc[0], "Cash");
+		GLLib.IAP_SendRequest(cGame.s_iapCashIndices[0], "Cash");
 		cGame.var_6944 = false;
 		sub_1715b();
 	}
@@ -6693,7 +6693,7 @@ public final class cGame extends GLLib implements Class_b {
 			sub_81e0(42);
 			return;
 		}
-		GLLib.IAP_SendRequest(cGame.var_7cfc[1], "Cash");
+		GLLib.IAP_SendRequest(cGame.s_iapCashIndices[1], "Cash");
 		cGame.var_6944 = false;
 		sub_1715b();
 	}
@@ -6705,7 +6705,7 @@ public final class cGame extends GLLib implements Class_b {
 			sub_81e0(42);
 			return;
 		}
-		GLLib.IAP_SendRequest(cGame.var_7cfc[2], "Cash");
+		GLLib.IAP_SendRequest(cGame.s_iapCashIndices[2], "Cash");
 		cGame.var_6944 = false;
 		sub_1715b();
 	}
@@ -6717,7 +6717,7 @@ public final class cGame extends GLLib implements Class_b {
 			sub_81e0(42);
 			return;
 		}
-		GLLib.IAP_SendRequest(cGame.var_7cfc[3], "Cash");
+		GLLib.IAP_SendRequest(cGame.s_iapCashIndices[3], "Cash");
 		cGame.var_6944 = false;
 		sub_1715b();
 	}
@@ -6729,7 +6729,7 @@ public final class cGame extends GLLib implements Class_b {
 			sub_81e0(42);
 			return;
 		}
-		GLLib.IAP_SendRequest(cGame.var_7cfc[4], "Cash");
+		GLLib.IAP_SendRequest(cGame.s_iapCashIndices[4], "Cash");
 		cGame.var_6944 = false;
 		sub_1715b();
 	}
@@ -6741,7 +6741,7 @@ public final class cGame extends GLLib implements Class_b {
 			sub_81e0(42);
 			return;
 		}
-		GLLib.IAP_SendRequest(cGame.var_7cfc[5], "Cash");
+		GLLib.IAP_SendRequest(cGame.s_iapCashIndices[5], "Cash");
 		cGame.var_6944 = false;
 		sub_1715b();
 	}
@@ -6793,15 +6793,15 @@ public final class cGame extends GLLib implements Class_b {
 				GLLib.sub_547c(
 						cGame.s_iapEnabled ? (((sub_4e1f2 = GLLib.TODO_sub_4e1f(381)) == null) ? "" : sub_4e1f2)
 								: (((sub_4e1f3 = GLLib.TODO_sub_4e1f(852)) == null) ? "" : sub_4e1f3),
-						"%d", GLLib.CurrencySeparator_just_a_guess(cGame.var_7c6c[n] - getCash(), cGame.var_7fe4, " ")),
+						"%d", GLLib.CurrencySeparator(cGame.var_7c6c[n] - getCash(), cGame.var_7fe4, " ")),
 				7);
 	}
 
 	private static void sub_162f2() {
 		if (sub_2e449(cGame.var_7c6c[0])) {
 			sub_2e482(cGame.var_7cf4[0]);
-			cGame.var_68cc[8][7] = GLLib.CurrencySeparator_just_a_guess(getCash(), cGame.var_7fe4, " ");
-			cGame.var_68cc[8][4] = GLLib.CurrencySeparator_just_a_guess(sub_2e0da(), cGame.var_7fe4, " ");
+			cGame.var_68cc[8][7] = GLLib.CurrencySeparator(getCash(), cGame.var_7fe4, " ");
+			cGame.var_68cc[8][4] = GLLib.CurrencySeparator(sub_2e0da(), cGame.var_7fe4, " ");
 			sub_23a84(49);
 			return;
 		}
@@ -6817,8 +6817,8 @@ public final class cGame extends GLLib implements Class_b {
 	private static void sub_1638f() {
 		if (sub_2e449(cGame.var_7c6c[1])) {
 			sub_2e482(cGame.var_7cf4[1]);
-			cGame.var_68cc[8][7] = GLLib.CurrencySeparator_just_a_guess(getCash(), cGame.var_7fe4, " ");
-			cGame.var_68cc[8][4] = GLLib.CurrencySeparator_just_a_guess(sub_2e0da(), cGame.var_7fe4, " ");
+			cGame.var_68cc[8][7] = GLLib.CurrencySeparator(getCash(), cGame.var_7fe4, " ");
+			cGame.var_68cc[8][4] = GLLib.CurrencySeparator(sub_2e0da(), cGame.var_7fe4, " ");
 			return;
 		}
 		sub_23a84(56);
@@ -6833,8 +6833,8 @@ public final class cGame extends GLLib implements Class_b {
 	private static void sub_16427() {
 		if (sub_2e449(cGame.var_7c6c[2])) {
 			sub_2e482(cGame.var_7cf4[2]);
-			cGame.var_68cc[8][7] = GLLib.CurrencySeparator_just_a_guess(getCash(), cGame.var_7fe4, " ");
-			cGame.var_68cc[8][4] = GLLib.CurrencySeparator_just_a_guess(sub_2e0da(), cGame.var_7fe4, " ");
+			cGame.var_68cc[8][7] = GLLib.CurrencySeparator(getCash(), cGame.var_7fe4, " ");
+			cGame.var_68cc[8][4] = GLLib.CurrencySeparator(sub_2e0da(), cGame.var_7fe4, " ");
 			return;
 		}
 		sub_23a84(56);
@@ -6849,8 +6849,8 @@ public final class cGame extends GLLib implements Class_b {
 	private static void sub_164bf() {
 		if (sub_2e449(cGame.var_7c6c[3])) {
 			sub_2e482(cGame.var_7cf4[3]);
-			cGame.var_68cc[8][7] = GLLib.CurrencySeparator_just_a_guess(getCash(), cGame.var_7fe4, " ");
-			cGame.var_68cc[8][4] = GLLib.CurrencySeparator_just_a_guess(sub_2e0da(), cGame.var_7fe4, " ");
+			cGame.var_68cc[8][7] = GLLib.CurrencySeparator(getCash(), cGame.var_7fe4, " ");
+			cGame.var_68cc[8][4] = GLLib.CurrencySeparator(sub_2e0da(), cGame.var_7fe4, " ");
 			return;
 		}
 		sub_23a84(56);
@@ -6865,8 +6865,8 @@ public final class cGame extends GLLib implements Class_b {
 	private static void sub_16557() {
 		if (sub_2e449(cGame.var_7c6c[4])) {
 			sub_2e482(cGame.var_7cf4[4]);
-			cGame.var_68cc[8][7] = GLLib.CurrencySeparator_just_a_guess(getCash(), cGame.var_7fe4, " ");
-			cGame.var_68cc[8][4] = GLLib.CurrencySeparator_just_a_guess(sub_2e0da(), cGame.var_7fe4, " ");
+			cGame.var_68cc[8][7] = GLLib.CurrencySeparator(getCash(), cGame.var_7fe4, " ");
+			cGame.var_68cc[8][4] = GLLib.CurrencySeparator(sub_2e0da(), cGame.var_7fe4, " ");
 			return;
 		}
 		sub_23a84(56);
@@ -6881,8 +6881,8 @@ public final class cGame extends GLLib implements Class_b {
 	private static void sub_165ef() {
 		if (sub_2e449(cGame.var_7c6c[5])) {
 			sub_2e482(cGame.var_7cf4[5]);
-			cGame.var_68cc[8][7] = GLLib.CurrencySeparator_just_a_guess(getCash(), cGame.var_7fe4, " ");
-			cGame.var_68cc[8][4] = GLLib.CurrencySeparator_just_a_guess(sub_2e0da(), cGame.var_7fe4, " ");
+			cGame.var_68cc[8][7] = GLLib.CurrencySeparator(getCash(), cGame.var_7fe4, " ");
+			cGame.var_68cc[8][4] = GLLib.CurrencySeparator(sub_2e0da(), cGame.var_7fe4, " ");
 			return;
 		}
 		sub_23a84(56);
@@ -7850,7 +7850,7 @@ public final class cGame extends GLLib implements Class_b {
 		if (cGame.var_7be4 > 0) {
 			final String sub_4e1f;
 			cGame.var_7ab4 = GLLib.sub_547c(((sub_4e1f = GLLib.TODO_sub_4e1f(381)) == null) ? "" : sub_4e1f, "%d",
-					GLLib.CurrencySeparator_just_a_guess(cGame.var_7be4 - getCash(), cGame.var_7fe4, " "));
+					GLLib.CurrencySeparator(cGame.var_7be4 - getCash(), cGame.var_7fe4, " "));
 			cGame.var_7aac = 19;
 			cGame.var_815c = true;
 			cGame.var_7d24 = true;
@@ -7868,7 +7868,7 @@ public final class cGame extends GLLib implements Class_b {
 		if (cGame.var_7bfc > 0) {
 			final String sub_4e1f;
 			cGame.var_7ab4 = GLLib.sub_547c(((sub_4e1f = GLLib.TODO_sub_4e1f(381)) == null) ? "" : sub_4e1f, "%d",
-					GLLib.CurrencySeparator_just_a_guess(cGame.var_7bfc - getCash(), cGame.var_7fe4, " "));
+					GLLib.CurrencySeparator(cGame.var_7bfc - getCash(), cGame.var_7fe4, " "));
 			cGame.var_7aac = 19;
 			cGame.var_815c = true;
 			cGame.var_7d24 = true;
@@ -8126,7 +8126,7 @@ public final class cGame extends GLLib implements Class_b {
 			cGame.var_6e1c = sub_301eb(cGame.var_6d94);
 			final String sub_4e1f;
 			cGame.var_7ab4 = GLLib.sub_547c(((sub_4e1f = GLLib.TODO_sub_4e1f(379)) == null) ? "" : sub_4e1f, "%d",
-					GLLib.CurrencySeparator_just_a_guess(cGame.var_6e1c - sub_2e0da(), cGame.var_7fe4, " "));
+					GLLib.CurrencySeparator(cGame.var_6e1c - sub_2e0da(), cGame.var_7fe4, " "));
 			cGame.var_7aac = 18;
 			cGame.var_815c = true;
 			cGame.var_7d24 = false;
@@ -8178,7 +8178,7 @@ public final class cGame extends GLLib implements Class_b {
 			cGame.var_6e1c = getIntValue(cGame.var_6dc4);
 			final String sub_4e1f;
 			cGame.var_7ab4 = GLLib.sub_547c(((sub_4e1f = GLLib.TODO_sub_4e1f(381)) == null) ? "" : sub_4e1f, "%d",
-					GLLib.CurrencySeparator_just_a_guess(cGame.var_6e1c - getCash(), cGame.var_7fe4, " "));
+					GLLib.CurrencySeparator(cGame.var_6e1c - getCash(), cGame.var_7fe4, " "));
 			cGame.var_7aac = 19;
 			cGame.var_815c = true;
 			cGame.var_7d24 = true;
@@ -8198,7 +8198,7 @@ public final class cGame extends GLLib implements Class_b {
 			cGame.var_6e1c = getIntValue(cGame.var_6dcc);
 			final String sub_4e1f;
 			cGame.var_7ab4 = GLLib.sub_547c(((sub_4e1f = GLLib.TODO_sub_4e1f(381)) == null) ? "" : sub_4e1f, "%d",
-					GLLib.CurrencySeparator_just_a_guess(cGame.var_6e1c - getCash(), cGame.var_7fe4, " "));
+					GLLib.CurrencySeparator(cGame.var_6e1c - getCash(), cGame.var_7fe4, " "));
 			cGame.var_7aac = 19;
 			cGame.var_815c = true;
 			cGame.var_7d24 = true;
@@ -8389,7 +8389,7 @@ public final class cGame extends GLLib implements Class_b {
 			if (cGame.var_77e4 > 0) {
 				final String sub_4e1f;
 				cGame.var_7ab4 = GLLib.sub_547c(((sub_4e1f = GLLib.TODO_sub_4e1f(379)) == null) ? "" : sub_4e1f, "%d",
-						GLLib.CurrencySeparator_just_a_guess(cGame.var_77e4 - sub_2e0da(), cGame.var_7fe4, " "));
+						GLLib.CurrencySeparator(cGame.var_77e4 - sub_2e0da(), cGame.var_7fe4, " "));
 				cGame.var_7aac = 18;
 				cGame.var_7d24 = false;
 				cGame.var_815c = true;
@@ -8416,7 +8416,7 @@ public final class cGame extends GLLib implements Class_b {
 		if (cGame.var_780c > 0) {
 			final String sub_4e1f;
 			cGame.var_7ab4 = GLLib.sub_547c(((sub_4e1f = GLLib.TODO_sub_4e1f(381)) == null) ? "" : sub_4e1f, "%d",
-					GLLib.CurrencySeparator_just_a_guess(cGame.var_780c - getCash(), cGame.var_7fe4, " "));
+					GLLib.CurrencySeparator(cGame.var_780c - getCash(), cGame.var_7fe4, " "));
 			cGame.var_7aac = 19;
 			cGame.var_7d24 = true;
 			cGame.var_815c = true;
@@ -9513,7 +9513,7 @@ public final class cGame extends GLLib implements Class_b {
 		if (cGame.var_7e34 > 0) {
 			final String sub_4e1f;
 			cGame.var_7ab4 = GLLib.sub_547c(((sub_4e1f = GLLib.TODO_sub_4e1f(381)) == null) ? "" : sub_4e1f, "%d",
-					GLLib.CurrencySeparator_just_a_guess(cGame.var_7e34 - getCash(), cGame.var_7fe4, " "));
+					GLLib.CurrencySeparator(cGame.var_7e34 - getCash(), cGame.var_7fe4, " "));
 			cGame.var_7aac = 19;
 			cGame.var_7d24 = true;
 			sub_81e0(34);
@@ -9533,7 +9533,7 @@ public final class cGame extends GLLib implements Class_b {
 		if (cGame.var_7e2c > 0) {
 			final String sub_4e1f;
 			cGame.var_7ab4 = GLLib.sub_547c(((sub_4e1f = GLLib.TODO_sub_4e1f(381)) == null) ? "" : sub_4e1f, "%d",
-					GLLib.CurrencySeparator_just_a_guess(cGame.var_7e2c - getCash(), cGame.var_7fe4, " "));
+					GLLib.CurrencySeparator(cGame.var_7e2c - getCash(), cGame.var_7fe4, " "));
 			cGame.var_7aac = 19;
 			cGame.var_7d24 = true;
 			sub_81e0(34);
@@ -11297,7 +11297,7 @@ public final class cGame extends GLLib implements Class_b {
 									final String sub_4e1f;
 									cGame.var_7ab4 = GLLib.sub_547c(
 											((sub_4e1f = GLLib.TODO_sub_4e1f(379)) == null) ? "" : sub_4e1f, "%d",
-											GLLib.CurrencySeparator_just_a_guess(cGame.var_708c - sub_2e0da(), cGame.var_7fe4, " "));
+											GLLib.CurrencySeparator(cGame.var_708c - sub_2e0da(), cGame.var_7fe4, " "));
 									cGame.var_7aac = 18;
 									cGame.var_7d24 = false;
 									cGame.var_815c = true;
@@ -11305,7 +11305,7 @@ public final class cGame extends GLLib implements Class_b {
 									final String sub_4e1f2;
 									cGame.var_7ab4 = GLLib.sub_547c(
 											((sub_4e1f2 = GLLib.TODO_sub_4e1f(381)) == null) ? "" : sub_4e1f2, "%d",
-											GLLib.CurrencySeparator_just_a_guess(cGame.var_7094 - getCash(), cGame.var_7fe4, " "));
+											GLLib.CurrencySeparator(cGame.var_7094 - getCash(), cGame.var_7fe4, " "));
 									cGame.var_7aac = 19;
 									cGame.var_7d24 = true;
 									cGame.var_815c = true;
@@ -11328,7 +11328,7 @@ public final class cGame extends GLLib implements Class_b {
 									final String sub_4e1f3;
 									cGame.var_7ab4 = GLLib.sub_547c(
 											((sub_4e1f3 = GLLib.TODO_sub_4e1f(379)) == null) ? "" : sub_4e1f3, "%d",
-											GLLib.CurrencySeparator_just_a_guess(cGame.var_708c - sub_2e0da(), cGame.var_7fe4, " "));
+											GLLib.CurrencySeparator(cGame.var_708c - sub_2e0da(), cGame.var_7fe4, " "));
 									cGame.var_7aac = 18;
 									cGame.var_7d24 = false;
 									cGame.var_815c = true;
@@ -11336,7 +11336,7 @@ public final class cGame extends GLLib implements Class_b {
 									final String sub_4e1f4;
 									cGame.var_7ab4 = GLLib.sub_547c(
 											((sub_4e1f4 = GLLib.TODO_sub_4e1f(381)) == null) ? "" : sub_4e1f4, "%d",
-											GLLib.CurrencySeparator_just_a_guess(cGame.var_7094 - getCash(), cGame.var_7fe4, " "));
+											GLLib.CurrencySeparator(cGame.var_7094 - getCash(), cGame.var_7fe4, " "));
 									cGame.var_7aac = 19;
 									cGame.var_7d24 = true;
 									cGame.var_815c = true;
@@ -11528,7 +11528,7 @@ public final class cGame extends GLLib implements Class_b {
 								final String sub_4e1f5;
 								cGame.var_7ab4 = GLLib.sub_547c(
 										((sub_4e1f5 = GLLib.TODO_sub_4e1f(381)) == null) ? "" : sub_4e1f5, "%d",
-										GLLib.CurrencySeparator_just_a_guess(n - getCash(), cGame.var_7fe4, " "));
+										GLLib.CurrencySeparator(n - getCash(), cGame.var_7fe4, " "));
 								cGame.var_7aac = 19;
 								cGame.var_7d24 = true;
 								cGame.var_815c = true;
@@ -11596,7 +11596,7 @@ public final class cGame extends GLLib implements Class_b {
 						sub_4019a(7, 0, 10);
 						cGame.var_7ac4 = var_7ac4;
 						cGame.var_7acc = var_7acc;
-						cGame.var_7b1c = GLLib.CurrencySeparator_just_a_guess(cGame.var_7b14.sub_a709(), cGame.var_7fe4, " ");
+						cGame.var_7b1c = GLLib.CurrencySeparator(cGame.var_7b14.sub_a709(), cGame.var_7fe4, " ");
 						sub_2000c(4, 13, true);
 						sub_2000c(4, 15, true);
 						sub_2000c(4, 16, true);
@@ -13518,7 +13518,7 @@ public final class cGame extends GLLib implements Class_b {
 										final String sub_4e1f;
 										cGame.var_7ab4 = GLLib.sub_547c(
 												((sub_4e1f = GLLib.TODO_sub_4e1f(379)) == null) ? "" : sub_4e1f, "%d",
-												GLLib.CurrencySeparator_just_a_guess(cGame.var_708c - sub_2e0da(), cGame.var_7fe4,
+												GLLib.CurrencySeparator(cGame.var_708c - sub_2e0da(), cGame.var_7fe4,
 														" "));
 										cGame.var_7aac = 18;
 										cGame.var_7d24 = false;
@@ -13530,7 +13530,7 @@ public final class cGame extends GLLib implements Class_b {
 										final String sub_4e1f2;
 										cGame.var_7ab4 = GLLib.sub_547c(
 												((sub_4e1f2 = GLLib.TODO_sub_4e1f(381)) == null) ? "" : sub_4e1f2, "%d",
-												GLLib.CurrencySeparator_just_a_guess(cGame.var_7094 - getCash(), cGame.var_7fe4,
+												GLLib.CurrencySeparator(cGame.var_7094 - getCash(), cGame.var_7fe4,
 														" "));
 										cGame.var_7aac = 19;
 										cGame.var_7d24 = true;
@@ -13543,7 +13543,7 @@ public final class cGame extends GLLib implements Class_b {
 										final String sub_4e1f3;
 										cGame.var_7ab4 = GLLib.sub_547c(
 												((sub_4e1f3 = GLLib.TODO_sub_4e1f(379)) == null) ? "" : sub_4e1f3, "%d",
-												GLLib.CurrencySeparator_just_a_guess(cGame.var_6b24 - sub_2e0da(), cGame.var_7fe4,
+												GLLib.CurrencySeparator(cGame.var_6b24 - sub_2e0da(), cGame.var_7fe4,
 														" "));
 										cGame.var_7aac = 18;
 										cGame.var_7d24 = false;
@@ -13555,7 +13555,7 @@ public final class cGame extends GLLib implements Class_b {
 										final String sub_4e1f4;
 										cGame.var_7ab4 = GLLib.sub_547c(
 												((sub_4e1f4 = GLLib.TODO_sub_4e1f(381)) == null) ? "" : sub_4e1f4, "%d",
-												GLLib.CurrencySeparator_just_a_guess(cGame.var_6b2c - getCash(), cGame.var_7fe4,
+												GLLib.CurrencySeparator(cGame.var_6b2c - getCash(), cGame.var_7fe4,
 														" "));
 										cGame.var_7aac = 19;
 										cGame.var_7d24 = true;
@@ -14364,13 +14364,13 @@ public final class cGame extends GLLib implements Class_b {
 
 	private static void sub_2657c(final boolean b) {
 		if (sub_20167(1, 12)) {
-			sub_1df06(GLLib.CurrencySeparator_just_a_guess(sub_2e0da(), cGame.var_7fe4, " "), 1, 13, 0, 0);
+			sub_1df06(GLLib.CurrencySeparator(sub_2e0da(), cGame.var_7fe4, " "), 1, 13, 0, 0);
 		}
 		if (sub_20167(1, 21)) {
 			if (!b || cGame.var_807c <= 10) {
 				if (getLevel() < 50) {
-					sub_1df06(GLLib.CurrencySeparator_just_a_guess(getExperience(), cGame.var_7fe4, " ") + " / "
-							+ GLLib.CurrencySeparator_just_a_guess(sub_2e8f8(), cGame.var_7fe4, " "), 1, 22, 0, 0);
+					sub_1df06(GLLib.CurrencySeparator(getExperience(), cGame.var_7fe4, " ") + " / "
+							+ GLLib.CurrencySeparator(sub_2e8f8(), cGame.var_7fe4, " "), 1, 22, 0, 0);
 				}
 				sub_1df06("" + getLevel(), 1, 23, 0, 0);
 			} else {
@@ -14378,7 +14378,7 @@ public final class cGame extends GLLib implements Class_b {
 			}
 		}
 		if (sub_20167(1, 15)) {
-			sub_1df06(GLLib.CurrencySeparator_just_a_guess(getCash(), cGame.var_7fe4, " "), 1, 16, 0, 0);
+			sub_1df06(GLLib.CurrencySeparator(getCash(), cGame.var_7fe4, " "), 1, 16, 0, 0);
 		}
 		if (sub_20167(1, 87)) {
 			final String sub_4e1f;
@@ -18373,7 +18373,7 @@ public final class cGame extends GLLib implements Class_b {
 								final String sub_4e1f2;
 								sub_406d3(((sub_4e1f = GLLib.TODO_sub_4e1f(475)) == null) ? "" : sub_4e1f,
 										GLLib.sub_547c(((sub_4e1f2 = GLLib.TODO_sub_4e1f(476)) == null) ? "" : sub_4e1f2,
-												"%slots", "" + GLLib.CurrencySeparator_just_a_guess(n, cGame.var_7fe4, " ")),
+												"%slots", "" + GLLib.CurrencySeparator(n, cGame.var_7fe4, " ")),
 										7, 0);
 								break;
 							}
@@ -18394,7 +18394,7 @@ public final class cGame extends GLLib implements Class_b {
 								final String sub_4e1f4;
 								sub_406d3(((sub_4e1f3 = GLLib.TODO_sub_4e1f(475)) == null) ? "" : sub_4e1f3,
 										GLLib.sub_547c(((sub_4e1f4 = GLLib.TODO_sub_4e1f(476)) == null) ? "" : sub_4e1f4,
-												"%slots", "" + GLLib.CurrencySeparator_just_a_guess(n2, cGame.var_7fe4, " ")),
+												"%slots", "" + GLLib.CurrencySeparator(n2, cGame.var_7fe4, " ")),
 										7, 0);
 								break;
 							}
@@ -18448,7 +18448,7 @@ public final class cGame extends GLLib implements Class_b {
 							sub_406d3(((sub_4e1f5 = GLLib.TODO_sub_4e1f(475)) == null) ? "" : sub_4e1f5,
 									GLLib.sub_547c(((sub_4e1f6 = GLLib.TODO_sub_4e1f(476)) == null) ? "" : sub_4e1f6,
 											"%slots",
-											"" + GLLib.CurrencySeparator_just_a_guess(var_16e5 + var_16ed, cGame.var_7fe4, " ")),
+											"" + GLLib.CurrencySeparator(var_16e5 + var_16ed, cGame.var_7fe4, " ")),
 									7, 0);
 							break;
 						}
@@ -19212,8 +19212,8 @@ public final class cGame extends GLLib implements Class_b {
 		}
 		if (n == 3) {
 			sub_1dcc1(2);
-			sub_1df06(GLLib.CurrencySeparator_just_a_guess(sub_2e0da(), cGame.var_7fe4, " "), 2, 5, 0, 0);
-			sub_1df06(GLLib.CurrencySeparator_just_a_guess(getCash(), cGame.var_7fe4, " "), 2, 9, 0, 0);
+			sub_1df06(GLLib.CurrencySeparator(sub_2e0da(), cGame.var_7fe4, " "), 2, 5, 0, 0);
+			sub_1df06(GLLib.CurrencySeparator(getCash(), cGame.var_7fe4, " "), 2, 9, 0, 0);
 			final int[] array = new int[4];
 			cGame.var_68d4[cGame.var_68bc[2][26][5]].sub_3882(cGame.var_68bc[2][26][6], 0, array, 0);
 			final int n2 = cGame.var_68bc[2][26][2] + array[0];
@@ -19234,10 +19234,10 @@ public final class cGame extends GLLib implements Class_b {
 					if (sub_20167(2, 33 + i * 14)) {
 						final int n8 = i + cGame.var_7214;
 						if (cGame.var_71cc[n8] > 0) {
-							sub_1df06(GLLib.CurrencySeparator_just_a_guess(cGame.var_71cc[n8], cGame.var_7fe4, " "), 2, 32 + i * 14, 0,
+							sub_1df06(GLLib.CurrencySeparator(cGame.var_71cc[n8], cGame.var_7fe4, " "), 2, 32 + i * 14, 0,
 									0);
 						} else if (cGame.var_71d4[n8] > 0) {
-							sub_1df06(GLLib.CurrencySeparator_just_a_guess(cGame.var_71d4[n8], cGame.var_7fe4, " "), 2, 32 + i * 14, 0,
+							sub_1df06(GLLib.CurrencySeparator(cGame.var_71d4[n8], cGame.var_7fe4, " "), 2, 32 + i * 14, 0,
 									0);
 						}
 					}
@@ -19252,7 +19252,7 @@ public final class cGame extends GLLib implements Class_b {
 			}
 			if (cGame.var_720c >= 0 && cGame.var_720c < 6) {
 				sub_1df06(
-						GLLib.CurrencySeparator_just_a_guess(cGame.var_71c4[cGame.var_720c + cGame.var_7214], cGame.var_7fe4, " "),
+						GLLib.CurrencySeparator(cGame.var_71c4[cGame.var_720c + cGame.var_7214], cGame.var_7fe4, " "),
 						2, 39 + 14 * cGame.var_720c, 0, 0);
 				final int n9 = (n = cGame.var_71bc[cGame.var_720c + cGame.var_7214]) / 86400;
 				final int n10;
@@ -19294,7 +19294,7 @@ public final class cGame extends GLLib implements Class_b {
 				}
 				sub_1df06(s2, 2, 37 + 14 * cGame.var_720c, 0, 0);
 				sub_1df06(
-						GLLib.CurrencySeparator_just_a_guess(cGame.var_71b4[cGame.var_720c + cGame.var_7214], cGame.var_7fe4, " "),
+						GLLib.CurrencySeparator(cGame.var_71b4[cGame.var_720c + cGame.var_7214], cGame.var_7fe4, " "),
 						2, 35 + 14 * cGame.var_720c, 0, 0);
 			}
 			if (cGame.var_720c != 0 && cGame.var_721c == 2 && cGame.var_7214 == 0) {
@@ -19724,7 +19724,7 @@ public final class cGame extends GLLib implements Class_b {
 				if (cGame.var_71d4[n] > 0) {
 					final String sub_4e1f;
 					cGame.var_7ab4 = GLLib.sub_547c(((sub_4e1f = GLLib.TODO_sub_4e1f(381)) == null) ? "" : sub_4e1f,
-							"%d", GLLib.CurrencySeparator_just_a_guess(cGame.var_71d4[n] - getCash(), cGame.var_7fe4, " "));
+							"%d", GLLib.CurrencySeparator(cGame.var_71d4[n] - getCash(), cGame.var_7fe4, " "));
 					cGame.var_7aac = 19;
 					cGame.var_815c = true;
 					cGame.var_7d24 = true;
@@ -19733,7 +19733,7 @@ public final class cGame extends GLLib implements Class_b {
 			} else if (cGame.var_71cc[n] > 0) {
 				final String sub_4e1f2;
 				cGame.var_7ab4 = GLLib.sub_547c(((sub_4e1f2 = GLLib.TODO_sub_4e1f(379)) == null) ? "" : sub_4e1f2,
-						"%d", GLLib.CurrencySeparator_just_a_guess(cGame.var_71cc[n] - sub_2e0da(), cGame.var_7fe4, " "));
+						"%d", GLLib.CurrencySeparator(cGame.var_71cc[n] - sub_2e0da(), cGame.var_7fe4, " "));
 				cGame.var_7aac = 18;
 				cGame.var_815c = true;
 				cGame.var_7d24 = false;
@@ -19887,9 +19887,9 @@ public final class cGame extends GLLib implements Class_b {
 				final String sub_4e1f6;
 				sub_1df06(((sub_4e1f6 = GLLib.TODO_sub_4e1f(cGame.var_723c[cGame.var_72b4])) == null) ? "" : sub_4e1f6,
 						3, 189, 0, 0);
-				sub_1df06(GLLib.CurrencySeparator_just_a_guess(cGame.var_7254[cGame.var_72b4], cGame.var_7fe4, " "), 3, 192, 0, 0);
+				sub_1df06(GLLib.CurrencySeparator(cGame.var_7254[cGame.var_72b4], cGame.var_7fe4, " "), 3, 192, 0, 0);
 				sub_1df06("" + cGame.var_7274[cGame.var_72b4], 3, 194, 0, 0);
-				sub_1df06(GLLib.CurrencySeparator_just_a_guess(sub_336ae(), cGame.var_7fe4, " "), 3, 200, 0, 0);
+				sub_1df06(GLLib.CurrencySeparator(sub_336ae(), cGame.var_7fe4, " "), 3, 200, 0, 0);
 			}
 		}
 		return false;
@@ -19932,11 +19932,11 @@ public final class cGame extends GLLib implements Class_b {
 				sub_2000c(3, 178, true);
 				sub_2000c(3, 182, true);
 				sub_2000c(3, 186, true);
-				final String sub_4fa1 = GLLib.CurrencySeparator_just_a_guess(getIntValue(cGame.var_72cc[cGame.var_72ac + n]),
+				final String sub_4fa1 = GLLib.CurrencySeparator(getIntValue(cGame.var_72cc[cGame.var_72ac + n]),
 						cGame.var_7fe4, " ");
 				final int n4 = n2 + 13;
 				cGame.var_68cc[3][n4] = sub_4fa1;
-				final String sub_4fa2 = GLLib.CurrencySeparator_just_a_guess(getIntValue(cGame.var_72d4[cGame.var_72ac + n]),
+				final String sub_4fa2 = GLLib.CurrencySeparator(getIntValue(cGame.var_72d4[cGame.var_72ac + n]),
 						cGame.var_7fe4, " ");
 				final int n5 = n2 + 11;
 				cGame.var_68cc[3][n5] = sub_4fa2;
@@ -20640,7 +20640,7 @@ public final class cGame extends GLLib implements Class_b {
 			sub_1dcc1(22);
 			final String sub_4e1f5;
 			sub_1df06(((sub_4e1f5 = GLLib.TODO_sub_4e1f(180)) == null) ? "" : sub_4e1f5, 22, 1, 0, 0);
-			sub_1df06(GLLib.CurrencySeparator_just_a_guess(getCash(), cGame.var_7fe4, " "), 22, 9, 0, 0);
+			sub_1df06(GLLib.CurrencySeparator(getCash(), cGame.var_7fe4, " "), 22, 9, 0, 0);
 			final short n13 = cGame.var_68bc[22][92][2];
 			n = cGame.var_68bc[22][92][3];
 			sub_1e07e("+" + Integer.toString(cGame.var_750c), n13 + 40, n + 10, 0, 0, 0, 0, 2, 0, false, false);
@@ -21118,7 +21118,7 @@ public final class cGame extends GLLib implements Class_b {
 			sub_1dcc1(22);
 			final String sub_4e1f2;
 			sub_1df06(((sub_4e1f2 = GLLib.TODO_sub_4e1f(388)) == null) ? "" : sub_4e1f2, 22, 1, 0, 0);
-			sub_1df06(GLLib.CurrencySeparator_just_a_guess(getCash(), cGame.var_7fe4, " "), 22, 9, 0, 0);
+			sub_1df06(GLLib.CurrencySeparator(getCash(), cGame.var_7fe4, " "), 22, 9, 0, 0);
 			final short n6 = cGame.var_68bc[22][92][2];
 			n = cGame.var_68bc[22][92][3];
 			sub_1e07e("+" + Integer.toString(cGame.var_75fc), n6 + 40, n + 10, 0, 0, 0, 0, 2, 0, false, false);
@@ -23748,9 +23748,9 @@ public final class cGame extends GLLib implements Class_b {
 				}
 				final String sub_4e1f2;
 				sub_1df06(((sub_4e1f2 = GLLib.TODO_sub_4e1f(n)) == null) ? "" : sub_4e1f2, 16, 58 + j * 6, 0, 0);
-				sub_1df06(GLLib.CurrencySeparator_just_a_guess(cGame.var_7a0c[cGame.var_7a2c + j], cGame.var_7fe4, " "), 16,
+				sub_1df06(GLLib.CurrencySeparator(cGame.var_7a0c[cGame.var_7a2c + j], cGame.var_7fe4, " "), 16,
 						59 + j * 6, 0, 0);
-				sub_1df06(GLLib.CurrencySeparator_just_a_guess(cGame.var_7a14[cGame.var_7a2c + j], cGame.var_7fe4, " "), 16,
+				sub_1df06(GLLib.CurrencySeparator(cGame.var_7a14[cGame.var_7a2c + j], cGame.var_7fe4, " "), 16,
 						61 + j * 6, 0, 0);
 				final String sub_4e1f3;
 				sub_1df06(((sub_4e1f3 = GLLib.TODO_sub_4e1f(8512 + cGame.var_7a2c + j)) == null) ? "" : sub_4e1f3, 16,
@@ -24105,15 +24105,15 @@ public final class cGame extends GLLib implements Class_b {
 					cGame.var_68bc[19][9 + l * 14][6] = 18;
 				}
 				if (cGame.var_6ecc[cGame.var_7a64 + l] > 0) {
-					cGame.var_68cc[19][5 + l * 14] = GLLib.CurrencySeparator_just_a_guess(cGame.var_6ecc[cGame.var_7a64 + l],
+					cGame.var_68cc[19][5 + l * 14] = GLLib.CurrencySeparator(cGame.var_6ecc[cGame.var_7a64 + l],
 							cGame.var_7fe4, " ");
 				}
 				if (cGame.var_6ec4[cGame.var_7a64 + l] > 0) {
-					cGame.var_68cc[19][6 + l * 14] = GLLib.CurrencySeparator_just_a_guess(cGame.var_6ec4[cGame.var_7a64 + l],
+					cGame.var_68cc[19][6 + l * 14] = GLLib.CurrencySeparator(cGame.var_6ec4[cGame.var_7a64 + l],
 							cGame.var_7fe4, " ");
 				}
 				if (cGame.var_6ebc[cGame.var_7a64 + l] > 0) {
-					cGame.var_68cc[19][7 + l * 14] = GLLib.CurrencySeparator_just_a_guess(cGame.var_6ebc[cGame.var_7a64 + l],
+					cGame.var_68cc[19][7 + l * 14] = GLLib.CurrencySeparator(cGame.var_6ebc[cGame.var_7a64 + l],
 							cGame.var_7fe4, " ");
 				}
 			}
@@ -26309,7 +26309,7 @@ public final class cGame extends GLLib implements Class_b {
 		} else {
 			if (cGame.var_7cdc != 10) {
 				if (cGame.var_7cdc == 11) {
-					s = GLLib.sub_547c(s, "%amount", GLLib.CurrencySeparator_just_a_guess(cGame.var_7cec[n], cGame.var_7fe4, " "));
+					s = GLLib.sub_547c(s, "%amount", GLLib.CurrencySeparator(cGame.var_7cec[n], cGame.var_7fe4, " "));
 				} else if (cGame.var_7cdc == 6) {
 					int sub_7965;
 					if (cGame.var_7d04[n] == -1) {
@@ -26658,42 +26658,42 @@ public final class cGame extends GLLib implements Class_b {
 		case 3: {
 			cGame.var_67cc = 1;
 			sub_2c69b();
-			GLLib.IAP_SendRequest(cGame.var_7cfc[0], "Cash");
+			GLLib.IAP_SendRequest(cGame.s_iapCashIndices[0], "Cash");
 			cGame.var_6944 = false;
 			return;
 		}
 		case 4: {
 			cGame.var_67cc = 1;
 			sub_2c69b();
-			GLLib.IAP_SendRequest(cGame.var_7cfc[1], "Cash");
+			GLLib.IAP_SendRequest(cGame.s_iapCashIndices[1], "Cash");
 			cGame.var_6944 = false;
 			return;
 		}
 		case 5: {
 			cGame.var_67cc = 1;
 			sub_2c69b();
-			GLLib.IAP_SendRequest(cGame.var_7cfc[2], "Cash");
+			GLLib.IAP_SendRequest(cGame.s_iapCashIndices[2], "Cash");
 			cGame.var_6944 = false;
 			return;
 		}
 		case 6: {
 			cGame.var_67cc = 1;
 			sub_2c69b();
-			GLLib.IAP_SendRequest(cGame.var_7cfc[3], "Cash");
+			GLLib.IAP_SendRequest(cGame.s_iapCashIndices[3], "Cash");
 			cGame.var_6944 = false;
 			return;
 		}
 		case 7: {
 			cGame.var_67cc = 1;
 			sub_2c69b();
-			GLLib.IAP_SendRequest(cGame.var_7cfc[4], "Cash");
+			GLLib.IAP_SendRequest(cGame.s_iapCashIndices[4], "Cash");
 			cGame.var_6944 = false;
 			return;
 		}
 		case 8: {
 			cGame.var_67cc = 1;
 			sub_2c69b();
-			GLLib.IAP_SendRequest(cGame.var_7cfc[5], "Cash");
+			GLLib.IAP_SendRequest(cGame.s_iapCashIndices[5], "Cash");
 			cGame.var_6944 = false;
 			return;
 		}
@@ -26973,7 +26973,7 @@ public final class cGame extends GLLib implements Class_b {
 				}
 				final String sub_4e1f2;
 				sub_405b1(((sub_4e1f2 = GLLib.TODO_sub_4e1f(380)) == null) ? "" : sub_4e1f2,
-						GLLib.sub_547c(s, "%d", GLLib.CurrencySeparator_just_a_guess(n2, cGame.var_7fe4, " ")), 7);
+						GLLib.sub_547c(s, "%d", GLLib.CurrencySeparator(n2, cGame.var_7fe4, " ")), 7);
 				cGame.var_7aac = -1;
 				cGame.var_7d24 = false;
 			}
@@ -27004,8 +27004,8 @@ public final class cGame extends GLLib implements Class_b {
 			sub_17ace();
 			final String sub_4e1f3;
 			cGame.var_68cc[8][1] = (((sub_4e1f3 = GLLib.TODO_sub_4e1f(766)) == null) ? "" : sub_4e1f3);
-			cGame.var_68cc[8][7] = GLLib.CurrencySeparator_just_a_guess(getCash(), cGame.var_7fe4, " ");
-			cGame.var_68cc[8][4] = GLLib.CurrencySeparator_just_a_guess(sub_2e0da(), cGame.var_7fe4, " ");
+			cGame.var_68cc[8][7] = GLLib.CurrencySeparator(getCash(), cGame.var_7fe4, " ");
+			cGame.var_68cc[8][4] = GLLib.CurrencySeparator(sub_2e0da(), cGame.var_7fe4, " ");
 			cGame.var_68cc[8][185] = "0";
 			cGame.var_68cc[8][167] = "1";
 			cGame.var_68cc[8][169] = "2";
@@ -27323,12 +27323,12 @@ public final class cGame extends GLLib implements Class_b {
 			final String sub_45a01 = sub_45a01(i);
 			final long sub_7921 = GLLib.IAP_GetVirtualCurrency(200L, i, "Cash");
 			if (sub_45a01 != null && !sub_45a01.trim().equals("")) {
-				cGame.var_7cfc[i] = i;
+				cGame.s_iapCashIndices[i] = i;
 				cGame.s_iapCashTexts[i] = sub_45a01;
 				cGame.var_7cec[i] = sub_7921;
 			} else {
 				cGame.s_iapCashTexts[i] = null;
-				cGame.var_7cfc[i] = -1;
+				cGame.s_iapCashIndices[i] = -1;
 			}
 			++cGame.var_7cbc;
 		}
@@ -27388,7 +27388,7 @@ public final class cGame extends GLLib implements Class_b {
 					if (cGame.var_6964) {
 						if (cGame.var_7cbc > 0 && cGame.var_692c) {
 							if (cGame.var_7cbc > 0) {
-								sub_1df06(GLLib.CurrencySeparator_just_a_guess(cGame.var_7cec[0], cGame.var_7fe4, " "), 8, 22, 0, 0);
+								sub_1df06(GLLib.CurrencySeparator(cGame.var_7cec[0], cGame.var_7fe4, " "), 8, 22, 0, 0);
 								GLLib.sub_36f4(GLLib.g, cGame.var_68bc[8][27][2],
 										cGame.var_68bc[8][27][3], cGame.var_68bc[8][27][5],
 										cGame.var_68bc[8][27][6], true);
@@ -27396,7 +27396,7 @@ public final class cGame extends GLLib implements Class_b {
 								GLLib.sub_36f4(GLLib.g, 0, 0, GLLib.s_screenWidth, GLLib.s_screenHeight, true);
 							}
 							if (1 < cGame.var_7cbc) {
-								sub_1df06(GLLib.CurrencySeparator_just_a_guess(cGame.var_7cec[1], cGame.var_7fe4, " "), 8, 37, 0, 0);
+								sub_1df06(GLLib.CurrencySeparator(cGame.var_7cec[1], cGame.var_7fe4, " "), 8, 37, 0, 0);
 								GLLib.sub_36f4(GLLib.g, cGame.var_68bc[8][42][2],
 										cGame.var_68bc[8][42][3], cGame.var_68bc[8][42][5],
 										cGame.var_68bc[8][42][6], true);
@@ -27405,7 +27405,7 @@ public final class cGame extends GLLib implements Class_b {
 							}
 							if (2 < cGame.var_7cbc) {
 								if (cGame.s_iapCashTexts[2] != null) {
-									sub_1df06(GLLib.CurrencySeparator_just_a_guess(cGame.var_7cec[2], cGame.var_7fe4, " "), 8, 52, 0,
+									sub_1df06(GLLib.CurrencySeparator(cGame.var_7cec[2], cGame.var_7fe4, " "), 8, 52, 0,
 											0);
 									GLLib.sub_36f4(GLLib.g, cGame.var_68bc[8][57][2],
 											cGame.var_68bc[8][57][3], cGame.var_68bc[8][57][5],
@@ -27414,7 +27414,7 @@ public final class cGame extends GLLib implements Class_b {
 									GLLib.sub_36f4(GLLib.g, 0, 0, GLLib.s_screenWidth, GLLib.s_screenHeight, true);
 								}
 								if (3 < cGame.var_7cbc) {
-									sub_1df06(GLLib.CurrencySeparator_just_a_guess(cGame.var_7cec[3], cGame.var_7fe4, " "), 8, 67, 0,
+									sub_1df06(GLLib.CurrencySeparator(cGame.var_7cec[3], cGame.var_7fe4, " "), 8, 67, 0,
 											0);
 									GLLib.sub_36f4(GLLib.g, cGame.var_68bc[8][72][2],
 											cGame.var_68bc[8][72][3], cGame.var_68bc[8][72][5],
@@ -27425,7 +27425,7 @@ public final class cGame extends GLLib implements Class_b {
 							}
 							if (4 < cGame.var_7cbc) {
 								if (cGame.s_iapCashTexts[4] != null) {
-									sub_1df06(GLLib.CurrencySeparator_just_a_guess(cGame.var_7cec[4], cGame.var_7fe4, " "), 8, 82, 0,
+									sub_1df06(GLLib.CurrencySeparator(cGame.var_7cec[4], cGame.var_7fe4, " "), 8, 82, 0,
 											0);
 									GLLib.sub_36f4(GLLib.g, cGame.var_68bc[8][87][2],
 											cGame.var_68bc[8][87][3], cGame.var_68bc[8][87][5],
@@ -27434,7 +27434,7 @@ public final class cGame extends GLLib implements Class_b {
 									GLLib.sub_36f4(GLLib.g, 0, 0, GLLib.s_screenWidth, GLLib.s_screenHeight, true);
 								}
 								if (5 < cGame.var_7cbc) {
-									sub_1df06(GLLib.CurrencySeparator_just_a_guess(cGame.var_7cec[5], cGame.var_7fe4, " "), 8, 97, 0,
+									sub_1df06(GLLib.CurrencySeparator(cGame.var_7cec[5], cGame.var_7fe4, " "), 8, 97, 0,
 											0);
 									GLLib.sub_36f4(GLLib.g, cGame.var_68bc[8][102][2],
 											cGame.var_68bc[8][102][3], cGame.var_68bc[8][102][5],
@@ -27562,60 +27562,60 @@ public final class cGame extends GLLib implements Class_b {
 		if (cGame.var_6984) {
 			sub_171dc();
 			if (cGame.var_6984) {
-				sub_1df06(GLLib.CurrencySeparator_just_a_guess(cGame.var_7cf4[0], cGame.var_7fe4, " "), 8, 116, 0, 0);
+				sub_1df06(GLLib.CurrencySeparator(cGame.var_7cf4[0], cGame.var_7fe4, " "), 8, 116, 0, 0);
 				GLLib.sub_36f4(GLLib.g, cGame.var_68bc[8][119][2], cGame.var_68bc[8][119][3],
 						cGame.var_68bc[8][119][5], cGame.var_68bc[8][119][6], true);
 				final String sub_4e1f3;
 				sub_1df06(
-						GLLib.CurrencySeparator_just_a_guess(cGame.var_7c6c[0], cGame.var_7fe4, " ") + " "
+						GLLib.CurrencySeparator(cGame.var_7c6c[0], cGame.var_7fe4, " ") + " "
 								+ (((sub_4e1f3 = GLLib.TODO_sub_4e1f(812)) == null) ? "" : sub_4e1f3),
 						8, 119, -cGame.var_7c7c[0], 0);
 				GLLib.sub_36f4(GLLib.g, 0, 0, GLLib.s_screenWidth, GLLib.s_screenHeight, true);
-				sub_1df06(GLLib.CurrencySeparator_just_a_guess(cGame.var_7cf4[1], cGame.var_7fe4, " "), 8, 122, 0, 0);
+				sub_1df06(GLLib.CurrencySeparator(cGame.var_7cf4[1], cGame.var_7fe4, " "), 8, 122, 0, 0);
 				GLLib.sub_36f4(GLLib.g, cGame.var_68bc[8][125][2], cGame.var_68bc[8][125][3],
 						cGame.var_68bc[8][125][5], cGame.var_68bc[8][125][6], true);
 				final String sub_4e1f4;
 				sub_1df06(
-						GLLib.CurrencySeparator_just_a_guess(cGame.var_7c6c[1], cGame.var_7fe4, " ") + " "
+						GLLib.CurrencySeparator(cGame.var_7c6c[1], cGame.var_7fe4, " ") + " "
 								+ (((sub_4e1f4 = GLLib.TODO_sub_4e1f(812)) == null) ? "" : sub_4e1f4),
 						8, 125, -cGame.var_7c7c[1], 0);
 				GLLib.sub_36f4(GLLib.g, 0, 0, GLLib.s_screenWidth, GLLib.s_screenHeight, true);
 				if (cGame.var_7cc4 > 2) {
-					sub_1df06(GLLib.CurrencySeparator_just_a_guess(cGame.var_7cf4[2], cGame.var_7fe4, " "), 8, 128, 0, 0);
+					sub_1df06(GLLib.CurrencySeparator(cGame.var_7cf4[2], cGame.var_7fe4, " "), 8, 128, 0, 0);
 					GLLib.sub_36f4(GLLib.g, cGame.var_68bc[8][131][2], cGame.var_68bc[8][131][3],
 							cGame.var_68bc[8][131][5], cGame.var_68bc[8][131][6], true);
 					final String sub_4e1f5;
 					sub_1df06(
-							GLLib.CurrencySeparator_just_a_guess(cGame.var_7c6c[2], cGame.var_7fe4, " ") + " "
+							GLLib.CurrencySeparator(cGame.var_7c6c[2], cGame.var_7fe4, " ") + " "
 									+ (((sub_4e1f5 = GLLib.TODO_sub_4e1f(812)) == null) ? "" : sub_4e1f5),
 							8, 131, -cGame.var_7c7c[2], 0);
 					GLLib.sub_36f4(GLLib.g, 0, 0, GLLib.s_screenWidth, GLLib.s_screenHeight, true);
-					sub_1df06(GLLib.CurrencySeparator_just_a_guess(cGame.var_7cf4[3], cGame.var_7fe4, " "), 8, 134, 0, 0);
+					sub_1df06(GLLib.CurrencySeparator(cGame.var_7cf4[3], cGame.var_7fe4, " "), 8, 134, 0, 0);
 					GLLib.sub_36f4(GLLib.g, cGame.var_68bc[8][137][2], cGame.var_68bc[8][137][3],
 							cGame.var_68bc[8][137][5], cGame.var_68bc[8][137][6], true);
 					final String sub_4e1f6;
 					sub_1df06(
-							GLLib.CurrencySeparator_just_a_guess(cGame.var_7c6c[3], cGame.var_7fe4, " ") + " "
+							GLLib.CurrencySeparator(cGame.var_7c6c[3], cGame.var_7fe4, " ") + " "
 									+ (((sub_4e1f6 = GLLib.TODO_sub_4e1f(812)) == null) ? "" : sub_4e1f6),
 							8, 137, -cGame.var_7c7c[3], 0);
 					GLLib.sub_36f4(GLLib.g, 0, 0, GLLib.s_screenWidth, GLLib.s_screenHeight, true);
 				}
 				if (cGame.var_7cc4 > 4) {
-					sub_1df06(GLLib.CurrencySeparator_just_a_guess(cGame.var_7cf4[4], cGame.var_7fe4, " "), 8, 140, 0, 0);
+					sub_1df06(GLLib.CurrencySeparator(cGame.var_7cf4[4], cGame.var_7fe4, " "), 8, 140, 0, 0);
 					GLLib.sub_36f4(GLLib.g, cGame.var_68bc[8][143][2], cGame.var_68bc[8][143][3],
 							cGame.var_68bc[8][143][5], cGame.var_68bc[8][143][6], true);
 					final String sub_4e1f7;
 					sub_1df06(
-							GLLib.CurrencySeparator_just_a_guess(cGame.var_7c6c[4], cGame.var_7fe4, " ") + " "
+							GLLib.CurrencySeparator(cGame.var_7c6c[4], cGame.var_7fe4, " ") + " "
 									+ (((sub_4e1f7 = GLLib.TODO_sub_4e1f(812)) == null) ? "" : sub_4e1f7),
 							8, 143, -cGame.var_7c7c[4], 0);
 					GLLib.sub_36f4(GLLib.g, 0, 0, GLLib.s_screenWidth, GLLib.s_screenHeight, true);
-					sub_1df06(GLLib.CurrencySeparator_just_a_guess(cGame.var_7cf4[5], cGame.var_7fe4, " "), 8, 146, 0, 0);
+					sub_1df06(GLLib.CurrencySeparator(cGame.var_7cf4[5], cGame.var_7fe4, " "), 8, 146, 0, 0);
 					GLLib.sub_36f4(GLLib.g, cGame.var_68bc[8][149][2], cGame.var_68bc[8][149][3],
 							cGame.var_68bc[8][149][5], cGame.var_68bc[8][149][6], true);
 					final String sub_4e1f8;
 					sub_1df06(
-							GLLib.CurrencySeparator_just_a_guess(cGame.var_7c6c[5], cGame.var_7fe4, " ") + " "
+							GLLib.CurrencySeparator(cGame.var_7c6c[5], cGame.var_7fe4, " ") + " "
 									+ (((sub_4e1f8 = GLLib.TODO_sub_4e1f(812)) == null) ? "" : sub_4e1f8),
 							8, 149, -cGame.var_7c7c[5], 0);
 					GLLib.sub_36f4(GLLib.g, 0, 0, GLLib.s_screenWidth, GLLib.s_screenHeight, true);
@@ -28292,7 +28292,7 @@ public final class cGame extends GLLib implements Class_b {
 		}
 		for (int i = 0; i < cGame.var_7d94; ++i) {
 			if (cGame.var_7e04[i] > 0) {
-				sub_1df06(GLLib.CurrencySeparator_just_a_guess(cGame.var_7e04[i], cGame.var_7fe4, " "), 20, i + 13, 0, 0);
+				sub_1df06(GLLib.CurrencySeparator(cGame.var_7e04[i], cGame.var_7fe4, " "), 20, i + 13, 0, 0);
 			}
 		}
 	}
@@ -28352,9 +28352,9 @@ public final class cGame extends GLLib implements Class_b {
 				if (cGame.s_questQuests[cGame.var_7f6c] != "") {
 					sub_1e2f2(cGame.s_questQuests[cGame.var_7f6c], 5, 7, 0, 0);
 					sub_1df06(""
-							+ GLLib.CurrencySeparator_just_a_guess(getIntValue(cGame.var_7e94[cGame.var_7f6c]), cGame.var_7fe4, " ")
+							+ GLLib.CurrencySeparator(getIntValue(cGame.var_7e94[cGame.var_7f6c]), cGame.var_7fe4, " ")
 							+ "/"
-							+ GLLib.CurrencySeparator_just_a_guess(getIntValue(cGame.var_7e9c[cGame.var_7f6c]), cGame.var_7fe4, " "), 5,
+							+ GLLib.CurrencySeparator(getIntValue(cGame.var_7e9c[cGame.var_7f6c]), cGame.var_7fe4, " "), 5,
 							8, 0, 0);
 					if (cGame.var_68bc[5][10][10] == 1) {
 						sub_1df06("" + cGame.var_7eb4[cGame.var_7f6c], 5, 12, 0, 0);
@@ -28363,9 +28363,9 @@ public final class cGame extends GLLib implements Class_b {
 				if (cGame.s_questQuests2[cGame.var_7f6c] != "") {
 					sub_1e2f2(cGame.s_questQuests2[cGame.var_7f6c], 5, 15, 0, 0);
 					sub_1df06(""
-							+ GLLib.CurrencySeparator_just_a_guess(getIntValue(cGame.var_7ecc[cGame.var_7f6c]), cGame.var_7fe4, " ")
+							+ GLLib.CurrencySeparator(getIntValue(cGame.var_7ecc[cGame.var_7f6c]), cGame.var_7fe4, " ")
 							+ "/"
-							+ GLLib.CurrencySeparator_just_a_guess(getIntValue(cGame.var_7ed4[cGame.var_7f6c]), cGame.var_7fe4, " "), 5,
+							+ GLLib.CurrencySeparator(getIntValue(cGame.var_7ed4[cGame.var_7f6c]), cGame.var_7fe4, " "), 5,
 							16, 0, 0);
 					if (sub_20167(5, 18)) {
 						sub_1df06("" + cGame.var_7eec[cGame.var_7f6c], 5, 20, 0, 0);
@@ -28375,8 +28375,8 @@ public final class cGame extends GLLib implements Class_b {
 					break;
 				}
 				sub_1e2f2(cGame.s_loadedTexts[cGame.var_7f6c], 5, 23, 0, 0);
-				sub_1df06("" + GLLib.CurrencySeparator_just_a_guess(getIntValue(cGame.var_7f04[cGame.var_7f6c]), cGame.var_7fe4, " ")
-						+ "/" + GLLib.CurrencySeparator_just_a_guess(getIntValue(cGame.var_7f0c[cGame.var_7f6c]), cGame.var_7fe4, " "),
+				sub_1df06("" + GLLib.CurrencySeparator(getIntValue(cGame.var_7f04[cGame.var_7f6c]), cGame.var_7fe4, " ")
+						+ "/" + GLLib.CurrencySeparator(getIntValue(cGame.var_7f0c[cGame.var_7f6c]), cGame.var_7fe4, " "),
 						5, 24, 0, 0);
 				if (sub_20167(5, 26)) {
 					sub_1df06("" + cGame.var_7f24[cGame.var_7f6c], 5, 28, 0, 0);
@@ -28392,14 +28392,14 @@ public final class cGame extends GLLib implements Class_b {
 				sub_1e2f2(cGame.s_questOutros[cGame.var_7f6c], 5, 34, 0, 0);
 				final String sub_4e1f3;
 				sub_1df06(((sub_4e1f3 = GLLib.TODO_sub_4e1f(156)) == null) ? "" : sub_4e1f3, 5, 35, 0, 0);
-				sub_1df06(GLLib.CurrencySeparator_just_a_guess(getIntValue(cGame.var_7f44[cGame.var_7f6c]), cGame.var_7fe4, " "), 5, 46,
+				sub_1df06(GLLib.CurrencySeparator(getIntValue(cGame.var_7f44[cGame.var_7f6c]), cGame.var_7fe4, " "), 5, 46,
 						0, 0);
 				if (getIntValue(cGame.var_7f4c[cGame.var_7f6c]) > 0) {
-					sub_1df06(GLLib.CurrencySeparator_just_a_guess(getIntValue(cGame.var_7f4c[cGame.var_7f6c]), cGame.var_7fe4, " "), 5,
+					sub_1df06(GLLib.CurrencySeparator(getIntValue(cGame.var_7f4c[cGame.var_7f6c]), cGame.var_7fe4, " "), 5,
 							50, 0, 0);
 				}
 				if (getIntValue(cGame.var_7f54[cGame.var_7f6c]) > 0 && !cGame.s_iapEnabled) {
-					sub_1df06(GLLib.CurrencySeparator_just_a_guess(getIntValue(cGame.var_7f54[cGame.var_7f6c]), cGame.var_7fe4, " "), 5,
+					sub_1df06(GLLib.CurrencySeparator(getIntValue(cGame.var_7f54[cGame.var_7f6c]), cGame.var_7fe4, " "), 5,
 							48, 0, 0);
 				}
 				final String sub_4e1f4;
@@ -30378,7 +30378,7 @@ public final class cGame extends GLLib implements Class_b {
 		cGame.var_7ce4 = -1;
 		cGame.var_7cec = new long[] { 20L, 50L, 100L, 200L, 500L, 1000L };
 		cGame.var_7cf4 = new int[] { 20, 50, 100, 200, 500, 1000 };
-		cGame.var_7cfc = new int[6];
+		cGame.s_iapCashIndices = new int[6];
 		cGame.var_7d04 = new int[6];
 		cGame.var_7d0c = new int[] { -1, -1, -1, -1, -1 };
 		cGame.var_7d14 = new int[] { 778, 779, 780, 781, 782, 783, 787, 788, 789, 790, 803, 804, 808 };

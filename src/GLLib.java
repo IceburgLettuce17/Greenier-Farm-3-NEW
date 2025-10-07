@@ -1479,7 +1479,7 @@ public abstract class GLLib extends Canvas implements Runnable
         }
     }
     
-    static String CurrencySeparator_just_a_guess(long n, final int n2, final String s) {
+    static String CurrencySeparator(long n, final int n2, final String s) {
         if (n < 1000L) {
             return "" + n;
         }
