@@ -1017,7 +1017,7 @@ public abstract class GLLib extends Canvas implements Runnable
         return src[src_off];
     }
     
-    static short sub_3eb0(final byte[] array, int n) {
+    static short Mem_GetShort(final byte[] array, int n) {
         return (short)((array[n++] & 0xFF) | (array[n] & 0xFF) << 8);
     }
     
@@ -1025,8 +1025,8 @@ public abstract class GLLib extends Canvas implements Runnable
         return (src[src_off++] & 0xFF) | (src[src_off++] & 0xFF) << 8 | (src[src_off++] & 0xFF) << 16 | (src[src_off] & 0xFF) << 24;
     }
     
-    static long sub_3f2d(final byte[] array, int n) {
-        return (long)(array[n++] & 0xFF) | (long)(array[n++] & 0xFF) << 8 | (long)(array[n++] & 0xFF) << 16 | (long)(array[n++] & 0xFF) << 24 | (long)(array[n++] & 0xFF) << 32 | (long)(array[n++] & 0xFF) << 40 | (long)(array[n++] & 0xFF) << 48 | (long)(array[n] & 0xFF) << 56;
+    static long Mem_GetLong(final byte[] src, int src_off) {
+        return (long)(src[src_off++] & 0xFF) | (long)(src[src_off++] & 0xFF) << 8 | (long)(src[src_off++] & 0xFF) << 16 | (long)(src[src_off++] & 0xFF) << 24 | (long)(src[src_off++] & 0xFF) << 32 | (long)(src[src_off++] & 0xFF) << 40 | (long)(src[src_off++] & 0xFF) << 48 | (long)(src[src_off] & 0xFF) << 56;
     }
     
     private static Object Mem_ReadArray(final InputStream inputStream) {

@@ -275,7 +275,7 @@ public final class cGame extends GLLib implements Class_b {
 	static boolean var_6fdc;
 	private static int s_rmsLevel;
 	private static int s_rmsExp;
-	private static long var_6ff4;
+	private static long s_rmsCoin;
 	private static int var_6ffc;
 	private static int s_rmsCash;
 	private static int var_700c;
@@ -316,7 +316,7 @@ public final class cGame extends GLLib implements Class_b {
 	private static int var_7124;
 	private static int s_level;
 	private static int s_experienceAmount;
-	private static long var_713c;
+	private static long s_coinAmount;
 	private static int s_cashAmount;
 	private static int[] var_714c;
 	private static int s_maxPlots;
@@ -2778,11 +2778,11 @@ public final class cGame extends GLLib implements Class_b {
 			final byte sub_3e92 = GLLib.Mem_GetByte(sub_3253, n2);
 			++n2;
 			if (sub_3e92 == 50) {
-				final short sub_3eb0 = GLLib.sub_3eb0(sub_3253, n2);
+				final short sub_3eb0 = GLLib.Mem_GetShort(sub_3253, n2);
 				n2 += 2;
-				final short sub_3eb2 = GLLib.sub_3eb0(sub_3253, n2);
+				final short sub_3eb2 = GLLib.Mem_GetShort(sub_3253, n2);
 				n2 += 2;
-				final short sub_3eb3 = GLLib.sub_3eb0(sub_3253, n2);
+				final short sub_3eb3 = GLLib.Mem_GetShort(sub_3253, n2);
 				n2 += 2;
 				++n2;
 				final byte sub_3e93 = GLLib.Mem_GetByte(sub_3253, n2);
@@ -2881,7 +2881,7 @@ public final class cGame extends GLLib implements Class_b {
 					continue;
 				}
 				++n2;
-				final short sub_3eb4 = GLLib.sub_3eb0(sub_3253, n2);
+				final short sub_3eb4 = GLLib.Mem_GetShort(sub_3253, n2);
 				n2 += 2;
 				final short n3 = GLLib.Mem_GetByte(sub_3253, n2);
 				++n2;
@@ -3362,7 +3362,7 @@ public final class cGame extends GLLib implements Class_b {
 									GLLib.sub_3d86(array, GLLib.Mem_SetInt(array, GLLib.sub_3df9(array,
 											GLLib.Mem_SetInt(array, GLLib.Mem_SetInt(array, n, cGame.s_rmsLevel),
 													cGame.s_rmsExp),
-											cGame.var_6ff4), cGame.s_rmsCash), (short) cGame.var_7024),
+											cGame.s_rmsCoin), cGame.s_rmsCash), (short) cGame.var_7024),
 									cGame.s_rmsMaxPlots), (short) cGame.var_7064), cGame.giant_gyatt),
 							cGame.s_rmsMaxAmountInSilo),
 					cGame.var_705c);
@@ -3700,19 +3700,19 @@ public final class cGame extends GLLib implements Class_b {
 			offset += 4;
 			cGame.s_rmsExp = GLLib.Mem_GetInt(rmsGameplay, offset);
 			offset += 4;
-			cGame.var_6ff4 = GLLib.sub_3f2d(rmsGameplay, offset);
+			cGame.s_rmsCoin = GLLib.Mem_GetLong(rmsGameplay, offset);
 			offset += 8;
 			cGame.s_rmsCash = GLLib.Mem_GetInt(rmsGameplay, offset);
 			offset += 4;
 			cGame.s_level = cGame.s_rmsLevel;
 			cGame.s_experienceAmount = cGame.s_rmsExp;
-			cGame.var_713c = cGame.var_6ff4;
+			cGame.s_coinAmount = cGame.s_rmsCoin;
 			cGame.s_cashAmount = cGame.s_rmsCash;
-			cGame.var_7024 = GLLib.sub_3eb0(rmsGameplay, offset);
+			cGame.var_7024 = GLLib.Mem_GetShort(rmsGameplay, offset);
 			offset += 2;
 			cGame.s_rmsMaxPlots = GLLib.Mem_GetInt(rmsGameplay, offset);
 			offset += 4;
-			cGame.var_7064 = GLLib.sub_3eb0(rmsGameplay, offset);
+			cGame.var_7064 = GLLib.Mem_GetShort(rmsGameplay, offset);
 			offset += 2;
 			cGame.giant_gyatt = GLLib.Mem_GetInt(rmsGameplay, offset);
 			offset += 4;
@@ -3743,7 +3743,7 @@ public final class cGame extends GLLib implements Class_b {
 			}
 			for (int n4 = 0; n4 < 10; ++n4) {
 				for (int n5 = 0; n5 < 6; ++n5) {
-					cGame.var_6e34[n4][n5] = GLLib.sub_3f2d(rmsGameplay, offset);
+					cGame.var_6e34[n4][n5] = GLLib.Mem_GetLong(rmsGameplay, offset);
 					offset += 8;
 				}
 			}
@@ -3769,10 +3769,10 @@ public final class cGame extends GLLib implements Class_b {
 			}
 			cGame.var_808c = GLLib.Mem_GetInt(rmsGameplay, offset);
 			offset += 4;
-			cGame.var_77f4 = GLLib.sub_3eb0(rmsGameplay, offset);
+			cGame.var_77f4 = GLLib.Mem_GetShort(rmsGameplay, offset);
 			offset += 2;
 			for (int n10 = 0; n10 < 6; ++n10) {
-				cGame.var_7774[n10] = GLLib.sub_3f2d(rmsGameplay, offset);
+				cGame.var_7774[n10] = GLLib.Mem_GetLong(rmsGameplay, offset);
 				offset += 8;
 			}
 			cGame.var_746c = GLLib.Mem_GetByte(rmsGameplay, offset);
@@ -3780,7 +3780,7 @@ public final class cGame extends GLLib implements Class_b {
 			for (int n11 = 0; n11 < cGame.var_746c; ++n11) {
 				final byte sub_3e92 = GLLib.Mem_GetByte(rmsGameplay, offset);
 				++offset;
-				final long sub_3f2d = GLLib.sub_3f2d(rmsGameplay, offset);
+				final long sub_3f2d = GLLib.Mem_GetLong(rmsGameplay, offset);
 				offset += 8;
 				final int sub_3ee1 = GLLib.Mem_GetInt(rmsGameplay, offset);
 				offset += 4;
@@ -3821,7 +3821,7 @@ public final class cGame extends GLLib implements Class_b {
 			for (int n21 = 0; n21 < cGame.var_7514; ++n21) {
 				final byte sub_3e93 = GLLib.Mem_GetByte(rmsGameplay, offset);
 				++offset;
-				final long sub_3f2d2 = GLLib.sub_3f2d(rmsGameplay, offset);
+				final long sub_3f2d2 = GLLib.Mem_GetLong(rmsGameplay, offset);
 				offset += 8;
 				final int sub_3ee3 = GLLib.Mem_GetInt(rmsGameplay, offset);
 				offset += 4;
@@ -3875,7 +3875,7 @@ public final class cGame extends GLLib implements Class_b {
 				offset += 4;
 			}
 			for (int n35 = 0; n35 < 64; ++n35) {
-				cGame.var_6efc[n35] = GLLib.sub_3eb0(rmsGameplay, offset);
+				cGame.var_6efc[n35] = GLLib.Mem_GetShort(rmsGameplay, offset);
 				offset += 2;
 			}
 			for (int n36 = 0; n36 < 60; ++n36) {
@@ -3896,11 +3896,11 @@ public final class cGame extends GLLib implements Class_b {
 				cGame.var_6e04[n38] = (GLLib.Mem_GetByte(rmsGameplay, offset) != 0);
 				++offset;
 			}
-			cGame.var_7da4 = GLLib.sub_3f2d(rmsGameplay, offset);
+			cGame.var_7da4 = GLLib.Mem_GetLong(rmsGameplay, offset);
 			offset += 8;
-			cGame.var_814c = GLLib.sub_3f2d(rmsGameplay, offset);
+			cGame.var_814c = GLLib.Mem_GetLong(rmsGameplay, offset);
 			offset += 8;
-			cGame.var_8144 = GLLib.sub_3f2d(rmsGameplay, offset);
+			cGame.var_8144 = GLLib.Mem_GetLong(rmsGameplay, offset);
 			offset += 8;
 			cGame.var_776c = GLLib.Mem_GetInt(rmsGameplay, offset);
 			offset += 4;
@@ -3910,9 +3910,9 @@ public final class cGame extends GLLib implements Class_b {
 			}
 			cGame.var_6d4c = GLLib.Mem_GetInt(rmsGameplay, offset);
 			offset += 4;
-			cGame.var_77bc = GLLib.sub_3f2d(rmsGameplay, offset);
+			cGame.var_77bc = GLLib.Mem_GetLong(rmsGameplay, offset);
 			offset += 8;
-			cGame.var_77fc = GLLib.sub_3f2d(rmsGameplay, offset);
+			cGame.var_77fc = GLLib.Mem_GetLong(rmsGameplay, offset);
 			offset += 8;
 			cGame.var_709c = GLLib.Mem_GetInt(rmsGameplay, offset);
 			offset += 4;
@@ -3922,7 +3922,7 @@ public final class cGame extends GLLib implements Class_b {
 			offset += 4;
 			cGame.var_7d4c = GLLib.Mem_GetInt(rmsGameplay, offset);
 			offset += 4;
-			cGame.var_77b4 = GLLib.sub_3f2d(rmsGameplay, offset);
+			cGame.var_77b4 = GLLib.Mem_GetLong(rmsGameplay, offset);
 			for (char c2 = '\0'; c2 < cGame.var_7f74; ++c2) {
 				if (cGame.var_7e54[c2] != -1) {
 					sub_4a22d(cGame.var_7e54[c2], c2, false);
@@ -3939,7 +3939,7 @@ public final class cGame extends GLLib implements Class_b {
 			return false;
 		}
 		final int length = sub_5579.length;
-		final short sub_3eb0 = GLLib.sub_3eb0(sub_5579, 4);
+		final short sub_3eb0 = GLLib.Mem_GetShort(sub_5579, 4);
 		for (int i = 0; i < 13; ++i) {
 			cGame.var_6d5c[i] = ((sub_3eb0 >> i & 0x1) != 0x0);
 		}
@@ -3954,10 +3954,10 @@ public final class cGame extends GLLib implements Class_b {
 			switch (sub_3e92) {
 			case 13: {
 				int n2 = i;
-				(cGame.var_800c = Class_f.sub_92c9(13, new int[] { 0, 0, 255 })).var_17cd = GLLib.sub_3eb0(array,
+				(cGame.var_800c = Class_f.sub_92c9(13, new int[] { 0, 0, 255 })).var_17cd = GLLib.Mem_GetShort(array,
 						n2);
 				n2 += 2;
-				cGame.var_800c.var_17d5 = GLLib.sub_3eb0(array, n2);
+				cGame.var_800c.var_17d5 = GLLib.Mem_GetShort(array, n2);
 				n2 += 2;
 				cGame.var_800c.var_17dd = GLLib.Mem_GetInt(array, n2);
 				n2 += 4;
@@ -3974,11 +3974,11 @@ public final class cGame extends GLLib implements Class_b {
 				} else {
 					sub_25b35 = sub_25b35(8, sub_3e93);
 				}
-				sub_25b35.var_17cd = GLLib.sub_3eb0(array, n3);
+				sub_25b35.var_17cd = GLLib.Mem_GetShort(array, n3);
 				n3 += 2;
-				sub_25b35.var_17d5 = GLLib.sub_3eb0(array, n3);
+				sub_25b35.var_17d5 = GLLib.Mem_GetShort(array, n3);
 				n3 += 2;
-				sub_25b35.var_17dd = GLLib.sub_3eb0(array, n3);
+				sub_25b35.var_17dd = GLLib.Mem_GetShort(array, n3);
 				n3 += 2;
 				sub_25b35.var_1855 = GLLib.Mem_GetInt(array, n3);
 				n3 += 4;
@@ -3990,11 +3990,11 @@ public final class cGame extends GLLib implements Class_b {
 				final byte sub_3e94 = GLLib.Mem_GetByte(array, n4);
 				++n4;
 				final Class_f sub_25b36;
-				(sub_25b36 = sub_25b35(4, sub_3e94)).var_17cd = GLLib.sub_3eb0(array, n4);
+				(sub_25b36 = sub_25b35(4, sub_3e94)).var_17cd = GLLib.Mem_GetShort(array, n4);
 				n4 += 2;
-				sub_25b36.var_17d5 = GLLib.sub_3eb0(array, n4);
+				sub_25b36.var_17d5 = GLLib.Mem_GetShort(array, n4);
 				n4 += 2;
-				sub_25b36.var_17dd = GLLib.sub_3eb0(array, n4);
+				sub_25b36.var_17dd = GLLib.Mem_GetShort(array, n4);
 				n4 += 2;
 				sub_25b36.var_1855 = GLLib.Mem_GetInt(array, n4);
 				n4 += 4;
@@ -4011,11 +4011,11 @@ public final class cGame extends GLLib implements Class_b {
 				final byte sub_3e95 = GLLib.Mem_GetByte(array, n5);
 				++n5;
 				final Class_f sub_25b37;
-				(sub_25b37 = sub_25b35(11, sub_3e95)).var_17cd = GLLib.sub_3eb0(array, n5);
+				(sub_25b37 = sub_25b35(11, sub_3e95)).var_17cd = GLLib.Mem_GetShort(array, n5);
 				n5 += 2;
-				sub_25b37.var_17d5 = GLLib.sub_3eb0(array, n5);
+				sub_25b37.var_17d5 = GLLib.Mem_GetShort(array, n5);
 				n5 += 2;
-				sub_25b37.var_17dd = GLLib.sub_3eb0(array, n5);
+				sub_25b37.var_17dd = GLLib.Mem_GetShort(array, n5);
 				n5 += 2;
 				sub_25b37.var_1855 = GLLib.Mem_GetInt(array, n5);
 				n5 += 4;
@@ -4032,13 +4032,13 @@ public final class cGame extends GLLib implements Class_b {
 				final byte sub_3e96 = GLLib.Mem_GetByte(array, n6);
 				++n6;
 				final Class_f sub_25b38;
-				(sub_25b38 = sub_25b35(11, sub_3e96)).var_17a5 = GLLib.sub_3eb0(array, n6);
+				(sub_25b38 = sub_25b35(11, sub_3e96)).var_17a5 = GLLib.Mem_GetShort(array, n6);
 				n6 += 2;
-				sub_25b38.var_17cd = GLLib.sub_3eb0(array, n6);
+				sub_25b38.var_17cd = GLLib.Mem_GetShort(array, n6);
 				n6 += 2;
-				sub_25b38.var_17d5 = GLLib.sub_3eb0(array, n6);
+				sub_25b38.var_17d5 = GLLib.Mem_GetShort(array, n6);
 				n6 += 2;
-				sub_25b38.var_17dd = GLLib.sub_3eb0(array, n6);
+				sub_25b38.var_17dd = GLLib.Mem_GetShort(array, n6);
 				n6 += 2;
 				sub_25b38.var_1855 = GLLib.Mem_GetInt(array, n6);
 				n6 += 4;
@@ -4056,11 +4056,11 @@ public final class cGame extends GLLib implements Class_b {
 				++n7;
 				final Class_f sub_25a26;
 				(sub_25a26 = sub_25a26(49, 0, false)).var_1835 = sub_3e97;
-				sub_25a26.var_17cd = GLLib.sub_3eb0(array, n7);
+				sub_25a26.var_17cd = GLLib.Mem_GetShort(array, n7);
 				n7 += 2;
-				sub_25a26.var_17d5 = GLLib.sub_3eb0(array, n7);
+				sub_25a26.var_17d5 = GLLib.Mem_GetShort(array, n7);
 				n7 += 2;
-				sub_25a26.var_17dd = GLLib.sub_3eb0(array, n7);
+				sub_25a26.var_17dd = GLLib.Mem_GetShort(array, n7);
 				n7 += 2;
 				sub_25a26.var_1855 = GLLib.Mem_GetInt(array, n7);
 				n7 += 4;
@@ -4073,7 +4073,7 @@ public final class cGame extends GLLib implements Class_b {
 				} else {
 					sub_25a26.var_18c5 = cGame.var_8094[0];
 				}
-				sub_25a26.var_15e5 = GLLib.sub_3f2d(array, n7);
+				sub_25a26.var_15e5 = GLLib.Mem_GetLong(array, n7);
 				n7 += 8;
 				if (sub_25a26.sub_a2a0(2)) {
 					sub_2c907(sub_25a26);
@@ -4087,18 +4087,18 @@ public final class cGame extends GLLib implements Class_b {
 				++n8;
 				final Class_f sub_25b39;
 				(sub_25b39 = sub_25b35(2, sub_3e99)).var_1835 = sub_3e99;
-				sub_25b39.var_17cd = GLLib.sub_3eb0(array, n8);
+				sub_25b39.var_17cd = GLLib.Mem_GetShort(array, n8);
 				n8 += 2;
-				sub_25b39.var_17d5 = GLLib.sub_3eb0(array, n8);
+				sub_25b39.var_17d5 = GLLib.Mem_GetShort(array, n8);
 				n8 += 2;
-				sub_25b39.var_17dd = GLLib.sub_3eb0(array, n8);
+				sub_25b39.var_17dd = GLLib.Mem_GetShort(array, n8);
 				n8 += 2;
 				sub_25b39.var_1855 = GLLib.Mem_GetInt(array, n8);
 				n8 += 4;
 				final byte sub_3e100 = GLLib.Mem_GetByte(array, n8);
 				++n8;
 				sub_25b39.sub_7b13(sub_3e100);
-				sub_25b39.var_1615 = GLLib.sub_3f2d(array, n8);
+				sub_25b39.var_1615 = GLLib.Mem_GetLong(array, n8);
 				n8 += 8;
 				if (sub_25b39.sub_a2a0(2)) {
 					sub_2c907(sub_25b39);
@@ -4111,18 +4111,18 @@ public final class cGame extends GLLib implements Class_b {
 				final byte sub_3e101 = GLLib.Mem_GetByte(array, n9);
 				++n9;
 				final Class_f sub_25b40;
-				(sub_25b40 = sub_25b35(3, sub_3e101)).var_17cd = GLLib.sub_3eb0(array, n9);
+				(sub_25b40 = sub_25b35(3, sub_3e101)).var_17cd = GLLib.Mem_GetShort(array, n9);
 				n9 += 2;
-				sub_25b40.var_17d5 = GLLib.sub_3eb0(array, n9);
+				sub_25b40.var_17d5 = GLLib.Mem_GetShort(array, n9);
 				n9 += 2;
-				sub_25b40.var_17dd = GLLib.sub_3eb0(array, n9);
+				sub_25b40.var_17dd = GLLib.Mem_GetShort(array, n9);
 				n9 += 2;
 				sub_25b40.var_1855 = GLLib.Mem_GetInt(array, n9);
 				n9 += 4;
 				sub_25b40.var_185d = GLLib.Mem_GetByte(array, n9);
 				++n9;
 				if (sub_3e101 == 12 || sub_3e101 == 11) {
-					sub_25b40.var_15c5 = GLLib.sub_3f2d(array, n9);
+					sub_25b40.var_15c5 = GLLib.Mem_GetLong(array, n9);
 					n9 += 8;
 				}
 				if (sub_25b40.sub_a2a0(2)) {
@@ -4137,11 +4137,11 @@ public final class cGame extends GLLib implements Class_b {
 				++n10;
 				final Class_f sub_25b41;
 				(sub_25b41 = sub_25b35(0, sub_3e102)).var_1835 = sub_3e102;
-				sub_25b41.var_17cd = GLLib.sub_3eb0(array, n10);
+				sub_25b41.var_17cd = GLLib.Mem_GetShort(array, n10);
 				n10 += 2;
-				sub_25b41.var_17d5 = GLLib.sub_3eb0(array, n10);
+				sub_25b41.var_17d5 = GLLib.Mem_GetShort(array, n10);
 				n10 += 2;
-				sub_25b41.var_17dd = GLLib.sub_3eb0(array, n10);
+				sub_25b41.var_17dd = GLLib.Mem_GetShort(array, n10);
 				n10 += 2;
 				sub_25b41.var_1855 = GLLib.Mem_GetInt(array, n10);
 				n10 += 4;
@@ -4155,9 +4155,9 @@ public final class cGame extends GLLib implements Class_b {
 				++n10;
 				sub_25b41.var_1635 = GLLib.Mem_GetByte(array, n10);
 				++n10;
-				sub_25b41.var_161d = GLLib.sub_3f2d(array, n10);
+				sub_25b41.var_161d = GLLib.Mem_GetLong(array, n10);
 				n10 += 8;
-				sub_25b41.var_1645 = GLLib.sub_3f2d(array, n10);
+				sub_25b41.var_1645 = GLLib.Mem_GetLong(array, n10);
 				n10 += 8;
 				i = n10;
 				continue;
@@ -8816,7 +8816,7 @@ public final class cGame extends GLLib implements Class_b {
 
 	private static void sub_1ab62() {
 		sub_23a84(61);
-		sub_2e208(0);
+		setCash(0);
 	}
 
 	private static void sub_1ab86() {
@@ -8831,7 +8831,7 @@ public final class cGame extends GLLib implements Class_b {
 
 	private static void sub_1abd0() {
 		sub_23a84(61);
-		sub_2e1e1(0);
+		setCoins(0);
 	}
 
 	private static void sub_1abf4() {
@@ -9081,7 +9081,7 @@ public final class cGame extends GLLib implements Class_b {
 			sub_2024d(15, 7, true);
 			sub_2000c(15, 9, true);
 			sub_2024d(15, 9, true);
-			if (IGP.sub_320d()) {
+			if (IGP.IsAvailable()) {
 				sub_2000c(15, 148, true);
 				sub_2024d(15, 148, true);
 				sub_2000c(15, 149, true);
@@ -10078,9 +10078,9 @@ public final class cGame extends GLLib implements Class_b {
 				final int n9 = n8;
 				final byte[] array3 = array;
 				int sub_1dbac = sub_1dbac(array, n9, array2);
-				array2[5] = GLLib.sub_3eb0(array3, sub_1dbac);
+				array2[5] = GLLib.Mem_GetShort(array3, sub_1dbac);
 				sub_1dbac += 2;
-				array2[6] = GLLib.sub_3eb0(array3, sub_1dbac);
+				array2[6] = GLLib.Mem_GetShort(array3, sub_1dbac);
 				sub_1dbac += 2;
 				array2[7] = (short) (GLLib.Mem_GetByte(array3, sub_1dbac) & 0xFF);
 				++sub_1dbac;
@@ -10101,9 +10101,9 @@ public final class cGame extends GLLib implements Class_b {
 				final int n11 = n10;
 				final byte[] array6 = array4;
 				int sub_1dbac2 = sub_1dbac(array4, n11, array5);
-				array5[5] = GLLib.sub_3eb0(array6, sub_1dbac2);
+				array5[5] = GLLib.Mem_GetShort(array6, sub_1dbac2);
 				sub_1dbac2 += 2;
-				array5[6] = GLLib.sub_3eb0(array6, sub_1dbac2);
+				array5[6] = GLLib.Mem_GetShort(array6, sub_1dbac2);
 				sub_1dbac2 += 2;
 				array5[7] = (short) (GLLib.Mem_GetByte(array6, sub_1dbac2) & 0xFF);
 				++sub_1dbac2;
@@ -10126,9 +10126,9 @@ public final class cGame extends GLLib implements Class_b {
 				final int n13 = n12;
 				final byte[] array9 = array7;
 				int sub_1dbac3 = sub_1dbac(array7, n13, array8);
-				array8[5] = GLLib.sub_3eb0(array9, sub_1dbac3);
+				array8[5] = GLLib.Mem_GetShort(array9, sub_1dbac3);
 				sub_1dbac3 += 2;
-				array8[6] = GLLib.sub_3eb0(array9, sub_1dbac3);
+				array8[6] = GLLib.Mem_GetShort(array9, sub_1dbac3);
 				sub_1dbac3 += 2;
 				array8[7] = (short) (GLLib.Mem_GetByte(array9, sub_1dbac3) & 0xFF);
 				++sub_1dbac3;
@@ -10159,9 +10159,9 @@ public final class cGame extends GLLib implements Class_b {
 				final int n15 = n14;
 				final byte[] array12 = array10;
 				int sub_1dbac4 = sub_1dbac(array10, n15, array11);
-				array11[5] = GLLib.sub_3eb0(array12, sub_1dbac4);
+				array11[5] = GLLib.Mem_GetShort(array12, sub_1dbac4);
 				sub_1dbac4 += 2;
-				array11[6] = GLLib.sub_3eb0(array12, sub_1dbac4);
+				array11[6] = GLLib.Mem_GetShort(array12, sub_1dbac4);
 				sub_1dbac4 += 2;
 				array11[7] = (short) (GLLib.Mem_GetByte(array12, sub_1dbac4) & 0xFF);
 				++sub_1dbac4;
@@ -10173,11 +10173,11 @@ public final class cGame extends GLLib implements Class_b {
 				++sub_1dbac4;
 				array11[11] = (short) (GLLib.Mem_GetByte(array12, sub_1dbac4) & 0xFF);
 				++sub_1dbac4;
-				array11[12] = GLLib.sub_3eb0(array12, sub_1dbac4);
+				array11[12] = GLLib.Mem_GetShort(array12, sub_1dbac4);
 				sub_1dbac4 += 2;
-				array11[13] = GLLib.sub_3eb0(array12, sub_1dbac4);
+				array11[13] = GLLib.Mem_GetShort(array12, sub_1dbac4);
 				sub_1dbac4 += 2;
-				array11[14] = GLLib.sub_3eb0(array12, sub_1dbac4);
+				array11[14] = GLLib.Mem_GetShort(array12, sub_1dbac4);
 				sub_1dbac4 += 2;
 				array11[15] = (short) (GLLib.Mem_GetByte(array12, sub_1dbac4) & 0xFF);
 				++sub_1dbac4;
@@ -10210,15 +10210,15 @@ public final class cGame extends GLLib implements Class_b {
 				++sub_1dbac5;
 				array14[12] = (short) (GLLib.Mem_GetByte(array15, sub_1dbac5) & 0xFF);
 				++sub_1dbac5;
-				array14[13] = GLLib.sub_3eb0(array15, sub_1dbac5);
+				array14[13] = GLLib.Mem_GetShort(array15, sub_1dbac5);
 				sub_1dbac5 += 2;
-				array14[14] = GLLib.sub_3eb0(array15, sub_1dbac5);
+				array14[14] = GLLib.Mem_GetShort(array15, sub_1dbac5);
 				sub_1dbac5 += 2;
-				array14[15] = GLLib.sub_3eb0(array15, sub_1dbac5);
+				array14[15] = GLLib.Mem_GetShort(array15, sub_1dbac5);
 				sub_1dbac5 += 2;
-				array14[16] = GLLib.sub_3eb0(array15, sub_1dbac5);
+				array14[16] = GLLib.Mem_GetShort(array15, sub_1dbac5);
 				sub_1dbac5 += 2;
-				array14[17] = GLLib.sub_3eb0(array15, sub_1dbac5);
+				array14[17] = GLLib.Mem_GetShort(array15, sub_1dbac5);
 				sub_1dbac5 += 2;
 				array14[18] = (short) (GLLib.Mem_GetByte(array15, sub_1dbac5) & 0xFF);
 				++sub_1dbac5;
@@ -10241,9 +10241,9 @@ public final class cGame extends GLLib implements Class_b {
 				int sub_1dbac6 = sub_1dbac(array16, n19, array17);
 				array17[5] = (short) (GLLib.Mem_GetByte(array18, sub_1dbac6) & 0xFF);
 				++sub_1dbac6;
-				array17[6] = GLLib.sub_3eb0(array18, sub_1dbac6);
+				array17[6] = GLLib.Mem_GetShort(array18, sub_1dbac6);
 				sub_1dbac6 += 2;
-				array17[7] = GLLib.sub_3eb0(array18, sub_1dbac6);
+				array17[7] = GLLib.Mem_GetShort(array18, sub_1dbac6);
 				sub_1dbac6 += 2;
 				array17[8] = (short) (GLLib.Mem_GetByte(array18, sub_1dbac6) & 0xFF);
 				++sub_1dbac6;
@@ -10355,11 +10355,11 @@ public final class cGame extends GLLib implements Class_b {
 	private static int sub_1dbac(final byte[] array, int n, final short[] array2) {
 		array2[0] = (short) (GLLib.Mem_GetByte(array, n) & 0xFF);
 		++n;
-		array2[1] = GLLib.sub_3eb0(array, n);
+		array2[1] = GLLib.Mem_GetShort(array, n);
 		n += 2;
-		array2[2] = GLLib.sub_3eb0(array, n);
+		array2[2] = GLLib.Mem_GetShort(array, n);
 		n += 2;
-		array2[3] = GLLib.sub_3eb0(array, n);
+		array2[3] = GLLib.Mem_GetShort(array, n);
 		n += 2;
 		array2[4] = (short) (GLLib.Mem_GetByte(array, n) & 0xFF);
 		return ++n;
@@ -17955,8 +17955,8 @@ public final class cGame extends GLLib implements Class_b {
 	}
 
 	static int sub_2e0da() {
-		final long sub_301eb = sub_301eb(cGame.var_6ff4);
-		final long sub_301eb2 = sub_301eb(cGame.var_713c);
+		final long sub_301eb = sub_301eb(cGame.s_rmsCoin);
+		final long sub_301eb2 = sub_301eb(cGame.s_coinAmount);
 		if (sub_301eb != sub_301eb2) {
 			return (int) sub_301eb2;
 		}
@@ -17964,12 +17964,12 @@ public final class cGame extends GLLib implements Class_b {
 	}
 
 	static int getCash() {
-		final int getIntValue = getIntValue(cGame.s_rmsCash);
-		final int getIntValue2 = getIntValue(cGame.s_cashAmount);
-		if (getIntValue != getIntValue2) {
-			return getIntValue2;
+		final int cashRms = getIntValue(cGame.s_rmsCash);
+		final int cash = getIntValue(cGame.s_cashAmount);
+		if (cashRms != cash) {
+			return cash;
 		}
-		return getIntValue;
+		return cashRms;
 	}
 
 	static int getLevel() {
@@ -17990,11 +17990,11 @@ public final class cGame extends GLLib implements Class_b {
 		return rmsExperience;
 	}
 
-	private static void sub_2e1e1(final int n) {
-		cGame.var_713c = (cGame.var_6ff4 = sub_301bd(n));
+	private static void setCoins(final int n) {
+		cGame.s_coinAmount = (cGame.s_rmsCoin = sub_301bd(n));
 	}
 
-	private static void sub_2e208(final int n) {
+	private static void setCash(final int n) {
 		cGame.s_cashAmount = (cGame.s_rmsCash = sub_30161(n));
 	}
 
@@ -18010,8 +18010,8 @@ public final class cGame extends GLLib implements Class_b {
 		setLevel(1);
 		setExperience(0);
 		if (b) {
-			sub_2e1e1(cGame.var_8064[0]);
-			sub_2e208(cGame.var_8064[1]);
+			setCoins(cGame.var_8064[0]);
+			setCash(cGame.var_8064[1]);
 		}
 		cGame.var_7074 = new int[99];
 		cGame.var_707c = new int[99];
@@ -18065,14 +18065,11 @@ public final class cGame extends GLLib implements Class_b {
 	}
 
 	static void sub_2e482(int n) {
-		sub_2e1e1((sub_2e0da() + n < 0) ? 0
+		setCoins((sub_2e0da() + n < 0) ? 0
 				: ((sub_2e0da() + n > cGame.var_6ffc) ? cGame.var_6ffc : (sub_2e0da() + n)));
 		if (n > 0) {
-			final int n2 = 0;
-			final int n3 = n;
-			final int n4 = 11;
-			n = n2;
-			sub_49db0(n2, n, n4, false);
+			n = 0;
+			sub_49db0(n, n, 11, false);
 		}
 	}
 
@@ -18087,7 +18084,7 @@ public final class cGame extends GLLib implements Class_b {
 	}
 
 	static void sub_2e549(final int n) {
-		sub_2e208((getCash() + n < 0) ? 0
+		setCash((getCash() + n < 0) ? 0
 				: ((getCash() + n > cGame.var_700c) ? cGame.var_700c : (getCash() + n)));
 	}
 
@@ -18873,7 +18870,7 @@ public final class cGame extends GLLib implements Class_b {
 							break;
 						}
 						case 2: {
-							Class_h.var_6a[i].var_82[k][l] = GLLib.sub_3eb0(sub_3253, n);
+							Class_h.var_6a[i].var_82[k][l] = GLLib.Mem_GetShort(sub_3253, n);
 							break;
 						}
 						case 4: {
@@ -25946,12 +25943,12 @@ public final class cGame extends GLLib implements Class_b {
 					}
 					case 2: {
 						++n2;
-						sub_3eb0 = GLLib.sub_3eb0(sub_3253, n2);
+						sub_3eb0 = GLLib.Mem_GetShort(sub_3253, n2);
 						n2 += 2;
 						break;
 					}
 					}
-					cGame.var_7124 = GLLib.sub_3eb0(sub_3253, n2);
+					cGame.var_7124 = GLLib.Mem_GetShort(sub_3253, n2);
 					n2 += 2;
 					if (b2 == 0) {
 						cGame.var_710c = new short[cGame.var_7124][];
@@ -25959,7 +25956,7 @@ public final class cGame extends GLLib implements Class_b {
 						cGame.var_7104 = new short[cGame.var_7124];
 					}
 					for (int i = 0; i < cGame.var_7124; ++i) {
-						final short sub_3eb2 = GLLib.sub_3eb0(sub_3253, n2);
+						final short sub_3eb2 = GLLib.Mem_GetShort(sub_3253, n2);
 						n2 += 2;
 						int n4 = 0;
 						Label_0622: {
@@ -26034,23 +26031,23 @@ public final class cGame extends GLLib implements Class_b {
 							}
 							case 102:
 							case 107: {
-								cGame.var_7114[n7][n11 * 6] = GLLib.sub_3eb0(sub_3253, n2);
+								cGame.var_7114[n7][n11 * 6] = GLLib.Mem_GetShort(sub_3253, n2);
 								n2 += 2;
 								break;
 							}
 							case 106: {
-								cGame.var_7114[n7][n11 * 6] = GLLib.sub_3eb0(sub_3253, n2);
+								cGame.var_7114[n7][n11 * 6] = GLLib.Mem_GetShort(sub_3253, n2);
 								n2 += 2;
-								cGame.var_7114[n7][n11 * 6 + 1] = GLLib.sub_3eb0(sub_3253, n2);
+								cGame.var_7114[n7][n11 * 6 + 1] = GLLib.Mem_GetShort(sub_3253, n2);
 								n2 += 2;
 								break;
 							}
 							case 110: {
-								cGame.var_7114[n7][n11 * 6] = GLLib.sub_3eb0(sub_3253, n2);
+								cGame.var_7114[n7][n11 * 6] = GLLib.Mem_GetShort(sub_3253, n2);
 								n2 += 2;
-								cGame.var_7114[n7][n11 * 6 + 1] = GLLib.sub_3eb0(sub_3253, n2);
+								cGame.var_7114[n7][n11 * 6 + 1] = GLLib.Mem_GetShort(sub_3253, n2);
 								n2 += 2;
-								cGame.var_7114[n7][n11 * 6 + 2] = GLLib.sub_3eb0(sub_3253, n2);
+								cGame.var_7114[n7][n11 * 6 + 2] = GLLib.Mem_GetShort(sub_3253, n2);
 								n2 += 2;
 								break;
 							}
@@ -26059,29 +26056,29 @@ public final class cGame extends GLLib implements Class_b {
 							case 105:
 							case 108:
 							case 109: {
-								cGame.var_7114[n7][n11 * 6] = GLLib.sub_3eb0(sub_3253, n2);
+								cGame.var_7114[n7][n11 * 6] = GLLib.Mem_GetShort(sub_3253, n2);
 								n2 += 2;
-								cGame.var_7114[n7][n11 * 6 + 1] = GLLib.sub_3eb0(sub_3253, n2);
+								cGame.var_7114[n7][n11 * 6 + 1] = GLLib.Mem_GetShort(sub_3253, n2);
 								n2 += 2;
-								cGame.var_7114[n7][n11 * 6 + 2] = GLLib.sub_3eb0(sub_3253, n2);
+								cGame.var_7114[n7][n11 * 6 + 2] = GLLib.Mem_GetShort(sub_3253, n2);
 								n2 += 2;
-								cGame.var_7114[n7][n11 * 6 + 3] = GLLib.sub_3eb0(sub_3253, n2);
+								cGame.var_7114[n7][n11 * 6 + 3] = GLLib.Mem_GetShort(sub_3253, n2);
 								n2 += 2;
 								break;
 							}
 							case 111: {
 								cGame.var_7114[n7][n11 * 6] = sub_3eb0;
-								cGame.var_7114[n7][n11 * 6 + 1] = GLLib.sub_3eb0(sub_3253, n2);
+								cGame.var_7114[n7][n11 * 6 + 1] = GLLib.Mem_GetShort(sub_3253, n2);
 								n2 += 2;
-								cGame.var_7114[n7][n11 * 6 + 2] = GLLib.sub_3eb0(sub_3253, n2);
+								cGame.var_7114[n7][n11 * 6 + 2] = GLLib.Mem_GetShort(sub_3253, n2);
 								n2 += 2;
 								break;
 							}
 							case 112: {
 								cGame.var_7114[n7][n11 * 6] = sub_3eb0;
-								cGame.var_7114[n7][n11 * 6 + 1] = GLLib.sub_3eb0(sub_3253, n2);
+								cGame.var_7114[n7][n11 * 6 + 1] = GLLib.Mem_GetShort(sub_3253, n2);
 								n2 += 2;
-								cGame.var_7114[n7][n11 * 6 + 2] = GLLib.sub_3eb0(sub_3253, n2);
+								cGame.var_7114[n7][n11 * 6 + 2] = GLLib.Mem_GetShort(sub_3253, n2);
 								n2 += 2;
 								break;
 							}
@@ -26091,9 +26088,9 @@ public final class cGame extends GLLib implements Class_b {
 							}
 							case 21: {
 								cGame.var_7114[n7][n11 * 6] = sub_3eb0;
-								cGame.var_7114[n7][n11 * 6 + 1] = GLLib.sub_3eb0(sub_3253, n2);
+								cGame.var_7114[n7][n11 * 6 + 1] = GLLib.Mem_GetShort(sub_3253, n2);
 								n2 += 2;
-								cGame.var_7114[n7][n11 * 6 + 2] = GLLib.sub_3eb0(sub_3253, n2);
+								cGame.var_7114[n7][n11 * 6 + 2] = GLLib.Mem_GetShort(sub_3253, n2);
 								n2 += 2;
 								break;
 							}
@@ -26106,32 +26103,32 @@ public final class cGame extends GLLib implements Class_b {
 								break;
 							}
 							case 11: {
-								cGame.var_7114[n7][n11 * 6] = GLLib.sub_3eb0(sub_3253, n2);
+								cGame.var_7114[n7][n11 * 6] = GLLib.Mem_GetShort(sub_3253, n2);
 								n2 += 2;
-								cGame.var_7114[n7][n11 * 6 + 1] = GLLib.sub_3eb0(sub_3253, n2);
+								cGame.var_7114[n7][n11 * 6 + 1] = GLLib.Mem_GetShort(sub_3253, n2);
 								n2 += 2;
 								break;
 							}
 							case 12: {
-								cGame.var_7114[n7][n11 * 6] = GLLib.sub_3eb0(sub_3253, n2);
+								cGame.var_7114[n7][n11 * 6] = GLLib.Mem_GetShort(sub_3253, n2);
 								n2 += 2;
-								cGame.var_7114[n7][n11 * 6 + 1] = GLLib.sub_3eb0(sub_3253, n2);
+								cGame.var_7114[n7][n11 * 6 + 1] = GLLib.Mem_GetShort(sub_3253, n2);
 								n2 += 2;
 								break;
 							}
 							case 114: {
 								cGame.var_7114[n7][n11 * 6] = sub_3eb0;
-								cGame.var_7114[n7][n11 * 6 + 1] = GLLib.sub_3eb0(sub_3253, n2);
+								cGame.var_7114[n7][n11 * 6 + 1] = GLLib.Mem_GetShort(sub_3253, n2);
 								n2 += 2;
-								cGame.var_7114[n7][n11 * 6 + 2] = GLLib.sub_3eb0(sub_3253, n2);
+								cGame.var_7114[n7][n11 * 6 + 2] = GLLib.Mem_GetShort(sub_3253, n2);
 								n2 += 2;
 								break;
 							}
 							case 115: {
 								cGame.var_7114[n7][n11 * 6] = sub_3eb0;
-								cGame.var_7114[n7][n11 * 6 + 1] = GLLib.sub_3eb0(sub_3253, n2);
+								cGame.var_7114[n7][n11 * 6 + 1] = GLLib.Mem_GetShort(sub_3253, n2);
 								n2 += 2;
-								cGame.var_7114[n7][n11 * 6 + 2] = GLLib.sub_3eb0(sub_3253, n2);
+								cGame.var_7114[n7][n11 * 6 + 2] = GLLib.Mem_GetShort(sub_3253, n2);
 								n2 += 2;
 								break;
 							}
@@ -26817,8 +26814,8 @@ public final class cGame extends GLLib implements Class_b {
 			sub_24088();
 			cGame.var_7da4 = 0L;
 			cGame.var_7064 = 0;
-			sub_2e1e1(5000);
-			sub_2e208(50);
+			setCoins(5000);
+			setCash(50);
 			sub_3021b(false);
 			sub_29de8();
 			cGame.var_687c = null;
@@ -30070,7 +30067,7 @@ public final class cGame extends GLLib implements Class_b {
 		cGame.var_6fdc = false;
 		cGame.s_rmsLevel = sub_30161(1);
 		cGame.s_rmsExp = sub_30161(0);
-		cGame.var_6ff4 = sub_301bd(0L);
+		cGame.s_rmsCoin = sub_301bd(0L);
 		cGame.var_6ffc = 99999999;
 		cGame.s_rmsCash = sub_30161(0);
 		cGame.var_700c = 3000000;

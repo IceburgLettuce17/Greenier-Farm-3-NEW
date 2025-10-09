@@ -45,17 +45,7 @@ final class Class_n
     }
     
     final void sub_2f7(int i, int n, int n2, int n3, int abs) {
-        final int n4 = i;
-        final int n5 = n;
-        final int n6 = n3;
-        final int n7 = abs;
-        final int var_1fd = this.var_1fd;
-        final int var_205 = this.var_205;
         final int n8 = var_1fd;
-        abs = n7;
-        n3 = n6;
-        n = n5;
-        i = n4;
         n2 = 0;
         for (int j = 0; j < 9216; ++j) {
             this.var_1b5[j] = -1;
@@ -66,7 +56,7 @@ final class Class_n
             this.var_21d[j] = 0;
         }
         this.var_22d = -1;
-        i += n * n8;
+        i += n * var_1fd;
         final int n9 = n3;
         final int n10 = abs;
         while (i != -1) {
@@ -174,14 +164,7 @@ final class Class_n
         }
         this.var_225 = 0;
         while (i != -1) {
-            final int n18 = i % n8;
-            final int n19 = i / n8;
-            final short[] var_21d = this.var_21d;
-            final int n20 = this.var_225++;
-            final int n21 = n18;
-            n3 = n19;
-            n2 = n21;
-            var_21d[n20] = (short)(n3 * this.var_1fd + n2);
+            var_21d[this.var_225++] = (short)(n3 * this.var_1fd + n2);
             i = this.var_1b5[i];
         }
         --this.var_225;

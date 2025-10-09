@@ -106,7 +106,7 @@ public final class IGP implements Runnable, CommandListener
     private static String var_1eb5;
     private static String var_1ebd;
     private static String var_1ec5;
-    private static String var_1ecd;
+    private static String s_igaUrlRedir;
     private static String var_1ed5;
     private static String var_1edd;
     private static boolean var_1ee5;
@@ -172,19 +172,13 @@ public final class IGP implements Runnable, CommandListener
     private static boolean sub_20f4() {
         sub_21d0();
         try {
-            final InputStream sub_67eb;
-            IGP.var_1e25 = new int[IGP.var_1e1d = (IGP.var_1e1d = ((sub_67eb = getResourceAsStream("/dataIGP")).read() & 0xFF)) + ((sub_67eb.read() & 0xFF) << 8)];
+            final InputStream sub_67eb = getResourceAsStream("/dataIGP");
+            IGP.var_1e25 = new int[IGP.var_1e1d = (IGP.var_1e1d = (sub_67eb.read() & 0xFF)) + ((sub_67eb.read() & 0xFF) << 8)];
             for (int i = 0; i < IGP.var_1e1d; ++i) {
-                IGP.var_1e25[i] = (sub_67eb.read() & 0xFF);
-                final int[] var_1e25 = IGP.var_1e25;
-                final int n = i;
-                var_1e25[n] += (sub_67eb.read() & 0xFF) << 8;
-                final int[] var_1e26 = IGP.var_1e25;
-                final int n2 = i;
-                var_1e26[n2] += (sub_67eb.read() & 0xFF) << 16;
-                final int[] var_1e27 = IGP.var_1e25;
-                final int n3 = i;
-                var_1e27[n3] += (sub_67eb.read() & 0xFF) << 24;
+                var_1e25[i] = (sub_67eb.read() & 0xFF);
+                var_1e25[i] += (sub_67eb.read() & 0xFF) << 8;
+                var_1e25[i] += (sub_67eb.read() & 0xFF) << 16;
+                var_1e25[i] += (sub_67eb.read() & 0xFF) << 24;
             }
             sub_67eb.close();
         }
@@ -204,16 +198,16 @@ public final class IGP implements Runnable, CommandListener
         if (i < 0 || i >= IGP.var_1e1d - 1) {
             return null;
         }
-        final int n;
-        if ((n = IGP.var_1e25[i + 1] - IGP.var_1e25[i]) == 0) {
+        int n = IGP.var_1e25[i + 1];
+        if (n - IGP.var_1e25[i] == 0) {
             return null;
         }
         byte[] b = null;
         try {
-            InputStream sub_67eb = getResourceAsStream("/dataIGP");
-            sub_67eb.skip(2 + 4 * IGP.var_1e1d + IGP.var_1e25[i]);
-            for (i = (b = new byte[n]).length; i > 0; i -= sub_67eb.read(b)) {}
-            sub_67eb.close();
+            InputStream dataIGP = getResourceAsStream("/dataIGP");
+            dataIGP.skip(2 + 4 * IGP.var_1e1d + IGP.var_1e25[i]);
+            for (i = (b = new byte[n]).length; i > 0; i -= dataIGP.read(b)) {}
+            dataIGP.close();
         }
         catch (final Exception ex) {}
         return b;
@@ -235,34 +229,24 @@ public final class IGP implements Runnable, CommandListener
         sub_2389(s, graphics, n, n2, n3, 3, 10, true);
     }
     
-    private static void sub_2389(final String s, Graphics graphics, final int n, final int n2, final int n3, final int n4, final int n5, final boolean b) {
+    private static void sub_2389(final String s, Graphics g, final int n, final int n2, final int n3, final int n4, final int n5, final boolean b) {
         if (b) {
             if (IGP.var_1e45 == 0) {
                 IGP.var_1fd5.sub_6434(IGP.var_1e3d);
-                final short[] sub_4ac6 = IGP.var_1fd5.sub_4ac6(s, n, false);
-                final ASprite var_1fd5 = IGP.var_1fd5;
-                final Graphics graphics2 = graphics;
-                final short[] array = sub_4ac6;
-                graphics = graphics2;
-                var_1fd5.sub_547f(graphics2, s, array, n2, n3, 0, 10, n4, -1, false);
+                var_1fd5.sub_547f(g, s, IGP.var_1fd5.sub_4ac6(s, n, false), n2, n3, 0, 10, n4, -1, false);
                 return;
             }
             IGP.var_1fdd.sub_6434(IGP.var_1e3d);
-            final short[] sub_4ac7 = IGP.var_1fdd.sub_4ac6(s, n, false);
-            final ASprite var_1fdd = IGP.var_1fdd;
-            final Graphics graphics3 = graphics;
-            final short[] array2 = sub_4ac7;
-            graphics = graphics3;
-            var_1fdd.sub_547f(graphics3, s, array2, n2, n3, 0, 10, n4, -1, false);
+            var_1fdd.sub_547f(g, s, IGP.var_1fdd.sub_4ac6(s, n, false), n2, n3, 0, 10, n4, -1, false);
         }
         else {
             if (IGP.var_1e45 == 0) {
                 IGP.var_1fd5.sub_6434(IGP.var_1e3d);
-                IGP.var_1fd5.sub_5cd2(graphics, s, n2, n3, n4);
+                IGP.var_1fd5.sub_5cd2(g, s, n2, n3, n4);
                 return;
             }
             IGP.var_1fdd.sub_6434(IGP.var_1e3d);
-            IGP.var_1fdd.sub_5cd2(graphics, s, n2, n3, n4);
+            IGP.var_1fdd.sub_5cd2(g, s, n2, n3, n4);
         }
     }
     
@@ -281,7 +265,7 @@ public final class IGP implements Runnable, CommandListener
             sub_2bc9();
             new StringBuffer().append(IGP.s_fullIgpSignature).append("");
             sub_3367();
-            IGP.var_1ecd = null;
+            IGP.s_igaUrlRedir = null;
             IGP.var_1edd = null;
             IGP.var_1e75 = null;
             IGP.var_1e5d = null;
@@ -510,7 +494,7 @@ public final class IGP implements Runnable, CommandListener
             if ((IGP.var_1edd = IGP.s_midlet.getAppProperty(IGP.var_1e75)) != null) {
                 IGP.var_1edd = IGP.var_1edd.trim();
                 IGP.var_1eed = true;
-                if (IGP.var_1edd.indexOf(IGP.var_1ecd) != -1) {
+                if (IGP.var_1edd.indexOf(IGP.s_igaUrlRedir) != -1) {
                     IGP.var_1ee5 = true;
                 }
             }
@@ -561,11 +545,11 @@ public final class IGP implements Runnable, CommandListener
         return string;
     }
     
-    public static boolean sub_320d() {
+    public static boolean IsAvailable() {
         return IGP.s_isAvailable;
     }
     
-    public static void enterIGP(String loadingMsg, final int appLanguage) {
+    public static void enterIGP(String loadingMsg, final int unusedInt) {
         new StringBuffer().append("enterIGP(loadingMsg = ").append(loadingMsg).append(", appLanguage = ").append(0).append(" (").append(IGP.var_1f05[0]).append(")");
         if (IGP.var_2055) {
             sub_3539();
@@ -588,19 +572,19 @@ public final class IGP implements Runnable, CommandListener
             IGP.var_1fc5 = 4 + IGP.var_1f0d;
             IGP.var_1fad = sub_3660();
         }
-        RecordStore store = null;
+        RecordStore igp19 = null;
         try {
-        	store = RecordStore.openRecordStore("igp19", false);
+        	igp19 = RecordStore.openRecordStore("igp19", false);
         }
         catch (final Exception ex) {
             try {
-            	store = RecordStore.openRecordStore("igp19", true);
+            	igp19 = RecordStore.openRecordStore("igp19", true);
             }
             catch (final Exception ex2) {}
         }
         try {
             if (loadingMsg != null) {
-                store.closeRecordStore();
+                igp19.closeRecordStore();
             }
         }
         catch (final Exception ex3) {}
@@ -1814,7 +1798,7 @@ public final class IGP implements Runnable, CommandListener
         IGP.var_1eb5 = "&ctg=";
         IGP.var_1ebd = "&lg=";
         IGP.var_1ec5 = "SC";
-        IGP.var_1ecd = "ingameads.gameloft.com/redir";
+        IGP.s_igaUrlRedir = "ingameads.gameloft.com/redir";
         IGP.var_1ed5 = ";";
         IGP.var_1efd = false;
         IGP.var_1f05 = new String[0];

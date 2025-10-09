@@ -985,8 +985,8 @@ final class GLLibPlayer implements Runnable
             GLLibPlayer.s_TilesetLayerInfo[0][19] = GLLibPlayer.var_16c7[1];
             GLLibPlayer.s_TilesetLayerData[0][0] = array2;
             GLLibPlayer.s_TilesetLayerData[0][1] = array3;
-            GLLibPlayer.s_TilesetLayerInfo[0][2] = GLLib.sub_3eb0(array, 0);
-            GLLibPlayer.s_TilesetLayerInfo[0][3] = GLLib.sub_3eb0(array, 2);
+            GLLibPlayer.s_TilesetLayerInfo[0][2] = GLLib.Mem_GetShort(array, 0);
+            GLLibPlayer.s_TilesetLayerInfo[0][3] = GLLib.Mem_GetShort(array, 2);
             GLLibPlayer.s_TilesetLayerInfo[0][5] = GLLibPlayer.s_TilesetLayerInfo[0][2] * GLLibPlayer.var_16c7[2];
             GLLibPlayer.s_TilesetLayerInfo[0][6] = GLLibPlayer.s_TilesetLayerInfo[0][3] * GLLibPlayer.var_16c7[5];
             GLLibPlayer.s_TilesetSprite[0] = class_e;
