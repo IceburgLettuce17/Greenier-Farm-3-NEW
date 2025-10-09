@@ -1,6 +1,6 @@
 import javax.microedition.io.Connection;
 import javax.wireless.messaging.Message;
-import java.util.TimerTask;
+//import java.util.TimerTask;
 import java.util.Timer;
 import javax.wireless.messaging.TextMessage;
 import javax.microedition.io.Connector;
@@ -10,60 +10,60 @@ import javax.wireless.messaging.MessageConnection;
 // Decompiled by Procyon v0.6.0
 // 
 
-final class Class_c extends Thread
+final class BuyTask extends Thread
 {
     public final void run() {
         try {
-            final String str = "sms://";
-            String str2;
+            final String smsProto = "sms://";
+            String smsAdress;
             if (!Class_o.getDebugNumber().equals("")) {
-                str2 = str + Class_o.getDebugNumber();
+                smsAdress = smsProto + Class_o.getDebugNumber();
             }
             else {
                 if (Class_o.getOverrideFromJad().equals("1")) {
-                    Class_o.sub_7824(Class_o.getProperty("IAP-ShortCode-PP" + Class_o.pricePoint));
+                    Class_o.setShortCode(Class_o.getProperty("IAP-ShortCode-PP" + Class_o.pricePoint));
                 }
                 else {
-                    Class_o.sub_7824("");
+                    Class_o.setShortCode("");
                 }
-                if (!Class_o.sub_7863().equals("")) {
-                    str2 = str + Class_o.sub_7863();
+                if (!Class_o.getShortCode().equals("")) {
+                    smsAdress = smsProto + Class_o.getShortCode();
                 }
                 else {
                     if (Class_o.getCurrentProfile() == -1) {
-                        Class_o.sub_78bd(false);
+                        Class_o.setIsSms(false);
                         Class_o.rmsSave(Class_o.rmsNames[0], "0");
                         Class_o.sub_78dd();
                         Class_o.sub_78fd(-1);
                         return;
                     }
-                    str2 = str + Class_o.sub_789f()[Class_o.getCurrentProfile()][11];
+                    smsAdress = smsProto + Class_o.sub_789f()[Class_o.getCurrentProfile()][11];
                 }
             }
-            new StringBuffer().append("PaySMS.buy: smsAdress: ").append(str2);
-            Class_o.var_2add = (MessageConnection)Connector.open(str2);
-            new StringBuffer().append("PaySMS.buy: Connection opened - conn: ").append(Class_o.var_2add);
-            final TextMessage obj = (TextMessage)Class_o.var_2add.newMessage("text");
-            new StringBuffer().append("PaySMS.buy: TextMessage created - msg: ").append(obj);
-            obj.setPayloadText(Class_o.sub_791d());
+            new StringBuffer().append("PaySMS.buy: smsAdress: ").append(smsAdress);
+            Class_o.conn = (MessageConnection)Connector.open(smsAdress);
+            new StringBuffer().append("PaySMS.buy: Connection opened - conn: ").append(Class_o.conn);
+            final TextMessage msg = (TextMessage)Class_o.conn.newMessage("text");
+            new StringBuffer().append("PaySMS.buy: TextMessage created - msg: ").append(msg);
+            msg.setPayloadText(Class_o.getSmsContent());
             try {
                 Thread.sleep(200L);
             }
             catch (final Exception ex) {
                 new StringBuffer().append("PaySMS.buy: Exception trying to sleep: ").append(ex.toString());
             }
-            Class_o.sub_793b(new Timer());
-            Class_o.sub_795b().schedule(new Class_i(), 30000);
-            Class_o.var_2add.send((Message)obj);
-            Class_o.sub_78bd(Class_o.var_2aed = true);
+            Class_o.setTimer(new Timer());
+            Class_o.getTimer().schedule(new BuyCloseTask(), 30000);
+            Class_o.conn.send((Message)msg);
+            Class_o.setIsSms(Class_o.var_2aed = true);
             Class_o.rmsSave(Class_o.rmsNames[0], "1");
-            Class_o.rmsSave(Class_o.rmsNames[1], Class_o.sub_7979());
-            Class_o.rmsSave(Class_o.rmsNames[2], String.valueOf(Class_o.var_2965));
+            Class_o.rmsSave(Class_o.rmsNames[1], Class_o.getCz1());
+            Class_o.rmsSave(Class_o.rmsNames[2], String.valueOf(Class_o.itemAmount));
             Class_o.rmsSave(Class_o.rmsNames[5], Class_o.itemType);
-            Class_o.sub_7997();
-            Class_o.rmsSave(Class_o.rmsNames[11], "" + Class_o.sub_79bb());
+            Class_o.addToSmsCnt();
+            Class_o.rmsSave(Class_o.rmsNames[11], "" + Class_o.getSmsCnt());
             if (!Class_o.getOverrideFromJad().equals("1")) {
-                Class_o.sub_79f7(Class_o.sub_79d9());
+                Class_o.storeProfile(Class_o.getCurrentValidProfiles());
             }
             try {
                 Thread.sleep(100L);
@@ -73,13 +73,13 @@ final class Class_c extends Thread
             }
         }
         catch (final SecurityException ex3) {
-            Class_o.sub_78bd(false);
+            Class_o.setIsSms(false);
             Class_o.rmsSave(Class_o.rmsNames[0], "0");
             Class_o.sub_78fd(-9);
             new StringBuffer().append("PaySMS.buy: SMS sent failed! Security Exception: ").append(ex3.toString());
         }
         catch (final Throwable t) {
-            Class_o.sub_78bd(false);
+            Class_o.setIsSms(false);
             Class_o.rmsSave(Class_o.rmsNames[0], "0");
             if (Class_o.var_2ae5) {
                 Class_o.sub_78fd(-4);
@@ -90,8 +90,8 @@ final class Class_c extends Thread
             new StringBuffer().append("PaySMS.buy: SMS sent failed! Exception: ").append(t.toString());
         }
         try {
-            if (Class_o.var_2add != null) {
-                ((Connection)Class_o.var_2add).close();
+            if (Class_o.conn != null) {
+                ((Connection)Class_o.conn).close();
             }
         }
         catch (final Exception ex4) {

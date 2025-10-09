@@ -1017,8 +1017,8 @@ public abstract class GLLib extends Canvas implements Runnable
         return src[src_off];
     }
     
-    static short Mem_GetShort(final byte[] array, int n) {
-        return (short)((array[n++] & 0xFF) | (array[n] & 0xFF) << 8);
+    static short Mem_GetShort(final byte[] src, int src_off) {
+        return (short)((src[src_off++] & 0xFF) | (src[src_off] & 0xFF) << 8);
     }
     
     static int Mem_GetInt(final byte[] src, int src_off) {
@@ -1479,9 +1479,9 @@ public abstract class GLLib extends Canvas implements Runnable
         }
     }
     
-    static String CurrencySeparator(long n, final int n2, final String s) {
-        if (n < 1000L) {
-            return "" + n;
+    static String BigNumberSeparate(long number, final int n2, final String s) {
+        if (number < 1000L) {
+            return "" + number;
         }
         String separator = "";
         switch (n2) {
@@ -1510,7 +1510,7 @@ public abstract class GLLib extends Canvas implements Runnable
             case 4:
             case 6:
             case 10: {
-                if (n >= 10000L) {
+                if (number >= 10000L) {
                     separator = s;
                     break;
                 }
@@ -1518,42 +1518,42 @@ public abstract class GLLib extends Canvas implements Runnable
             }
             case 11:
             case 14: {
-                if (n >= 10000L) {
+                if (number >= 10000L) {
                     separator = ".";
                     break;
                 }
                 break;
             }
             default: {
-                return "" + n;
+                return "" + number;
             }
         }
-        String str = "";
-        long lng = (n % 1000L < 0L) ? (-(n % 1000L)) : (n % 1000L);
-        n /= 1000L;
-        while (lng != 0L || n != 0L) {
+        String newCurrency = "";
+        long lng = (number % 1000L < 0L) ? (-(number % 1000L)) : (number % 1000L);
+        number /= 1000L;
+        while (lng != 0L || number != 0L) {
             if (lng < 10L) {
-                str = "00" + ((lng < 0L) ? (-lng) : lng) + str;
+                newCurrency = "00" + ((lng < 0L) ? (-lng) : lng) + newCurrency;
             }
             else if (lng < 100L) {
-                str = "0" + ((lng < 0L) ? (-lng) : lng) + str;
+                newCurrency = "0" + ((lng < 0L) ? (-lng) : lng) + newCurrency;
             }
             else {
-                str = ((lng < 0L) ? (-lng) : lng) + str;
+                newCurrency = ((lng < 0L) ? (-lng) : lng) + newCurrency;
             }
-            lng = n % 1000L;
-            if ((n /= 1000L) != 0L) {
-                str = separator + str;
+            lng = number % 1000L;
+            if ((number /= 1000L) != 0L) {
+                newCurrency = separator + newCurrency;
             }
             else {
                 if (lng == 0L) {
                     continue;
                 }
-                str = lng + separator + str;
+                newCurrency = lng + separator + newCurrency;
                 lng = 0L;
             }
         }
-        return str;
+        return newCurrency;
     }
     
     static String sub_5307(final String s, final String[] array) {
@@ -1798,15 +1798,15 @@ public abstract class GLLib extends Canvas implements Runnable
     }
     
     static final void sub_5cfb(int n, int abs, int abs2, int a, final int[] array) {
-        sub_5cbc(n, abs, 0, a, ASprite.var_1147);
-        final int n2 = ASprite.var_1147[0];
-        final int n3 = ASprite.var_1147[1];
-        sub_5cbc(n, abs, abs2, a, ASprite.var_1147);
-        a = ASprite.var_1147[0];
-        final int a2 = ASprite.var_1147[1];
-        sub_5cbc(n, abs, abs2, 0, ASprite.var_1147);
-        n = ASprite.var_1147[0];
-        abs = ASprite.var_1147[1];
+        sub_5cbc(n, abs, 0, a, ASprite.s_rc);
+        final int n2 = ASprite.s_rc[0];
+        final int n3 = ASprite.s_rc[1];
+        sub_5cbc(n, abs, abs2, a, ASprite.s_rc);
+        a = ASprite.s_rc[0];
+        final int a2 = ASprite.s_rc[1];
+        sub_5cbc(n, abs, abs2, 0, ASprite.s_rc);
+        n = ASprite.s_rc[0];
+        abs = ASprite.s_rc[1];
         array[0] = Math.max(Math.abs(a), abs2 = Math.abs(n - n2));
         array[1] = Math.max(Math.abs(a2), abs = Math.abs(abs - n3));
     }
@@ -1861,9 +1861,9 @@ public abstract class GLLib extends Canvas implements Runnable
             }
             final int sub_2be7 = Math_Cos(GLLib.Math_Angle90 - n11);
             final int sub_2be8 = Math_Cos(n11);
-            sub_5cfb(sub_2be7, sub_2be8, n12, n, ASprite.var_1147);
-            final int var_201f = ASprite.var_1147[0];
-            i = ASprite.var_1147[1];
+            sub_5cfb(sub_2be7, sub_2be8, n12, n, ASprite.s_rc);
+            final int var_201f = ASprite.s_rc[0];
+            i = ASprite.s_rc[1];
             final int n13 = var_201f >> 1;
             final int n14 = i >> 1;
             final int n15 = var_201f - n12 >> 1;
@@ -2367,7 +2367,7 @@ public abstract class GLLib extends Canvas implements Runnable
     }
     
     static String sub_78c7() {
-        return Class_o.sub_54b2();
+        return Class_o.GetTermsAndConditions();
     }
     
     static String sub_78e5() {
@@ -2388,7 +2388,7 @@ public abstract class GLLib extends Canvas implements Runnable
     }
     
     static int IAP_GetPrice(final int itemIndex, final String itemType) {
-        return Class_o.getPrice(Class_o.getPricePoint(itemIndex, itemType));
+        return Class_o.findPrice(Class_o.getPricePoint(itemIndex, itemType));
     }
     
     static int IAP_GetCurrencyAmount(final String currency) {

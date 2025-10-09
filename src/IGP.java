@@ -44,12 +44,12 @@ public final class IGP implements Runnable, CommandListener
     private static int var_1cc5;
     private static int var_1ccd;
     private static int var_1cd5;
-    private static String var_1cdd;
+    private static String s_zonaVipProp;
     private static String var_1ce5;
     private static String var_1ced;
     private static String var_1cf5;
-    private static String var_1cfd;
-    private static String var_1d05;
+    private static String s_titleFreemiumAppProp;
+    private static String s_glclubAppProp;
     private static String s_operatorUrlProp;
     private static int var_1d15;
     private static int var_1d1d;
@@ -94,8 +94,8 @@ public final class IGP implements Runnable, CommandListener
     private static int var_1e55;
     private static String var_1e5d;
     private static String var_1e65;
-    private static String var_1e6d;
-    private static String var_1e75;
+    private static String s_igpFreemiumProp;
+    private static String s_templateGameUrlProp;
     private static String s_moreGamesUrlProp;
     private static String s_moreGamesStatProp;
     private static String s_moreGamesAppProp;
@@ -169,18 +169,18 @@ public final class IGP implements Runnable, CommandListener
     private static int var_20ad;
     private static int var_20b5;
     
-    private static boolean sub_20f4() {
+    private static boolean tryReadFromDataIGP() {
         sub_21d0();
         try {
-            final InputStream sub_67eb = getResourceAsStream("/dataIGP");
-            IGP.var_1e25 = new int[IGP.var_1e1d = (IGP.var_1e1d = (sub_67eb.read() & 0xFF)) + ((sub_67eb.read() & 0xFF) << 8)];
+            final InputStream dataIGP = getResourceAsStream("/dataIGP");
+            IGP.var_1e25 = new int[IGP.var_1e1d = (IGP.var_1e1d = (dataIGP.read() & 0xFF)) + ((dataIGP.read() & 0xFF) << 8)];
             for (int i = 0; i < IGP.var_1e1d; ++i) {
-                var_1e25[i] = (sub_67eb.read() & 0xFF);
-                var_1e25[i] += (sub_67eb.read() & 0xFF) << 8;
-                var_1e25[i] += (sub_67eb.read() & 0xFF) << 16;
-                var_1e25[i] += (sub_67eb.read() & 0xFF) << 24;
+                var_1e25[i] = dataIGP.read();
+                var_1e25[i] += (dataIGP.read()) << 8;
+                var_1e25[i] += (dataIGP.read()) << 16;
+                var_1e25[i] += (dataIGP.read()) << 24;
             }
-            sub_67eb.close();
+            dataIGP.close();
         }
         catch (final Exception ex) {
             return false;
@@ -214,7 +214,7 @@ public final class IGP implements Runnable, CommandListener
     }
     
     private static int sub_22c9(final byte[] array) {
-        return (array[IGP.var_1e2d++] & 0xFF) + ((array[IGP.var_1e2d++] & 0xFF) << 8);
+        return array[IGP.var_1e2d++] + (array[IGP.var_1e2d++] << 8);
     }
     
     private static String sub_2306(final int n) {
@@ -256,7 +256,7 @@ public final class IGP implements Runnable, CommandListener
         IGP.s_screenWidth = screenWidth;
         IGP.var_206d = IGP.s_screenHeight >> 1;
         IGP.var_2075 = IGP.s_screenWidth >> 1;
-        if (2 > IGP.s_screenHeight) {
+        if (/*2 >*/ IGP.s_screenHeight > 2) {
             IGP.var_1c2d = 2;
         }
         if (IGP.s_midlet == null && game != null) {
@@ -267,10 +267,10 @@ public final class IGP implements Runnable, CommandListener
             sub_3367();
             IGP.s_igaUrlRedir = null;
             IGP.var_1edd = null;
-            IGP.var_1e75 = null;
+            IGP.s_templateGameUrlProp = null;
             IGP.var_1e5d = null;
-            IGP.var_1cfd = null;
-            IGP.var_1d05 = null;
+            IGP.s_titleFreemiumAppProp = null;
+            IGP.s_glclubAppProp = null;
             IGP.s_operatorUrlProp = null;
             IGP.var_1c25 = null;
             IGP.var_1ea5 = null;
@@ -320,23 +320,23 @@ public final class IGP implements Runnable, CommandListener
         return str2;
     }
     
-    private static void sub_277b(final int n, final String str, final int n2, String s, final String s2, final int n3) {
+    private static void sub_277b(final int n, final String str, final int n2, String property, final String s2, final int n3) {
         try {
             String s3 = "";
             String s4;
             if (IGP.var_1eed) {
-                s4 = sub_25ff(IGP.s_midlet.getAppProperty(s), str, s2);
+                s4 = sub_25ff(IGP.s_midlet.getAppProperty(property), str, s2);
                 if (str.equals(IGP.var_1ce5)) {
-                    s = IGP.var_1e6d;
-                    s3 = sub_25ff(IGP.s_midlet.getAppProperty(s), IGP.var_1f25[n - IGP.var_1f2d.length], s2);
+                    property = IGP.s_igpFreemiumProp;
+                    s3 = sub_25ff(IGP.s_midlet.getAppProperty(property), IGP.var_1f25[n - IGP.var_1f2d.length], s2);
                 }
             }
             else if (str.equals(IGP.var_1cf5)) {
                 s4 = IGP.var_203d;
             }
             else {
-                s = IGP.var_1c25 + "-" + str;
-                s4 = IGP.s_midlet.getAppProperty(s);
+                property = IGP.var_1c25 + "-" + str;
+                s4 = IGP.s_midlet.getAppProperty(property);
             }
             if (str.equals(IGP.var_1ce5)) {
                 if (IGP.var_1eed) {
@@ -346,10 +346,10 @@ public final class IGP implements Runnable, CommandListener
                     }
                 }
                 else {
-                    s = IGP.var_1c25 + "-" + IGP.var_1ce5 + "-" + IGP.var_1f25[n - IGP.var_1f2d.length];
-                    s4 = IGP.s_midlet.getAppProperty(s);
-                    s = IGP.var_1c25 + "-" + IGP.var_1ce5 + "-" + IGP.var_1f25[n - IGP.var_1f2d.length];
-                    s3 = IGP.s_midlet.getAppProperty(s);
+                    property = IGP.var_1c25 + "-" + IGP.var_1ce5 + "-" + IGP.var_1f25[n - IGP.var_1f2d.length];
+                    s4 = IGP.s_midlet.getAppProperty(property);
+                    property = IGP.var_1c25 + "-" + IGP.var_1ce5 + "-" + IGP.var_1f25[n - IGP.var_1f2d.length];
+                    s3 = IGP.s_midlet.getAppProperty(property);
                 }
             }
             final boolean sub_258f = sub_258f(s4, 7);
@@ -419,12 +419,12 @@ public final class IGP implements Runnable, CommandListener
     
     private static void sub_2bc9() {
         try {
-            if (!sub_20f4()) {
+            if (!tryReadFromDataIGP()) {
                 IGP.s_isAvailable = false;
                 return;
             }
-            final byte[] sub_21f6;
-            sub_22c9(sub_21f6 = sub_21f6(0));
+            final byte[] sub_21f6 = sub_21f6(0);
+            sub_22c9(sub_21f6);
             IGP.var_1e2d += sub_22c9(sub_21f6);
             final int sub_22c9 = sub_22c9(sub_21f6);
             IGP.var_1ef5 = new String(sub_21f6, IGP.var_1e2d, sub_22c9);
@@ -491,7 +491,7 @@ public final class IGP implements Runnable, CommandListener
             return;
         }
         try {
-            if ((IGP.var_1edd = IGP.s_midlet.getAppProperty(IGP.var_1e75)) != null) {
+            if ((IGP.var_1edd = IGP.s_midlet.getAppProperty(IGP.s_templateGameUrlProp)) != null) {
                 IGP.var_1edd = IGP.var_1edd.trim();
                 IGP.var_1eed = true;
                 if (IGP.var_1edd.indexOf(IGP.s_igaUrlRedir) != -1) {
@@ -515,8 +515,8 @@ public final class IGP implements Runnable, CommandListener
         catch (final Exception ex4) {}
         sub_277b(IGP.var_1c5d, IGP.var_1ced, 7, IGP.var_1e5d, IGP.var_1edd, 7);
         sub_277b(IGP.var_1c65, IGP.var_1cf5, 7, IGP.var_1e5d, IGP.var_1edd, 8);
-        IGP.var_2025 = sub_3135(IGP.s_midlet.getAppProperty(IGP.var_1cfd));
-        IGP.var_202d = sub_3135(IGP.s_midlet.getAppProperty(IGP.var_1d05));
+        IGP.var_2025 = sub_3135(IGP.s_midlet.getAppProperty(IGP.s_titleFreemiumAppProp));
+        IGP.var_202d = sub_3135(IGP.s_midlet.getAppProperty(IGP.s_glclubAppProp));
         IGP.var_1fe5 = sub_357f();
         if (sub_3607() > 0) {
             IGP.s_isAvailable = true;
@@ -602,22 +602,23 @@ public final class IGP implements Runnable, CommandListener
         }
         try {
             final String appProperty;
-            if ((appProperty = IGP.s_midlet.getAppProperty(IGP.var_1e5d)) == null || appProperty.indexOf(IGP.var_1cdd) == -1) {
-                return (IGP.var_2045 = IGP.s_midlet.getAppProperty(IGP.var_1c25 + "-" + IGP.var_1cdd)) != null;
+            if ((appProperty = IGP.s_midlet.getAppProperty(IGP.var_1e5d)) == null || appProperty.indexOf(IGP.s_zonaVipProp) == -1) {
+            	IGP.var_2045 = IGP.s_midlet.getAppProperty(IGP.var_1c25 + "-" + IGP.s_zonaVipProp);
+                return IGP.var_2045 != null;
             }
             final int beginIndex;
             final int endIndex;
-            if ((endIndex = (beginIndex = appProperty.indexOf(IGP.var_1cdd) + IGP.var_1cdd.length() + 1) + IGP.var_1cdd.length()) >= appProperty.length()) {
+            if ((endIndex = (beginIndex = appProperty.indexOf(IGP.s_zonaVipProp) + IGP.s_zonaVipProp.length() + 1) + IGP.s_zonaVipProp.length()) >= appProperty.length()) {
                 return false;
             }
-            if (!appProperty.substring(beginIndex, endIndex).equals(IGP.var_1cdd)) {
+            if (!appProperty.substring(beginIndex, endIndex).equals(IGP.s_zonaVipProp)) {
                 return false;
             }
             IGP.var_2045 = IGP.var_203d;
             if (IGP.var_1ee5) {
                 final int index;
                 if ((index = (IGP.var_2045 += IGP.var_1ead).indexOf(IGP.var_1ea5)) >= 0) {
-                    IGP.var_2045 = IGP.var_2045.substring(0, index) + IGP.var_1cdd + IGP.var_2045.substring(index + IGP.var_1ea5.length());
+                    IGP.var_2045 = IGP.var_2045.substring(0, index) + IGP.s_zonaVipProp + IGP.var_2045.substring(index + IGP.var_1ea5.length());
                 }
                 if (IGP.var_2045.length() == 0) {
                     return false;
@@ -703,7 +704,7 @@ public final class IGP implements Runnable, CommandListener
                     return;
                 }
                 case 1: {
-                    sub_20f4();
+                    tryReadFromDataIGP();
                     final byte[] sub_21f6;
                     sub_22c9(sub_21f6 = sub_21f6(offset));
                     final int sub_22c9;
@@ -1744,12 +1745,12 @@ public final class IGP implements Runnable, CommandListener
         IGP.var_1c3d = new int[1];
         IGP.var_1c45 = -1;
         IGP.var_1c4d = 8;
-        IGP.var_1cdd = "ZVIP";
+        IGP.s_zonaVipProp = "ZVIP";
         IGP.var_1ce5 = "SCFR";
         IGP.var_1ced = "GMCL";
         IGP.var_1cf5 = "CCTL";
-        IGP.var_1cfd = "TITLE-FREEMIUM";
-        IGP.var_1d05 = "TITLE-GLCLUB";
+        IGP.s_titleFreemiumAppProp = "TITLE-FREEMIUM";
+        IGP.s_glclubAppProp = "TITLE-GLCLUB";
         IGP.s_operatorUrlProp = "URL-OPERATOR";
         IGP.var_1d15 = 1;
         IGP.var_1d1d = 4;
@@ -1786,8 +1787,8 @@ public final class IGP implements Runnable, CommandListener
         IGP.var_1e15 = 25;
         IGP.var_1e5d = "IGP-CATEGORIES";
         IGP.var_1e65 = "IGP-PROMOS";
-        IGP.var_1e6d = "IGP-FREEMIUM";
-        IGP.var_1e75 = "URL-TEMPLATE-GAME";
+        IGP.s_igpFreemiumProp = "IGP-FREEMIUM";
+        IGP.s_templateGameUrlProp = "URL-TEMPLATE-GAME";
         IGP.s_moreGamesUrlProp = "more_games_url";
         IGP.s_moreGamesStatProp = "more_games_status";
         IGP.s_moreGamesAppProp = null;
