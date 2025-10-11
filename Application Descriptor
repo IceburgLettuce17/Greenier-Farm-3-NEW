@@ -14,7 +14,7 @@ URL-TEMPLATE-GAME: http://whatisthisfor.idk
 MIDlet-1: Green Farm 3, /icon.png, GloftGF2M
 MIDlet-Description: Discover farming in a new and fun way
 TITLE-GLCLUB: 0
-MIDlet-Jar-URL: GreenFarm3_Samsung_GT_S8000_EN_IGP_EU_IAP_TS_106_BUILD.jar
+MIDlet-Jar-URL: GreenFarm3_Samsung_GT_S8000_EN_IGP_EU_IAP_TS_106_BUILD_obf.jar
 MIDlet-Version: 1.0.6
 URL-SUPPORT: http://github.com/IceburgLettuce17/Greenier-Farm-3-NEW/
 IGP-CATEGORIES: SCFR=SCFR;GMCL=GMCL;CCTL=CCTL;
