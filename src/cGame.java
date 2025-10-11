@@ -22010,7 +22010,7 @@ public final class cGame extends GLLib implements Class_b {
 				if (cGame.var_7774[j] < System.currentTimeMillis()) {
 					final short n2 = cGame.var_68bc[13][j + 5][2];
 					final short n3 = cGame.var_68bc[13][j + 5][3];
-					cGame.var_68fc[j].SetAnim(4, -1, true);
+					cGame.var_68fc[j].SetAnim2(4, -1, true);
 					cGame.var_68fc[j].SetPos(n2, n3);
 					cGame.var_68fc[j].sub_1941();
 					cGame.var_68fc[j].sub_1b7f();
@@ -22022,11 +22022,11 @@ public final class cGame extends GLLib implements Class_b {
 				final short n4 = cGame.var_68bc[13][k + 2][2];
 				final short n5 = cGame.var_68bc[13][k + 2][3];
 				if (k == 0) {
-					cGame.var_690c[0].SetAnim(2, -1, true);
+					cGame.var_690c[0].SetAnim2(2, -1, true);
 				} else if (k == 1) {
-					cGame.var_690c[1].SetAnim(3, -1, true);
+					cGame.var_690c[1].SetAnim2(3, -1, true);
 				} else {
-					cGame.var_690c[2].SetAnim(0, -1, true);
+					cGame.var_690c[2].SetAnim2(0, -1, true);
 				}
 				cGame.var_690c[k].SetPos(n4, n5);
 				cGame.var_690c[k].sub_1941();
@@ -22078,7 +22078,7 @@ public final class cGame extends GLLib implements Class_b {
 							final short n12 = cGame.var_68bc[13][2 + cGame.var_808c][2];
 							final short n13 = cGame.var_68bc[13][2 + cGame.var_808c][3];
 							cGame.var_6904.SetSprite(cGame.var_68d4[36]);
-							cGame.var_6904.SetAnim(1, -1, true);
+							cGame.var_6904.SetAnim2(1, -1, true);
 							cGame.var_6904.SetPos(n12, n13);
 						}
 						break;
@@ -22094,7 +22094,7 @@ public final class cGame extends GLLib implements Class_b {
 						final short n14 = cGame.var_68bc[13][2 + cGame.var_808c][2];
 						final short n15 = cGame.var_68bc[13][2 + cGame.var_808c][3];
 						cGame.var_6904.SetSprite(cGame.var_68d4[36]);
-						cGame.var_6904.SetAnim(1, -1, true);
+						cGame.var_6904.SetAnim2(1, -1, true);
 						cGame.var_6904.SetPos(n14, n15);
 						break;
 					}
@@ -22109,7 +22109,7 @@ public final class cGame extends GLLib implements Class_b {
 					final short n16 = cGame.var_68bc[13][2 + cGame.var_808c][2];
 					final short n17 = cGame.var_68bc[13][2 + cGame.var_808c][3];
 					cGame.var_6904.SetSprite(cGame.var_68d4[36]);
-					cGame.var_6904.SetAnim(5, -1, true);
+					cGame.var_6904.SetAnim2(5, -1, true);
 					cGame.var_6904.SetPos(n16, n17);
 					break;
 				}
@@ -22129,7 +22129,7 @@ public final class cGame extends GLLib implements Class_b {
 						&& cGame.var_7774[n19] < System.currentTimeMillis()) {
 					final short n20 = cGame.var_68bc[13][n19 + 5][2];
 					final short n21 = cGame.var_68bc[13][n19 + 5][3];
-					cGame.var_68fc[n19].SetAnim(4, -1, true);
+					cGame.var_68fc[n19].SetAnim2(4, -1, true);
 					cGame.var_68fc[n19].SetPos(n20, n21);
 					cGame.var_68fc[n19].sub_1941();
 					cGame.var_778c[n19] = false;
@@ -22248,7 +22248,7 @@ public final class cGame extends GLLib implements Class_b {
 					final short n26 = cGame.var_68bc[13][2 + cGame.var_808c][2];
 					final short n27 = cGame.var_68bc[13][2 + cGame.var_808c][3];
 					cGame.var_6904.SetSprite(cGame.var_68d4[36]);
-					cGame.var_6904.SetAnim(5, -1, true);
+					cGame.var_6904.SetAnim2(5, -1, true);
 					cGame.var_6904.SetPos(n26, n27);
 					if (cGame.var_6904 != null) {
 						cGame.var_6904.sub_1ca1(GLLib.s_game_frameDT);
@@ -22259,7 +22259,7 @@ public final class cGame extends GLLib implements Class_b {
 					final short n28 = cGame.var_68bc[13][2 + cGame.var_808c][2];
 					final short n29 = cGame.var_68bc[13][2 + cGame.var_808c][3];
 					cGame.var_6904.SetSprite(cGame.var_68d4[36]);
-					cGame.var_6904.SetAnim(1, -1, true);
+					cGame.var_6904.SetAnim2(1, -1, true);
 					cGame.var_6904.SetPos(n28, n29);
 				}
 				final int n30 = cGame.var_6f7c & 0xFFFF;
@@ -22278,7 +22278,7 @@ public final class cGame extends GLLib implements Class_b {
 					if (cGame.var_7774[n31] < System.currentTimeMillis()) {
 						final short n32 = cGame.var_68bc[13][n31 + 5][2];
 						final short n33 = cGame.var_68bc[13][n31 + 5][3];
-						cGame.var_68fc[n31].SetAnim(4, -1, true);
+						cGame.var_68fc[n31].SetAnim2(4, -1, true);
 						cGame.var_68fc[n31].SetPos(n32, n33);
 						cGame.var_68fc[n31].sub_1941();
 						cGame.var_778c[n31] = false;
@@ -27714,7 +27714,7 @@ public final class cGame extends GLLib implements Class_b {
 				sub_1fb8e(24);
 				cGame.var_7d6c = 0;
 				while (cGame.var_7d6c < 7) {
-					cGame.var_68f4[cGame.var_7d6c].SetAnim(0, -1, true);
+					cGame.var_68f4[cGame.var_7d6c].SetAnim2(0, -1, true);
 					cGame.var_68f4[cGame.var_7d6c].SetPos(cGame.var_7d84[cGame.var_7d6c],
 							cGame.var_7d8c[cGame.var_7d6c]);
 					cGame.var_68f4[cGame.var_7d6c].sub_1941();
@@ -28123,7 +28123,7 @@ public final class cGame extends GLLib implements Class_b {
 		while (cGame.var_7d6c < 7) {
 			cGame.var_7d84[cGame.var_7d6c] = GLLib.Math_Rand(240, 600);
 			cGame.var_7d8c[cGame.var_7d6c] = GLLib.Math_Rand(160, 300);
-			cGame.var_68f4[cGame.var_7d6c].SetAnim(0, -1, true);
+			cGame.var_68f4[cGame.var_7d6c].SetAnim2(0, -1, true);
 			cGame.var_68f4[cGame.var_7d6c].SetPos(cGame.var_7d84[cGame.var_7d6c],
 					cGame.var_7d8c[cGame.var_7d6c]);
 			cGame.var_68f4[cGame.var_7d6c].sub_1941();

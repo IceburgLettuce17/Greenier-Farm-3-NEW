@@ -18,7 +18,7 @@ public final class Class_o {
 	static int pricePoint;
 	private static String language;
 	private static String VERSION;
-	private static Class_d var_298d;
+	private static HTTP var_298d;
 	private static int var_2995;
 	private static boolean var_299d;
 	private static String[][] var_29a5;
@@ -150,23 +150,23 @@ public final class Class_o {
 	}
 
 	private static boolean sub_2dde() {
-		if (Class_o.var_298d.var_68f) {
+		if (Class_o.var_298d.m_bCanceled) {
 			return false;
 		}
-		if (Class_o.var_298d.var_69f) {
+		if (Class_o.var_298d.m_bError) {
 			return true;
 		}
-		if (Class_o.var_298d.var_67f != null && Class_o.var_298d.var_67f != "") {
-			final String sub_2bd4 = sub_2bd4(Class_o.var_298d.var_67f, 0, '|');
+		if (Class_o.var_298d.m_response != null && Class_o.var_298d.m_response != "") {
+			final String sub_2bd4 = sub_2bd4(Class_o.var_298d.m_response, 0, '|');
 			try {
 				if (sub_2bd4.equals("FAILURE")) {
-					Class_o.var_2995 = Integer.parseInt(sub_2bd4(Class_o.var_298d.var_67f, 1, '|'));
+					Class_o.var_2995 = Integer.parseInt(sub_2bd4(Class_o.var_298d.m_response, 1, '|'));
 					return true;
 				}
 			} catch (final NumberFormatException ex) {
 				Class_o.var_2995 = 40;
 				final String sub_2bd5;
-				if ((sub_2bd5 = sub_2bd4(Class_o.var_298d.var_67f, 1, '|')).indexOf("PB") != -1) {
+				if ((sub_2bd5 = sub_2bd4(Class_o.var_298d.m_response, 1, '|')).indexOf("PB") != -1) {
 					try {
 						Class_o.var_2995 = Integer.parseInt(sub_2bd5.substring(2, sub_2bd5.length()));
 					} catch (final NumberFormatException ex2) {
@@ -175,7 +175,7 @@ public final class Class_o {
 				return true;
 			}
 			if (sub_2bd4.equals("SUCCESS")) {
-				Class_o.cz1 = sub_2bd4(Class_o.var_298d.var_67f, 2, '|');
+				Class_o.cz1 = sub_2bd4(Class_o.var_298d.m_response, 2, '|');
 				Class_o.var_2995 = 0;
 				return true;
 			}
@@ -458,7 +458,7 @@ public final class Class_o {
 					.append("-").append(Class_o.pricePoint).append(" missing in JAD");
 			Class_o.var_2afd = -2;
 		} else if (b && type.equals("HTTP")) {
-			Class_o.var_298d = new Class_d(false);
+			Class_o.var_298d = new HTTP(false);
 			String str2;
 			if (Class_o.overrideFromJad.equals("1")) {
 				str2 = Class_o.billingUrl;
@@ -503,7 +503,7 @@ public final class Class_o {
 			final String str6 = s3;
 			itemType = s2;
 			final String s4 = s;
-			Class_o.var_298d.sub_71b();
+			Class_o.var_298d.cancel();
 			final String s5 = "%7C";
 			final String s6 = s4;
 			String s7 = "b=contentpurchase" + s5 + str5 + s5 + itemType + s5 + str6 + s5 + str4;
@@ -512,7 +512,7 @@ public final class Class_o {
 			}
 			final String string = s7 + "&phoneId=" + var_2a2d;
 			Class_o.var_2995 = -100;
-			Class_o.var_298d.sub_895(s6, string);
+			Class_o.var_298d.sendByGet(s6, string);
 			rmsSave(Class_o.rmsNames[1], Class_o.cz1);
 			rmsSave(Class_o.rmsNames[2], String.valueOf(Class_o.itemAmount));
 			rmsSave(Class_o.rmsNames[5], Class_o.itemType);
@@ -587,8 +587,8 @@ public final class Class_o {
 			}
 			Class_o.var_2af5 = 0;
 			int var_2995;
-			final int n = Class_o.var_298d.var_68f ? (var_2995 = -1)
-					: (Class_o.var_298d.var_69f ? (var_2995 = -2) : (var_2995 = Class_o.var_2995));
+			final int n = Class_o.var_298d.m_bCanceled ? (var_2995 = -1)
+					: (Class_o.var_298d.m_bError ? (var_2995 = -2) : (var_2995 = Class_o.var_2995));
 			final int var_2afd = var_2995;
 			if (n == 0) {
 				if (verifyRequest(Integer.parseInt(Class_o.cz1))) {

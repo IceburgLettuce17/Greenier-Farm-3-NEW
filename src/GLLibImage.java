@@ -12,13 +12,13 @@ public final class GLLibImage
         return new GLLibImage(Image.createImage(width, height));
     }
     
-    public static GLLibImage createRGBImage(final int[] array, final int n, final int n2, final boolean b) {
-        return new GLLibImage(Image.createRGBImage(array, n, n2, b));
+    public static GLLibImage createRGBImage(final int[] rgb, final int width, final int height, final boolean processAlpha) {
+        return new GLLibImage(Image.createRGBImage(rgb, width, height, processAlpha));
     }
     
     // Re-refactor because the refactoring went wrong
-    public final void getRGB(final int[] array, final int n, final int n2, final int n3, final int n4, final int n5, final int n6) {
-        this.image.getRGB(array, n, n2, n3, n4, n5, n6);
+    public final void getRGB(final int[] rgbData, final int offset, final int scanlength, final int x, final int y, final int width, final int height) {
+        this.image.getRGB(rgbData, offset, scanlength, x, y, width, height);
     }
     
     private GLLibImage(final Image image) {

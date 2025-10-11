@@ -2680,12 +2680,8 @@ final class Class_f
                 break;
             }
         }
-        boolean b2 = false;
-        if (this.var_189d.GetAnim() == n) {
-            b2 = true;
-        }
         this.var_185d = var_185d;
-        this.var_189d.SetAnim(n, sub_2b97, b2);
+        this.var_189d.SetAnim2(n, sub_2b97, this.var_189d.GetAnim() == n);
         if (b) {
             this.var_189d.SetTransform(2);
             return;

@@ -114,7 +114,7 @@ final class GLLibPlayer implements Runnable
         this.curAnim = -1;
     }
     
-    final void SetAnim(final int anim, final int nbLoop, final boolean b) {
+    final void SetAnim2(final int anim, final int nbLoop, final boolean b) {
         if (b) {
             this.SetAnim(-1, 1);
         }
