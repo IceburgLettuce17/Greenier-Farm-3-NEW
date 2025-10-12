@@ -21,8 +21,8 @@ public final class HTTP implements Runnable
     public String m_response;
     private boolean var_687;
     boolean m_bIsInProgress;
-    private boolean m_bCanceled;
-    public boolean m_bError;
+    boolean m_bCanceled;
+    boolean m_bError;
     private int responseCode;
     private String var_6af;
     

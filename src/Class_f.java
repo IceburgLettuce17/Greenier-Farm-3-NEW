@@ -2681,7 +2681,16 @@ final class Class_f
             }
         }
         this.var_185d = var_185d;
-        this.var_189d.SetAnim2(n, sub_2b97, this.var_189d.GetAnim() == n);
+        // Eclipse is so blind that it doesn't see the method itself. Have to copy-paste code from the Player.
+        
+        // I wanna take Eclipse to an eye doctor atp. Why the fuck has it not detected the code that I COPY PASTED from GLLibPlayer?
+        //this.var_189d.SetAnim_EclipseIsBlind(n, sub_2b97, this.var_189d.GetAnim() == n);
+        // Function name is accurate. Eclipse is so blind bruh
+        // I commented out the fucking code. Why the flying fuck is Eclipse still giving me an error?
+        if (this.var_189d.GetAnim() == n) {
+        	this.var_189d.SetAnim(-1, 1);
+        }
+        this.var_189d.SetAnim(n, sub_2b97);  
         if (b) {
             this.var_189d.SetTransform(2);
             return;

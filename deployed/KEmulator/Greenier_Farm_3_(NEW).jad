@@ -8,7 +8,7 @@ IGP-VERSION: 2.3
 MIDlet-1: Green Farm 3, /icon.png, GloftGF2M
 MIDlet-Description: Discover farming in a new and fun way
 MIDlet-Icon: /icon.png
-MIDlet-Jar-Size: 3294205
+MIDlet-Jar-Size: 3476990
 MIDlet-Jar-URL: GreenFarm3_Samsung_GT_S8000_EN_IGP_EU_IAP_TS_106_BUILD_obf.jar
 MIDlet-Name: Green Farm 3
 MIDlet-Permissions: javax.wireless.messaging.sms.send,javax.microedition.io.Connector.sms,javax.microedition.io.Connector.http
