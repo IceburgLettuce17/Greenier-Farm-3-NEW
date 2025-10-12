@@ -533,7 +533,7 @@ public final class Class_o {
 		}
 	}
 
-	public static void sub_3e56() {
+	public static void sendRedeemRequest() {
 		Class_o.redeemUnlocked = true;
 		rmsSave(Class_o.rmsNames[4], "1");
 		sendRequest(getPricePoint(getPackageIdInt(), getItemType()), getItemType());

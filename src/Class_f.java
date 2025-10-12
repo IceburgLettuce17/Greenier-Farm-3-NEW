@@ -1028,7 +1028,7 @@ final class Class_f
                                 array[1] = Class_f.var_190d[n10][3];
                                 cGame.sub_264d4(array, array2);
                                 cGame.sub_264d4(Class_f.var_190d[n10], array);
-                                GLLib.sub_36f4(GLLib.g, array[0], array[1], array2[0] - array[0], array2[1] - array[1], true);
+                                GLLib.SetClip(GLLib.g, array[0], array[1], array2[0] - array[0], array2[1] - array[1], true);
                                 if (cGame.var_7fc4 == 100) {
                                     class_e2.sub_71ae(GLLib.g, class_f.var_186d, class_f.var_17ed, class_f.var_17f5, 0);
                                 }
@@ -1038,7 +1038,7 @@ final class Class_f
                                 else {
                                     class_e2.sub_7d2b(GLLib.g, class_f.var_186d, class_f.var_17ed, class_f.var_17f5, cGame.var_7fc4);
                                 }
-                                GLLib.sub_36f4(GLLib.g, 0, 0, GLLib.s_screenWidth, GLLib.s_screenHeight, true);
+                                GLLib.SetClip(GLLib.g, 0, 0, GLLib.s_screenWidth, GLLib.s_screenHeight, true);
                             }
                         }
                     }
@@ -2125,13 +2125,13 @@ final class Class_f
                     cGame.var_7aac = -1;
                     if (cGame.var_6b24 > 0) {
                         final String sub_4e1f;
-                        cGame.var_7ab4 = GLLib.sub_547c(((sub_4e1f = GLLib.TODO_sub_4e1f(379)) == null) ? "" : sub_4e1f, "%d", GLLib.BigNumberSeparate(cGame.var_6b24 - cGame.sub_2e0da(), cGame.var_7fe4, " "));
+                        cGame.var_7ab4 = GLLib.Text_ReplaceText(((sub_4e1f = GLLib.Text_GetStringFromLocaleFile(379)) == null) ? "" : sub_4e1f, "%d", GLLib.BigNumberSeparate(cGame.var_6b24 - cGame.sub_2e0da(), cGame.var_7fe4, " "));
                         cGame.var_7aac = 18;
                         cGame.var_7d24 = false;
                     }
                     else if (cGame.var_6b2c > 0) {
                         final String sub_4e1f2;
-                        cGame.var_7ab4 = GLLib.sub_547c(((sub_4e1f2 = GLLib.TODO_sub_4e1f(381)) == null) ? "" : sub_4e1f2, "%d", GLLib.BigNumberSeparate(cGame.var_6b2c - cGame.getCash(), cGame.var_7fe4, " "));
+                        cGame.var_7ab4 = GLLib.Text_ReplaceText(((sub_4e1f2 = GLLib.Text_GetStringFromLocaleFile(381)) == null) ? "" : sub_4e1f2, "%d", GLLib.BigNumberSeparate(cGame.var_6b2c - cGame.getCash(), cGame.var_7fe4, " "));
                         cGame.var_7aac = 19;
                         cGame.var_7d24 = true;
                     }
@@ -2223,13 +2223,13 @@ final class Class_f
             cGame.var_7aac = -1;
             if (this.var_15f5 > 0) {
                 final String sub_4e1f;
-                cGame.var_7ab4 = GLLib.sub_547c(((sub_4e1f = GLLib.TODO_sub_4e1f(379)) == null) ? "" : sub_4e1f, "%d", GLLib.BigNumberSeparate(this.var_15f5 - cGame.sub_2e0da(), cGame.var_7fe4, " "));
+                cGame.var_7ab4 = GLLib.Text_ReplaceText(((sub_4e1f = GLLib.Text_GetStringFromLocaleFile(379)) == null) ? "" : sub_4e1f, "%d", GLLib.BigNumberSeparate(this.var_15f5 - cGame.sub_2e0da(), cGame.var_7fe4, " "));
                 cGame.var_7aac = 18;
                 cGame.var_7d24 = false;
             }
             else if (this.var_15fd > 0) {
                 final String sub_4e1f2;
-                cGame.var_7ab4 = GLLib.sub_547c(((sub_4e1f2 = GLLib.TODO_sub_4e1f(381)) == null) ? "" : sub_4e1f2, "%d", GLLib.BigNumberSeparate(this.var_15fd - cGame.getCash(), cGame.var_7fe4, " "));
+                cGame.var_7ab4 = GLLib.Text_ReplaceText(((sub_4e1f2 = GLLib.Text_GetStringFromLocaleFile(381)) == null) ? "" : sub_4e1f2, "%d", GLLib.BigNumberSeparate(this.var_15fd - cGame.getCash(), cGame.var_7fe4, " "));
                 cGame.var_7aac = 19;
                 cGame.var_7d24 = true;
             }
@@ -2350,7 +2350,7 @@ final class Class_f
             if (cGame.sub_2dcf3(5) < cGame.sub_2df26()) {
                 final String sub_4e1f;
                 final String sub_4e1f2;
-                cGame.sub_406d3(((sub_4e1f = GLLib.TODO_sub_4e1f(475)) == null) ? "" : sub_4e1f, GLLib.sub_547c(((sub_4e1f2 = GLLib.TODO_sub_4e1f(476)) == null) ? "" : sub_4e1f2, "%slots", "3"), 7, 0);
+                cGame.sub_406d3(((sub_4e1f = GLLib.Text_GetStringFromLocaleFile(475)) == null) ? "" : sub_4e1f, GLLib.Text_ReplaceText(((sub_4e1f2 = GLLib.Text_GetStringFromLocaleFile(476)) == null) ? "" : sub_4e1f2, "%slots", "3"), 7, 0);
             }
             else {
                 cGame.sub_40658(471, 477);
@@ -2681,16 +2681,12 @@ final class Class_f
             }
         }
         this.var_185d = var_185d;
-        // Eclipse is so blind that it doesn't see the method itself. Have to copy-paste code from the Player.
-        
-        // I wanna take Eclipse to an eye doctor atp. Why the fuck has it not detected the code that I COPY PASTED from GLLibPlayer?
-        //this.var_189d.SetAnim_EclipseIsBlind(n, sub_2b97, this.var_189d.GetAnim() == n);
-        // Function name is accurate. Eclipse is so blind bruh
-        // I commented out the fucking code. Why the flying fuck is Eclipse still giving me an error?
-        if (this.var_189d.GetAnim() == n) {
+        this.var_189d.SetAnim(n, sub_2b97, this.var_189d.GetAnim() == n);
+        // Eclipse is no longer blind. Yay!
+       /* if (this.var_189d.GetAnim() == n) {
         	this.var_189d.SetAnim(-1, 1);
         }
-        this.var_189d.SetAnim(n, sub_2b97);  
+        this.var_189d.SetAnim(n, sub_2b97);  */
         if (b) {
             this.var_189d.SetTransform(2);
             return;

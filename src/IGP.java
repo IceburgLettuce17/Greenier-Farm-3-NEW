@@ -1683,7 +1683,7 @@ public final class IGP implements Runnable, CommandListener
         max2 = Math.max(0, 0);
         min = Math.min(min, IGP.s_screenHeight);
         min2 = Math.min(min2, IGP.s_screenWidth);
-        GLLib.sub_36f4(graphics, max, max2, min2, min, true);
+        GLLib.SetClip(graphics, max, max2, min2, min, true);
     }
     
     public final void run() {

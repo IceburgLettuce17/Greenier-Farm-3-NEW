@@ -86,10 +86,10 @@ public abstract class GLLib extends Canvas implements Runnable
     private static boolean var_1f87;
     static String text_encoding;
     private static int[] var_1f97;
-    private static byte[][] var_1f9f;
+    private static byte[][] localeGroups;
     private static int[] var_1fa7;
     private static int[][] var_1faf;
-    private static String[][] var_1fb7;
+    private static String[][] s_localeStrings;
     private static RecordStore s_rs;
     private static int var_1fc7;
     private static int[] var_1fcf;
@@ -782,14 +782,12 @@ public abstract class GLLib extends Canvas implements Runnable
         graphics.clipRect(n, n2, n3, n4);
     }
     
-    static final void sub_36f4(final Graphics graphics, int n, int n2, int n3, int n4, final boolean b) {
-        final int n5 = n;
-        n = ASprite.var_10cf - n2 - n4;
-        n2 = n5;
-        final int n6 = n3;
-        n3 = n4;
-        n4 = n6;
-        graphics.setClip(n, n2, n3, n4);
+    static final void SetClip(final Graphics _g, int x, int y, int width, int height, final boolean b) {
+        x = ASprite.var_10cf - y - height;
+        y = x;
+        width = height;
+        height = width;
+        _g.setClip(x, y, width, height);
     }
     
     static final void sub_3731(final Graphics graphics, int n, int n2, int n3, int n4, final boolean b) {
@@ -1401,7 +1399,7 @@ public abstract class GLLib extends Canvas implements Runnable
             for (int i = 1; i < GLLib.var_1fa7[sub_4332] + 1; ++i) {
                 GLLib.var_1faf[sub_4332][i] = sub_439d(inputStream);
             }
-            sub_43e4(inputStream, GLLib.var_1f9f[sub_4332] = new byte[GLLib.var_1faf[sub_4332][GLLib.var_1fa7[sub_4332]]], 0, GLLib.var_1f9f[sub_4332].length);
+            sub_43e4(inputStream, GLLib.localeGroups[sub_4332] = new byte[GLLib.var_1faf[sub_4332][GLLib.var_1fa7[sub_4332]]], 0, GLLib.localeGroups[sub_4332].length);
         }
         catch (final Exception ex) {}
         return sub_4332;
@@ -1416,10 +1414,10 @@ public abstract class GLLib extends Canvas implements Runnable
             for (int i = 0; i < 32; ++i) {
                 GLLib.var_1f97[i] = -1;
             }
-            GLLib.var_1f9f = new byte[32][];
+            GLLib.localeGroups = new byte[32][];
             GLLib.var_1faf = new int[32][];
             GLLib.var_1fa7 = new int[32];
-            GLLib.var_1fb7 = new String[32][];
+            GLLib.s_localeStrings = new String[32][];
         }
         GLLib.var_1f97[n] = sub_4c47(GLLib.s_pack_is);
         Pack_Close(true);
@@ -1427,27 +1425,27 @@ public abstract class GLLib extends Canvas implements Runnable
         if (GLLib.var_1fa7[n2] != 0) {
             final String[] array = new String[GLLib.var_1fa7[n2]];
             for (int j = 0; j < GLLib.var_1fa7[n2]; ++j) {
-                array[j] = TODO_sub_4e1f(j + (n2 << 10));
+                array[j] = Text_GetStringFromLocaleFile(j + (n2 << 10));
             }
-            GLLib.var_1fb7[n2] = array;
+            GLLib.s_localeStrings[n2] = array;
             GLLib.var_1faf[n2] = null;
-            GLLib.var_1f9f[n2] = null;
+            GLLib.localeGroups[n2] = null;
             System.gc();
         }
     }
     
-    static String TODO_sub_4e1f(int n) {
-        final int n2 = n >> 10;
-        n &= 0x3FF;
-        if (GLLib.var_1fb7 != null && GLLib.var_1fb7[n2] != null) {
-            return GLLib.var_1fb7[n2][n];
+	static String Text_GetStringFromLocaleFile(int id) {
+        final int groupId = id >> 10;
+        id &= 0x3FF;
+        if (GLLib.s_localeStrings != null && GLLib.s_localeStrings[groupId] != null) {
+            return GLLib.s_localeStrings[groupId][id];
         }
         try {
-            final int length;
-            if ((length = GLLib.var_1faf[n2][n + 1] - GLLib.var_1faf[n2][n]) == 0) {
+            final int length = GLLib.var_1faf[groupId][id + 1];
+            if (length - GLLib.var_1faf[groupId][id] == 0) {
                 return null;
             }
-            return new String(GLLib.var_1f9f[n2], GLLib.var_1faf[n2][n], length, GLLib.text_encoding);
+            return new String(GLLib.localeGroups[groupId], GLLib.var_1faf[groupId][id], length, GLLib.text_encoding);
         }
         catch (final Exception ex) {
             return null;
@@ -1466,14 +1464,14 @@ public abstract class GLLib extends Canvas implements Runnable
             if ((n2 = GLLib.var_1f97[n]) == -1) {
                 return;
             }
-            if (GLLib.var_1fb7[n2] != null) {
+            if (GLLib.s_localeStrings[n2] != null) {
                 for (int i = 0; i < GLLib.var_1fa7[n2]; ++i) {
-                    GLLib.var_1fb7[n2][i] = null;
+                    GLLib.s_localeStrings[n2][i] = null;
                 }
-                GLLib.var_1fb7[n2] = null;
+                GLLib.s_localeStrings[n2] = null;
             }
             GLLib.var_1faf[n2] = null;
-            GLLib.var_1f9f[n2] = null;
+            GLLib.localeGroups[n2] = null;
             GLLib.var_1fa7[n2] = 0;
             GLLib.var_1f97[n] = -1;
         }
@@ -1588,9 +1586,9 @@ public abstract class GLLib extends Canvas implements Runnable
         return s2;
     }
     
-    static String sub_547c(String string, final String s, final String str) {
-        for (int i = string.indexOf(s); i != -1; i = string.indexOf(s, i + str.length())) {
-            string = string.substring(0, i) + str + string.substring(i + s.length());
+    static String Text_ReplaceText(String string, final String replacee, final String replacer) {
+        for (int i = string.indexOf(replacee); i != -1; i = string.indexOf(replacee, i + replacer.length())) {
+            string = string.substring(0, i) + replacer + string.substring(i + replacee.length());
         }
         return string;
     }
@@ -1704,7 +1702,7 @@ public abstract class GLLib extends Canvas implements Runnable
         final int n9 = n7;
         i = n6;
         j = n5;
-        sub_36f4(graphics, n5, i, n9, n8, true);
+        SetClip(graphics, n5, i, n9, n8, true);
         i = n3;
         final int n10 = ASprite.var_10cf - n4 - n2;
         final int n11 = i;
@@ -1723,7 +1721,7 @@ public abstract class GLLib extends Canvas implements Runnable
                 }
             }
         }
-        sub_36f4(graphics, sub_35c6, sub_3600, sub_3601, sub_367d, true);
+        SetClip(graphics, sub_35c6, sub_3600, sub_3601, sub_367d, true);
     }
     
     public static int[] sub_5a52(final int n) {
@@ -2339,7 +2337,7 @@ public abstract class GLLib extends Canvas implements Runnable
             return;
         }
         GLLib.var_206f = System.currentTimeMillis();
-        Class_o.sub_3e56();
+        Class_o.sendRedeemRequest();
     }
     
     static int sub_780b() {
