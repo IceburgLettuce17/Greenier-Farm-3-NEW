@@ -2933,7 +2933,7 @@ final class Class_f
             final int sub_3189 = this.var_189d.GetSprite().sub_3189(0);
             this.var_17cd = (cGame.var_800c.var_17cd + GLLib.Math_Rand(sub_312c, GLLib.s_screenWidth - sub_312c)) * 100 / cGame.var_7fc4;
             this.var_17d5 = (cGame.var_800c.var_17d5 + GLLib.Math_Rand(sub_3189, GLLib.s_screenHeight - sub_3189)) * 100 / cGame.var_7fc4;
-            if (cGame.var_67dc[cGame.field_a_int] == 13) {
+            if (cGame.s_game_states[cGame.s_game_state] == 13) {
                 this.var_17ed = this.var_17cd * cGame.var_7fc4 / 100 - cGame.var_800c.var_17cd;
                 this.var_17f5 = this.var_17d5 * cGame.var_7fc4 / 100 - cGame.var_800c.var_17d5;
             }

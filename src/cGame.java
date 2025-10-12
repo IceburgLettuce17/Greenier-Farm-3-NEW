@@ -15,8 +15,8 @@ import javax.microedition.lcdui.Display;
 public final class cGame extends GLLib implements Class_b {
 	private static int var_67c4;
 	private static int var_67cc;
-	static int field_a_int;
-	static int[] var_67dc;
+	static int s_game_state;
+	static int[] s_game_states;
 	private static byte[] var_67e4;
 	private static int var_67ec;
 	private static int var_67f4;
@@ -844,15 +844,15 @@ public final class cGame extends GLLib implements Class_b {
 	}
 
 	static void sub_81e0(final int var_67c4) {
-		int n = cGame.var_67dc[cGame.field_a_int];
-		if (cGame.var_67dc != null && cGame.field_a_int != -1 && n == 17 || n == 18 && var_67c4 != 19 && var_67c4 != 35
+		int n = cGame.s_game_states[cGame.s_game_state];
+		if (cGame.s_game_states != null && cGame.s_game_state != -1 && n == 17 || n == 18 && var_67c4 != 19 && var_67c4 != 35
 				&& var_67c4 != 17 && var_67c4 != 18 && var_67c4 != 36 && var_67c4 != 12) {
 			cGame.var_69d4 = true;
 			cGame.s_clickblocked = true;
 			GLLibPlayer.Tileset_Destroy(0);
 			GLLibPlayer.Tileset_Destroy(1);
 		}
-		if (cGame.field_a_int < 15) {
+		if (cGame.s_game_state < 15) {
 			cGame.var_67c4 = var_67c4;
 			cGame.var_67cc = 0;
 			sub_2c69b();
@@ -866,15 +866,15 @@ public final class cGame extends GLLib implements Class_b {
 	}
 
 	private static void sub_82a7(final int var_67c4) {
-		int n = var_67dc[field_a_int];
-		if (cGame.var_67dc != null && cGame.field_a_int != -1 && n == 17 || n == 18 || n == 26 && var_67c4 != 19
+		int n = s_game_states[s_game_state];
+		if (cGame.s_game_states != null && cGame.s_game_state != -1 && n == 17 || n == 18 || n == 26 && var_67c4 != 19
 				&& var_67c4 != 35 && var_67c4 != 17 && var_67c4 != 18 && var_67c4 != 36 && var_67c4 != 12) {
 			cGame.var_69d4 = true;
 			cGame.s_clickblocked = true;
 			GLLibPlayer.Tileset_Destroy(0);
 			GLLibPlayer.Tileset_Destroy(1);
 		}
-		if (cGame.field_a_int < 15) {
+		if (cGame.s_game_state < 15) {
 			cGame.var_67c4 = var_67c4;
 			cGame.var_67cc = 3;
 			sub_2c69b();
@@ -893,26 +893,31 @@ public final class cGame extends GLLib implements Class_b {
 	}
 
 	static int sub_8396() {
-		return field_a_int > -1 ? var_67dc[field_a_int] : -1;
+		return s_game_state > -1 ? s_game_states[s_game_state] : -1;
 	}
 
 	private static int sub_83cf() {
-		return field_a_int > 0 ? var_67dc[field_a_int - 1] : -1;
+		return s_game_state > 0 ? s_game_states[s_game_state - 1] : -1;
 	}
 
 	private static int sub_8409() {
-		return field_a_int > -1 && field_a_int < 14 ? var_67dc[field_a_int + 1] : -1;
+		return s_game_state > -1 && s_game_state < 14 ? s_game_states[s_game_state + 1] : -1;
 	}
 
-	private static boolean sub_844c(int sub_2b09, int n) {
+	private static boolean checkForState(int sub_2b09, int state) {
+		// I'm gonna document the states and my speculations for them in the switch statement btw
 		boolean b = false;
-		if (n > -1) {
+		// -1 is an invalid state that force-quits the game
+		if (state > -1) {
 			try {
-				switch (cGame.var_67dc[n]) {
+				switch (cGame.s_game_states[state]) {
+				// Game load, at the Gameloft splash
 				case 1: {
+					// SUBSTATES
+					// Seems to be checking for IAP, and calling a function that gets the fields from the .jad
 					if (sub_2b09 == 0) {
-						final String appProperty = GloftGF2M.s_instance.getAppProperty("IAP-EnableIAP");
-						if (appProperty != null && appProperty.equals("1") && GLLib.IAP_ParseJADFields()) {
+						final String iapEnabled = GloftGF2M.s_instance.getAppProperty("IAP-EnableIAP");
+						if (iapEnabled != null && iapEnabled.equals("1") && GLLib.IAP_ParseJADFields()) {
 							cGame.s_iapEnabled = true;
 						} else {
 							cGame.s_iapEnabled = false;
@@ -921,8 +926,10 @@ public final class cGame extends GLLib implements Class_b {
 						GLLib.sub_5aff();
 					}
 					if (sub_2b09 == 2) {
-						n = GLLib.IsAnyKeyDown();
-						if (n == 19 || n == 11) {
+						// Seems to be for quitting something?
+						// It seems to call a function (sub_81e0) that calls GLLibPlayer.Tileset_Destroy so idrk
+						state = GLLib.IsAnyKeyDown();
+						if (state == 19 || state == 11) {
 							GLLib.s_game_state = -1;
 						}
 						sub_81e0(2);
@@ -930,6 +937,7 @@ public final class cGame extends GLLib implements Class_b {
 					b = false;
 					break;
 				}
+				// I think this is the one that draws the Green Farm 3 background (excluding the loadbar)
 				case 2: {
 					if (sub_2b09 == 0) {
 						cGame.var_681c = cGame.var_6804;
@@ -938,8 +946,8 @@ public final class cGame extends GLLib implements Class_b {
 						cGame.var_6a24 = 50;
 					}
 					if (sub_2b09 == 2) {
-						n = GLLib.IsAnyKeyDown();
-						if (n == 19 || n == 11) {
+						state = GLLib.IsAnyKeyDown();
+						if (state == 19 || state == 11) {
 							GLLib.s_game_state = -1;
 						}
 						if (cGame.var_67f4 > 5000) {
@@ -962,6 +970,7 @@ public final class cGame extends GLLib implements Class_b {
 					b = false;
 					break;
 				}
+				// This one draws the loading bar from the splash
 				case 4: {
 					if (sub_2b09 == 0) {
 						sub_1d1a7(0, true);
@@ -1014,8 +1023,8 @@ public final class cGame extends GLLib implements Class_b {
 					if (sub_2b09 == 2) {
 						String sub_4e1f = GLLib.TODO_sub_4e1f(46);
 						cGame.var_68cc[0][4] = ((sub_4e1f == null) ? "" : sub_4e1f);
-						n = GLLib.IsAnyKeyDown();
-						if (n == 19 || n == 11) {
+						state = GLLib.IsAnyKeyDown();
+						if (state == 19 || state == 11) {
 							if (cGame.var_686c) {
 								GLLib.s_game_state = -1;
 							} else {
@@ -1032,34 +1041,36 @@ public final class cGame extends GLLib implements Class_b {
 					if (sub_2b09 == 3) {
 						sub_1dcc1(0);
 						if (cGame.var_6834 == 0) {
-							n = 416;
+							state = 416;
 						} else {
 							if (cGame.var_684c && cGame.var_685c > 0) {
-								n = 416 * cGame.var_682c + 1;
+								state = 416 * cGame.var_682c + 1;
 								final int n2 = cGame.var_682c + 2 < cGame.var_6834 ? (cGame.var_682c + 2)
 										: cGame.var_6834 * 416 / cGame.var_6834;
-								if ((n / cGame.var_6834
+								if ((state / cGame.var_6834
 										+ 416 / cGame.var_6834 * cGame.var_6854 / cGame.var_685c) > n2) {
-									n = n2;
+									state = n2;
 								}
 							} else {
-								n = 416 * (cGame.var_682c + 1) / cGame.var_6834;
+								state = 416 * (cGame.var_682c + 1) / cGame.var_6834;
 							}
-							if (n > 416) {
-								n = 416;
+							if (state > 416) {
+								state = 416;
 							}
 						}
 						GLLib.g.setColor(26856);
-						n = cGame.var_68bc[0][3][3];
-						GLLib.FillRect(GLLib.g, cGame.var_68bc[0][3][2], n, n, 20, true);
+						state = cGame.var_68bc[0][3][3];
+						GLLib.FillRect(GLLib.g, cGame.var_68bc[0][3][2], state, state, 20, true);
 					}
 					b = false;
 					break;
 				}
+				// Your farm, has everything except neighbor lockdown and the homebutton
 				case 17: {
 					b = sub_3ebe5(sub_2b09);
 					break;
 				}
+				// TODO: Figure out this one
 				case 18: {
 					if ((sub_2b09) == 0) {
 						if (cGame.var_7fd4 == 1) {
@@ -1176,11 +1187,11 @@ public final class cGame extends GLLib implements Class_b {
 							if (GLLib.sub_762d() && (cGame.var_7fd4 == 3 || cGame.var_7fd4 == 6
 									|| cGame.var_7fd4 == 46 || cGame.var_7fd4 == 48 || cGame.var_7fd4 == 39
 									|| cGame.var_7fd4 == 43)) {
-								n = GLLib.s_screenX;
+								state = GLLib.s_screenX;
 								final int var_203f = GLLib.s_screenY;
 								final short n7 = cGame.var_68bc[4][2][2];
 								final short n8 = cGame.var_68bc[4][2][3];
-								if (n >= n7 - 68 && n < n7 + 375 && var_203f > n8 - 20 && var_203f < n8 + 200) {
+								if (state >= n7 - 68 && state < n7 + 375 && var_203f > n8 - 20 && var_203f < n8 + 200) {
 									cGame.var_6c94 = true;
 									b2 = true;
 									break Label_2355;
@@ -1191,14 +1202,14 @@ public final class cGame extends GLLib implements Class_b {
 							}
 						}
 						if (sub_2b09 == 2) {
-							if ((n = GLLib.IsAnyKeyDown()) == 19 || n == 24) {
+							if ((state = GLLib.IsAnyKeyDown()) == 19 || state == 24) {
 								if (sub_202b7(1, 37) && sub_20167(1, 37)) {
 									sub_10922();
-								} else if (n == 19) {
+								} else if (state == 19) {
 									final String sub_4e1f3;
 									sub_4c6b5("Show_Toast_"
 											+ (((sub_4e1f3 = GLLib.TODO_sub_4e1f(498)) == null) ? "" : sub_4e1f3));
-								} else if (n == 24) {
+								} else if (state == 24) {
 									final String sub_4e1f4;
 									sub_4c6b5("Show_Toast_"
 											+ (((sub_4e1f4 = GLLib.TODO_sub_4e1f(499)) == null) ? "" : sub_4e1f4));
@@ -1212,7 +1223,7 @@ public final class cGame extends GLLib implements Class_b {
 								final long currentTimeMillis = System.currentTimeMillis();
 								if (cGame.var_6d3c != 0L) {
 									cGame.var_6d44 += (int) (currentTimeMillis - cGame.var_6d3c);
-									n = cGame.var_6cec;
+									state = cGame.var_6cec;
 									final int var_6cf4 = cGame.var_6cf4;
 									final int var_6cfc = cGame.var_6cfc;
 									final int var_6d04 = cGame.var_6d04;
@@ -1224,13 +1235,13 @@ public final class cGame extends GLLib implements Class_b {
 											cGame.var_6d44 = 0;
 										}
 										final int sub_2be7 = GLLib.Math_Cos(cGame.var_6d2c);
-										cGame.var_6d1c = ((n + var_6cfc) / 2 - (var_6cfc - n) / 2 * sub_2be7 / 256)
+										cGame.var_6d1c = ((state + var_6cfc) / 2 - (var_6cfc - state) / 2 * sub_2be7 / 256)
 												* cGame.var_7fc4 / 100 - cGame.var_800c.var_17cd;
 										cGame.var_6d24 = ((var_6cf4 + var_6d04) / 2
 												- (var_6d04 - var_6cf4) / 2 * sub_2be7 / 256) * cGame.var_7fc4 / 100
 												- cGame.var_800c.var_17d5;
-										n = cGame.var_6d2c;
-										if (GLLib.Math_Cos(GLLib.Math_Angle90 - n) < 0) {
+										state = cGame.var_6d2c;
+										if (GLLib.Math_Cos(GLLib.Math_Angle90 - state) < 0) {
 											cGame.var_6cd4 = false;
 										} else {
 											cGame.var_6cd4 = true;
@@ -1242,7 +1253,7 @@ public final class cGame extends GLLib implements Class_b {
 										}
 										if (cGame.var_6d2c < 10) {
 											cGame.var_6cd4 = true;
-											cGame.var_6d1c = (n + (var_6d0c - n) * cGame.var_6d2c / 10)
+											cGame.var_6d1c = (state + (var_6d0c - state) * cGame.var_6d2c / 10)
 													* cGame.var_7fc4 / 100 - cGame.var_800c.var_17cd;
 											cGame.var_6d24 = (var_6cf4 + (var_6d5 - var_6cf4) * cGame.var_6d2c / 10)
 													* cGame.var_7fc4 / 100 - cGame.var_800c.var_17d5;
@@ -1295,14 +1306,17 @@ public final class cGame extends GLLib implements Class_b {
 					b = b2;
 					break;
 				}
+				// Market menu
 				case 7: {
 					b = sub_30df7(sub_2b09);
 					break;
 				}
+				// Sales Desk menu
 				case 8: {
 					b = sub_32880(sub_2b09);
 					break;
 				}
+				// Feed Mill's "Feed Producal" menu
 				case 9: {
 					if ((sub_2b09) == 1) {
 						cGame.var_68ac = 100;
@@ -1318,7 +1332,7 @@ public final class cGame extends GLLib implements Class_b {
 						sub_2000c(6, 32, cGame.var_7424 = false);
 					}
 					if (sub_2b09 == 2) {
-						if ((n = GLLib.IsAnyKeyDown()) == 19 || n == 11) {
+						if ((state = GLLib.IsAnyKeyDown()) == 19 || state == 11) {
 							if (cGame.var_6c5c == 160) {
 								sub_14108();
 							} else {
@@ -1403,6 +1417,7 @@ public final class cGame extends GLLib implements Class_b {
 					b = false;
 					break;
 				}
+				// Kitchen's Cooking menu
 				case 10: {
 					if ((sub_2b09) == 0) {
 						sub_2c69b();
@@ -1435,7 +1450,7 @@ public final class cGame extends GLLib implements Class_b {
 						sub_2000c(7, 40, cGame.var_7424 = false);
 					}
 					if (sub_2b09 == 2) {
-						if ((n = GLLib.IsAnyKeyDown()) == 19 || n == 11) {
+						if ((state = GLLib.IsAnyKeyDown()) == 19 || state == 11) {
 							sub_144e1();
 						}
 						sub_d841(1);
@@ -1523,22 +1538,28 @@ public final class cGame extends GLLib implements Class_b {
 					b = false;
 					break;
 				}
+				// Kitchen "homepage"
 				case 11: {
 					b = sub_3423e(sub_2b09);
 					break;
 				}
+				// Feed Mill "homepage"
 				case 27: {
 					b = sub_35c3d(sub_2b09);
 					break;
 				}
+				// Barn Inventory page
 				case 28: {
 					b = sub_37b49(sub_2b09);
 					break;
 				}
+				// Manor homepage
 				case 29: {
 					b = sub_38850(sub_2b09);
 					break;
 				}
+				// IDRK what this one is
+				// If any of you know make a PR on GitHub
 				case 30: {
 					if ((sub_2b09) == 0) {
 						cGame.var_68c4[14][54][5] = 1135;
@@ -1603,11 +1624,11 @@ public final class cGame extends GLLib implements Class_b {
 							final String sub_4e1f27;
 							cGame.var_7834 = (((sub_4e1f27 = GLLib.TODO_sub_4e1f(256)) == null) ? "" : sub_4e1f27);
 						}
-						n = sub_df89(cGame.var_808c + 1);
+						state = sub_df89(cGame.var_808c + 1);
 						final Class_h class_h;
-						cGame.var_781c = (class_h = Class_h.var_6a[3]).var_82[n][12];
-						cGame.var_7824 = class_h.var_82[n][22];
-						cGame.var_782c = class_h.var_82[n][21] * 60;
+						cGame.var_781c = (class_h = Class_h.var_6a[3]).var_82[state][12];
+						cGame.var_7824 = class_h.var_82[state][22];
+						cGame.var_782c = class_h.var_82[state][21] * 60;
 						if (cGame.var_77f4 == 0 || cGame.var_77f4 == 1) {
 							sub_3a73b(cGame.var_77f4 = 1);
 							sub_3a485();
@@ -1616,10 +1637,10 @@ public final class cGame extends GLLib implements Class_b {
 							} else {
 								sub_2000c(14, 76, false);
 							}
-							n = (sub_3a230(cGame.var_77ec) ? 1 : 0);
+							state = (sub_3a230(cGame.var_77ec) ? 1 : 0);
 							final boolean sub_3a383 = sub_3a383();
-							sub_2000c(14, 7, (boolean) (n != 0));
-							if (cGame.var_77dc = (n != 0 && sub_3a383)) {
+							sub_2000c(14, 7, (boolean) (state != 0));
+							if (cGame.var_77dc = (state != 0 && sub_3a383)) {
 								cGame.var_68bc[14][10][5] = 20;
 								cGame.var_68bc[14][10][6] = 89;
 								cGame.var_68bc[14][10][20] = 1;
@@ -1656,7 +1677,7 @@ public final class cGame extends GLLib implements Class_b {
 						sub_239ef(14);
 					}
 					if (sub_2b09 == 2) {
-						if ((n = GLLib.IsAnyKeyDown()) == 19 || n == 11) {
+						if ((state = GLLib.IsAnyKeyDown()) == 19 || state == 11) {
 							if (cGame.var_6c5c == 160) {
 								sub_195c5();
 							} else {
@@ -1783,6 +1804,7 @@ public final class cGame extends GLLib implements Class_b {
 					b = false;
 					break;
 				}
+				// Acre expansion menu
 				case 12: {
 					if ((sub_2b09) == 1) {
 						sub_d76c();
@@ -1818,15 +1840,15 @@ public final class cGame extends GLLib implements Class_b {
 						sub_239ef(11);
 					}
 					if (sub_2b09 == 2) {
-						n = GLLib.IsAnyKeyDown();
+						state = GLLib.IsAnyKeyDown();
 						if (cGame.var_6d64 == 0) {
-							if (n == 19) {
+							if (state == 19) {
 								sub_18b4a();
 							}
 							sub_d841(1);
 						} else if (cGame.var_6d64 == 1) {
 							if (!cGame.var_6d6c.sub_1b34()) {
-								if (n == 19) {
+								if (state == 19) {
 									final String sub_4e1f38;
 									sub_4c6b5("Show_Toast_"
 											+ (((sub_4e1f38 = GLLib.TODO_sub_4e1f(498)) == null) ? "" : sub_4e1f38));
@@ -1860,16 +1882,16 @@ public final class cGame extends GLLib implements Class_b {
 							sub_1df06(((sub_4e1f40 = GLLib.TODO_sub_4e1f(312 + (cGame.var_6d54 - 1))) == null) ? ""
 									: sub_4e1f40, 11, 4, 0, 0);
 							if (!cGame.var_6dfc[cGame.var_6d54]) {
-								n = ((getIntValue(cGame.var_6dac) > getIntValue(cGame.var_6da4))
+								state = ((getIntValue(cGame.var_6dac) > getIntValue(cGame.var_6da4))
 										? getIntValue(cGame.var_6da4)
 										: getIntValue(cGame.var_6dac));
-								sub_1e2f2("" + n + " / " + getIntValue(cGame.var_6da4), 11, 11, 0, 0);
+								sub_1e2f2("" + state + " / " + getIntValue(cGame.var_6da4), 11, 11, 0, 0);
 							}
 							if (!cGame.var_6e04[cGame.var_6d54]) {
-								n = ((getIntValue(cGame.var_6dbc) > getIntValue(cGame.var_6db4))
+								state = ((getIntValue(cGame.var_6dbc) > getIntValue(cGame.var_6db4))
 										? getIntValue(cGame.var_6db4)
 										: getIntValue(cGame.var_6dbc));
-								sub_1e2f2("" + n + " / " + getIntValue(cGame.var_6db4), 11, 12, 0, 0);
+								sub_1e2f2("" + state + " / " + getIntValue(cGame.var_6db4), 11, 12, 0, 0);
 							}
 							final String sub_4e1f41;
 							sub_1e2f2(((sub_4e1f41 = GLLib.TODO_sub_4e1f(cGame.var_6ddc)) == null) ? "" : sub_4e1f41, 11,
@@ -1916,22 +1938,29 @@ public final class cGame extends GLLib implements Class_b {
 					b = false;
 					break;
 				}
+				// Leveled up screen
 				case 13: {
 					b = sub_3ba87(sub_2b09);
 					break;
 				}
+				// Neighbor "request item" menu
 				case 15: {
 					b = sub_3b305(sub_2b09);
 					break;
 				}
+				// Neighbor "send item" menu
 				case 16: {
 					b = sub_3a9f7(sub_2b09);
 					break;
 				}
+				// A debug menu. Bro, what the fuck is this doing in a production environment?
+				// IDRK a way to access it tho.
 				case 14: {
 					b = sub_3c2a9(sub_2b09);
 					break;
 				}
+				
+				// IDRK what this one is (it just shows a black screen)
 				case 21: {
 					if ((sub_2b09) == 0) {
 						cGame.var_8054 = GLLib.sub_5307(cGame.var_8054,
@@ -1940,11 +1969,11 @@ public final class cGame extends GLLib implements Class_b {
 						cGame.var_682c = GLLib.s_screenHeight - 32;
 					}
 					if (sub_2b09 == 2) {
-						n = GLLib.WasAnyKeyPressed();
+						state = GLLib.WasAnyKeyPressed();
 						int n13 = 2;
-						if (n == 19) {
+						if (state == 19) {
 							sub_834e();
-						} else if (n == 18 || n == 5 || n == 11) {
+						} else if (state == 18 || state == 5 || state == 11) {
 							n13 = 4;
 						}
 						if (cGame.var_682c > 30) {
@@ -1962,38 +1991,47 @@ public final class cGame extends GLLib implements Class_b {
 					b = false;
 					break;
 				}
+				// Dunno this one too
 				case 19: {
 					b = sub_3fc6c(sub_2b09);
 					break;
 				}
+				// Your neighbor's farm, enables lockdown system and home button
 				case 36: {
 					b = sub_407ce(sub_2b09);
 					break;
 				}
+				// Neighbor screen
 				case 37: {
 					b = sub_41bf9(sub_2b09);
 					break;
 				}
+				// Mailbox's neighbors menu
 				case 38: {
 					b = sub_40dc7(sub_2b09);
 					break;
 				}
+				// Dunno 2
 				case 35: {
 					b = sub_428d1(sub_2b09);
 					break;
 				}
+				// Collections screen
 				case 31: {
 					b = sub_3ced3(sub_2b09);
 					break;
 				}
+				// Manor's Trophies screen
 				case 32: {
 					b = sub_3dea3(sub_2b09);
 					break;
 				}
+				// Silo screen (FEED STORAGE)
 				case 39: {
 					b = sub_3e804(sub_2b09);
 					break;
 				}
+				// IGP screen, crashes game if entered via memediting
 				case 44: {
 					final int n14;
 					if ((n14 = sub_2b09) == 0) {
@@ -2003,39 +2041,39 @@ public final class cGame extends GLLib implements Class_b {
 					}
 					if (n14 == 2) {
 						sub_2b09 = GLLib.IsAnyKeyDown();
-						n = 0;
+						state = 0;
 						switch (sub_2b09) {
 						case 3:
 						case 10: {
-							n = 23;
+							state = 23;
 							break;
 						}
 						case 4:
 						case 12: {
-							n = 24;
+							state = 24;
 							break;
 						}
 						case 1:
 						case 8: {
-							n = 21;
+							state = 21;
 							break;
 						}
 						case 2:
 						case 14: {
-							n = 32;
+							state = 32;
 							break;
 						}
 						case 19: {
-							n = 26;
+							state = 26;
 							break;
 						}
 						case 5:
 						case 11: {
-							n = 25;
+							state = 25;
 							break;
 						}
 						}
-						if (IGP.sub_3b75(n)) {
+						if (IGP.sub_3b75(state)) {
 							cGame.var_67cc = 1;
 							sub_2c69b();
 						}
@@ -2052,10 +2090,12 @@ public final class cGame extends GLLib implements Class_b {
 					b = false;
 					break;
 				}
+				// Dunno 3
 				case 42: {
 					b = sub_43b80(sub_2b09);
 					break;
 				}
+				// Ditto.
 				case 3: {
 					if (sub_2b09 == 2) {
 						sub_81e0(5);
@@ -2063,20 +2103,23 @@ public final class cGame extends GLLib implements Class_b {
 					b = false;
 					break;
 				}
+				// IAP "Buy cash/coin" menu
 				case 34: {
 					b = sub_44db4(sub_2b09);
 					break;
 				}
+				// Dunno 5
 				case 26: {
 					b = sub_48824(sub_2b09);
 					break;
 				}
+				// Dunno 6 (it seems like a placeholder)
 				case 25: {
 					b = sub_46ec6(sub_2b09);
 					break;
 				}
 				default: {
-					new StringBuffer().append("State [").append(cGame.var_67dc[n])
+					new StringBuffer().append("State [").append(cGame.s_game_states[state])
 							.append("] is undefined. Message sent was: ").append(sub_2b09);
 					break;
 				}
@@ -2088,68 +2131,68 @@ public final class cGame extends GLLib implements Class_b {
 	}
 
 	private static boolean sub_b442() {
-		return sub_844c(8, cGame.field_a_int);
+		return checkForState(8, cGame.s_game_state);
 	}
 
 	private static void sub_b465() {
 		if (cGame.var_67cc != -1) {
 			if (cGame.var_67cc == 0) {
 				cGame.var_67cc = -1;
-				if (cGame.field_a_int > -1) {
-					sub_844c(4, cGame.field_a_int);
+				if (cGame.s_game_state > -1) {
+					checkForState(4, cGame.s_game_state);
 				}
-				++cGame.field_a_int;
-				cGame.var_67dc[cGame.field_a_int] = cGame.var_67c4;
+				++cGame.s_game_state;
+				cGame.s_game_states[cGame.s_game_state] = cGame.var_67c4;
 				cGame.var_67c4 = -1;
-				if (cGame.var_67dc[cGame.field_a_int] != 1) {
-					sub_1c7ce(cGame.var_67dc[cGame.field_a_int]);
+				if (cGame.s_game_states[cGame.s_game_state] != 1) {
+					sub_1c7ce(cGame.s_game_states[cGame.s_game_state]);
 				}
-				sub_844c(0, cGame.field_a_int);
-				sub_844c(1, cGame.field_a_int);
+				checkForState(0, cGame.s_game_state);
+				checkForState(1, cGame.s_game_state);
 			} else if (cGame.var_67cc == 1) {
 				cGame.var_67cc = -1;
-				sub_844c(4, cGame.field_a_int);
-				sub_844c(5, cGame.field_a_int);
-				sub_1cd44(cGame.var_67dc[cGame.field_a_int]);
-				if (--cGame.field_a_int > -1) {
-					sub_1c7ce(cGame.var_67dc[cGame.field_a_int]);
-					sub_844c(1, cGame.field_a_int);
+				checkForState(4, cGame.s_game_state);
+				checkForState(5, cGame.s_game_state);
+				sub_1cd44(cGame.s_game_states[cGame.s_game_state]);
+				if (--cGame.s_game_state > -1) {
+					sub_1c7ce(cGame.s_game_states[cGame.s_game_state]);
+					checkForState(1, cGame.s_game_state);
 				}
 			} else if (cGame.var_67cc == 2) {
 				cGame.var_67cc = -1;
-				while (cGame.field_a_int >= 0) {
-					sub_844c(5, cGame.field_a_int);
-					sub_1cd44(cGame.var_67dc[cGame.field_a_int]);
-					--cGame.field_a_int;
+				while (cGame.s_game_state >= 0) {
+					checkForState(5, cGame.s_game_state);
+					sub_1cd44(cGame.s_game_states[cGame.s_game_state]);
+					--cGame.s_game_state;
 				}
-				++cGame.field_a_int;
+				++cGame.s_game_state;
 				cGame.var_6824 = cGame.var_67c4;
-				sub_1c7ce(cGame.var_67dc[cGame.field_a_int] = 4);
-				sub_844c(0, cGame.field_a_int);
-				sub_844c(1, cGame.field_a_int);
+				sub_1c7ce(cGame.s_game_states[cGame.s_game_state] = 4);
+				checkForState(0, cGame.s_game_state);
+				checkForState(1, cGame.s_game_state);
 			} else if (cGame.var_67cc == 3) {
 				cGame.var_67cc = -1;
-				sub_844c(4, cGame.field_a_int);
-				sub_844c(5, cGame.field_a_int);
-				sub_1cd44(cGame.var_67dc[cGame.field_a_int]);
-				cGame.var_67dc[cGame.field_a_int] = cGame.var_67c4;
+				checkForState(4, cGame.s_game_state);
+				checkForState(5, cGame.s_game_state);
+				sub_1cd44(cGame.s_game_states[cGame.s_game_state]);
+				cGame.s_game_states[cGame.s_game_state] = cGame.var_67c4;
 				cGame.var_67c4 = -1;
-				sub_1c7ce(cGame.var_67dc[cGame.field_a_int]);
-				sub_844c(0, cGame.field_a_int);
-				sub_844c(1, cGame.field_a_int);
+				sub_1c7ce(cGame.s_game_states[cGame.s_game_state]);
+				checkForState(0, cGame.s_game_state);
+				checkForState(1, cGame.s_game_state);
 			} else if (cGame.var_67cc == 4) {
 				cGame.var_67cc = -1;
-				sub_844c(4, cGame.field_a_int);
-				while (cGame.field_a_int >= 0 && cGame.var_67dc[cGame.field_a_int] != cGame.var_67c4) {
-					sub_844c(5, cGame.field_a_int);
-					sub_1cd44(cGame.var_67dc[cGame.field_a_int]);
-					--cGame.field_a_int;
+				checkForState(4, cGame.s_game_state);
+				while (cGame.s_game_state >= 0 && cGame.s_game_states[cGame.s_game_state] != cGame.var_67c4) {
+					checkForState(5, cGame.s_game_state);
+					sub_1cd44(cGame.s_game_states[cGame.s_game_state]);
+					--cGame.s_game_state;
 				}
-				cGame.var_67dc[cGame.field_a_int] = cGame.var_67c4;
+				cGame.s_game_states[cGame.s_game_state] = cGame.var_67c4;
 				cGame.var_67c4 = -1;
-				if (cGame.field_a_int > -1) {
-					sub_1c7ce(cGame.var_67dc[cGame.field_a_int]);
-					sub_844c(1, cGame.field_a_int);
+				if (cGame.s_game_state > -1) {
+					sub_1c7ce(cGame.s_game_states[cGame.s_game_state]);
+					checkForState(1, cGame.s_game_state);
 				}
 			}
 			sub_4c5ea();
@@ -2158,14 +2201,14 @@ public final class cGame extends GLLib implements Class_b {
 
 	private static void sub_b693() {
 		int i;
-		for (i = cGame.field_a_int; i > 0; --i) {
-			final int n = cGame.var_67dc[i];
+		for (i = cGame.s_game_state; i > 0; --i) {
+			final int n = cGame.s_game_states[i];
 			if ((cGame.var_67e4[n >> 3] & 1 << (n & 0x7)) != 0x0) {
 				break;
 			}
 		}
-		while (i <= cGame.field_a_int) {
-			sub_844c(3, i);
+		while (i <= cGame.s_game_state) {
+			checkForState(3, i);
 			++i;
 		}
 		if (cGame.var_68e4 != null) {
@@ -9323,7 +9366,7 @@ public final class cGame extends GLLib implements Class_b {
 
 	private static void sub_1bccc() {
 		sub_23a84(61);
-		if (cGame.var_67dc[cGame.field_a_int] == 25) {
+		if (cGame.s_game_states[cGame.s_game_state] == 25) {
 			sub_47802();
 		}
 	}
@@ -17051,14 +17094,14 @@ public final class cGame extends GLLib implements Class_b {
 	}
 
 	protected final void pointerReleased(final int n, final int n2) {
-		if (cGame.var_67dc[cGame.field_a_int] == 44) {
+		if (cGame.s_game_states[cGame.s_game_state] == 44) {
 			IGP.sub_48ef(n, n2);
 		}
 		super.pointerReleased(n, n2);
 	}
 
 	protected final void pointerPressed(final int n, final int n2) {
-		if (cGame.var_67dc[cGame.field_a_int] == 44) {
+		if (cGame.s_game_states[cGame.s_game_state] == 44) {
 			IGP.sub_4acf(n, n2);
 		}
 		super.pointerPressed(n, n2);
@@ -17077,7 +17120,7 @@ public final class cGame extends GLLib implements Class_b {
 	}
 
 	protected final void pointerDragged(final int n, final int var_6f1c) {
-		if (cGame.var_67dc[cGame.field_a_int] == 44) {
+		if (cGame.s_game_states[cGame.s_game_state] == 44) {
 			IGP.sub_4b41(n, var_6f1c);
 		}
 		cGame.var_6f1c = var_6f1c;
@@ -18843,6 +18886,7 @@ public final class cGame extends GLLib implements Class_b {
 		return n2 >> cGame.field_cq | n2 << 64 - cGame.field_cq;
 	}
 
+	// This might just be some stuff that the game does on load
 	private static void sub_3021b(final boolean b) {
 		Class_h.var_6a = new Class_h[34];
 		GLLib.Pack_Open("/9");
@@ -24329,7 +24373,7 @@ public final class cGame extends GLLib implements Class_b {
 			sub_2e5a7(0);
 		}
 		if (n == 1) {
-			if (cGame.var_67dc[cGame.field_a_int] == 17 && cGame.var_69d4 && !cGame.var_69dc) {
+			if (cGame.s_game_states[cGame.s_game_state] == 17 && cGame.var_69d4 && !cGame.var_69dc) {
 				sub_cc72();
 				cGame.var_800c.sub_692a();
 				cGame.var_69d4 = false;
@@ -29371,12 +29415,12 @@ public final class cGame extends GLLib implements Class_b {
 		GLLib.Game_KeySetKeyCode(false, 56, 14);
 		GLLib.Game_KeySetKeyCode(false, 53, 11);
 		//cGame.field_a_int = -1;
-		cGame.field_a_int = 0;
+		cGame.s_game_state = 0;
 		cGame.var_67cc = -1;
 		cGame.var_67c4 = -1;
 		cGame.var_67ec = 0;
 		cGame.var_67f4 = 0;
-		cGame.var_67dc = new int[15];
+		cGame.s_game_states = new int[15];
 		//cGame.var_67dc[0] = 44;
 		cGame.var_67e4 = new byte[6];
 		for (int i = 0; i < 45; ++i) {
@@ -29402,7 +29446,7 @@ public final class cGame extends GLLib implements Class_b {
 		final long currentTimeMillis = System.currentTimeMillis();
 		final long currentTimeMillis2 = System.currentTimeMillis();
 		sub_b465();
-		if (cGame.var_67cc == -1 && cGame.var_67dc[cGame.field_a_int] != 44) {
+		if (cGame.var_67cc == -1 && cGame.s_game_states[cGame.s_game_state] != 44) {
 			cGame.var_8014 = null;
 			cGame.var_801c = null;
 			cGame.var_8024 = null;
@@ -29729,7 +29773,7 @@ public final class cGame extends GLLib implements Class_b {
 				cGame.var_68ec[n45].sub_1ca1(GLLib.s_game_frameDT);
 			}
 		}
-		sub_844c(2, cGame.field_a_int);
+		checkForState(2, cGame.s_game_state);
 		++cGame.var_67ec;
 		cGame.var_67f4 += GLLib.s_game_frameDT;
 		new StringBuffer().append("G_DT : ").append(GLLib.s_game_frameDT).append(" ms");
@@ -29740,8 +29784,8 @@ public final class cGame extends GLLib implements Class_b {
 
 	public final void hideNotify() {
 		super.hideNotify();
-		if (cGame.field_a_int != -1) {
-			sub_844c(7, cGame.field_a_int);
+		if (cGame.s_game_state != -1) {
+			checkForState(7, cGame.s_game_state);
 			final int sub_8396;
 			if ((sub_8396 = sub_8396()) != 2 && sub_8396 != 1) {
 				cGame.var_6a34 = true;
@@ -29752,9 +29796,9 @@ public final class cGame extends GLLib implements Class_b {
 
 	public final void showNotify() {
 		super.showNotify();
-		if (cGame.field_a_int != -1) {
+		if (cGame.s_game_state != -1) {
 			cGame.var_6a34 = false;
-			sub_844c(6, cGame.field_a_int);
+			checkForState(6, cGame.s_game_state);
 		}
 	}
 

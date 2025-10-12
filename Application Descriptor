@@ -1,7 +1,7 @@
 URL-OPERATOR: http://youroperatorurlhere.site
 IAP-EnableIAP: 1
 MIDlet-Touch-Support: true
-MicroEdition-Configuration: CLDC-1.0
+MicroEdition-Configuration: CLDC-1.1
 MIDlet-Name: Green Farm 3
 IGP-FREEMIUM: PSHF=0;
 MIDlet-Jar-Size: 3344667
@@ -20,6 +20,6 @@ URL-SUPPORT: http://github.com/IceburgLettuce17/Greenier-Farm-3-NEW/
 IGP-CATEGORIES: SCFR=SCFR;GMCL=GMCL;CCTL=CCTL;
 TITLE-FREEMIUM: 0
 MIDlet-Icon: /icon.png
-MicroEdition-Profile: MIDP-1.0
+MicroEdition-Profile: MIDP-2.1
 MIDlet-Permissions: javax.wireless.messaging.sms.send,javax.microedition.io.Connector.sms,javax.microedition.io.Connector.http
 GameVer: 1.0.6
