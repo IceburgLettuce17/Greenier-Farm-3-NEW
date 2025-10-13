@@ -1,4 +1,3 @@
-import javax.microedition.io.Connection;
 import java.util.TimerTask;
 
 // 
@@ -11,7 +10,7 @@ final class BuyCloseTask extends TimerTask
         if (!Class_o.var_2aed) {
             try {
                 Class_o.var_2ae5 = true;
-                ((Connection)Class_o.conn).close();
+                Class_o.conn.close();
             }
             catch (final Exception ex) {
                 new StringBuffer().append("PaySMS.buy: Failed to close connection in timer. Exception: ").append(ex.toString());

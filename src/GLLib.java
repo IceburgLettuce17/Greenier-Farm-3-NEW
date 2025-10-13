@@ -1193,26 +1193,22 @@ public abstract class GLLib extends Canvas implements Runnable
     
     static byte[] sub_4655(byte[] array, final String anObject, final boolean b) {
         byte[] bytes = null;
-        if (!"".equals(anObject) && anObject != null) {
+        if ("".equals(anObject) == false && anObject != null) {
             bytes = anObject.getBytes();
         }
-        final byte[] array2 = array;
-        final byte[] array3 = bytes;
-        array = array2;
-        if (array2.length == 0) {
+        if (array.length == 0) {
             return array;
         }
         final int[] sub_447e = sub_447e(array, true, null);
-        int[] sub_447e2 = sub_447e(array3, false, null);
-        final int[] array4 = sub_447e;
-        final int n;
-        if ((n = sub_447e.length - 1) >= 1) {
+        int[] sub_447e2 = sub_447e(bytes, false, null);
+        final int n = sub_447e.length - 1;
+        if (n >= 1) {
             if (sub_447e2.length < 4) {
                 final int[] array5 = new int[4];
                 System.arraycopy(sub_447e2, 0, array5, 0, sub_447e2.length);
                 sub_447e2 = array5;
             }
-            int n2 = array4[n];
+            int n2 = sub_447e[n];
             final int n3 = -1640531527;
             int n4 = 0;
             int n5 = 6 + 52 / (n + 1);
@@ -1220,24 +1216,20 @@ public abstract class GLLib extends Canvas implements Runnable
                 final int n6 = (n4 += n3) >>> 2 & 0x3;
                 int i;
                 for (i = 0; i < n; ++i) {
-                    final int n7 = array4[i + 1];
-                    final int[] array6 = array4;
-                    final int n8 = i;
-                    final int n9 = array6[n8] + ((n2 >>> 5 ^ n7 << 2) + (n7 >>> 3 ^ n2 << 4) ^ (n4 ^ n7) + (sub_447e2[(i & 0x3) ^ n6] ^ n2));
-                    array6[n8] = n9;
+                    final int n7 = sub_447e[i + 1];
+                    final int n9 = sub_447e[i] + ((n2 >>> 5 ^ n7 << 2) + (n7 >>> 3 ^ n2 << 4) ^ (n4 ^ n7) + (sub_447e2[(i & 0x3) ^ n6] ^ n2));
+                    sub_447e[i] = n9;
                     n2 = n9;
                 }
-                final int n10 = array4[0];
-                final int[] array7 = array4;
-                final int n11 = n;
-                final int n12 = array7[n11] + ((n2 >>> 5 ^ n10 << 2) + (n10 >>> 3 ^ n2 << 4) ^ (n4 ^ n10) + (sub_447e2[(i & 0x3) ^ n6] ^ n2));
-                array7[n11] = n12;
+                final int n10 = sub_447e[0];
+                final int n12 = sub_447e[n] + ((n2 >>> 5 ^ n10 << 2) + (n10 >>> 3 ^ n2 << 4) ^ (n4 ^ n10) + (sub_447e2[(i & 0x3) ^ n6] ^ n2));
+                sub_447e[n] = n12;
                 n2 = n12;
             }
         }
         final int[] array9;
         final int n13;
-        final byte[] array8 = new byte[n13 = (array9 = array4).length << 2];
+        final byte[] array8 = new byte[n13 = (array9 = sub_447e).length << 2];
         for (int j = 0; j < n13; ++j) {
             array8[j] = (byte)(array9[j >>> 2] >>> ((j & 0x3) << 3));
         }
@@ -1251,7 +1243,7 @@ public abstract class GLLib extends Canvas implements Runnable
                 return 0;
             }
             lang = lang.toUpperCase();
-            if ((lang = lang.toUpperCase()).indexOf("EN") >= 0) {
+            if (lang.indexOf("EN") >= 0) {
                 return 0;
             }
             if (lang.indexOf("DE") >= 0) {
@@ -2332,7 +2324,7 @@ public abstract class GLLib extends Canvas implements Runnable
         Class_o.sendRequest(Class_o.getPricePoint(itemIndex, itemType), itemType);
     }
     
-    static void sub_77ca() {
+    static void IAP_SendRedeemRequest() {
         if (System.currentTimeMillis() - GLLib.var_206f <= 3000L) {
             return;
         }
@@ -2364,12 +2356,12 @@ public abstract class GLLib extends Canvas implements Runnable
         return Class_o.sub_4e32(Class_o.getPricePoint(n, s));
     }
     
-    static String sub_78c7() {
+    static String IAP_GetTermsAndConditions() {
         return Class_o.GetTermsAndConditions();
     }
     
-    static String sub_78e5() {
-        return Class_o.sub_75be();
+    static String IAP_GetFullSupportUrl() {
+        return Class_o.getFullSupportUrl();
     }
     
     static void sub_7903() {
@@ -2385,7 +2377,7 @@ public abstract class GLLib extends Canvas implements Runnable
         return Class_o.GetSpecialFlow();
     }
     
-    static int IAP_GetPrice(final int itemIndex, final String itemType) {
+    static int IAP_FindPrice(final int itemIndex, final String itemType) {
         return Class_o.findPrice(Class_o.getPricePoint(itemIndex, itemType));
     }
     
@@ -2398,7 +2390,7 @@ public abstract class GLLib extends Canvas implements Runnable
     }
     
     static long IAP_GetVirtualCurrencyFromBase(final long basecurrency) {
-        return IAP_GetVirtualCurrency(basecurrency, Class_o.getPackageIdInt(), Class_o.getItemType());
+        return IAP_GetVirtualCurrency(basecurrency, Class_o.getPackageIdInt(), Class_o.getItemTypeRms());
     }
     
     static {

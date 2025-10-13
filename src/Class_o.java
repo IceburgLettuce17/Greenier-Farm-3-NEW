@@ -18,7 +18,7 @@ public final class Class_o {
 	static int pricePoint;
 	private static String language;
 	private static String VERSION;
-	private static HTTP var_298d;
+	private static HTTP http;
 	private static int var_2995;
 	private static boolean var_299d;
 	private static String[][] var_29a5;
@@ -41,7 +41,7 @@ public final class Class_o {
 	private static String phoneModel;
 	private static String var_2a35;
 	private static String smsContent;
-	private static String cz1;
+	private static String code;
 	private static int currentProfile;
 	private static long smsCount;
 	public static final String[] rmsNames;
@@ -132,41 +132,42 @@ public final class Class_o {
 			Class_o.profilesTexts = loadSpecificTextsFile();
 		}
 		Class_o.profilesAndRegions = getProfilesRegions();
-		Class_o.isSms = getIsSms();
-		Class_o.redeemUnlocked = getRedeemUnlocked();
-		if ((Class_o.cz1 = sub_6d7d()).equals("")) {
-			Class_o.cz1 = sub_6f82();
-			rmsSave(Class_o.rmsNames[1], Class_o.cz1);
+		Class_o.isSms = getIsSmsRms();
+		Class_o.redeemUnlocked = getRedeemUnlockedRms();
+		Class_o.code = getCodeRms();
+		if (Class_o.code.equals("")) {
+			Class_o.code = sub_6f82();
+			rmsSave(Class_o.rmsNames[1], Class_o.code);
 		}
-		Class_o.smsCount = getSmsCount();
+		Class_o.smsCount = getSmsCountRms();
 		Class_o.var_299d = true;
 		if (Class_o.VERSION != null) {
 			Class_o.VERSION += "";
 		}
-		if (!setValidProfilesFromRms() && getTestFieldInt() == 0 && Class_o.var_29ad && sub_498c()) {
-			sub_4436();
+		if (!setValidProfilesFromRms() && getTestFieldInt() == 0 && Class_o.var_29ad && detectRegion()) {
+			detectCarrier();
 		}
 		parseValidItems();
 	}
 
 	private static boolean sub_2dde() {
-		if (Class_o.var_298d.m_bCanceled) {
+		if (Class_o.http.m_bCanceled) {
 			return false;
 		}
-		if (Class_o.var_298d.m_bError) {
+		if (Class_o.http.m_bError) {
 			return true;
 		}
-		if (Class_o.var_298d.m_response != null && Class_o.var_298d.m_response != "") {
-			final String sub_2bd4 = sub_2bd4(Class_o.var_298d.m_response, 0, '|');
+		if (Class_o.http.m_response != null && Class_o.http.m_response != "") {
+			final String sub_2bd4 = sub_2bd4(Class_o.http.m_response, 0, '|');
 			try {
 				if (sub_2bd4.equals("FAILURE")) {
-					Class_o.var_2995 = Integer.parseInt(sub_2bd4(Class_o.var_298d.m_response, 1, '|'));
+					Class_o.var_2995 = Integer.parseInt(sub_2bd4(Class_o.http.m_response, 1, '|'));
 					return true;
 				}
 			} catch (final NumberFormatException ex) {
 				Class_o.var_2995 = 40;
 				final String sub_2bd5;
-				if ((sub_2bd5 = sub_2bd4(Class_o.var_298d.m_response, 1, '|')).indexOf("PB") != -1) {
+				if ((sub_2bd5 = sub_2bd4(Class_o.http.m_response, 1, '|')).indexOf("PB") != -1) {
 					try {
 						Class_o.var_2995 = Integer.parseInt(sub_2bd5.substring(2, sub_2bd5.length()));
 					} catch (final NumberFormatException ex2) {
@@ -175,7 +176,7 @@ public final class Class_o {
 				return true;
 			}
 			if (sub_2bd4.equals("SUCCESS")) {
-				Class_o.cz1 = sub_2bd4(Class_o.var_298d.m_response, 2, '|');
+				Class_o.code = sub_2bd4(Class_o.http.m_response, 2, '|');
 				Class_o.var_2995 = 0;
 				return true;
 			}
@@ -328,8 +329,8 @@ public final class Class_o {
 	}
 
 	public static boolean sub_34dd() {
-		Class_o.isSms = getIsSms();
-		Class_o.redeemUnlocked = getRedeemUnlocked();
+		Class_o.isSms = getIsSmsRms();
+		Class_o.redeemUnlocked = getRedeemUnlockedRms();
 		return Class_o.isSms || Class_o.redeemUnlocked;
 	}
 
@@ -417,7 +418,7 @@ public final class Class_o {
 			}
 			appendToSms("V009");
 			appendToSms(Class_o.igpCode);
-			appendToSms(Class_o.cz1);
+			appendToSms(Class_o.code);
 			appendToSms(Class_o.phoneModel);
 			if (Class_o.overrideFromJad.equals("1")) {
 				Class_o.var_2a9d = getAppProperty("IAP-ProfileID-PP" + Class_o.pricePoint);
@@ -457,63 +458,49 @@ public final class Class_o {
 			new StringBuffer().append("PaySMS.sendHTTP:Error: Wrong Item. IAP-ContentID-").append(Class_o.itemType)
 					.append("-").append(Class_o.pricePoint).append(" missing in JAD");
 			Class_o.var_2afd = -2;
+			
 		} else if (b && type.equals("HTTP")) {
-			Class_o.var_298d = new HTTP(false);
-			String str2;
+			/// HTTP ///
+			Class_o.http = new HTTP();
+			String httpUrl;
 			if (Class_o.overrideFromJad.equals("1")) {
-				str2 = Class_o.billingUrl;
+				httpUrl = Class_o.billingUrl;
 				itemType = (Class_o.var_2a9d = getAppProperty("IAP-ProfileID-PP" + Class_o.pricePoint));
 			} else {
 				if (Class_o.currentProfile == -1) {
 					Class_o.var_2afd = 7;
 					return;
 				}
-				str2 = Class_o.var_29a5[Class_o.currentProfile][11];
+				httpUrl = Class_o.var_29a5[Class_o.currentProfile][11];
 				itemType = Class_o.var_29a5[Class_o.currentProfile][0];
 			}
-			if (str2.equals("") || itemType.equals("")) {
+			if (httpUrl.equals("") || itemType.equals("")) {
 				Class_o.var_2afd = 4;
 				return;
 			}
-			new StringBuffer().append("PaySMS.sendHTTP: URL = ").append(str2);
-			if (!str2.startsWith("http://")) {
-				str2 = "http://" + str2;
+			new StringBuffer().append("PaySMS.sendHTTP: URL = ").append(httpUrl);
+			if (!httpUrl.startsWith("http://")) {
+				httpUrl = "http://" + httpUrl;
 			}
-			if (!str2.endsWith("?")) {
-				str2 += "?";
+			if (!httpUrl.endsWith("?")) {
+				httpUrl += "?";
 			}
-			final String sub_5e3c2;
-			if ((sub_5e3c2 = getAppProperty("IAP-ContentID-" + Class_o.itemType + "-" + Class_o.pricePoint))
-					.equals("")) {
+			final String contentID = getAppProperty("IAP-ContentID-" + Class_o.itemType + "-" + Class_o.pricePoint);
+			if (contentID.equals("")) {
 				new StringBuffer().append("PaySMS.sendHTTP:Error: Wrong Item. IAP-ContentID-").append(Class_o.itemType)
 						.append("-").append(Class_o.pricePoint).append(" missing in JAD");
 				Class_o.var_2afd = -2;
 				return;
 			}
-			final String s = str2;
-			final String s2 = sub_5e3c2;
-			final String s3 = itemType;
-			final String var_2a25 = Class_o.igpCode;
-			final String var_2a26 = Class_o.cz1;
-			final String var_2a27 = Class_o.var_2a35;
-			final String var_2a2d = Class_o.phoneModel;
-			final String str3 = var_2a27;
-			final String str4 = var_2a26;
-			final String str5 = var_2a25;
-			final String str6 = s3;
-			itemType = s2;
-			final String s4 = s;
-			Class_o.var_298d.cancel();
-			final String s5 = "%7C";
-			final String s6 = s4;
-			String s7 = "b=contentpurchase" + s5 + str5 + s5 + itemType + s5 + str6 + s5 + str4;
-			if (!str3.equals("")) {
-				s7 = s7 + "&d=" + str3;
+			itemType = contentID;
+			Class_o.http.cancel();
+			String fullUrl = "b=contentpurchase" + "%7C" + Class_o.igpCode + "%7C" + itemType + "%7C" + itemType + "%7C" + Class_o.code;
+			if (!var_2a35.equals("")) {
+				fullUrl = fullUrl + "&d=" + var_2a35;
 			}
-			final String string = s7 + "&phoneId=" + var_2a2d;
 			Class_o.var_2995 = -100;
-			Class_o.var_298d.sendByGet(s6, string);
-			rmsSave(Class_o.rmsNames[1], Class_o.cz1);
+			Class_o.http.sendByGet(httpUrl, fullUrl + "&phoneId=" + phoneModel);
+			rmsSave(Class_o.rmsNames[1], Class_o.code);
 			rmsSave(Class_o.rmsNames[2], String.valueOf(Class_o.itemAmount));
 			rmsSave(Class_o.rmsNames[5], Class_o.itemType);
 			if (!Class_o.overrideFromJad.equals("1")) {
@@ -522,11 +509,11 @@ public final class Class_o {
 			Class_o.var_2af5 = 1;
 		} else {
 			if (Class_o.creditCardEnabled && Class_o.currentProfile == -1) {
-				sub_4aec(pricePoint, itemType);
+				sendCCARD(pricePoint, itemType);
 				return;
 			}
 			if (Class_o.creditCardEnabled) {
-				sub_4aec(pricePoint, itemType);
+				sendCCARD(pricePoint, itemType);
 				return;
 			}
 			Class_o.var_2afd = -2;
@@ -536,7 +523,7 @@ public final class Class_o {
 	public static void sendRedeemRequest() {
 		Class_o.redeemUnlocked = true;
 		rmsSave(Class_o.rmsNames[4], "1");
-		sendRequest(getPricePoint(getPackageIdInt(), getItemType()), getItemType());
+		sendRequest(getPricePoint(getPackageIdInt(), getItemTypeRms()), getItemTypeRms());
 	}
 
 	public static int sub_3e90() {
@@ -587,11 +574,11 @@ public final class Class_o {
 			}
 			Class_o.var_2af5 = 0;
 			int var_2995;
-			final int n = Class_o.var_298d.m_bCanceled ? (var_2995 = -1)
-					: (Class_o.var_298d.m_bError ? (var_2995 = -2) : (var_2995 = Class_o.var_2995));
+			final int n = Class_o.http.m_bCanceled ? (var_2995 = -1)
+					: (Class_o.http.m_bError ? (var_2995 = -2) : (var_2995 = Class_o.var_2995));
 			final int var_2afd = var_2995;
 			if (n == 0) {
-				if (verifyRequest(Integer.parseInt(Class_o.cz1))) {
+				if (verifyRequest(Integer.parseInt(Class_o.code))) {
 					Class_o.var_2afd = 0;
 					sub_437f();
 					return 7;
@@ -632,8 +619,8 @@ public final class Class_o {
 
 	public static boolean verifyRequest(int inputCode) {
 		boolean equals = false;
-		if ((Class_o.cz1 = sub_6d7d()) != null && Class_o.cz1.length() > 0) {
-			equals = String.valueOf(inputCode).equals(String.valueOf(Integer.parseInt(Class_o.cz1) ^ 0xD0A4));
+		if ((Class_o.code = getCodeRms()) != null && Class_o.code.length() > 0) {
+			equals = String.valueOf(inputCode).equals(String.valueOf(Integer.parseInt(Class_o.code) ^ 0xD0A4));
 		}
 		new StringBuffer().append("PaySMS.verifyRequest: inputCode: ").append(inputCode).append(" ")
 				.append(equals ? "Unlocked" : "Still Locked");
@@ -645,7 +632,7 @@ public final class Class_o {
 					substring = sub_6b21.substring(0, sub_6b21.indexOf(95));
 				}
 				inputCode = getPackageIdInt();
-				inputCode = getPricePoint(inputCode, getItemType());
+				inputCode = getPricePoint(inputCode, getItemTypeRms());
 				final String sub_5260 = sub_5260(0, inputCode);
 				final String sub_5261 = sub_5260(9, inputCode);
 				final String s = substring;
@@ -668,7 +655,7 @@ public final class Class_o {
 				new StringBuffer().append("Exception : ").append(obj);
 			}
 			Class_o.var_2afd = 0;
-			if (!sub_532f(getPackageIdInt()).equals("http_2d")) {
+			if (!GetBillingType(getPackageIdInt()).equals("http_2d")) {
 				Class_o.var_2a85 = true;
 			}
 			sub_437f();
@@ -702,7 +689,7 @@ public final class Class_o {
 		sub_437f();
 	}
 
-	private static boolean sub_4436() {
+	private static boolean detectCarrier() {
 		if (Class_o.currentValidProfiles == null) {
 			Class_o.currentValidProfiles = new Vector();
 		}
@@ -715,21 +702,21 @@ public final class Class_o {
 		Class_o.var_29dd = -1;
 		Class_o.currentProfile = -1;
 		Class_o.currentValidProfiles.removeAllElements();
-		final String[][] sub_4cc9;
-		Class_o.var_29e5 = new String[(sub_4cc9 = getProfilesCarrierAndIds(Class_o.profilesAndRegions[Class_o.var_29ed][0])).length];
-		final String[] array = new String[sub_4cc9.length];
-		for (int i = 0; i < sub_4cc9.length; ++i) {
-			Class_o.var_29e5[i] = sub_4cc9[i][0];
-			array[i] = sub_4cc9[i][1];
+		final String[][] profsCarrsIds = getProfilesCarrierAndIds(Class_o.profilesAndRegions[Class_o.var_29ed][0]);
+		Class_o.var_29e5 = new String[profsCarrsIds.length];
+		final String[] array = new String[profsCarrsIds.length];
+		for (int i = 0; i < profsCarrsIds.length; ++i) {
+			Class_o.var_29e5[i] = profsCarrsIds[i][0];
+			array[i] = profsCarrsIds[i][1];
 		}
 		Class_o.var_29e5 = sub_70ca(Class_o.var_29e5);
-		final String[] sub_70ca = sub_70ca(array);
-		new StringBuffer().append("PaySMS.detectCarrier: currentIDS ").append(sub_70ca.length)
+		final String[] currentIDS = sub_70ca(array);
+		new StringBuffer().append("PaySMS.detectCarrier: currentIDS ").append(currentIDS.length)
 				.append(", currentCarriers = ").append(Class_o.var_29e5.length);
-		if (sub_70ca.length == 1) {
+		if (currentIDS.length == 1) {
 			Class_o.var_29dd = 0;
 			for (int j = 0; j < Class_o.var_29a5.length; ++j) {
-				if (Class_o.var_29a5[j][0].equals(sub_70ca[0])) {
+				if (Class_o.var_29a5[j][0].equals(currentIDS[0])) {
 					Class_o.currentValidProfiles.addElement(new Integer(j));
 				}
 			}
@@ -757,14 +744,14 @@ public final class Class_o {
 			return true;
 		}
 		if (Class_o.var_29e5.length >= 1) {
-			final String[][] array2 = new String[sub_70ca.length][2];
+			final String[][] array2 = new String[currentIDS.length][2];
 			boolean b = true;
-			for (int m = 0; m < sub_70ca.length; ++m) {
+			for (int m = 0; m < currentIDS.length; ++m) {
 				new StringBuffer().append("PaySMS.detectCarrier: currentIDS[").append(m).append("]= ")
-						.append(sub_70ca[m]);
+						.append(currentIDS[m]);
 				int i2 = 0;
 				while (i2 < Class_o.var_29a5.length) {
-					if (Class_o.var_29a5[i2][0].equals(sub_70ca[m])) {
+					if (Class_o.var_29a5[i2][0].equals(currentIDS[m])) {
 						array2[m][0] = Class_o.var_29a5[i2][3];
 						array2[m][1] = "" + i2;
 						new StringBuffer().append("PaySMS.detectCarrier: is Openmarket???? ")
@@ -791,9 +778,9 @@ public final class Class_o {
 			new StringBuffer().append("PaySMS.detectCarrier: multiCarrierProfiles: ").append(b2)
 					.append(", isOpenMarket: ").append(b);
 			if (b2) {
-				for (int n2 = 0; n2 < sub_70ca.length; ++n2) {
+				for (int n2 = 0; n2 < currentIDS.length; ++n2) {
 					for (int value = 0; value < Class_o.var_29a5.length; ++value) {
-						if (Class_o.var_29a5[value][0].equals(sub_70ca[n2])) {
+						if (Class_o.var_29a5[value][0].equals(currentIDS[n2])) {
 							Class_o.currentValidProfiles.addElement(new Integer(value));
 							break;
 						}
@@ -820,7 +807,7 @@ public final class Class_o {
 		return false;
 	}
 
-	private static boolean sub_498c() {
+	private static boolean detectRegion() {
 		if (Class_o.currentAutoDetectedRegion != -1) {
 			Class_o.var_29ed = Class_o.currentAutoDetectedRegion;
 			return true;
@@ -857,30 +844,28 @@ public final class Class_o {
 		return false;
 	}
 
-	private static void sub_4aec(final int n, String str) {
-		new StringBuffer().append("PaySMS.sendRequest CREDIT CARD: Pricepoint:").append(n).append(" Type:").append(str);
-		final String str2 = Class_o.var_2b4d[11];
-		final String sub_5e3c;
-		if ((sub_5e3c = getAppProperty("IAP-ContentID-" + str + "-" + n)).equals("")) {
-			new StringBuffer().append("PaySMS.sendCCARD: Wrong Item. IAP-ContentID-").append(str).append("-").append(n)
+	private static void sendCCARD(final int pricepoint, String itemtype) {
+		new StringBuffer().append("PaySMS.sendRequest CREDIT CARD: Pricepoint:").append(pricepoint).append(" Type:").append(itemtype);
+		final String contentID = getAppProperty("IAP-ContentID-" + itemtype + "-" + pricepoint);
+		if (contentID.equals("")) {
+			new StringBuffer().append("PaySMS.sendCCARD: Wrong Item. IAP-ContentID-").append(itemtype).append("-").append(pricepoint)
 					.append(" missing in JAD");
 			Class_o.var_2afd = -2;
 			return;
 		}
-		str = "";
-		str = str + "?igpcode=" + Class_o.igpCode;
-		str = str + "&content_id=" + sub_5e3c;
-		str = str + "&tier=" + n;
-		str = str + "&code=" + Class_o.cz1;
-		str = str + "&d=" + Class_o.var_2a35;
-		final String string = str2 + str;
-		new StringBuffer().append("PaySMS.sendRequest CREDIT CARD: ").append(string);
-		final String s;
-		if ((s = string) != null) {
-			GLLib.PlatformRequestThread(s);
+		itemtype = "";
+		itemtype = itemtype + "?igpcode=" + Class_o.igpCode;
+		itemtype = itemtype + "&content_id=" + contentID;
+		itemtype = itemtype + "&tier=" + pricepoint;
+		itemtype = itemtype + "&code=" + Class_o.code;
+		itemtype = itemtype + "&d=" + Class_o.var_2a35;
+		final String creditCard = Class_o.var_2b4d[11] + itemtype;
+		new StringBuffer().append("PaySMS.sendRequest CREDIT CARD: ").append(creditCard);
+		if (creditCard != null) {
+			GLLib.PlatformRequestThread(creditCard);
 		}
 		rmsSave(Class_o.rmsNames[0], "1");
-		rmsSave(Class_o.rmsNames[1], Class_o.cz1);
+		rmsSave(Class_o.rmsNames[1], Class_o.code);
 		rmsSave(Class_o.rmsNames[2], String.valueOf(Class_o.itemAmount));
 		rmsSave(Class_o.rmsNames[5], Class_o.itemType);
 	}
@@ -919,13 +904,14 @@ public final class Class_o {
 	}
 
 	public static String sub_4e32(final int n) {
-		return sub_4e51(n);
+		return getPrice(n);
 	}
 
-	private static String sub_4e51(final int pricePoint) {
+	private static String getPrice(final int pricePoint) {
 		new StringBuffer().append("PaySMS.getPrice: begin (").append(pricePoint).append(")");
 		if (Class_o.overrideFromJad.equals("1")) {
-			if ((Class_o.var_2aad = getAppProperty("IAP-Price-PP" + pricePoint)).equals("")) {
+			Class_o.var_2aad = getAppProperty("IAP-Price-PP" + pricePoint);
+			if (Class_o.var_2aad.equals("")) {
 				return null;
 			}
 			return Class_o.var_2aad;
@@ -938,28 +924,28 @@ public final class Class_o {
 				}
 				return null;
 			} else {
-				int i = -1;
+				int profileIndex = -1;
 				if (getTestFieldInt() == 0) {
-					for (int j = 0; j < Class_o.currentValidProfiles.size(); ++j) {
-						final int intValue = ((Integer) Class_o.currentValidProfiles.elementAt(j)).intValue();
+					for (int i = 0; i < Class_o.currentValidProfiles.size(); ++i) {
+						final int intValue = ((Integer) Class_o.currentValidProfiles.elementAt(i)).intValue();
 						try {
 							if (Integer.parseInt(Class_o.var_29a5[intValue][14]) == pricePoint) {
-								i = intValue;
+								profileIndex = intValue;
 								break;
 							}
 						} catch (final Exception ex) {
 						}
 					}
 				} else {
-					for (int k = 0; k < Class_o.var_29bd.length; ++k) {
-						if (Class_o.var_29bd[k][0].equals(Class_o.testProfile)) {
-							return Class_o.var_29bd[k][9];
+					for (int j = 0; j < Class_o.var_29bd.length; ++j) {
+						if (Class_o.var_29bd[j][0].equals(Class_o.testProfile)) {
+							return Class_o.var_29bd[j][9];
 						}
 					}
 				}
-				new StringBuffer().append("PaySMS.getPrice: profileIndex: ").append(i);
-				if (i != -1) {
-					return Class_o.var_29a5[i][4];
+				new StringBuffer().append("PaySMS.getPrice: profileIndex: ").append(profileIndex);
+				if (profileIndex != -1) {
+					return Class_o.var_29a5[profileIndex][4];
 				}
 				if (Class_o.creditCardEnabled) {
 					return " ";
@@ -1026,7 +1012,7 @@ public final class Class_o {
 		return "";
 	}
 
-	private static String sub_532f(final int n) {
+	private static String GetBillingType(final int n) {
 		if (getTestFieldInt() != 0) {
 			if (getTestFieldInt() == 1) {
 				return "sms_2d";
@@ -1094,7 +1080,7 @@ public final class Class_o {
 			}
 		}
 		new StringBuffer().append("PaySMS.GetTermsAndConditions: tncID = '").append(tncID).append("'");
-		final String tnc = sub_5b32(tncID);
+		final String tnc = retrieveTermsAndConditions(tncID);
 		new StringBuffer().append("PaySMS.GetTermsAndConditions: tnc = '").append(tnc).append("'");
 		new StringBuffer().append("PaySMS.GetTermsAndConditions: supportNumber = '").append(supportNumber).append("'");
 		final String tncWoPhone = replaceTncStrings(tnc, supportNumber);
@@ -1118,15 +1104,15 @@ public final class Class_o {
 		Class_o.coinVector.removeAllElements();
 		if (getTestFieldInt() == 0 && Class_o.currentValidProfiles != null && Class_o.currentValidProfiles.size() > 0) {
 			for (int i = 0; i < Class_o.currentValidProfiles.size(); ++i) {
-				final int int1;
+				final int id;
 				if (isValidContentID(
-						int1 = Integer.parseInt(
+						id = Integer.parseInt(
 								Class_o.var_29a5[((Integer) Class_o.currentValidProfiles.elementAt(i)).intValue()][14]),
 						"Cash")) {
-					Class_o.cashVector.addElement(new Integer(int1));
+					Class_o.cashVector.addElement(new Integer(id));
 				}
-				if (isValidContentID(int1, "Coin")) {
-					Class_o.coinVector.addElement(new Integer(int1));
+				if (isValidContentID(id, "Coin")) {
+					Class_o.coinVector.addElement(new Integer(id));
 				}
 			}
 		} else if (Class_o.creditCardEnabled || getTestFieldInt() != 0) {
@@ -1198,26 +1184,26 @@ public final class Class_o {
 		return /* ret */ -1;
 	}
 
-	private static boolean isValidContentID(final int num, final String contentID) {
-		final String sub_5e3c = getAppProperty("IAP-ContentID-" + contentID + "-" + num);
+	private static boolean isValidContentID(final int pricePoint, final String contentID) {
+		final String _contentID = getAppProperty("IAP-ContentID-" + contentID + "-" + pricePoint);
 		boolean retaddr = false;
-		if (Class_o.validContentIds.contains(sub_5e3c)) {
+		if (Class_o.validContentIds.contains(_contentID)) {
 			retaddr = true;
 		}
-		new StringBuffer().append("PaySMS.isValidContentID: IAP-ContentID-").append(contentID).append("-").append(num)
-				.append(": ").append(sub_5e3c).append(retaddr ? " - Valid" : " - Invalid");
+		new StringBuffer().append("PaySMS.isValidContentID: IAP-ContentID-").append(contentID).append("-").append(pricePoint)
+				.append(": ").append(_contentID).append(retaddr ? " - Valid" : " - Invalid");
 		return retaddr;
 	}
 
-	private static String sub_5b32(final String str) {
-		new StringBuffer().append("PaySMS.retrieveTermsAndConditions: id = '").append(str).append("'");
-		if (str == null || str.length() == 0) {
+	private static String retrieveTermsAndConditions(final String id) {
+		new StringBuffer().append("PaySMS.retrieveTermsAndConditions: id = '").append(id).append("'");
+		if (id == null || id.length() == 0) {
 			return "";
 		}
 		for (int i = 0; i < Class_o.profilesTexts.length; ++i) {
 			new StringBuffer().append("PaySMS.retrieveTermsAndConditions: profilesTexts[").append(i)
 					.append("][TEXT_PROFILE_ID] = '").append(Class_o.profilesTexts[i][0]).append("'");
-			if (equalsIgnoreCase(Class_o.profilesTexts[i][0], str)) {
+			if (equalsIgnoreCase(Class_o.profilesTexts[i][0], id)) {
 				return Class_o.profilesTexts[i][1];
 			}
 		}
@@ -1568,11 +1554,11 @@ public final class Class_o {
 		return recordStr;
 	}
 
-	public static void rmsSave(final String s, final String s2) {
+	public static void rmsSave(final String record, final String value) {
 		RecordStore rs = null;
 		try {
-			rs = RecordStore.openRecordStore(s, true);
-			final byte[] bytes = s2.getBytes();
+			rs = RecordStore.openRecordStore(record, true);
+			final byte[] bytes = value.getBytes();
 			if (rs.getNumRecords() >= 1) {
 				rs.setRecord(1, bytes, 0, bytes.length);
 			} else {
@@ -1590,23 +1576,23 @@ public final class Class_o {
 		}
 	}
 
-	private static boolean getIsSms() {
+	private static boolean getIsSmsRms() {
 		return rmsLoad(Class_o.rmsNames[0]) != null && rmsLoad(Class_o.rmsNames[0]).equals("1");
 	}
 
-	private static boolean getRedeemUnlocked() {
+	private static boolean getRedeemUnlockedRms() {
 		return rmsLoad(Class_o.rmsNames[4]) != null && rmsLoad(Class_o.rmsNames[4]).equals("1");
 	}
 
-	private static String sub_6d7d() {
-		final String sub_6b21;
-		if ((sub_6b21 = rmsLoad(Class_o.rmsNames[1])) != null) {
-			return sub_6b21;
+	private static String getCodeRms() {
+		final String code = rmsLoad(Class_o.rmsNames[1]);
+		if (code != null) {
+			return code;
 		}
 		return "";
 	}
 
-	private static long getSmsCount() {
+	private static long getSmsCountRms() {
 		try {
 			String smsCnt = rmsLoad(Class_o.rmsNames[11]);
 			if (smsCnt != null) {
@@ -1617,7 +1603,7 @@ public final class Class_o {
 		return 1L;
 	}
 
-	public static String getItemType() {
+	public static String getItemTypeRms() {
 		if (rmsLoad(Class_o.rmsNames[5]) != null) {
 			return rmsLoad(Class_o.rmsNames[5]);
 		}
@@ -1731,24 +1717,36 @@ public final class Class_o {
 			final String countryCode = s.substring(s.indexOf(40) + 1, s.lastIndexOf(58)).trim();
 			new StringBuffer().append("PaySMS. Country code ").append(countryCode);
 			if (Class_o.var_29a5[h][6].equals("SMS")) {
+				
+				// Germany
 				if (countryCode.equals("49:DE")) {
 					return 2;
 				}
+				
+				// Dunno these 2
 				if (countryCode.equals("45:DK")) {
 					return 4;
 				}
 				if (countryCode.equals("43:AT")) {
 					return 5;
 				}
+				
+				// India
 				if (countryCode.equals("91:IN")) {
 					return 7;
 				}
+				
+				// Estonia (Spain?)
 				if (countryCode.equals("34:ES")) {
 					return 0;
 				}
+				
+				// Great Britain
 				if (countryCode.equals("44:GB")) {
 					return 10;
 				}
+				
+				// Venezuela
 				if (countryCode.equals("58:VE")) {
 					return 12;
 				}
@@ -1787,7 +1785,7 @@ public final class Class_o {
 		return 0;
 	}
 
-	public static String sub_75be() {
+	public static String getFullSupportUrl() {
 		try {
 			final String supportUrl = GLLib.s_application.getAppProperty("URL-SUPPORT");
 			if (supportUrl == null) {
@@ -1886,15 +1884,15 @@ public final class Class_o {
 		return Class_o.timer;
 	}
 
-	static String getCz1() {
-		return Class_o.cz1;
+	static String getCode() {
+		return Class_o.code;
 	}
 
-	static long addToSmsCnt() {
+	static long addToSmsCount() {
 		return Class_o.smsCount++;
 	}
 
-	static long getSmsCnt() {
+	static long getSmsCount() {
 		return Class_o.smsCount;
 	}
 
@@ -1934,7 +1932,7 @@ public final class Class_o {
 		Class_o.phoneModel = null;
 		Class_o.var_2a35 = null;
 		Class_o.smsContent = "";
-		Class_o.cz1 = "";
+		Class_o.code = "";
 		Class_o.currentProfile = -1;
 		Class_o.smsCount = 1L;
 		rmsNames = new String[] { "rmsSMS", "Cm1zY2", "rmsPackageId", "rmsAvailableProfiles", "rmsRedeemUnlocked",

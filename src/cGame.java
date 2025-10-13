@@ -7018,7 +7018,7 @@ public final class cGame extends GLLib implements Class_b {
 			sub_81e0(42);
 			return;
 		}
-		GLLib.sub_77ca();
+		GLLib.IAP_SendRedeemRequest();
 		sub_177a2();
 		sub_1749c();
 	}
@@ -8488,7 +8488,7 @@ public final class cGame extends GLLib implements Class_b {
 
 	private static void sub_19fc2() {
 		sub_24046();
-		final String sub_78e5 = GLLib.sub_78e5();
+		final String sub_78e5 = GLLib.IAP_GetFullSupportUrl();
 		try {
 			GLLib.PlatformRequestThread(sub_78e5);
 		} catch (final Exception ex) {
@@ -26331,7 +26331,7 @@ public final class cGame extends GLLib implements Class_b {
 				} else if (cGame.var_7cdc == 6) {
 					int sub_7965;
 					if (cGame.var_7d04[n] == -1) {
-						sub_7965 = GLLib.IAP_GetPrice(n, "Cash");
+						sub_7965 = GLLib.IAP_FindPrice(n, "Cash");
 						cGame.var_7d04[n] = sub_7965;
 					} else {
 						sub_7965 = cGame.var_7d04[n];
@@ -26668,7 +26668,7 @@ public final class cGame extends GLLib implements Class_b {
 		case 2: {
 			cGame.var_67cc = 1;
 			sub_2c69b();
-			GLLib.sub_77ca();
+			GLLib.IAP_SendRedeemRequest();
 			sub_177a2();
 			sub_1749c();
 			return;
@@ -26958,7 +26958,7 @@ public final class cGame extends GLLib implements Class_b {
 	}
 
 	private static void sub_44d11() {
-		cGame.var_7c9c = GLLib.sub_78c7();
+		cGame.var_7c9c = GLLib.IAP_GetTermsAndConditions();
 		final short n = cGame.var_68bc[8][156][5];
 		final short n2 = cGame.var_68bc[8][156][6];
 		final short n3 = cGame.var_68bc[8][156][7];
@@ -27309,7 +27309,7 @@ public final class cGame extends GLLib implements Class_b {
 			} else if (cGame.var_7cdc == 6) {
 				int sub_7965;
 				if (cGame.var_7d04[n] == -1) {
-					sub_7965 = GLLib.IAP_GetPrice(n, s4);
+					sub_7965 = GLLib.IAP_FindPrice(n, s4);
 					cGame.var_7d04[n] = sub_7965;
 				} else {
 					sub_7965 = cGame.var_7d04[n];

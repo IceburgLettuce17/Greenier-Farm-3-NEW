@@ -57,11 +57,11 @@ final class BuyTask extends Thread
             Class_o.conn.send((Message)msg);
             Class_o.setIsSms(Class_o.var_2aed = true);
             Class_o.rmsSave(Class_o.rmsNames[0], "1");
-            Class_o.rmsSave(Class_o.rmsNames[1], Class_o.getCz1());
+            Class_o.rmsSave(Class_o.rmsNames[1], Class_o.getCode());
             Class_o.rmsSave(Class_o.rmsNames[2], String.valueOf(Class_o.itemAmount));
             Class_o.rmsSave(Class_o.rmsNames[5], Class_o.itemType);
-            Class_o.addToSmsCnt();
-            Class_o.rmsSave(Class_o.rmsNames[11], "" + Class_o.getSmsCnt());
+            Class_o.addToSmsCount();
+            Class_o.rmsSave(Class_o.rmsNames[11], "" + Class_o.getSmsCount());
             if (!Class_o.getOverrideFromJad().equals("1")) {
                 Class_o.storeProfile(Class_o.getCurrentValidProfiles());
             }

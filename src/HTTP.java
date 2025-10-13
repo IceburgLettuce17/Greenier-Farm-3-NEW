@@ -12,27 +12,21 @@ import javax.microedition.io.HttpConnection;
 
 public final class HTTP implements Runnable
 {
-    private boolean var_64f;
     private Thread m_thread;
     private String m_sUrl;
     private HttpConnection m_c;
     private InputStream m_i;
     private OutputStream m_o;
     public String m_response;
-    private boolean var_687;
+    //private boolean var_687;
     boolean m_bIsInProgress;
     boolean m_bCanceled;
     boolean m_bError;
     private int responseCode;
-    private String var_6af;
+    //private String mimeType;
     
     public HTTP() {
-        this(true);
-    }
-    
-    public HTTP(final boolean var_64f) {
-        this.var_64f = var_64f;
-        this.var_6af = "application/x-www-form-urlencoded";
+        //this.mimeType = "application/x-www-form-urlencoded";
     }
     
     public final synchronized void cancel() {
@@ -74,7 +68,7 @@ public final class HTTP implements Runnable
     }
     
     public final void sendByGet(final String sUrl, final String sQuery) {
-        this.var_687 = false;
+        //this.var_687 = false;
         System.gc();
         while (this.m_bIsInProgress) {
             try {
@@ -94,7 +88,8 @@ public final class HTTP implements Runnable
         this.m_bCanceled = false;
         this.m_sUrl = sUrl + sQuery;
         this.m_bError = false;
-        (this.m_thread = new Thread(this)).start();
+        this.m_thread = new Thread(this);
+        this.m_thread.start();
     }
     
     public final void run() {
@@ -110,11 +105,12 @@ public final class HTTP implements Runnable
                 this.m_bIsInProgress = false;
                 return;
             }
-            (this.m_c = (HttpConnection)Connector.open(this.m_sUrl, 3)).setRequestMethod("GET");
+            this.m_c = (HttpConnection) Connector.open(this.m_sUrl, 3);
+            this.m_c.setRequestMethod("GET");
             this.m_c.setRequestProperty("Connection", "close");
             this.responseCode = this.m_c.getResponseCode();
-            this.m_c.getResponseMessage();
-            this.m_c.getDate();
+            //this.m_c.getResponseMessage();
+            //this.m_c.getDate();
             if (this.responseCode != 200 && this.responseCode != 202) {
                 this.cancel();
                 this.m_bError = true;
