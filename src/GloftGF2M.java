@@ -26,7 +26,7 @@ public final class GloftGF2M extends MIDlet
     
     public final void destroyApp(final boolean unconditional) {
         if (GloftGF2M.s_game != null) {
-            if (cGame.sub_8396() == 31) {
+            if (cGame.getState() == 31) {
                 if (cGame.var_7a34 > 0) {
                     cGame.sub_2e482(cGame.var_7a34);
                 }

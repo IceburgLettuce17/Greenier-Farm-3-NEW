@@ -587,7 +587,7 @@ final class Class_f
                                     }
                                     case 3: {
                                         if (class_f11.var_189d.sub_1b34()) {
-                                            if (!cGame.var_6c24 && cGame.sub_8396() == 18) {
+                                            if (!cGame.var_6c24 && cGame.getState() == 18) {
                                                 cGame.var_6c24 = true;
                                                 cGame.var_6c8c = (cGame.var_6c94 = false);
                                                 cGame.var_7fd4 = 33;
@@ -2125,7 +2125,7 @@ final class Class_f
                     cGame.var_7aac = -1;
                     if (cGame.var_6b24 > 0) {
                         final String sub_4e1f;
-                        cGame.var_7ab4 = GLLib.Text_ReplaceText(((sub_4e1f = GLLib.Text_GetStringFromLocaleFile(379)) == null) ? "" : sub_4e1f, "%d", GLLib.BigNumberSeparate(cGame.var_6b24 - cGame.sub_2e0da(), cGame.var_7fe4, " "));
+                        cGame.var_7ab4 = GLLib.Text_ReplaceText(((sub_4e1f = GLLib.Text_GetStringFromLocaleFile(379)) == null) ? "" : sub_4e1f, "%d", GLLib.BigNumberSeparate(cGame.var_6b24 - cGame.getCoin(), cGame.var_7fe4, " "));
                         cGame.var_7aac = 18;
                         cGame.var_7d24 = false;
                     }
@@ -2223,7 +2223,7 @@ final class Class_f
             cGame.var_7aac = -1;
             if (this.var_15f5 > 0) {
                 final String sub_4e1f;
-                cGame.var_7ab4 = GLLib.Text_ReplaceText(((sub_4e1f = GLLib.Text_GetStringFromLocaleFile(379)) == null) ? "" : sub_4e1f, "%d", GLLib.BigNumberSeparate(this.var_15f5 - cGame.sub_2e0da(), cGame.var_7fe4, " "));
+                cGame.var_7ab4 = GLLib.Text_ReplaceText(((sub_4e1f = GLLib.Text_GetStringFromLocaleFile(379)) == null) ? "" : sub_4e1f, "%d", GLLib.BigNumberSeparate(this.var_15f5 - cGame.getCoin(), cGame.var_7fe4, " "));
                 cGame.var_7aac = 18;
                 cGame.var_7d24 = false;
             }
@@ -2682,11 +2682,6 @@ final class Class_f
         }
         this.var_185d = var_185d;
         this.var_189d.SetAnim(n, sub_2b97, this.var_189d.GetAnim() == n);
-        // Eclipse is no longer blind. Yay!
-       /* if (this.var_189d.GetAnim() == n) {
-        	this.var_189d.SetAnim(-1, 1);
-        }
-        this.var_189d.SetAnim(n, sub_2b97);  */
         if (b) {
             this.var_189d.SetTransform(2);
             return;

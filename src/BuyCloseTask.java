@@ -14,7 +14,7 @@ final class BuyCloseTask extends TimerTask
                 ((Connection)Class_o.conn).close();
             }
             catch (final Exception ex) {
-                new StringBuffer().append("PaySMS.buy: Failed to close connection in timer. Exception: ").append(ex.toString());
+                //new StringBuffer().append("PaySMS.buy: Failed to close connection in timer. Exception: ").append(ex.toString());
             }
         }
     }
