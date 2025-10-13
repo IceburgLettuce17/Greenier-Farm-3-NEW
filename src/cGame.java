@@ -285,7 +285,7 @@ public final class cGame extends GLLib implements Class_b {
 	private static int var_702c;
 	private static int var_7034;
 	private static int s_rmsMaxPlots;
-	private static int giant_gyatt;
+	private static int idkbro;
 	private static int var_704c;
 	private static int s_rmsMaxAmountInSilo;
 	private static int var_705c;
@@ -320,7 +320,7 @@ public final class cGame extends GLLib implements Class_b {
 	private static int s_cashAmount;
 	private static int[] var_714c;
 	private static int s_maxPlots;
-	private static int skibidi_rizz;
+	private static int rmsidk;
 	private static int s_maxAmountInSilo;
 	private static long var_716c;
 	private static int[][] var_7174;
@@ -3397,7 +3397,7 @@ public final class cGame extends GLLib implements Class_b {
 											GLLib.Mem_SetInt(array, GLLib.Mem_SetInt(array, n, cGame.s_rmsLevel),
 													cGame.s_rmsExp),
 											cGame.s_rmsCoin), cGame.s_rmsCash), (short) cGame.var_7024),
-									cGame.s_rmsMaxPlots), (short) cGame.var_7064), cGame.giant_gyatt),
+									cGame.s_rmsMaxPlots), (short) cGame.var_7064), cGame.idkbro),
 							cGame.s_rmsMaxAmountInSilo),
 					cGame.var_705c);
 			for (int j = 0; j < 6; ++j) {
@@ -3748,14 +3748,14 @@ public final class cGame extends GLLib implements Class_b {
 			offset += 4;
 			cGame.var_7064 = GLLib.Mem_GetShort(rmsGameplay, offset);
 			offset += 2;
-			cGame.giant_gyatt = GLLib.Mem_GetInt(rmsGameplay, offset);
+			cGame.idkbro = GLLib.Mem_GetInt(rmsGameplay, offset);
 			offset += 4;
 			cGame.s_rmsMaxAmountInSilo = GLLib.Mem_GetInt(rmsGameplay, offset);
 			offset += 4;
 			cGame.var_705c = GLLib.Mem_GetInt(rmsGameplay, offset);
 			offset += 4;
 			cGame.s_maxPlots = cGame.s_rmsMaxPlots;
-			cGame.skibidi_rizz = cGame.giant_gyatt;
+			cGame.rmsidk = cGame.idkbro;
 			cGame.s_maxAmountInSilo = cGame.s_rmsMaxAmountInSilo;
 			for (int j = 0; j < 6; ++j) {
 				cGame.var_7014[j] = GLLib.Mem_GetInt(rmsGameplay, offset);
@@ -18257,12 +18257,12 @@ public final class cGame extends GLLib implements Class_b {
 	}
 
 	private static void sub_2eaf0(final int n) {
-		cGame.skibidi_rizz = (cGame.giant_gyatt = encryptInt(n));
+		cGame.rmsidk = (cGame.idkbro = encryptInt(n));
 	}
 
 	private static int getIdk() {
-		final int getIntValue = decryptInt(cGame.giant_gyatt);
-		final int getIntValue2 = decryptInt(cGame.skibidi_rizz);
+		final int getIntValue = decryptInt(cGame.idkbro);
+		final int getIntValue2 = decryptInt(cGame.rmsidk);
 		if (getIntValue != getIntValue2) {
 			return getIntValue2;
 		}
