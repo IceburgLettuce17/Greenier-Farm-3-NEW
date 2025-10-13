@@ -256,9 +256,9 @@ public abstract class GLLib extends Canvas implements Runnable
         }
         catch (final Exception ex) {
             GLLib.s_game_state = -1;
+            this.UnInit();
+            GLLib.s_application.notifyDestroyed();
         }
-        this.UnInit();
-        GLLib.s_application.notifyDestroyed();
     }
     
     public void paint(final Graphics _g) {

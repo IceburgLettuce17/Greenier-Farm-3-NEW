@@ -21,7 +21,7 @@ public final class GloftGF2M extends MIDlet
     }
     
     public final void pauseApp() {
-        GloftGF2M.s_game.pauseGame();
+        GloftGF2M.s_game.Pause();
     }
     
     public final void destroyApp(final boolean unconditional) {

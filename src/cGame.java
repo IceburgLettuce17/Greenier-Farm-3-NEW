@@ -29419,7 +29419,9 @@ public final class cGame extends GLLib implements Class_b {
 		GLLib.s_math_random.setSeed(n);
 	}
 
-	final void sub_4b20a() {
+	// One small step for programmer: Finding Game_update
+	// Special Thanks to: Javap and KEmulator nnmod
+	final void Game_update() {
 		final long paint = System.currentTimeMillis();
 		final long update = System.currentTimeMillis();
 		sub_b465();
@@ -29779,7 +29781,7 @@ public final class cGame extends GLLib implements Class_b {
 		}
 	}
 
-	protected final void sub_4c43e() {
+	protected final void UnInit() {
 		super.UnInit();
 		cGame.var_7ff4 = null;
 		cGame.var_7ffc = null;
@@ -29890,7 +29892,7 @@ public final class cGame extends GLLib implements Class_b {
 		}
 	}
 
-	protected final void pauseGame() {
+	protected final void Pause() {
 		if (cGame.var_69ac) {
 			cGame.var_797c = true;
 		}
@@ -30446,10 +30448,5 @@ public final class cGame extends GLLib implements Class_b {
 		cGame.var_815c = false;
 		cGame.var_8164 = false;
 		cGame.var_816c = false;
-	}
-
-	void Game_update() {
-		// TODO Auto-generated method stub
-
 	}
 }
