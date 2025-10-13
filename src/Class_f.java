@@ -188,7 +188,7 @@ final class Class_f
             for (Class_f class_f = Class_f.var_157d[i]; class_f != null; class_f = var_17ad) {
                 var_17ad = class_f.var_17ad;
                 if (class_f.var_189d != null) {
-                    class_f.var_189d.sub_1ca1(GLLib.s_game_frameDT);
+                    class_f.var_189d.Update(GLLib.s_game_frameDT);
                 }
                 switch (class_f.var_17c5) {
                     case 42: {
@@ -276,7 +276,7 @@ final class Class_f
                                         }
                                     }
                                     else if (class_f.var_189d != null) {
-                                        class_f.var_189d.sub_1ca1(GLLib.s_game_frameDT);
+                                        class_f.var_189d.Update(GLLib.s_game_frameDT);
                                         if (class_f.var_189d.sub_1b34()) {
                                             class_f.var_189d = null;
                                             class_f.var_15d5 = GLLib.Math_Rand(1000, 4000);
@@ -304,7 +304,7 @@ final class Class_f
                                         }
                                     }
                                     else if (class_f.var_189d != null) {
-                                        class_f.var_189d.sub_1ca1(GLLib.s_game_frameDT);
+                                        class_f.var_189d.Update(GLLib.s_game_frameDT);
                                         if (class_f.var_189d.sub_1b34()) {
                                             class_f.var_15d5 = GLLib.Math_Rand(10000, 30000);
                                             class_f.var_189d = null;
@@ -342,7 +342,7 @@ final class Class_f
                                         }
                                     }
                                     else {
-                                        class_f.var_18b5.sub_1ca1(GLLib.s_game_frameDT);
+                                        class_f.var_18b5.Update(GLLib.s_game_frameDT);
                                         if (class_f.var_18b5.sub_1b34()) {
                                             class_f.var_15d5 = GLLib.Math_Rand(3000, 4000);
                                         }
@@ -372,7 +372,7 @@ final class Class_f
                                         cGame.sub_23a84(37);
                                     }
                                     else {
-                                        class_f.var_189d.sub_1ca1(GLLib.s_game_frameDT);
+                                        class_f.var_189d.Update(GLLib.s_game_frameDT);
                                     }
                                 }
                                 else if (class_f.var_189d != null) {
@@ -391,7 +391,7 @@ final class Class_f
                                     }
                                 }
                                 else if (class_f.var_189d != null) {
-                                    class_f.var_189d.sub_1ca1(GLLib.s_game_frameDT);
+                                    class_f.var_189d.Update(GLLib.s_game_frameDT);
                                     if (class_f.var_189d.sub_1b34()) {
                                         class_f.var_189d = null;
                                         class_f.var_15d5 = GLLib.Math_Rand(10000, 30000);
@@ -461,7 +461,7 @@ final class Class_f
                                     class_f11.var_18b5 = null;
                                 }
                                 else {
-                                    class_f11.var_18b5.sub_1ca1(GLLib.s_game_frameDT);
+                                    class_f11.var_18b5.Update(GLLib.s_game_frameDT);
                                 }
                             }
                             if ((class_f11.var_18b5 == null || class_f11.var_18b5.GetSprite() != cGame.var_7ff4[16]) && class_f11.var_1675) {
@@ -745,7 +745,7 @@ final class Class_f
                     case 49: {
                         final Class_f class_f14;
                         if ((class_f14 = class_f).var_18b5 != null) {
-                            class_f14.var_18b5.sub_1ca1(GLLib.s_game_frameDT);
+                            class_f14.var_18b5.Update(GLLib.s_game_frameDT);
                         }
                         if (class_f14.var_185d == 3) {
                             final long n16;
@@ -975,7 +975,7 @@ final class Class_f
                             if (cGame.var_7fc4 < 100 && cGame.sub_438b0(class_f.var_1865)) {
                                 final ASprite sub_17f3;
                                 (sub_17f3 = class_f.var_189d.GetSprite()).sub_6434(var_1875);
-                                sub_17f3.sub_700c(GLLib.g, sub_17f3.sub_36dd() / 2 + class_f.var_189d.GetAnim(), class_f.var_189d.sub_196d(), class_f.var_17ed, class_f.var_17f5, 0);
+                                sub_17f3.PaintAFrame(GLLib.g, sub_17f3.sub_36dd() / 2 + class_f.var_189d.GetAnim(), class_f.var_189d.sub_196d(), class_f.var_17ed, class_f.var_17f5, 0);
                             }
                             else {
                                 class_f.var_189d.GetSprite().sub_6434(var_1875);
@@ -1647,33 +1647,33 @@ final class Class_f
     }
     
     final void sub_60d7(int var_185d) {
-        int n = 0;
-        int n2 = -1;
+        int anim = 0;
+        int loop = -1;
         switch (var_185d) {
             case 0: {
-                n = 2;
+                anim = 2;
                 break;
             }
             case 1: {
                 if (this.var_1845 > this.var_17cd) {
                     this.var_18f5 = false;
                     if (this.var_184d > this.var_17d5) {
-                        n = 0;
+                        anim = 0;
                         this.var_18fd = false;
                     }
                     else {
-                        n = 1;
+                        anim = 1;
                         this.var_18fd = true;
                     }
                 }
                 else {
                     this.var_18f5 = true;
                     if (this.var_184d > this.var_17d5) {
-                        n = 0;
+                        anim = 0;
                         this.var_18fd = false;
                     }
                     else {
-                        n = 1;
+                        anim = 1;
                         this.var_18fd = true;
                     }
                 }
@@ -1684,12 +1684,12 @@ final class Class_f
                 int n3 = 0;
                 switch (cGame.var_70b4[cGame.var_70cc]) {
                     case 5: {
-                        n = 3;
+                        anim = 3;
                         n3 = -1;
                         break;
                     }
                     case 2: {
-                        n = 3;
+                        anim = 3;
                         if (cGame.var_70c4[cGame.var_70cc] != null && (cGame.var_70c4[cGame.var_70cc].var_1835 == 0 || cGame.var_70c4[cGame.var_70cc].var_1835 == 51 || cGame.var_70c4[cGame.var_70cc].var_1835 == 52)) {
                             n3 = 23;
                             break;
@@ -1702,39 +1702,39 @@ final class Class_f
                         break;
                     }
                     case 6: {
-                        n = 3;
+                        anim = 3;
                         n3 = 23;
                         break;
                     }
                     case 0: {
-                        n = 4;
+                        anim = 4;
                         n3 = 47;
                         break;
                     }
                     case 1: {
-                        n = 4;
+                        anim = 4;
                         n3 = 40;
                         break;
                     }
                     case 3: {
-                        n = 6;
+                        anim = 6;
                         n3 = 36;
                         break;
                     }
                     case 4: {
-                        n = 4;
+                        anim = 4;
                         n3 = -1;
                         this.var_18fd = false;
                         this.var_18f5 = false;
                         break;
                     }
                     default: {
-                        n = 2;
+                        anim = 2;
                         n3 = 54;
                         break;
                     }
                 }
-                n2 = 1;
+                loop = 1;
                 if (n3 != -1) {
                     cGame.sub_23a84(n3);
                     break;
@@ -1742,8 +1742,8 @@ final class Class_f
                 break;
             }
             case 3: {
-                n = 7;
-                n2 = 3;
+                anim = 7;
+                loop = 3;
                 break;
             }
         }
@@ -1754,7 +1754,7 @@ final class Class_f
         else {
             var_185d = 0;
         }
-        this.var_189d.SetAnim(n, n2);
+        this.var_189d.SetAnim(anim, loop);
         if (var_185d != 0) {
             this.var_189d.SetTransform(2);
             return;

@@ -233,11 +233,11 @@ public final class IGP implements Runnable, CommandListener
         if (b) {
             if (IGP.var_1e45 == 0) {
                 IGP.var_1fd5.sub_6434(IGP.var_1e3d);
-                var_1fd5.sub_547f(g, s, IGP.var_1fd5.sub_4ac6(s, n, false), n2, n3, 0, 10, n4, -1, false);
+                var_1fd5.sub_547f(g, s, IGP.var_1fd5.WraptextB(s, n, false), n2, n3, 0, 10, n4, -1, false);
                 return;
             }
             IGP.var_1fdd.sub_6434(IGP.var_1e3d);
-            var_1fdd.sub_547f(g, s, IGP.var_1fdd.sub_4ac6(s, n, false), n2, n3, 0, 10, n4, -1, false);
+            var_1fdd.sub_547f(g, s, IGP.var_1fdd.WraptextB(s, n, false), n2, n3, 0, 10, n4, -1, false);
         }
         else {
             if (IGP.var_1e45 == 0) {
@@ -848,7 +848,7 @@ public final class IGP implements Runnable, CommandListener
                         final int sub_48cb4 = sub_48cb(0, 15);
                         final int sub_48cb5 = sub_48cb(0, 29);
                         IGP.var_1fd5.sub_5917(sub_2306(IGP.var_1cd5), null);
-                        final short[] sub_4ac6 = IGP.var_1fd5.sub_4ac6(sub_2306(IGP.var_1cd5), var_1fa5 - sub_48a7, false);
+                        final short[] sub_4ac6 = IGP.var_1fd5.WraptextB(sub_2306(IGP.var_1cd5), var_1fa5 - sub_48a7, false);
                         IGP.var_1e55 = ASprite.var_119f;
                         int n3 = IGP.var_1e4d = sub_4ac6[0] * IGP.var_1e35;
                         if (sub_48cb > IGP.var_1e4d) {
@@ -1543,7 +1543,7 @@ public final class IGP implements Runnable, CommandListener
                 IGP.var_1e3d = 1;
             }
             final short[] sub_4ac6;
-            IGP.var_1e55 = (sub_4ac6 = IGP.var_1fd5.sub_4ac6(sub_2306(IGP.var_1ccd), n42 - sub_48a7 - 4, false))[2];
+            IGP.var_1e55 = (sub_4ac6 = IGP.var_1fd5.WraptextB(sub_2306(IGP.var_1ccd), n42 - sub_48a7 - 4, false))[2];
             if (sub_4ac6[0] > 1) {
                 IGP.var_1e55 = n42 - sub_48a7 - 8;
             }
@@ -1603,7 +1603,7 @@ public final class IGP implements Runnable, CommandListener
                 n55 = sub_48cb(0, 35);
             }
             final short[] sub_4ac7;
-            IGP.var_1e55 = (sub_4ac7 = IGP.var_1fd5.sub_4ac6(sub_2306(IGP.var_1ccd), n54 - sub_48a8 - 4, false))[2];
+            IGP.var_1e55 = (sub_4ac7 = IGP.var_1fd5.WraptextB(sub_2306(IGP.var_1ccd), n54 - sub_48a8 - 4, false))[2];
             if (sub_4ac7[0] > 1) {
                 IGP.var_1e55 = n54 - sub_48a8 - 8;
             }
@@ -1629,7 +1629,7 @@ public final class IGP implements Runnable, CommandListener
         IGP.var_1e3d = 0;
         sub_2338(sub_2306(IGP.var_1cb5), graphics, var_2065, n32, n33, 3);
         sub_2338(sub_2306(IGP.var_1cbd), graphics, var_2065, n34, n35, 3);
-        IGP.var_1e55 = IGP.var_1fd5.sub_4ac6(sub_2306(IGP.var_1cbd), var_2065, false)[2];
+        IGP.var_1e55 = IGP.var_1fd5.WraptextB(sub_2306(IGP.var_1cbd), var_2065, false)[2];
         sub_6676(graphics, 0, 29, n34 + (IGP.var_1e55 >> 1) + 3, n17);
         if (b) {
             final int abs = Math.abs((int)(System.currentTimeMillis() / 80L % 8L) - 4);

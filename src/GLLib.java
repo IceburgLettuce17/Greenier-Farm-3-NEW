@@ -753,7 +753,7 @@ public abstract class GLLib extends Canvas implements Runnable
     
     static final int sub_3600(final Graphics graphics, final boolean b) {
         if (b) {
-            return ASprite.var_10cf - graphics.getClipX() - graphics.getClipWidth();
+            return ASprite.s_screenWidth - graphics.getClipX() - graphics.getClipWidth();
         }
         return graphics.getClipY();
     }
@@ -774,7 +774,7 @@ public abstract class GLLib extends Canvas implements Runnable
     
     static final void sub_36b7(final Graphics graphics, int n, int n2, int n3, int n4, final boolean b) {
         final int n5 = n;
-        n = ASprite.var_10cf - n2 - n4;
+        n = ASprite.s_screenWidth - n2 - n4;
         n2 = n5;
         final int n6 = n3;
         n3 = n4;
@@ -783,7 +783,7 @@ public abstract class GLLib extends Canvas implements Runnable
     }
     
     static final void SetClip(final Graphics _g, int x, int y, int width, int height, final boolean b) {
-        x = ASprite.var_10cf - y - height;
+        x = ASprite.s_screenWidth - y - height;
         y = x;
         width = height;
         height = width;
@@ -792,16 +792,16 @@ public abstract class GLLib extends Canvas implements Runnable
     
     static final void sub_3731(final Graphics graphics, int n, int n2, int n3, int n4, final boolean b) {
         final int n5 = n;
-        n = ASprite.var_10cf - n2 - 1;
+        n = ASprite.s_screenWidth - n2 - 1;
         n2 = n5;
         final int n6 = n3;
-        n3 = ASprite.var_10cf - n4 - 1;
+        n3 = ASprite.s_screenWidth - n4 - 1;
         n4 = n6;
         graphics.drawLine(n, n2, n3, n4);
     }
     
     static final void FillRect(final Graphics _g, int x, int y, int width, int height, final boolean processAlpha) {
-        x = ASprite.var_10cf - y - height;
+        x = ASprite.s_screenWidth - y - height;
         y = x;
         width = height;
         height = width;
@@ -810,7 +810,7 @@ public abstract class GLLib extends Canvas implements Runnable
     
     static final void sub_37b0(final Graphics graphics, int n, int n2, int n3, int n4, final boolean b) {
         final int n5 = n;
-        n = ASprite.var_10cf - n2 - n4 - 1;
+        n = ASprite.s_screenWidth - n2 - n4 - 1;
         n2 = n5;
         final int n6 = n3;
         n3 = n4;
@@ -820,7 +820,7 @@ public abstract class GLLib extends Canvas implements Runnable
     
     static final void sub_37ef(final Graphics graphics, int n, int n2, int n3, int n4, int n5, final int n6, final boolean b) {
         final int n7 = n;
-        n = ASprite.var_10cf - n2 - n4;
+        n = ASprite.s_screenWidth - n2 - n4;
         n2 = n7;
         final int n8 = n3;
         n3 = n4;
@@ -831,7 +831,7 @@ public abstract class GLLib extends Canvas implements Runnable
     
     static final void sub_3833(final Graphics graphics, int n, int n2, int n3, int n4, int n5, final int n6, final boolean b) {
         final int n7 = n;
-        n = ASprite.var_10cf - n2 - n4;
+        n = ASprite.s_screenWidth - n2 - n4;
         n2 = n7;
         final int n8 = n3;
         n3 = n4;
@@ -886,7 +886,7 @@ public abstract class GLLib extends Canvas implements Runnable
                 n5 = 7;
             }
             n2 = n6;
-            n6 = ASprite.var_10cf - n7;
+            n6 = ASprite.s_screenWidth - n7;
             n7 = n2;
             n8 = 24;
         }
@@ -907,13 +907,13 @@ public abstract class GLLib extends Canvas implements Runnable
     
     static final void sub_3b26(final Graphics graphics, int n, int n2, int n3, int n4, int n5, int n6, final boolean b) {
         final int n7 = n;
-        n = ASprite.var_10cf - n2 - 1;
+        n = ASprite.s_screenWidth - n2 - 1;
         n2 = n7;
         final int n8 = n3;
-        n3 = ASprite.var_10cf - n4 - 1;
+        n3 = ASprite.s_screenWidth - n4 - 1;
         n4 = n8;
         final int n9 = n5;
-        n5 = ASprite.var_10cf - n6 - 1;
+        n5 = ASprite.s_screenWidth - n6 - 1;
         n6 = n9;
         graphics.fillTriangle(n, n2, n3, n4, n5, n6);
         final int n10 = n;
@@ -951,7 +951,7 @@ public abstract class GLLib extends Canvas implements Runnable
                 n7 |= 0x4;
             }
             n8 = n3;
-            n3 = ASprite.var_10cf - n4 - n9;
+            n3 = ASprite.s_screenWidth - n4 - n9;
             n4 = n8;
         }
         if (n7 != 0) {
@@ -1696,7 +1696,7 @@ public abstract class GLLib extends Canvas implements Runnable
         j = n5;
         SetClip(graphics, n5, i, n9, n8, true);
         i = n3;
-        final int n10 = ASprite.var_10cf - n4 - n2;
+        final int n10 = ASprite.s_screenWidth - n4 - n2;
         final int n11 = i;
         i = n;
         n = n2;

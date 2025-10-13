@@ -900,11 +900,11 @@ public final class cGame extends GLLib implements Class_b {
 		return s_game_state > 0 ? s_game_states[s_game_state - 1] : -1;
 	}
 
-	private static int sub_8409() {
+	private static int getNextState() {
 		return s_game_state > -1 && s_game_state < 14 ? s_game_states[s_game_state + 1] : -1;
 	}
 
-	private static boolean checkForState(int sub_2b09, int state) {
+	private static boolean checkForState(int substate, int state) {
 		// I'm gonna document the states and my speculations for them in the switch statement btw
 		boolean b = false;
 		// -1 is an invalid state that force-quits the game
@@ -915,7 +915,7 @@ public final class cGame extends GLLib implements Class_b {
 				case 1: {
 					// SUBSTATES
 					// Seems to be checking for IAP, and calling a function that gets the fields from the .jad
-					if (sub_2b09 == 0) {
+					if (substate == 0) {
 						final String iapEnabled = GloftGF2M.s_instance.getAppProperty("IAP-EnableIAP");
 						if (iapEnabled != null && iapEnabled.equals("1") && GLLib.IAP_ParseJADFields()) {
 							cGame.s_iapEnabled = true;
@@ -925,7 +925,7 @@ public final class cGame extends GLLib implements Class_b {
 						Init(true);
 						GLLib.sub_5aff();
 					}
-					if (sub_2b09 == 2) {
+					if (substate == 2) {
 						// Seems to be for quitting something?
 						// It seems to call a function (sub_81e0) that calls GLLibPlayer.Tileset_Destroy so idrk
 						state = GLLib.IsAnyKeyDown();
@@ -939,13 +939,16 @@ public final class cGame extends GLLib implements Class_b {
 				}
 				// I think this is the one that draws the Green Farm 3 background (excluding the loadbar)
 				case 2: {
-					if (sub_2b09 == 0) {
+					// SUBSTATES
+					// I'll do this one later, or if someone asks me nicely or make a PR about it
+					if (substate == 0) {
 						cGame.var_681c = cGame.var_6804;
 						sub_b76e();
 						GLLib.var_1e17 = 1;
 						cGame.s_sndVolume = 50;
 					}
-					if (sub_2b09 == 2) {
+					// Same with this one
+					if (substate == 2) {
 						state = GLLib.IsAnyKeyDown();
 						if (state == 19 || state == 11) {
 							GLLib.s_game_state = -1;
@@ -957,10 +960,12 @@ public final class cGame extends GLLib implements Class_b {
 							sub_b7c5();
 						}
 					}
-					if (sub_2b09 == 3) {
+					// WTF is this one?
+					if (substate == 3) {
 						cGame.var_68d4[19].sub_71ae(GLLib.g, 0, 0, 0, 0);
 					}
-					if (sub_2b09 == 5) {
+					if (substate == 5) {
+						// Something to do with closing a pack
 						GLLib.var_1e17 = -1;
 						s_currentPackFilename = GLLib.s_pack_filename;
 						if (s_currentPackFilename != "") {
@@ -972,7 +977,8 @@ public final class cGame extends GLLib implements Class_b {
 				}
 				// This one draws the loading bar from the splash
 				case 4: {
-					if (sub_2b09 == 0) {
+					// SUBSTATES
+					if (substate == 0) {
 						sub_1d1a7(0, true);
 						if (cGame.var_7fe4 != 7) {
 							cGame.var_68bc[0][1][5] = 49;
@@ -1004,13 +1010,13 @@ public final class cGame extends GLLib implements Class_b {
 						}
 						sub_2000c(0, 4, true);
 					}
-					if (sub_2b09 == 1 && cGame.var_7194) {
+					if (substate == 1 && cGame.var_7194) {
 						cGame.var_6824 = -1;
 						cGame.var_8084 = 0;
 						cGame.var_7194 = false;
 						sub_8281(17);
 					}
-					if (sub_2b09 == 5) {
+					if (substate == 5) {
 						cGame.var_686c = false;
 						GLLib.var_1e17 = -1;
 						cGame.var_681c = null;
@@ -1020,7 +1026,7 @@ public final class cGame extends GLLib implements Class_b {
 						cGame.var_683c = false;
 						cGame.var_6824 = -1;
 					}
-					if (sub_2b09 == 2) {
+					if (substate == 2) {
 						String sub_4e1f = GLLib.Text_GetStringFromLocaleFile(46);
 						cGame.var_68cc[0][4] = ((sub_4e1f == null) ? "" : sub_4e1f);
 						state = GLLib.IsAnyKeyDown();
@@ -1038,7 +1044,7 @@ public final class cGame extends GLLib implements Class_b {
 							sub_2c69b();
 						}
 					}
-					if (sub_2b09 == 3) {
+					if (substate == 3) {
 						sub_1dcc1(0);
 						if (cGame.var_6834 == 0) {
 							state = 416;
@@ -1067,12 +1073,12 @@ public final class cGame extends GLLib implements Class_b {
 				}
 				// Your farm, has everything except neighbor lockdown and the homebutton
 				case 17: {
-					b = openFarmView(sub_2b09);
+					b = openFarmView(substate);
 					break;
 				}
 				// TODO: Figure out this one
 				case 18: {
-					if ((sub_2b09) == 0) {
+					if ((substate) == 0) {
 						if (cGame.var_7fd4 == 1) {
 							cGame.var_7fd4 = 1;
 							cGame.var_6c8c = false;
@@ -1080,7 +1086,7 @@ public final class cGame extends GLLib implements Class_b {
 						}
 						cGame.var_69fc = false;
 					}
-					if (sub_2b09 == 1) {
+					if (substate == 1) {
 						if (cGame.var_69d4) {
 							cGame.var_69d4 = false;
 							sub_cc72();
@@ -1095,7 +1101,7 @@ public final class cGame extends GLLib implements Class_b {
 					}
 					boolean b2 = false;
 					Label_2355: {
-						if (sub_2b09 == 8) {
+						if (substate == 8) {
 							if (cGame.var_6aac != null && sub_240db()) {
 								b2 = true;
 								break Label_2355;
@@ -1201,7 +1207,7 @@ public final class cGame extends GLLib implements Class_b {
 								cGame.var_800c.sub_67aa();
 							}
 						}
-						if (sub_2b09 == 2) {
+						if (substate == 2) {
 							if ((state = GLLib.IsAnyKeyDown()) == 19 || state == 24) {
 								if (sub_202b7(1, 37) && sub_20167(1, 37)) {
 									sub_10922();
@@ -1278,7 +1284,7 @@ public final class cGame extends GLLib implements Class_b {
 							sub_23dba();
 							sub_273b8();
 						}
-						if (sub_2b09 == 3 && !cGame.s_clickblocked) {
+						if (substate == 3 && !cGame.s_clickblocked) {
 							Class_f.sub_3bcd();
 							sub_29ee2();
 							sub_25129();
@@ -1298,7 +1304,7 @@ public final class cGame extends GLLib implements Class_b {
 								}
 							}
 						}
-						if (sub_2b09 == 4) {
+						if (substate == 4) {
 							sub_10e3f(false, 0, cGame.var_6b04);
 						}
 						b2 = false;
@@ -1308,30 +1314,30 @@ public final class cGame extends GLLib implements Class_b {
 				}
 				// Market menu
 				case 7: {
-					b = openMarket(sub_2b09);
+					b = openMarket(substate);
 					break;
 				}
 				// Sales Desk menu
 				case 8: {
-					b = openSaledesk(sub_2b09);
+					b = openSaledesk(substate);
 					break;
 				}
 				// Feed Mill's "Feed Producal" menu
 				case 9: {
-					if ((sub_2b09) == 1) {
+					if ((substate) == 1) {
 						cGame.var_68ac = 100;
 						sub_37750();
 						sub_2c69b();
 						sub_1fb8e(6);
 					}
-					if (sub_2b09 == 5) {
+					if (substate == 5) {
 						sub_2c69b();
 						sub_1fb8e(6);
 						sub_239ef(6);
 						cGame.var_742c = 0;
 						sub_2000c(6, 32, cGame.var_7424 = false);
 					}
-					if (sub_2b09 == 2) {
+					if (substate == 2) {
 						if ((state = GLLib.IsAnyKeyDown()) == 19 || state == 11) {
 							if (cGame.var_6c5c == 160) {
 								sub_14108();
@@ -1381,7 +1387,7 @@ public final class cGame extends GLLib implements Class_b {
 							}
 						}
 					}
-					if (sub_2b09 == 3) {
+					if (substate == 3) {
 						sub_1dcc1(6);
 						final String sub_4e1f6;
 						sub_1df06(((sub_4e1f6 = GLLib.Text_GetStringFromLocaleFile(388)) == null) ? "" : sub_4e1f6, 6, 30, 0, 0);
@@ -1419,20 +1425,20 @@ public final class cGame extends GLLib implements Class_b {
 				}
 				// Kitchen's Cooking menu
 				case 10: {
-					if ((sub_2b09) == 0) {
+					if ((substate) == 0) {
 						sub_2c69b();
 						sub_1fb8e(7);
 						cGame.var_68ac = 100;
 						cGame.var_7464 = cGame.var_7304;
 					}
-					if (sub_2b09 == 1) {
+					if (substate == 1) {
 						sub_33c10();
 						sub_34199(false);
 						sub_2024d(7, 42, true);
 						sub_2c69b();
 						sub_1fb8e(7);
 					}
-					if (sub_2b09 == 5) {
+					if (substate == 5) {
 						if (cGame.var_7464 >= '\0' && cGame.var_7464 <= '\u0002') {
 							cGame.var_7304 = cGame.var_7464;
 						}
@@ -1449,7 +1455,7 @@ public final class cGame extends GLLib implements Class_b {
 						cGame.var_742c = 0;
 						sub_2000c(7, 40, cGame.var_7424 = false);
 					}
-					if (sub_2b09 == 2) {
+					if (substate == 2) {
 						if ((state = GLLib.IsAnyKeyDown()) == 19 || state == 11) {
 							sub_144e1();
 						}
@@ -1493,7 +1499,7 @@ public final class cGame extends GLLib implements Class_b {
 							}
 						}
 					}
-					if (sub_2b09 == 3) {
+					if (substate == 3) {
 						sub_1dcc1(7);
 						final String sub_4e1f12;
 						sub_1df06(((sub_4e1f12 = GLLib.Text_GetStringFromLocaleFile(180)) == null) ? "" : sub_4e1f12, 7, 41, 0, 0);
@@ -1540,28 +1546,28 @@ public final class cGame extends GLLib implements Class_b {
 				}
 				// Kitchen "homepage"
 				case 11: {
-					b = openKitchen(sub_2b09);
+					b = openKitchen(substate);
 					break;
 				}
 				// Feed Mill "homepage"
 				case 27: {
-					b = openFeedmill(sub_2b09);
+					b = openFeedmill(substate);
 					break;
 				}
 				// Barn Inventory page
 				case 28: {
-					b = openBarn(sub_2b09);
+					b = openBarn(substate);
 					break;
 				}
 				// Manor homepage
 				case 29: {
-					b = openManor(sub_2b09);
+					b = openManor(substate);
 					break;
 				}
 				// IDRK what this one is
 				// If any of you know make a PR on GitHub
 				case 30: {
-					if ((sub_2b09) == 0) {
+					if ((substate) == 0) {
 						cGame.var_68c4[14][54][5] = 1135;
 						sub_2000c(14, 54, true);
 						cGame.var_68c4[14][55][5] = 1128;
@@ -1595,7 +1601,7 @@ public final class cGame extends GLLib implements Class_b {
 						sub_1fb8e(14);
 						cGame.var_68ac = 100;
 					}
-					if (sub_2b09 == 1) {
+					if (substate == 1) {
 						if (cGame.var_808c == 0) {
 							final String sub_4e1f19;
 							cGame.var_783c = (((sub_4e1f19 = GLLib.Text_GetStringFromLocaleFile(243)) == null) ? "" : sub_4e1f19);
@@ -1672,11 +1678,11 @@ public final class cGame extends GLLib implements Class_b {
 							sub_3a485();
 						}
 					}
-					if (sub_2b09 == 5) {
+					if (substate == 5) {
 						sub_d7d7(1);
 						sub_239ef(14);
 					}
-					if (sub_2b09 == 2) {
+					if (substate == 2) {
 						if ((state = GLLib.IsAnyKeyDown()) == 19 || state == 11) {
 							if (cGame.var_6c5c == 160) {
 								sub_195c5();
@@ -1732,7 +1738,7 @@ public final class cGame extends GLLib implements Class_b {
 						}
 						sub_d841(1);
 					}
-					if (sub_2b09 == 3) {
+					if (substate == 3) {
 						if (cGame.var_77f4 == 1) {
 							sub_2000c(14, 4, true);
 							sub_2000c(14, 5, true);
@@ -1798,7 +1804,7 @@ public final class cGame extends GLLib implements Class_b {
 						}
 						}
 					}
-					if (sub_2b09 == 6) {
+					if (substate == 6) {
 						sub_3a73b(cGame.var_77f4);
 					}
 					b = false;
@@ -1806,14 +1812,14 @@ public final class cGame extends GLLib implements Class_b {
 				}
 				// Acre expansion menu
 				case 12: {
-					if (sub_2b09 == 1) {
+					if (substate == 1) {
 						sub_d76c();
 						sub_28cd9();
 						sub_1ffee();
 						sub_1fb8e(11);
 						sub_23a84(60);
 					}
-					if (sub_2b09 == 5) {
+					if (substate == 5) {
 						cGame.var_6d64 = -1;
 						cGame.var_6d6c = null;
 						sub_d7d7(1);
@@ -1839,7 +1845,7 @@ public final class cGame extends GLLib implements Class_b {
 						cGame.var_7864 = false;
 						sub_239ef(11);
 					}
-					if (sub_2b09 == 2) {
+					if (substate == 2) {
 						state = GLLib.IsAnyKeyDown();
 						if (cGame.var_6d64 == 0) {
 							if (state == 19) {
@@ -1856,7 +1862,7 @@ public final class cGame extends GLLib implements Class_b {
 								if (cGame.var_800c.var_185d != 0) {
 									sub_253a8();
 								} else {
-									cGame.var_6d6c.sub_1ca1(GLLib.s_game_frameDT);
+									cGame.var_6d6c.Update(GLLib.s_game_frameDT);
 									final int[] array = new int[2];
 									final int[] array2 = new int[2];
 									final int[] array3 = new int[2];
@@ -1872,7 +1878,7 @@ public final class cGame extends GLLib implements Class_b {
 							}
 						}
 					}
-					if (sub_2b09 == 3) {
+					if (substate == 3) {
 						switch (cGame.var_6d64) {
 						case 0: {
 							sub_1dcc1(11);
@@ -1940,35 +1946,35 @@ public final class cGame extends GLLib implements Class_b {
 				}
 				// Leveled up screen
 				case 13: {
-					b = openLeveledUp(sub_2b09);
+					b = openLeveledUp(substate);
 					break;
 				}
 				// Neighbor "request item" menu
 				case 15: {
-					b = openRequestItem(sub_2b09);
+					b = openRequestItem(substate);
 					break;
 				}
 				// Neighbor "send item" menu
 				case 16: {
-					b = openSendItem(sub_2b09);
+					b = openSendItem(substate);
 					break;
 				}
 				// A debug menu. Bro, what the fuck is this doing in a production environment?
 				// IDRK a way to access it tho.
 				case 14: {
-					b = openDebugMenu(sub_2b09);
+					b = openDebugMenu(substate);
 					break;
 				}
 				
 				// IDRK what this one is (it just shows a black screen)
 				case 21: {
-					if ((sub_2b09) == 0) {
+					if ((substate) == 0) {
 						cGame.var_8054 = GLLib.sub_5307(cGame.var_8054,
 								new String[] { GLLib.s_application.getAppProperty("GameVer") });
-						cGame.var_805c = cGame.var_7ffc[0].sub_4ac6(cGame.var_8054, GLLib.s_screenWidth - 20, false);
+						cGame.var_805c = cGame.var_7ffc[0].WraptextB(cGame.var_8054, GLLib.s_screenWidth - 20, false);
 						cGame.var_682c = GLLib.s_screenHeight - 32;
 					}
-					if (sub_2b09 == 2) {
+					if (substate == 2) {
 						state = GLLib.WasAnyKeyPressed();
 						int n13 = 2;
 						if (state == 19) {
@@ -1980,7 +1986,7 @@ public final class cGame extends GLLib implements Class_b {
 							cGame.var_682c -= n13;
 						}
 					}
-					if (sub_2b09 == 3) {
+					if (substate == 3) {
 						GLLib.g.setColor(0);
 						GLLib.FillRect(GLLib.g, 0, 0, GLLib.s_screenWidth, GLLib.s_screenHeight, true);
 						cGame.var_7ffc[0].sub_6434(1);
@@ -1993,54 +1999,54 @@ public final class cGame extends GLLib implements Class_b {
 				}
 				// Dunno this one too
 				case 19: {
-					b = sub_3fc6c(sub_2b09);
+					b = sub_3fc6c(substate);
 					break;
 				}
 				// Your neighbor's farm, enables lockdown system and home button
 				case 36: {
-					b = sub_407ce(sub_2b09);
+					b = sub_407ce(substate);
 					break;
 				}
 				// Neighbor screen
 				case 37: {
-					b = openNeighborView(sub_2b09);
+					b = openNeighborView(substate);
 					break;
 				}
 				// Mailbox's neighbors menu
 				case 38: {
-					b = openMailbox(sub_2b09);
+					b = openMailbox(substate);
 					break;
 				}
 				// Dunno 2
 				case 35: {
-					b = sub_428d1(sub_2b09);
+					b = sub_428d1(substate);
 					break;
 				}
 				// Collections screen
 				case 31: {
-					b = openCollectionRoom(sub_2b09);
+					b = openCollectionRoom(substate);
 					break;
 				}
 				// Manor's Trophies screen
 				case 32: {
-					b = openTrophyRoom(sub_2b09);
+					b = openTrophyRoom(substate);
 					break;
 				}
 				// Silo screen (FEED STORAGE)
 				case 39: {
-					b = openSilo(sub_2b09);
+					b = openSilo(substate);
 					break;
 				}
 				// IGP screen, crashes game if entered via memediting
 				case 44: {
-					if (sub_2b09 == 0) {
+					if (substate == 0) {
 						sub_23d73();
 						IGP.enterIGP(((GLLib.Text_GetStringFromLocaleFile(46) == null)) ? "" : GLLib.Text_GetStringFromLocaleFile(46), 0);
 					}
-					if (sub_2b09 == 2) {
-						sub_2b09 = GLLib.IsAnyKeyDown();
+					if (substate == 2) {
+						substate = GLLib.IsAnyKeyDown();
 						state = 0;
-						switch (sub_2b09) {
+						switch (substate) {
 						case 3:
 						case 10: {
 							state = 23;
@@ -2076,13 +2082,13 @@ public final class cGame extends GLLib implements Class_b {
 							sub_2c69b();
 						}
 					}
-					if (sub_2b09 == 3) {
+					if (substate == 3) {
 						IGP.sub_4f8f(GLLib.g);
 					}
-					if (sub_2b09 == 6) {
+					if (substate == 6) {
 						IGP.sub_3b06(false);
 					}
-					if (sub_2b09 == 7) {
+					if (substate == 7) {
 						IGP.sub_3b06(true);
 					}
 					b = false;
@@ -2090,12 +2096,12 @@ public final class cGame extends GLLib implements Class_b {
 				}
 				// Dunno 3
 				case 42: {
-					b = sub_43b80(sub_2b09);
+					b = sub_43b80(substate);
 					break;
 				}
 				// Ditto.
 				case 3: {
-					if (sub_2b09 == 2) {
+					if (substate == 2) {
 						sub_81e0(5);
 					}
 					b = false;
@@ -2103,21 +2109,21 @@ public final class cGame extends GLLib implements Class_b {
 				}
 				// IAP "Buy cash/coin" menu
 				case 34: {
-					b = openIAPMenu(sub_2b09);
+					b = openIAPMenu(substate);
 					break;
 				}
 				// Dunno 5
 				case 26: {
-					b = sub_48824(sub_2b09);
+					b = sub_48824(substate);
 					break;
 				}
 				// Dunno 6 (it seems like a placeholder)
 				case 25: {
-					b = sub_46ec6(sub_2b09);
+					b = sub_46ec6(substate);
 					break;
 				}
 				default: {
-					new StringBuffer().append("State [").append(cGame.s_game_states[state]).append("] is undefined. Message sent was: ").append(sub_2b09);
+					new StringBuffer().append("State [").append(cGame.s_game_states[state]).append("] is undefined. Message sent was: ").append(substate);
 					break;
 				}
 				}
@@ -8531,7 +8537,7 @@ public final class cGame extends GLLib implements Class_b {
 			}
 			final short n = cGame.var_68bc[15][21][5];
 			final short n2 = cGame.var_68bc[15][21][7];
-			final short[] sub_4ac6 = cGame.var_7ffc[sub_237ff(n2)].sub_4ac6(cGame.var_79d4, n, false);
+			final short[] sub_4ac6 = cGame.var_7ffc[sub_237ff(n2)].WraptextB(cGame.var_79d4, n, false);
 			final ASprite class_e = cGame.var_7ffc[sub_237ff(n2)];
 			final short n3 = sub_4ac6[0];
 			final ASprite class_e2 = class_e;
@@ -10054,18 +10060,19 @@ public final class cGame extends GLLib implements Class_b {
 	private static void sub_1d1a7(int n, final boolean b) {
 		if (cGame.var_68bc[n] != null) {
 			sub_1daf4(n);
-			return;
 		}
 		GLLib.Pack_Open("/6");
 		final byte[] sub_3253 = GLLib.Pack_ReadData(n);
+		int i = 0;
 		int n2 = 0;
 		int n3 = 0;
-		for (int i = 0; i < sub_3253.length; i += n3) {
+		while (i < sub_3253.length) {
 			n2++;
-			int n4 = GLLib.Mem_GetByte(sub_3253, i) & 0xFF;
+			int n4 = GLLib.Mem_GetByte(sub_3253, i) & 255;
+			i += 8;
 			byte var10001;
 
-			switch (n3) {
+			switch (n4) {
 			case 201:
 				var10001 = 9;
 				break;
@@ -10096,41 +10103,40 @@ public final class cGame extends GLLib implements Class_b {
 			default:
 				var10001 = 0;
 			}
+			
+			i += var10001;
 		}
-		int n6 = 0;
+		i = 0;
 		cGame.var_68c4[n] = new short[n2][];
 		cGame.var_68bc[n] = new short[n2][];
 		cGame.var_68cc[n] = new String[n2];
 		for (int j = 0; j < n2; ++j) {
-			final int n7 = GLLib.Mem_GetByte(sub_3253, n6) & 0xFF;
+			int n7 = GLLib.Mem_GetByte(sub_3253, i) & 255;
 			cGame.var_68c4[n][j] = new short[5 + sub_1dc09(n7)];
 			switch (n7) {
 			case 201: {
-				final byte[] array = sub_3253;
-				final int n8 = n6;
 				final short[] array2 = cGame.var_68c4[n][j];
-				final int n9 = n8;
-				final byte[] array3 = array;
-				int sub_1dbac = sub_1dbac(array, n9, array2);
-				array2[5] = GLLib.Mem_GetShort(array3, sub_1dbac);
-				sub_1dbac += 2;
-				array2[6] = GLLib.Mem_GetShort(array3, sub_1dbac);
-				sub_1dbac += 2;
-				array2[7] = (short) (GLLib.Mem_GetByte(array3, sub_1dbac) & 0xFF);
-				++sub_1dbac;
-				array2[8] = (short) (GLLib.Mem_GetByte(array3, sub_1dbac) & 0xFF);
-				++sub_1dbac;
-				array2[9] = (short) (GLLib.Mem_GetByte(array3, sub_1dbac) & 0xFF);
-				++sub_1dbac;
-				array2[10] = (short) (GLLib.Mem_GetByte(array3, sub_1dbac) & 0xFF);
-				++sub_1dbac;
-				array2[11] = (short) (GLLib.Mem_GetByte(array3, sub_1dbac) & 0xFF);
-				n6 = ++sub_1dbac;
+				n7 = sub_1dbac(sub_3253, i, array2);
+				byte[] array3 = sub_3253;
+				array2[5] = GLLib.Mem_GetShort(array3, n7);
+				n7 += 2;
+				array2[6] = GLLib.Mem_GetShort(array3, n7);
+				n7 += 2;
+				array2[7] = (short) (GLLib.Mem_GetByte(array3, n7) & 0xFF);
+				++n7;
+				array2[8] = (short) (GLLib.Mem_GetByte(array3, n7) & 0xFF);
+				++n7;
+				array2[9] = (short) (GLLib.Mem_GetByte(array3, n7) & 0xFF);
+				++n7;
+				array2[10] = (short) (GLLib.Mem_GetByte(array3, n7) & 0xFF);
+				++n7;
+				array2[11] = (short) (GLLib.Mem_GetByte(array3, n7) & 0xFF);
+				i = ++n7;
 				break;
 			}
 			case 202: {
 				final byte[] array4 = sub_3253;
-				final int n10 = n6;
+				final int n10 = i;
 				final short[] array5 = cGame.var_68c4[n][j];
 				final int n11 = n10;
 				final byte[] array6 = array4;
@@ -10150,12 +10156,12 @@ public final class cGame extends GLLib implements Class_b {
 				array5[11] = (short) (GLLib.Mem_GetByte(array6, sub_1dbac2) & 0xFF);
 				++sub_1dbac2;
 				array5[12] = (short) (GLLib.Mem_GetByte(array6, sub_1dbac2) & 0xFF);
-				n6 = ++sub_1dbac2;
+				i = ++sub_1dbac2;
 				break;
 			}
 			case 203: {
 				final byte[] array7 = sub_3253;
-				final int n12 = n6;
+				final int n12 = i;
 				final short[] array8 = cGame.var_68c4[n][j];
 				final int n13 = n12;
 				final byte[] array9 = array7;
@@ -10183,12 +10189,12 @@ public final class cGame extends GLLib implements Class_b {
 				array8[15] = (short) (GLLib.Mem_GetByte(array9, sub_1dbac3) & 0xFF);
 				++sub_1dbac3;
 				array8[16] = (short) (GLLib.Mem_GetByte(array9, sub_1dbac3) & 0xFF);
-				n6 = ++sub_1dbac3;
+				i = ++sub_1dbac3;
 				break;
 			}
 			case 204: {
 				final byte[] array10 = sub_3253;
-				final int n14 = n6;
+				final int n14 = i;
 				final short[] array11 = cGame.var_68c4[n][j];
 				final int n15 = n14;
 				final byte[] array12 = array10;
@@ -10218,12 +10224,12 @@ public final class cGame extends GLLib implements Class_b {
 				array11[16] = (short) (GLLib.Mem_GetByte(array12, sub_1dbac4) & 0xFF);
 				++sub_1dbac4;
 				array11[17] = (short) (GLLib.Mem_GetByte(array12, sub_1dbac4) & 0xFF);
-				n6 = ++sub_1dbac4;
+				i = ++sub_1dbac4;
 				break;
 			}
 			case 205: {
 				final byte[] array13 = sub_3253;
-				final int n16 = n6;
+				final int n16 = i;
 				final short[] array14 = cGame.var_68c4[n][j];
 				final int n17 = n16;
 				final byte[] array15 = array13;
@@ -10263,12 +10269,12 @@ public final class cGame extends GLLib implements Class_b {
 				array14[21] = (short) (GLLib.Mem_GetByte(array15, sub_1dbac5) & 0xFF);
 				++sub_1dbac5;
 				array14[22] = (short) (GLLib.Mem_GetByte(array15, sub_1dbac5) & 0xFF);
-				n6 = ++sub_1dbac5;
+				i = ++sub_1dbac5;
 				break;
 			}
 			case 206: {
 				final byte[] array16 = sub_3253;
-				final int n18 = n6;
+				final int n18 = i;
 				final short[] array17 = cGame.var_68c4[n][j];
 				final int n19 = n18;
 				final byte[] array18 = array16;
@@ -10292,12 +10298,12 @@ public final class cGame extends GLLib implements Class_b {
 				array17[13] = (short) (GLLib.Mem_GetByte(array18, sub_1dbac6) & 0xFF);
 				++sub_1dbac6;
 				array17[14] = (short) (GLLib.Mem_GetByte(array18, sub_1dbac6) & 0xFF);
-				n6 = ++sub_1dbac6;
+				i = ++sub_1dbac6;
 				break;
 			}
 			case 207: {
 				final byte[] array19 = sub_3253;
-				final int n20 = n6;
+				final int n20 = i;
 				final short[] array20 = cGame.var_68c4[n][j];
 				final int n21 = n20;
 				final byte[] array21 = array19;
@@ -10327,23 +10333,23 @@ public final class cGame extends GLLib implements Class_b {
 				array20[16] = GLLib.Mem_GetByte(array21, sub_1dbac7);
 				++sub_1dbac7;
 				array20[17] = GLLib.Mem_GetByte(array21, sub_1dbac7);
-				n6 = ++sub_1dbac7;
+				i = ++sub_1dbac7;
 				break;
 			}
 			case 208: {
 				final byte[] array22 = sub_3253;
-				final int n22 = n6;
+				final int n22 = i;
 				final short[] array23 = cGame.var_68c4[n][j];
 				final int n23 = n22;
 				final byte[] array24 = array22;
 				int sub_1dbac8 = sub_1dbac(array22, n23, array23);
 				array23[5] = (short) (GLLib.Mem_GetByte(array24, sub_1dbac8) & 0xFF);
-				n6 = ++sub_1dbac8;
+				i = ++sub_1dbac8;
 				break;
 			}
-			case 209: {
+			case 209:
 				final byte[] array25 = sub_3253;
-				final int n24 = n6;
+				final int n24 = i;
 				final short[] array26 = cGame.var_68c4[n][j];
 				final int n25 = n24;
 				final byte[] array27 = array25;
@@ -10361,15 +10367,14 @@ public final class cGame extends GLLib implements Class_b {
 				array26[10] = (short) (GLLib.Mem_GetByte(array27, sub_1dbac9) & 0xFF);
 				++sub_1dbac9;
 				array26[11] = (short) (GLLib.Mem_GetByte(array27, sub_1dbac9) & 0xFF);
-				n6 = ++sub_1dbac9;
+				i = ++sub_1dbac9;
 				break;
 			}
-			}
 		}
-		sub_1daf4(n);
-		GLLib.Pack_FullyClose();
+		
+			sub_1daf4(n);
+			GLLib.Pack_FullyClose();
 	}
-
 	private static void sub_1daf4(final int n) {
 		for (int i = cGame.var_68c4[n].length - 1; i >= 0; --i) {
 			sub_1db3f(n, i);
@@ -10584,7 +10589,7 @@ public final class cGame extends GLLib implements Class_b {
 			cGame.var_689c[2][sub_237ff].sub_6434(n6);
 		}
 		if (b) {
-			final short[] sub_4ac6 = cGame.var_689c[2][sub_237ff].sub_4ac6(s, n2, false);
+			final short[] sub_4ac6 = cGame.var_689c[2][sub_237ff].WraptextB(s, n2, false);
 			final ASprite class_e = cGame.var_689c[2][sub_237ff];
 			final Graphics var_1daf = GLLib.g;
 			final short[] array = sub_4ac6;
@@ -13244,16 +13249,16 @@ public final class cGame extends GLLib implements Class_b {
 		return n2;
 	}
 
-	private static void sub_2386a(final int n, final int n2, final int n3, final int n4) {
+	private static void sub_2386a(final int n, final int n2, final int anim, final int nbLoop) {
 		sub_2393e(n, n2);
 		int n5;
 		for (n5 = 0; n5 < 30 && cGame.var_68ec[n5] != null; ++n5) {
 		}
 		if (n5 < 30) {
-			final short n6;
+			short n6 = cGame.var_68bc[n][n2][5];
 			(cGame.var_68ec[n5] = new GLLibPlayer(
-					((n6 = cGame.var_68bc[n][n2][5]) < 1000) ? cGame.var_68d4[n6] : cGame.var_7ff4[n6 - 1000], 0,
-					0)).SetAnim(n3, n4);
+					(n6 < 1000) ? cGame.var_68d4[n6] : cGame.var_7ff4[n6 - 1000], 0,
+					0)).SetAnim(anim, nbLoop);
 			cGame.var_68bc[n][n2][17] = (short) n5;
 		}
 	}
@@ -14105,7 +14110,7 @@ public final class cGame extends GLLib implements Class_b {
 		}
 		sub_26854();
 		if (cGame.var_6b5c != null) {
-			cGame.var_6b5c.sub_1ca1(GLLib.s_game_frameDT);
+			cGame.var_6b5c.Update(GLLib.s_game_frameDT);
 			if (cGame.var_6aac != null) {
 				final int[] array3 = new int[2];
 				final int[] array4 = new int[2];
@@ -18905,48 +18910,45 @@ public final class cGame extends GLLib implements Class_b {
 						offset += array[l];
 					}
 					if (!cGame.s_iapEnabled) {
-						final int n2 = i;
-						final int n3 = k;
-						final int n4 = n2;
-						switch (n2) {
+						switch (i) {
 						case 20: {
-							Class_h.var_6a[n4].var_82[n3][1] = Class_h.var_6a[n4].var_82[n3][2];
+							Class_h.var_6a[i].var_82[k][1] = Class_h.var_6a[i].var_82[k][2];
 						}
 						case 3: {
-							Class_h.var_6a[n4].var_82[n3][15] = Class_h.var_6a[n4].var_82[n3][16];
-							Class_h.var_6a[n4].var_82[n3][31] = Class_h.var_6a[n4].var_82[n3][32];
-							Class_h.var_6a[n4].var_82[n3][13] = Class_h.var_6a[n4].var_82[n3][14];
+							Class_h.var_6a[i].var_82[k][15] = Class_h.var_6a[i].var_82[k][16];
+							Class_h.var_6a[i].var_82[k][31] = Class_h.var_6a[i].var_82[k][32];
+							Class_h.var_6a[i].var_82[k][13] = Class_h.var_6a[i].var_82[k][14];
 							break;
 						}
 						case 0: {
-							Class_h.var_6a[n4].var_82[n3][15] = Class_h.var_6a[n4].var_82[n3][16];
+							Class_h.var_6a[i].var_82[k][15] = Class_h.var_6a[i].var_82[k][16];
 							break;
 						}
 						case 2: {
-							Class_h.var_6a[n4].var_82[n3][16] = Class_h.var_6a[n4].var_82[n3][17];
-							Class_h.var_6a[n4].var_82[n3][12] = Class_h.var_6a[n4].var_82[n3][13];
+							Class_h.var_6a[i].var_82[k][16] = Class_h.var_6a[i].var_82[k][17];
+							Class_h.var_6a[i].var_82[k][12] = Class_h.var_6a[i].var_82[k][13];
 							break;
 						}
 						case 7: {
-							Class_h.var_6a[n4].var_82[n3][16] = Class_h.var_6a[n4].var_82[n3][17];
+							Class_h.var_6a[i].var_82[k][16] = Class_h.var_6a[i].var_82[k][17];
 							break;
 						}
 						case 22: {
-							Class_h.var_6a[n4].var_82[n3][13] = Class_h.var_6a[n4].var_82[n3][14];
+							Class_h.var_6a[i].var_82[k][13] = Class_h.var_6a[i].var_82[k][14];
 							break;
 						}
 						case 4: {
-							Class_h.var_6a[n4].var_82[n3][19] = Class_h.var_6a[n4].var_82[n3][20];
+							Class_h.var_6a[i].var_82[k][19] = Class_h.var_6a[i].var_82[k][20];
 							break;
 						}
 						case 1: {
-							Class_h.var_6a[n4].var_82[n3][5] = Class_h.var_6a[n4].var_82[n3][6];
-							Class_h.var_6a[n4].var_82[n3][7] = Class_h.var_6a[n4].var_82[n3][8];
+							Class_h.var_6a[i].var_82[k][5] = Class_h.var_6a[i].var_82[k][6];
+							Class_h.var_6a[i].var_82[k][7] = Class_h.var_6a[i].var_82[k][8];
 							break;
 						}
 						case 6: {
-							Class_h.var_6a[n4].var_82[n3][8] = Class_h.var_6a[n4].var_82[n3][9];
-							Class_h.var_6a[n4].var_82[n3][10] = Class_h.var_6a[n4].var_82[n3][11];
+							Class_h.var_6a[i].var_82[k][8] = Class_h.var_6a[i].var_82[k][9];
+							Class_h.var_6a[i].var_82[k][10] = Class_h.var_6a[i].var_82[k][11];
 							break;
 						}
 						}
@@ -19017,15 +19019,13 @@ public final class cGame extends GLLib implements Class_b {
 		cGame.var_7564 = new byte[cGame.var_7474];
 		sub_2b6d7();
 		sub_39be7();
-		final Class_h class_h = Class_h.var_6a[20];
 		cGame.var_8064 = new int[30];
 		for (int n5 = 0; n5 < 30; ++n5) {
-			cGame.var_8064[n5] = class_h.var_82[n5][1];
+			cGame.var_8064[n5] = Class_h.var_6a[20].var_82[n5][1];
 		}
-		final Class_h class_h2 = Class_h.var_6a[31];
 		cGame.var_806c = new int[14];
 		for (int n6 = 0; n6 < 14; ++n6) {
-			cGame.var_806c[n6] = class_h2.var_82[n6][2];
+			cGame.var_806c[n6] = Class_h.var_6a[31].var_82[n6][2];
 		}
 		GLLib.text_encoding = "UTF-8";
 		cGame.var_7fd4 = 0;
@@ -19041,19 +19041,24 @@ public final class cGame extends GLLib implements Class_b {
 			ASprite.sub_3d8a(cGame.var_7c04[n7][0], cGame.var_7c04[n7][1]);
 		}
 		sub_1c6ac();
-		(cGame.var_689c = new ASprite[3][])[0] = cGame.var_7ff4;
+		cGame.var_689c = new ASprite[3][];
+		cGame.var_689c[0] = cGame.var_7ff4;
 		cGame.var_689c[1] = cGame.var_68d4;
 		cGame.var_689c[2] = cGame.var_7ffc;
-		(cGame.var_68a4 = new int[3])[0] = 159;
+		cGame.var_68a4 = new int[3];
+		cGame.var_68a4[0] = 159;
 		cGame.var_68a4[1] = 122;
 		cGame.var_68a4[2] = 6;
-		(cGame.var_6884 = new byte[3][])[0] = new byte[159];
+		cGame.var_6884 = new byte[3][];
+		cGame.var_6884[0] = new byte[159];
 		cGame.var_6884[1] = new byte[122];
 		cGame.var_6884[2] = new byte[6];
-		(cGame.var_688c = new short[3][])[0] = new short[159];
+		cGame.var_688c = new short[3][];
+		cGame.var_688c[0] = new short[159];
 		cGame.var_688c[1] = new short[122];
 		cGame.var_688c[2] = new short[6];
-		(cGame.var_6894 = new short[3][])[0] = new short[159];
+		cGame.var_6894 = new short[3][];
+		cGame.var_6894[0] = new short[159];
 		cGame.var_6894[1] = new short[122];
 		cGame.var_6894[2] = new short[6];
 		cGame.var_68b4 = new byte[119];
@@ -19061,76 +19066,65 @@ public final class cGame extends GLLib implements Class_b {
 		cGame.var_80cc = new short[117];
 		cGame.var_80d4 = new short[117];
 		cGame.var_80dc = new short[117];
-		final Class_h class_h3 = Class_h.var_6a[1];
 		for (int n8 = 0; n8 < 117; ++n8) {
-			cGame.var_80cc[n8] = (short) class_h3.var_82[n8][1];
-			cGame.var_80d4[n8] = (short) class_h3.var_82[n8][3];
-			cGame.var_80dc[n8] = (short) class_h3.var_82[n8][4];
+			cGame.var_80cc[n8] = (short) Class_h.var_6a[1].var_82[n8][1];
+			cGame.var_80d4[n8] = (short) Class_h.var_6a[1].var_82[n8][3];
+			cGame.var_80dc[n8] = (short) Class_h.var_6a[1].var_82[n8][4];
 		}
 		cGame.var_8094 = new short[22];
 		cGame.var_809c = new int[22];
-		final Class_h class_h4 = Class_h.var_6a[2];
 		for (int n9 = 0; n9 < 22; ++n9) {
-			cGame.var_8094[n9] = (short) class_h4.var_82[n9][1];
-			cGame.var_809c[n9] = class_h4.var_82[n9][2];
+			cGame.var_8094[n9] = (short) Class_h.var_6a[2].var_82[n9][1];
+			cGame.var_809c[n9] = Class_h.var_6a[2].var_82[n9][2];
 		}
 		cGame.var_80a4 = new short[64];
 		cGame.var_80ac = new int[64];
-		final Class_h class_h5 = Class_h.var_6a[0];
 		for (int n10 = 0; n10 < 64; ++n10) {
-			cGame.var_80a4[n10] = (short) class_h5.var_82[n10][1];
-			cGame.var_80ac[n10] = class_h5.var_82[n10][2];
+			cGame.var_80a4[n10] = (short) Class_h.var_6a[0].var_82[n10][1];
+			cGame.var_80ac[n10] = Class_h.var_6a[0].var_82[n10][2];
 		}
 		cGame.var_80bc = new int[10];
-		final Class_h class_h6 = Class_h.var_6a[8];
 		for (int n11 = 0; n11 < 10; ++n11) {
-			cGame.var_80bc[n11] = class_h6.var_82[n11][1];
+			cGame.var_80bc[n11] = Class_h.var_6a[8].var_82[n11][1];
 		}
 		cGame.var_80c4 = new short[63];
-		final Class_h class_h7 = Class_h.var_6a[4];
 		for (int n12 = 0; n12 < 63; ++n12) {
-			cGame.var_80c4[n12] = (short) class_h7.var_82[n12][1];
+			cGame.var_80c4[n12] = (short) Class_h.var_6a[4].var_82[n12][1];
 		}
 		cGame.var_80fc = new short[297];
 		cGame.var_80f4 = new short[297];
-		final Class_h class_h8 = Class_h.var_6a[6];
 		for (int n13 = 0; n13 < 297; ++n13) {
-			cGame.var_80fc[n13] = (short) class_h8.var_82[n13][3];
-			cGame.var_80f4[n13] = (short) class_h8.var_82[n13][1];
+			cGame.var_80fc[n13] = (short) Class_h.var_6a[6].var_82[n13][3];
+			cGame.var_80f4[n13] = (short) Class_h.var_6a[6].var_82[n13][1];
 		}
 		cGame.var_80e4 = new short[83];
-		final Class_h class_h9 = Class_h.var_6a[7];
 		for (int n14 = 0; n14 < 83; ++n14) {
-			cGame.var_80e4[n14] = (short) class_h9.var_82[n14][1];
+			cGame.var_80e4[n14] = (short) Class_h.var_6a[7].var_82[n14][1];
 		}
 		cGame.var_80ec = new short[6];
-		final Class_h class_h10 = Class_h.var_6a[22];
 		for (int n15 = 0; n15 < 6; ++n15) {
-			cGame.var_80ec[n15] = (short) class_h10.var_82[n15][1];
+			cGame.var_80ec[n15] = (short) Class_h.var_6a[22].var_82[n15][1];
 		}
 		cGame.var_80b4 = new short[20];
-		final Class_h class_h11 = Class_h.var_6a[3];
 		for (int n16 = 0; n16 < 20; ++n16) {
-			cGame.var_80b4[n16] = (short) class_h11.var_82[n16][1];
-			if (class_h11.var_82[n16][0] == 10) {
-				cGame.var_76d4 = class_h11.var_82[n16][30];
-			} else if (class_h11.var_82[n16][0] == 13) {
-				cGame.var_701c = class_h11.var_82[n16][30];
+			cGame.var_80b4[n16] = (short) Class_h.var_6a[3].var_82[n16][1];
+			if (Class_h.var_6a[3].var_82[n16][0] == 10) {
+				cGame.var_76d4 = Class_h.var_6a[3].var_82[n16][30];
+			} else if (Class_h.var_6a[3].var_82[n16][0] == 13) {
+				cGame.var_701c = Class_h.var_6a[3].var_82[n16][30];
 			}
 		}
 		cGame.var_8104 = new int[1440];
 		cGame.var_810c = new short[1440];
-		final Class_h class_h12 = Class_h.var_6a[29];
 		for (int n17 = 0; n17 < 1440; ++n17) {
-			cGame.var_8104[n17] = class_h12.var_82[n17][1];
-			cGame.var_810c[n17] = (short) class_h12.var_82[n17][2];
+			cGame.var_8104[n17] = Class_h.var_6a[29].var_82[n17][1];
+			cGame.var_810c[n17] = (short) Class_h.var_6a[29].var_82[n17][2];
 		}
 		cGame.var_8114 = new int[281];
 		cGame.var_811c = new short[281];
-		final Class_h class_h13 = Class_h.var_6a[32];
 		for (int n18 = 0; n18 < 281; ++n18) {
-			cGame.var_8114[n18] = class_h13.var_82[n18][2];
-			cGame.var_811c[n18] = (short) class_h13.var_82[n18][1];
+			cGame.var_8114[n18] = Class_h.var_6a[32].var_82[n18][2];
+			cGame.var_811c[n18] = (short) Class_h.var_6a[32].var_82[n18][1];
 		}
 		sub_2ebbe();
 		cGame.var_6fc4 = new byte[9216];
@@ -22261,7 +22255,7 @@ public final class cGame extends GLLib implements Class_b {
 					sub_2000c(13, 2 + cGame.var_808c, false);
 				}
 				if (cGame.var_6904 != null) {
-					cGame.var_6904.sub_1ca1(GLLib.s_game_frameDT);
+					cGame.var_6904.Update(GLLib.s_game_frameDT);
 				}
 			} else if (cGame.var_77f4 == 2) {
 				cGame.var_68bc[13][2 + cGame.var_808c][6] = 8;
@@ -22274,7 +22268,7 @@ public final class cGame extends GLLib implements Class_b {
 					cGame.var_6904.SetAnim(5, -1, true);
 					cGame.var_6904.SetPos(n26, n27);
 					if (cGame.var_6904 != null) {
-						cGame.var_6904.sub_1ca1(GLLib.s_game_frameDT);
+						cGame.var_6904.Update(GLLib.s_game_frameDT);
 					}
 				}
 			} else if (cGame.var_77f4 == 1 && cGame.var_77dc) {
@@ -22293,7 +22287,7 @@ public final class cGame extends GLLib implements Class_b {
 					cGame.var_7784 = false;
 				}
 				if (cGame.var_6904 != null) {
-					cGame.var_6904.sub_1ca1(GLLib.s_game_frameDT);
+					cGame.var_6904.Update(GLLib.s_game_frameDT);
 				}
 			}
 			for (int n31 = 0; n31 < ((cGame.var_808c - 3 < 6) ? (cGame.var_808c - 3) : 6); ++n31) {
@@ -22327,7 +22321,7 @@ public final class cGame extends GLLib implements Class_b {
 					}
 				}
 				if (cGame.var_68fc[n31] != null) {
-					cGame.var_68fc[n31].sub_1ca1(GLLib.s_game_frameDT);
+					cGame.var_68fc[n31].Update(GLLib.s_game_frameDT);
 				}
 			}
 			cGame.var_779c = sub_35bc4();
@@ -22366,7 +22360,7 @@ public final class cGame extends GLLib implements Class_b {
 					}
 				}
 				if (cGame.var_690c[n35] != null) {
-					cGame.var_690c[n35].sub_1ca1(GLLib.s_game_frameDT);
+					cGame.var_690c[n35].Update(GLLib.s_game_frameDT);
 				}
 			}
 			for (int n37 = 0; n37 < 6; ++n37) {
@@ -23350,7 +23344,7 @@ public final class cGame extends GLLib implements Class_b {
 			sub_d841(1);
 			cGame.var_791c.sub_8ed0();
 			if (cGame.var_791c.var_189d != null) {
-				cGame.var_791c.var_189d.sub_1ca1(GLLib.s_game_frameDT);
+				cGame.var_791c.var_189d.Update(GLLib.s_game_frameDT);
 			}
 			cGame.var_7924 += GLLib.s_game_frameDT;
 			if (cGame.var_6914[0] != null && !sub_2351a(0, 1)) {
@@ -23667,7 +23661,7 @@ public final class cGame extends GLLib implements Class_b {
 		final String s = ((sub_4e1f = GLLib.Text_GetStringFromLocaleFile(n)) == null) ? "" : sub_4e1f;
 		final short n2 = cGame.var_68bc[15][59][5];
 		final short n3 = cGame.var_68bc[15][59][7];
-		final short[] sub_4ac6 = cGame.var_7ffc[sub_237ff(n3)].sub_4ac6(s, n2, false);
+		final short[] sub_4ac6 = cGame.var_7ffc[sub_237ff(n3)].WraptextB(s, n2, false);
 		final ASprite class_e = cGame.var_7ffc[sub_237ff(n3)];
 		final short n4 = sub_4ac6[0];
 		final ASprite class_e2 = class_e;
@@ -24446,9 +24440,9 @@ public final class cGame extends GLLib implements Class_b {
 			if (cGame.var_6afc != -1) {
 				sub_251a0(cGame.var_6afc);
 			}
-			if (sub_8409() != 7 && sub_8409() != 29 && sub_8409() != 28 && sub_8409() != 26 && sub_8409() != 19
-					&& sub_8409() != 20 && sub_8409() != 35 && sub_8409() != 27 && sub_8409() != 8
-					&& sub_8409() != 12) {
+			if (getNextState() != 7 && getNextState() != 29 && getNextState() != 28 && getNextState() != 26 && getNextState() != 19
+					&& getNextState() != 20 && getNextState() != 35 && getNextState() != 27 && getNextState() != 8
+					&& getNextState() != 12) {
 				sub_e522(false);
 			}
 			if (cGame.var_7fd4 == 0) {
@@ -24960,7 +24954,7 @@ public final class cGame extends GLLib implements Class_b {
 		sub_2000c(4, 7, false);
 		sub_4019a(sub_237ff, n, 3);
 		sub_237ff = sub_237ff(cGame.var_68bc[4][2][7]);
-		final short[] sub_4ac6 = cGame.var_7ffc[sub_237ff].sub_4ac6(var_7acc, cGame.var_68bc[4][2][5], false);
+		final short[] sub_4ac6 = cGame.var_7ffc[sub_237ff].WraptextB(var_7acc, cGame.var_68bc[4][2][5], false);
 		int n2 = (sub_4ac6[0] + (sub_4ac6[0] >> 1)) * cGame.var_7ffc[sub_237ff].sub_494e();
 		final int n3 = cGame.var_68bc[4][2][5] + 40;
 		final int n4 = n2 + 40;
@@ -26962,7 +26956,7 @@ public final class cGame extends GLLib implements Class_b {
 		final short n = cGame.var_68bc[8][156][5];
 		final short n2 = cGame.var_68bc[8][156][6];
 		final short n3 = cGame.var_68bc[8][156][7];
-		final short[] sub_4ac6 = cGame.var_7ffc[sub_237ff(n3)].sub_4ac6(cGame.var_7c9c, n, false);
+		final short[] sub_4ac6 = cGame.var_7ffc[sub_237ff(n3)].WraptextB(cGame.var_7c9c, n, false);
 		final ASprite class_e = cGame.var_7ffc[sub_237ff(n3)];
 		final short n4 = sub_4ac6[0];
 		final ASprite class_e2 = class_e;
@@ -27799,7 +27793,7 @@ public final class cGame extends GLLib implements Class_b {
 					sub_1c12f();
 				}
 				for (int l = 0; l < 3; ++l) {
-					cGame.var_68f4[l].sub_1ca1(GLLib.s_game_frameDT);
+					cGame.var_68f4[l].Update(GLLib.s_game_frameDT);
 				}
 				if ((cGame.var_7d9c = System.currentTimeMillis()) > cGame.var_7da4) {
 					if (cGame.var_68bc[24][19][6] != 8) {
@@ -27855,14 +27849,14 @@ public final class cGame extends GLLib implements Class_b {
 				}
 				for (int n12 = 0; n12 < 7; ++n12) {
 					if (cGame.var_68f4[n12].GetAnim() == 0 || cGame.var_68f4[n12].GetAnim() == 2) {
-						cGame.var_68f4[n12].sub_1ca1(GLLib.s_game_frameDT);
+						cGame.var_68f4[n12].Update(GLLib.s_game_frameDT);
 					}
 					if (cGame.var_68f4[n12].GetAnim() == 2 || cGame.var_68f4[n12].GetAnim() == 1) {
 						if (cGame.var_7d74 >= 5 && n2 == cGame.var_7d94 && cGame.var_68f4[n12].sub_1b34()) {
 							sub_23a84(38);
 							sub_4875f();
 						} else {
-							cGame.var_68f4[n12].sub_1ca1(GLLib.s_game_frameDT);
+							cGame.var_68f4[n12].Update(GLLib.s_game_frameDT);
 						}
 					}
 				}
@@ -29499,7 +29493,7 @@ public final class cGame extends GLLib implements Class_b {
 				}
 			}
 			if (cGame.var_6fbc != null) {
-				cGame.var_6fbc.sub_1ca1(GLLib.s_game_frameDT);
+				cGame.var_6fbc.Update(GLLib.s_game_frameDT);
 			}
 			if (cGame.var_6f94 > -1 && cGame.var_6fbc != null && cGame.var_6fbc.GetAnim() < 0) {
 				for (int k = 0; k < cGame.var_6fb4.length; ++k) {
@@ -29749,7 +29743,7 @@ public final class cGame extends GLLib implements Class_b {
 		}
 		for (int n45 = 0; n45 < 30; ++n45) {
 			if (cGame.var_68ec[n45] != null) {
-				cGame.var_68ec[n45].sub_1ca1(GLLib.s_game_frameDT);
+				cGame.var_68ec[n45].Update(GLLib.s_game_frameDT);
 			}
 		}
 		checkForState(2, cGame.s_game_state);

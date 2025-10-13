@@ -23,9 +23,9 @@ final class GLLibPlayer implements Runnable
     int curFlags;
     ASprite sprite;
     private int curAnim;
-    private int var_1597;
-    private int var_159f;
-    private int var_15a7;
+    private int curFrame;
+    private int curTime;
+    private int k_animBaseFrameTime;
     private int nbLoop;
     private boolean animIsOver;
     private int var_15bf;
@@ -86,10 +86,10 @@ final class GLLibPlayer implements Runnable
         this.posX = 0;
         this.posY = 0;
         this.curAnim = -1;
-        this.var_1597 = 0;
+        this.curFrame = 0;
         this.sprite = null;
         this.curFlags = 0;
-        this.var_159f = 0;
+        this.curTime = 0;
         this.nbLoop = 1;
         this.var_15cf = -1;
         this.animIsOver = true;
@@ -124,10 +124,10 @@ final class GLLibPlayer implements Runnable
     final void SetAnim(int anim, final int nbLoop) {
         if (this.animIsOver || anim != this.curAnim) {
             this.curAnim = anim;
-            this.var_15a7 = GLLibPlayer.var_15c7;
+            this.k_animBaseFrameTime = GLLibPlayer.var_15c7;
             if (this.curAnim >= 0) {
-                this.var_1597 = 0 % this.GetNbFrame();
-                this.var_159f = 0;
+                this.curFrame = 0 % this.GetNbFrame();
+                this.curTime = 0;
             }
             this.nbLoop = nbLoop - 1;
             this.animIsOver = false;
@@ -139,12 +139,12 @@ final class GLLibPlayer implements Runnable
     }
     
     final void sub_1941() {
-        this.var_1597 = GLLib.Math_Rand(0, this.GetNbFrame());
-        this.var_159f = 0;
+        this.curFrame = GLLib.Math_Rand(0, this.GetNbFrame());
+        this.curTime = 0;
     }
     
     final int sub_196d() {
-        return this.var_1597;
+        return this.curFrame;
     }
     
     final void SetTransform(final int transform) {
@@ -199,9 +199,9 @@ final class GLLibPlayer implements Runnable
         return -1;
     }
     
-    private int sub_1aeb() {
+    private int GetDuration() {
         if (this.curAnim >= 0) {
-            return this.sprite.sub_2fc8(this.curAnim, this.var_1597) * this.var_15a7;
+            return this.sprite.GetAFrameTime(this.curAnim, this.curFrame) * this.k_animBaseFrameTime;
         }
         return 0;
     }
@@ -226,29 +226,29 @@ final class GLLibPlayer implements Runnable
         if (this.var_15cf != -1) {
             final int sub_6475 = this.sprite.sub_6475();
             this.sprite.sub_6434(this.var_15cf);
-            this.sprite.sub_700c(GLLib.g, this.curAnim, this.var_1597, this.posX, this.posY, this.curFlags);
+            this.sprite.PaintAFrame(GLLib.g, this.curAnim, this.curFrame, this.posX, this.posY, this.curFlags);
             this.sprite.sub_6434(sub_6475);
         }
         else {
-            this.sprite.sub_700c(GLLib.g, this.curAnim, this.var_1597, this.posX, this.posY, this.curFlags);
+            this.sprite.PaintAFrame(GLLib.g, this.curAnim, this.curFrame, this.posX, this.posY, this.curFlags);
         }
         if (b) {
             GLLib.var_1fe7 &= 0xFFF0081F;
         }
     }
     
-    final void sub_1ca1(final int n) {
+    final void Update(final int DT) {
         if (this.animIsOver || this.curAnim < 0) {
             return;
         }
-        int n2;
-        if ((n2 = this.sub_1aeb()) == 0) {
-            return;
+        int duration = this.GetDuration();
+        if (duration == 0) {
+           return;
         }
-        while (this.var_159f >= n2) {
-            this.var_159f -= n2;
-            if (this.var_1597 < this.sprite.GetAFrames(this.curAnim) - 1) {
-                ++this.var_1597;
+        while (this.curTime >= duration) {
+            this.curTime -= duration;
+            if (this.curFrame < this.sprite.GetAFrames(this.curAnim) - 1) {
+                ++this.curFrame;
             }
             else {
                 if (this.nbLoop == 0) {
@@ -258,13 +258,14 @@ final class GLLibPlayer implements Runnable
                 if (this.nbLoop > 0) {
                     --this.nbLoop;
                 }
-                this.var_1597 = 0;
+                this.curFrame = 0;
             }
-            if ((n2 = this.sub_1aeb()) == 0) {
+            duration = this.GetDuration();
+            if (duration == 0) {
                 break;
             }
         }
-        this.var_159f += n;
+        this.curTime += DT;
     }
     
     final void sub_1d9e(final int var_15bf) {
@@ -1365,7 +1366,7 @@ final class GLLibPlayer implements Runnable
             return;
         }
         GLLib.sub_36b7(graphics, n6, n7, n4, n5, true);
-        GLLib.sub_38df(graphics, GLLibPlayer.s_TilesetLayerImage[n][0], n3 - n7 + ASprite.var_10cf - GLLibPlayer.s_TilesetLayerInfo[n][8], n6 - n2, 20, false);
+        GLLib.sub_38df(graphics, GLLibPlayer.s_TilesetLayerImage[n][0], n3 - n7 + ASprite.s_screenWidth - GLLibPlayer.s_TilesetLayerInfo[n][8], n6 - n2, 20, false);
     }
     
     private static void Tileset_UpdateBuffer(final Graphics graphics, final int n, final int n2, final int n3, final int n4, final int n5, final int n6, final int n7) {
@@ -1384,8 +1385,8 @@ final class GLLibPlayer implements Runnable
         if (useCB) {
             final int var_10c7 = GLLibPlayer.s_TilesetLayerInfo[nLayer][7];
             final int var_10cf2 = GLLibPlayer.s_TilesetLayerInfo[nLayer][8];
-            ASprite.var_10c7 = var_10c7;
-            ASprite.var_10cf = var_10cf2;
+            ASprite.s_screenHeight = var_10c7;
+            ASprite.s_screenWidth = var_10cf2;
         }
         if (useCB) {
             originDestX += tileX0 * GLLibPlayer.s_TilesetInfo[2] % GLLibPlayer.s_TilesetLayerInfo[nLayer][7];
@@ -1420,8 +1421,8 @@ final class GLLibPlayer implements Runnable
             if (nbTileX < 0) {
                 final int var_1ddf = GLLib.s_screenWidth;
                 nLayer = GLLib.s_screenHeight;
-                ASprite.var_10c7 = var_1ddf;
-                ASprite.var_10cf = nLayer;
+                ASprite.s_screenHeight = var_1ddf;
+                ASprite.s_screenWidth = nLayer;
                 return;
             }
         }
@@ -1448,8 +1449,8 @@ final class GLLibPlayer implements Runnable
             if (nbTileY < 0) {
                 final int var_1ddf2 = GLLib.s_screenWidth;
                 nLayer = GLLib.s_screenHeight;
-                ASprite.var_10c7 = var_1ddf2;
-                ASprite.var_10cf = nLayer;
+                ASprite.s_screenHeight = var_1ddf2;
+                ASprite.s_screenWidth = nLayer;
                 return;
             }
         }
@@ -1554,8 +1555,8 @@ final class GLLibPlayer implements Runnable
         }
         final int var_1ddf3 = GLLib.s_screenWidth;
         nLayer = GLLib.s_screenHeight;
-        ASprite.var_10c7 = var_1ddf3;
-        ASprite.var_10cf = nLayer;
+        ASprite.s_screenHeight = var_1ddf3;
+        ASprite.s_screenWidth = nLayer;
     }
     
     private static final void sub_59b2(final int n, final int n2, final int n3, final int n4, final int n5) {
@@ -1685,9 +1686,8 @@ final class GLLibPlayer implements Runnable
             new StringBuffer().append("Tileset_GetTile: y value out of bound [").append(sub_59f0).append("]  0 <= y < ").append(GLLibPlayer.s_TilesetLayerInfo[0][3]);
             return -1;
         }
-        final int n2 = i = i;
         n = sub_59f0;
-        sub_59f0 = n2;
+        sub_59f0 = i;
         i = GLLibPlayer.s_TilesetLayerInfo[0][2];
         return sub_7ab4(0, 0, n * i + sub_59f0, false);
     }
@@ -1857,8 +1857,8 @@ final class GLLibPlayer implements Runnable
             final Graphics graphics = GLLibPlayer.s_TilesetLayerGraphics[0][0];
             final int var_10c7 = GLLibPlayer.s_TilesetLayerInfo[0][7];
             final int var_10cf = GLLibPlayer.s_TilesetLayerInfo[0][8];
-            ASprite.var_10c7 = var_10c7;
-            ASprite.var_10cf = var_10cf;
+            ASprite.s_screenHeight = var_10c7;
+            ASprite.s_screenWidth = var_10cf;
             final int sub_35c6 = GLLib.GetClip(graphics, true);
             final int sub_3240 = GLLib.sub_3600(graphics, true);
             final int sub_3241 = GLLib.sub_3643(graphics, true);
@@ -1869,12 +1869,12 @@ final class GLLibPlayer implements Runnable
             }
             final int n25 = array[7];
             final int n26 = array[8];
-            final int var_10c8 = ASprite.var_10c7;
-            final int var_10cf2 = ASprite.var_10cf;
+            final int var_10c8 = ASprite.s_screenHeight;
+            final int var_10cf2 = ASprite.s_screenWidth;
             final int var_10c9 = n25;
             final int var_10cf3 = n26;
-            ASprite.var_10c7 = var_10c9;
-            ASprite.var_10cf = var_10cf3;
+            ASprite.s_screenHeight = var_10c9;
+            ASprite.s_screenWidth = var_10cf3;
             final int n27 = var_16f7;
             n2 += sub_31e6;
             sub_59f0 += sub_3238;
@@ -2020,12 +2020,12 @@ final class GLLibPlayer implements Runnable
             GLLib.SetClip(graphics2, n65, sub_31e6, n68, n, true);
             final int var_10c10 = var_10c8;
             var_1de7 = var_10cf2;
-            ASprite.var_10c7 = var_10c10;
-            ASprite.var_10cf = var_1de7;
+            ASprite.s_screenHeight = var_10c10;
+            ASprite.s_screenWidth = var_1de7;
             final int var_1ddf = GLLib.s_screenWidth;
             var_1de7 = GLLib.s_screenHeight;
-            ASprite.var_10c7 = var_1ddf;
-            ASprite.var_10cf = var_1de7;
+            ASprite.s_screenHeight = var_1ddf;
+            ASprite.s_screenWidth = var_1de7;
         }
     }
     
@@ -2046,7 +2046,7 @@ final class GLLibPlayer implements Runnable
         }
         else if (n11 == 5) {
             n = n7;
-            n7 = ASprite.var_10cf - n8 - n10;
+            n7 = ASprite.s_screenWidth - n8 - n10;
             GLLib.sub_3bae(graphics, (int[])o, 0, n10, n7, n, n10, n9, true, false, n2, -1, false);
         }
         else if (n11 == 4) {
@@ -2077,8 +2077,8 @@ final class GLLibPlayer implements Runnable
         (graphics = GLLibPlayer.s_TilesetLayerGraphics[n][0]).setColor(GLLibPlayer.s_TilesetLayerInfo[n][4]);
         final int var_10c7 = GLLibPlayer.s_TilesetLayerInfo[n][7];
         final int var_10cf = GLLibPlayer.s_TilesetLayerInfo[n][8];
-        ASprite.var_10c7 = var_10c7;
-        ASprite.var_10cf = var_10cf;
+        ASprite.s_screenHeight = var_10c7;
+        ASprite.s_screenWidth = var_10cf;
         if ((var_1de7 %= var_10c7) < 0) {
             var_1de7 += var_10c7;
         }
@@ -2105,8 +2105,8 @@ final class GLLibPlayer implements Runnable
         sub_59b2(n, var_1de7, n2, n3, n4);
         final int var_1ddf = GLLib.s_screenWidth;
         var_1de7 = GLLib.s_screenHeight;
-        ASprite.var_10c7 = var_1ddf;
-        ASprite.var_10cf = var_1de7;
+        ASprite.s_screenHeight = var_1ddf;
+        ASprite.s_screenWidth = var_1de7;
     }
     
     static {
