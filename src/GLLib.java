@@ -2342,8 +2342,8 @@ public abstract class GLLib extends Canvas implements Runnable
         return Class_o.getFullSupportUrl();
     }
     
-    static void sub_7903() {
-        Class_o.sub_43d0();
+    static void IAP_Reset() {
+        Class_o.reset();
     }
     
     static long IAP_GetVirtualCurrency(final long basecurrency, int itemIndex, final String itemType) {

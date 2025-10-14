@@ -680,7 +680,7 @@ public final class cGame extends GLLib implements Class_b {
 	private static int[] var_7c84;
 	private static int[] var_7c8c;
 	private static int[] var_7c94;
-	private static String var_7c9c;
+	private static String s_iapTermsConditions;
 	private static int var_7ca4;
 	private static int var_7cac;
 	private static int var_7cb4;
@@ -739,7 +739,7 @@ public final class cGame extends GLLib implements Class_b {
 	private static int[] var_7e5c;
 	private static String[] s_questNames;
 	private static String[] s_questIntros;
-	private static String[] m_questDescriptions;
+	private static String[] s_questDescriptions;
 	private static int[] var_7e7c;
 	private static int[] var_7e84;
 	private static String[] s_questQuests;
@@ -7007,7 +7007,7 @@ public final class cGame extends GLLib implements Class_b {
 			cGame.var_68cc[8][7] = Integer.toString(getCash());
 			sub_177a2();
 			sub_45e60(false);
-			GLLib.sub_7903();
+			GLLib.IAP_Reset();
 			sub_17989();
 			return;
 		}
@@ -7106,7 +7106,7 @@ public final class cGame extends GLLib implements Class_b {
 	}
 
 	private static void sub_16b22() {
-		if (cGame.var_7c9c == null || cGame.var_7c9c.equals("")) {
+		if (cGame.s_iapTermsConditions == null || cGame.s_iapTermsConditions.equals("")) {
 			sub_16aec();
 			return;
 		}
@@ -7600,7 +7600,7 @@ public final class cGame extends GLLib implements Class_b {
 
 	private static void sub_17b24() {
 		sub_44d11();
-		if (cGame.var_7c9c != null && !cGame.var_7c9c.equals("")) {
+		if (cGame.s_iapTermsConditions != null && !cGame.s_iapTermsConditions.equals("")) {
 			sub_1715b();
 			sub_17332();
 			if (!cGame.var_6924) {
@@ -26855,7 +26855,7 @@ public final class cGame extends GLLib implements Class_b {
 			return;
 		}
 		case 20: {
-			GLLib.sub_7903();
+			GLLib.IAP_Reset();
 			sub_45ea9();
 			sub_1715b();
 			sub_16bcb();
@@ -26949,11 +26949,10 @@ public final class cGame extends GLLib implements Class_b {
 	}
 
 	private static void sub_44d11() {
-		cGame.var_7c9c = GLLib.IAP_GetTermsAndConditions();
-		final short n = cGame.var_68bc[8][156][5];
+		cGame.s_iapTermsConditions = GLLib.IAP_GetTermsAndConditions();
 		final short n2 = cGame.var_68bc[8][156][6];
 		final short n3 = cGame.var_68bc[8][156][7];
-		final short[] sub_4ac6 = cGame.var_7ffc[sub_237ff(n3)].WraptextB(cGame.var_7c9c, n, false);
+		final short[] sub_4ac6 = cGame.var_7ffc[sub_237ff(n3)].WraptextB(cGame.s_iapTermsConditions, cGame.var_68bc[8][156][5], false);
 		final ASprite class_e = cGame.var_7ffc[sub_237ff(n3)];
 		final short n4 = sub_4ac6[0];
 		final ASprite class_e2 = class_e;
@@ -27214,7 +27213,7 @@ public final class cGame extends GLLib implements Class_b {
 					case 7: {
 						sub_2e549((int) GLLib.IAP_GetVirtualCurrencyFromBase(200L));
 						cGame.var_68cc[8][7] = Integer.toString(getCash());
-						GLLib.sub_7903();
+						GLLib.IAP_Reset();
 						sub_17989();
 						break;
 					}
@@ -27386,10 +27385,10 @@ public final class cGame extends GLLib implements Class_b {
 			case 10: {
 				sub_174e9();
 				if (cGame.var_6924) {
-					if (cGame.var_7c9c != null) {
+					if (cGame.s_iapTermsConditions != null) {
 						GLLib.SetClip(GLLib.g, cGame.var_68bc[8][156][2], cGame.var_68bc[8][156][3],
 								cGame.var_68bc[8][156][5], cGame.var_68bc[8][156][6], true);
-						drawText(cGame.var_7c9c, 8, 156, 0, cGame.var_7d2c);
+						drawText(cGame.s_iapTermsConditions, 8, 156, 0, cGame.var_7d2c);
 						GLLib.SetClip(GLLib.g, 0, 0, GLLib.s_screenWidth, GLLib.s_screenHeight, true);
 					}
 				} else if (!cGame.var_6954) {
@@ -28357,7 +28356,7 @@ public final class cGame extends GLLib implements Class_b {
 				final String sub_4e1f;
 				sub_1df06(((sub_4e1f = GLLib.Text_GetStringFromLocaleFile(145)) == null) ? "" : sub_4e1f, 5, 1, 0, 0);
 				sub_1df06(cGame.s_questNames[cGame.var_7f6c], 5, 3, 0, 0);
-				drawText(cGame.m_questDescriptions[cGame.var_7f6c], 5, 4, 0, 0);
+				drawText(cGame.s_questDescriptions[cGame.var_7f6c], 5, 4, 0, 0);
 				if (cGame.s_questQuests[cGame.var_7f6c] != "") {
 					drawText(cGame.s_questQuests[cGame.var_7f6c], 5, 7, 0, 0);
 					sub_1df06(""
@@ -28652,7 +28651,7 @@ public final class cGame extends GLLib implements Class_b {
 		cGame.var_7e5c = new int[cGame.var_7f74];
 		cGame.s_questNames = new String[cGame.var_7f74];
 		cGame.s_questIntros = new String[cGame.var_7f74];
-		cGame.m_questDescriptions = new String[cGame.var_7f74];
+		cGame.s_questDescriptions = new String[cGame.var_7f74];
 		cGame.var_7e84 = new int[cGame.var_7f74];
 		cGame.var_7e7c = new int[cGame.var_7f74];
 		cGame.s_questQuests = new String[cGame.var_7f74];
@@ -28688,7 +28687,7 @@ public final class cGame extends GLLib implements Class_b {
 			cGame.var_7e5c[c] = 0;
 			cGame.s_questNames[c] = "";
 			cGame.s_questIntros[c] = "";
-			cGame.m_questDescriptions[c] = "";
+			cGame.s_questDescriptions[c] = "";
 			cGame.var_7e84[c] = 0;
 			cGame.var_7e7c[c] = 0;
 			cGame.s_questQuests[c] = "";
@@ -29001,11 +29000,11 @@ public final class cGame extends GLLib implements Class_b {
 		int n8;
 		String s3;
 		if ((n7 = class_h.var_82[n][6]) < 0) {
-			array3 = cGame.m_questDescriptions;
+			array3 = cGame.s_questDescriptions;
 			n8 = n2;
 			s3 = "%DESC TEXT ERROR%";
 		} else {
-			array3 = cGame.m_questDescriptions;
+			array3 = cGame.s_questDescriptions;
 			n8 = n2;
 			final String sub_4e1f3;
 			s3 = (((sub_4e1f3 = GLLib.Text_GetStringFromLocaleFile(n7)) == null) ? "" : sub_4e1f3);
@@ -29117,7 +29116,7 @@ public final class cGame extends GLLib implements Class_b {
 		cGame.var_7e5c[var_7f6c] = 0;
 		cGame.s_questNames[var_7f6c] = "";
 		cGame.s_questIntros[var_7f6c] = "";
-		cGame.m_questDescriptions[var_7f6c] = "";
+		cGame.s_questDescriptions[var_7f6c] = "";
 		cGame.var_7e84[var_7f6c] = 0;
 		cGame.var_7e7c[var_7f6c] = 0;
 		cGame.s_questQuests[var_7f6c] = "";
@@ -29155,7 +29154,7 @@ public final class cGame extends GLLib implements Class_b {
 			cGame.var_7e5c[n2] = cGame.var_7e5c[n2 + 1];
 			cGame.s_questNames[n2] = cGame.s_questNames[n2 + 1];
 			cGame.s_questIntros[n2] = cGame.s_questIntros[n2 + 1];
-			cGame.m_questDescriptions[n2] = cGame.m_questDescriptions[n2 + 1];
+			cGame.s_questDescriptions[n2] = cGame.s_questDescriptions[n2 + 1];
 			cGame.var_7e84[n2] = cGame.var_7e84[n2 + 1];
 			cGame.var_7e7c[n2] = cGame.var_7e7c[n2 + 1];
 			cGame.s_questQuests[n2] = cGame.s_questQuests[n2 + 1];
@@ -29192,7 +29191,7 @@ public final class cGame extends GLLib implements Class_b {
 			cGame.var_7e5c[n] = 0;
 			cGame.s_questNames[n] = "";
 			cGame.s_questIntros[n] = "";
-			cGame.m_questDescriptions[n] = "";
+			cGame.s_questDescriptions[n] = "";
 			cGame.var_7e84[n] = 0;
 			cGame.var_7e7c[n] = 0;
 			cGame.s_questQuests[n] = "";
@@ -29793,7 +29792,7 @@ public final class cGame extends GLLib implements Class_b {
 		cGame.var_7e5c = null;
 		cGame.s_questNames = null;
 		cGame.s_questIntros = null;
-		cGame.m_questDescriptions = null;
+		cGame.s_questDescriptions = null;
 		cGame.var_7e84 = null;
 		cGame.var_7e7c = null;
 		cGame.s_questQuests = null;
@@ -30377,7 +30376,7 @@ public final class cGame extends GLLib implements Class_b {
 		cGame.var_7c84 = new int[6];
 		cGame.var_7c8c = new int[6];
 		cGame.var_7c94 = new int[6];
-		cGame.var_7c9c = null;
+		cGame.s_iapTermsConditions = null;
 		cGame.var_7ca4 = 0;
 		cGame.var_7cac = -1;
 		cGame.var_7cb4 = 0;

@@ -675,7 +675,7 @@ public final class Class_o {
 		//Class_o.var_2b5d = false;
 	}
 
-	public static void sub_43d0() {
+	public static void reset() {
 		Class_o.currentAutoDetectedRegion = -1;
 		Class_o.var_29ed = -1;
 		Class_o.currentValidProfiles = null;
