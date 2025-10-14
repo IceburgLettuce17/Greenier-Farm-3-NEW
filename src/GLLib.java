@@ -85,11 +85,11 @@ public abstract class GLLib extends Canvas implements Runnable
     private static int[] var_1f7f;
     private static boolean var_1f87;
     static String text_encoding;
-    private static int[] var_1f97;
+    private static int[] idk;
     private static byte[][] localeGroups;
     private static int[] var_1fa7;
     private static int[][] var_1faf;
-    private static String[][] s_localeStrings;
+    private static String[][] text_stringCacheArray;
     private static RecordStore s_rs;
     private static int var_1fc7;
     private static int[] var_1fcf;
@@ -781,7 +781,7 @@ public abstract class GLLib extends Canvas implements Runnable
         graphics.clipRect(n, n2, n3, n4);
     }
     
-    static final void SetClip(final Graphics _g, int x, int y, int width, int height, final boolean b) {
+    static final void SetClip(final Graphics _g, int x, int y, int width, int height, final boolean processAlpha) {
         x = ASprite.s_screenWidth - y - height;
         y = x;
         width = height;
@@ -805,124 +805,106 @@ public abstract class GLLib extends Canvas implements Runnable
         _g.fillRect(x, y, width, height);
     }
     
-    static final void DrawRect(final Graphics _g, int x, int y, int width, int height, final boolean b) {
-        final int n5 = x;
+    static final void DrawRect(final Graphics _g, int x, int y, int width, int height, final boolean processAlpha) {
         x = ASprite.s_screenWidth - y - height - 1;
-        y = n5;
+        y = x;
         width = height;
         height = width;
         _g.drawRect(x, y, width, height);
     }
     
-    static final void sub_37ef(final Graphics graphics, int n, int n2, int n3, int n4, int n5, final int n6, final boolean b) {
-        final int n7 = n;
-        n = ASprite.s_screenWidth - n2 - n4;
-        n2 = n7;
-        final int n8 = n3;
-        n3 = n4;
-        n4 = n8;
-        n5 -= 90;
-        graphics.fillArc(n, n2, n3, n4, n5, n6);
+    static final void FillArc(final Graphics _g, int x, int y, int width, int height, int startAngle, final int arcAngle, final boolean processAlpha) {
+        x = ASprite.s_screenWidth - y - height;
+        y = x;
+        width = height;
+        height = width;
+        startAngle -= 90;
+        _g.fillArc(x, y, width, height, startAngle, arcAngle);
     }
     
-    static final void sub_3833(final Graphics graphics, int n, int n2, int n3, int n4, int n5, final int n6, final boolean b) {
-        final int n7 = n;
-        n = ASprite.s_screenWidth - n2 - n4;
-        n2 = n7;
-        final int n8 = n3;
-        n3 = n4;
-        n4 = n8;
-        n5 -= 90;
-        graphics.drawArc(n, n2, n3, n4, n5, n6);
+    static final void DrawArc(final Graphics _g, int x, int y, int width, int height, int startAngle, final int arcAngle, final boolean processAlpha) {
+        x = ASprite.s_screenWidth - y - height;
+        y = x;
+        width = height;
+        height = width;
+        startAngle -= 90;
+        _g.drawArc(x, y, width, height, startAngle, arcAngle);
     }
     
-    static final void sub_3877(final String s, final int n, final int n2, int n3) {
+    static final void DrawString(final String str, final int x, final int y, int anchor) {
         try {
-            int n4 = n3;
-            if ((n3 & 0x2) != 0x0) {
-                n4 = ((n3 & 0xFFFFFFFD) | 0x40);
+            int _anchor = anchor;
+            if ((anchor & 0x2) != 0x0) {
+                _anchor = ((anchor & 0xFFFFFFFD) | 0x40);
             }
-            n3 = n4;
-            GLLib.g.drawString(s, n, n2, n3);
+            anchor = _anchor;
+            GLLib.g.drawString(str, x, y, anchor);
         }
         catch (final Exception ex) {}
     }
     
-    static final void sub_38df(final Graphics graphics, GLLibImage class_l, final int n, final int n2, int n3, final boolean b) {
+    static final void DrawImage(final Graphics _g, GLLibImage img, final int x, final int y, int width, final boolean processAlpha) {
         try {
-            if (b) {
-                final GLLibImage class_l2 = class_l;
-                final int width = class_l.image.getWidth();
-                final int height = class_l.image.getHeight();
-                n3 = width;
-                class_l = class_l2;
-                sub_3966(graphics, class_l2, 0, 0, n3, height, 0, n, n2, 20, true);
+            if (processAlpha) {
+                width = img.image.getWidth();
+                DrawRegion(_g, img, 0, 0, width, img.image.getHeight(), 0, x, y, 20, true);
                 return;
             }
-            graphics.drawImage(class_l.image, n, n2, 20);
+            _g.drawImage(img.image, x, y, 20);
         }
         catch (final Exception ex) {}
     }
     
-    static final void sub_3966(final Graphics graphics, final GLLibImage class_l, final int n, int n2, int n3, int n4, int n5, int n6, int n7, int n8, final boolean b) {
-        if (b) {
-            if (n5 == 0) {
-                n5 = 5;
+    static final void DrawRegion(final Graphics _g, final GLLibImage src, final int x_src, int y_src, int width, int height, int transform, int x_dest, int y_dest, int anchor, final boolean processAlpha) {
+        if (processAlpha) {
+            if (transform == 0) {
+                transform = 5;
             }
-            else if (n5 == 5) {
-                n5 = 3;
+            else if (transform == 5) {
+                transform = 3;
             }
-            else if (n5 == 3) {
-                n5 = 6;
+            else if (transform == 3) {
+                transform = 6;
             }
-            else if (n5 == 6) {
-                n5 = 0;
+            else if (transform == 6) {
+                transform = 0;
             }
-            else if (n5 == 2) {
-                n5 = 7;
+            else if (transform == 2) {
+                transform = 7;
             }
-            n2 = n6;
-            n6 = ASprite.s_screenWidth - n7;
-            n7 = n2;
-            n8 = 24;
+            y_src = x_dest;
+            x_dest = ASprite.s_screenWidth - y_dest;
+            y_dest = y_src;
+            anchor = 24;
         }
-        if (n3 >= class_l.image.getWidth()) {
-            n3 += class_l.image.getWidth() - n3;
+        if (width >= src.image.getWidth()) {
+            width += src.image.getWidth() - width;
         }
-        if (n4 >= class_l.image.getHeight()) {
-            n4 += class_l.image.getHeight() - n4;
+        if (height >= src.image.getHeight()) {
+            height += src.image.getHeight() - height;
         }
-        if (n4 <= 0 || n3 <= 0) {
+        if (height <= 0 || width <= 0) {
             return;
         }
         try {
-            graphics.drawRegion(class_l.image, 0, 0, n3, n4, n5, n6, n7, n8);
+            _g.drawRegion(src.image, 0, 0, width, height, transform, x_dest, y_dest, anchor);
         }
         catch (final Exception ex) {}
     }
     
-    static final void sub_3b26(final Graphics graphics, int n, int n2, int n3, int n4, int n5, int n6, final boolean b) {
-        final int n7 = n;
-        n = ASprite.s_screenWidth - n2 - 1;
-        n2 = n7;
-        final int n8 = n3;
-        n3 = ASprite.s_screenWidth - n4 - 1;
-        n4 = n8;
-        final int n9 = n5;
-        n5 = ASprite.s_screenWidth - n6 - 1;
-        n6 = n9;
-        graphics.fillTriangle(n, n2, n3, n4, n5, n6);
-        final int n10 = n;
-        final int n11 = n2;
-        final int n12 = n3;
-        final int n13 = n11;
-        final int n14 = n10;
-        sub_3731(graphics, n, n2, n3, n4, true);
-        final int n15 = n5;
-        n3 = n6;
-        n2 = n15;
-        sub_3731(graphics, n14, n13, n2, n6, true);
-        sub_3731(graphics, n2, n3, n12, n4, true);
+    static final void FillTriangle(final Graphics _g, int x1, int y1, int x2, int y2, int x3, int y3, final boolean b) {
+        x1 = ASprite.s_screenWidth - y1 - 1;
+        y1 = x1;
+        x2 = ASprite.s_screenWidth - y2 - 1;
+        y2 = x2;
+        x3 = ASprite.s_screenWidth - y3 - 1;
+        y3 = x3;
+        _g.fillTriangle(x1, y1, x2, y2, x3, y3);
+        sub_3731(_g, x1, y1, x2, y2, true);
+        x2 = y3;
+        y1 = x3;
+        sub_3731(_g, x1, y1, y1, y3, true);
+        sub_3731(_g, y1, x2, x2, y2, true);
     }
     
     static final void sub_3bae(final Graphics graphics, int[] sub_9c11, final int n, int n2, int n3, int n4, int n5, int n6, final boolean b, final boolean b2, int n7, int n8, final boolean b3) {
@@ -976,15 +958,15 @@ public abstract class GLLib extends Canvas implements Runnable
         class_l.getRGB(array, 0, n2, 0, 0, n5, n6);
     }
     
-    static int sub_3d63(final byte[] array, int n, final byte b) {
-        array[n++] = b;
-        return n;
+    static int Mem_SetByte(final byte[] dst, int dst_off, final byte src) {
+        dst[dst_off++] = src;
+        return dst_off;
     }
     
-    static int sub_3d86(final byte[] array, int n, final short n2) {
-        array[n++] = (byte)n2;
-        array[n++] = (byte)(n2 >>> 8);
-        return n;
+    static int Mem_SetShort(final byte[] dst, int dst_off, final short src) {
+        dst[dst_off++] = (byte)src;
+        dst[dst_off++] = (byte)(src >>> 8);
+        return dst_off;
     }
     
     static int Mem_SetInt(final byte[] dst, int dst_off, final int src) {
@@ -995,16 +977,16 @@ public abstract class GLLib extends Canvas implements Runnable
         return dst_off;
     }
     
-    static int sub_3df9(final byte[] array, int n, final long n2) {
-        array[n++] = (byte)(n2 & 0xFFL);
-        array[n++] = (byte)(n2 >>> 8 & 0xFFL);
-        array[n++] = (byte)(n2 >>> 16 & 0xFFL);
-        array[n++] = (byte)(n2 >>> 24 & 0xFFL);
-        array[n++] = (byte)(n2 >>> 32 & 0xFFL);
-        array[n++] = (byte)(n2 >>> 40 & 0xFFL);
-        array[n++] = (byte)(n2 >>> 48 & 0xFFL);
-        array[n++] = (byte)(n2 >>> 56 & 0xFFL);
-        return n;
+    static int Mem_SetLong(final byte[] dst, int dst_off, final long src) {
+        dst[dst_off++] = (byte)(src & 0xFFL);
+        dst[dst_off++] = (byte)(src >>> 8 & 0xFFL);
+        dst[dst_off++] = (byte)(src >>> 16 & 0xFFL);
+        dst[dst_off++] = (byte)(src >>> 24 & 0xFFL);
+        dst[dst_off++] = (byte)(src >>> 32 & 0xFFL);
+        dst[dst_off++] = (byte)(src >>> 40 & 0xFFL);
+        dst[dst_off++] = (byte)(src >>> 48 & 0xFFL);
+        dst[dst_off++] = (byte)(src >>> 56 & 0xFFL);
+        return dst_off;
     }
     
     static byte Mem_GetByte(final byte[] src, final int src_off) {
@@ -1027,20 +1009,20 @@ public abstract class GLLib extends Canvas implements Runnable
         Object o = null;
         try {
             final int sub_4332;
-            final int n = (sub_4332 = sub_4332(inputStream)) >> 4;
+            final int n = (sub_4332 = Stream_Read(inputStream)) >> 4;
             final int n2 = sub_4332 & 0x7;
             int n3;
             if ((sub_4332 & 0x8) != 0x0) {
-                n3 = sub_436e(inputStream);
+                n3 = Stream_Read16(inputStream);
             }
             else {
-                n3 = sub_4332(inputStream);
+                n3 = Stream_Read(inputStream);
             }
             switch (n2) {
                 case 0: {
                     final byte[] array = new byte[n3];
                     for (int i = 0; i < n3; ++i) {
-                        array[i] = (byte)sub_4332(inputStream);
+                        array[i] = (byte)Stream_Read(inputStream);
                     }
                     o = array;
                     break;
@@ -1049,12 +1031,12 @@ public abstract class GLLib extends Canvas implements Runnable
                     final short[] array2 = new short[n3];
                     if (n == 0) {
                         for (int j = 0; j < n3; ++j) {
-                            array2[j] = (byte)sub_4332(inputStream);
+                            array2[j] = (byte)Stream_Read(inputStream);
                         }
                     }
                     else {
                         for (int k = 0; k < n3; ++k) {
-                            array2[k] = (short)sub_436e(inputStream);
+                            array2[k] = (short)Stream_Read16(inputStream);
                         }
                     }
                     o = array2;
@@ -1064,17 +1046,17 @@ public abstract class GLLib extends Canvas implements Runnable
                     final int[] array3 = new int[n3];
                     if (n == 0) {
                         for (int l = 0; l < n3; ++l) {
-                            array3[l] = (byte)sub_4332(inputStream);
+                            array3[l] = (byte)Stream_Read(inputStream);
                         }
                     }
                     else if (n == 1) {
                         for (int n4 = 0; n4 < n3; ++n4) {
-                            array3[n4] = (short)sub_436e(inputStream);
+                            array3[n4] = (short)Stream_Read16(inputStream);
                         }
                     }
                     else {
                         for (int n5 = 0; n5 < n3; ++n5) {
-                            array3[n5] = sub_439d(inputStream);
+                            array3[n5] = Stream_Read32(inputStream);
                         }
                     }
                     o = array3;
@@ -1120,35 +1102,35 @@ public abstract class GLLib extends Canvas implements Runnable
         return o;
     }
     
-    private static int sub_4332(final InputStream inputStream) throws IOException {
-        final int read;
-        if ((read = inputStream.read()) >= 0) {
+    private static int Stream_Read(final InputStream is) throws IOException {
+        final int read = is.read();
+        if (read >= 0) {
             ++GLLib.Stream_readOffset;
         }
         return read;
     }
     
-    private static int sub_436e(final InputStream inputStream) throws IOException {
-        return (sub_4332(inputStream) & 0xFF) | (sub_4332(inputStream) & 0xFF) << 8;
+    private static int Stream_Read16(final InputStream is) throws IOException {
+        return (Stream_Read(is) & 0xFF) | (Stream_Read(is) & 0xFF) << 8;
     }
     
-    private static int sub_439d(final InputStream inputStream) throws IOException {
-        return (sub_4332(inputStream) & 0xFF) | (sub_4332(inputStream) & 0xFF) << 8 | ((sub_4332(inputStream) & 0xFF) << 16 | (sub_4332(inputStream) & 0xFF) << 24);
+    private static int Stream_Read32(final InputStream is) throws IOException {
+        return (Stream_Read(is) & 0xFF) | (Stream_Read(is) & 0xFF) << 8 | ((Stream_Read(is) & 0xFF) << 16 | (Stream_Read(is) & 0xFF) << 24);
     }
     
-    private static int sub_43e4(final InputStream inputStream, final byte[] b, int off, final int n) {
+    private static int Stream_ReadFully(final InputStream inputStream, final byte[] array, int off, final int length) {
         off = 0;
-        int i = n;
+        int len = length;
         try {
-            while (i > 0) {
-                final int read = inputStream.read(b, off, i);
-                i -= read;
+            while (len > 0) {
+                final int read = inputStream.read(array, off, len);
+                len -= read;
                 off += read;
             }
         }
         catch (final Exception ex) {}
-        GLLib.Stream_readOffset += n;
-        return n;
+        GLLib.Stream_readOffset += length;
+        return length;
     }
     
     private static int[] sub_447e(final byte[] array, final boolean b, int[] array2) {
@@ -1378,44 +1360,44 @@ public abstract class GLLib extends Canvas implements Runnable
     private static int sub_4c47(final InputStream inputStream) {
         int sub_4332 = 0;
         try {
-            sub_4332 = sub_4332(inputStream);
-            GLLib.var_1fa7[sub_4332] = sub_439d(inputStream);
+            sub_4332 = Stream_Read(inputStream);
+            GLLib.var_1fa7[sub_4332] = Stream_Read32(inputStream);
             if (GLLib.var_1fa7[sub_4332] > 1024) {
                 GLLib.var_1fa7[sub_4332] = 1024;
             }
             GLLib.var_1faf[sub_4332] = new int[GLLib.var_1fa7[sub_4332] + 1];
             for (int i = 1; i < GLLib.var_1fa7[sub_4332] + 1; ++i) {
-                GLLib.var_1faf[sub_4332][i] = sub_439d(inputStream);
+                GLLib.var_1faf[sub_4332][i] = Stream_Read32(inputStream);
             }
-            sub_43e4(inputStream, GLLib.localeGroups[sub_4332] = new byte[GLLib.var_1faf[sub_4332][GLLib.var_1fa7[sub_4332]]], 0, GLLib.localeGroups[sub_4332].length);
+            Stream_ReadFully(inputStream, GLLib.localeGroups[sub_4332] = new byte[GLLib.var_1faf[sub_4332][GLLib.var_1fa7[sub_4332]]], 0, GLLib.localeGroups[sub_4332].length);
         }
         catch (final Exception ex) {}
         return sub_4332;
     }
     
-    static void sub_4d20(String s, final int n) {
-        sub_4f04(n);
-        Pack_Open(s);
-        Pack_PositionAtData(n);
-        if (GLLib.var_1f97 == null) {
-            GLLib.var_1f97 = new int[32];
+    static void Text_LoadTextFromPack(String filename, final int index) {
+        Text_FreeAll(index);
+        Pack_Open(filename);
+        Pack_PositionAtData(index);
+        if (GLLib.idk == null) {
+            GLLib.idk = new int[32];
             for (int i = 0; i < 32; ++i) {
-                GLLib.var_1f97[i] = -1;
+                GLLib.idk[i] = -1;
             }
             GLLib.localeGroups = new byte[32][];
             GLLib.var_1faf = new int[32][];
             GLLib.var_1fa7 = new int[32];
-            GLLib.s_localeStrings = new String[32][];
+            GLLib.text_stringCacheArray = new String[32][];
         }
-        GLLib.var_1f97[n] = sub_4c47(GLLib.s_pack_is);
+        GLLib.idk[index] = sub_4c47(GLLib.s_pack_is);
         Pack_Close(true);
-        final int n2 = GLLib.var_1f97[n];
+        final int n2 = GLLib.idk[index];
         if (GLLib.var_1fa7[n2] != 0) {
             final String[] array = new String[GLLib.var_1fa7[n2]];
             for (int j = 0; j < GLLib.var_1fa7[n2]; ++j) {
                 array[j] = Text_GetStringFromLocaleFile(j + (n2 << 10));
             }
-            GLLib.s_localeStrings[n2] = array;
+            GLLib.text_stringCacheArray[n2] = array;
             GLLib.var_1faf[n2] = null;
             GLLib.localeGroups[n2] = null;
             System.gc();
@@ -1425,8 +1407,8 @@ public abstract class GLLib extends Canvas implements Runnable
 	static String Text_GetStringFromLocaleFile(int id) {
         final int groupId = id >> 10;
         id &= 0x3FF;
-        if (GLLib.s_localeStrings != null && GLLib.s_localeStrings[groupId] != null) {
-            return GLLib.s_localeStrings[groupId][id];
+        if (GLLib.text_stringCacheArray != null && GLLib.text_stringCacheArray[groupId] != null) {
+            return GLLib.text_stringCacheArray[groupId][id];
         }
         try {
             final int length = GLLib.var_1faf[groupId][id + 1];
@@ -1442,26 +1424,26 @@ public abstract class GLLib extends Canvas implements Runnable
     
     static void sub_4ec1() {
         for (int i = 0; i < 32; ++i) {
-            sub_4f04(i);
+            Text_FreeAll(i);
         }
     }
     
-    private static void sub_4f04(final int n) {
-        if (GLLib.var_1f97 != null) {
+    private static void Text_FreeAll(final int n) {
+        if (GLLib.idk != null) {
             final int n2;
-            if ((n2 = GLLib.var_1f97[n]) == -1) {
+            if ((n2 = GLLib.idk[n]) == -1) {
                 return;
             }
-            if (GLLib.s_localeStrings[n2] != null) {
+            if (GLLib.text_stringCacheArray[n2] != null) {
                 for (int i = 0; i < GLLib.var_1fa7[n2]; ++i) {
-                    GLLib.s_localeStrings[n2][i] = null;
+                    GLLib.text_stringCacheArray[n2][i] = null;
                 }
-                GLLib.s_localeStrings[n2] = null;
+                GLLib.text_stringCacheArray[n2] = null;
             }
             GLLib.var_1faf[n2] = null;
             GLLib.localeGroups[n2] = null;
             GLLib.var_1fa7[n2] = 0;
-            GLLib.var_1f97[n] = -1;
+            GLLib.idk[n] = -1;
         }
     }
     

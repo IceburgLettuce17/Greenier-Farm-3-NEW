@@ -1366,7 +1366,7 @@ final class GLLibPlayer implements Runnable
             return;
         }
         GLLib.sub_36b7(graphics, n6, n7, n4, n5, true);
-        GLLib.sub_38df(graphics, GLLibPlayer.s_TilesetLayerImage[n][0], n3 - n7 + ASprite.s_screenWidth - GLLibPlayer.s_TilesetLayerInfo[n][8], n6 - n2, 20, false);
+        GLLib.DrawImage(graphics, GLLibPlayer.s_TilesetLayerImage[n][0], n3 - n7 + ASprite.s_screenWidth - GLLibPlayer.s_TilesetLayerInfo[n][8], n6 - n2, 20, false);
     }
     
     private static void Tileset_UpdateBuffer(final Graphics graphics, final int n, final int n2, final int n3, final int n4, final int n5, final int n6, final int n7) {
@@ -2050,7 +2050,7 @@ final class GLLibPlayer implements Runnable
             GLLib.sub_3bae(graphics, (int[])o, 0, n10, n7, n, n10, n9, true, false, n2, -1, false);
         }
         else if (n11 == 4) {
-            GLLib.sub_38df(graphics, (GLLibImage)o, n7, n8, 20, true);
+            GLLib.DrawImage(graphics, (GLLibImage)o, n7, n8, 20, true);
         }
         else if (n11 == 1) {
             GLLib.DrawRect(graphics, n7, n8, n9, n10, true);

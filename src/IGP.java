@@ -1350,7 +1350,7 @@ public final class IGP implements Runnable, CommandListener
                     GLLib.g = graphics5;
                     //}
                     GLLib.g.setFont(IGP.s_igpFont);
-                    GLLib.sub_3877(IGP.s_igpLoadingMsg, IGP.var_2075, 25, 33);
+                    GLLib.DrawString(IGP.s_igpLoadingMsg, IGP.var_2075, 25, 33);
                     if (var_1daf == null) {
                         GLLib.g = GLLib.s_lastPaintGraphics;
                     }

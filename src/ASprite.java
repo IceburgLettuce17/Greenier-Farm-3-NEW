@@ -983,7 +983,7 @@ public final class ASprite
                 final int n6 = ASprite.midp2_flags[n4];
                 n4 = height;
                 n = width;
-                GLLib.sub_3966(GLLib.g, class_l, 0, 0, n, n4, n6, n2, n3, 20, false);
+                GLLib.DrawRegion(GLLib.g, class_l, 0, 0, n, n4, n6, n2, n3, 20, false);
                 return true;
             }
         }
@@ -1011,7 +1011,7 @@ public final class ASprite
             n4 = ASprite.midp2_flags[n4];
             final int n8 = height;
             n = width;
-            GLLib.sub_3966(GLLib.g, class_l3, 0, 0, n, n8, n4, n2, n3, 20, false);
+            GLLib.DrawRegion(GLLib.g, class_l3, 0, 0, n, n8, n4, n2, n3, 20, false);
             return true;
         }
         return false;
@@ -2111,10 +2111,10 @@ public final class ASprite
                                     }
                                 }
                                 if (n6 == 0) {
-                                    GLLib.sub_38df(graphics, class_l, n15, n16, 20, false);
+                                    GLLib.DrawImage(graphics, class_l, n15, n16, 20, false);
                                 }
                                 else {
-                                    GLLib.sub_3966(graphics, class_l, 0, 0, n18, n19, ASprite.midp2_flags[n6 & 0x7], n15, n16, 20, false);
+                                    GLLib.DrawRegion(graphics, class_l, 0, 0, n18, n19, ASprite.midp2_flags[n6 & 0x7], n15, n16, 20, false);
                                 }
                             }
                             n7 = 1;
@@ -2316,10 +2316,10 @@ public final class ASprite
                             a -= 90;
                         }
                         if (this.var_110f[n30] == 3) {
-                            GLLib.sub_3833(graphics4, n27, n26, n29, n28, a, a2, true);
+                            GLLib.DrawArc(graphics4, n27, n26, n29, n28, a, a2, true);
                             return;
                         }
-                        GLLib.sub_37ef(graphics4, n27, n26, n29, n28, a, a2, true);
+                        GLLib.FillArc(graphics4, n27, n26, n29, n28, a, a2, true);
                     }
                     return;
                 }
@@ -2368,7 +2368,7 @@ public final class ASprite
                             GLLib.sub_3731(graphics4, n27, n26, n27 + a3, n26 + a4, true);
                             return;
                         }
-                        GLLib.sub_3b26(graphics4, n27, n26, n27 + a, n26 + a2, n27 + a3, n26 + a4, true);
+                        GLLib.FillTriangle(graphics4, n27, n26, n27 + a, n26 + a2, n27 + a3, n26 + a4, true);
                     }
                     return;
                 }
@@ -2554,14 +2554,14 @@ public final class ASprite
                             if (!b2) {
                                 if (class_l2 != null) {
                                     if (ASprite.midp2_flags[n3 & 0x7] == 0) {
-                                        GLLib.sub_38df(graphics, class_l2, n, n2, 20, false);
+                                        GLLib.DrawImage(graphics, class_l2, n, n2, 20, false);
                                         return;
                                     }
                                     if ((n3 & 0x4) != 0x0) {
-                                        GLLib.sub_3966(graphics, class_l2, 0, 0, var_1148, a, ASprite.midp2_flags[n3 & 0x7], n, n2, 20, false);
+                                        GLLib.DrawRegion(graphics, class_l2, 0, 0, var_1148, a, ASprite.midp2_flags[n3 & 0x7], n, n2, 20, false);
                                         return;
                                     }
-                                    GLLib.sub_3966(graphics, class_l2, 0, 0, a, var_1148, ASprite.midp2_flags[n3 & 0x7], n, n2, 20, false);
+                                    GLLib.DrawRegion(graphics, class_l2, 0, 0, a, var_1148, ASprite.midp2_flags[n3 & 0x7], n, n2, 20, false);
                                 }
                             }
                         }
@@ -2641,10 +2641,10 @@ public final class ASprite
                     this.sub_3eec(color, class_l);
                     if (class_l != null) {
                         if (ASprite.midp2_flags[n3 & 0x7] == 0) {
-                            GLLib.sub_38df(graphics, class_l, n, n2, 20, false);
+                            GLLib.DrawImage(graphics, class_l, n, n2, 20, false);
                             return;
                         }
-                        GLLib.sub_3966(graphics, class_l, 0, 0, a, n78, ASprite.midp2_flags[n3 & 0x7], n, n2, 20, false);
+                        GLLib.DrawRegion(graphics, class_l, 0, 0, a, n78, ASprite.midp2_flags[n3 & 0x7], n, n2, 20, false);
                     }
                 }
             }

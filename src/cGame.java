@@ -2318,7 +2318,7 @@ public final class cGame extends GLLib implements Class_b {
 					}
 					final String string = "/" + GLLib.Text_GetLanguageAsString(0);
 					for (int k = 0; k < 12; ++k) {
-						GLLib.sub_4d20(string, k);
+						GLLib.Text_LoadTextFromPack(string, k);
 					}
 					break;
 				}
@@ -3368,11 +3368,11 @@ public final class cGame extends GLLib implements Class_b {
 		makeRMSHeader();
 		if (cGame.var_6aa4 == -1) {
 			byte[] array = new byte[51200];
-			int n = GLLib.Mem_SetInt(array, GLLib.sub_3d63(array, GLLib.sub_3d63(array, GLLib.sub_3d63(array,
-					GLLib.sub_3d63(array, GLLib.sub_3d63(array, GLLib.sub_3d63(array, GLLib.sub_3d63(array,
-							GLLib.Mem_SetInt(array, GLLib.sub_3d63(array, GLLib.sub_3d63(array,
-									GLLib.sub_3d63(array,
-											GLLib.sub_3d63(array, 0, (byte) (cGame.var_7964 ? 1 : 0)),
+			int n = GLLib.Mem_SetInt(array, GLLib.Mem_SetByte(array, GLLib.Mem_SetByte(array, GLLib.Mem_SetByte(array,
+					GLLib.Mem_SetByte(array, GLLib.Mem_SetByte(array, GLLib.Mem_SetByte(array, GLLib.Mem_SetByte(array,
+							GLLib.Mem_SetInt(array, GLLib.Mem_SetByte(array, GLLib.Mem_SetByte(array,
+									GLLib.Mem_SetByte(array,
+											GLLib.Mem_SetByte(array, 0, (byte) (cGame.var_7964 ? 1 : 0)),
 											(byte) (cGame.var_69ec ? 1 : 0)),
 									(byte) (cGame.var_69f4 ? 1 : 0)), (byte) (cGame.var_7974 ? 1 : 0)),
 									cGame.s_sndVolume),
@@ -3381,10 +3381,10 @@ public final class cGame extends GLLib implements Class_b {
 					(byte) (cGame.var_6c2c ? 1 : 0)), (byte) (cGame.var_6c4c ? 1 : 0)),
 					(byte) (cGame.var_6c54 ? 1 : 0)), cGame.var_6c5c);
 			for (char c = '\0'; c < cGame.var_7f74; ++c) {
-				n = GLLib.sub_3d63(array,
+				n = GLLib.Mem_SetByte(array,
 						GLLib.Mem_SetInt(array,
-								GLLib.sub_3d63(array,
-										GLLib.Mem_SetInt(array, GLLib.sub_3d63(array, GLLib.Mem_SetInt(array,
+								GLLib.Mem_SetByte(array,
+										GLLib.Mem_SetInt(array, GLLib.Mem_SetByte(array, GLLib.Mem_SetInt(array,
 												GLLib.Mem_SetInt(array, GLLib.Mem_SetInt(array, n, cGame.var_7e54[c]),
 														cGame.var_7f5c[c]),
 												cGame.var_7e94[c]), (byte) (cGame.var_7ebc[c] ? 1 : 0)),
@@ -3398,8 +3398,8 @@ public final class cGame extends GLLib implements Class_b {
 			}
 			int n2 = GLLib.Mem_SetInt(array,
 					GLLib.Mem_SetInt(array,
-							GLLib.Mem_SetInt(array, GLLib.sub_3d86(array, GLLib.Mem_SetInt(array,
-									GLLib.sub_3d86(array, GLLib.Mem_SetInt(array, GLLib.sub_3df9(array,
+							GLLib.Mem_SetInt(array, GLLib.Mem_SetShort(array, GLLib.Mem_SetInt(array,
+									GLLib.Mem_SetShort(array, GLLib.Mem_SetInt(array, GLLib.Mem_SetLong(array,
 											GLLib.Mem_SetInt(array, GLLib.Mem_SetInt(array, n, cGame.s_rmsLevel),
 													cGame.s_rmsExp),
 											cGame.s_rmsCoin), cGame.s_rmsCash), (short) cGame.var_7024),
@@ -3421,7 +3421,7 @@ public final class cGame extends GLLib implements Class_b {
 			}
 			for (int n5 = 0; n5 < 10; ++n5) {
 				for (int n6 = 0; n6 < 6; ++n6) {
-					n2 = GLLib.sub_3df9(array, n2, cGame.var_6e34[n5][n6]);
+					n2 = GLLib.Mem_SetLong(array, n2, cGame.var_6e34[n5][n6]);
 				}
 			}
 			for (int n7 = 0; n7 < 10; ++n7) {
@@ -3438,69 +3438,69 @@ public final class cGame extends GLLib implements Class_b {
 							cGame.var_6e44[n9][(n10 << 1) + 1]);
 				}
 			}
-			int n11 = GLLib.sub_3d86(array, GLLib.Mem_SetInt(array, n2, cGame.var_808c), cGame.var_77f4);
+			int n11 = GLLib.Mem_SetShort(array, GLLib.Mem_SetInt(array, n2, cGame.var_808c), cGame.var_77f4);
 			for (int n12 = 0; n12 < 6; ++n12) {
-				n11 = GLLib.sub_3df9(array, n11, cGame.var_7774[n12]);
+				n11 = GLLib.Mem_SetLong(array, n11, cGame.var_7774[n12]);
 			}
-			int n13 = GLLib.sub_3d63(array, n11, (byte) cGame.var_746c);
+			int n13 = GLLib.Mem_SetByte(array, n11, (byte) cGame.var_746c);
 			for (int n14 = 0; n14 < cGame.var_746c; ++n14) {
-				n13 = GLLib.sub_3d63(array,
+				n13 = GLLib.Mem_SetByte(array,
 						GLLib.Mem_SetInt(array,
 								GLLib.Mem_SetInt(array,
-										GLLib.sub_3df9(array, GLLib.sub_3d63(array, n13, cGame.var_74bc[n14]),
+										GLLib.Mem_SetLong(array, GLLib.Mem_SetByte(array, n13, cGame.var_74bc[n14]),
 												cGame.var_74a4[n14]),
 										cGame.var_749c[n14]),
 								cGame.var_748c[n14]),
 						(byte) (cGame.var_74c4[n14] ? 1 : 0));
 			}
-			int n15 = GLLib.sub_3d63(array, n13, (byte) cGame.var_7514);
+			int n15 = GLLib.Mem_SetByte(array, n13, (byte) cGame.var_7514);
 			for (int n16 = 0; n16 < cGame.var_7514; ++n16) {
 				n15 = GLLib.Mem_SetInt(array,
-						GLLib.Mem_SetInt(array, GLLib.sub_3df9(array,
-								GLLib.sub_3d63(array, n15, cGame.var_7564[n16]), cGame.var_7544[n16]),
+						GLLib.Mem_SetInt(array, GLLib.Mem_SetLong(array,
+								GLLib.Mem_SetByte(array, n15, cGame.var_7564[n16]), cGame.var_7544[n16]),
 								cGame.var_753c[n16]),
 						cGame.var_752c[n16]);
 			}
 			for (int n17 = 0; n17 < cGame.var_6ee4; ++n17) {
 				n15 = GLLib.Mem_SetInt(array,
-						GLLib.sub_3d63(array,
+						GLLib.Mem_SetByte(array,
 								GLLib.Mem_SetInt(array,
-										GLLib.sub_3d63(array, GLLib.Mem_SetInt(array, n15, cGame.var_6e64[n17]),
+										GLLib.Mem_SetByte(array, GLLib.Mem_SetInt(array, n15, cGame.var_6e64[n17]),
 												cGame.var_6edc[n17]),
 										cGame.var_6e94[n17]),
 								(byte) (cGame.var_6eac[n17] ? 1 : 0)),
 						cGame.var_6ed4[n17]);
 			}
 			for (int n18 = 0; n18 < 15; ++n18) {
-				n15 = GLLib.sub_3d63(array, n15, (byte) (cGame.var_6eec[n18] ? 1 : 0));
+				n15 = GLLib.Mem_SetByte(array, n15, (byte) (cGame.var_6eec[n18] ? 1 : 0));
 			}
 			for (int n19 = 0; n19 < 10; ++n19) {
 				n15 = GLLib.Mem_SetInt(array, n15, cGame.var_6ef4[n19]);
 			}
 			for (int n20 = 0; n20 < 64; ++n20) {
-				n15 = GLLib.sub_3d86(array, n15, cGame.var_6efc[n20]);
+				n15 = GLLib.Mem_SetShort(array, n15, cGame.var_6efc[n20]);
 			}
 			for (int n21 = 0; n21 < 60; ++n21) {
 				n15 = GLLib.Mem_SetInt(array, n15, cGame.var_79f4[n21]);
 			}
 			for (int n22 = 0; n22 < 13; ++n22) {
-				n15 = GLLib.sub_3d63(array, n15, (byte) (cGame.var_6dfc[n22] ? 1 : 0));
+				n15 = GLLib.Mem_SetByte(array, n15, (byte) (cGame.var_6dfc[n22] ? 1 : 0));
 			}
 			for (int n23 = 0; n23 < 13; ++n23) {
-				n15 = GLLib.sub_3d63(array, n15, (byte) (cGame.var_6e04[n23] ? 1 : 0));
+				n15 = GLLib.Mem_SetByte(array, n15, (byte) (cGame.var_6e04[n23] ? 1 : 0));
 			}
-			final int sub_3df9 = GLLib.sub_3df9(array, GLLib.sub_3df9(array, n15, cGame.var_7da4),
+			final int sub_3df9 = GLLib.Mem_SetLong(array, GLLib.Mem_SetLong(array, n15, cGame.var_7da4),
 					cGame.var_814c);
 			cGame.var_8144 = System.currentTimeMillis() / 1000L;
-			int n24 = GLLib.Mem_SetInt(array, GLLib.sub_3df9(array, sub_3df9, cGame.var_8144), cGame.var_776c);
+			int n24 = GLLib.Mem_SetInt(array, GLLib.Mem_SetLong(array, sub_3df9, cGame.var_8144), cGame.var_776c);
 			for (int n25 = 0; n25 < 100; ++n25) {
 				n24 = GLLib.Mem_SetInt(array, n24, cGame.var_7764[n25]);
 			}
-			GLLib.sub_3df9(array,
+			GLLib.Mem_SetLong(array,
 					GLLib.Mem_SetInt(array,
 							GLLib.Mem_SetInt(array,
-									GLLib.Mem_SetInt(array, GLLib.Mem_SetInt(array, GLLib.sub_3df9(array,
-											GLLib.sub_3df9(array, GLLib.Mem_SetInt(array, n24, cGame.var_6d4c),
+									GLLib.Mem_SetInt(array, GLLib.Mem_SetInt(array, GLLib.Mem_SetLong(array,
+											GLLib.Mem_SetLong(array, GLLib.Mem_SetInt(array, n24, cGame.var_6d4c),
 													cGame.var_77bc),
 											cGame.var_77fc), cGame.var_709c), cGame.var_70a4),
 									cGame.var_70ac),
@@ -3521,7 +3521,7 @@ public final class cGame extends GLLib implements Class_b {
 					n26 |= (short) (1 << n27);
 				}
 			}
-			final int sub_3d86 = GLLib.sub_3d86(array2, sub_3db5, n26);
+			final int sub_3d86 = GLLib.Mem_SetShort(array2, sub_3db5, n26);
 			final byte[] array4;
 			final byte[] array3 = array4 = array2;
 			final int n28 = sub_3d86;
@@ -3529,8 +3529,8 @@ public final class cGame extends GLLib implements Class_b {
 			final int n29 = n28;
 			final byte[] array5 = array3;
 			int n30 = GLLib.Mem_SetInt(array5,
-					GLLib.sub_3d86(array5, GLLib.sub_3d86(array5,
-							GLLib.sub_3d63(array3, n29, (byte) var_800c.var_17c5), (short) var_800c.var_17cd),
+					GLLib.Mem_SetShort(array5, GLLib.Mem_SetShort(array5,
+							GLLib.Mem_SetByte(array3, n29, (byte) var_800c.var_17c5), (short) var_800c.var_17cd),
 							(short) var_800c.var_17d5),
 					var_800c.var_17dd);
 			for (Class_f var_17ad = Class_f.var_157d[0]; var_17ad != null; var_17ad = var_17ad.var_17ad) {
@@ -3542,8 +3542,8 @@ public final class cGame extends GLLib implements Class_b {
 					final int n32 = n31;
 					final byte[] array7 = array6;
 					n30 = GLLib.Mem_SetInt(array7,
-							GLLib.sub_3d86(array7, GLLib.sub_3d86(array7, GLLib.sub_3d86(array7,
-									GLLib.sub_3d63(array7, GLLib.sub_3d63(array6, n32, (byte) class_f.var_17c5),
+							GLLib.Mem_SetShort(array7, GLLib.Mem_SetShort(array7, GLLib.Mem_SetShort(array7,
+									GLLib.Mem_SetByte(array7, GLLib.Mem_SetByte(array6, n32, (byte) class_f.var_17c5),
 											(byte) class_f.var_1835),
 									(short) class_f.var_17cd), (short) class_f.var_17d5), (short) class_f.var_17dd),
 							class_f.var_1855);
@@ -3555,9 +3555,9 @@ public final class cGame extends GLLib implements Class_b {
 					final Class_f class_f2 = var_17ad;
 					final int n34 = n33;
 					final byte[] array9 = array8;
-					n30 = GLLib.sub_3d63(array9, GLLib.Mem_SetInt(array9,
-							GLLib.sub_3d86(array9, GLLib.sub_3d86(array9, GLLib.sub_3d86(array9,
-									GLLib.sub_3d63(array9, GLLib.sub_3d63(array8, n34, (byte) class_f2.var_17c5),
+					n30 = GLLib.Mem_SetByte(array9, GLLib.Mem_SetInt(array9,
+							GLLib.Mem_SetShort(array9, GLLib.Mem_SetShort(array9, GLLib.Mem_SetShort(array9,
+									GLLib.Mem_SetByte(array9, GLLib.Mem_SetByte(array8, n34, (byte) class_f2.var_17c5),
 											(byte) class_f2.var_1835),
 									(short) class_f2.var_17cd), (short) class_f2.var_17d5), (short) class_f2.var_17dd),
 							class_f2.var_1855), (byte) class_f2.var_185d);
@@ -3569,9 +3569,9 @@ public final class cGame extends GLLib implements Class_b {
 					final Class_f class_f3 = var_17ad;
 					final int n36 = n35;
 					final byte[] array11 = array10;
-					n30 = GLLib.sub_3d63(array11, GLLib.Mem_SetInt(array11,
-							GLLib.sub_3d86(array11, GLLib.sub_3d86(array11, GLLib.sub_3d86(array11,
-									GLLib.sub_3d63(array11, GLLib.sub_3d63(array10, n36, (byte) class_f3.var_17c5),
+					n30 = GLLib.Mem_SetByte(array11, GLLib.Mem_SetInt(array11,
+							GLLib.Mem_SetShort(array11, GLLib.Mem_SetShort(array11, GLLib.Mem_SetShort(array11,
+									GLLib.Mem_SetByte(array11, GLLib.Mem_SetByte(array10, n36, (byte) class_f3.var_17c5),
 											(byte) class_f3.var_1835),
 									(short) class_f3.var_17cd), (short) class_f3.var_17d5), (short) class_f3.var_17dd),
 							class_f3.var_1855), (byte) class_f3.var_185d);
@@ -3583,9 +3583,9 @@ public final class cGame extends GLLib implements Class_b {
 					final Class_f class_f4 = var_17ad;
 					final int n38 = n37;
 					final byte[] array13 = array12;
-					n30 = GLLib.sub_3d63(array13, GLLib.Mem_SetInt(array13, GLLib.sub_3d86(array13,
-							GLLib.sub_3d86(array13, GLLib.sub_3d86(array13, GLLib.sub_3d86(array13,
-									GLLib.sub_3d63(array13, GLLib.sub_3d63(array12, n38, (byte) class_f4.var_17c5),
+					n30 = GLLib.Mem_SetByte(array13, GLLib.Mem_SetInt(array13, GLLib.Mem_SetShort(array13,
+							GLLib.Mem_SetShort(array13, GLLib.Mem_SetShort(array13, GLLib.Mem_SetShort(array13,
+									GLLib.Mem_SetByte(array13, GLLib.Mem_SetByte(array12, n38, (byte) class_f4.var_17c5),
 											(byte) class_f4.var_1835),
 									(short) class_f4.var_17a5), (short) class_f4.var_17cd), (short) class_f4.var_17d5),
 							(short) class_f4.var_17dd), class_f4.var_1855), (byte) class_f4.var_185d);
@@ -3597,9 +3597,9 @@ public final class cGame extends GLLib implements Class_b {
 					final Class_f class_f5 = var_17ad;
 					final int n40 = n39;
 					final byte[] array15 = array14;
-					n30 = GLLib.sub_3df9(array15, GLLib.sub_3d63(array15, GLLib.Mem_SetInt(array15,
-							GLLib.sub_3d86(array15, GLLib.sub_3d86(array15, GLLib.sub_3d86(array15,
-									GLLib.sub_3d63(array15, GLLib.sub_3d63(array14, n40, (byte) class_f5.var_17c5),
+					n30 = GLLib.Mem_SetLong(array15, GLLib.Mem_SetByte(array15, GLLib.Mem_SetInt(array15,
+							GLLib.Mem_SetShort(array15, GLLib.Mem_SetShort(array15, GLLib.Mem_SetShort(array15,
+									GLLib.Mem_SetByte(array15, GLLib.Mem_SetByte(array14, n40, (byte) class_f5.var_17c5),
 											(byte) class_f5.var_1835),
 									(short) class_f5.var_17cd), (short) class_f5.var_17d5), (short) class_f5.var_17dd),
 							class_f5.var_1855), (byte) class_f5.var_185d), class_f5.var_15e5);
@@ -3611,9 +3611,9 @@ public final class cGame extends GLLib implements Class_b {
 					final Class_f class_f6 = var_17ad;
 					final int n42 = n41;
 					final byte[] array17 = array16;
-					n30 = GLLib.sub_3df9(array17, GLLib.sub_3d63(array17, GLLib.Mem_SetInt(array17,
-							GLLib.sub_3d86(array17, GLLib.sub_3d86(array17, GLLib.sub_3d86(array17,
-									GLLib.sub_3d63(array17, GLLib.sub_3d63(array16, n42, (byte) class_f6.var_17c5),
+					n30 = GLLib.Mem_SetLong(array17, GLLib.Mem_SetByte(array17, GLLib.Mem_SetInt(array17,
+							GLLib.Mem_SetShort(array17, GLLib.Mem_SetShort(array17, GLLib.Mem_SetShort(array17,
+									GLLib.Mem_SetByte(array17, GLLib.Mem_SetByte(array16, n42, (byte) class_f6.var_17c5),
 											(byte) class_f6.var_1835),
 									(short) class_f6.var_17cd), (short) class_f6.var_17d5), (short) class_f6.var_17dd),
 							class_f6.var_1855), (byte) class_f6.var_185d), class_f6.var_1615);
@@ -3625,14 +3625,14 @@ public final class cGame extends GLLib implements Class_b {
 					final Class_f class_f7 = var_17ad;
 					final int n44 = n43;
 					final byte[] array19 = array18;
-					int n45 = GLLib.sub_3d63(array19, GLLib.Mem_SetInt(array19,
-							GLLib.sub_3d86(array19, GLLib.sub_3d86(array19, GLLib.sub_3d86(array19,
-									GLLib.sub_3d63(array19, GLLib.sub_3d63(array18, n44, (byte) class_f7.var_17c5),
+					int n45 = GLLib.Mem_SetByte(array19, GLLib.Mem_SetInt(array19,
+							GLLib.Mem_SetShort(array19, GLLib.Mem_SetShort(array19, GLLib.Mem_SetShort(array19,
+									GLLib.Mem_SetByte(array19, GLLib.Mem_SetByte(array18, n44, (byte) class_f7.var_17c5),
 											(byte) class_f7.var_1835),
 									(short) class_f7.var_17cd), (short) class_f7.var_17d5), (short) class_f7.var_17dd),
 							class_f7.var_1855), (byte) class_f7.var_185d);
 					if (class_f7.var_1835 == 12 || class_f7.var_1835 == 11) {
-						n45 = GLLib.sub_3df9(array19, n45, class_f7.var_15c5);
+						n45 = GLLib.Mem_SetLong(array19, n45, class_f7.var_15c5);
 					}
 					n30 = n45;
 					break;
@@ -3643,12 +3643,12 @@ public final class cGame extends GLLib implements Class_b {
 					final Class_f class_f8 = var_17ad;
 					final int n47 = n46;
 					final byte[] array21 = array20;
-					n30 = GLLib.sub_3df9(array21,
-							GLLib.sub_3df9(array21, GLLib.sub_3d63(array21, GLLib.sub_3d63(array21,
-									GLLib.Mem_SetInt(array21, GLLib.sub_3d63(array21, GLLib.Mem_SetInt(array21,
-											GLLib.sub_3d86(array21, GLLib.sub_3d86(array21,
-													GLLib.sub_3d86(array21, GLLib.sub_3d63(array21,
-															GLLib.sub_3d63(array20, n47, (byte) class_f8.var_17c5),
+					n30 = GLLib.Mem_SetLong(array21,
+							GLLib.Mem_SetLong(array21, GLLib.Mem_SetByte(array21, GLLib.Mem_SetByte(array21,
+									GLLib.Mem_SetInt(array21, GLLib.Mem_SetByte(array21, GLLib.Mem_SetInt(array21,
+											GLLib.Mem_SetShort(array21, GLLib.Mem_SetShort(array21,
+													GLLib.Mem_SetShort(array21, GLLib.Mem_SetByte(array21,
+															GLLib.Mem_SetByte(array20, n47, (byte) class_f8.var_17c5),
 															(byte) class_f8.var_1835), (short) class_f8.var_17cd),
 													(short) class_f8.var_17d5), (short) class_f8.var_17dd),
 											class_f8.var_1855), (byte) class_f8.var_185d), class_f8.var_162d),
@@ -10528,9 +10528,8 @@ public final class cGame extends GLLib implements Class_b {
 			sub_1e07e(s, array2[2] + n + n3, array2[3] + n2, array2[5], array2[6], array2[10], n4, array2[7], array2[8],
 					false, false);
 			if (b) {
-				final int var_1ddf = GLLib.s_screenWidth;
 				var_1de7 = GLLib.s_screenHeight;
-				GLLib.SetClip(GLLib.g, 0, 0, var_1ddf, var_1de7, true);
+				GLLib.SetClip(GLLib.g, 0, 0, GLLib.s_screenWidth, var_1de7, true);
 			}
 		}
 	}
@@ -10706,7 +10705,7 @@ public final class cGame extends GLLib implements Class_b {
 						final int n12 = array[3] - 38;
 						n2 = 360 * cGame.var_7024 / cGame.var_702c;
 						n = n12;
-						GLLib.sub_37ef(var_1daf, n11, n, 76, 76, 90, n2, true);
+						GLLib.FillArc(var_1daf, n11, n, 76, 76, 90, n2, true);
 						sub_3189 = color;
 						GLLib.g.setColor(sub_3189);
 					}
@@ -10942,12 +10941,12 @@ public final class cGame extends GLLib implements Class_b {
 			if (n3 != 100) {
 				GLLib.sub_5b71();
 				GLLib.sub_5c41(n3);
-				GLLib.sub_38df(GLLib.g, cGame.var_68dc[n5], GLLib.s_screenHeight - n2 - sub_1ed28(n4, n5), n,
+				GLLib.DrawImage(GLLib.g, cGame.var_68dc[n5], GLLib.s_screenHeight - n2 - sub_1ed28(n4, n5), n,
 						20, false);
 				GLLib.sub_5b96();
 				return;
 			}
-			GLLib.sub_38df(GLLib.g, cGame.var_68dc[n5], GLLib.s_screenHeight - n2 - sub_1ed28(n4, n5), n, 20,
+			GLLib.DrawImage(GLLib.g, cGame.var_68dc[n5], GLLib.s_screenHeight - n2 - sub_1ed28(n4, n5), n, 20,
 					false);
 		}
 	}
@@ -23771,10 +23770,8 @@ public final class cGame extends GLLib implements Class_b {
 			for (int k = 0; k < 20; ++k) {
 				sub_1df06("" + decryptInt(cGame.var_79f4[(cGame.var_7a2c << 2) + k]), 16, 18 + (k << 1), 0, 0);
 			}
-			final int var_1ddf = GLLib.s_screenWidth;
-			final int var_1de7 = GLLib.s_screenHeight;
-			n = var_1ddf;
-			GLLib.SetClip(GLLib.g, 0, 0, n, var_1de7, true);
+			n = GLLib.s_screenWidth;
+			GLLib.SetClip(GLLib.g, 0, 0, n, GLLib.s_screenHeight, true);
 		}
 		return false;
 	}
