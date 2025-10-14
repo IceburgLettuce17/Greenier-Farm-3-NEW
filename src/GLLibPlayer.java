@@ -206,7 +206,7 @@ final class GLLibPlayer implements Runnable
         return 0;
     }
     
-    final boolean sub_1b34() {
+    final boolean IsAnimOver() {
         return this.curAnim < 0 || (this.nbLoop >= 0 && this.animIsOver);
     }
     
@@ -960,7 +960,7 @@ final class GLLibPlayer implements Runnable
         return (GLLibPlayer.s_TilesetLayerInfo[n][15] & n2) != 0x0;
     }
     
-    private static void sub_38aa(final int n, final int n2, final boolean b) {
+    private static void setFlag(final int n, final int n2, final boolean b) {
         if (b) {
             final int[] array = GLLibPlayer.s_TilesetLayerInfo[0];
             final int n3 = 15;
@@ -972,31 +972,27 @@ final class GLLibPlayer implements Runnable
         array2[n4] &= ~n2;
     }
     
-    static void sub_38f5(final int n, byte[] array, byte[] array2, byte[] array3, final ASprite class_e, final int n2, final int n3, final int n4, final int n5, final boolean b) {
-        final byte[] array4 = array;
-        final byte[] array5 = array2;
-        array2 = array5;
-        array = array4;
+    static void Tileset_LoadLayer(final int n, byte[] MapSizes, byte[] MapData, byte[] MapFlip, final ASprite MapSprite, final int n2, final int n3, final int n4, final int n5, final boolean b) {
         if (GLLibPlayer.s_bTilesetPlayerInitialized) {
             Tileset_Destroy(0, false);
             GLLibPlayer.s_TilesetLayerInfo[0][18] = 0;
             GLLibPlayer.s_TilesetLayerInfo[0][19] = 0;
             GLLibPlayer.s_TilesetLayerInfo[0][18] = GLLibPlayer.s_TilesetInfo[0];
             GLLibPlayer.s_TilesetLayerInfo[0][19] = GLLibPlayer.s_TilesetInfo[1];
-            GLLibPlayer.s_TilesetLayerData[0][0] = array2;
-            GLLibPlayer.s_TilesetLayerData[0][1] = array3;
-            GLLibPlayer.s_TilesetLayerInfo[0][2] = GLLib.Mem_GetShort(array, 0);
-            GLLibPlayer.s_TilesetLayerInfo[0][3] = GLLib.Mem_GetShort(array, 2);
+            GLLibPlayer.s_TilesetLayerData[0][0] = MapData;
+            GLLibPlayer.s_TilesetLayerData[0][1] = MapFlip;
+            GLLibPlayer.s_TilesetLayerInfo[0][2] = GLLib.Mem_GetShort(MapSizes, 0);
+            GLLibPlayer.s_TilesetLayerInfo[0][3] = GLLib.Mem_GetShort(MapSizes, 2);
             GLLibPlayer.s_TilesetLayerInfo[0][5] = GLLibPlayer.s_TilesetLayerInfo[0][2] * GLLibPlayer.s_TilesetInfo[2];
             GLLibPlayer.s_TilesetLayerInfo[0][6] = GLLibPlayer.s_TilesetLayerInfo[0][3] * GLLibPlayer.s_TilesetInfo[5];
-            GLLibPlayer.s_TilesetSprite[0] = class_e;
+            GLLibPlayer.s_TilesetSprite[0] = MapSprite;
             sub_370b(0);
             if (GLLibPlayer.s_TilesetLayerImage[0][0] == null || GLLibPlayer.s_TilesetLayerImage[0][0].image.getWidth() != GLLibPlayer.s_TilesetLayerInfo[0][8] || GLLibPlayer.s_TilesetLayerImage[0][0].image.getHeight() != GLLibPlayer.s_TilesetLayerInfo[0][7]) {
                 sub_37be(0);
             }
-            sub_38aa(0, 64, true);
-            sub_38aa(0, 4, true);
-            sub_38aa(0, 128, true);
+            setFlag(0, 64, true);
+            setFlag(0, 4, true);
+            setFlag(0, 128, true);
             GLLibPlayer.s_TilesetLayerInfo[0][9] = -1;
             GLLibPlayer.s_TilesetLayerInfo[0][10] = -1;
             GLLibPlayer.s_TilesetLayerInfo[0][11] = -1;
@@ -1006,11 +1002,11 @@ final class GLLibPlayer implements Runnable
             GLLibPlayer.s_TilesetLayerInfo[0][13] = 0;
             GLLibPlayer.s_TilesetLayerInfo[0][14] = 0;
             GLLibPlayer.s_TilesetLayerInfo[0][16] = 0;
-            sub_38aa(GLLibPlayer.s_TilesetLayerInfo[0][17] = 0, 1, false);
-            sub_38aa(0, 16, false);
-            sub_38aa(0, 2, false);
-            sub_38aa(0, 32, false);
-            sub_38aa(0, 8, false);
+            setFlag(GLLibPlayer.s_TilesetLayerInfo[0][17] = 0, 1, false);
+            setFlag(0, 16, false);
+            setFlag(0, 2, false);
+            setFlag(0, 32, false);
+            setFlag(0, 8, false);
         }
     }
     

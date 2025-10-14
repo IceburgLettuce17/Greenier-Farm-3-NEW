@@ -126,8 +126,8 @@ public final class IGP implements Runnable, CommandListener
     private static boolean var_1f55;
     private static MIDlet s_midlet;
     private static Canvas s_game;
-    private static boolean var_1f6d;
-    private static CommandListener s_cmdListener;
+    //private static boolean var_1f6d;
+    //private static CommandListener s_cmdListener;
     private static IGP var_1f7d;
     private static boolean var_1f85;
     private static String var_1f8d;
@@ -1804,8 +1804,8 @@ public final class IGP implements Runnable, CommandListener
         IGP.var_1efd = false;
         IGP.var_1f05 = new String[0];
         IGP.var_1f55 = false;
-        IGP.var_1f6d = false;
-        IGP.s_cmdListener = null;
+        //IGP.var_1f6d = false;
+        //IGP.s_cmdListener = null;
         IGP.var_1f7d = null;
         IGP.var_1f85 = false;
         IGP.var_1f8d = null;

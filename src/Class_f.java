@@ -194,7 +194,7 @@ final class Class_f
                     case 42: {
                         switch (class_f.var_185d) {
                             case 0: {
-                                if (class_f.var_189d.sub_1b34()) {
+                                if (class_f.var_189d.IsAnimOver()) {
                                     class_f.sub_60d7(0);
                                     break;
                                 }
@@ -209,7 +209,7 @@ final class Class_f
                                 break;
                             }
                             case 2: {
-                                if (class_f.var_189d.sub_1b34() || class_f.var_189d.GetAnim() == 2) {
+                                if (class_f.var_189d.IsAnimOver() || class_f.var_189d.GetAnim() == 2) {
                                     class_f.sub_60d7(0);
                                     cGame.var_70dc = 3;
                                     break;
@@ -217,7 +217,7 @@ final class Class_f
                                 break;
                             }
                             case 3: {
-                                if (class_f.var_189d.sub_1b34()) {
+                                if (class_f.var_189d.IsAnimOver()) {
                                     class_f.sub_60d7(0);
                                     cGame.sub_4049d(292, 293, 15, 0, 1);
                                     cGame.var_6c64 = 0;
@@ -231,7 +231,7 @@ final class Class_f
                     case 51: {
                         switch (class_f.var_185d) {
                             case 0: {
-                                if (class_f.var_189d.sub_1b34()) {
+                                if (class_f.var_189d.IsAnimOver()) {
                                     class_f.sub_9175(0);
                                     break;
                                 }
@@ -277,7 +277,7 @@ final class Class_f
                                     }
                                     else if (class_f.var_189d != null) {
                                         class_f.var_189d.Update(GLLib.s_game_frameDT);
-                                        if (class_f.var_189d.sub_1b34()) {
+                                        if (class_f.var_189d.IsAnimOver()) {
                                             class_f.var_189d = null;
                                             class_f.var_15d5 = GLLib.Math_Rand(1000, 4000);
                                         }
@@ -305,7 +305,7 @@ final class Class_f
                                     }
                                     else if (class_f.var_189d != null) {
                                         class_f.var_189d.Update(GLLib.s_game_frameDT);
-                                        if (class_f.var_189d.sub_1b34()) {
+                                        if (class_f.var_189d.IsAnimOver()) {
                                             class_f.var_15d5 = GLLib.Math_Rand(10000, 30000);
                                             class_f.var_189d = null;
                                         }
@@ -343,7 +343,7 @@ final class Class_f
                                     }
                                     else {
                                         class_f.var_18b5.Update(GLLib.s_game_frameDT);
-                                        if (class_f.var_18b5.sub_1b34()) {
+                                        if (class_f.var_18b5.IsAnimOver()) {
                                             class_f.var_15d5 = GLLib.Math_Rand(3000, 4000);
                                         }
                                     }
@@ -392,7 +392,7 @@ final class Class_f
                                 }
                                 else if (class_f.var_189d != null) {
                                     class_f.var_189d.Update(GLLib.s_game_frameDT);
-                                    if (class_f.var_189d.sub_1b34()) {
+                                    if (class_f.var_189d.IsAnimOver()) {
                                         class_f.var_189d = null;
                                         class_f.var_15d5 = GLLib.Math_Rand(10000, 30000);
                                     }
@@ -454,7 +454,7 @@ final class Class_f
                                     class_f11.var_18b5.SetPos(class_f11.var_17ed, class_f11.var_17f5 - 50);
                                 }
                                 class_f11.var_18b5.sub_1d9e(cGame.var_7fc4);
-                                if (class_f11.var_18b5.sub_1b34()) {
+                                if (class_f11.var_18b5.IsAnimOver()) {
                                     if (sub_1923 == 1 && cGame.var_7fd4 == 18) {
                                         cGame.var_6c94 = true;
                                     }
@@ -472,7 +472,7 @@ final class Class_f
                                 class_f11.var_18b5 = null;
                             }
                             if (!class_f11.sub_a2a0(512)) {
-                                if (class_f11.var_189d.sub_1b34()) {
+                                if (class_f11.var_189d.IsAnimOver()) {
                                     class_f11.sub_8365(0);
                                 }
                             }
@@ -505,7 +505,7 @@ final class Class_f
                                 }
                                 switch (class_f11.var_185d) {
                                     case 0: {
-                                        if (!class_f11.var_189d.sub_1b34()) {
+                                        if (!class_f11.var_189d.IsAnimOver()) {
                                             break;
                                         }
                                         if (cGame.var_6aa4 == 0 || cGame.var_6aa4 == 1 || cGame.var_6aa4 == 3 || (cGame.sub_1146d() && cGame.var_8034 == class_f11) || !class_f11.sub_b03e() || cGame.var_813c || GLLib.Math_Rand(0, 100) < 50) {
@@ -571,14 +571,14 @@ final class Class_f
                                         if (!class_f11.sub_a2a0(4)) {
                                             class_f11.sub_85b3(4);
                                         }
-                                        if (class_f11.var_189d.sub_1b34()) {
+                                        if (class_f11.var_189d.IsAnimOver()) {
                                             class_f11.sub_8365(0);
                                             break;
                                         }
                                         break;
                                     }
                                     case 7: {
-                                        if (class_f11.var_189d.sub_1b34()) {
+                                        if (class_f11.var_189d.IsAnimOver()) {
                                             class_f11.sub_8365(0);
                                             class_f11.var_1675 = true;
                                             break;
@@ -586,7 +586,7 @@ final class Class_f
                                         break;
                                     }
                                     case 3: {
-                                        if (class_f11.var_189d.sub_1b34()) {
+                                        if (class_f11.var_189d.IsAnimOver()) {
                                             if (!cGame.var_6c24 && cGame.getState() == 18) {
                                                 cGame.var_6c24 = true;
                                                 cGame.var_6c8c = (cGame.var_6c94 = false);
@@ -817,7 +817,7 @@ final class Class_f
                     case 22: {
                         final Class_f class_f16;
                         if ((class_f16 = class_f).var_185d != 0) {
-                            if (class_f16.var_189d.sub_1b34()) {
+                            if (class_f16.var_189d.IsAnimOver()) {
                                 class_f16.var_189d.SetAnim(0, -1);
                             }
                             class_f16.sub_605f();
@@ -826,7 +826,7 @@ final class Class_f
                     }
                     case 23: {
                         final Class_f class_f17;
-                        if ((class_f17 = class_f).var_189d != null && class_f17.var_189d.sub_1b34() && (Class_f.var_1785 == -1 || Class_f.var_1785 < Class_f.var_178d)) {
+                        if ((class_f17 = class_f).var_189d != null && class_f17.var_189d.IsAnimOver() && (Class_f.var_1785 == -1 || Class_f.var_1785 < Class_f.var_178d)) {
                             class_f17.var_189d.SetAnim(1, 1);
                             final int sub_312c = class_f17.var_189d.GetSprite().sub_312c(0);
                             final int sub_1924 = class_f17.var_189d.GetSprite().sub_3189(0);
@@ -837,7 +837,7 @@ final class Class_f
                             }
                             break;
                         }
-                        if (class_f17.var_189d != null && class_f17.var_189d.sub_1b34() && Class_f.var_1785 >= Class_f.var_178d) {
+                        if (class_f17.var_189d != null && class_f17.var_189d.IsAnimOver() && Class_f.var_1785 >= Class_f.var_178d) {
                             class_f17.var_189d = null;
                             class_f17.var_17c5 = -1;
                             sub_5439(0, 23, new Class_f[1], 1);
@@ -860,7 +860,7 @@ final class Class_f
                     case 33: {
                         class_f.var_17cd = class_f.var_1895.var_17cd;
                         class_f.var_17d5 = class_f.var_1895.var_17d5;
-                        if (class_f.var_189d != null && class_f.var_189d.sub_1b34()) {
+                        if (class_f.var_189d != null && class_f.var_189d.IsAnimOver()) {
                             class_f.var_189d = null;
                             break;
                         }
@@ -1150,7 +1150,7 @@ final class Class_f
                     cGame.sub_2e482(var_17ad.var_1725);
                 }
                 else if (var_17ad.var_16fd == 6) {
-                    cGame.sub_2e549(var_17ad.var_1725);
+                    cGame.addCash(var_17ad.var_1725);
                 }
                 else if (var_17ad.var_16fd == 59) {
                     final int n = var_17ad.var_1725 & 0xFFFF;
@@ -2457,7 +2457,7 @@ final class Class_f
             cGame.sub_28ca1();
         }
         if (this.sub_a2a0(4)) {
-            if (cGame.sub_2e9cd(this.var_1685) >= this.var_164d) {
+            if (cGame.getFeed(this.var_1685) >= this.var_164d) {
                 cGame.sub_2ec47(4, this);
             }
             else {
@@ -2817,7 +2817,7 @@ final class Class_f
                     return;
                 }
                 if (this.var_16fd == 6) {
-                    cGame.sub_2e549(this.var_1725);
+                    cGame.addCash(this.var_1725);
                     return;
                 }
                 if (this.var_16fd == 59) {
@@ -2917,7 +2917,7 @@ final class Class_f
     }
     
     final void sub_8ed0() {
-        if (this.var_189d != null && this.var_189d.sub_1b34() && (Class_f.var_1775 == -1 || Class_f.var_1775 < Class_f.var_177d)) {
+        if (this.var_189d != null && this.var_189d.IsAnimOver() && (Class_f.var_1775 == -1 || Class_f.var_1775 < Class_f.var_177d)) {
             cGame.sub_23a84(GLLib.Math_Rand(26, 30));
             this.var_189d.SetAnim(0, 1);
             final int sub_312c = this.var_189d.GetSprite().sub_312c(0);
@@ -2934,7 +2934,7 @@ final class Class_f
             }
             return;
         }
-        if (this.var_189d != null && this.var_189d.sub_1b34() && Class_f.var_1775 >= Class_f.var_177d) {
+        if (this.var_189d != null && this.var_189d.IsAnimOver() && Class_f.var_1775 >= Class_f.var_177d) {
             this.var_189d = null;
             this.var_17c5 = -1;
             if (sub_5439(0, 21, new Class_f[1], 1) == 0) {
