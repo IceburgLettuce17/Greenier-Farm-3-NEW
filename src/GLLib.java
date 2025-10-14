@@ -513,13 +513,12 @@ public abstract class GLLib extends Canvas implements Runnable
     }
     
     static void sub_2dcf(final int n, final int n2, final int n3, final int n4, final int n5, final int n6, int n7) {
-        final int n8 = n7 * n7;
-        final int n10;
-        final int n9 = n10 = GLLib.var_1e9f - n7;
+        int n10 = GLLib.var_1e9f;
+        final int n9 = n10 - n7;
         final int n11 = n9 * n9;
         n7 *= n10;
-        GLLib.var_1eb7 = (n * n11 + (n3 << 1) * n7 + n5 * n8) / (1 << 16);
-        GLLib.var_1ebf = (n2 * n11 + (n4 << 1) * n7 + n6 * n8) / (1 << 16);
+        GLLib.var_1eb7 = (n * n11 + (n3 << 1) * n7 + n5 * n7 * n7) / (1 << 16);
+        GLLib.var_1ebf = (n2 * n11 + (n4 << 1) * n7 + n6 * n7 * n7) / (1 << 16);
     }
     
     private static void Pack_GetDataOffset() {
@@ -790,14 +789,12 @@ public abstract class GLLib extends Canvas implements Runnable
         _g.setClip(x, y, width, height);
     }
     
-    static final void sub_3731(final Graphics graphics, int n, int n2, int n3, int n4, final boolean b) {
-        final int n5 = n;
-        n = ASprite.s_screenWidth - n2 - 1;
-        n2 = n5;
-        final int n6 = n3;
-        n3 = ASprite.s_screenWidth - n4 - 1;
-        n4 = n6;
-        graphics.drawLine(n, n2, n3, n4);
+    static final void sub_3731(final Graphics _g, int x1, int y1, int x2, int y2, final boolean processAlpha) {
+        x1 = ASprite.s_screenWidth - y1 - 1;
+        y1 = x1;
+        x2 = ASprite.s_screenWidth - y2 - 1;
+        y2 = x2;
+        _g.drawLine(x1, y1, x2, y2);
     }
     
     static final void FillRect(final Graphics _g, int x, int y, int width, int height, final boolean processAlpha) {
@@ -808,14 +805,13 @@ public abstract class GLLib extends Canvas implements Runnable
         _g.fillRect(x, y, width, height);
     }
     
-    static final void sub_37b0(final Graphics graphics, int n, int n2, int n3, int n4, final boolean b) {
-        final int n5 = n;
-        n = ASprite.s_screenWidth - n2 - n4 - 1;
-        n2 = n5;
-        final int n6 = n3;
-        n3 = n4;
-        n4 = n6;
-        graphics.drawRect(n, n2, n3, n4);
+    static final void DrawRect(final Graphics _g, int x, int y, int width, int height, final boolean b) {
+        final int n5 = x;
+        x = ASprite.s_screenWidth - y - height - 1;
+        y = n5;
+        width = height;
+        height = width;
+        _g.drawRect(x, y, width, height);
     }
     
     static final void sub_37ef(final Graphics graphics, int n, int n2, int n3, int n4, int n5, final int n6, final boolean b) {

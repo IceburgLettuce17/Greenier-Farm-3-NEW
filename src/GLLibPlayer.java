@@ -2053,7 +2053,7 @@ final class GLLibPlayer implements Runnable
             GLLib.sub_38df(graphics, (GLLibImage)o, n7, n8, 20, true);
         }
         else if (n11 == 1) {
-            GLLib.sub_37b0(graphics, n7, n8, n9, n10, true);
+            GLLib.DrawRect(graphics, n7, n8, n9, n10, true);
         }
         else if (n11 == 2) {
             GLLib.FillRect(graphics, n7, n8, n9, n10, true);

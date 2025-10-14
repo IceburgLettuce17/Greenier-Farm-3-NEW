@@ -10456,7 +10456,7 @@ public final class cGame extends GLLib implements Class_b {
 					if (array3[10] == 1) {
 						GLLib.g
 								.setColor((array3[7] & 0xFF) << 16 | (array3[8] & 0xFF) << 8 | (array3[9] & 0xFF));
-						GLLib.sub_37b0(GLLib.g, n4, n5, n6, n7, true);
+						GLLib.DrawRect(GLLib.g, n4, n5, n6, n7, true);
 					}
 					break;
 				}

@@ -1254,7 +1254,7 @@ public final class ASprite
         return this.var_11af;
     }
     
-    private int sub_4992() {
+    private int GetSpaceWidth() {
         if (this.var_11f7 >= 0) {
             return this.var_11c7 * this.var_11f7 >> 8;
         }
@@ -1289,14 +1289,14 @@ public final class ASprite
         return array[n];
     }
     
-    final short[] WraptextB(final String s, final int n, final boolean b) {
+    final short[] WraptextB(final String s, final int width, final boolean b) {
         if (ASprite._warpTextInfo == null) {
             ASprite._warpTextInfo = new short[1100];
         }
         final int str_len = s.length();
-        short n2 = 0;
+        short lineSize = 0;
         int n3 = 1;
-        int index = 0;
+        int lastSpacePos = 0;
         int var_11df = this.var_11df ? 1 : 0;
         int var_11d7 = this.var_11d7 ? 1 : 0;
         int var_108f = this.var_108f;
@@ -1307,38 +1307,38 @@ public final class ASprite
         int var_108f2;
         int n6 = ((var_108f2 = this.var_108f) & 0xFFF) | ((var_11df2 != 0) ? 4096 : 0) | ((var_11d8 != 0) ? 8192 : 0);
         for (int i = 0; i < str_len; ++i) {
-            final char char1 = s.charAt(i);
-            final int sub_63ed = this.sub_63ed(this.sub_4851(char1));
-            if (char1 == ' ' || char1 == ASprite.var_1157) {
-                if (char1 == ' ') {
-                    n2 += (short)this.sub_4992();
+            final char c = s.charAt(i);
+            final int sub_63ed = this.sub_63ed(this.sub_4851(c));
+            if (c == ' ' || c == ASprite.var_1157) {
+                if (c == ' ') {
+                    lineSize += (short)this.GetSpaceWidth();
                 }
-                index = (short)i;
+                lastSpacePos = (short)i;
                 var_11df = var_11df2;
                 n4 = 1;
                 n5 = 0;
                 var_11d7 = var_11d8;
                 var_108f = var_108f2;
-                if (n2 > n) {
+                if (lineSize > width) {
                     n4 = 0;
-                    for (int pos2 = index; pos2 >= 0 && (s.charAt(pos2) == ' ' || s.charAt(pos2) == ASprite.var_1157); --pos2) {
-                        if (s.charAt(pos2) == ' ') {
-                            n2 -= (short)this.sub_4992();
+                    for (int pos = lastSpacePos; pos >= 0 && (s.charAt(pos) == ' ' || s.charAt(pos) == ASprite.var_1157); --pos) {
+                        if (s.charAt(pos) == ' ') {
+                            lineSize -= (short)this.GetSpaceWidth();
                         }
                     }
-                    while (index < str_len && (s.charAt(index) == ' ' || s.charAt(index) == ASprite.var_1157)) {
-                        index = (short)(index + 1);
+                    while (lastSpacePos < str_len && (s.charAt(lastSpacePos) == ' ' || s.charAt(lastSpacePos) == ASprite.var_1157)) {
+                        ++lastSpacePos;
                     }
-                    index = (i = (short)(index - 1));
+                    lastSpacePos = (i = (short)(lastSpacePos - 1));
                     var_11df2 = var_11df;
-                    final short[] var_11ff = ASprite._warpTextInfo;
+                    final short[] warpTextInfo = ASprite._warpTextInfo;
                     final int n7 = n3;
                     final short n8 = (short)(n3 + 1);
-                    var_11ff[n7] = (short)(index + 1);
+                    warpTextInfo[n7] = (short)(lastSpacePos + 1);
                     final short[] var_11ff2 = ASprite._warpTextInfo;
                     final short n9 = n8;
                     final short n10 = (short)(n8 + 1);
-                    var_11ff2[n9] = n2;
+                    var_11ff2[n9] = lineSize;
                     final short[] var_11ff3 = ASprite._warpTextInfo;
                     final short n11 = n10;
                     n3 = (short)(n10 + 1);
@@ -1346,10 +1346,10 @@ public final class ASprite
                     var_11d8 = var_11d7;
                     var_108f2 = var_108f;
                     n6 = ((var_108f & 0xFFF) | ((var_11df != 0) ? 4096 : 0) | ((var_11d7 != 0) ? 8192 : 0));
-                    n2 = 0;
+                    lineSize = 0;
                 }
             }
-            else if (char1 == '\\') {
+            else if (c == '\\') {
                 ++i;
                 final char char2;
                 if ((char2 = s.charAt(i)) == '^') {
@@ -1366,7 +1366,7 @@ public final class ASprite
                     }
                 }
             }
-            else if (char1 == '\n') {
+            else if (c == '\n') {
                 final short[] var_11ff4 = ASprite._warpTextInfo;
                 final int n13 = n3;
                 final short n14 = (short)(n3 + 1);
@@ -1374,9 +1374,9 @@ public final class ASprite
                 final short[] var_11ff5 = ASprite._warpTextInfo;
                 final short n15 = n14;
                 final short n16 = (short)(n14 + 1);
-                var_11ff5[n15] = n2;
-                index = (short)i;
-                n2 = 0;
+                var_11ff5[n15] = lineSize;
+                lastSpacePos = (short)i;
+                lineSize = 0;
                 n5 = 0;
                 final short[] var_11ff6 = ASprite._warpTextInfo;
                 final short n17 = n16;
@@ -1385,12 +1385,12 @@ public final class ASprite
                 n6 = ((var_108f2 & 0xFFF) | ((var_11df2 != 0) ? 4096 : 0) | ((var_11d8 != 0) ? 8192 : 0));
             }
             else {
-                if (char1 < ' ') {
-                    if (char1 == '\u0001') {
+                if (c < ' ') {
+                    if (c == '\u0001') {
                         ++i;
                         continue;
                     }
-                    if (char1 != '\u0002') {
+                    if (c != '\u0002') {
                         continue;
                     }
                     ++i;
@@ -1400,16 +1400,16 @@ public final class ASprite
                     ++n18;
                 }
                 n5 += (short)n18;
-                if ((n2 += (short)n18) > n) {
+                if ((lineSize += (short)n18) > width) {
                     final boolean b2;
                     if (b2 = (n4 == 0)) {
-                        n2 -= (short)n18;
-                        index = (short)(i - 1);
+                        lineSize -= (short)n18;
+                        lastSpacePos = (short)(i - 1);
                     }
                     n4 = 0;
-                    for (int n19 = index; n19 >= 0 && (s.charAt(n19) == ' ' || s.charAt(n19) == '\n' || s.charAt(n19) == ASprite.var_1157); --n19) {
+                    for (int n19 = lastSpacePos; n19 >= 0 && (s.charAt(n19) == ' ' || s.charAt(n19) == '\n' || s.charAt(n19) == ASprite.var_1157); --n19) {
                         if (s.charAt(n19) == ' ') {
-                            n2 -= (short)this.sub_4992();
+                            lineSize -= (short)this.GetSpaceWidth();
                         }
                     }
                     if (b2) {
@@ -1418,15 +1418,15 @@ public final class ASprite
                         var_108f = var_108f2;
                         n5 = 0;
                     }
-                    if (s.charAt(index) != '\n') {
+                    if (s.charAt(lastSpacePos) != '\n') {
                         final short[] var_11ff7 = ASprite._warpTextInfo;
                         final int n20 = n3;
                         final short n21 = (short)(n3 + 1);
-                        var_11ff7[n20] = (short)(index + 1);
+                        var_11ff7[n20] = (short)(lastSpacePos + 1);
                         final short[] var_11ff8 = ASprite._warpTextInfo;
                         final short n22 = n21;
                         n3 = (short)(n21 + 1);
-                        var_11ff8[n22] = (short)(n2 - n5);
+                        var_11ff8[n22] = (short)(lineSize - n5);
                     }
                     final short[] var_11ff9 = ASprite._warpTextInfo;
                     final int n23 = n3;
@@ -1435,8 +1435,8 @@ public final class ASprite
                     var_11d8 = var_11d7;
                     var_108f2 = var_108f;
                     n6 = ((var_108f & 0xFFF) | ((var_11df != 0) ? 4096 : 0) | ((var_11d7 != 0) ? 8192 : 0));
-                    n2 = 0;
-                    i = index;
+                    lineSize = 0;
+                    i = lastSpacePos;
                     var_11df2 = var_11df;
                 }
             }
@@ -1448,12 +1448,12 @@ public final class ASprite
         final short[] var_11ff11 = ASprite._warpTextInfo;
         final short n26 = n25;
         final short n27 = (short)(n25 + 1);
-        var_11ff11[n26] = n2;
+        var_11ff11[n26] = lineSize;
         final short[] var_11ff12 = ASprite._warpTextInfo;
         final short n28 = n27;
-        final short n29 = (short)(n27 + 1);
+        final short cnt = (short)(n27 + 1);
         var_11ff12[n28] = (short)n6;
-        ASprite._warpTextInfo[0] = (short)(n29 / 3);
+        ASprite._warpTextInfo[0] = (short)(cnt / 3);
         return ASprite._warpTextInfo;
     }
     
@@ -1563,12 +1563,12 @@ public final class ASprite
                     else {
                         if (c == ' ' || c == ASprite.var_1157) {
                             if (c == ' ') {
-                                n += this.sub_4992();
+                                n += this.GetSpaceWidth();
                             }
                             break Label_0328;
                         }
                         if (c == ' ') {
-                            n += this.sub_4992();
+                            n += this.GetSpaceWidth();
                             break Label_0328;
                         }
                         if (c == '\n') {
@@ -1682,9 +1682,9 @@ public final class ASprite
                         if (c == ' ') {
                             if (this.var_11d7) {
                                 final int sub_4852 = this.sub_4851(95);
-                                this.sub_71ae(graphics, sub_4852, n3 + (this.sub_4992() - this.sub_63ed(sub_4852) >> 1), n2, 0);
+                                this.sub_71ae(graphics, sub_4852, n3 + (this.GetSpaceWidth() - this.sub_63ed(sub_4852) >> 1), n2, 0);
                             }
-                            n3 += this.sub_4992();
+                            n3 += this.GetSpaceWidth();
                             continue;
                         }
                         if (c == '\n') {
@@ -2297,7 +2297,7 @@ public final class ASprite
                 case 1: {
                     --n29;
                     --n28;
-                    GLLib.sub_37b0(graphics4, n27, n26, n29, n28, true);
+                    GLLib.DrawRect(graphics4, n27, n26, n29, n28, true);
                     return;
                 }
                 case 3:

@@ -76,7 +76,7 @@ public final class Class_o {
 	private static Vector coinVector;
 	private static String[] var_2b4d;
 	private static boolean creditCardEnabled;
-	private static boolean var_2b5d;
+	//private static boolean var_2b5d;
 	private static String[] var_2b65;
 	private static String[] var_2b6d;
 	private static String[] var_2b75;
@@ -672,7 +672,7 @@ public final class Class_o {
 		rmsSave(Class_o.rmsNames[0], "0");
 		Class_o.redeemUnlocked = false;
 		rmsSave(Class_o.rmsNames[4], "0");
-		Class_o.var_2b5d = false;
+		//Class_o.var_2b5d = false;
 	}
 
 	public static void sub_43d0() {
@@ -1969,7 +1969,7 @@ public final class Class_o {
 		Class_o.coinVector = null;
 		Class_o.var_2b4d = null;
 		Class_o.creditCardEnabled = false;
-		Class_o.var_2b5d = false;
+		//Class_o.var_2b5d = false;
 		Class_o.var_2b65 = new String[] { "2124", "2126", "2128", "2130", "3501", "3503", "3505", "3507", "3509",
 				"3511" };
 		Class_o.var_2b6d = new String[] { "1152", "1154", "1049", "1156", "2741", "2743", "2745", "2878" };
