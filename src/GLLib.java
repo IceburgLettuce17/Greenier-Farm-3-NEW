@@ -1376,7 +1376,7 @@ public abstract class GLLib extends Canvas implements Runnable
     }
     
     static void Text_LoadTextFromPack(String filename, final int index) {
-        Text_FreeAll(index);
+        Text_Free(index);
         Pack_Open(filename);
         Pack_PositionAtData(index);
         if (GLLib.idk == null) {
@@ -1422,16 +1422,16 @@ public abstract class GLLib extends Canvas implements Runnable
         }
     }
     
-    static void sub_4ec1() {
+    static void Text_FreeAll() {
         for (int i = 0; i < 32; ++i) {
-            Text_FreeAll(i);
+            Text_Free(i);
         }
     }
     
-    private static void Text_FreeAll(final int n) {
+    private static void Text_Free(final int index) {
         if (GLLib.idk != null) {
             final int n2;
-            if ((n2 = GLLib.idk[n]) == -1) {
+            if ((n2 = GLLib.idk[index]) == -1) {
                 return;
             }
             if (GLLib.text_stringCacheArray[n2] != null) {
@@ -1443,7 +1443,7 @@ public abstract class GLLib extends Canvas implements Runnable
             GLLib.var_1faf[n2] = null;
             GLLib.localeGroups[n2] = null;
             GLLib.var_1fa7[n2] = 0;
-            GLLib.idk[n] = -1;
+            GLLib.idk[index] = -1;
         }
     }
     

@@ -29778,7 +29778,7 @@ public final class cGame extends GLLib implements Class_b {
 		cGame.var_7ffc = null;
 		GLLib.s_display = null;
 		GLLib.s_gllib_instance = null;
-		GLLib.sub_4ec1();
+		GLLib.Text_FreeAll();
 		GLLib.Pack_FullyClose();
 		ASprite.var_f67 = null;
 		try {
