@@ -138,12 +138,12 @@ final class GLLibPlayer implements Runnable
         return this.curAnim;
     }
     
-    final void sub_1941() {
+    final void SetRandomFrame() {
         this.curFrame = GLLib.Math_Rand(0, this.GetNbFrame());
         this.curTime = 0;
     }
     
-    final int sub_196d() {
+    final int GetFrame() {
         return this.curFrame;
     }
     

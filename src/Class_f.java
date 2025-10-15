@@ -455,7 +455,7 @@ final class Class_f
                                 }
                                 class_f11.var_18b5.sub_1d9e(cGame.var_7fc4);
                                 if (class_f11.var_18b5.IsAnimOver()) {
-                                    if (sub_1923 == 1 && cGame.var_7fd4 == 18) {
+                                    if (sub_1923 == 1 && cGame.s_tutorialState == 18) {
                                         cGame.var_6c94 = true;
                                     }
                                     class_f11.var_18b5 = null;
@@ -527,7 +527,7 @@ final class Class_f
                                         final int[] array5 = array3;
                                         final int n7 = 1;
                                         array5[n7] += sub_2b98;
-                                        if (cGame.var_7fd4 == -1 && !cGame.sub_2cce3(array3[0], array3[1], class_f12.var_1815 << 1, class_f12.var_181d << 1)) {
+                                        if (cGame.s_tutorialState == -1 && !cGame.sub_2cce3(array3[0], array3[1], class_f12.var_1815 << 1, class_f12.var_181d << 1)) {
                                             cGame.sub_2c8b0(array3, array2);
                                             class_f12.sub_ac99(array2[0], array2[1]);
                                             break;
@@ -536,7 +536,7 @@ final class Class_f
                                         break;
                                     }
                                     case 1: {
-                                        if (cGame.var_7fd4 == 15) {
+                                        if (cGame.s_tutorialState == 15) {
                                             class_f11.sub_8365(0);
                                         }
                                         final int var_17cd = class_f11.var_17cd;
@@ -590,7 +590,7 @@ final class Class_f
                                             if (!cGame.var_6c24 && cGame.getState() == 18) {
                                                 cGame.var_6c24 = true;
                                                 cGame.var_6c8c = (cGame.var_6c94 = false);
-                                                cGame.var_7fd4 = 33;
+                                                cGame.s_tutorialState = 33;
                                             }
                                             class_f11.sub_8365(0);
                                             break;
@@ -671,7 +671,7 @@ final class Class_f
                                 }
                                 else if (!class_f11.sub_a2a0(4) && !class_f11.sub_a2a0(16)) {
                                     final long currentTimeMillis2 = System.currentTimeMillis();
-                                    if (cGame.var_7fd4 == 33) {
+                                    if (cGame.s_tutorialState == 33) {
                                         class_f11.var_161d = currentTimeMillis2;
                                     }
                                     final long n15 = (currentTimeMillis2 - class_f11.var_161d) / 1000L;
@@ -703,10 +703,10 @@ final class Class_f
                                         }
                                     }
                                     if (n15 >= class_f11.var_1625 && class_f11.var_161d != 0L) {
-                                        if (cGame.var_7fd4 == 35) {
+                                        if (cGame.s_tutorialState == 35) {
                                             cGame.var_6c94 = true;
                                         }
-                                        if (cGame.var_7fd4 != 34) {
+                                        if (cGame.s_tutorialState != 34) {
                                             class_f11.sub_85b3(16);
                                             cGame.sub_11320(false, null);
                                         }
@@ -749,7 +749,7 @@ final class Class_f
                         }
                         if (class_f14.var_185d == 3) {
                             final long n16;
-                            if ((n16 = (System.currentTimeMillis() - class_f14.var_15e5) / 1000L) >= class_f14.var_15ed / 2 && cGame.var_7fd4 != 8 && cGame.var_7fd4 != 45) {
+                            if ((n16 = (System.currentTimeMillis() - class_f14.var_15e5) / 1000L) >= class_f14.var_15ed / 2 && cGame.s_tutorialState != 8 && cGame.s_tutorialState != 45) {
                                 class_f14.sub_7795(4);
                             }
                             if (cGame.var_8034 == class_f14 && class_f14.var_15ed != 0) {
@@ -759,7 +759,7 @@ final class Class_f
                         }
                         else if (class_f14.var_185d == 4) {
                             final long n17;
-                            if ((n17 = (System.currentTimeMillis() - class_f14.var_15e5) / 1000L) >= class_f14.var_15ed && (cGame.var_7fd4 < 46 || cGame.var_7fd4 > 57) && cGame.var_7fd4 != 8 && cGame.var_7fd4 != 45) {
+                            if ((n17 = (System.currentTimeMillis() - class_f14.var_15e5) / 1000L) >= class_f14.var_15ed && (cGame.s_tutorialState < 46 || cGame.s_tutorialState > 57) && cGame.s_tutorialState != 8 && cGame.s_tutorialState != 45) {
                                 class_f14.sub_7795(5);
                             }
                             if (cGame.var_8034 == class_f14 && class_f14.var_15ed != 0) {
@@ -975,7 +975,7 @@ final class Class_f
                             if (cGame.var_7fc4 < 100 && cGame.sub_438b0(class_f.var_1865)) {
                                 final ASprite sub_17f3;
                                 (sub_17f3 = class_f.var_189d.GetSprite()).sub_6434(var_1875);
-                                sub_17f3.PaintAFrame(GLLib.g, sub_17f3.sub_36dd() / 2 + class_f.var_189d.GetAnim(), class_f.var_189d.sub_196d(), class_f.var_17ed, class_f.var_17f5, 0);
+                                sub_17f3.PaintAFrame(GLLib.g, sub_17f3.sub_36dd() / 2 + class_f.var_189d.GetAnim(), class_f.var_189d.GetFrame(), class_f.var_17ed, class_f.var_17f5, 0);
                             }
                             else {
                                 class_f.var_189d.GetSprite().sub_6434(var_1875);
@@ -984,7 +984,7 @@ final class Class_f
                                 class_f.var_189d.sub_1b7f();
                             }
                             if (class_f.sub_a2a0(33554432)) {
-                                cGame.var_7ff4[class_f.var_1865].sub_354b(Class_f.var_1905, class_f.var_189d.GetAnim(), class_f.var_189d.sub_196d(), class_f.var_17cd, class_f.var_17d5, class_f.var_189d.curFlags);
+                                cGame.var_7ff4[class_f.var_1865].sub_354b(Class_f.var_1905, class_f.var_189d.GetAnim(), class_f.var_189d.GetFrame(), class_f.var_17cd, class_f.var_17d5, class_f.var_189d.curFlags);
                                 if (cGame.var_7fc4 != 100) {
                                     Class_f.var_1905[0] = Class_f.var_1905[0] * cGame.var_7fc4 / 100;
                                     Class_f.var_1905[1] = Class_f.var_1905[1] * cGame.var_7fc4 / 100;
@@ -1819,7 +1819,7 @@ final class Class_f
                 }
                 else if (cGame.var_807c == 0 && cGame.sub_2d213(array2[0], array2[1]) > 0) {
                     final int sub_2d213;
-                    if ((sub_2d213 = cGame.sub_2d213(array2[0], array2[1])) >= 1 && !cGame.var_6d5c[sub_2d213] && cGame.var_7fd4 == -1 && cGame.sub_4abbb(cGame.var_80f4[0]) && cGame.sub_4abbb(cGame.var_80f4[1])) {
+                    if ((sub_2d213 = cGame.sub_2d213(array2[0], array2[1])) >= 1 && !cGame.var_6d5c[sub_2d213] && cGame.s_tutorialState == -1 && cGame.sub_4abbb(cGame.var_80f4[0]) && cGame.sub_4abbb(cGame.var_80f4[1])) {
                         cGame.var_6d54 = sub_2d213;
                         cGame.sub_81e0(12);
                     }
@@ -1827,7 +1827,7 @@ final class Class_f
             }
             else if (cGame.var_807c == 0 && GLLib.sub_76f9() && !cGame.sub_2d3f4(cGame.sub_2d213(array2[0], array2[1])) && cGame.sub_2d213(array2[0], array2[1]) > 0 && cGame.var_6aa4 == -1 && cGame.sub_4abbb(cGame.var_80f4[0]) && cGame.sub_4abbb(cGame.var_80f4[1])) {
                 final int sub_2d214 = cGame.sub_2d213(array2[0], array2[1]);
-                if (cGame.sub_2d213(array2[0], array2[1]) > 0 && cGame.var_7fd4 == -1) {
+                if (cGame.sub_2d213(array2[0], array2[1]) > 0 && cGame.s_tutorialState == -1) {
                     cGame.var_6d54 = sub_2d214;
                     cGame.var_6df4 = true;
                 }
@@ -2096,7 +2096,7 @@ final class Class_f
     }
     
     final boolean sub_6f71() {
-        if (cGame.var_7fd4 == 1 || cGame.var_7fd4 == 2 || cGame.var_7fd4 == 3 || (cGame.var_7fd4 >= 32 && cGame.var_7fd4 <= 36)) {
+        if (cGame.s_tutorialState == 1 || cGame.s_tutorialState == 2 || cGame.s_tutorialState == 3 || (cGame.s_tutorialState >= 32 && cGame.s_tutorialState <= 36)) {
             return false;
         }
         if (this.var_185d == 5) {
@@ -2106,18 +2106,18 @@ final class Class_f
     }
     
     final boolean sub_6fe6() {
-        if (cGame.var_7fd4 == 4 || cGame.var_7fd4 == 7 || cGame.var_7fd4 == 44) {
+        if (cGame.s_tutorialState == 4 || cGame.s_tutorialState == 7 || cGame.s_tutorialState == 44) {
             cGame.var_6c94 = true;
         }
         if (this.var_185d == 1 && cGame.var_6af4 == 0) {
             if (cGame.var_6b44 <= cGame.getLevel()) {
-                if (cGame.var_7fd4 == 45) {
+                if (cGame.s_tutorialState == 45) {
                     cGame.var_6b0c = 1;
                 }
                 this.sub_736e(cGame.var_6b0c);
                 if ((cGame.var_6b24 > 0 && cGame.sub_2e3a5(cGame.var_6b24)) || (cGame.var_6b2c > 0 && cGame.sub_2e3d9(cGame.var_6b2c))) {
                     cGame.sub_2ec47(0, this);
-                    if (cGame.var_7fd4 == 5 || cGame.var_7fd4 == 8) {
+                    if (cGame.s_tutorialState == 5 || cGame.s_tutorialState == 8) {
                         cGame.var_6ccc = false;
                     }
                 }
@@ -2161,25 +2161,25 @@ final class Class_f
             return false;
         }
         cGame.sub_2ec47(1, this);
-        if (cGame.var_7fd4 == 5) {
+        if (cGame.s_tutorialState == 5) {
             cGame.var_6ccc = false;
         }
         return true;
     }
     
     final boolean sub_7296() {
-        if (cGame.var_7fd4 == 38) {
+        if (cGame.s_tutorialState == 38) {
             return false;
         }
         if (this.var_185d == 1 && cGame.var_6af4 != 0 && (cGame.var_70e4 & 0x1) == 0x1) {
             cGame.sub_251a0(0);
             return true;
         }
-        if (cGame.var_7fd4 >= 14 && cGame.var_7fd4 <= 35) {
+        if (cGame.s_tutorialState >= 14 && cGame.s_tutorialState <= 35) {
             return false;
         }
         if ((this.var_185d == 3 || this.var_185d == 4) && cGame.var_6af4 == -1) {
-            if (cGame.var_7fd4 == -1) {
+            if (cGame.s_tutorialState == -1) {
                 cGame.sub_23a84(47);
                 cGame.sub_11320(true, this);
             }
@@ -2207,15 +2207,15 @@ final class Class_f
     final void sub_73e7() {
         if ((this.var_15f5 > 0 && cGame.sub_2e369(this.var_15f5)) || (this.var_15fd > 0 && cGame.sub_2e449(this.var_15fd))) {
             this.sub_7795(3);
-            if (cGame.var_7fd4 == 45) {
+            if (cGame.s_tutorialState == 45) {
                 ++cGame.var_6cbc;
                 return;
             }
-            if (cGame.var_7fd4 == 8) {
+            if (cGame.s_tutorialState == 8) {
                 ++cGame.var_6cbc;
                 return;
             }
-            if (cGame.var_7fd4 == -1) {
+            if (cGame.s_tutorialState == -1) {
                 cGame.sub_4a20b(this.var_18c5, 1, 12);
             }
         }
@@ -2244,10 +2244,10 @@ final class Class_f
     
     final void sub_7589() {
         this.sub_7795(1);
-        if (cGame.var_7fd4 == 38) {
+        if (cGame.s_tutorialState == 38) {
             ++cGame.var_6cbc;
         }
-        else if (cGame.var_7fd4 == 5) {
+        else if (cGame.s_tutorialState == 5) {
             ++cGame.var_6cbc;
         }
         this.sub_75fa(false);
@@ -2271,10 +2271,10 @@ final class Class_f
             if (this.sub_a2a0(1024)) {
                 ++n;
             }
-            if (b && cGame.var_7fd4 == -1) {
+            if (b && cGame.s_tutorialState == -1) {
                 cGame.sub_2bae9(this.var_18c5, n, 14);
             }
-            if (cGame.var_7fd4 == -1) {
+            if (cGame.s_tutorialState == -1) {
                 cGame.sub_4a20b(this.var_18c5, n, 14);
             }
             sub_92ea.sub_8c4c(this.var_17cd, this.var_17d5, 59, 1000, true, var_188d | n << 16);
@@ -2363,7 +2363,7 @@ final class Class_f
     
     final boolean sub_7a79() {
         if (this.var_185d == 2) {
-            if (cGame.var_7fd4 != 18 && cGame.var_6af4 == -1) {
+            if (cGame.s_tutorialState != 18 && cGame.var_6af4 == -1) {
                 cGame.sub_23a84(47);
                 cGame.sub_11320(true, this);
                 return true;

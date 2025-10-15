@@ -46,7 +46,7 @@ public abstract class GLLib extends Canvas implements Runnable
     static boolean var_1e47;
     private static String s_platformRequestUrl;
     private static int m_keys_pressed;
-    private static int m_keys_state;
+    private static int m_keys_released;
     private static int m_current_keys_state;
     private static int m_current_keys_pressed;
     private static int m_current_keys_released;
@@ -274,7 +274,7 @@ public abstract class GLLib extends Canvas implements Runnable
         GLLib.s_game_isInPaint = true;
         if (GLLib.s_game_state != -1) {
             GLLib.m_keys_pressed = GLLib.m_current_keys_pressed;
-            GLLib.m_keys_state = GLLib.m_current_keys_released;
+            GLLib.m_keys_released = GLLib.m_current_keys_released;
             GLLib.m_current_keys_pressed = 0;
             GLLib.m_current_keys_released = 0;
             if (GLLib.var_1e7f > 0) {
@@ -391,7 +391,7 @@ public abstract class GLLib extends Canvas implements Runnable
     
     private static void ResetKey() {
         GLLib.m_keys_pressed = 0;
-        GLLib.m_keys_state = 0;
+        GLLib.m_keys_released = 0;
         GLLib.m_current_keys_state = 0;
         GLLib.m_current_keys_pressed = 0;
         GLLib.m_current_keys_released = 0;
@@ -411,12 +411,12 @@ public abstract class GLLib extends Canvas implements Runnable
     }
     
     public static int IsAnyKeyDown() {
-        if (GLLib.m_keys_state == 0) {
+        if (GLLib.m_keys_released == 0) {
             return -1;
         }
         int i = GLLib.var_1e97;
         while (--i >= 0) {
-            if ((GLLib.m_keys_state & 1 << i) != 0x0) {
+            if ((GLLib.m_keys_released & 1 << i) != 0x0) {
                 return i;
             }
         }
