@@ -241,7 +241,7 @@ public final class cGame extends GLLib implements Class_b {
 	private static int[] var_6ecc;
 	private static int[] var_6ed4;
 	private static byte[] var_6edc;
-	private static int var_6ee4;
+	private static int s_trophy_numTrophies;
 	private static boolean[] var_6eec;
 	private static int[] var_6ef4;
 	private static short[] var_6efc;
@@ -608,14 +608,14 @@ public final class cGame extends GLLib implements Class_b {
 	private static int var_7a44;
 	private static short var_7a4c;
 	private static long var_7a54;
-	private static int[] var_7a5c;
-	private static int var_7a64;
+	private static int[] s_trophy_progBarLevels;
+	private static int s_trophy_scrollLevel;
 	private static byte var_7a6c;
 	private static int var_7a74;
-	private static int var_7a7c;
+	private static int s_trophy_realScrollLevel;
 	private static int var_7a84;
 	private static boolean var_7a8c;
-	private static int var_7a94;
+	private static int s_siloMaxStorage;
 	private static boolean var_7a9c;
 	private static int[] var_7aa4;
 	static int var_7aac;
@@ -3467,7 +3467,7 @@ public final class cGame extends GLLib implements Class_b {
 								cGame.var_753c[n16]),
 						cGame.var_752c[n16]);
 			}
-			for (int n17 = 0; n17 < cGame.var_6ee4; ++n17) {
+			for (int n17 = 0; n17 < cGame.s_trophy_numTrophies; ++n17) {
 				n15 = GLLib.Mem_SetInt(array,
 						GLLib.Mem_SetByte(array,
 								GLLib.Mem_SetInt(array,
@@ -3900,7 +3900,7 @@ public final class cGame extends GLLib implements Class_b {
 					cGame.var_751c = n29 + 1;
 				}
 			}
-			for (int n32 = 0; n32 < cGame.var_6ee4; ++n32) {
+			for (int n32 = 0; n32 < cGame.s_trophy_numTrophies; ++n32) {
 				cGame.var_6e64[n32] = GLLib.Mem_GetInt(rmsGameplay, offset);
 				offset += 4;
 				cGame.var_6edc[n32] = GLLib.Mem_GetByte(rmsGameplay, offset);
@@ -4524,7 +4524,7 @@ public final class cGame extends GLLib implements Class_b {
 				cGame.var_68cc[1][6] = (((sub_4e1f2 = GLLib.Text_GetStringFromLocaleFile(463)) == null) ? "" : sub_4e1f2);
 			}
 			cGame.var_68cc[1][7] = cGame.s_plantGrowTime;
-			cGame.var_68cc[1][5] = Integer.toString(cGame.var_8034.var_18cd);
+			cGame.var_68cc[1][5] = Integer.toString(cGame.var_8034.m_prepareTime);
 		}
 	}
 
@@ -5171,9 +5171,8 @@ public final class cGame extends GLLib implements Class_b {
 		}
 		sub_23a84(56);
 		if (cGame.var_7eb4[cGame.s_currentQuest] > 0) {
-			final String sub_4e1f;
 			cGame.var_7ab4 = (cGame.var_7acc = GLLib.Text_ReplaceText(
-					((sub_4e1f = GLLib.Text_GetStringFromLocaleFile(381)) == null) ? "" : sub_4e1f, "%d",
+					(GLLib.Text_GetStringFromLocaleFile(381) == null ? "" : GLLib.Text_GetStringFromLocaleFile(381)), "%d",
 					GLLib.BigNumberSeparate(cGame.var_7eb4[cGame.s_currentQuest] - getCash(), cGame.var_7fe4, " ")));
 			cGame.var_7aac = 19;
 			cGame.var_7d24 = true;
@@ -9593,45 +9592,45 @@ public final class cGame extends GLLib implements Class_b {
 	}
 
 	private static void sub_1c367() {
-		if (cGame.var_6edc[cGame.var_7a64] == 1) {
+		if (cGame.var_6edc[cGame.s_trophy_scrollLevel] == 1) {
 			sub_23a84(61);
-			sub_2c048(cGame.var_7a64);
+			sub_2c048(cGame.s_trophy_scrollLevel);
 			return;
 		}
 		sub_23a84(56);
 	}
 
 	private static void sub_1c3ac() {
-		if (cGame.var_6edc[cGame.var_7a64 + 1] == 1) {
+		if (cGame.var_6edc[cGame.s_trophy_scrollLevel + 1] == 1) {
 			sub_23a84(61);
-			sub_2c048(cGame.var_7a64 + 1);
+			sub_2c048(cGame.s_trophy_scrollLevel + 1);
 			return;
 		}
 		sub_23a84(56);
 	}
 
 	private static void sub_1c3f5() {
-		if (cGame.var_6edc[cGame.var_7a64 + 2] == 1) {
+		if (cGame.var_6edc[cGame.s_trophy_scrollLevel + 2] == 1) {
 			sub_23a84(61);
-			sub_2c048(cGame.var_7a64 + 2);
+			sub_2c048(cGame.s_trophy_scrollLevel + 2);
 			return;
 		}
 		sub_23a84(56);
 	}
 
 	private static void sub_1c43e() {
-		if (cGame.var_6edc[cGame.var_7a64 + 3] == 1) {
+		if (cGame.var_6edc[cGame.s_trophy_scrollLevel + 3] == 1) {
 			sub_23a84(61);
-			sub_2c048(cGame.var_7a64 + 3);
+			sub_2c048(cGame.s_trophy_scrollLevel + 3);
 			return;
 		}
 		sub_23a84(56);
 	}
 
 	private static void sub_1c487() {
-		if (cGame.var_6edc[cGame.var_7a64 + 4] == 1) {
+		if (cGame.var_6edc[cGame.s_trophy_scrollLevel + 4] == 1) {
 			sub_23a84(61);
-			sub_2c048(cGame.var_7a64 + 4);
+			sub_2c048(cGame.s_trophy_scrollLevel + 4);
 			return;
 		}
 		sub_23a84(56);
@@ -11549,7 +11548,7 @@ public final class cGame extends GLLib implements Class_b {
 						case 50:
 						case 52:
 						case 54: {
-							n = cGame.var_8034.var_18cd;
+							n = cGame.var_8034.m_prepareTime;
 							break;
 						}
 						}
@@ -14107,7 +14106,7 @@ public final class cGame extends GLLib implements Class_b {
 				sub_1f8c5(1);
 			}
 			cGame.var_68cc[1][7] = cGame.s_plantGrowTime;
-			cGame.var_68cc[1][5] = Integer.toString(cGame.var_8034.var_18cd);
+			cGame.var_68cc[1][5] = Integer.toString(cGame.var_8034.m_prepareTime);
 		}
 		sub_26854();
 		if (cGame.var_6b5c != null) {
@@ -14233,7 +14232,7 @@ public final class cGame extends GLLib implements Class_b {
 			class_f.var_188d = class_h.var_82[n2][14];
 			class_f.var_1605 = class_h.var_82[n2][12];
 			class_f.var_191d = class_h.var_82[n2][11];
-			class_f.var_18cd = (byte) class_h.var_82[n2][15];
+			class_f.m_prepareTime = (byte) class_h.var_82[n2][15];
 			class_f.var_187d = (byte) class_h.var_82[n2][9];
 			class_f.var_1885 = (byte) class_h.var_82[n2][10];
 			if (n2 >= 12) {
@@ -16817,21 +16816,21 @@ public final class cGame extends GLLib implements Class_b {
 	}
 
 	private static void sub_2b6d7() {
-		cGame.var_6e64 = new int[cGame.var_6ee4];
-		cGame.var_6e6c = new String[cGame.var_6ee4];
-		cGame.var_6e74 = new String[cGame.var_6ee4];
-		cGame.var_6e7c = new int[cGame.var_6ee4];
-		cGame.var_6e84 = new int[cGame.var_6ee4];
-		cGame.var_6e8c = new int[cGame.var_6ee4];
-		cGame.var_6e94 = new int[cGame.var_6ee4];
-		cGame.var_6e9c = new int[cGame.var_6ee4];
-		cGame.var_6ea4 = new int[cGame.var_6ee4];
-		cGame.var_6eac = new boolean[cGame.var_6ee4];
-		cGame.var_6eb4 = new int[cGame.var_6ee4];
-		cGame.var_6ebc = new int[cGame.var_6ee4];
-		cGame.var_6ec4 = new int[cGame.var_6ee4];
-		cGame.var_6ecc = new int[cGame.var_6ee4];
-		for (int i = 0; i < cGame.var_6ee4; ++i) {
+		cGame.var_6e64 = new int[cGame.s_trophy_numTrophies];
+		cGame.var_6e6c = new String[cGame.s_trophy_numTrophies];
+		cGame.var_6e74 = new String[cGame.s_trophy_numTrophies];
+		cGame.var_6e7c = new int[cGame.s_trophy_numTrophies];
+		cGame.var_6e84 = new int[cGame.s_trophy_numTrophies];
+		cGame.var_6e8c = new int[cGame.s_trophy_numTrophies];
+		cGame.var_6e94 = new int[cGame.s_trophy_numTrophies];
+		cGame.var_6e9c = new int[cGame.s_trophy_numTrophies];
+		cGame.var_6ea4 = new int[cGame.s_trophy_numTrophies];
+		cGame.var_6eac = new boolean[cGame.s_trophy_numTrophies];
+		cGame.var_6eb4 = new int[cGame.s_trophy_numTrophies];
+		cGame.var_6ebc = new int[cGame.s_trophy_numTrophies];
+		cGame.var_6ec4 = new int[cGame.s_trophy_numTrophies];
+		cGame.var_6ecc = new int[cGame.s_trophy_numTrophies];
+		for (int i = 0; i < cGame.s_trophy_numTrophies; ++i) {
 			cGame.var_6e64[i] = -1;
 			cGame.var_6e6c[i] = "";
 			cGame.var_6e74[i] = "";
@@ -16847,12 +16846,12 @@ public final class cGame extends GLLib implements Class_b {
 			cGame.var_6ec4[i] = 0;
 			cGame.var_6ecc[i] = 0;
 		}
-		cGame.var_6ed4 = new int[cGame.var_6ee4];
-		for (int j = 0; j < cGame.var_6ee4; ++j) {
+		cGame.var_6ed4 = new int[cGame.s_trophy_numTrophies];
+		for (int j = 0; j < cGame.s_trophy_numTrophies; ++j) {
 			cGame.var_6ed4[j] = -1;
 		}
-		cGame.var_6edc = new byte[cGame.var_6ee4];
-		for (int k = 0; k < cGame.var_6ee4; ++k) {
+		cGame.var_6edc = new byte[cGame.s_trophy_numTrophies];
+		for (int k = 0; k < cGame.s_trophy_numTrophies; ++k) {
 			cGame.var_6edc[k] = 0;
 		}
 		cGame.var_6eec = new boolean[15];
@@ -16862,7 +16861,7 @@ public final class cGame extends GLLib implements Class_b {
 
 	private static void sub_2b850() {
 		final Class_h class_h = Class_h.var_6a[25];
-		for (int i = 0; i < cGame.var_6ee4; ++i) {
+		for (int i = 0; i < cGame.s_trophy_numTrophies; ++i) {
 			if (cGame.var_6e64[i] == -1) {
 				cGame.var_6e64[i] = class_h.var_82[i][1];
 				final String sub_4e1f;
@@ -16903,7 +16902,7 @@ public final class cGame extends GLLib implements Class_b {
 		if (cGame.s_tutorialState != -1) {
 			return 0;
 		}
-		for (int i = 0; i < cGame.var_6ee4; ++i) {
+		for (int i = 0; i < cGame.s_trophy_numTrophies; ++i) {
 			int n5 = -1;
 			if (!cGame.var_6eac[i] && cGame.var_6e8c[i] == 2999 && n3 == 38) {
 				if (n >= 2000 && n < 2999 && n % 2 == 1) {
@@ -17019,7 +17018,7 @@ public final class cGame extends GLLib implements Class_b {
 
 	private static void sub_2c048(final int n) {
 		final int var_7a84 = cGame.var_6914[0][9];
-		cGame.var_7a7c = cGame.var_7a64;
+		cGame.s_trophy_realScrollLevel = cGame.s_trophy_scrollLevel;
 		if (cGame.var_6edc[n] == 1) {
 			if (cGame.var_6ebc[n] > 0) {
 				cGame.var_709c += cGame.var_6ebc[n];
@@ -17039,7 +17038,7 @@ public final class cGame extends GLLib implements Class_b {
 	}
 
 	static void sub_2c0fa(final boolean b) {
-		for (int i = 0; i < cGame.var_6ee4; ++i) {
+		for (int i = 0; i < cGame.s_trophy_numTrophies; ++i) {
 			if (cGame.var_6ed4[i] == -1 && cGame.var_6edc[i] != 1 && !cGame.var_6eac[i]
 					&& cGame.var_6ea4[i] == 38) {
 				int n = -1;
@@ -22195,7 +22194,7 @@ public final class cGame extends GLLib implements Class_b {
 			}
 			cGame.var_77ac = false;
 			if (cGame.var_808c >= 3) {
-				for (int n23 = 0; n23 < cGame.var_6ee4 && !cGame.var_77ac; ++n23) {
+				for (int n23 = 0; n23 < cGame.s_trophy_numTrophies && !cGame.var_77ac; ++n23) {
 					cGame.var_77ac = (cGame.var_6edc[n23] == 1);
 				}
 				if (cGame.var_77ac) {
@@ -24036,7 +24035,7 @@ public final class cGame extends GLLib implements Class_b {
 		if (n == 0) {
 			cGame.var_7a74 = sub_237d7(19, 1, 0, 14, 16, 71) + 10;
 			sub_2c0fa(false);
-			cGame.var_7a64 = 0;
+			cGame.s_trophy_scrollLevel = 0;
 			for (int i = 0; i < 5; ++i) {
 				sub_2000c(19, 2 + i * 14, true);
 				sub_2000c(19, 15 + i * 14, true);
@@ -24046,29 +24045,29 @@ public final class cGame extends GLLib implements Class_b {
 				sub_2000c(19, 13 + i * 14, true);
 				sub_2000c(19, 14 + i * 14, true);
 			}
-			cGame.var_7a5c = new int[cGame.var_6ee4];
-			for (int j = 0; j < cGame.var_6ee4; ++j) {
+			cGame.s_trophy_progBarLevels = new int[cGame.s_trophy_numTrophies];
+			for (int j = 0; j < cGame.s_trophy_numTrophies; ++j) {
 				if (cGame.var_6e8c[j] == 5999) {
 					if (decryptInt(cGame.var_6e9c[j]) > 0) {
-						cGame.var_7a5c[j] = 415 * decryptInt(cGame.var_6e94[j]) / 15;
+						cGame.s_trophy_progBarLevels[j] = 415 * decryptInt(cGame.var_6e94[j]) / 15;
 					} else {
-						cGame.var_7a5c[j] = 415;
+						cGame.s_trophy_progBarLevels[j] = 415;
 					}
 				} else if (decryptInt(cGame.var_6e9c[j]) > 0) {
-					cGame.var_7a5c[j] = 415 * decryptInt(cGame.var_6e94[j]) / decryptInt(cGame.var_6e9c[j]);
+					cGame.s_trophy_progBarLevels[j] = 415 * decryptInt(cGame.var_6e94[j]) / decryptInt(cGame.var_6e9c[j]);
 				} else {
-					cGame.var_7a5c[j] = 415;
+					cGame.s_trophy_progBarLevels[j] = 415;
 				}
 			}
 			cGame.var_68ac = 100;
 		}
 		if (n == 1) {
-			if (cGame.var_7a7c < cGame.var_6ee4 - 5) {
-				cGame.var_7a64 = cGame.var_7a7c;
+			if (cGame.s_trophy_realScrollLevel < cGame.s_trophy_numTrophies - 5) {
+				cGame.s_trophy_scrollLevel = cGame.s_trophy_realScrollLevel;
 			} else {
-				cGame.var_7a64 = cGame.var_6ee4 - 5;
+				cGame.s_trophy_scrollLevel = cGame.s_trophy_numTrophies - 5;
 			}
-			cGame.var_7a7c = 0;
+			cGame.s_trophy_realScrollLevel = 0;
 			sub_3e45d();
 			sub_2c69b();
 			sub_1fb8e(19);
@@ -24086,7 +24085,7 @@ public final class cGame extends GLLib implements Class_b {
 				sub_2000c(19, 13 + k * 14, false);
 				sub_2000c(19, 14 + k * 14, false);
 			}
-			cGame.var_7a5c = null;
+			cGame.s_trophy_progBarLevels = null;
 			sub_239ef(19);
 		}
 		if (n == 2) {
@@ -24096,35 +24095,34 @@ public final class cGame extends GLLib implements Class_b {
 			}
 			sub_d841(1);
 			if (cGame.var_6914[0] != null && !sub_2351a(0, 1)) {
-				if (cGame.var_6914[0][9] < -cGame.var_7a74 && cGame.var_7a64 < cGame.var_6ee4 - 5) {
+				if (cGame.var_6914[0][9] < -cGame.var_7a74 && cGame.s_trophy_scrollLevel < cGame.s_trophy_numTrophies - 5) {
 					sub_3e400(1);
-				} else if (cGame.var_6914[0][9] > -10 && cGame.var_7a64 > 0) {
+				} else if (cGame.var_6914[0][9] > -10 && cGame.s_trophy_scrollLevel > 0) {
 					sub_3e400(-1);
 				}
 			}
-			final String sub_4e1f;
-			cGame.var_68cc[19][75] = (((sub_4e1f = GLLib.Text_GetStringFromLocaleFile(457)) == null) ? "" : sub_4e1f);
+			cGame.var_68cc[19][75] = (GLLib.Text_GetStringFromLocaleFile(457) == null ? "" : GLLib.Text_GetStringFromLocaleFile(457));
 			for (int l = 0; l < 5; ++l) {
-				cGame.var_68cc[19][3 + l * 14] = cGame.var_6e6c[cGame.var_7a64 + l];
-				cGame.var_68cc[19][4 + l * 14] = cGame.var_6e74[cGame.var_7a64 + l];
-				cGame.var_68cc[19][10 + l * 14] = Integer.toString(decryptInt(cGame.var_6e94[cGame.var_7a64 + l]))
-						+ "/" + decryptInt(cGame.var_6e9c[cGame.var_7a64 + l]);
-				if (decryptInt(cGame.var_6e9c[cGame.var_7a64 + l]) != 0) {
+				cGame.var_68cc[19][3 + l * 14] = cGame.var_6e6c[cGame.s_trophy_scrollLevel + l];
+				cGame.var_68cc[19][4 + l * 14] = cGame.var_6e74[cGame.s_trophy_scrollLevel + l];
+				cGame.var_68cc[19][10 + l * 14] = Integer.toString(decryptInt(cGame.var_6e94[cGame.s_trophy_scrollLevel + l]))
+						+ "/" + decryptInt(cGame.var_6e9c[cGame.s_trophy_scrollLevel + l]);
+				if (decryptInt(cGame.var_6e9c[cGame.s_trophy_scrollLevel + l]) != 0) {
 					cGame.var_68bc[19][9 + l * 14][2] = (short) (cGame.var_68bc[19][8 + l * 14][2] + 13);
 					cGame.var_68bc[19][9 + l * 14][3] = (short) (cGame.var_68bc[19][8 + l * 14][3] + 5);
-					cGame.var_68bc[19][9 + l * 14][5] = (short) cGame.var_7a5c[cGame.var_7a64 + l];
+					cGame.var_68bc[19][9 + l * 14][5] = (short) cGame.s_trophy_progBarLevels[cGame.s_trophy_scrollLevel + l];
 					cGame.var_68bc[19][9 + l * 14][6] = 18;
 				}
-				if (cGame.var_6ecc[cGame.var_7a64 + l] > 0) {
-					cGame.var_68cc[19][5 + l * 14] = GLLib.BigNumberSeparate(cGame.var_6ecc[cGame.var_7a64 + l],
+				if (cGame.var_6ecc[cGame.s_trophy_scrollLevel + l] > 0) {
+					cGame.var_68cc[19][5 + l * 14] = GLLib.BigNumberSeparate(cGame.var_6ecc[cGame.s_trophy_scrollLevel + l],
 							cGame.var_7fe4, " ");
 				}
-				if (cGame.var_6ec4[cGame.var_7a64 + l] > 0) {
-					cGame.var_68cc[19][6 + l * 14] = GLLib.BigNumberSeparate(cGame.var_6ec4[cGame.var_7a64 + l],
+				if (cGame.var_6ec4[cGame.s_trophy_scrollLevel + l] > 0) {
+					cGame.var_68cc[19][6 + l * 14] = GLLib.BigNumberSeparate(cGame.var_6ec4[cGame.s_trophy_scrollLevel + l],
 							cGame.var_7fe4, " ");
 				}
-				if (cGame.var_6ebc[cGame.var_7a64 + l] > 0) {
-					cGame.var_68cc[19][7 + l * 14] = GLLib.BigNumberSeparate(cGame.var_6ebc[cGame.var_7a64 + l],
+				if (cGame.var_6ebc[cGame.s_trophy_scrollLevel + l] > 0) {
+					cGame.var_68cc[19][7 + l * 14] = GLLib.BigNumberSeparate(cGame.var_6ebc[cGame.s_trophy_scrollLevel + l],
 							cGame.var_7fe4, " ");
 				}
 			}
@@ -24135,22 +24133,16 @@ public final class cGame extends GLLib implements Class_b {
 			cGame.var_68d4[cGame.var_68bc[19][1][5]].sub_3882(cGame.var_68bc[19][1][6], 0, array, 0);
 			final int n2 = cGame.var_68bc[19][1][2] + array[0];
 			final int n3 = cGame.var_68bc[19][1][3] + array[1];
-			final int n4 = array[2];
-			final int n5 = array[3];
-			final int n6 = n4;
-			final int n7 = n3;
-			n = n2;
-			GLLib.SetClip(GLLib.g, n, n7, n6, n5, true);
-			final int var_1ddf = GLLib.s_screenWidth;
-			final int var_1de7 = GLLib.s_screenHeight;
-			n = var_1ddf;
-			GLLib.SetClip(GLLib.g, 0, 0, n, var_1de7, true);
+			n = cGame.var_68bc[19][1][2] + array[0];
+			GLLib.SetClip(GLLib.g, n, cGame.var_68bc[19][1][3] + array[1], array[2], array[3], true);
+			n = GLLib.s_screenWidth;;
+			GLLib.SetClip(GLLib.g, 0, 0, n, GLLib.s_screenHeight, true);
 		}
 		return false;
 	}
 
 	private static void sub_3e400(final int n) {
-		cGame.var_7a64 += n;
+		cGame.s_trophy_scrollLevel += n;
 		final int n2 = cGame.var_6914[0][9];
 		sub_3e45d();
 		sub_2c69b();
@@ -24161,38 +24153,38 @@ public final class cGame extends GLLib implements Class_b {
 
 	private static void sub_3e45d() {
 		for (int i = 0; i < 5; ++i) {
-			if (cGame.var_6edc[cGame.var_7a64 + i] == 0) {
+			if (cGame.var_6edc[cGame.s_trophy_scrollLevel + i] == 0) {
 				sub_2000c(19, 15 + i * 14, false);
 				sub_2000c(19, 14 + i * 14, true);
 				sub_2024d(19, 14 + i * 14, true);
 				cGame.var_68bc[19][14 + i * 14][6] = 110;
-			} else if (cGame.var_6edc[cGame.var_7a64 + i] == 1) {
+			} else if (cGame.var_6edc[cGame.s_trophy_scrollLevel + i] == 1) {
 				sub_2000c(19, 15 + i * 14, true);
 				cGame.var_68bc[19][15 + i * 14][6] = 144;
 				sub_2000c(19, 14 + i * 14, true);
 				sub_2024d(19, 14 + i * 14, true);
 				cGame.var_68bc[19][14 + i * 14][6] = 111;
-			} else if (cGame.var_6edc[cGame.var_7a64 + i] == 2) {
+			} else if (cGame.var_6edc[cGame.s_trophy_scrollLevel + i] == 2) {
 				sub_2000c(19, 15 + i * 14, true);
 				cGame.var_68bc[19][15 + i * 14][6] = 156;
 				sub_2000c(19, 14 + i * 14, false);
 				sub_2024d(19, 14 + i * 14, false);
 			}
-			if (cGame.var_6ecc[cGame.var_7a64 + i] > 0) {
+			if (cGame.var_6ecc[cGame.s_trophy_scrollLevel + i] > 0) {
 				sub_2000c(19, 11 + i * 14, true);
 				sub_2000c(19, 5 + i * 14, true);
 			} else {
 				sub_2000c(19, 11 + i * 14, false);
 				sub_2000c(19, 5 + i * 14, false);
 			}
-			if (cGame.var_6ec4[cGame.var_7a64 + i] > 0) {
+			if (cGame.var_6ec4[cGame.s_trophy_scrollLevel + i] > 0) {
 				sub_2000c(19, 12 + i * 14, true);
 				sub_2000c(19, 6 + i * 14, true);
 			} else {
 				sub_2000c(19, 12 + i * 14, false);
 				sub_2000c(19, 6 + i * 14, false);
 			}
-			if (cGame.var_6ebc[cGame.var_7a64 + i] > 0) {
+			if (cGame.var_6ebc[cGame.s_trophy_scrollLevel + i] > 0) {
 				sub_2000c(19, 13 + i * 14, true);
 				sub_2000c(19, 7 + i * 14, true);
 			} else {
@@ -24204,7 +24196,7 @@ public final class cGame extends GLLib implements Class_b {
 
 	private static void sub_3e690(final boolean b, int n) {
 		if (b) {
-			cGame.var_7a7c = n;
+			cGame.s_trophy_realScrollLevel = n;
 		}
 		if (getState() == 29 && b) {
 			cGame.var_6c6c = true;
@@ -24250,7 +24242,7 @@ public final class cGame extends GLLib implements Class_b {
 
 	private static boolean openSilo(final int n) {
 		if (n == 1) {
-			cGame.var_7a94 = encryptInt(cGame.var_701c * Class_f.sub_4d73(0, 1005));
+			cGame.s_siloMaxStorage = encryptInt(cGame.var_701c * Class_f.sub_4d73(0, 1005));
 			sub_2c69b();
 			sub_1fb8e(23);
 			cGame.s_animalAmountInSilo = Class_f.sub_5ad9(0, 54);
@@ -24281,19 +24273,19 @@ public final class cGame extends GLLib implements Class_b {
 			}
 			final short n2 = cGame.var_68bc[23][33][2];
 			cGame.var_68bc[23][32][2] = (short) (n2
-					+ (cGame.var_68bc[23][34][2] - n2) * sub_2e954() / decryptInt(cGame.var_7a94));
+					+ (cGame.var_68bc[23][34][2] - n2) * sub_2e954() / decryptInt(cGame.s_siloMaxStorage));
 			sub_2000c(23, 32, true);
 		}
 		if (n == 3) {
 			sub_1dcc1(23);
-			final String sub_4e1f;
-			sub_1df06(((sub_4e1f = GLLib.Text_GetStringFromLocaleFile(482)) == null) ? "" : sub_4e1f, 23, 1, 0, 0);
-			final String sub_4e1f2;
-			sub_1df06(((sub_4e1f2 = GLLib.Text_GetStringFromLocaleFile(483)) == null) ? "" : sub_4e1f2, 23, 39, 0, 0);
+			final String title;
+			sub_1df06(((title = GLLib.Text_GetStringFromLocaleFile(482)) == null) ? "" : title, 23, 1, 0, 0);
+			final String maxText;
+			sub_1df06(((maxText = GLLib.Text_GetStringFromLocaleFile(483)) == null) ? "" : maxText, 23, 39, 0, 0);
 			sub_1e44e(23, 32);
-			final String sub_4e1f3;
-			sub_1df06(((sub_4e1f3 = GLLib.Text_GetStringFromLocaleFile(484)) == null) ? "" : sub_4e1f3, 23, 38, 0, 0);
-			sub_1df06(Integer.toString(sub_2e954()) + "/" + decryptInt(cGame.var_7a94), 23, 35, 0, 0);
+			final String moreText;
+			sub_1df06(((moreText = GLLib.Text_GetStringFromLocaleFile(484)) == null) ? "" : moreText, 23, 38, 0, 0);
+			sub_1df06(Integer.toString(sub_2e954()) + "/" + decryptInt(cGame.s_siloMaxStorage), 23, 35, 0, 0);
 			final String sub_4e1f4;
 			sub_1df06(((sub_4e1f4 = GLLib.Text_GetStringFromLocaleFile(459)) == null) ? "" : sub_4e1f4, 23, 36, 0, 0);
 			sub_1df06(Integer.toString(cGame.s_animalAmountInSilo) + "/" + getMaxSiloAmount(), 23, 37, 0, 0);
@@ -26806,9 +26798,9 @@ public final class cGame extends GLLib implements Class_b {
 			cGame.var_6e14 = false;
 			cGame.var_6e1c = 0L;
 			cGame.var_7a54 = 0L;
-			cGame.var_7a64 = 0;
+			cGame.s_trophy_scrollLevel = 0;
 			cGame.var_7a6c = 0;
-			cGame.var_7a7c = 0;
+			cGame.s_trophy_realScrollLevel = 0;
 			cGame.var_7a84 = 0;
 			cGame.var_7a8c = false;
 			cGame.var_7a34 = 0;
@@ -30063,7 +30055,7 @@ public final class cGame extends GLLib implements Class_b {
 		cGame.var_6e14 = false;
 		cGame.var_6e1c = 0L;
 		cGame.var_6e5c = false;
-		cGame.var_6ee4 = 20;
+		cGame.s_trophy_numTrophies = 20;
 		cGame.var_6f1c = 0;
 		cGame.var_6f24 = 0;
 		cGame.var_6f3c = 0;
@@ -30232,9 +30224,9 @@ public final class cGame extends GLLib implements Class_b {
 		cGame.var_7a34 = 0;
 		cGame.var_7a3c = 0;
 		cGame.var_7a54 = 0L;
-		cGame.var_7a64 = 0;
+		cGame.s_trophy_scrollLevel = 0;
 		cGame.var_7a6c = 0;
-		cGame.var_7a7c = 0;
+		cGame.s_trophy_realScrollLevel = 0;
 		cGame.var_7a84 = 0;
 		cGame.var_7a8c = false;
 		cGame.var_7a9c = true;

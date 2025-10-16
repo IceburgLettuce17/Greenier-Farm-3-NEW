@@ -110,7 +110,7 @@ final class Class_f
     GLLibPlayer var_18b5;
     boolean var_18bd;
     int var_18c5;
-    int var_18cd;
+    int m_prepareTime;
     byte var_18d5;
     private Class_n var_18dd;
     private int var_18e5;
@@ -178,7 +178,7 @@ final class Class_f
         this.var_1835 = -1;
         this.var_1845 = 0;
         this.var_184d = 0;
-        this.var_18cd = 0;
+        this.m_prepareTime = 0;
         this.var_18d5 = 0;
     }
     
@@ -254,7 +254,7 @@ final class Class_f
                                 final long n;
                                 if ((n = System.currentTimeMillis() / 1000L - class_f.var_15c5) < 86400L && cGame.var_8034 == class_f) {
                                     cGame.sub_df48((int)n, 86400);
-                                    class_f.var_18cd = cGame.sub_e1e7((int)(86400L - n));
+                                    class_f.m_prepareTime = cGame.sub_e1e7((int)(86400L - n));
                                 }
                                 if (!class_f.var_15cd && n >= 86400L) {
                                     class_f.var_15cd = true;
@@ -663,7 +663,7 @@ final class Class_f
                                     }
                                     if (class_f11.var_163d > 0 && cGame.var_8034 == class_f11) {
                                         cGame.sub_df48((int)n14, class_f11.var_163d);
-                                        class_f11.var_18cd = cGame.sub_e1e7((int)(class_f11.var_163d - n14));
+                                        class_f11.m_prepareTime = cGame.sub_e1e7((int)(class_f11.var_163d - n14));
                                     }
                                     if (n14 >= class_f11.var_163d) {
                                         class_f11.sub_80fc();
@@ -713,7 +713,7 @@ final class Class_f
                                     }
                                     if (cGame.var_8034 == class_f11 && class_f11.var_1625 != 0) {
                                         cGame.sub_df48((int)n15, class_f11.var_1625);
-                                        class_f11.var_18cd = cGame.sub_e1e7((int)(class_f11.var_1625 - n15));
+                                        class_f11.m_prepareTime = cGame.sub_e1e7((int)(class_f11.var_1625 - n15));
                                     }
                                 }
                                 if (class_f11.sub_a2a0(4) && (class_f11.var_1895 == null || class_f11.var_1895.var_17c5 == -1)) {
@@ -754,7 +754,7 @@ final class Class_f
                             }
                             if (cGame.var_8034 == class_f14 && class_f14.var_15ed != 0) {
                                 cGame.sub_df48((int)n16, class_f14.var_15ed);
-                                class_f14.var_18cd = cGame.sub_e1e7((int)(class_f14.var_15ed - n16));
+                                class_f14.m_prepareTime = cGame.sub_e1e7((int)(class_f14.var_15ed - n16));
                             }
                         }
                         else if (class_f14.var_185d == 4) {
@@ -764,7 +764,7 @@ final class Class_f
                             }
                             if (cGame.var_8034 == class_f14 && class_f14.var_15ed != 0) {
                                 cGame.sub_df48((int)n17, class_f14.var_15ed);
-                                class_f14.var_18cd = cGame.sub_e1e7((int)(class_f14.var_15ed - n17));
+                                class_f14.m_prepareTime = cGame.sub_e1e7((int)(class_f14.var_15ed - n17));
                             }
                         }
                         else if (cGame.var_8034 == class_f14) {
@@ -797,7 +797,7 @@ final class Class_f
                             }
                             if (cGame.var_8034 == class_f15 && class_f15.var_191d != 0) {
                                 cGame.sub_df48((int)n19, class_f15.var_191d);
-                                class_f15.var_18cd = cGame.sub_e1e7((int)(class_f15.var_191d - n19));
+                                class_f15.m_prepareTime = cGame.sub_e1e7((int)(class_f15.var_191d - n19));
                             }
                             break;
                         }
