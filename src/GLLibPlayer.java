@@ -422,11 +422,10 @@ final class GLLibPlayer implements Runnable
     
     static final void sub_239b(int i, final boolean b) {
         SndQueue_Push(i, 4, -1, -1, -1, -1);
-        final int n = i;
         sub_2ca7(0, i);
         sub_2cdc(0, i);
         for (i = 0; i < 16; ++i) {
-            sub_2d26(0, n, i, 0);
+            sub_2d26(0, i, i, 0);
         }
     }
     

@@ -2089,7 +2089,7 @@ public final class cGame extends GLLib implements Class_b {
 						}
 					}
 					if (substate == 3) {
-						IGP.sub_4f8f(GLLib.g);
+						IGP.paint(GLLib.g);
 					}
 					if (substate == 6) {
 						IGP.sub_3b06(false);
