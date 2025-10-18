@@ -52,7 +52,7 @@ public final class Class_o {
 	private static boolean var_2a85;
 	private static String overrideFromJad;
 	private static String shortCode;
-	private static String var_2a9d;
+	private static String profIDPricePoint;
 	private static String pricePointAlias;
 	private static String var_2aad;
 	private static String billingUrl;
@@ -421,12 +421,12 @@ public final class Class_o {
 			appendToSms(Class_o.code);
 			appendToSms(Class_o.phoneModel);
 			if (Class_o.overrideFromJad.equals("1")) {
-				Class_o.var_2a9d = getAppProperty("IAP-ProfileID-PP" + Class_o.pricePoint);
+				Class_o.profIDPricePoint = getAppProperty("IAP-ProfileID-PP" + Class_o.pricePoint);
 			} else {
-				Class_o.var_2a9d = "";
+				Class_o.profIDPricePoint = "";
 			}
-			if (!Class_o.var_2a9d.equals("")) {
-				appendToSms(Class_o.var_2a9d);
+			if (!Class_o.profIDPricePoint.equals("")) {
+				appendToSms(Class_o.profIDPricePoint);
 			} else {
 				if (Class_o.currentProfile == -1) {
 					Class_o.var_2afd = 7;
@@ -465,7 +465,7 @@ public final class Class_o {
 			String httpUrl;
 			if (Class_o.overrideFromJad.equals("1")) {
 				httpUrl = Class_o.billingUrl;
-				itemType = (Class_o.var_2a9d = getAppProperty("IAP-ProfileID-PP" + Class_o.pricePoint));
+				itemType = (Class_o.profIDPricePoint = getAppProperty("IAP-ProfileID-PP" + Class_o.pricePoint));
 			} else {
 				if (Class_o.currentProfile == -1) {
 					Class_o.var_2afd = 7;
@@ -1945,7 +1945,7 @@ public final class Class_o {
 		Class_o.var_2a85 = false;
 		Class_o.overrideFromJad = "";
 		Class_o.shortCode = "";
-		Class_o.var_2a9d = "";
+		Class_o.profIDPricePoint = "";
 		Class_o.pricePointAlias = "";
 		Class_o.var_2aad = "";
 		Class_o.billingUrl = "";

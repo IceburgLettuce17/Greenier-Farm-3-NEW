@@ -16261,20 +16261,20 @@ public final class cGame extends GLLib implements Class_b {
 							if (j % 4 == 2) {
 								n7 = n4;
 							} else {
-								if ((n8 = GLLibPlayer.sub_5daa(0, n5, n6)) >= 15) {
+								if ((n8 = GLLibPlayer.Tileset_GetTile(0, n5, n6)) >= 15) {
 									n8 = ((n8 - 15 < 0) ? 0 : ((n8 - 15 > 14) ? 14 : (n8 - 15)));
 								}
 								break Label_0499;
 							}
 						} else {
-							if ((n8 = GLLibPlayer.sub_5daa(0, n5, n6)) < 15) {
+							if ((n8 = GLLibPlayer.Tileset_GetTile(0, n5, n6)) < 15) {
 								break Label_0499;
 							}
 							n7 = ((n8 - 15 < 0) ? 0 : ((n8 - 15 > 14) ? 14 : (n8 - 15)));
 						}
 						n8 = n7;
 					}
-					GLLibPlayer.sub_5f94(array[0], array[1], n8);
+					GLLibPlayer.Tileset_SetTile(array[0], array[1], n8);
 				}
 			}
 			if (cGame.var_6dec[cGame.var_6d54] != null) {
@@ -24755,7 +24755,7 @@ public final class cGame extends GLLib implements Class_b {
 				return false;
 			}
 			sub_2534f();
-			if (GLLibPlayer.sub_5ecf() != null) {
+			if (GLLibPlayer.Tileset_GetBufferImage() != null) {
 				sub_2657c(false);
 			}
 			if (!cGame.s_clickblocked) {
@@ -29392,12 +29392,12 @@ public final class cGame extends GLLib implements Class_b {
 		cGame.var_8024 = null;
 		cGame.var_802c = null;
 		cGame.var_803c = 0;
-		final long n = GLLib.s_game_timeWhenFrameStart * GLLib.s_game_totalExecutionTime;
+		final long seed = GLLib.s_game_timeWhenFrameStart * GLLib.s_game_totalExecutionTime;
 		if (GLLib.s_math_random == null) {
-			GLLib.s_math_random = new Random(n);
+			GLLib.s_math_random = new Random(seed);
 			return;
 		}
-		GLLib.s_math_random.setSeed(n);
+		GLLib.s_math_random.setSeed(seed);
 	}
 
 	// One small step for programmer: Finding Game_update

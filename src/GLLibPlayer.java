@@ -1563,7 +1563,7 @@ final class GLLibPlayer implements Runnable
         ++GLLibPlayer.var_16f7;
     }
     
-    private static final int sub_59f0(final int n, final int n2) {
+    private static final int Tileset_GetTranslatedOriginY(final int n, final int n2) {
         if (isFlag(n, 8)) {
             return GLLibPlayer.s_TilesetLayerInfo[n][6] - GLLibPlayer.s_TilesetInfo[1] - n2;
         }
@@ -1582,7 +1582,7 @@ final class GLLibPlayer implements Runnable
             return;
         }
         GLLibPlayer.s_TilesetLayerInfo[0][13] = n2;
-        GLLibPlayer.s_TilesetLayerInfo[0][14] = sub_59f0(0, n3);
+        GLLibPlayer.s_TilesetLayerInfo[0][14] = Tileset_GetTranslatedOriginY(0, n3);
         if (isFlag(0, 16)) {
             if (GLLibPlayer.s_TilesetLayerInfo[0][13] < 0) {
                 GLLibPlayer.s_TilesetLayerInfo[0][13] = 0;
@@ -1661,8 +1661,8 @@ final class GLLibPlayer implements Runnable
         return GLLibPlayer.s_TilesetLayerInfo[0][6];
     }
     
-    static final int sub_5daa(int n, int i, int sub_59f0) {
-        sub_59f0 = sub_59f0(0, sub_59f0);
+    static final int Tileset_GetTile(int nLayer, int x, int y) {
+        y = Tileset_GetTranslatedOriginY(0, y);
         if (!GLLibPlayer.s_bTilesetPlayerInitialized) {
             return -1;
         }
@@ -1673,21 +1673,21 @@ final class GLLibPlayer implements Runnable
         if (GLLibPlayer.s_TilesetLayerInfo[0][0] != 1 || GLLibPlayer.s_TilesetLayerInfo[0][1] != 1) {
             return -1;
         }
-        if (i < 0 || i > GLLibPlayer.s_TilesetLayerInfo[0][2]) {
-            new StringBuffer().append("Tileset_GetTile: x value out of bound [").append(i).append("]  0 <= x < ").append(GLLibPlayer.s_TilesetLayerInfo[0][2]);
+        if (x < 0 || x > GLLibPlayer.s_TilesetLayerInfo[0][2]) {
+            new StringBuffer().append("Tileset_GetTile: x value out of bound [").append(x).append("]  0 <= x < ").append(GLLibPlayer.s_TilesetLayerInfo[0][2]);
             return -1;
         }
-        if (sub_59f0 < 0 || sub_59f0 > GLLibPlayer.s_TilesetLayerInfo[0][3]) {
-            new StringBuffer().append("Tileset_GetTile: y value out of bound [").append(sub_59f0).append("]  0 <= y < ").append(GLLibPlayer.s_TilesetLayerInfo[0][3]);
+        if (y < 0 || y > GLLibPlayer.s_TilesetLayerInfo[0][3]) {
+            new StringBuffer().append("Tileset_GetTile: y value out of bound [").append(y).append("]  0 <= y < ").append(GLLibPlayer.s_TilesetLayerInfo[0][3]);
             return -1;
         }
-        n = sub_59f0;
-        sub_59f0 = i;
-        i = GLLibPlayer.s_TilesetLayerInfo[0][2];
-        return sub_7ab4(0, 0, n * i + sub_59f0, false);
+        nLayer = y;
+        y = x;
+        x = GLLibPlayer.s_TilesetLayerInfo[0][2];
+        return sub_7ab4(0, 0, nLayer * x + y, false);
     }
     
-    static final GLLibImage sub_5ecf() {
+    static final GLLibImage Tileset_GetBufferImage() {
         if (!GLLibPlayer.s_bTilesetPlayerInitialized) {
             return null;
         }
@@ -1712,10 +1712,10 @@ final class GLLibPlayer implements Runnable
         GLLibPlayer.s_TilesetLayerInfo[0][12] = -1;
     }
     
-    static void sub_5f94(int i, int sub_59f0, final int n) {
-        sub_59f0 = sub_59f0(0, sub_59f0);
-        i /= GLLibPlayer.s_TilesetInfo[2];
-        sub_59f0 /= GLLibPlayer.s_TilesetInfo[5];
+    static void Tileset_SetTile(int x, int y, final int nLayer) {
+        y = Tileset_GetTranslatedOriginY(0, y);
+        x /= GLLibPlayer.s_TilesetInfo[2];
+        y /= GLLibPlayer.s_TilesetInfo[5];
         if (!GLLibPlayer.s_bTilesetPlayerInitialized) {
             return;
         }
@@ -1726,19 +1726,19 @@ final class GLLibPlayer implements Runnable
         if (GLLibPlayer.s_TilesetLayerInfo[0][0] != 1 || GLLibPlayer.s_TilesetLayerInfo[0][1] != 1) {
             return;
         }
-        if (i < 0 || i > GLLibPlayer.s_TilesetLayerInfo[0][2]) {
-            new StringBuffer().append("Tileset_SetTile: x value out of bound [").append(i).append("]  0 <= x < ").append(GLLibPlayer.s_TilesetLayerInfo[0][2]);
+        if (x < 0 || x > GLLibPlayer.s_TilesetLayerInfo[0][2]) {
+            new StringBuffer().append("Tileset_SetTile: x value out of bound [").append(x).append("]  0 <= x < ").append(GLLibPlayer.s_TilesetLayerInfo[0][2]);
             return;
         }
-        if (sub_59f0 < 0 || sub_59f0 > GLLibPlayer.s_TilesetLayerInfo[0][3]) {
-            new StringBuffer().append("Tileset_SetTile: y value out of bound [").append(sub_59f0).append("]  0 <= y < ").append(GLLibPlayer.s_TilesetLayerInfo[0][3]);
+        if (y < 0 || y > GLLibPlayer.s_TilesetLayerInfo[0][3]) {
+            new StringBuffer().append("Tileset_SetTile: y value out of bound [").append(y).append("]  0 <= y < ").append(GLLibPlayer.s_TilesetLayerInfo[0][3]);
             return;
         }
-        i += sub_59f0 * GLLibPlayer.s_TilesetLayerInfo[0][2];
-        if (n != -1) {
-            sub_7a8a(0, 0, i, n);
+        x += y * GLLibPlayer.s_TilesetLayerInfo[0][2];
+        if (nLayer != -1) {
+            sub_7a8a(0, 0, x, nLayer);
         }
-        sub_7a8a(0, 1, i, 0);
+        sub_7a8a(0, 1, x, 0);
     }
     
     static final void sub_60d3(int n, int n2, final int n3, final int n4, final boolean b) {
@@ -1814,7 +1814,7 @@ final class GLLibPlayer implements Runnable
             else {
                 new StringBuffer().append("Tileset_PaintToBuffer: Invalid drawOperation set: ").append(var_1de7);
             }
-            sub_59f0 = sub_59f0(0, sub_59f0);
+            sub_59f0 = Tileset_GetTranslatedOriginY(0, sub_59f0);
             final int n13 = array[13];
             final int n14 = array[14];
             int n15;
