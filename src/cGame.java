@@ -167,7 +167,7 @@ public final class cGame extends GLLib implements Class_b {
 	private static boolean var_6c7c;
 	private static boolean var_6c84;
 	static boolean var_6c8c;
-	static boolean var_6c94;
+	static boolean s_hasFinishedTut;
 	static Class_f var_6c9c;
 	private static int var_6ca4;
 	private static int var_6cac;
@@ -1082,7 +1082,7 @@ public final class cGame extends GLLib implements Class_b {
 						if (cGame.s_tutorialState == 1) {
 							cGame.s_tutorialState = 1;
 							cGame.var_6c8c = false;
-							cGame.var_6c94 = false;
+							cGame.s_hasFinishedTut = false;
 						}
 						cGame.var_69fc = false;
 					}
@@ -1137,7 +1137,7 @@ public final class cGame extends GLLib implements Class_b {
 								}
 								case 50: {
 									if (cGame.s_tutorialState == 54 && cGame.var_8024.var_1835 == 9) {
-										cGame.var_6c94 = true;
+										cGame.s_hasFinishedTut = true;
 										sub_23a84(60);
 										sub_81e0(8);
 										b2 = true;
@@ -1145,7 +1145,7 @@ public final class cGame extends GLLib implements Class_b {
 									}
 									if (cGame.s_tutorialState == 49 && cGame.var_8024.var_1835 == 10
 											&& cGame.var_8024.sub_a2a0(512)) {
-										cGame.var_6c94 = true;
+										cGame.s_hasFinishedTut = true;
 										sub_23a84(51);
 										sub_81e0(28);
 										b2 = true;
@@ -1176,11 +1176,11 @@ public final class cGame extends GLLib implements Class_b {
 								}
 								case 54: {
 									if (cGame.s_tutorialState == 34 && cGame.var_8024.var_1835 == 17) {
-										cGame.var_6c94 = true;
+										cGame.s_hasFinishedTut = true;
 									} else if (cGame.s_tutorialState == 17 && cGame.var_8024.var_1835 == 16) {
-										cGame.var_6c94 = true;
+										cGame.s_hasFinishedTut = true;
 									} else if (cGame.s_tutorialState == 32 && cGame.var_8024.var_1835 == 17) {
-										cGame.var_6c94 = true;
+										cGame.s_hasFinishedTut = true;
 									}
 									if (cGame.var_8024.sub_7d78()) {
 										b2 = true;
@@ -1198,7 +1198,7 @@ public final class cGame extends GLLib implements Class_b {
 								final short n7 = cGame.var_68bc[4][2][2];
 								final short n8 = cGame.var_68bc[4][2][3];
 								if (state >= n7 - 68 && state < n7 + 375 && var_203f > n8 - 20 && var_203f < n8 + 200) {
-									cGame.var_6c94 = true;
+									cGame.s_hasFinishedTut = true;
 									b2 = true;
 									break Label_2355;
 								}
@@ -4650,7 +4650,7 @@ public final class cGame extends GLLib implements Class_b {
 		}
 		sub_3225a(0);
 		if (cGame.s_tutorialState == 41) {
-			cGame.var_6c94 = true;
+			cGame.s_hasFinishedTut = true;
 		}
 	}
 
@@ -4947,7 +4947,7 @@ public final class cGame extends GLLib implements Class_b {
 
 	private static void sub_12354() {
 		if (cGame.s_tutorialState == 56) {
-			cGame.var_6c94 = true;
+			cGame.s_hasFinishedTut = true;
 		}
 		if (sub_2b5c8(cGame.var_72bc[cGame.var_72b4])) {
 			final Class_h class_h = Class_h.var_6a[1];
@@ -5590,19 +5590,19 @@ public final class cGame extends GLLib implements Class_b {
 		if ((n = cGame.var_7e4c[cGame.s_currentQuest]) == cGame.var_80f4[0] && !cGame.var_6c14) {
 			cGame.var_6c14 = true;
 			cGame.var_6c5c = 161;
-			cGame.var_6c8c = (cGame.var_6c94 = false);
+			cGame.var_6c8c = (cGame.s_hasFinishedTut = false);
 			cGame.var_6c54 = true;
 		} else if (n == cGame.var_80f4[1] && !cGame.var_6c1c) {
 			cGame.var_6c1c = true;
 			cGame.var_6c54 = true;
 			cGame.s_tutorialState = 13;
-			cGame.var_6c8c = (cGame.var_6c94 = false);
+			cGame.var_6c8c = (cGame.s_hasFinishedTut = false);
 			cGame.var_6c44 = true;
 		} else if (n == cGame.var_80f4[2] && !cGame.var_6c2c) {
 			cGame.var_6c54 = true;
 			cGame.var_6c2c = true;
 			cGame.var_6c5c = 167;
-			cGame.var_6c8c = (cGame.var_6c94 = false);
+			cGame.var_6c8c = (cGame.s_hasFinishedTut = false);
 		} else if (n == cGame.var_80f4[23] && !cGame.var_6c34) {
 			cGame.var_6c34 = true;
 			cGame.var_7aac = 8;
@@ -5730,7 +5730,7 @@ public final class cGame extends GLLib implements Class_b {
 		cGame.var_67cc = 1;
 		sub_2c69b();
 		if (cGame.s_tutorialState == 27) {
-			cGame.var_6c94 = true;
+			cGame.s_hasFinishedTut = true;
 			cGame.var_757c = false;
 		}
 	}
@@ -5776,13 +5776,13 @@ public final class cGame extends GLLib implements Class_b {
 					cGame.var_76bc = (char) sub_23556(393249, 393250, 300, 0, 0, 0, 500);
 				}
 				if (cGame.s_tutorialState == 26) {
-					cGame.var_6c94 = true;
+					cGame.s_hasFinishedTut = true;
 				}
 				if (!cGame.var_6c4c) {
 					cGame.var_6c4c = true;
 					cGame.s_tutorialState = 27;
 					cGame.var_6c8c = false;
-					cGame.var_6c94 = false;
+					cGame.s_hasFinishedTut = false;
 				}
 			} else {
 				cGame.var_7aac = 9;
@@ -5850,7 +5850,7 @@ public final class cGame extends GLLib implements Class_b {
 
 	private static void sub_14493() {
 		if (cGame.s_tutorialState == 27) {
-			cGame.var_6c8c = (cGame.var_6c94 = false);
+			cGame.var_6c8c = (cGame.s_hasFinishedTut = false);
 			cGame.s_tutorialState = 28;
 		}
 		sub_23a84(57);
@@ -5861,7 +5861,7 @@ public final class cGame extends GLLib implements Class_b {
 
 	private static void sub_144e1() {
 		if (cGame.var_6c5c == 170) {
-			cGame.var_6c94 = true;
+			cGame.s_hasFinishedTut = true;
 		}
 		sub_23a84(57);
 		cGame.var_74dc = true;
@@ -6010,7 +6010,7 @@ public final class cGame extends GLLib implements Class_b {
 
 	private static void sub_14912() {
 		if (cGame.var_6c5c == 170) {
-			cGame.var_6c8c = (cGame.var_6c94 = false);
+			cGame.var_6c8c = (cGame.s_hasFinishedTut = false);
 			cGame.var_6c5c = 171;
 		}
 		sub_23a84(57);
@@ -6070,7 +6070,7 @@ public final class cGame extends GLLib implements Class_b {
 		cGame.var_67cc = 1;
 		sub_2c69b();
 		if (cGame.s_tutorialState == 30 || cGame.s_tutorialState == 173) {
-			cGame.var_6c94 = true;
+			cGame.s_hasFinishedTut = true;
 		}
 	}
 
@@ -6082,7 +6082,7 @@ public final class cGame extends GLLib implements Class_b {
 				}
 				sub_23a84(61);
 				if (cGame.var_6c5c == 172) {
-					cGame.var_6c94 = true;
+					cGame.s_hasFinishedTut = true;
 				}
 				n += cGame.var_7484;
 				if (!cGame.var_74e4) {
@@ -6133,7 +6133,7 @@ public final class cGame extends GLLib implements Class_b {
 		}
 		sub_23a84(61);
 		if (cGame.s_tutorialState == 29) {
-			cGame.var_6c94 = true;
+			cGame.s_hasFinishedTut = true;
 		}
 		n += cGame.var_7524;
 		if (!cGame.var_74e4) {
@@ -6335,7 +6335,7 @@ public final class cGame extends GLLib implements Class_b {
 
 	private static void sub_153fa() {
 		if (cGame.s_tutorialState == 171 || cGame.s_tutorialState == 28) {
-			cGame.var_6c94 = true;
+			cGame.s_hasFinishedTut = true;
 		}
 		if (getState() == 27) {
 			sub_152a6(cGame.var_7524);
@@ -6491,7 +6491,7 @@ public final class cGame extends GLLib implements Class_b {
 				sub_23a84(56);
 			}
 			if (cGame.s_tutorialState == 25) {
-				cGame.var_6c94 = true;
+				cGame.s_hasFinishedTut = true;
 			}
 		} else {
 			cGame.var_736c = cGame.var_72fc[cGame.var_7304];
@@ -7997,7 +7997,7 @@ public final class cGame extends GLLib implements Class_b {
 			sub_23a84(61);
 			sub_18af3(2);
 			if (cGame.s_tutorialState == 50) {
-				cGame.var_6c94 = true;
+				cGame.s_hasFinishedTut = true;
 				break;
 			}
 			break;
@@ -8012,7 +8012,7 @@ public final class cGame extends GLLib implements Class_b {
 			cGame.var_67cc = 1;
 			sub_2c69b();
 			if (cGame.s_tutorialState == 51) {
-				cGame.var_6c94 = true;
+				cGame.s_hasFinishedTut = true;
 				return;
 			}
 			break;
@@ -8259,7 +8259,7 @@ public final class cGame extends GLLib implements Class_b {
 
 	private static void sub_18fea() {
 		if (cGame.s_tutorialState == 36) {
-			cGame.var_6c94 = true;
+			cGame.s_hasFinishedTut = true;
 		}
 		if (getLevel() == 50) {
 			cGame.var_7aac = 5;
@@ -8302,7 +8302,7 @@ public final class cGame extends GLLib implements Class_b {
 					sub_81e0(30);
 					if (cGame.var_6c5c == 163 || cGame.var_6c5c == 161) {
 						cGame.var_6c5c = 164;
-						cGame.var_6c8c = (cGame.var_6c94 = false);
+						cGame.var_6c8c = (cGame.s_hasFinishedTut = false);
 					}
 				}
 			} else {
@@ -8421,7 +8421,7 @@ public final class cGame extends GLLib implements Class_b {
 					cGame.var_77bc = System.currentTimeMillis() / 1000L;
 				}
 				if (cGame.var_6c5c == 164 || cGame.var_6c5c == 161) {
-					cGame.var_6c8c = (cGame.var_6c94 = false);
+					cGame.var_6c8c = (cGame.s_hasFinishedTut = false);
 					cGame.var_6c5c = 166;
 				}
 				sub_2000c(14, 53, true);
@@ -11190,7 +11190,7 @@ public final class cGame extends GLLib implements Class_b {
 				case 65580: {
 					if (cGame.s_tutorialState != 13) {
 						if (cGame.s_tutorialState == 10) {
-							cGame.var_6c94 = true;
+							cGame.s_hasFinishedTut = true;
 						}
 						if (cGame.s_tutorialState != 11 || !sub_20167(1, 38)) {
 							if (!sub_20167(1, 38)) {
@@ -11258,11 +11258,11 @@ public final class cGame extends GLLib implements Class_b {
 					sub_23a84(60);
 					sub_3282d(2, 0, true);
 					if (cGame.s_tutorialState == 40) {
-						cGame.var_6c94 = true;
+						cGame.s_hasFinishedTut = true;
 						return;
 					}
 					if (cGame.s_tutorialState == -1 && cGame.var_6c5c == 13) {
-						cGame.var_6c94 = true;
+						cGame.s_hasFinishedTut = true;
 					}
 					return;
 				}
@@ -11380,7 +11380,7 @@ public final class cGame extends GLLib implements Class_b {
 							}
 						} else if (cGame.var_6aa4 == 4 && cGame.var_6aac != null) {
 							if (cGame.s_tutorialState == 52) {
-								cGame.var_6c94 = true;
+								cGame.s_hasFinishedTut = true;
 							}
 							sub_24b52();
 							sub_1179d(false);
@@ -11584,7 +11584,7 @@ public final class cGame extends GLLib implements Class_b {
 						sub_8281(17);
 						cGame.var_8084 = 0;
 						if (cGame.var_6c5c == 169) {
-							cGame.var_6c94 = true;
+							cGame.s_hasFinishedTut = true;
 						}
 					} else {
 						sub_23a84(56);
@@ -13614,7 +13614,7 @@ public final class cGame extends GLLib implements Class_b {
 							}
 							if (cGame.var_6aa4 == 4) {
 								if (cGame.s_tutorialState == 52) {
-									cGame.var_6c94 = true;
+									cGame.s_hasFinishedTut = true;
 								}
 								sub_24b52();
 								sub_1179d(false);
@@ -14576,11 +14576,11 @@ public final class cGame extends GLLib implements Class_b {
 			if (cGame.var_800c.var_185d == 1) {
 				cGame.var_6c7c = true;
 			} else if (cGame.var_800c.var_185d == 0 && cGame.var_6c7c) {
-				cGame.var_6c94 = true;
+				cGame.s_hasFinishedTut = true;
 			}
-			if (cGame.var_6c94) {
+			if (cGame.s_hasFinishedTut) {
 				++cGame.var_6c5c;
-				cGame.var_6c8c = (cGame.var_6c94 = false);
+				cGame.var_6c8c = (cGame.s_hasFinishedTut = false);
 				return;
 			}
 			break;
@@ -14591,16 +14591,16 @@ public final class cGame extends GLLib implements Class_b {
 				final String sub_4e1f;
 				sub_40279(((sub_4e1f = GLLib.Text_GetStringFromLocaleFile(19)) == null) ? "" : sub_4e1f, 15, 0);
 			}
-			if (cGame.var_6c94) {
+			if (cGame.s_hasFinishedTut) {
 				++cGame.var_6c5c;
-				cGame.var_6c8c = (cGame.var_6c94 = false);
+				cGame.var_6c8c = (cGame.s_hasFinishedTut = false);
 			}
-			cGame.var_6c94 = true;
+			cGame.s_hasFinishedTut = true;
 			return;
 		}
 		case 163: {
 			if (!cGame.var_6c8c) {
-				cGame.var_6c94 = false;
+				cGame.s_hasFinishedTut = false;
 				cGame.var_6c8c = true;
 				if (getState() == 17) {
 					final Class_f[] array2 = { null };
@@ -14626,10 +14626,10 @@ public final class cGame extends GLLib implements Class_b {
 		case 166: {
 			if (!cGame.var_6c8c) {
 				cGame.var_6c8c = true;
-				cGame.var_6c94 = false;
+				cGame.s_hasFinishedTut = false;
 				sub_28ca1();
 				cGame.var_6c5c = 160;
-				cGame.var_6c8c = (cGame.var_6c94 = false);
+				cGame.var_6c8c = (cGame.s_hasFinishedTut = false);
 				return;
 			}
 			break;
@@ -14645,25 +14645,25 @@ public final class cGame extends GLLib implements Class_b {
 					cGame.var_800c.sub_6b0c(array3[0].var_17cd, array3[0].var_17d5, 1000);
 				}
 			}
-			if (cGame.var_6c94) {
-				cGame.var_6c8c = (cGame.var_6c94 = false);
+			if (cGame.s_hasFinishedTut) {
+				cGame.var_6c8c = (cGame.s_hasFinishedTut = false);
 				++cGame.var_6c5c;
 			}
-			cGame.var_6c94 = true;
+			cGame.s_hasFinishedTut = true;
 			return;
 		}
 		case 168: {
 			if (!cGame.var_6c8c) {
 				cGame.var_6c8c = true;
-				cGame.var_6c94 = false;
+				cGame.s_hasFinishedTut = false;
 				final Class_f[] array4 = { null };
 				Class_f.sub_545c(0, 50, 15, array4, 1);
 				if (array4[0] != null) {
 					sub_28c2e(array4[0], 0, -70);
 				}
 			}
-			if (cGame.var_6c94) {
-				cGame.var_6c8c = (cGame.var_6c94 = false);
+			if (cGame.s_hasFinishedTut) {
+				cGame.var_6c8c = (cGame.s_hasFinishedTut = false);
 				cGame.var_6c5c = 160;
 				sub_28ca1();
 				return;
@@ -14673,16 +14673,16 @@ public final class cGame extends GLLib implements Class_b {
 		case 169: {
 			if (cGame.var_807c == 0) {
 				cGame.var_6c8c = true;
-				cGame.var_6c94 = true;
+				cGame.s_hasFinishedTut = true;
 			}
 			if (!cGame.var_6c8c) {
 				cGame.var_6c8c = true;
-				cGame.var_6c94 = false;
+				cGame.s_hasFinishedTut = false;
 				sub_2000c(1, 10, true);
 			}
-			if (cGame.var_6c94) {
+			if (cGame.s_hasFinishedTut) {
 				cGame.var_6c54 = false;
-				cGame.var_6c8c = (cGame.var_6c94 = false);
+				cGame.var_6c8c = (cGame.s_hasFinishedTut = false);
 				cGame.var_6c5c = 160;
 				sub_2000c(1, 10, false);
 				break;
@@ -14801,11 +14801,12 @@ public final class cGame extends GLLib implements Class_b {
 
 	private static void sub_2738d() {
 		++cGame.s_tutorialState;
-		cGame.var_6c8c = (cGame.var_6c94 = false);
+		cGame.var_6c8c = (cGame.s_hasFinishedTut = false);
 	}
 
 	private static void sub_273b8() {
 		switch (cGame.s_tutorialState) {
+		// Quick setup before welcome popup (1-2)
 		case 1: {
 			if (!cGame.var_6c8c) {
 				cGame.var_6c8c = true;
@@ -14822,11 +14823,11 @@ public final class cGame extends GLLib implements Class_b {
 				sub_2024d(22, 3, false);
 				sub_2024d(22, 7, false);
 			}
-			if (cGame.var_6c94) {
+			if (cGame.s_hasFinishedTut) {
 				sub_2738d();
 				cGame.s_tutorialState = 2;
 			}
-			cGame.var_6c94 = true;
+			cGame.s_hasFinishedTut = true;
 			return;
 		}
 		case 2: {
@@ -14835,33 +14836,34 @@ public final class cGame extends GLLib implements Class_b {
 				sub_27132();
 				sub_4052e(2, 3, 7, 0);
 				cGame.var_6c8c = true;
-				cGame.var_6c94 = false;
+				cGame.s_hasFinishedTut = false;
 			}
-			if (cGame.var_6c94) {
+			if (cGame.s_hasFinishedTut) {
 				cGame.var_8004.sub_a21a(8);
 				sub_2738d();
 			}
-			cGame.var_6c94 = true;
+			cGame.s_hasFinishedTut = true;
 			return;
 		}
+		// This draws the welcome popup
 		case 3: {
 			if (!cGame.var_6c8c) {
 				cGame.var_6c8c = true;
-				cGame.var_6c94 = false;
+				cGame.s_hasFinishedTut = false;
 				sub_271e4(cGame.s_tutorialState);
 				final String sub_4e1f;
 				sub_40279(((sub_4e1f = GLLib.Text_GetStringFromLocaleFile(4)) == null) ? "" : sub_4e1f, 7, 0);
 			}
-			if (cGame.var_6c94) {
+			if (cGame.s_hasFinishedTut) {
 				sub_2738d();
 				cGame.s_tutorialState = 5;
 			}
-			cGame.var_6c94 = true;
+			cGame.s_hasFinishedTut = true;
 			return;
 		}
 		case 4: {
 			if (!cGame.var_6c8c) {
-				cGame.var_6c94 = false;
+				cGame.s_hasFinishedTut = false;
 				cGame.var_6c8c = true;
 				final Class_f[] array2 = new Class_f[5];
 				Class_f.sub_5439(0, 49, array2, 5);
@@ -14870,7 +14872,7 @@ public final class cGame extends GLLib implements Class_b {
 					cGame.var_800c.sub_6b0c(array2[1].var_17cd, array2[1].var_17d5, 1000);
 				}
 			}
-			if (cGame.var_6c94) {
+			if (cGame.s_hasFinishedTut) {
 				sub_2738d();
 				sub_28ca1();
 				return;
@@ -14879,7 +14881,7 @@ public final class cGame extends GLLib implements Class_b {
 		}
 		case 5: {
 			if (!cGame.var_6c8c) {
-				cGame.var_6c94 = false;
+				cGame.s_hasFinishedTut = false;
 				cGame.var_6c8c = true;
 				cGame.var_70e4 |= 0x2;
 				cGame.var_6ccc = true;
@@ -14898,9 +14900,9 @@ public final class cGame extends GLLib implements Class_b {
 			final Class_f[] array3 = { null };
 			Class_f.sub_5439(2, 47, array3, 1);
 			if (cGame.var_6cbc >= 6 && array3[0] == null) {
-				cGame.var_6c94 = true;
+				cGame.s_hasFinishedTut = true;
 			}
-			if (cGame.var_6c94) {
+			if (cGame.s_hasFinishedTut) {
 				sub_2738d();
 				cGame.s_tutorialState = 6;
 				cGame.var_70e4 &= 0xFFFFFFFD;
@@ -14913,16 +14915,16 @@ public final class cGame extends GLLib implements Class_b {
 				final String sub_4e1f2;
 				sub_40279(((sub_4e1f2 = GLLib.Text_GetStringFromLocaleFile(6)) == null) ? "" : sub_4e1f2, 7, 0);
 			}
-			if (cGame.var_6c94) {
+			if (cGame.s_hasFinishedTut) {
 				sub_2738d();
 			}
-			cGame.var_6c94 = true;
+			cGame.s_hasFinishedTut = true;
 			return;
 		}
 		case 7: {
 			if (!cGame.var_6c8c) {
 				cGame.var_6c8c = true;
-				cGame.var_6c94 = false;
+				cGame.s_hasFinishedTut = false;
 				final Class_f[] array4 = new Class_f[3];
 				Class_f.sub_5439(0, 49, array4, 3);
 				if (array4[1] != null) {
@@ -14931,7 +14933,7 @@ public final class cGame extends GLLib implements Class_b {
 				}
 				cGame.var_70e4 |= 0x1;
 			}
-			if (cGame.var_6c94) {
+			if (cGame.s_hasFinishedTut) {
 				sub_2738d();
 				sub_28ca1();
 				cGame.var_70e4 &= 0xFFFFFFFE;
@@ -14966,9 +14968,9 @@ public final class cGame extends GLLib implements Class_b {
 			final Class_f[] array7 = { null };
 			Class_f.sub_5439(2, 47, array7, 1);
 			if (cGame.var_6cbc >= 6 && array7[0] == null) {
-				cGame.var_6c94 = true;
+				cGame.s_hasFinishedTut = true;
 			}
-			if (cGame.var_6c94) {
+			if (cGame.s_hasFinishedTut) {
 				sub_10e3f(false, 0, cGame.var_6b04);
 				cGame.var_70e4 &= 0xFFFFFFFE;
 				sub_2738d();
@@ -14980,16 +14982,16 @@ public final class cGame extends GLLib implements Class_b {
 				cGame.var_6c8c = true;
 				sub_4052e(17, 18, 7, 0);
 			}
-			if (cGame.var_6c94) {
+			if (cGame.s_hasFinishedTut) {
 				sub_2738d();
 			}
-			cGame.var_6c94 = true;
+			cGame.s_hasFinishedTut = true;
 			return;
 		}
 		case 10: {
 			if (!cGame.var_6c8c) {
 				cGame.var_6c8c = true;
-				cGame.var_6c94 = false;
+				cGame.s_hasFinishedTut = false;
 				sub_49758();
 				sub_2000c(1, 56, true);
 				sub_2000c(1, 44, true);
@@ -14997,7 +14999,7 @@ public final class cGame extends GLLib implements Class_b {
 				sub_2c69b();
 				sub_1fb8e(1);
 			}
-			if (cGame.var_6c94) {
+			if (cGame.s_hasFinishedTut) {
 				sub_2000c(1, 56, false);
 				sub_2738d();
 				return;
@@ -15008,7 +15010,7 @@ public final class cGame extends GLLib implements Class_b {
 			if (!cGame.var_6c8c) {
 				sub_2000c(1, 57, cGame.var_6c8c = true);
 			}
-			if (cGame.var_6c94) {
+			if (cGame.s_hasFinishedTut) {
 				sub_2000c(1, 57, false);
 				sub_2738d();
 				return;
@@ -15019,7 +15021,7 @@ public final class cGame extends GLLib implements Class_b {
 			if (!cGame.var_6c8c) {
 				cGame.var_6c8c = true;
 			}
-			if (cGame.var_6c94) {
+			if (cGame.s_hasFinishedTut) {
 				return;
 			}
 			break;
@@ -15039,7 +15041,7 @@ public final class cGame extends GLLib implements Class_b {
 				sub_2c69b();
 				sub_1fb8e(1);
 			}
-			if (cGame.var_6c94) {
+			if (cGame.s_hasFinishedTut) {
 				sub_2738d();
 				return;
 			}
@@ -15050,9 +15052,9 @@ public final class cGame extends GLLib implements Class_b {
 				cGame.var_6c8c = true;
 			}
 			if (cGame.var_6aac != null && cGame.var_6aac.var_17c5 == 54 && cGame.var_6aac.var_1835 == 16) {
-				cGame.var_6c94 = true;
+				cGame.s_hasFinishedTut = true;
 			}
-			if (cGame.var_6c94) {
+			if (cGame.s_hasFinishedTut) {
 				sub_2738d();
 				return;
 			}
@@ -15080,7 +15082,7 @@ public final class cGame extends GLLib implements Class_b {
 				sub_2c69b();
 				sub_1fb8e(1);
 			}
-			if (cGame.var_6c94 = (cGame.var_6aac == null)) {
+			if (cGame.s_hasFinishedTut = (cGame.var_6aac == null)) {
 				sub_2738d();
 				return;
 			}
@@ -15092,10 +15094,10 @@ public final class cGame extends GLLib implements Class_b {
 				final String sub_4e1f3;
 				sub_40279(((sub_4e1f3 = GLLib.Text_GetStringFromLocaleFile(5)) == null) ? "" : sub_4e1f3, 7, 0);
 			}
-			if (cGame.var_6c94) {
+			if (cGame.s_hasFinishedTut) {
 				sub_2738d();
 			}
-			cGame.var_6c94 = true;
+			cGame.s_hasFinishedTut = true;
 			return;
 		}
 		case 17: {
@@ -15110,7 +15112,7 @@ public final class cGame extends GLLib implements Class_b {
 				sub_2024d(1, 45, false);
 				sub_2024d(1, 59, false);
 			}
-			if (cGame.var_6c94) {
+			if (cGame.s_hasFinishedTut) {
 				sub_2738d();
 				sub_28ca1();
 				return;
@@ -15134,7 +15136,7 @@ public final class cGame extends GLLib implements Class_b {
 				sub_2c69b();
 				sub_1fb8e(1);
 			}
-			if (cGame.var_6c94) {
+			if (cGame.s_hasFinishedTut) {
 				sub_2738d();
 				sub_28ca1();
 				return;
@@ -15147,10 +15149,10 @@ public final class cGame extends GLLib implements Class_b {
 				final String sub_4e1f4;
 				sub_40279(((sub_4e1f4 = GLLib.Text_GetStringFromLocaleFile(16)) == null) ? "" : sub_4e1f4, 7, 0);
 			}
-			if (cGame.var_6c94) {
+			if (cGame.s_hasFinishedTut) {
 				sub_2738d();
 			}
-			cGame.var_6c94 = true;
+			cGame.s_hasFinishedTut = true;
 			return;
 		}
 		case 20: {
@@ -15159,10 +15161,10 @@ public final class cGame extends GLLib implements Class_b {
 				final String sub_4e1f5;
 				sub_40279(((sub_4e1f5 = GLLib.Text_GetStringFromLocaleFile(20)) == null) ? "" : sub_4e1f5, 7, 0);
 			}
-			if (cGame.var_6c94) {
+			if (cGame.s_hasFinishedTut) {
 				sub_2738d();
 			}
-			cGame.var_6c94 = true;
+			cGame.s_hasFinishedTut = true;
 			return;
 		}
 		case 21: {
@@ -15172,13 +15174,13 @@ public final class cGame extends GLLib implements Class_b {
 				cGame.var_70e4 &= 0xFFFFFF00;
 				sub_2f41f(17);
 				cGame.var_6c8c = true;
-				cGame.var_6c94 = false;
+				cGame.s_hasFinishedTut = false;
 			}
-			if (cGame.var_6c94) {
+			if (cGame.s_hasFinishedTut) {
 				sub_2738d();
 				cGame.var_6c44 = false;
 			}
-			cGame.var_6c94 = true;
+			cGame.s_hasFinishedTut = true;
 			return;
 		}
 		case 22: {
@@ -15191,16 +15193,16 @@ public final class cGame extends GLLib implements Class_b {
 				sub_2024d(1, 44, false);
 				sub_2024d(1, 45, false);
 			}
-			if (cGame.var_6c94) {
+			if (cGame.s_hasFinishedTut) {
 				sub_2738d();
 			}
-			cGame.var_6c94 = true;
+			cGame.s_hasFinishedTut = true;
 			return;
 		}
 		case 23: {
 			if (!cGame.var_6c8c) {
 				cGame.var_6c8c = true;
-				cGame.var_6c94 = false;
+				cGame.s_hasFinishedTut = false;
 				final Class_f[] array12 = { null };
 				Class_f.sub_545c(0, 50, 14, array12, 1);
 				if (array12[0] != null) {
@@ -15215,7 +15217,7 @@ public final class cGame extends GLLib implements Class_b {
 				sub_2c69b();
 				sub_1f8c5(1);
 			}
-			if (cGame.var_6c94) {
+			if (cGame.s_hasFinishedTut) {
 				sub_2738d();
 				sub_28ca1();
 				return;
@@ -15231,7 +15233,7 @@ public final class cGame extends GLLib implements Class_b {
 				sub_2c69b();
 				sub_1f8c5(22);
 			}
-			if (cGame.var_6c94) {
+			if (cGame.s_hasFinishedTut) {
 				sub_2738d();
 				sub_2000c(22, 172, false);
 				return;
@@ -15244,7 +15246,7 @@ public final class cGame extends GLLib implements Class_b {
 				cGame.var_6c8c = true;
 				sub_234cb(1, 1);
 			}
-			if (cGame.var_6c94) {
+			if (cGame.s_hasFinishedTut) {
 				sub_234f2(1);
 				sub_2c69b();
 				sub_1f8c5(22);
@@ -15265,7 +15267,7 @@ public final class cGame extends GLLib implements Class_b {
 			if (!sub_20167(6, 36) && cGame.var_68bc[6][26][6] == 54) {
 				sub_2000c(6, 36, true);
 			}
-			if (cGame.var_6c94) {
+			if (cGame.s_hasFinishedTut) {
 				sub_2000c(6, 36, false);
 				sub_2738d();
 				return;
@@ -15285,7 +15287,7 @@ public final class cGame extends GLLib implements Class_b {
 				sub_2c69b();
 				sub_1f8c5(6);
 			}
-			if (cGame.var_6c94) {
+			if (cGame.s_hasFinishedTut) {
 				sub_2738d();
 				sub_2000c(6, 35, false);
 				return;
@@ -15307,7 +15309,7 @@ public final class cGame extends GLLib implements Class_b {
 				sub_2c69b();
 				sub_1f8c5(22);
 			}
-			if (cGame.var_6c94) {
+			if (cGame.s_hasFinishedTut) {
 				sub_2000c(22, 90, false);
 				sub_2738d();
 				return;
@@ -15323,7 +15325,7 @@ public final class cGame extends GLLib implements Class_b {
 				sub_2c69b();
 				sub_1f8c5(22);
 			}
-			if (cGame.var_6c94) {
+			if (cGame.s_hasFinishedTut) {
 				sub_2000c(22, 91, false);
 				sub_2738d();
 				return;
@@ -15340,7 +15342,7 @@ public final class cGame extends GLLib implements Class_b {
 				sub_2c69b();
 				sub_1f8c5(22);
 			}
-			if (cGame.var_6c94) {
+			if (cGame.s_hasFinishedTut) {
 				sub_2000c(22, 170, false);
 				sub_2024d(22, 159, true);
 				sub_2738d();
@@ -15353,16 +15355,16 @@ public final class cGame extends GLLib implements Class_b {
 				cGame.var_6c8c = true;
 				sub_4052e(27, 24, 7, 0);
 			}
-			if (cGame.var_6c94) {
+			if (cGame.s_hasFinishedTut) {
 				sub_2738d();
 			}
-			cGame.var_6c94 = true;
+			cGame.s_hasFinishedTut = true;
 			return;
 		}
 		case 32: {
 			if (!cGame.var_6c8c) {
 				cGame.var_6c8c = true;
-				cGame.var_6c94 = false;
+				cGame.s_hasFinishedTut = false;
 				final Class_f[] array13 = { null };
 				Class_f.sub_545c(0, 54, 17, array13, 1);
 				if (array13[0] != null) {
@@ -15370,7 +15372,7 @@ public final class cGame extends GLLib implements Class_b {
 				}
 				cGame.var_70e4 = ((cGame.var_70e4 |= 0xFF) & 0xFFFFFFFE);
 			}
-			if (cGame.var_6c94) {
+			if (cGame.s_hasFinishedTut) {
 				return;
 			}
 			break;
@@ -15382,16 +15384,16 @@ public final class cGame extends GLLib implements Class_b {
 				final String sub_4e1f7;
 				sub_40279(((sub_4e1f7 = GLLib.Text_GetStringFromLocaleFile(23)) == null) ? "" : sub_4e1f7, 7, 0);
 			}
-			if (cGame.var_6c94) {
+			if (cGame.s_hasFinishedTut) {
 				sub_2738d();
 			}
-			cGame.var_6c94 = true;
+			cGame.s_hasFinishedTut = true;
 			return;
 		}
 		case 34: {
 			if (!cGame.var_6c8c) {
 				cGame.var_6c8c = true;
-				sub_2024d(1, 44, cGame.var_6c94 = false);
+				sub_2024d(1, 44, cGame.s_hasFinishedTut = false);
 				sub_2024d(1, 45, false);
 				final Class_f[] array14 = { null };
 				Class_f.sub_545c(0, 54, 17, array14, 1);
@@ -15400,7 +15402,7 @@ public final class cGame extends GLLib implements Class_b {
 					sub_28c2e(array14[0], -30, -100);
 				}
 			}
-			if (cGame.var_6c94) {
+			if (cGame.s_hasFinishedTut) {
 				sub_2738d();
 				sub_28ca1();
 				return;
@@ -15419,7 +15421,7 @@ public final class cGame extends GLLib implements Class_b {
 					sub_28c64();
 				}
 			}
-			if (cGame.var_6c94) {
+			if (cGame.s_hasFinishedTut) {
 				sub_2738d();
 				sub_28ca1();
 				return;
@@ -15430,7 +15432,7 @@ public final class cGame extends GLLib implements Class_b {
 			if (!cGame.var_6c8c) {
 				cGame.var_6c8c = true;
 			}
-			if (cGame.var_6c94) {
+			if (cGame.s_hasFinishedTut) {
 				sub_2738d();
 				return;
 			}
@@ -15449,16 +15451,16 @@ public final class cGame extends GLLib implements Class_b {
 				final String sub_4e1f8;
 				sub_40279(((sub_4e1f8 = GLLib.Text_GetStringFromLocaleFile(12)) == null) ? "" : sub_4e1f8, 7, 0);
 			}
-			if (cGame.var_6c94) {
+			if (cGame.s_hasFinishedTut) {
 				sub_2738d();
 			}
-			cGame.var_6c94 = true;
+			cGame.s_hasFinishedTut = true;
 			return;
 		}
 		case 38: {
 			if (!cGame.var_6c8c) {
 				cGame.var_6c8c = true;
-				cGame.var_6c94 = false;
+				cGame.s_hasFinishedTut = false;
 				sub_271e4(cGame.s_tutorialState);
 				cGame.var_6cbc = 0;
 				cGame.var_70e4 = ((cGame.var_70e4 &= ~(1 << 255)) | 0x2);
@@ -15478,10 +15480,10 @@ public final class cGame extends GLLib implements Class_b {
 				final Class_f[] array18 = { null };
 				Class_f.sub_5439(2, 47, array18, 1);
 				if (array18[0] == null) {
-					cGame.var_6c94 = true;
+					cGame.s_hasFinishedTut = true;
 				}
 			}
-			if (cGame.var_6c94) {
+			if (cGame.s_hasFinishedTut) {
 				cGame.var_70e4 &= 0xFFFFFFFD;
 				sub_2738d();
 				return;
@@ -15496,20 +15498,20 @@ public final class cGame extends GLLib implements Class_b {
 				final String sub_4e1f9;
 				sub_40279(((sub_4e1f9 = GLLib.Text_GetStringFromLocaleFile(13)) == null) ? "" : sub_4e1f9, 7, 0);
 			}
-			if (cGame.var_6c94) {
+			if (cGame.s_hasFinishedTut) {
 				sub_2738d();
 			}
-			cGame.var_6c94 = true;
+			cGame.s_hasFinishedTut = true;
 			return;
 		}
 		case 40: {
 			if (!cGame.var_6c8c) {
 				cGame.var_6c8c = true;
-				cGame.var_6c94 = false;
+				cGame.s_hasFinishedTut = false;
 				sub_2000c(1, 61, true);
 				sub_271e4(cGame.s_tutorialState);
 			}
-			if (cGame.var_6c94) {
+			if (cGame.s_hasFinishedTut) {
 				sub_2738d();
 				sub_2000c(1, 61, false);
 				return;
@@ -15559,7 +15561,7 @@ public final class cGame extends GLLib implements Class_b {
 				sub_234cb(0, 1);
 				cGame.var_6c8c = true;
 			}
-			if (cGame.var_6c94) {
+			if (cGame.s_hasFinishedTut) {
 				sub_2000c(2, 119, false);
 				sub_2738d();
 				return;
@@ -15581,9 +15583,9 @@ public final class cGame extends GLLib implements Class_b {
 				}
 			}
 			if (cGame.var_6cbc >= 2) {
-				cGame.var_6c94 = true;
+				cGame.s_hasFinishedTut = true;
 			}
-			if (cGame.var_6c94) {
+			if (cGame.s_hasFinishedTut) {
 				sub_2000c(1, 59, true);
 				sub_2024d(1, 59, true);
 				sub_25043(false);
@@ -15602,22 +15604,22 @@ public final class cGame extends GLLib implements Class_b {
 				final String sub_4e1f10;
 				sub_40279(((sub_4e1f10 = GLLib.Text_GetStringFromLocaleFile(15)) == null) ? "" : sub_4e1f10, 7, 0);
 			}
-			if (cGame.var_6c94) {
+			if (cGame.s_hasFinishedTut) {
 				sub_2738d();
 			}
-			cGame.var_6c94 = true;
+			cGame.s_hasFinishedTut = true;
 			return;
 		}
 		case 44: {
 			if (!cGame.var_6c8c) {
 				cGame.var_6c8c = true;
-				cGame.var_6c94 = false;
+				cGame.s_hasFinishedTut = false;
 				final Class_f[] array19 = new Class_f[5];
 				Class_f.sub_5439(0, 49, array19, 5);
 				sub_28c2e(array19[4], 0, -50);
 				cGame.var_70e4 |= 0x1;
 			}
-			if (cGame.var_6c94) {
+			if (cGame.s_hasFinishedTut) {
 				sub_2738d();
 				sub_28ca1();
 				cGame.var_70e4 &= 0xFFFFFFFE;
@@ -15641,9 +15643,9 @@ public final class cGame extends GLLib implements Class_b {
 				sub_28ca1();
 			}
 			if (cGame.var_6cbc >= 8) {
-				cGame.var_6c94 = true;
+				cGame.s_hasFinishedTut = true;
 			}
-			if (cGame.var_6c94) {
+			if (cGame.s_hasFinishedTut) {
 				sub_2738d();
 				cGame.var_70e4 &= 0xFFFFFFFE;
 				sub_10e3f(false, 0, cGame.var_6b04);
@@ -15657,16 +15659,16 @@ public final class cGame extends GLLib implements Class_b {
 				cGame.var_6c8c = true;
 				sub_4052e(9, 10, 7, 0);
 			}
-			if (cGame.var_6c94) {
+			if (cGame.s_hasFinishedTut) {
 				sub_2738d();
 			}
-			cGame.var_6c94 = true;
+			cGame.s_hasFinishedTut = true;
 			return;
 		}
 		case 47: {
 			if (!cGame.var_6c8c) {
 				cGame.var_6c8c = true;
-				cGame.var_6c94 = false;
+				cGame.s_hasFinishedTut = false;
 				cGame.var_70e4 &= 0xFFFFFF00;
 				sub_27132();
 				final Class_f[] array20 = { null };
@@ -15675,20 +15677,20 @@ public final class cGame extends GLLib implements Class_b {
 					array20[0].sub_a25c(512);
 				}
 			}
-			if (cGame.var_6c94) {
+			if (cGame.s_hasFinishedTut) {
 				sub_2738d();
 			}
-			cGame.var_6c94 = true;
+			cGame.s_hasFinishedTut = true;
 			return;
 		}
 		case 48: {
 			if (!cGame.var_6c8c) {
-				cGame.var_6c94 = false;
+				cGame.s_hasFinishedTut = false;
 				cGame.var_6c8c = true;
 				final String sub_4e1f11;
 				sub_40279(((sub_4e1f11 = GLLib.Text_GetStringFromLocaleFile(11)) == null) ? "" : sub_4e1f11, 7, 0);
 			}
-			if (cGame.var_6c94) {
+			if (cGame.s_hasFinishedTut) {
 				final Class_f[] array21 = { null };
 				Class_f.sub_545c(0, 50, 10, array21, 1);
 				if (array21[0] != null) {
@@ -15697,12 +15699,12 @@ public final class cGame extends GLLib implements Class_b {
 				}
 				sub_2738d();
 			}
-			cGame.var_6c94 = true;
+			cGame.s_hasFinishedTut = true;
 			return;
 		}
 		case 49: {
 			if (!cGame.var_6c8c) {
-				cGame.var_6c94 = false;
+				cGame.s_hasFinishedTut = false;
 				cGame.var_6c8c = true;
 				sub_271e4(cGame.s_tutorialState);
 				final Class_f[] array22 = { null };
@@ -15712,7 +15714,7 @@ public final class cGame extends GLLib implements Class_b {
 				}
 				sub_2da54(1, 9, 1);
 			}
-			if (cGame.var_6c94) {
+			if (cGame.s_hasFinishedTut) {
 				sub_28ca1();
 				sub_2738d();
 				return;
@@ -15724,7 +15726,7 @@ public final class cGame extends GLLib implements Class_b {
 				sub_272f4(cGame.s_tutorialState);
 				cGame.var_6c8c = true;
 			}
-			if (cGame.var_6c94) {
+			if (cGame.s_hasFinishedTut) {
 				sub_2000c(10, 68, false);
 				sub_2738d();
 				return;
@@ -15736,7 +15738,7 @@ public final class cGame extends GLLib implements Class_b {
 				sub_272f4(cGame.s_tutorialState);
 				cGame.var_6c8c = true;
 			}
-			if (cGame.var_6c94) {
+			if (cGame.s_hasFinishedTut) {
 				sub_2000c(10, 67, false);
 				sub_2738d();
 				return;
@@ -15761,7 +15763,7 @@ public final class cGame extends GLLib implements Class_b {
 				sub_1fb8e(1);
 				cGame.var_6c8c = true;
 			}
-			if (cGame.var_6c94 = (cGame.var_6aac == null)) {
+			if (cGame.s_hasFinishedTut = (cGame.var_6aac == null)) {
 				sub_2738d();
 				cGame.var_70e4 &= 0xFFFFFFFE;
 				return;
@@ -15774,10 +15776,10 @@ public final class cGame extends GLLib implements Class_b {
 				final String sub_4e1f12;
 				sub_40279(((sub_4e1f12 = GLLib.Text_GetStringFromLocaleFile(8)) == null) ? "" : sub_4e1f12, 7, 0);
 			}
-			if (cGame.var_6c94) {
+			if (cGame.s_hasFinishedTut) {
 				sub_2738d();
 			}
-			cGame.var_6c94 = true;
+			cGame.s_hasFinishedTut = true;
 			return;
 		}
 		case 54: {
@@ -15788,10 +15790,10 @@ public final class cGame extends GLLib implements Class_b {
 					sub_28c2e(array25[0], 0, -100);
 				}
 				sub_271e4(cGame.s_tutorialState);
-				cGame.var_6c94 = false;
+				cGame.s_hasFinishedTut = false;
 				cGame.var_6c8c = true;
 			}
-			if (cGame.var_6c94) {
+			if (cGame.s_hasFinishedTut) {
 				sub_2738d();
 				cGame.s_tutorialState = 56;
 				sub_28ca1();
@@ -15803,7 +15805,7 @@ public final class cGame extends GLLib implements Class_b {
 			if (!cGame.var_6c8c) {
 				cGame.var_6c8c = true;
 			}
-			if (cGame.var_6c94) {
+			if (cGame.s_hasFinishedTut) {
 				sub_2738d();
 				return;
 			}
@@ -15827,7 +15829,7 @@ public final class cGame extends GLLib implements Class_b {
 				sub_1fb8e(3);
 				sub_234cb(0, 1);
 			}
-			if (cGame.var_6c94) {
+			if (cGame.s_hasFinishedTut) {
 				sub_2738d();
 				sub_2000c(3, 206, false);
 				return;
@@ -15845,9 +15847,9 @@ public final class cGame extends GLLib implements Class_b {
 				cGame.var_6cc4 = true;
 			}
 			if (cGame.var_6cc4 && array26[0] == null) {
-				cGame.var_6c94 = true;
+				cGame.s_hasFinishedTut = true;
 			}
-			if (cGame.var_6c94) {
+			if (cGame.s_hasFinishedTut) {
 				sub_2738d();
 			}
 			return;
@@ -15855,7 +15857,7 @@ public final class cGame extends GLLib implements Class_b {
 		case 58: {
 			if (!cGame.var_6c8c) {
 				cGame.var_6c8c = true;
-				cGame.var_6c94 = false;
+				cGame.s_hasFinishedTut = false;
 				sub_271e4(cGame.s_tutorialState);
 				cGame.var_70e4 |= 0xFF;
 				sub_10e3f(false, 0, cGame.var_6b04);
@@ -15864,9 +15866,9 @@ public final class cGame extends GLLib implements Class_b {
 				sub_11320(false, null);
 			}
 			if (getLevel() >= 2) {
-				cGame.var_6c94 = true;
+				cGame.s_hasFinishedTut = true;
 			}
-			if (cGame.var_6c94) {
+			if (cGame.s_hasFinishedTut) {
 				sub_2738d();
 				return;
 			}
@@ -15878,7 +15880,7 @@ public final class cGame extends GLLib implements Class_b {
 				sub_49758();
 				sub_2000c(1, 44, true);
 				sub_2024d(1, 44, true);
-				cGame.var_6c94 = false;
+				cGame.s_hasFinishedTut = false;
 				cGame.s_tutorialState = -1;
 				cGame.var_6c5c = 160;
 				cGame.var_6a9c = true;
@@ -19755,7 +19757,7 @@ public final class cGame extends GLLib implements Class_b {
 			}
 		}
 		if (cGame.s_tutorialState == 14) {
-			cGame.var_6c94 = true;
+			cGame.s_hasFinishedTut = true;
 		}
 	}
 
@@ -20569,7 +20571,7 @@ public final class cGame extends GLLib implements Class_b {
 					cGame.var_74cc[n9] = 0;
 					cGame.var_74bc[n9] = 4;
 					if (cGame.var_6c5c == 171) {
-						cGame.var_6c94 = true;
+						cGame.s_hasFinishedTut = true;
 					}
 				} else if (n8 > cGame.var_74a4[n9] && n8 < cGame.var_74a4[n9] + cGame.var_749c[n9]) {
 					sub_358a9(false, l);
@@ -20860,7 +20862,7 @@ public final class cGame extends GLLib implements Class_b {
 		final int n3 = 17 + n * 15;
 		if (b && n == 0 && cGame.var_6c5c == 171 && sub_20167(22, 90)) {
 			sub_2000c(22, 90, false);
-			cGame.var_6c94 = true;
+			cGame.s_hasFinishedTut = true;
 		}
 		if (sub_20167(22, n3) != b || sub_202b7(22, n3) != b) {
 			sub_2000c(22, n2, b);
@@ -20958,7 +20960,7 @@ public final class cGame extends GLLib implements Class_b {
 			cGame.var_757c = false;
 			cGame.var_68ac = 100;
 			if (cGame.s_tutorialState == 23) {
-				cGame.var_6c94 = true;
+				cGame.s_hasFinishedTut = true;
 			}
 		}
 		if (n == 1) {
@@ -21207,7 +21209,7 @@ public final class cGame extends GLLib implements Class_b {
 				cGame.var_756c[n3] = 0;
 				cGame.var_7564[n3] = 4;
 				if (cGame.s_tutorialState == 28) {
-					cGame.var_6c94 = true;
+					cGame.s_hasFinishedTut = true;
 				}
 			} else if (n2 > cGame.var_7544[n3] && n2 < cGame.var_7544[n3] + cGame.var_753c[n3]) {
 				sub_3701d(false, i);
@@ -21499,7 +21501,7 @@ public final class cGame extends GLLib implements Class_b {
 			n = cGame.var_6914[0][8];
 		}
 		if (var_75d4 && cGame.s_tutorialState == 24) {
-			cGame.var_6c94 = true;
+			cGame.s_hasFinishedTut = true;
 		}
 		if (cGame.var_75d4 = var_75d4) {
 			cGame.var_75e4 = 1;
@@ -25226,7 +25228,7 @@ public final class cGame extends GLLib implements Class_b {
 				if (sub_4ac19(2)) {
 					cGame.var_6c54 = true;
 					cGame.var_6c5c = 169;
-					cGame.var_6c8c = (cGame.var_6c94 = false);
+					cGame.var_6c8c = (cGame.s_hasFinishedTut = false);
 				}
 			}
 		}
@@ -25273,7 +25275,7 @@ public final class cGame extends GLLib implements Class_b {
 			cGame.var_7b84 = 0;
 			cGame.var_7b8c = 0;
 			if (cGame.var_6c5c == 168) {
-				cGame.var_6c94 = true;
+				cGame.s_hasFinishedTut = true;
 			}
 		}
 		if (n == 1) {
@@ -28451,7 +28453,7 @@ public final class cGame extends GLLib implements Class_b {
 	private static void sub_48d55() {
 		sub_48c86();
 		if (cGame.s_tutorialState == 11) {
-			cGame.var_6c94 = true;
+			cGame.s_hasFinishedTut = true;
 		}
 		int n = 0;
 		Label_0115: {
