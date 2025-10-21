@@ -329,19 +329,19 @@ public final class cGame extends GLLib implements Class_b {
 	private static String s_currentPackFilename;
 	private static boolean var_7194;
 	private static char var_719c;
-	private static int[] var_71a4;
-	private static int[] var_71ac;
+	private static int[] s_marketItemNames;
+	private static int[] s_marketCropItemIDs;
 	private static int[] var_71b4;
 	private static int[] var_71bc;
 	private static int[] var_71c4;
-	private static int[] var_71cc;
+	private static int[] s_marketItemCosts;
 	private static int[] var_71d4;
 	private static int[] var_71dc;
 	private static int[] var_71e4;
 	private static int[] var_71ec;
 	private static int[] var_71f4;
 	private static int[] var_71fc;
-	private static boolean[] var_7204;
+	private static boolean[] s_marketItemIsLocked;
 	private static int var_720c;
 	private static int s_market_currPage;
 	private static int var_721c;
@@ -19149,19 +19149,19 @@ public final class cGame extends GLLib implements Class_b {
 			sub_1daf4(2);
 			sub_2c69b();
 			sub_1fb8e(2);
-			cGame.var_71a4 = null;
-			cGame.var_71ac = null;
+			cGame.s_marketItemNames = null;
+			cGame.s_marketCropItemIDs = null;
 			cGame.var_71b4 = null;
 			cGame.var_71bc = null;
 			cGame.var_71c4 = null;
-			cGame.var_71cc = null;
+			cGame.s_marketItemCosts = null;
 			cGame.var_71d4 = null;
 			cGame.var_71dc = null;
 			cGame.var_71e4 = null;
 			cGame.var_71ec = null;
 			cGame.var_71f4 = null;
 			cGame.var_71fc = null;
-			cGame.var_7204 = null;
+			cGame.s_marketItemIsLocked = null;
 			cGame.var_68cc[2][1] = ((GLLib.Text_GetStringFromLocaleFile(121) == null) ? "" : GLLib.Text_GetStringFromLocaleFile(121));
 		}
 		if (n == 1) {
@@ -19191,17 +19191,17 @@ public final class cGame extends GLLib implements Class_b {
 		}
 		if (n == 5) {
 			sub_32132(-1);
-			cGame.var_71a4 = null;
-			cGame.var_71ac = null;
+			cGame.s_marketItemNames = null;
+			cGame.s_marketCropItemIDs = null;
 			cGame.var_71b4 = null;
 			cGame.var_71bc = null;
 			cGame.var_71c4 = null;
-			cGame.var_71cc = null;
+			cGame.s_marketItemCosts = null;
 			cGame.var_71d4 = null;
 			cGame.var_71ec = null;
 			cGame.var_71f4 = null;
 			cGame.var_71fc = null;
-			cGame.var_7204 = null;
+			cGame.s_marketItemIsLocked = null;
 			sub_234f2(0);
 			sub_239ef(2);
 		}
@@ -19243,14 +19243,14 @@ public final class cGame extends GLLib implements Class_b {
 			n = ((cGame.var_719c - cGame.s_market_currPage >= 6) ? 6 : (cGame.var_719c - cGame.s_market_currPage));
 			for (int i = 0; i < n; ++i) {
 				final String sub_4e1f3;
-				drawText(((sub_4e1f3 = GLLib.Text_GetStringFromLocaleFile(cGame.var_71a4[i + cGame.s_market_currPage])) == null) ? ""
+				drawText(((sub_4e1f3 = GLLib.Text_GetStringFromLocaleFile(cGame.s_marketItemNames[i + cGame.s_market_currPage])) == null) ? ""
 						: sub_4e1f3, 2, 29 + i * 14, 0, 0);
 				if (cGame.var_721c != 0 || cGame.var_7224 != -1
 						|| (cGame.var_722c == 4 && cGame.var_721c == 0 && cGame.var_7224 == -1)) {
 					if (sub_20167(2, 33 + i * 14)) {
 						final int n8 = i + cGame.s_market_currPage;
-						if (cGame.var_71cc[n8] > 0) {
-							sub_1df06(GLLib.BigNumberSeparate(cGame.var_71cc[n8], cGame.var_7fe4, " "), 2, 32 + i * 14, 0,
+						if (cGame.s_marketItemCosts[n8] > 0) {
+							sub_1df06(GLLib.BigNumberSeparate(cGame.s_marketItemCosts[n8], cGame.var_7fe4, " "), 2, 32 + i * 14, 0,
 									0);
 						} else if (cGame.var_71d4[n8] > 0) {
 							sub_1df06(GLLib.BigNumberSeparate(cGame.var_71d4[n8], cGame.var_7fe4, " "), 2, 32 + i * 14, 0,
@@ -19334,19 +19334,19 @@ public final class cGame extends GLLib implements Class_b {
 		final Class_h class_h;
 		final int var_7a = (class_h = Class_h.var_6a[var_721c]).var_7a;
 		if (class_h != null) {
-			cGame.var_71a4 = new int[var_7a];
-			cGame.var_71ac = new int[var_7a];
+			cGame.s_marketItemNames = new int[var_7a];
+			cGame.s_marketCropItemIDs = new int[var_7a];
 			cGame.var_71b4 = new int[var_7a];
 			cGame.var_71bc = new int[var_7a];
 			cGame.var_71c4 = new int[var_7a];
-			cGame.var_71cc = new int[var_7a];
+			cGame.s_marketItemCosts = new int[var_7a];
 			cGame.var_71d4 = new int[var_7a];
 			cGame.var_71dc = new int[var_7a];
 			cGame.var_71e4 = new int[var_7a];
 			cGame.var_71ec = new int[var_7a];
 			cGame.var_71f4 = new int[var_7a];
 			cGame.var_71fc = new int[var_7a];
-			cGame.var_7204 = new boolean[var_7a];
+			cGame.s_marketItemIsLocked = new boolean[var_7a];
 		}
 		int n = -1;
 		for (int i = 0; i < var_7a; ++i) {
@@ -19354,15 +19354,15 @@ public final class cGame extends GLLib implements Class_b {
 				switch (cGame.var_721c) {
 				case 0: {
 					if ((n = class_h.var_82[i][5]) > -1) {
-						cGame.var_71ac[n] = class_h.var_82[i][0];
-						cGame.var_71a4[n] = class_h.var_82[i][2];
-						cGame.var_71cc[n] = class_h.var_82[i][6];
+						cGame.s_marketCropItemIDs[n] = class_h.var_82[i][0];
+						cGame.s_marketItemNames[n] = class_h.var_82[i][2];
+						cGame.s_marketItemCosts[n] = class_h.var_82[i][6];
 						cGame.var_71d4[n] = class_h.var_82[i][7];
 						cGame.var_71f4[n] = class_h.var_82[i][1];
 						cGame.var_71dc[n] = class_h.var_82[i][3];
 						cGame.var_71e4[n] = class_h.var_82[i][4];
 						cGame.var_71fc[n] = class_h.var_82[i][8];
-						cGame.var_7204[n] = (class_h.var_82[i][8] > getLevel());
+						cGame.s_marketItemIsLocked[n] = (class_h.var_82[i][8] > getLevel());
 						cGame.var_71ec[n] = class_h.var_82[i][32];
 						cGame.var_71b4[n] = class_h.var_82[i][10];
 						if (class_h.var_82[i][34] == 1) {
@@ -19377,15 +19377,15 @@ public final class cGame extends GLLib implements Class_b {
 				}
 				case 2: {
 					if ((n = class_h.var_82[i][5]) > -1) {
-						cGame.var_71ac[n] = class_h.var_82[i][0];
-						cGame.var_71a4[n] = class_h.var_82[i][2];
-						cGame.var_71cc[n] = class_h.var_82[i][6];
+						cGame.s_marketCropItemIDs[n] = class_h.var_82[i][0];
+						cGame.s_marketItemNames[n] = class_h.var_82[i][2];
+						cGame.s_marketItemCosts[n] = class_h.var_82[i][6];
 						cGame.var_71d4[n] = class_h.var_82[i][7];
 						cGame.var_71f4[n] = class_h.var_82[i][1];
 						cGame.var_71dc[n] = class_h.var_82[i][3];
 						cGame.var_71e4[n] = class_h.var_82[i][4];
 						cGame.var_71fc[n] = class_h.var_82[i][8];
-						cGame.var_7204[n] = (class_h.var_82[i][8] > getLevel());
+						cGame.s_marketItemIsLocked[n] = (class_h.var_82[i][8] > getLevel());
 						cGame.var_71b4[n] = class_h.var_82[i][16];
 						cGame.var_71bc[n] = class_h.var_82[i][11];
 						cGame.var_71c4[n] = class_h.var_82[i][12];
@@ -19395,36 +19395,36 @@ public final class cGame extends GLLib implements Class_b {
 				}
 				case 3: {
 					if ((n = class_h.var_82[i][5]) > -1) {
-						cGame.var_71ac[n] = class_h.var_82[i][0];
-						cGame.var_71a4[n] = class_h.var_82[i][2];
+						cGame.s_marketCropItemIDs[n] = class_h.var_82[i][0];
+						cGame.s_marketItemNames[n] = class_h.var_82[i][2];
 						if (class_h.var_82[i][7] > 0) {
 							final int sub_4d73 = Class_f.sub_4d73(0, class_h.var_82[i][1]);
-							cGame.var_71cc[n] = class_h.var_82[i][6
+							cGame.s_marketItemCosts[n] = class_h.var_82[i][6
 									+ ((sub_4d73 - 1 < 0) ? 0 : ((sub_4d73 - 1 > 3) ? 3 : (sub_4d73 - 1)))];
 						} else {
-							cGame.var_71cc[n] = class_h.var_82[i][6];
+							cGame.s_marketItemCosts[n] = class_h.var_82[i][6];
 						}
 						cGame.var_71d4[n] = class_h.var_82[i][10];
 						cGame.var_71f4[n] = class_h.var_82[i][1];
 						cGame.var_71dc[n] = class_h.var_82[i][3];
 						cGame.var_71e4[n] = class_h.var_82[i][4];
 						cGame.var_71fc[n] = class_h.var_82[i][11];
-						cGame.var_7204[n] = (class_h.var_82[i][11] > getLevel());
+						cGame.s_marketItemIsLocked[n] = (class_h.var_82[i][11] > getLevel());
 						break;
 					}
 					break;
 				}
 				case 4: {
 					if ((n = class_h.var_82[i][5]) > -1) {
-						cGame.var_71ac[n] = class_h.var_82[i][0];
-						cGame.var_71a4[n] = class_h.var_82[i][2];
-						cGame.var_71cc[n] = class_h.var_82[i][6];
+						cGame.s_marketCropItemIDs[n] = class_h.var_82[i][0];
+						cGame.s_marketItemNames[n] = class_h.var_82[i][2];
+						cGame.s_marketItemCosts[n] = class_h.var_82[i][6];
 						cGame.var_71d4[n] = class_h.var_82[i][7];
 						cGame.var_71f4[n] = class_h.var_82[i][1];
 						cGame.var_71dc[n] = class_h.var_82[i][3];
 						cGame.var_71e4[n] = class_h.var_82[i][4];
 						cGame.var_71fc[n] = class_h.var_82[i][8];
-						cGame.var_7204[n] = (class_h.var_82[i][8] > getLevel());
+						cGame.s_marketItemIsLocked[n] = (class_h.var_82[i][8] > getLevel());
 						break;
 					}
 					break;
@@ -19491,24 +19491,24 @@ public final class cGame extends GLLib implements Class_b {
 		final Class_h class_h;
 		final int var_7a = (class_h = Class_h.var_6a[13]).var_7a;
 		if (class_h != null) {
-			cGame.var_71a4 = new int[var_7a];
-			cGame.var_71ac = null;
+			cGame.s_marketItemNames = new int[var_7a];
+			cGame.s_marketCropItemIDs = null;
 			cGame.var_71b4 = new int[var_7a];
 			cGame.var_71bc = new int[var_7a];
 			cGame.var_71c4 = new int[var_7a];
-			cGame.var_71cc = null;
+			cGame.s_marketItemCosts = null;
 			cGame.var_71d4 = null;
 			cGame.var_71dc = new int[var_7a];
 			cGame.var_71e4 = new int[var_7a];
 			cGame.var_71ec = new int[var_7a];
 			cGame.var_71f4 = new int[var_7a];
 			cGame.var_71fc = new int[var_7a];
-			cGame.var_7204 = new boolean[var_7a];
+			cGame.s_marketItemIsLocked = new boolean[var_7a];
 		}
 		for (int i = 0; i < var_7a; ++i) {
 			cGame.var_71dc[i] = class_h.var_82[i][2];
 			cGame.var_71e4[i] = class_h.var_82[i][3];
-			cGame.var_71a4[i] = class_h.var_82[i][1];
+			cGame.s_marketItemNames[i] = class_h.var_82[i][1];
 			if (i < 6) {
 				sub_31ee1(i, true, true);
 				++n;
@@ -19564,7 +19564,7 @@ public final class cGame extends GLLib implements Class_b {
 			final int n4 = n3 + 30;
 			cGame.var_68bc[2][n4][5] = (short) cGame.var_71dc[cGame.s_market_currPage + var_720c];
 			cGame.var_68bc[2][n4][6] = (short) cGame.var_71e4[cGame.s_market_currPage + var_720c];
-			if (cGame.var_7204[cGame.s_market_currPage + var_720c]) {
+			if (cGame.s_marketItemIsLocked[cGame.s_market_currPage + var_720c]) {
 				sub_2000c(2, n3 + 40, true);
 				sub_2000c(2, n3 + 33, false);
 			} else {
@@ -19588,7 +19588,7 @@ public final class cGame extends GLLib implements Class_b {
 				sub_2000c(2, n3 + 32, false);
 			} else {
 				final int n5 = n3 + 33;
-				if (cGame.var_71cc[cGame.s_market_currPage + var_720c] > 0) {
+				if (cGame.s_marketItemCosts[cGame.s_market_currPage + var_720c] > 0) {
 					cGame.var_68bc[2][n5][6] = 115;
 				} else {
 					cGame.var_68bc[2][n5][6] = 114;
@@ -19635,18 +19635,18 @@ public final class cGame extends GLLib implements Class_b {
 
 	private static void sub_3225a(int n) {
 		n += cGame.s_market_currPage;
-		final boolean b = cGame.var_71cc[n] == 0;
-		if (!cGame.var_7204[n]
-				&& ((!b && cGame.var_71cc[n] <= getCoin()) || (b && cGame.var_71d4[n] <= getCash()))) {
+		final boolean b = cGame.s_marketItemCosts[n] == 0;
+		if (!cGame.s_marketItemIsLocked[n]
+				&& ((!b && cGame.s_marketItemCosts[n] <= getCoin()) || (b && cGame.var_71d4[n] <= getCash()))) {
 			boolean b2 = false;
-			if (cGame.var_71cc[n] > 0) {
-				cGame.var_708c = cGame.var_71cc[n];
+			if (cGame.s_marketItemCosts[n] > 0) {
+				cGame.var_708c = cGame.s_marketItemCosts[n];
 			} else {
 				cGame.var_7094 = cGame.var_71d4[n];
 			}
 			switch (cGame.var_721c) {
 			case 2: {
-				if (cGame.var_71ac[n] == 0) {
+				if (cGame.s_marketCropItemIDs[n] == 0) {
 					final Class_f[] array = new Class_f[50];
 					final int sub_545c = Class_f.sub_545c(0, 49, -1, array, 50);
 					int n2 = -1;
@@ -19671,9 +19671,9 @@ public final class cGame extends GLLib implements Class_b {
 					cGame.var_6ab4 = var_6ab4;
 					break;
 				}
-				if (cGame.var_71ac[n] <= 11) {
+				if (cGame.s_marketCropItemIDs[n] <= 11) {
 					cGame.var_708c = (cGame.var_7094 = 0);
-					cGame.var_6b04 = sub_11774(cGame.var_71ac[n]);
+					cGame.var_6b04 = sub_11774(cGame.s_marketCropItemIDs[n]);
 					cGame.var_6afc = 0;
 					break;
 				}
@@ -19685,20 +19685,20 @@ public final class cGame extends GLLib implements Class_b {
 				}
 				b2 = true;
 				cGame.var_6aa4 = 0;
-				cGame.var_6ab4 = sub_25b35(cGame.var_721c, cGame.var_71ac[n]);
+				cGame.var_6ab4 = sub_25b35(cGame.var_721c, cGame.s_marketCropItemIDs[n]);
 				break;
 			}
 			case 4: {
 				b2 = true;
 				cGame.var_6aa4 = 0;
-				if ((cGame.var_71ac[n] >= 1 && cGame.var_71ac[n] <= 4)
-						|| (cGame.var_71ac[n] >= 7 && cGame.var_71ac[n] <= 12) || cGame.var_71ac[n] == 40
-						|| cGame.var_71ac[n] == 41 || cGame.var_71ac[n] == 45 || cGame.var_71ac[n] == 47
-						|| (cGame.var_71ac[n] >= 48 && cGame.var_71ac[n] <= 50) || cGame.var_71ac[n] == 54
-						|| cGame.var_71ac[n] == 55) {
+				if ((cGame.s_marketCropItemIDs[n] >= 1 && cGame.s_marketCropItemIDs[n] <= 4)
+						|| (cGame.s_marketCropItemIDs[n] >= 7 && cGame.s_marketCropItemIDs[n] <= 12) || cGame.s_marketCropItemIDs[n] == 40
+						|| cGame.s_marketCropItemIDs[n] == 41 || cGame.s_marketCropItemIDs[n] == 45 || cGame.s_marketCropItemIDs[n] == 47
+						|| (cGame.s_marketCropItemIDs[n] >= 48 && cGame.s_marketCropItemIDs[n] <= 50) || cGame.s_marketCropItemIDs[n] == 54
+						|| cGame.s_marketCropItemIDs[n] == 55) {
 					cGame.var_6aa4 = 1;
 				}
-				cGame.var_6ab4 = sub_25b35(cGame.var_721c, cGame.var_71ac[n]);
+				cGame.var_6ab4 = sub_25b35(cGame.var_721c, cGame.s_marketCropItemIDs[n]);
 				break;
 			}
 			default: {
@@ -19710,7 +19710,7 @@ public final class cGame extends GLLib implements Class_b {
 				}
 				b2 = true;
 				cGame.var_6aa4 = 0;
-				cGame.var_6ab4 = sub_25b35(cGame.var_721c, cGame.var_71ac[n]);
+				cGame.var_6ab4 = sub_25b35(cGame.var_721c, cGame.s_marketCropItemIDs[n]);
 				if (cGame.var_721c == 0) {
 					cGame.var_6ab4.var_16cd = (short) cGame.var_71c4[n];
 					break;
@@ -19727,12 +19727,12 @@ public final class cGame extends GLLib implements Class_b {
 				cGame.var_800c.sub_6b0c(cGame.var_6ab4.var_17cd, cGame.var_6ab4.var_17d5, 1000);
 			}
 			sub_8370(17);
-			if (cGame.var_721c == 2 && cGame.var_71ac[n] >= 1 && cGame.var_71ac[n] <= 11) {
+			if (cGame.var_721c == 2 && cGame.s_marketCropItemIDs[n] >= 1 && cGame.s_marketCropItemIDs[n] <= 11) {
 				sub_23a84(49);
 			} else {
 				sub_23a84(61);
 			}
-		} else if (cGame.var_7204[n]) {
+		} else if (cGame.s_marketItemIsLocked[n]) {
 			sub_23a84(56);
 		} else {
 			sub_23a84(56);
@@ -19746,10 +19746,10 @@ public final class cGame extends GLLib implements Class_b {
 					cGame.var_7d24 = true;
 					sub_81e0(34);
 				}
-			} else if (cGame.var_71cc[n] > 0) {
+			} else if (cGame.s_marketItemCosts[n] > 0) {
 				final String sub_4e1f2;
 				cGame.var_7ab4 = GLLib.Text_ReplaceText(((sub_4e1f2 = GLLib.Text_GetStringFromLocaleFile(379)) == null) ? "" : sub_4e1f2,
-						"%d", GLLib.BigNumberSeparate(cGame.var_71cc[n] - getCoin(), cGame.var_7fe4, " "));
+						"%d", GLLib.BigNumberSeparate(cGame.s_marketItemCosts[n] - getCoin(), cGame.var_7fe4, " "));
 				cGame.var_7aac = 18;
 				cGame.var_815c = true;
 				cGame.var_7d24 = false;
