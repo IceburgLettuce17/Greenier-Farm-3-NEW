@@ -29436,20 +29436,20 @@ public final class cGame extends GLLib implements Class_b {
 					n = -1;
 				}
 				final int var_6f94 = n;
-				if (GLLib.var_202f == 1 && var_6f94 > -1) {
-					cGame.var_6f7c = var_6f94;
-					cGame.var_6f84 = var_6f94;
-					cGame.var_6f9c = var_6f94;
+				if (GLLib.var_202f == 1 && n > -1) {
+					cGame.var_6f7c = n;
+					cGame.var_6f84 = n;
+					cGame.var_6f9c = n;
 				} else if (GLLib.var_202f == 2) {
-					cGame.var_6f8c = var_6f94;
-					if (cGame.var_6f84 == var_6f94 && sub_2c4ff() < 50) {
-						cGame.var_6f94 = var_6f94;
+					cGame.var_6f8c = n;
+					if (cGame.var_6f84 == n && sub_2c4ff() < 50) {
+						cGame.var_6f94 = n;
 					}
 					cGame.var_6f84 = -1;
 					cGame.var_6f9c = -1;
 				}
 				Label_0429: {
-					if (cGame.var_6f84 == var_6f94 && sub_2c4ff() < 50) {
+					if (cGame.var_6f84 == n && sub_2c4ff() < 50) {
 						final int var_6f95 = cGame.var_6f84;
 						boolean b = false;
 						Label_0377: {

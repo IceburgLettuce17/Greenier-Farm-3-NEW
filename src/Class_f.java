@@ -456,7 +456,7 @@ final class Class_f
                                 class_f11.var_18b5.sub_1d9e(cGame.var_7fc4);
                                 if (class_f11.var_18b5.IsAnimOver()) {
                                     if (sub_1923 == 1 && cGame.s_tutorialState == 18) {
-                                        cGame.var_6c94 = true;
+                                        cGame.s_hasFinishedTut = true;
                                     }
                                     class_f11.var_18b5 = null;
                                 }
@@ -589,7 +589,7 @@ final class Class_f
                                         if (class_f11.var_189d.IsAnimOver()) {
                                             if (!cGame.var_6c24 && cGame.getState() == 18) {
                                                 cGame.var_6c24 = true;
-                                                cGame.var_6c8c = (cGame.var_6c94 = false);
+                                                cGame.var_6c8c = (cGame.s_hasFinishedTut = false);
                                                 cGame.s_tutorialState = 33;
                                             }
                                             class_f11.sub_8365(0);
@@ -704,7 +704,7 @@ final class Class_f
                                     }
                                     if (n15 >= class_f11.var_1625 && class_f11.var_161d != 0L) {
                                         if (cGame.s_tutorialState == 35) {
-                                            cGame.var_6c94 = true;
+                                            cGame.s_hasFinishedTut = true;
                                         }
                                         if (cGame.s_tutorialState != 34) {
                                             class_f11.sub_85b3(16);
@@ -2107,7 +2107,7 @@ final class Class_f
     
     final boolean sub_6fe6() {
         if (cGame.s_tutorialState == 4 || cGame.s_tutorialState == 7 || cGame.s_tutorialState == 44) {
-            cGame.var_6c94 = true;
+            cGame.s_hasFinishedTut = true;
         }
         if (this.var_185d == 1 && cGame.var_6af4 == 0) {
             if (cGame.var_6b44 <= cGame.getLevel()) {
