@@ -440,10 +440,10 @@ final class Class_f
                                 final int sub_1923;
                                 if ((sub_1923 = class_f11.var_18b5.GetAnim()) == 0) {
                                     if (class_f11.var_16a5 == 0) {
-                                        final Class_h class_h = Class_h.var_6a[0];
-                                        class_f11.var_16a5 = (short)class_h.var_82[class_f11.var_1835][30];
+                                        final GameDatas class_h = GameDatas.s_allDatas[0];
+                                        class_f11.var_16a5 = (short)class_h.m_dataVars[class_f11.var_1835][30];
                                         final ASprite class_e2;
-                                        final short n5 = (class_e2 = cGame.var_7ff4[class_h.var_82[class_f11.var_1835][31]]).var_faf[class_f11.var_16a5];
+                                        final short n5 = (class_e2 = cGame.var_7ff4[class_h.m_dataVars[class_f11.var_1835][31]]).var_faf[class_f11.var_16a5];
                                         class_f11.var_16bd = class_e2.sub_30ea(n5);
                                         class_f11.var_16c5 = class_e2.sub_310b(n5);
                                         class_f11.var_18a5 = class_f11.var_16bd;
@@ -601,13 +601,13 @@ final class Class_f
                                         final Class_f class_f13 = class_f11;
                                         final int[] array8 = { 0, 0, 14 };
                                         sub_92ea(47, 2, array8).sub_8c4c(class_f13.var_17cd, class_f13.var_17d5, 37, 1000, false, 1);
-                                        final Class_h class_h2;
-                                        int n8 = (class_h2 = Class_h.var_6a[0]).var_82[class_f13.var_1835][18];
-                                        final int var_188d = class_h2.var_82[class_f13.var_1835][19];
-                                        final int n9 = class_h2.var_82[class_f13.var_1835][20];
-                                        int n10 = class_h2.var_82[class_f13.var_1835][21];
-                                        final int n11 = class_h2.var_82[class_f13.var_1835][22];
-                                        final int n12 = class_h2.var_82[class_f13.var_1835][23];
+                                        final GameDatas class_h2;
+                                        int n8 = (class_h2 = GameDatas.s_allDatas[0]).m_dataVars[class_f13.var_1835][18];
+                                        final int var_188d = class_h2.m_dataVars[class_f13.var_1835][19];
+                                        final int n9 = class_h2.m_dataVars[class_f13.var_1835][20];
+                                        int n10 = class_h2.m_dataVars[class_f13.var_1835][21];
+                                        final int n11 = class_h2.m_dataVars[class_f13.var_1835][22];
+                                        final int n12 = class_h2.m_dataVars[class_f13.var_1835][23];
                                         boolean b2 = false;
                                         if (class_f13.var_1675) {
                                             if (n8 > 0) {
@@ -659,7 +659,7 @@ final class Class_f
                                     final long currentTimeMillis;
                                     final long n14 = (currentTimeMillis = System.currentTimeMillis()) / 1000L - class_f11.var_1645;
                                     if (class_f11.var_16d5 && class_f11.var_16dd > 0L) {
-                                        class_f11.var_163d = (int)(Class_h.var_6a[0].var_82[class_f11.var_1835][13] * 60 + (currentTimeMillis - class_f11.var_16dd) / 1000L);
+                                        class_f11.var_163d = (int)(GameDatas.s_allDatas[0].m_dataVars[class_f11.var_1835][13] * 60 + (currentTimeMillis - class_f11.var_16dd) / 1000L);
                                     }
                                     if (class_f11.var_163d > 0 && cGame.var_8034 == class_f11) {
                                         cGame.sub_df48((int)n14, class_f11.var_163d);
@@ -2414,11 +2414,11 @@ final class Class_f
             }
         }
         cGame.sub_2c9ec(this);
-        final Class_h class_h;
-        final int n4 = (class_h = Class_h.var_6a[11]).var_82[this.var_1835][3];
-        final int n5 = class_h.var_82[this.var_1835][4];
-        final int n6 = class_h.var_82[this.var_1835][5];
-        final int n7 = class_h.var_82[this.var_1835][6];
+        final GameDatas class_h;
+        final int n4 = (class_h = GameDatas.s_allDatas[11]).m_dataVars[this.var_1835][3];
+        final int n5 = class_h.m_dataVars[this.var_1835][4];
+        final int n6 = class_h.m_dataVars[this.var_1835][5];
+        final int n7 = class_h.m_dataVars[this.var_1835][6];
         final int[] array = { 0, 0, 14 };
         if (n4 > 0) {
             sub_92ea(47, 2, array).sub_8c4c(this.var_17cd, this.var_17d5, 37, 1000, false, n4);
@@ -2489,12 +2489,12 @@ final class Class_f
     }
     
     final void sub_7ed6() {
-        this.var_1625 = Class_h.var_6a[0].var_82[this.var_1835][25] * 60;
+        this.var_1625 = GameDatas.s_allDatas[0].m_dataVars[this.var_1835][25] * 60;
         this.var_161d = System.currentTimeMillis();
     }
     
     final void sub_7f11() {
-        this.var_163d = Class_h.var_6a[0].var_82[this.var_1835][13] * 60;
+        this.var_163d = GameDatas.s_allDatas[0].m_dataVars[this.var_1835][13] * 60;
         this.var_1645 = System.currentTimeMillis() / 1000L;
     }
     
@@ -2564,18 +2564,18 @@ final class Class_f
             cGame.sub_11320(false, null);
             this.sub_a25c(32);
             ++this.var_1835;
-            final Class_h class_h = Class_h.var_6a[0];
-            this.var_164d = class_h.var_82[this.var_1835][24];
-            this.var_162d = class_h.var_82[this.var_1835][14];
-            this.var_167d = class_h.var_82[this.var_1835][17];
+            final GameDatas class_h = GameDatas.s_allDatas[0];
+            this.var_164d = class_h.m_dataVars[this.var_1835][24];
+            this.var_162d = class_h.m_dataVars[this.var_1835][14];
+            this.var_167d = class_h.m_dataVars[this.var_1835][17];
             this.var_1635 = 0;
-            this.var_1815 = class_h.var_82[this.var_1835][27];
-            this.var_181d = class_h.var_82[this.var_1835][28];
-            final ASprite class_e = cGame.var_7ff4[class_h.var_82[this.var_1835][31]];
-            this.var_1875 = class_h.var_82[this.var_1835][32];
-            this.var_186d = class_h.var_82[this.var_1835][33];
-            this.var_169d = (short)class_h.var_82[this.var_1835][29];
-            this.var_16a5 = (short)class_h.var_82[this.var_1835][30];
+            this.var_1815 = class_h.m_dataVars[this.var_1835][27];
+            this.var_181d = class_h.m_dataVars[this.var_1835][28];
+            final ASprite class_e = cGame.var_7ff4[class_h.m_dataVars[this.var_1835][31]];
+            this.var_1875 = class_h.m_dataVars[this.var_1835][32];
+            this.var_186d = class_h.m_dataVars[this.var_1835][33];
+            this.var_169d = (short)class_h.m_dataVars[this.var_1835][29];
+            this.var_16a5 = (short)class_h.m_dataVars[this.var_1835][30];
             if (this.var_189d != null && class_e != null) {
                 this.var_189d.SetSprite(class_e);
                 this.var_189d.SetAnim(0, -1);
@@ -2584,18 +2584,18 @@ final class Class_f
             if (cGame.var_807c == 0) {
                 cGame.sub_4a20b(var_18c5, 1, 21);
             }
-            this.var_18c5 = class_h.var_82[this.var_1835][1];
+            this.var_18c5 = class_h.m_dataVars[this.var_1835][1];
             if (cGame.var_807c == 0) {
                 cGame.sub_4ad3f(this.var_18c5);
                 cGame.sub_2c0fa(true);
             }
             this.sub_7ed6();
             this.sub_8365(2);
-            if (class_h.var_82[this.var_1835][19] != 5 && class_h.var_82[this.var_1835][19] != 110) {
-                this.var_16e5 = class_h.var_82[this.var_1835][18];
+            if (class_h.m_dataVars[this.var_1835][19] != 5 && class_h.m_dataVars[this.var_1835][19] != 110) {
+                this.var_16e5 = class_h.m_dataVars[this.var_1835][18];
             }
-            if (class_h.var_82[this.var_1835][22] != 5 && class_h.var_82[this.var_1835][22] != 110) {
-                this.var_16ed = class_h.var_82[this.var_1835][21];
+            if (class_h.m_dataVars[this.var_1835][22] != 5 && class_h.m_dataVars[this.var_1835][22] != 110) {
+                this.var_16ed = class_h.m_dataVars[this.var_1835][21];
             }
             cGame.sub_23a84(44);
             final short n = class_e.var_faf[this.var_169d];
@@ -3533,24 +3533,24 @@ final class Class_f
         final int var_18c5;
         switch ((((var_18c5 = this.var_18c5) >= 1000 && var_18c5 < 2000) || (var_18c5 >= 10000 && var_18c5 < 11000)) ? 50 : ((var_18c5 >= 2000 && var_18c5 < 3000) ? 54 : ((var_18c5 >= 3000 && var_18c5 < 4000) ? 49 : ((var_18c5 >= 7000 && var_18c5 < 8000) ? 20 : ((var_18c5 >= 25000 && var_18c5 < 26000) ? 48 : -1))))) {
             case 50: {
-                n = Class_h.var_6a[3].var_82[this.var_1835][33];
+                n = GameDatas.s_allDatas[3].m_dataVars[this.var_1835][33];
                 break;
             }
             case 49: {
-                n = Class_h.var_6a[2].var_82[this.var_1835][18];
+                n = GameDatas.s_allDatas[2].m_dataVars[this.var_1835][18];
                 break;
             }
             case 20: {
-                n = Class_h.var_6a[4].var_82[this.var_1835][18];
+                n = GameDatas.s_allDatas[4].m_dataVars[this.var_1835][18];
                 break;
             }
             case 54: {
-                final Class_h class_h = Class_h.var_6a[0];
+                final GameDatas class_h = GameDatas.s_allDatas[0];
                 if (this.sub_a2a0(2048)) {
-                    n = class_h.var_82[this.var_1835][11];
+                    n = class_h.m_dataVars[this.var_1835][11];
                     break;
                 }
-                n = class_h.var_82[this.var_1835][10];
+                n = class_h.m_dataVars[this.var_1835][10];
                 break;
             }
         }

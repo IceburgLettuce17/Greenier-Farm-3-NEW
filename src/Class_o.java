@@ -1,8 +1,10 @@
+
 import java.util.Random;
 import javax.microedition.rms.RecordStore;
 import java.io.InputStream;
 import java.io.ByteArrayOutputStream;
 import javax.wireless.messaging.MessageConnection;
+
 import java.util.Timer;
 import java.util.Vector;
 import javax.microedition.midlet.MIDlet;

@@ -1,3 +1,4 @@
+
 import javax.microedition.lcdui.Command;
 import javax.microedition.rms.RecordStoreException;
 import javax.microedition.rms.RecordStoreFullException;
@@ -41,7 +42,7 @@ public abstract class GLLib extends Canvas implements Runnable
     static int s_game_frameDT;
     private static long s_game_frameDTTimer;
     static int s_game_totalExecutionTime;
-    private static int s_game_currentFrameNB;
+	private static int s_game_currentFrameNB;
     static GLLib s_gllib_instance;
     static boolean var_1e47;
     private static String s_platformRequestUrl;
