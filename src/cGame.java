@@ -10062,324 +10062,224 @@ public final class cGame extends GLLib implements Class_b
 		sub_d2e8(1, 2);
 	}
 
-	private static void sub_1d1a7(int n, final boolean b) {
-		if (cGame.var_68bc[n] != null) {
-			sub_1daf4(n);
-		}
-		GLLib.Pack_Open("/6");
-		final byte[] sub_3253 = GLLib.Pack_ReadData(n);
-		int i = 0;
-		int n2 = 0;
-		int n3 = 0;
-		while (i < sub_3253.length) {
-			n2++;
-			int n4 = GLLib.Mem_GetByte(sub_3253, i) & 255;
-			i += 8;
-			byte var10001;
+	private static void sub_1d1a7(int var0, boolean var1) {
+	      if (var_68bc[var0] != null) {
+	         sub_1daf4(var0);
+	      } else {
+	         GLLib.Pack_Open("/6");
+	         int var7;
+	         byte[] var8 = GLLib.Pack_ReadData(var7 = var0);
+	         int var2 = 0;
+	         int var4 = 0;
 
-			switch (n4) {
-			case 201:
-				var10001 = 9;
-				break;
-			case 202:
-				var10001 = 10;
-				break;
-			case 203:
-				var10001 = 14;
-				break;
-			case 204:
-				var10001 = 18;
-				break;
-			case 205:
-				var10001 = 23;
-				break;
-			case 206:
-				var10001 = 12;
-				break;
-			case 207:
-				var10001 = 13;
-				break;
-			case 208:
-				var10001 = 1;
-				break;
-			case 209:
-				var10001 = 7;
-				break;
-			default:
-				var10001 = 0;
-			}
-			
-			i += var10001;
-		}
-		i = 0;
-		cGame.var_68c4[n] = new short[n2][];
-		cGame.var_68bc[n] = new short[n2][];
-		cGame.var_68cc[n] = new String[n2];
-		for (int j = 0; j < n2; ++j) {
-			int n7 = GLLib.Mem_GetByte(sub_3253, i) & 255;
-			cGame.var_68c4[n][j] = new short[5 + sub_1dc09(n7)];
-			switch (n7) {
-			case 201: {
-				final short[] array2 = cGame.var_68c4[n][j];
-				n7 = sub_1dbac(sub_3253, i, array2);
-				byte[] array3 = sub_3253;
-				array2[5] = GLLib.Mem_GetShort(array3, n7);
-				n7 += 2;
-				array2[6] = GLLib.Mem_GetShort(array3, n7);
-				n7 += 2;
-				array2[7] = (short) (GLLib.Mem_GetByte(array3, n7) & 0xFF);
-				++n7;
-				array2[8] = (short) (GLLib.Mem_GetByte(array3, n7) & 0xFF);
-				++n7;
-				array2[9] = (short) (GLLib.Mem_GetByte(array3, n7) & 0xFF);
-				++n7;
-				array2[10] = (short) (GLLib.Mem_GetByte(array3, n7) & 0xFF);
-				++n7;
-				array2[11] = (short) (GLLib.Mem_GetByte(array3, n7) & 0xFF);
-				i = ++n7;
-				break;
-			}
-			case 202: {
-				final byte[] array4 = sub_3253;
-				final int n10 = i;
-				final short[] array5 = cGame.var_68c4[n][j];
-				final int n11 = n10;
-				final byte[] array6 = array4;
-				int sub_1dbac2 = sub_1dbac(array4, n11, array5);
-				array5[5] = GLLib.Mem_GetShort(array6, sub_1dbac2);
-				sub_1dbac2 += 2;
-				array5[6] = GLLib.Mem_GetShort(array6, sub_1dbac2);
-				sub_1dbac2 += 2;
-				array5[7] = (short) (GLLib.Mem_GetByte(array6, sub_1dbac2) & 0xFF);
-				++sub_1dbac2;
-				array5[8] = (short) (GLLib.Mem_GetByte(array6, sub_1dbac2) & 0xFF);
-				++sub_1dbac2;
-				array5[9] = (short) (GLLib.Mem_GetByte(array6, sub_1dbac2) & 0xFF);
-				++sub_1dbac2;
-				array5[10] = (short) (GLLib.Mem_GetByte(array6, sub_1dbac2) & 0xFF);
-				++sub_1dbac2;
-				array5[11] = (short) (GLLib.Mem_GetByte(array6, sub_1dbac2) & 0xFF);
-				++sub_1dbac2;
-				array5[12] = (short) (GLLib.Mem_GetByte(array6, sub_1dbac2) & 0xFF);
-				i = ++sub_1dbac2;
-				break;
-			}
-			case 203: {
-				final byte[] array7 = sub_3253;
-				final int n12 = i;
-				final short[] array8 = cGame.var_68c4[n][j];
-				final int n13 = n12;
-				final byte[] array9 = array7;
-				int sub_1dbac3 = sub_1dbac(array7, n13, array8);
-				array8[5] = GLLib.Mem_GetShort(array9, sub_1dbac3);
-				sub_1dbac3 += 2;
-				array8[6] = GLLib.Mem_GetShort(array9, sub_1dbac3);
-				sub_1dbac3 += 2;
-				array8[7] = (short) (GLLib.Mem_GetByte(array9, sub_1dbac3) & 0xFF);
-				++sub_1dbac3;
-				array8[8] = (short) (GLLib.Mem_GetByte(array9, sub_1dbac3) & 0xFF);
-				++sub_1dbac3;
-				array8[9] = (short) (GLLib.Mem_GetByte(array9, sub_1dbac3) & 0xFF);
-				++sub_1dbac3;
-				array8[10] = (short) (GLLib.Mem_GetByte(array9, sub_1dbac3) & 0xFF);
-				++sub_1dbac3;
-				array8[11] = (short) (GLLib.Mem_GetByte(array9, sub_1dbac3) & 0xFF);
-				++sub_1dbac3;
-				array8[12] = (short) (GLLib.Mem_GetByte(array9, sub_1dbac3) & 0xFF);
-				++sub_1dbac3;
-				array8[13] = (short) (GLLib.Mem_GetByte(array9, sub_1dbac3) & 0xFF);
-				++sub_1dbac3;
-				array8[14] = (short) (GLLib.Mem_GetByte(array9, sub_1dbac3) & 0xFF);
-				++sub_1dbac3;
-				array8[15] = (short) (GLLib.Mem_GetByte(array9, sub_1dbac3) & 0xFF);
-				++sub_1dbac3;
-				array8[16] = (short) (GLLib.Mem_GetByte(array9, sub_1dbac3) & 0xFF);
-				i = ++sub_1dbac3;
-				break;
-			}
-			case 204: {
-				final byte[] array10 = sub_3253;
-				final int n14 = i;
-				final short[] array11 = cGame.var_68c4[n][j];
-				final int n15 = n14;
-				final byte[] array12 = array10;
-				int sub_1dbac4 = sub_1dbac(array10, n15, array11);
-				array11[5] = GLLib.Mem_GetShort(array12, sub_1dbac4);
-				sub_1dbac4 += 2;
-				array11[6] = GLLib.Mem_GetShort(array12, sub_1dbac4);
-				sub_1dbac4 += 2;
-				array11[7] = (short) (GLLib.Mem_GetByte(array12, sub_1dbac4) & 0xFF);
-				++sub_1dbac4;
-				array11[8] = (short) (GLLib.Mem_GetByte(array12, sub_1dbac4) & 0xFF);
-				++sub_1dbac4;
-				array11[9] = (short) (GLLib.Mem_GetByte(array12, sub_1dbac4) & 0xFF);
-				++sub_1dbac4;
-				array11[10] = (short) (GLLib.Mem_GetByte(array12, sub_1dbac4) & 0xFF);
-				++sub_1dbac4;
-				array11[11] = (short) (GLLib.Mem_GetByte(array12, sub_1dbac4) & 0xFF);
-				++sub_1dbac4;
-				array11[12] = GLLib.Mem_GetShort(array12, sub_1dbac4);
-				sub_1dbac4 += 2;
-				array11[13] = GLLib.Mem_GetShort(array12, sub_1dbac4);
-				sub_1dbac4 += 2;
-				array11[14] = GLLib.Mem_GetShort(array12, sub_1dbac4);
-				sub_1dbac4 += 2;
-				array11[15] = (short) (GLLib.Mem_GetByte(array12, sub_1dbac4) & 0xFF);
-				++sub_1dbac4;
-				array11[16] = (short) (GLLib.Mem_GetByte(array12, sub_1dbac4) & 0xFF);
-				++sub_1dbac4;
-				array11[17] = (short) (GLLib.Mem_GetByte(array12, sub_1dbac4) & 0xFF);
-				i = ++sub_1dbac4;
-				break;
-			}
-			case 205: {
-				final byte[] array13 = sub_3253;
-				final int n16 = i;
-				final short[] array14 = cGame.var_68c4[n][j];
-				final int n17 = n16;
-				final byte[] array15 = array13;
-				int sub_1dbac5 = sub_1dbac(array13, n17, array14);
-				array14[5] = (short) (GLLib.Mem_GetByte(array15, sub_1dbac5) & 0xFF);
-				++sub_1dbac5;
-				array14[6] = (short) (GLLib.Mem_GetByte(array15, sub_1dbac5) & 0xFF);
-				++sub_1dbac5;
-				array14[7] = (short) (GLLib.Mem_GetByte(array15, sub_1dbac5) & 0xFF);
-				++sub_1dbac5;
-				array14[8] = (short) (GLLib.Mem_GetByte(array15, sub_1dbac5) & 0xFF);
-				++sub_1dbac5;
-				array14[9] = (short) (GLLib.Mem_GetByte(array15, sub_1dbac5) & 0xFF);
-				++sub_1dbac5;
-				array14[10] = (short) (GLLib.Mem_GetByte(array15, sub_1dbac5) & 0xFF);
-				++sub_1dbac5;
-				array14[11] = (short) (GLLib.Mem_GetByte(array15, sub_1dbac5) & 0xFF);
-				++sub_1dbac5;
-				array14[12] = (short) (GLLib.Mem_GetByte(array15, sub_1dbac5) & 0xFF);
-				++sub_1dbac5;
-				array14[13] = GLLib.Mem_GetShort(array15, sub_1dbac5);
-				sub_1dbac5 += 2;
-				array14[14] = GLLib.Mem_GetShort(array15, sub_1dbac5);
-				sub_1dbac5 += 2;
-				array14[15] = GLLib.Mem_GetShort(array15, sub_1dbac5);
-				sub_1dbac5 += 2;
-				array14[16] = GLLib.Mem_GetShort(array15, sub_1dbac5);
-				sub_1dbac5 += 2;
-				array14[17] = GLLib.Mem_GetShort(array15, sub_1dbac5);
-				sub_1dbac5 += 2;
-				array14[18] = (short) (GLLib.Mem_GetByte(array15, sub_1dbac5) & 0xFF);
-				++sub_1dbac5;
-				array14[19] = (short) (GLLib.Mem_GetByte(array15, sub_1dbac5) & 0xFF);
-				++sub_1dbac5;
-				array14[20] = (short) (GLLib.Mem_GetByte(array15, sub_1dbac5) & 0xFF);
-				++sub_1dbac5;
-				array14[21] = (short) (GLLib.Mem_GetByte(array15, sub_1dbac5) & 0xFF);
-				++sub_1dbac5;
-				array14[22] = (short) (GLLib.Mem_GetByte(array15, sub_1dbac5) & 0xFF);
-				i = ++sub_1dbac5;
-				break;
-			}
-			case 206: {
-				final byte[] array16 = sub_3253;
-				final int n18 = i;
-				final short[] array17 = cGame.var_68c4[n][j];
-				final int n19 = n18;
-				final byte[] array18 = array16;
-				int sub_1dbac6 = sub_1dbac(array16, n19, array17);
-				array17[5] = (short) (GLLib.Mem_GetByte(array18, sub_1dbac6) & 0xFF);
-				++sub_1dbac6;
-				array17[6] = GLLib.Mem_GetShort(array18, sub_1dbac6);
-				sub_1dbac6 += 2;
-				array17[7] = GLLib.Mem_GetShort(array18, sub_1dbac6);
-				sub_1dbac6 += 2;
-				array17[8] = (short) (GLLib.Mem_GetByte(array18, sub_1dbac6) & 0xFF);
-				++sub_1dbac6;
-				array17[9] = (short) (GLLib.Mem_GetByte(array18, sub_1dbac6) & 0xFF);
-				++sub_1dbac6;
-				array17[10] = (short) (GLLib.Mem_GetByte(array18, sub_1dbac6) & 0xFF);
-				++sub_1dbac6;
-				array17[11] = (short) (GLLib.Mem_GetByte(array18, sub_1dbac6) & 0xFF);
-				++sub_1dbac6;
-				array17[12] = (short) (GLLib.Mem_GetByte(array18, sub_1dbac6) & 0xFF);
-				++sub_1dbac6;
-				array17[13] = (short) (GLLib.Mem_GetByte(array18, sub_1dbac6) & 0xFF);
-				++sub_1dbac6;
-				array17[14] = (short) (GLLib.Mem_GetByte(array18, sub_1dbac6) & 0xFF);
-				i = ++sub_1dbac6;
-				break;
-			}
-			case 207: {
-				final byte[] array19 = sub_3253;
-				final int n20 = i;
-				final short[] array20 = cGame.var_68c4[n][j];
-				final int n21 = n20;
-				final byte[] array21 = array19;
-				int sub_1dbac7 = sub_1dbac(array19, n21, array20);
-				array20[5] = GLLib.Mem_GetByte(array21, sub_1dbac7);
-				++sub_1dbac7;
-				array20[6] = GLLib.Mem_GetByte(array21, sub_1dbac7);
-				++sub_1dbac7;
-				array20[7] = GLLib.Mem_GetByte(array21, sub_1dbac7);
-				++sub_1dbac7;
-				array20[8] = GLLib.Mem_GetByte(array21, sub_1dbac7);
-				++sub_1dbac7;
-				array20[9] = GLLib.Mem_GetByte(array21, sub_1dbac7);
-				++sub_1dbac7;
-				array20[10] = GLLib.Mem_GetByte(array21, sub_1dbac7);
-				++sub_1dbac7;
-				array20[11] = GLLib.Mem_GetByte(array21, sub_1dbac7);
-				++sub_1dbac7;
-				array20[12] = GLLib.Mem_GetByte(array21, sub_1dbac7);
-				++sub_1dbac7;
-				array20[13] = GLLib.Mem_GetByte(array21, sub_1dbac7);
-				++sub_1dbac7;
-				array20[14] = GLLib.Mem_GetByte(array21, sub_1dbac7);
-				++sub_1dbac7;
-				array20[15] = GLLib.Mem_GetByte(array21, sub_1dbac7);
-				++sub_1dbac7;
-				array20[16] = GLLib.Mem_GetByte(array21, sub_1dbac7);
-				++sub_1dbac7;
-				array20[17] = GLLib.Mem_GetByte(array21, sub_1dbac7);
-				i = ++sub_1dbac7;
-				break;
-			}
-			case 208: {
-				final byte[] array22 = sub_3253;
-				final int n22 = i;
-				final short[] array23 = cGame.var_68c4[n][j];
-				final int n23 = n22;
-				final byte[] array24 = array22;
-				int sub_1dbac8 = sub_1dbac(array22, n23, array23);
-				array23[5] = (short) (GLLib.Mem_GetByte(array24, sub_1dbac8) & 0xFF);
-				i = ++sub_1dbac8;
-				break;
-			}
-			case 209:
-				final byte[] array25 = sub_3253;
-				final int n24 = i;
-				final short[] array26 = cGame.var_68c4[n][j];
-				final int n25 = n24;
-				final byte[] array27 = array25;
-				int sub_1dbac9 = sub_1dbac(array25, n25, array26);
-				array26[5] = (short) (GLLib.Mem_GetByte(array27, sub_1dbac9) & 0xFF);
-				++sub_1dbac9;
-				array26[6] = (short) (GLLib.Mem_GetByte(array27, sub_1dbac9) & 0xFF);
-				++sub_1dbac9;
-				array26[7] = (short) (GLLib.Mem_GetByte(array27, sub_1dbac9) & 0xFF);
-				++sub_1dbac9;
-				array26[8] = (short) (GLLib.Mem_GetByte(array27, sub_1dbac9) & 0xFF);
-				++sub_1dbac9;
-				array26[9] = (short) (GLLib.Mem_GetByte(array27, sub_1dbac9) & 0xFF);
-				++sub_1dbac9;
-				array26[10] = (short) (GLLib.Mem_GetByte(array27, sub_1dbac9) & 0xFF);
-				++sub_1dbac9;
-				array26[11] = (short) (GLLib.Mem_GetByte(array27, sub_1dbac9) & 0xFF);
-				i = ++sub_1dbac9;
-				break;
-			}
-		}
-		
-			sub_1daf4(n);
-			GLLib.Pack_FullyClose();
-	}
+	         while (var2 < var8.length) {
+	            var4++;
+	            int var3 = GLLib.Mem_GetByte(var8, var2) & 255;
+	            var2 += 8;
+	            byte var10001;
+	            switch (var3) {
+	               case 201:
+	                  var10001 = 9;
+	                  break;
+	               case 202:
+	                  var10001 = 10;
+	                  break;
+	               case 203:
+	                  var10001 = 14;
+	                  break;
+	               case 204:
+	                  var10001 = 18;
+	                  break;
+	               case 205:
+	                  var10001 = 23;
+	                  break;
+	               case 206:
+	                  var10001 = 12;
+	                  break;
+	               case 207:
+	                  var10001 = 13;
+	                  break;
+	               case 208:
+	                  var10001 = 1;
+	                  break;
+	               case 209:
+	                  var10001 = 7;
+	                  break;
+	               default:
+	                  var10001 = 0;
+	            }
+
+	            var2 += var10001;
+	         }
+
+	         var2 = 0;
+	         var_68c4[var7] = new short[var4][];
+	         var_68bc[var7] = new short[var4][];
+	         var_68cc[var7] = new String[var4];
+
+	         for (int var5 = 0; var5 < var4; var5++) {
+	            int var11 = GLLib.Mem_GetByte(var8, var2) & 255;
+	            int var6 = 5 + sub_1dc09(var11);
+	            var_68c4[var7][var5] = new short[var6];
+	            switch (var11) {
+	               case 201:
+	                  short[] var118 = var_68c4[var7][var5];
+	                  var11 = sub_1dbac(var8, var2, var118);
+	                  var118[5] = GLLib.Mem_GetShort(var8, var11);
+	                  var11 += 2;
+	                  var118[6] = GLLib.Mem_GetShort(var8, var11);
+	                  var11 += 2;
+	                  var118[7] = (short)(GLLib.Mem_GetByte(var8, var11) & 255);
+	                  var118[8] = (short)(GLLib.Mem_GetByte(var8, ++var11) & 255);
+	                  var118[9] = (short)(GLLib.Mem_GetByte(var8, ++var11) & 255);
+	                  var118[10] = (short)(GLLib.Mem_GetByte(var8, ++var11) & 255);
+	                  var118[11] = (short)(GLLib.Mem_GetByte(var8, ++var11) & 255);
+	                  var2 = ++var11;
+	                  break;
+	               case 202:
+	                  short[] var117 = var_68c4[var7][var5];
+	                  var11 = sub_1dbac(var8, var2, var117);
+	                  var117[5] = GLLib.Mem_GetShort(var8, var11);
+	                  var11 += 2;
+	                  var117[6] = GLLib.Mem_GetShort(var8, var11);
+	                  var11 += 2;
+	                  var117[7] = (short)(GLLib.Mem_GetByte(var8, var11) & 255);
+	                  var117[8] = (short)(GLLib.Mem_GetByte(var8, ++var11) & 255);
+	                  var117[9] = (short)(GLLib.Mem_GetByte(var8, ++var11) & 255);
+	                  var117[10] = (short)(GLLib.Mem_GetByte(var8, ++var11) & 255);
+	                  var117[11] = (short)(GLLib.Mem_GetByte(var8, ++var11) & 255);
+	                  var117[12] = (short)(GLLib.Mem_GetByte(var8, ++var11) & 255);
+	                  var2 = ++var11;
+	                  break;
+	               case 203:
+	                  short[] var116 = var_68c4[var7][var5];
+	                  var11 = sub_1dbac(var8, var2, var116);
+	                  var116[5] = GLLib.Mem_GetShort(var8, var11);
+	                  var11 += 2;
+	                  var116[6] = GLLib.Mem_GetShort(var8, var11);
+	                  var11 += 2;
+	                  var116[7] = (short)(GLLib.Mem_GetByte(var8, var11) & 255);
+	                  var116[8] = (short)(GLLib.Mem_GetByte(var8, ++var11) & 255);
+	                  var116[9] = (short)(GLLib.Mem_GetByte(var8, ++var11) & 255);
+	                  var116[10] = (short)(GLLib.Mem_GetByte(var8, ++var11) & 255);
+	                  var116[11] = (short)(GLLib.Mem_GetByte(var8, ++var11) & 255);
+	                  var116[12] = (short)(GLLib.Mem_GetByte(var8, ++var11) & 255);
+	                  var116[13] = (short)(GLLib.Mem_GetByte(var8, ++var11) & 255);
+	                  var116[14] = (short)(GLLib.Mem_GetByte(var8, ++var11) & 255);
+	                  var116[15] = (short)(GLLib.Mem_GetByte(var8, ++var11) & 255);
+	                  var116[16] = (short)(GLLib.Mem_GetByte(var8, ++var11) & 255);
+	                  var2 = ++var11;
+	                  break;
+	               case 204:
+	                  short[] var115 = var_68c4[var7][var5];
+	                  var11 = sub_1dbac(var8, var2, var115);
+	                  var115[5] = GLLib.Mem_GetShort(var8, var11);
+	                  var11 += 2;
+	                  var115[6] = GLLib.Mem_GetShort(var8, var11);
+	                  var11 += 2;
+	                  var115[7] = (short)(GLLib.Mem_GetByte(var8, var11) & 255);
+	                  var115[8] = (short)(GLLib.Mem_GetByte(var8, ++var11) & 255);
+	                  var115[9] = (short)(GLLib.Mem_GetByte(var8, ++var11) & 255);
+	                  var115[10] = (short)(GLLib.Mem_GetByte(var8, ++var11) & 255);
+	                  var115[11] = (short)(GLLib.Mem_GetByte(var8, ++var11) & 255);
+	                  var115[12] = GLLib.Mem_GetShort(var8, ++var11);
+	                  var11 += 2;
+	                  var115[13] = GLLib.Mem_GetShort(var8, var11);
+	                  var11 += 2;
+	                  var115[14] = GLLib.Mem_GetShort(var8, var11);
+	                  var11 += 2;
+	                  var115[15] = (short)(GLLib.Mem_GetByte(var8, var11) & 255);
+	                  var115[16] = (short)(GLLib.Mem_GetByte(var8, ++var11) & 255);
+	                  var115[17] = (short)(GLLib.Mem_GetByte(var8, ++var11) & 255);
+	                  var2 = ++var11;
+	                  break;
+	               case 205:
+	                  short[] var114 = var_68c4[var7][var5];
+	                  var11 = sub_1dbac(var8, var2, var114);
+	                  var114[5] = (short)(GLLib.Mem_GetByte(var8, var11) & 255);
+	                  var114[6] = (short)(GLLib.Mem_GetByte(var8, ++var11) & 255);
+	                  var114[7] = (short)(GLLib.Mem_GetByte(var8, ++var11) & 255);
+	                  var114[8] = (short)(GLLib.Mem_GetByte(var8, ++var11) & 255);
+	                  var114[9] = (short)(GLLib.Mem_GetByte(var8, ++var11) & 255);
+	                  var114[10] = (short)(GLLib.Mem_GetByte(var8, ++var11) & 255);
+	                  var114[11] = (short)(GLLib.Mem_GetByte(var8, ++var11) & 255);
+	                  var114[12] = (short)(GLLib.Mem_GetByte(var8, ++var11) & 255);
+	                  var114[13] = GLLib.Mem_GetShort(var8, ++var11);
+	                  var11 += 2;
+	                  var114[14] = GLLib.Mem_GetShort(var8, var11);
+	                  var11 += 2;
+	                  var114[15] = GLLib.Mem_GetShort(var8, var11);
+	                  var11 += 2;
+	                  var114[16] = GLLib.Mem_GetShort(var8, var11);
+	                  var11 += 2;
+	                  var114[17] = GLLib.Mem_GetShort(var8, var11);
+	                  var11 += 2;
+	                  var114[18] = (short)(GLLib.Mem_GetByte(var8, var11) & 255);
+	                  var114[19] = (short)(GLLib.Mem_GetByte(var8, ++var11) & 255);
+	                  var114[20] = (short)(GLLib.Mem_GetByte(var8, ++var11) & 255);
+	                  var114[21] = (short)(GLLib.Mem_GetByte(var8, ++var11) & 255);
+	                  var114[22] = (short)(GLLib.Mem_GetByte(var8, ++var11) & 255);
+	                  var2 = ++var11;
+	                  break;
+	               case 206:
+	                  short[] var113 = var_68c4[var7][var5];
+	                  var11 = sub_1dbac(var8, var2, var113);
+	                  var113[5] = (short)(GLLib.Mem_GetByte(var8, var11) & 255);
+	                  var113[6] = GLLib.Mem_GetShort(var8, ++var11);
+	                  var11 += 2;
+	                  var113[7] = GLLib.Mem_GetShort(var8, var11);
+	                  var11 += 2;
+	                  var113[8] = (short)(GLLib.Mem_GetByte(var8, var11) & 255);
+	                  var113[9] = (short)(GLLib.Mem_GetByte(var8, ++var11) & 255);
+	                  var113[10] = (short)(GLLib.Mem_GetByte(var8, ++var11) & 255);
+	                  var113[11] = (short)(GLLib.Mem_GetByte(var8, ++var11) & 255);
+	                  var113[12] = (short)(GLLib.Mem_GetByte(var8, ++var11) & 255);
+	                  var113[13] = (short)(GLLib.Mem_GetByte(var8, ++var11) & 255);
+	                  var113[14] = (short)(GLLib.Mem_GetByte(var8, ++var11) & 255);
+	                  var2 = ++var11;
+	                  break;
+	               case 207:
+	                  short[] var112 = var_68c4[var7][var5];
+	                  var11 = sub_1dbac(var8, var2, var112);
+	                  var112[5] = GLLib.Mem_GetByte(var8, var11);
+	                  var112[6] = GLLib.Mem_GetByte(var8, ++var11);
+	                  var112[7] = GLLib.Mem_GetByte(var8, ++var11);
+	                  var112[8] = GLLib.Mem_GetByte(var8, ++var11);
+	                  var112[9] = GLLib.Mem_GetByte(var8, ++var11);
+	                  var112[10] = GLLib.Mem_GetByte(var8, ++var11);
+	                  var112[11] = GLLib.Mem_GetByte(var8, ++var11);
+	                  var112[12] = GLLib.Mem_GetByte(var8, ++var11);
+	                  var112[13] = GLLib.Mem_GetByte(var8, ++var11);
+	                  var112[14] = GLLib.Mem_GetByte(var8, ++var11);
+	                  var112[15] = GLLib.Mem_GetByte(var8, ++var11);
+	                  var112[16] = GLLib.Mem_GetByte(var8, ++var11);
+	                  var112[17] = GLLib.Mem_GetByte(var8, ++var11);
+	                  var2 = ++var11;
+	                  break;
+	               case 208:
+	                  short[] var111 = var_68c4[var7][var5];
+	                  var11 = sub_1dbac(var8, var2, var111);
+	                  var111[5] = (short)(GLLib.Mem_GetByte(var8, var11) & 255);
+	                  var2 = ++var11;
+	                  break;
+	               case 209:
+	                  short[] var110 = var_68c4[var7][var5];
+	                  var11 = sub_1dbac(var8, var2, var110);
+	                  var110[5] = (short)(GLLib.Mem_GetByte(var8, var11) & 255);
+	                  var110[6] = (short)(GLLib.Mem_GetByte(var8, ++var11) & 255);
+	                  var110[7] = (short)(GLLib.Mem_GetByte(var8, ++var11) & 255);
+	                  var110[8] = (short)(GLLib.Mem_GetByte(var8, ++var11) & 255);
+	                  var110[9] = (short)(GLLib.Mem_GetByte(var8, ++var11) & 255);
+	                  var110[10] = (short)(GLLib.Mem_GetByte(var8, ++var11) & 255);
+	                  var110[11] = (short)(GLLib.Mem_GetByte(var8, ++var11) & 255);
+	                  var2 = ++var11;
+	            }
+	         }
+
+	         sub_1daf4(var7);
+	         GLLib.Pack_FullyClose();
+	      }
+	   }
 	private static void sub_1daf4(final int n) {
 		for (int i = cGame.var_68c4[n].length - 1; i >= 0; --i) {
 			sub_1db3f(n, i);

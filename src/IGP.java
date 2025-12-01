@@ -463,9 +463,8 @@ public final class IGP implements Runnable, CommandListener
             return;
         }
         final String[] array = var_1f2d;
-        int var_1c6d, var_1c75, var_1c7d, var_1c85 = 0;
         int n = ((var_1f2d.length - 1 > 0) ? (array.length - 1) : 0) + ((var_1f25.length - 1 > 0) ? (var_1f25.length - 1) : 0);
-        var_1c8d = (var_1cd5 = (var_1ccd = (var_1cc5 = (var_1cbd = (var_1cb5 = (var_1cad = (var_1ca5 = (var_1c9d = (var_1c85 = (var_1c7d = (var_1c75 = (var_1c6d = (var_1c95 = ++n + 1) + 1 + 1 + 1 + 1 + 1) + 1) + 1) + 1) + 1 + 1 + 1) + 1) + 1) + 1 + 1 + 1) + 1) + 1) + 1) + 1) + 1;
+        var_1c8d = (var_1cd5 = (var_1ccd = (var_1cc5 = (var_1cbd = (var_1cb5 = (var_1cad = (var_1ca5 = (var_1c9d = (var_1c95 = ++n + 1) + 1) + 1) + 1) + 1) + 1 + 1 + 1) + 1) + 1) + 1 + 1 + 1) + 1;
         var_1f0d = var_1f2d.length + var_1f25.length + 1 + 1;
         for (int j = 0; j < var_1c35.length; ++j) {
             if (var_1c35[j]) {
