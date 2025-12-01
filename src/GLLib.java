@@ -261,7 +261,10 @@ public abstract class GLLib extends Canvas implements Runnable
         }
         
         this.UnInit();
-        GLLib.s_application.notifyDestroyed();
+        
+        // Uncommenting the line below makes
+        // the MIDlet crash, for some reason
+        //GLLib.s_application.notifyDestroyed();
     }
     
     public void paint(final Graphics _g) {

@@ -1,6 +1,6 @@
 package java.lang;
 
-// Simple StringBuilder shim I made to fix an error.
+// A basic StringBuilder shim I made to fix an error.
 // Only has functions that Green Farm 3 calls.
 public final class StringBuilder extends Object
 {
