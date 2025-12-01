@@ -42,13 +42,13 @@ public abstract class GLLib extends Canvas implements Runnable
     static int s_game_frameDT;
     private static long s_game_frameDTTimer;
     static int s_game_totalExecutionTime;
-	private static int s_game_currentFrameNB;
+	//private static int s_game_currentFrameNB;
     static GLLib s_gllib_instance;
     static boolean var_1e47;
     private static String s_platformRequestUrl;
     private static int m_keys_pressed;
     private static int m_keys_released;
-    private static int m_current_keys_state;
+    //private static int m_current_keys_state;
     private static int m_current_keys_pressed;
     private static int m_current_keys_released;
     private static int var_1e7f;
@@ -70,8 +70,8 @@ public abstract class GLLib extends Canvas implements Runnable
     static String s_pack_filename;
     private static InputStream s_pack_is;
     private static int var_1f0f;
-    private static byte[] var_1f17;
-    private static int var_1f1f;
+    //private static byte[] var_1f17;
+    //private static int var_1f1f;
     private static int s_pack_curOffset;
     private static short s_pack_nbData;
     private static int[] s_pack_offset;
@@ -108,8 +108,8 @@ public abstract class GLLib extends Canvas implements Runnable
     static int var_202f;
     static int s_screenX;
     static int s_screenY;
-    private static int var_2047;
-    private static int var_204f;
+    //private static int var_2047;
+    //private static int var_204f;
     private static boolean var_2057;
     private static boolean var_205f;
     private static boolean var_2067;
@@ -308,8 +308,8 @@ public abstract class GLLib extends Canvas implements Runnable
             GLLib.var_202f = 3;
             GLLib.var_2067 = false;
         }
-        GLLib.var_2047 = GLLib.s_screenX;
-        GLLib.var_204f = GLLib.s_screenY;
+        //GLLib.var_2047 = GLLib.s_screenX;
+        //GLLib.var_204f = GLLib.s_screenY;
         if ((GLLib.s_game_frameDT = (int)((GLLib.s_game_timeWhenFrameStart = System.currentTimeMillis()) - GLLib.s_game_frameDTTimer)) < 0) {
             GLLib.s_game_frameDT = 0;
         }
@@ -318,7 +318,7 @@ public abstract class GLLib extends Canvas implements Runnable
         }
         GLLib.s_game_frameDTTimer = GLLib.s_game_timeWhenFrameStart;
         GLLib.s_game_totalExecutionTime += GLLib.s_game_frameDT;
-        ++GLLib.s_game_currentFrameNB;
+        //++GLLib.s_game_currentFrameNB;
         try {
             GLLib.s_lastPaintGraphics = _g;
             GLLib.g = _g;
@@ -349,13 +349,13 @@ public abstract class GLLib extends Canvas implements Runnable
     protected void keyPressed(final int keyCode) {
         final int keyFlag = 1 << Game_TranslateKeyCode(keyCode);
         GLLib.m_current_keys_pressed |= keyFlag;
-        GLLib.m_current_keys_state |= keyFlag;
+        //GLLib.m_current_keys_state |= keyFlag;
     }
     
     protected void keyReleased(final int keyCode) {
         final int keyFlag = 1 << Game_TranslateKeyCode(keyCode);
         GLLib.m_current_keys_released |= keyFlag;
-        GLLib.m_current_keys_state &= ~keyFlag;
+        //GLLib.m_current_keys_state &= ~keyFlag;
     }
     
     public static void Game_KeySetKeyCode(final boolean gameAction, final int keyCode, final int key) {
@@ -393,7 +393,7 @@ public abstract class GLLib extends Canvas implements Runnable
     private static void ResetKey() {
         GLLib.m_keys_pressed = 0;
         GLLib.m_keys_released = 0;
-        GLLib.m_current_keys_state = 0;
+        //GLLib.m_current_keys_state = 0;
         GLLib.m_current_keys_pressed = 0;
         GLLib.m_current_keys_released = 0;
     }
@@ -541,8 +541,8 @@ public abstract class GLLib extends Canvas implements Runnable
         if (GLLib.s_pack_filename == null || filename == null || filename.compareTo(GLLib.s_pack_filename) != 0) {
             Pack_Close(true);
             GLLib.s_pack_filename = filename;
-            GLLib.var_1f17 = null;
-            GLLib.var_1f1f = 0;
+            //GLLib.var_1f17 = null;
+            //GLLib.var_1f1f = 0;
             GLLib.s_pack_is = Pack_GetInputStreamFromName(GLLib.s_pack_filename);
             GLLib.s_pack_nbData = (short)Pack_Read16();
             GLLib.s_pack_subPack_fat = new short[GLLib.s_pack_subPack_nbOf = (short)Pack_Read16()];
@@ -572,7 +572,7 @@ public abstract class GLLib extends Canvas implements Runnable
     private static final void Pack_Close(final boolean resetFilename) {
         Pack_ClosePart1();
         if (GLLib.var_1f0f == 3) {
-            GLLib.var_1f17 = null;
+            //GLLib.var_1f17 = null;
         }
         if (resetFilename) {
             GLLib.s_pack_filename = null;

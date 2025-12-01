@@ -246,7 +246,7 @@ public final class cGame extends GLLib implements Class_b
 	private static boolean[] var_6eec;
 	private static int[] var_6ef4;
 	private static short[] var_6efc;
-	private static int var_6f04;
+	//private static int var_6f04;
 	private static int var_6f0c;
 	private static int var_6f14;
 	private static int var_6f1c;
@@ -255,7 +255,7 @@ public final class cGame extends GLLib implements Class_b
 	private static int var_6f34;
 	private static int var_6f3c;
 	private static int var_6f44;
-	private static int var_6f4c;
+	//private static int var_6f4c;
 	private static int var_6f54;
 	private static int var_6f5c;
 	private static int[] var_6f64;
@@ -17130,8 +17130,8 @@ public final class cGame extends GLLib implements Class_b
 			cGame.var_6f44 = var_203f;
 			cGame.var_6f4c = 0;
 		}
-		cGame.var_6f04 += GLLib.s_game_frameDT;
-		cGame.var_6f4c += GLLib.s_game_frameDT;
+		//cGame.var_6f04 += GLLib.s_game_frameDT;
+		//cGame.var_6f4c += GLLib.s_game_frameDT;
 	}
 
 	static int sub_2c4ff() {
