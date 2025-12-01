@@ -7,7 +7,6 @@ import javax.microedition.media.control.VolumeControl;
 import javax.microedition.lcdui.Graphics;
 import javax.microedition.lcdui.Displayable;
 import javax.microedition.lcdui.Display;
-
 // 
 // Decompiled by Procyon v0.6.0
 // 

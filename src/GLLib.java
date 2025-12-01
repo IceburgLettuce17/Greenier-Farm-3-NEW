@@ -257,9 +257,11 @@ public abstract class GLLib extends Canvas implements Runnable
         }
         catch (final Exception ex) {
             GLLib.s_game_state = -1;
-            this.UnInit();
-            GLLib.s_application.notifyDestroyed();
+            
         }
+        
+        this.UnInit();
+        GLLib.s_application.notifyDestroyed();
     }
     
     public void paint(final Graphics _g) {
@@ -2257,7 +2259,7 @@ public abstract class GLLib extends Canvas implements Runnable
     
     protected void pointerReleased(int x, final int y) {
     	GLLib.s_screenX = x;
-        //x = (GLLib.s_screenX = x);
+        x = GLLib.s_screenX;
         GLLib.s_screenY = y;
         SetCoordinateValues();
         GLLib.var_205f = true;
@@ -2265,7 +2267,7 @@ public abstract class GLLib extends Canvas implements Runnable
     
     protected void pointerPressed(int x, final int y) {
     	GLLib.s_screenX = x;
-        //x = (GLLib.s_screenX = x);
+    	x = GLLib.s_screenX;
         GLLib.s_screenY = y;
         SetCoordinateValues();
         GLLib.var_2057 = true;
@@ -2273,7 +2275,7 @@ public abstract class GLLib extends Canvas implements Runnable
     
     protected void pointerDragged(int x, final int y) {
     	GLLib.s_screenX = x;
-        //x = (GLLib.s_screenX = x);
+    	x = GLLib.s_screenX;
         GLLib.s_screenY = y;
         SetCoordinateValues();
         GLLib.var_2067 = true;
