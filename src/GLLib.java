@@ -1624,35 +1624,47 @@ public abstract class GLLib extends Canvas implements Runnable
         Rms_Close();
     }
     
-    static void sub_56ff(final int n) {
-        if (GLLib.var_1fcf == null) {
-            GLLib.var_1fcf = new int[1];
-            GLLib.var_1fd7 = new int[1][];
+    static void sub_56ff(int var0) {
+        if (var_1fcf == null) {
+           var_1fcf = new int[1];
+           var_1fd7 = new int[1][];
         }
+
+        int var2 = 0;
+
+        int var10000;
         while (true) {
-            for (int i = 0; i < GLLib.var_1fcf.length; ++i) {
-                if (GLLib.var_1fcf[i] == n) {
-                    final int n3;
-                    final int n2 = n3 = i;
-                    int var_1fc7 = n3;
-                    if (n2 == -1 || GLLib.var_1fd7 == null) {
-                        ++GLLib.var_1fc7;
-                        var_1fc7 = 0;
-                        GLLib.var_1fcf[0] = n;
-                        if (GLLib.var_1fd7[0] == null) {
-                            GLLib.var_1fd7[0] = new int[256];
-                        }
-                        for (int j = 256; j > 0; GLLib.var_1fd7[0][--j] = n) {}
-                    }
-                    GLLib.var_1fc7 = var_1fc7;
-                    return;
-                }
-            }
-            int n3;
-            final int n2 = n3 = -1;
-            continue;
+           if (var2 >= var_1fcf.length) {
+              var10000 = -1;
+              break;
+           }
+
+           if (var_1fcf[var2] == var0) {
+              var10000 = var2;
+              break;
+           }
+
+           var2++;
         }
-    }
+
+        int var1 = var10000;
+        if (var10000 == -1 || var_1fd7 == null) {
+           var_1fc7++;
+           var1 = 0;
+           var_1fcf[0] = var0;
+           if (var_1fd7[0] == null) {
+              var_1fd7[0] = new int[256];
+           }
+
+           var2 = 256;
+
+           while (var2 > 0) {
+              var_1fd7[0][--var2] = var0;
+           }
+        }
+
+        var_1fc7 = var1;
+     }
     
     static void sub_57eb(final Graphics graphics, int i, int j, int n, int n2) {
         final int sub_35c6 = GetClip(graphics, true);

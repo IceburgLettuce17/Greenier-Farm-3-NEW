@@ -570,7 +570,7 @@ public final class cGame extends GLLib implements Class_b
 	private static int var_790c;
 	private static boolean var_7914;
 	private static Class_f var_791c;
-	private static int var_7924;
+	//private static int var_7924;
 	private static int var_792c;
 	private static int var_7934;
 	private static int[] var_793c;
@@ -628,8 +628,8 @@ public final class cGame extends GLLib implements Class_b
 	private static String var_7adc;
 	private static int var_7ae4;
 	private static int var_7aec;
-	private static boolean var_7af4;
-	private static boolean var_7afc;
+	//private static boolean var_7af4;
+	//private static boolean var_7afc;
 	private static int var_7b04;
 	private static int var_7b0c;
 	private static Class_f var_7b14;
@@ -728,9 +728,9 @@ public final class cGame extends GLLib implements Class_b
 	private static int[] var_7dfc;
 	private static int[] var_7e04;
 	private static String[] var_7e0c;
-	private static int var_7e14;
-	private static int var_7e1c;
-	private static int var_7e24;
+	//private static int var_7e14;
+	//private static int var_7e1c;
+	//private static int var_7e24;
 	private static int s_pond_lowRodCashCost;
 	private static int s_pond_highRodCashCost;
 	private static int var_7e3c;
@@ -5062,7 +5062,7 @@ public final class cGame extends GLLib implements Class_b
 						&& cGame.var_7ad4 != "") {
 					cGame.var_7ac4 = cGame.var_7ad4;
 					cGame.var_7acc = cGame.var_7adc;
-					cGame.var_7afc = false;
+					//cGame.var_7afc = false;
 					cGame.var_7b24 = 1;
 					sub_4074f();
 					sub_2000c(4, 5, true);
@@ -10975,7 +10975,9 @@ public final class cGame extends GLLib implements Class_b
 		cGame.var_68dc[n2] = null;
 	}
 
-	private static void sub_1f8c5(final int var_6fa4) {
+	private static void sub_1f8c5(final int var_6fa4) 
+	{
+		int n5 = 0;
 		cGame.var_6fa4 = var_6fa4;
 		for (int i = 0; i < cGame.var_68bc[var_6fa4].length; ++i) {
 			if (cGame.var_68bc[var_6fa4][i][0] == 205 && cGame.var_68bc[var_6fa4][i][5] > -1
@@ -10995,10 +10997,9 @@ public final class cGame extends GLLib implements Class_b
 				final int sub_383d;
 				if ((sub_383d = class_e.sub_383d(n2)) > 0) {
 					final int[] array = new int[4];
-					int j = 0;
-					Label_0190: while (j < sub_383d) {
+					for (int j = 0; j < sub_383d; j++) {
 						class_e.sub_3882(n2, j, array, 0);
-						final int n5 = var_6fa4 << 16 | (i & 0xFFFF);
+						n5 = var_6fa4 << 16 | (i & 0xFFFF);
 						final int n6 = n3 + array[0];
 						final int n7 = n4 + array[1];
 						final int n8 = array[2];
@@ -11015,22 +11016,17 @@ public final class cGame extends GLLib implements Class_b
 						array2[4] = 0;
 						array2[5] = n13;
 						array2[7] = (array2[6] = 0);
+						int k = 0;
 						while (true) {
-							for (int k = 0; k < cGame.var_6f74.length - 2; ++k) {
-								if (cGame.var_6f74[k][4] == -1 && cGame.var_6f74[k][5] == -1) {
-									final int n15;
-									final int n14 = n15 = k;
-									final int n16 = n15;
-									if (n14 > -1) {
-										cGame.var_6f74[n16] = array2;
-									}
-									++j;
-									continue Label_0190;
-								}
+							if (k >= var_6f74.length - 2)
+							{
+								n5 = -1;
+								break;
 							}
-							int n15;
-							final int n14 = n15 = -1;
-							continue;
+							if (cGame.var_6f74[k][4] == -1 && cGame.var_6f74[k][5] == -1) {
+									n5 = k;
+									break;
+							}
 						}
 					}
 				}
@@ -17103,8 +17099,8 @@ public final class cGame extends GLLib implements Class_b
 		cGame.var_6f5c = GLLib.s_screenY;
 		cGame.var_6f3c = GLLib.s_screenX;
 		cGame.var_6f44 = GLLib.s_screenY;
-		cGame.var_6f4c = 0;
-		cGame.var_6f04 = 0;
+		//cGame.var_6f4c = 0;
+		//cGame.var_6f04 = 0;
 	}
 
 	protected final void pointerDragged(final int n, final int var_6f1c) {
@@ -17121,14 +17117,14 @@ public final class cGame extends GLLib implements Class_b
 						? (-(var_2037 - cGame.var_6f3c))
 						: (var_2037 - cGame.var_6f3c))) {
 			cGame.var_6f3c = var_2037;
-			cGame.var_6f4c = 0;
+			//cGame.var_6f4c = 0;
 		}
 		if (((GLLib.s_screenY - cGame.var_6f44 < 0) ? (-(GLLib.s_screenY - cGame.var_6f44))
 				: (GLLib.s_screenY - cGame.var_6f44)) < ((var_203f - cGame.var_6f44 < 0)
 						? (-(var_203f - cGame.var_6f44))
 						: (var_203f - cGame.var_6f44))) {
 			cGame.var_6f44 = var_203f;
-			cGame.var_6f4c = 0;
+			//cGame.var_6f4c = 0;
 		}
 		//cGame.var_6f04 += GLLib.s_game_frameDT;
 		//cGame.var_6f4c += GLLib.s_game_frameDT;
@@ -23276,7 +23272,7 @@ public final class cGame extends GLLib implements Class_b
 			cGame.var_793c = new int[100];
 			cGame.var_7944 = new int[100];
 			cGame.var_794c = new int[100];
-			cGame.var_7924 = 0;
+			//cGame.var_7924 = 0;
 			final GameDatas class_h;
 			final int var_7a = (class_h = GameDatas.s_allDatas[10]).var_7a;
 			int var_7954 = 0;
@@ -23349,7 +23345,7 @@ public final class cGame extends GLLib implements Class_b
 			if (cGame.var_791c.var_189d != null) {
 				cGame.var_791c.var_189d.Update(GLLib.s_game_frameDT);
 			}
-			cGame.var_7924 += GLLib.s_game_frameDT;
+			//cGame.var_7924 += GLLib.s_game_frameDT;
 			if (cGame.var_6914[0] != null && !sub_2351a(0, 1)) {
 				if (cGame.var_6914[0][8] < -cGame.var_792c && cGame.var_7934 < cGame.var_7954 - 6) {
 					sub_3c13f(1);
@@ -24817,7 +24813,7 @@ public final class cGame extends GLLib implements Class_b
 			sub_2000c(1, 46, false);
 		}
 		if (n == 5) {
-			cGame.var_7afc = false;
+			//cGame.var_7afc = false;
 			sub_4074f();
 			cGame.var_6bec = false;
 			cGame.var_7ac4 = "";
@@ -24983,7 +24979,7 @@ public final class cGame extends GLLib implements Class_b
 		final String sub_4e1f;
 		final String sub_4e1f2;
 		sub_405d4(((sub_4e1f = GLLib.Text_GetStringFromLocaleFile(n)) == null) ? "" : sub_4e1f,
-				((sub_4e1f2 = GLLib.Text_GetStringFromLocaleFile(n2)) == null) ? "" : sub_4e1f2, n3, 0, cGame.var_7afc = true);
+				((sub_4e1f2 = GLLib.Text_GetStringFromLocaleFile(n2)) == null) ? "" : sub_4e1f2, n3, 0, true);
 	}
 
 	private static void sub_4052e(final int n, final int n2, final int n3, final int n4) {
@@ -24999,7 +24995,7 @@ public final class cGame extends GLLib implements Class_b
 
 	private static void sub_405d4(final String var_7ac4, final String var_7acc, final int n, final int n2,
 			final boolean var_7afc) {
-		cGame.var_7afc = var_7afc;
+		//cGame.var_7afc = var_7afc;
 		cGame.var_7b24 = 1;
 		sub_4074f();
 		sub_2000c(4, 5, true);
@@ -26246,48 +26242,50 @@ public final class cGame extends GLLib implements Class_b
 		return -1;
 	}
 
-	private static boolean sub_4378f(final ASprite class_e, final int n) {
-		int i = 0;
-		boolean b = false;
-		Label_0141: do {
-			final int[] var_7c14 = cGame.var_7c14;
-			int j = i;
-			final int[] array = var_7c14;
-			while (true) {
-				while (j < array.length) {
-					if (n == array[j + 1]) {
-						final int n3;
-						final int n2 = n3 = j;
-						i = n3;
-						if (n2 < 0) {
-							continue Label_0141;
-						}
-						final int k = cGame.var_7c14[i];
-						final int n4 = cGame.var_7c14[i + 2];
-						final int n5 = cGame.var_7c14[i + 3];
-						final int n6 = cGame.var_7c14[i + 4];
-						final int n7 = cGame.var_7c14[i + 5];
-						i += 6;
-						if (GLLib.s_pack_filename.equals("/" + k)) {
-							class_e.sub_68e7(n6, n4, n5);
-							if (n7 != 0) {
-								class_e.sub_2f84();
-							}
-							b = true;
-							continue Label_0141;
-						}
-						continue Label_0141;
-					} else {
-						j += 6;
-					}
-				}
-				int n3;
-				final int n2 = n3 = -1;
-				continue;
-			}
-		} while (i >= 0);
-		return b;
-	}
+	private static boolean sub_4378f(ASprite var0, int var1) {
+	      byte var2 = 0;
+	      boolean var3 = false;
+
+	      do {
+	         int var5 = var2;
+	         int[] var9 = var_7c14;
+
+	         byte var10000;
+	         while (true) {
+	            if (var5 >= var9.length) {
+	               var10000 = -1;
+	               break;
+	            }
+
+	            if (var1 == var9[var5 + 1]) {
+	               var10000 = (byte)var5;
+	               break;
+	            }
+
+	            var5 += 6;
+	         }
+
+	         var2 = var10000;
+	         if (var10000 >= 0) {
+	            int var4 = var_7c14[var2];
+	            var5 = var_7c14[var2 + 2];
+	            int var6 = var_7c14[var2 + 3];
+	            int var7 = var_7c14[var2 + 4];
+	            int var8 = var_7c14[var2 + 5];
+	            var2 += 6;
+	            if (GLLib.s_pack_filename.equals("/" + var4)) {
+	               var0.sub_68e7(var7, var5, var6);
+	               if (var8 != 0) {
+	                  var0.sub_2f84();
+	               }
+
+	               var3 = true;
+	            }
+	         }
+	      } while (var2 >= 0);
+
+	      return var3;
+	   }
 
 	public static boolean sub_438b0(final int n) {
 		for (int i = 0; i < cGame.var_7c1c.length; ++i) {
@@ -27769,9 +27767,9 @@ public final class cGame extends GLLib implements Class_b
 			for (int k = 0; k < 3; ++k) {
 				cGame.var_68bc[20][k + 10][10] = 0;
 			}
-			cGame.var_7e14 = 0;
-			cGame.var_7e1c = 0;
-			cGame.var_7e24 = 0;
+			//cGame.var_7e14 = 0;
+			//cGame.var_7e1c = 0;
+			//cGame.var_7e24 = 0;
 			sub_239ef(24);
 		}
 		if (n == 2) {
@@ -27971,9 +27969,9 @@ public final class cGame extends GLLib implements Class_b
 		sub_2024d(20, 16, false);
 		sub_2c69b();
 		sub_1fb8e(24);
-		cGame.var_7e14 = 0;
-		cGame.var_7e1c = 0;
-		cGame.var_7e24 = 0;
+		//cGame.var_7e14 = 0;
+		//cGame.var_7e1c = 0;
+		//cGame.var_7e24 = 0;
 		cGame.s_pond_bubbleIndex = 0;
 		cGame.var_7d74 = 0;
 		cGame.var_7d94 = 0;
@@ -28202,7 +28200,7 @@ public final class cGame extends GLLib implements Class_b
 				final String sub_4e1f2;
 				s = (((sub_4e1f2 = GLLib.Text_GetStringFromLocaleFile(385)) == null) ? "" : sub_4e1f2);
 				sub_2e482(cGame.var_7dc4[i]);
-				cGame.var_7e1c += cGame.var_7dc4[i];
+				//cGame.var_7e1c += cGame.var_7dc4[i];
 				break;
 			}
 			case 3: {
@@ -28211,7 +28209,7 @@ public final class cGame extends GLLib implements Class_b
 				final String sub_4e1f3;
 				s = (((sub_4e1f3 = GLLib.Text_GetStringFromLocaleFile(386)) == null) ? "" : sub_4e1f3);
 				addExperience(cGame.var_7dc4[i]);
-				cGame.var_7e24 += cGame.var_7dc4[i];
+				//cGame.var_7e24 += cGame.var_7dc4[i];
 				break;
 			}
 			case 4: {
@@ -28220,7 +28218,7 @@ public final class cGame extends GLLib implements Class_b
 				final String sub_4e1f4;
 				s = (((sub_4e1f4 = GLLib.Text_GetStringFromLocaleFile(256)) == null) ? "" : sub_4e1f4);
 				addCash(cGame.var_7dc4[i]);
-				cGame.var_7e14 += cGame.var_7dc4[i];
+				//cGame.var_7e14 += cGame.var_7dc4[i];
 				break;
 			}
 			case 5: {
@@ -30060,7 +30058,7 @@ public final class cGame extends GLLib implements Class_b
 		cGame.var_6f24 = 0;
 		cGame.var_6f3c = 0;
 		cGame.var_6f44 = 0;
-		cGame.var_6f4c = 0;
+		//cGame.var_6f4c = 0;
 		cGame.var_6f7c = -1;
 		cGame.var_6f84 = -1;
 		cGame.var_6f8c = -1;
@@ -30203,7 +30201,7 @@ public final class cGame extends GLLib implements Class_b
 		cGame.var_7854 = false;
 		cGame.var_785c = false;
 		cGame.var_7864 = false;
-		cGame.var_7924 = 0;
+		//cGame.var_7924 = 0;
 		cGame.var_7934 = 0;
 		cGame.var_795c = 0;
 		cGame.var_7964 = true;
@@ -30236,8 +30234,8 @@ public final class cGame extends GLLib implements Class_b
 		cGame.var_7acc = "";
 		cGame.var_7ad4 = "";
 		cGame.var_7adc = "";
-		cGame.var_7af4 = false;
-		cGame.var_7afc = false;
+		//cGame.var_7af4 = false;
+		//cGame.var_7afc = false;
 		cGame.var_7b04 = 0;
 		cGame.var_7b0c = -1;
 		cGame.var_7b1c = "";
@@ -30393,9 +30391,9 @@ public final class cGame extends GLLib implements Class_b
 		cGame.var_7d54 = 0;
 		cGame.var_7d5c = false;
 		cGame.var_7e0c = new String[] { "", "", "" };
-		cGame.var_7e14 = 0;
-		cGame.var_7e1c = 0;
-		cGame.var_7e24 = 0;
+		//cGame.var_7e14 = 0;
+		//cGame.var_7e1c = 0;
+		//cGame.var_7e24 = 0;
 		cGame.s_pond_lowRodCashCost = 0;
 		cGame.s_pond_highRodCashCost = 0;
 		cGame.var_7e3c = -1;
