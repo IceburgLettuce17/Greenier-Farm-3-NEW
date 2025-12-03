@@ -849,8 +849,8 @@ GLLibPlayer -> j:
     void SetTransform(int) -> a
     void sub_1a6a(int) -> b
     int sub_1a8a() -> f
-    int GetNbFrame() -> s
-    int GetDuration() -> t
+    int GetNbFrame() -> r
+    int GetDuration() -> s
     boolean IsAnimOver() -> g
     void sub_1b7f() -> h
     void Update(int) -> c
@@ -871,7 +871,6 @@ GLLibPlayer -> j:
     void Snd_SetMasterVolume(int) -> i
     int sub_2635(int) -> m
     void Snd_SetVolumeForPlayer(int,int) -> e
-    void sub_2745() -> u
     void run() -> run
     boolean Snd_IsPlaying(int) -> j
     void Snd_FreeChannelExec(int) -> n
@@ -884,11 +883,10 @@ GLLibPlayer -> j:
     void sub_2cdc(int,int) -> g
     void sub_2d26$3b4dfe4b(int,int,int) -> d
     void sub_2d9e(int) -> r
-    void sub_35e7() -> k
     void sub_3661(int,int,int,int) -> a
-    void sub_370b$13462e() -> v
-    void sub_37be$13462e() -> w
-    void sub_3837() -> l
+    void sub_370b$13462e() -> t
+    void sub_37be$13462e() -> u
+    void sub_3837() -> k
     boolean isFlag(int,int) -> h
     void setFlag$486912df(int,boolean) -> a
     void Tileset_LoadLayer$342afbdc(byte[],byte[],byte[],ASprite) -> a
@@ -902,13 +900,13 @@ GLLibPlayer -> j:
     void sub_59b2(int,int,int,int,int) -> d
     int Tileset_GetTranslatedOriginY(int,int) -> i
     void sub_5a36$4868d30e(int,int) -> c
-    int sub_5b8b$134621() -> m
-    int sub_5c0b$134621() -> n
-    int sub_5cb3() -> o
-    int sub_5d2e() -> p
+    int sub_5b8b$134621() -> l
+    int sub_5c0b$134621() -> m
+    int sub_5cb3() -> n
+    int sub_5d2e() -> o
     int Tileset_GetTile$4868d301(int,int) -> d
-    GLLibImage Tileset_GetBufferImage() -> q
-    void sub_5f26() -> r
+    GLLibImage Tileset_GetBufferImage() -> p
+    void sub_5f26() -> q
     void Tileset_SetTile(int,int,int) -> a
     void sub_60d3$2e711841(int,int,boolean) -> b
     void sub_6133$b013a34(ASprite,int,int,int,boolean,int[]) -> a

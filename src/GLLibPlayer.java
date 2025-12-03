@@ -190,7 +190,7 @@ final class GLLibPlayer implements Runnable
         this.var_15cf = var_15cf;
     }
     
-    final int sub_1a8a() {
+    final int GetNbLoop() {
         return this.nbLoop;
     }
     

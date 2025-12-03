@@ -87,25 +87,24 @@ public final class Class_o {
 	private static int var_2b8d;
 	private static char var_2b95;
 
-	private static String sub_2bd4(final String s, int i, final char c) {
+	private static String separateStr(final String string, int index, final char unused) {
 		int srcBegin = 0;
-		final int n = i;
-		int srcEnd = s.indexOf(124, 1);
-		while (i > 0) {
+		int srcEnd = string.indexOf(124, 1);
+		while (index > 0) {
 			if (srcBegin == -1) {
 				return null;
 			}
 			srcBegin = srcEnd;
-			srcEnd = s.indexOf(124, srcBegin + 1);
-			--i;
+			srcEnd = string.indexOf(124, srcBegin + 1);
+			--index;
 		}
 		if (srcBegin == -1) {
 			return null;
 		}
 		if (srcEnd == -1) {
-			srcEnd = s.length();
+			srcEnd = string.length();
 		}
-		if (n > 0) {
+		if (index > 0) {
 			++srcBegin;
 		}
 		if (srcBegin == srcEnd) {
@@ -115,9 +114,9 @@ public final class Class_o {
 			return null;
 		}
 		try {
-			final char[] array = new char[srcEnd - srcBegin];
-			s.getChars(srcBegin, srcEnd, array, 0);
-			return new String(array);
+			final char[] chars = new char[srcEnd - srcBegin];
+			string.getChars(srcBegin, srcEnd, chars, 0);
+			return new String(chars);
 		} catch (final IndexOutOfBoundsException ex) {
 			return null;
 		}
@@ -160,16 +159,16 @@ public final class Class_o {
 			return true;
 		}
 		if (Class_o.http.m_response != null && Class_o.http.m_response != "") {
-			final String sub_2bd4 = sub_2bd4(Class_o.http.m_response, 0, '|');
+			final String sub_2bd4 = separateStr(Class_o.http.m_response, 0, '|');
 			try {
 				if (sub_2bd4.equals("FAILURE")) {
-					Class_o.var_2995 = Integer.parseInt(sub_2bd4(Class_o.http.m_response, 1, '|'));
+					Class_o.var_2995 = Integer.parseInt(separateStr(Class_o.http.m_response, 1, '|'));
 					return true;
 				}
 			} catch (final NumberFormatException ex) {
 				Class_o.var_2995 = 40;
 				final String sub_2bd5;
-				if ((sub_2bd5 = sub_2bd4(Class_o.http.m_response, 1, '|')).indexOf("PB") != -1) {
+				if ((sub_2bd5 = separateStr(Class_o.http.m_response, 1, '|')).indexOf("PB") != -1) {
 					try {
 						Class_o.var_2995 = Integer.parseInt(sub_2bd5.substring(2, sub_2bd5.length()));
 					} catch (final NumberFormatException ex2) {
@@ -178,7 +177,7 @@ public final class Class_o {
 				return true;
 			}
 			if (sub_2bd4.equals("SUCCESS")) {
-				Class_o.code = sub_2bd4(Class_o.http.m_response, 2, '|');
+				Class_o.code = separateStr(Class_o.http.m_response, 2, '|');
 				Class_o.var_2995 = 0;
 				return true;
 			}
@@ -905,8 +904,8 @@ public final class Class_o {
 		return anArray;
 	}
 
-	public static String sub_4e32(final int n) {
-		return getPrice(n);
+	public static String getPriceTHUNK(final int pricePoint) {
+		return getPrice(pricePoint);
 	}
 
 	private static String getPrice(final int pricePoint) {

@@ -467,62 +467,60 @@ public abstract class GLLib extends Canvas implements Runnable
         return GLLib.s_math_cosTable[angle];
     }
     
-    static int sub_2c75(final int n) {
-        if (n >= 65536) {
-            if (n >= 16777216) {
-                if (n >= 268435456) {
-                    if (n >= 1073741824) {
-                        return GLLib.s_math_sqrtTable[n >> 24] << 8;
+    static int Math_Sqrt(final int x) {
+        if (x >= 65536) {
+            if (x >= 16777216) {
+                if (x >= 268435456) {
+                    if (x >= 1073741824) {
+                        return GLLib.s_math_sqrtTable[x >> 24] << 8;
                     }
-                    return GLLib.s_math_sqrtTable[n >> 22] << 7;
+                    return GLLib.s_math_sqrtTable[x >> 22] << 7;
                 }
                 else {
-                    if (n >= 67108864) {
-                        return GLLib.s_math_sqrtTable[n >> 20] << 6;
+                    if (x >= 67108864) {
+                        return GLLib.s_math_sqrtTable[x >> 20] << 6;
                     }
-                    return GLLib.s_math_sqrtTable[n >> 18] << 5;
+                    return GLLib.s_math_sqrtTable[x >> 18] << 5;
                 }
             }
-            else if (n >= 1048576) {
-                if (n >= 4194304) {
-                    return GLLib.s_math_sqrtTable[n >> 16] << 4;
+            else if (x >= 1048576) {
+                if (x >= 4194304) {
+                    return GLLib.s_math_sqrtTable[x >> 16] << 4;
                 }
-                return GLLib.s_math_sqrtTable[n >> 14] << 3;
+                return GLLib.s_math_sqrtTable[x >> 14] << 3;
             }
             else {
-                if (n >= 262144) {
-                    return GLLib.s_math_sqrtTable[n >> 12] << 2;
+                if (x >= 262144) {
+                    return GLLib.s_math_sqrtTable[x >> 12] << 2;
                 }
-                return GLLib.s_math_sqrtTable[n >> 10] << 1;
+                return GLLib.s_math_sqrtTable[x >> 10] << 1;
             }
         }
-        else if (n >= 256) {
-            if (n >= 4096) {
-                if (n >= 16384) {
-                    return GLLib.s_math_sqrtTable[n >> 8];
+        else if (x >= 256) {
+            if (x >= 4096) {
+                if (x >= 16384) {
+                    return GLLib.s_math_sqrtTable[x >> 8];
                 }
-                return GLLib.s_math_sqrtTable[n >> 6] >> 1;
+                return GLLib.s_math_sqrtTable[x >> 6] >> 1;
             }
             else {
-                if (n >= 1024) {
-                    return GLLib.s_math_sqrtTable[n >> 4] >> 2;
+                if (x >= 1024) {
+                    return GLLib.s_math_sqrtTable[x >> 4] >> 2;
                 }
-                return GLLib.s_math_sqrtTable[n >> 2] >> 3;
+                return GLLib.s_math_sqrtTable[x >> 2] >> 3;
             }
         }
         else {
-            if (n >= 0) {
-                return GLLib.s_math_sqrtTable[n] >> 4;
+            if (x >= 0) {
+                return GLLib.s_math_sqrtTable[x] >> 4;
             }
             return 0;
         }
     }
     
     static void sub_2dcf(final int n, final int n2, final int n3, final int n4, final int n5, final int n6, int n7) {
-        int n10 = GLLib.var_1e9f;
-        final int n9 = n10 - n7;
-        final int n11 = n9 * n9;
-        n7 *= n10;
+        final int n11 = GLLib.var_1e9f - n7 * GLLib.var_1e9f - n7;
+        n7 *= GLLib.var_1e9f;
         GLLib.var_1eb7 = (n * n11 + (n3 << 1) * n7 + n5 * n7 * n7) / (1 << 16);
         GLLib.var_1ebf = (n2 * n11 + (n4 << 1) * n7 + n6 * n7 * n7) / (1 << 16);
     }
@@ -2348,8 +2346,8 @@ public abstract class GLLib extends Canvas implements Runnable
         return Class_o.sub_4042();
     }
     
-    static String sub_78a2(final int n, final String s) {
-        return Class_o.sub_4e32(Class_o.getPricePoint(n, s));
+    static String getPrice_2(final int pricePoint, final String s) {
+        return Class_o.getPriceTHUNK(Class_o.getPricePoint(pricePoint, s));
     }
     
     static String IAP_GetTermsAndConditions() {

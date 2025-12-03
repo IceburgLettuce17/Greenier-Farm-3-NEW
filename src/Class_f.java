@@ -3503,7 +3503,7 @@ final class Class_f
         final int n = array[0] - this.var_17cd;
         final int n2 = array[1] - this.var_17d5;
         final int sub_2c75;
-        if ((sub_2c75 = GLLib.sub_2c75(n * n + n2 * n2)) == 0) {
+        if ((sub_2c75 = GLLib.Math_Sqrt(n * n + n2 * n2)) == 0) {
             this.var_17cd = array[0];
             this.var_17d5 = array[1];
             if (this.var_18ed <= 0) {
