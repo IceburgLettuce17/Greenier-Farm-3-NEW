@@ -2125,13 +2125,13 @@ final class Class_f
                     cGame.var_7aac = -1;
                     if (cGame.var_6b24 > 0) {
                         final String sub_4e1f;
-                        cGame.var_7ab4 = GLLib.Text_ReplaceText(((sub_4e1f = GLLib.Text_GetStringFromLocaleFile(379)) == null) ? "" : sub_4e1f, "%d", GLLib.BigNumberSeparate(cGame.var_6b24 - cGame.getCoin(), cGame.var_7fe4, " "));
+                        cGame.var_7ab4 = GLLib.Text_ReplaceText(((sub_4e1f = GLLib.Text_GetStringFromLocaleFile(379)) == null) ? "" : sub_4e1f, "%d", GLLib.BigNumberSeparate(cGame.var_6b24 - cGame.getCoin(), cGame.s_currencySeprType, " "));
                         cGame.var_7aac = 18;
                         cGame.var_7d24 = false;
                     }
                     else if (cGame.var_6b2c > 0) {
                         final String sub_4e1f2;
-                        cGame.var_7ab4 = GLLib.Text_ReplaceText(((sub_4e1f2 = GLLib.Text_GetStringFromLocaleFile(381)) == null) ? "" : sub_4e1f2, "%d", GLLib.BigNumberSeparate(cGame.var_6b2c - cGame.getCash(), cGame.var_7fe4, " "));
+                        cGame.var_7ab4 = GLLib.Text_ReplaceText(((sub_4e1f2 = GLLib.Text_GetStringFromLocaleFile(381)) == null) ? "" : sub_4e1f2, "%d", GLLib.BigNumberSeparate(cGame.var_6b2c - cGame.getCash(), cGame.s_currencySeprType, " "));
                         cGame.var_7aac = 19;
                         cGame.var_7d24 = true;
                     }
@@ -2223,13 +2223,13 @@ final class Class_f
             cGame.var_7aac = -1;
             if (this.var_15f5 > 0) {
                 final String sub_4e1f;
-                cGame.var_7ab4 = GLLib.Text_ReplaceText(((sub_4e1f = GLLib.Text_GetStringFromLocaleFile(379)) == null) ? "" : sub_4e1f, "%d", GLLib.BigNumberSeparate(this.var_15f5 - cGame.getCoin(), cGame.var_7fe4, " "));
+                cGame.var_7ab4 = GLLib.Text_ReplaceText(((sub_4e1f = GLLib.Text_GetStringFromLocaleFile(379)) == null) ? "" : sub_4e1f, "%d", GLLib.BigNumberSeparate(this.var_15f5 - cGame.getCoin(), cGame.s_currencySeprType, " "));
                 cGame.var_7aac = 18;
                 cGame.var_7d24 = false;
             }
             else if (this.var_15fd > 0) {
                 final String sub_4e1f2;
-                cGame.var_7ab4 = GLLib.Text_ReplaceText(((sub_4e1f2 = GLLib.Text_GetStringFromLocaleFile(381)) == null) ? "" : sub_4e1f2, "%d", GLLib.BigNumberSeparate(this.var_15fd - cGame.getCash(), cGame.var_7fe4, " "));
+                cGame.var_7ab4 = GLLib.Text_ReplaceText(((sub_4e1f2 = GLLib.Text_GetStringFromLocaleFile(381)) == null) ? "" : sub_4e1f2, "%d", GLLib.BigNumberSeparate(this.var_15fd - cGame.getCash(), cGame.s_currencySeprType, " "));
                 cGame.var_7aac = 19;
                 cGame.var_7d24 = true;
             }
@@ -2903,7 +2903,7 @@ final class Class_f
         }
         if (var_1725 > 0) {
             GLLib.sub_5c77(true);
-            cGame.sub_1e07e("+" + GLLib.BigNumberSeparate(var_1725, cGame.var_7fe4, " "), (this.var_17cd + this.var_1805) * cGame.var_7fc4 / 100 - cGame.var_800c.var_17cd + 10, (this.var_17d5 + this.var_180d) * cGame.var_7fc4 / 100 - cGame.var_800c.var_17d5 + 10, 0, 0, 0, 0, 2, 1, false, false);
+            cGame.sub_1e07e("+" + GLLib.BigNumberSeparate(var_1725, cGame.s_currencySeprType, " "), (this.var_17cd + this.var_1805) * cGame.var_7fc4 / 100 - cGame.var_800c.var_17cd + 10, (this.var_17d5 + this.var_180d) * cGame.var_7fc4 / 100 - cGame.var_800c.var_17d5 + 10, 0, 0, 0, 0, 2, 1, false, false);
             GLLib.sub_5c77(false);
         }
     }
