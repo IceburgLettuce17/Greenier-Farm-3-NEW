@@ -200,15 +200,14 @@ public final class IGP implements Runnable, CommandListener
         if (i < 0 || i >= var_1e1d - 1) {
             return null;
         }
-        int n = var_1e25[i + 1];
-        if (n - var_1e25[i] == 0) {
+        if (var_1e25[i + 1] - var_1e25[i] == 0) {
             return null;
         }
         byte[] b = null;
         try {
             InputStream dataIGP = getResourceAsStream("/dataIGP");
             dataIGP.skip(2 + 4 * var_1e1d + var_1e25[i]);
-            for (i = (b = new byte[n]).length; i > 0; i -= dataIGP.read(b)) {}
+            for (i = (b = new byte[var_1e25[i + 1]]).length; i > 0; i -= dataIGP.read(b)) {}
             dataIGP.close();
         }
         catch (final Exception ex) {}

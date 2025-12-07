@@ -899,8 +899,15 @@ public final class cGame extends GLLib implements Class_b
 
 	static void sub_81e0(final int var_67c4) {
 		int n = cGame.s_game_states[cGame.s_game_state];
-		if (cGame.s_game_states != null && cGame.s_game_state != GS_EXIT && n == GS_FARM || n == GS_UNK_18 && var_67c4 != GS_POPUP && var_67c4 != GS_HUD
-				&& var_67c4 != GS_FARM && var_67c4 != GS_UNK_18 && var_67c4 != GS_FARM_NEIGHBOR && var_67c4 != GS_ACRE) {
+		if (cGame.s_game_states != null 
+		&& cGame.s_game_state != GS_EXIT 
+		&& n == GS_FARM || n == GS_UNK_18 
+		&& var_67c4 != GS_POPUP 
+		&& var_67c4 != GS_HUD
+		&& var_67c4 != GS_FARM 
+		&& var_67c4 != GS_UNK_18 
+		&& var_67c4 != GS_FARM_NEIGHBOR 
+		&& var_67c4 != GS_ACRE) {
 			cGame.s_isPaused = true;
 			cGame.s_clickblocked = true;
 			GLLibPlayer.Tileset_Destroy(0);
@@ -921,8 +928,17 @@ public final class cGame extends GLLib implements Class_b
 
 	private static void sub_82a7(final int var_67c4) {
 		int n = s_game_states[s_game_state];
-		if (cGame.s_game_states != null && cGame.s_game_state != GS_EXIT && n == GS_FARM || n == GS_UNK_18 || n == GS_FARMDIARY && var_67c4 != GS_POND
-				&& var_67c4 != GS_HUD && var_67c4 != GS_FARM && var_67c4 != GS_UNK_18 && var_67c4 != GS_FARM_NEIGHBOR && var_67c4 != GS_ACRE) {
+		if (cGame.s_game_states != null 
+		&& cGame.s_game_state != GS_EXIT 
+		&& n == GS_FARM 
+		|| n == GS_UNK_18 
+		|| n == GS_FARMDIARY 
+		&& var_67c4 != GS_POND
+		&& var_67c4 != GS_HUD 
+		&& var_67c4 != GS_FARM 
+		&& var_67c4 != GS_UNK_18 
+		&& var_67c4 != GS_FARM_NEIGHBOR 
+		&& var_67c4 != GS_ACRE) {
 			cGame.s_isPaused = true;
 			cGame.s_clickblocked = true;
 			GLLibPlayer.Tileset_Destroy(0);
@@ -958,6 +974,16 @@ public final class cGame extends GLLib implements Class_b
 		return s_game_state > GS_EXIT && s_game_state < GS_PAUSE ? s_game_states[s_game_state + 1] : GS_EXIT;
 	}
 
+	////// SubStates!!!! //////
+	
+	// GS_GAMELOFT
+	final static int SS_GAMELOFT_INITWITHIAP = 0;
+	final static int SS_GAMELOFT_PAUSER = 2;
+	
+	// GS_INIT
+	final static int SS_INIT_INIT = 0;
+	final static int SS_INIT_UNK2 = 2;
+	
 	private static boolean checkForState(int substate, int state) {
 		// I'm gonna document the states and my speculations for them in the switch statement btw
 		boolean b = false;
@@ -969,7 +995,7 @@ public final class cGame extends GLLib implements Class_b
 				case GS_GAMELOFT: {
 					// SUBSTATES
 					// Seems to be checking for IAP, and calling a function that gets the fields from the .jad
-					if (substate == 0) {
+					if (substate == SS_GAMELOFT_INITWITHIAP) {
 						final String iapEnabled = GloftGF2M.s_instance.getAppProperty("IAP-EnableIAP");
 						if (iapEnabled != null && iapEnabled.equals("1") && GLLib.IAP_ParseJADFields()) {
 							cGame.s_iapEnabled = true;
@@ -979,7 +1005,7 @@ public final class cGame extends GLLib implements Class_b
 						Init(true);
 						GLLib.sub_5aff();
 					}
-					if (substate == 2) {
+					if (substate == SS_GAMELOFT_PAUSER) {
 						// Seems to be for quitting something?
 						// It seems to call a function (sub_81e0) that calls GLLibPlayer.Tileset_Destroy so idrk
 						state = GLLib.IsAnyKeyDown();
@@ -995,14 +1021,14 @@ public final class cGame extends GLLib implements Class_b
 				case GS_INIT: {
 					// SUBSTATES
 					// I'll do this one later, or if someone asks me nicely or make a PR about it
-					if (substate == 0) {
+					if (substate == SS_INIT_INIT) {
 						cGame.var_681c = cGame.var_6804;
 						sub_b76e();
 						GLLib.var_1e17 = 1;
 						cGame.s_sndVolume = 50;
 					}
 					// Same with this one
-					if (substate == 2) {
+					if (substate == SS_INIT_UNK2) {
 						state = GLLib.IsAnyKeyDown();
 						if (state == GS_POPUP || state == GS_KITCHEN) {
 							GLLib.s_game_state = GS_EXIT;

@@ -911,7 +911,7 @@ public abstract class GLLib extends Canvas implements Runnable
         sub_3731(_g, y1, x2, x2, y2, true);
     }
     
-    static final void sub_3bae(final Graphics graphics, int[] sub_9c11, final int n, int n2, int n3, int n4, int n5, int n6, final boolean b, final boolean b2, int n7, int n8, final boolean b3) {
+    static final void sub_3bae(final Graphics graphics, int[] rgb, final int n, int n2, int n3, int n4, int n5, int n6, final boolean b, final boolean b2, int n7, int n8, final boolean b3) {
         if (b3) {
             int n9 = n6;
             if ((n7 & 0x4) != 0x0) {
@@ -944,18 +944,18 @@ public abstract class GLLib extends Canvas implements Runnable
                 n6 = n2;
                 n2 = n5;
             }
-            final int[] array = sub_9c11;
+            final int[] array = rgb;
             final int n11 = n5;
             final int n12 = n6;
             final int n13 = n7;
             final int n14 = n12;
             n8 = n11;
-            sub_9c11 = ASprite.sub_9c11(array, n11, n14, n13, null);
+            rgb = ASprite.sub_9c11(array, n11, n14, n13, null);
             if ((n7 & 0x4) != 0x0) {
                 n6 = n10;
             }
         }
-        graphics.drawRGB(sub_9c11, 0, n2, n3, n4, n5, n6, b);
+        graphics.drawRGB(rgb, 0, n2, n3, n4, n5, n6, b);
     }
     
     static final void sub_3d3b(final GLLibImage class_l, final int[] array, final int n, final int n2, final int n3, final int n4, final int n5, final int n6) {
@@ -1681,28 +1681,21 @@ public abstract class GLLib extends Canvas implements Runnable
         if (n <= 0 || n2 <= 0) {
             return;
         }
-        final int n5 = n3;
-        final int n6 = n4;
-        final int n7 = n;
-        final int n8 = n2;
-        final int n9 = n7;
-        i = n6;
-        j = n5;
-        SetClip(graphics, n5, i, n9, n8, true);
+        i = (j > sub_3600) ? j : sub_3600;
+        j = n3;
+        SetClip(graphics, n3, i, n, n2, true);
         i = n3;
-        final int n10 = ASprite.s_screenWidth - n4 - n2;
-        final int n11 = i;
         i = n;
         n = n2;
         n2 = i;
         if (n * n2 < 256) {
-            sub_3bae(graphics, GLLib.var_1fd7[GLLib.var_1fc7], 0, n, n10, n11, n, n2, true, true, 0, -1, false);
+            sub_3bae(graphics, GLLib.var_1fd7[GLLib.var_1fc7], 0, n, ASprite.s_screenWidth - n4 - n2, i, n, n2, true, true, 0, -1, false);
         }
         else {
-            n += n10;
-            n2 += n11;
-            for (i = n10; i < n; i += 16) {
-                for (j = n11; j < n2; j += 16) {
+            n += ASprite.s_screenWidth - n4 - n2;
+            n2 += i;
+            for (i = ASprite.s_screenWidth - n4 - n2; i < n; i += 16) {
+                for (j = i; j < n2; j += 16) {
                     sub_3bae(graphics, GLLib.var_1fd7[GLLib.var_1fc7], 0, 16, i, j, 16, 16, true, true, 0, -1, false);
                 }
             }
