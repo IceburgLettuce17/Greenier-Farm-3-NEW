@@ -496,7 +496,7 @@ public final class cGame extends GLLib implements Class_b
 	private static int s_barnItemAmount;
 	private static int s_maxBarnStorage;
 	private static int var_76d4;
-	private static int var_76dc;
+	private static int s_barnItemCount;
 	private static int s_barnScrollLvl;
 	private static int var_76ec;
 	private static short[] var_76f4;
@@ -983,6 +983,25 @@ public final class cGame extends GLLib implements Class_b
 	// GS_INIT
 	final static int SS_INIT_INIT = 0;
 	final static int SS_INIT_UNK2 = 2;
+	final static int SS_INIT_UNK3 = 3;
+	final static int SS_INIT_CLOSECURRPACK = 5;
+	
+	
+	// GS_LOADING
+	final static int SS_LOADING_UNK0 = 0;
+	final static int SS_LOADING_UNK1 = 1;
+	final static int SS_LOADING_CLOSER = 2;
+	final static int SS_LOADING_UNK3 = 3;
+	final static int SS_LOADING_UNK5 = 5;
+	
+	// GS_UNK_18
+	final static int SS_UNK_18_UNK0 = 0;
+	final static int SS_UNK_18_UNK1 = 1;
+	final static int SS_UNK_18_UNK2 = 2;
+	final static int SS_UNK_18_UNK3 = 3;
+	final static int SS_UNK_18_UNK4 = 4;
+	final static int SS_UNK_18_UNK8 = 8;
+
 	
 	private static boolean checkForState(int substate, int state) {
 		// I'm gonna document the states and my speculations for them in the switch statement btw
@@ -1041,10 +1060,10 @@ public final class cGame extends GLLib implements Class_b
 						}
 					}
 					// WTF is this one?
-					if (substate == 3) {
+					if (substate == SS_INIT_UNK3) {
 						cGame.var_68d4[19].sub_71ae(GLLib.g, 0, 0, 0, 0);
 					}
-					if (substate == 5) {
+					if (substate == SS_INIT_CLOSECURRPACK) {
 						// Something to do with closing a pack
 						GLLib.var_1e17 = -1;
 						s_currentPackFilename = GLLib.s_pack_filename;
@@ -1058,7 +1077,7 @@ public final class cGame extends GLLib implements Class_b
 				// This one draws the loading bar from the splash
 				case GS_LOADING: {
 					// SUBSTATES
-					if (substate == 0) {
+					if (substate == SS_LOADING_UNK0) {
 						sub_1d1a7(0, true);
 						if (cGame.s_currencySeprType != 7) {
 							cGame.var_68bc[0][1][5] = 49;
@@ -1090,13 +1109,13 @@ public final class cGame extends GLLib implements Class_b
 						}
 						sub_2000c(0, 4, true);
 					}
-					if (substate == 1 && cGame.var_7194) {
+					if (substate == SS_LOADING_UNK1 && cGame.var_7194) {
 						cGame.var_6824 = -1;
 						cGame.var_8084 = 0;
 						cGame.var_7194 = false;
 						sub_8281(17);
 					}
-					if (substate == 5) {
+					if (substate == SS_LOADING_UNK5) {
 						cGame.var_686c = false;
 						GLLib.var_1e17 = -1;
 						cGame.var_681c = null;
@@ -1106,11 +1125,11 @@ public final class cGame extends GLLib implements Class_b
 						cGame.var_683c = false;
 						cGame.var_6824 = -1;
 					}
-					if (substate == 2) {
+					if (substate == SS_LOADING_CLOSER) {
 						String sub_4e1f = GLLib.Text_GetStringFromLocaleFile(46);
 						cGame.var_68cc[0][4] = ((sub_4e1f == null) ? "" : sub_4e1f);
 						state = GLLib.IsAnyKeyDown();
-						if (state == 19 || state == 11) {
+						if (state == GS_POPUP || state == GS_KITCHEN) {
 							if (cGame.var_686c) {
 								GLLib.s_game_state = GS_EXIT;
 							} else {
@@ -1124,20 +1143,17 @@ public final class cGame extends GLLib implements Class_b
 							sub_2c69b();
 						}
 					}
-					if (substate == 3) {
+					if (substate == SS_LOADING_UNK3) {
 						sub_1dcc1(0);
 						if (cGame.var_6834 == 0) {
 							state = 416;
 						} else {
-							if (cGame.var_684c && cGame.var_685c > 0) {
-								state = 416 * cGame.var_682c + 1;
-								final int n2 = cGame.var_682c + 2 < cGame.var_6834 ? (cGame.var_682c + 2)
-										: cGame.var_6834 * 416 / cGame.var_6834;
-								if ((state / cGame.var_6834
-										+ 416 / cGame.var_6834 * cGame.var_6854 / cGame.var_685c) > n2) {
-									state = n2;
-								}
-							} else {
+							 if (var_684c && var_685c > 0) {
+                           int var89 = (var_682c + 2 < var_6834 ? var_682c + 2 : var_6834) * 416 / var_6834;
+                           if ((state = 416 * (var_682c + 1) / var_6834 + 416 / var_6834 * var_6854 / var_685c) > var89) {
+                              state = var89;
+                           }
+                        } else {
 								state = 416 * (cGame.var_682c + 1) / cGame.var_6834;
 							}
 							if (state > 416) {
@@ -1158,7 +1174,7 @@ public final class cGame extends GLLib implements Class_b
 				}
 				// TODO: Figure out this one
 				case GS_UNK_18: {
-					if ((substate) == 0) {
+					if ((substate) == SS_UNK_18_UNK0) {
 						if (cGame.s_tutorialState == 1) {
 							cGame.s_tutorialState = 1;
 							cGame.var_6c8c = false;
@@ -1166,7 +1182,7 @@ public final class cGame extends GLLib implements Class_b
 						}
 						cGame.var_69fc = false;
 					}
-					if (substate == 1) {
+					if (substate == SS_UNK_18_UNK1) {
 						if (cGame.s_isPaused) {
 							cGame.s_isPaused = false;
 							sub_cc72();
@@ -1181,7 +1197,7 @@ public final class cGame extends GLLib implements Class_b
 					}
 					boolean b2 = false;
 					Label_2355: {
-						if (substate == 8) {
+						if (substate == SS_UNK_18_UNK8) {
 							if (cGame.var_6aac != null && sub_240db()) {
 								b2 = true;
 								break Label_2355;
@@ -1287,11 +1303,11 @@ public final class cGame extends GLLib implements Class_b
 								cGame.var_800c.sub_67aa();
 							}
 						}
-						if (substate == 2) {
-							if ((state = GLLib.IsAnyKeyDown()) == 19 || state == 24) {
+						if (substate == SS_UNK_18_UNK2) {
+							if ((state = GLLib.IsAnyKeyDown()) == GS_POPUP || state == 24) {
 								if (sub_202b7(1, 37) && sub_20167(1, 37)) {
 									sub_10922();
-								} else if (state == 19) {
+								} else if (state == GS_POPUP) {
 									final String sub_4e1f3;
 									platformRequest("Show_Toast_"
 											+ (((sub_4e1f3 = GLLib.Text_GetStringFromLocaleFile(498)) == null) ? "" : sub_4e1f3));
@@ -1364,7 +1380,7 @@ public final class cGame extends GLLib implements Class_b
 							sub_23dba();
 							sub_273b8();
 						}
-						if (substate == 3 && !cGame.s_clickblocked) {
+						if (substate == SS_UNK_18_UNK3 && !cGame.s_clickblocked) {
 							Class_f.sub_3bcd();
 							sub_29ee2();
 							sub_25129();
@@ -1384,7 +1400,7 @@ public final class cGame extends GLLib implements Class_b
 								}
 							}
 						}
-						if (substate == 4) {
+						if (substate == SS_UNK_18_UNK4) {
 							sub_10e3f(false, 0, cGame.var_6b04);
 						}
 						b2 = false;
@@ -1418,7 +1434,7 @@ public final class cGame extends GLLib implements Class_b
 						sub_2000c(6, 32, cGame.var_7424 = false);
 					}
 					if (substate == 2) {
-						if ((state = GLLib.IsAnyKeyDown()) == 19 || state == 11) {
+						if ((state = GLLib.IsAnyKeyDown()) == GS_POPUP || state == GS_KITCHEN) {
 							if (cGame.var_6c5c == 160) {
 								sub_14108();
 							} else {
@@ -1536,7 +1552,7 @@ public final class cGame extends GLLib implements Class_b
 						sub_2000c(7, 40, cGame.var_7424 = false);
 					}
 					if (substate == 2) {
-						if ((state = GLLib.IsAnyKeyDown()) == 19 || state == 11) {
+						if ((state = GLLib.IsAnyKeyDown()) == GS_POPUP || state == GS_KITCHEN) {
 							sub_144e1();
 						}
 						sub_d841(1);
@@ -1769,7 +1785,7 @@ public final class cGame extends GLLib implements Class_b
 						sub_239ef(14);
 					}
 					if (substate == 2) {
-						if ((state = GLLib.IsAnyKeyDown()) == 19 || state == 11) {
+						if ((state = GLLib.IsAnyKeyDown()) == GS_POPUP || state == GS_KITCHEN) {
 							if (cGame.var_6c5c == 160) {
 								sub_195c5();
 							} else {
@@ -1934,13 +1950,13 @@ public final class cGame extends GLLib implements Class_b
 					if (substate == 2) {
 						state = GLLib.IsAnyKeyDown();
 						if (cGame.var_6d64 == 0) {
-							if (state == 19) {
+							if (state == GS_POPUP) {
 								sub_18b4a();
 							}
 							sub_d841(1);
 						} else if (cGame.var_6d64 == 1) {
 							if (!cGame.var_6d6c.IsAnimOver()) {
-								if (state == 19) {
+								if (state == GS_POPUP) {
 									final String sub_4e1f38;
 									platformRequest("Show_Toast_"
 											+ (((sub_4e1f38 = GLLib.Text_GetStringFromLocaleFile(498)) == null) ? "" : sub_4e1f38));
@@ -2062,9 +2078,9 @@ public final class cGame extends GLLib implements Class_b
 					if (substate == 2) {
 						state = GLLib.WasAnyKeyPressed();
 						int n13 = 2;
-						if (state == 19) {
+						if (state == GS_POPUP) {
 							sub_834e();
-						} else if (state == 18 || state == 5 || state == 11) {
+						} else if (state == 18 || state == 5 || state == GS_KITCHEN) {
 							n13 = 4;
 						}
 						if (cGame.var_682c > 30) {
@@ -10140,7 +10156,7 @@ public final class cGame extends GLLib implements Class_b
 		sub_d2e8(1, 2);
 	}
 
-	private static void sub_1d1a7(int var0, boolean var1) {
+	private static void sub_1d1a7(int var0, boolean state) {
 	      if (var_68bc[var0] != null) {
 	         sub_1daf4(var0);
 	      } else {
@@ -18173,11 +18189,10 @@ public final class cGame extends GLLib implements Class_b
 
 	// I was right lol
 	static void addExperience(int amount) {
-		final int experience = getExperience();
 		if (getLevel() >= 50) {
 			return;
 		}
-		setExperience(experience + amount);
+		setExperience(getExperience() + amount);
 		cGame.var_6c84 = true;
 		amount = sub_2e8f8();
 		for (int i = getExperience(); amount > 0 && i >= amount; amount = sub_2e8f8()) {
@@ -21758,7 +21773,7 @@ public final class cGame extends GLLib implements Class_b
 				sub_273b8();
 			}
 			if (cGame.var_6914[0] != null && !sub_2351a(0, 1)) {
-				if (cGame.var_6914[0][8] < -cGame.var_774c && cGame.s_barnScrollLvl < cGame.var_76dc - 6) {
+				if (cGame.var_6914[0][8] < -cGame.var_774c && cGame.s_barnScrollLvl < cGame.s_barnItemCount - 6) {
 					sub_38782(1);
 				} else if (cGame.var_6914[0][8] > -10 && cGame.s_barnScrollLvl > 0) {
 					sub_38782(-1);
@@ -21794,8 +21809,8 @@ public final class cGame extends GLLib implements Class_b
 			GLLib.SetClip(GLLib.g, i, n12, n11, n10, true);
 			int n13;
 			int n14;
-			for (n13 = ((cGame.var_76dc - cGame.s_barnScrollLvl >= 6) ? 6
-					: (cGame.var_76dc - cGame.s_barnScrollLvl)), n14 = 0; n14 < n13; ++n14) {
+			for (n13 = ((cGame.s_barnItemCount - cGame.s_barnScrollLvl >= 6) ? 6
+					: (cGame.s_barnItemCount - cGame.s_barnScrollLvl)), n14 = 0; n14 < n13; ++n14) {
 				final String sub_4e1f5;
 				drawText(((sub_4e1f5 = GLLib.Text_GetStringFromLocaleFile(cGame.var_76f4[cGame.s_barnScrollLvl + n14])) == null) ? ""
 						: sub_4e1f5, 10, 14 + n14 * 7, 0, 0);
@@ -21819,22 +21834,22 @@ public final class cGame extends GLLib implements Class_b
 		int n3 = 0;
 		int n4 = 0;
 		cGame.s_barnScrollLvl = 0;
-		cGame.var_76dc = 0;
+		cGame.s_barnItemCount = 0;
 		for (int i = 0; i < array.length; ++i) {
-			cGame.var_76dc += sub_2db90(array[i]);
+			cGame.s_barnItemCount += sub_2db90(array[i]);
 		}
-		if (cGame.var_76dc > 0) {
-			cGame.var_76fc = new int[cGame.var_76dc];
-			cGame.var_7704 = new int[cGame.var_76dc];
-			cGame.var_770c = new int[cGame.var_76dc];
-			cGame.var_7714 = new int[cGame.var_76dc];
-			cGame.var_771c = new short[cGame.var_76dc];
-			cGame.var_7724 = new short[cGame.var_76dc];
-			cGame.var_772c = new short[cGame.var_76dc];
-			cGame.var_7734 = new short[cGame.var_76dc];
-			cGame.var_773c = new short[cGame.var_76dc];
-			cGame.var_76f4 = new short[cGame.var_76dc];
-			cGame.var_7744 = new byte[cGame.var_76dc];
+		if (cGame.s_barnItemCount > 0) {
+			cGame.var_76fc = new int[cGame.s_barnItemCount];
+			cGame.var_7704 = new int[cGame.s_barnItemCount];
+			cGame.var_770c = new int[cGame.s_barnItemCount];
+			cGame.var_7714 = new int[cGame.s_barnItemCount];
+			cGame.var_771c = new short[cGame.s_barnItemCount];
+			cGame.var_7724 = new short[cGame.s_barnItemCount];
+			cGame.var_772c = new short[cGame.s_barnItemCount];
+			cGame.var_7734 = new short[cGame.s_barnItemCount];
+			cGame.var_773c = new short[cGame.s_barnItemCount];
+			cGame.var_76f4 = new short[cGame.s_barnItemCount];
+			cGame.var_7744 = new byte[cGame.s_barnItemCount];
 			int n5 = 0;
 			for (int j = 0; j < array.length; ++j) {
 				switch (array[j]) {
@@ -21970,8 +21985,8 @@ public final class cGame extends GLLib implements Class_b
 		final int n2 = cGame.var_6914[0][8];
 		int n3;
 		int i;
-		for (n3 = ((cGame.var_76dc - cGame.s_barnScrollLvl >= 6) ? 6
-				: (cGame.var_76dc - cGame.s_barnScrollLvl)), i = 0; i < n3; ++i) {
+		for (n3 = ((cGame.s_barnItemCount - cGame.s_barnScrollLvl >= 6) ? 6
+				: (cGame.s_barnItemCount - cGame.s_barnScrollLvl)), i = 0; i < n3; ++i) {
 			sub_385a9(i, true);
 		}
 		while (i < 6) {
@@ -26220,7 +26235,7 @@ public final class cGame extends GLLib implements Class_b
 		return -1;
 	}
 
-	private static boolean sub_4378f(ASprite var0, int var1) {
+	private static boolean sub_4378f(ASprite var0, int state) {
 	      byte var2 = 0;
 	      boolean var3 = false;
 
@@ -26235,7 +26250,7 @@ public final class cGame extends GLLib implements Class_b
 	               break;
 	            }
 
-	            if (var1 == var9[var5 + 1]) {
+	            if (state == var9[var5 + 1]) {
 	               var10000 = (byte)var5;
 	               break;
 	            }
