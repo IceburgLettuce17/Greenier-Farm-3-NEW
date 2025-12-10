@@ -63,40 +63,40 @@ public final class ASprite
     private byte[] _module_types;
     private byte[] var_1117;
     private int[] var_111f;
-    private static int var_1127;
-    private static int var_112f;
-    private static int var_1137;
-    private static int var_113f;
+    private static int _rectX1;
+    private static int _rectY1;
+    private static int _rectX2;
+    private static int _rectY2;
     static int[] s_rc;
     private static boolean useSystemGc;
     private static char var_1157;
-    private GLLibImage[][] var_115f;
+    private GLLibImage[][] nope;
     private int[][] var_1167;
     private int _cur_pool;
     private static short[][] _poolCacheStack;
     private static int[] _poolCacheStackIndex;
-    private static int[] var_1187;
+    private static int[] _poolCacheStackMax;
     private static ASprite[][] _poolCacheSprites;
-    private static int var_1197;
-    static int var_119f;
-    private static int var_11a7;
+    private static int _old_pal;
+    static int _text_w;
+    private static int _text_h;
     private int var_11af;
     private int var_11b7;
-    private int var_11bf;
-    private int var_11c7;
+    private int _nHeight;
+    private int _nSpaceWidth;
     private int var_11cf;
-    private boolean var_11d7;
-    private boolean var_11df;
-    private short[][] var_11e7;
-    private short var_11ef;
+    private boolean _bUnderline;
+    private boolean _bBold;
+    private short[][] _pMapCharShort;
+    private short _nDivider;
     private int var_11f7;
     private static short[] _warpTextInfo;
-    private static int var_1207;
-    private static int var_120f;
+    private static int _index1;
+    private static int _index2;
     private static int var_1217;
     private static int var_121f;
     
-    final void sub_123f() {
+    final void unload() {
         this._modules_w_short = null;
         this._modules_h_short = null;
         this.var_fe7 = null;
@@ -609,7 +609,7 @@ public final class ASprite
                             else {
                                 n67 = (short)((file[n65++] & 0xFF) + ((file[n65++] & 0xFF) << 8));
                             }
-                            System.arraycopy(file, n65, this12._modules_data, this12.sub_3801(n66), n67);
+                            System.arraycopy(file, n65, this12._modules_data, this12.getStartModuleData(n66), n67);
                             n65 += n67;
                         }
                     }
@@ -683,7 +683,7 @@ public final class ASprite
         return this._anims_naf[anim] & 0xFF;
     }
     
-    private int sub_3019(final int n) {
+    private int GetFModules(final int n) {
         if ((this._bs_flags & 0x800) != 0x0) {
             return this.var_fa7[n];
         }
@@ -780,51 +780,51 @@ public final class ASprite
     }
     
     private void sub_33cb(final int[] array, final int n) {
-        this.sub_33f1(array, n, 0, 0, 0, false, true);
+        this.GetAFrameRect_todo(array, n, 0, 0, 0, false, true);
     }
     
-    private void sub_33f1(final int[] array, int n, final int n2, final int n3, final int n4, final boolean b, final boolean b2) {
+    private void GetAFrameRect_todo(final int[] rc, int anim, final int aframe, final int posX, final int posY, final boolean b, final boolean b2) {
         if (!b2) {
-            int sub_31e6 = this.sub_31e6(n);
-            int sub_3238 = this.sub_3238(n);
-            int sub_312c = this.sub_312c(n);
-            int sub_3239 = this.sub_3189(n);
-            if ((n4 & 0x1) != 0x0) {
+            int sub_31e6 = this.sub_31e6(anim);
+            int sub_3238 = this.sub_3238(anim);
+            int sub_312c = this.sub_312c(anim);
+            int sub_3239 = this.sub_3189(anim);
+            if ((posY & 0x1) != 0x0) {
                 sub_31e6 = -sub_31e6 - sub_312c;
             }
-            if ((n4 & 0x2) != 0x0) {
+            if ((posY & 0x2) != 0x0) {
                 sub_3238 = -sub_3238 - sub_3239;
             }
-            if ((n4 & 0x4) != 0x0) {
-                n = sub_31e6;
+            if ((posY & 0x4) != 0x0) {
+                anim = sub_31e6;
                 sub_31e6 = -sub_3238 - sub_3239;
-                sub_3238 = n;
-                n = sub_312c;
+                sub_3238 = anim;
+                anim = sub_312c;
                 sub_312c = sub_3239;
-                sub_3239 = n;
+                sub_3239 = anim;
             }
-            ASprite.var_1127 = n2 + sub_31e6;
-            ASprite.var_112f = n3 + sub_3238;
-            ASprite.var_1137 = ASprite.var_1127 + sub_312c;
-            ASprite.var_113f = ASprite.var_112f + sub_3239;
+            ASprite._rectX1 = aframe + sub_31e6;
+            ASprite._rectY1 = posX + sub_3238;
+            ASprite._rectX2 = ASprite._rectX1 + sub_312c;
+            ASprite._rectY2 = ASprite._rectY1 + sub_3239;
         }
         else {
-            ASprite.var_1127 = Integer.MAX_VALUE;
-            ASprite.var_112f = Integer.MAX_VALUE;
-            ASprite.var_1137 = Integer.MIN_VALUE;
-            ASprite.var_113f = Integer.MIN_VALUE;
+            ASprite._rectX1 = Integer.MAX_VALUE;
+            ASprite._rectY1 = Integer.MAX_VALUE;
+            ASprite._rectX2 = Integer.MIN_VALUE;
+            ASprite._rectY2 = Integer.MIN_VALUE;
             ASprite.var_121f = 1;
-            this.sub_71ae(null, n, n2, n3, n4);
+            this.PaintFrame(null, anim, aframe, posX, posY);
             ASprite.var_121f = 0;
         }
-        array[0] = ASprite.var_1127;
-        array[1] = ASprite.var_112f;
-        array[2] = ASprite.var_1137;
-        array[3] = ASprite.var_113f;
+        rc[0] = ASprite._rectX1;
+        rc[1] = ASprite._rectY1;
+        rc[2] = ASprite._rectX2;
+        rc[3] = ASprite._rectY2;
     }
     
     final void sub_3524(final int[] array, final int n, final int n2, final int n3) {
-        this.sub_33f1(array, n, n2, n3, 0, false, false);
+        this.GetAFrameRect_todo(array, n, n2, n3, 0, false, false);
     }
     
     final void sub_354b(final int[] array, int sub_30a6, int n, final int n2, final int n3, final int n4) {
@@ -853,7 +853,7 @@ public final class ASprite
             sub_3062 = -sub_30a6;
             sub_30a6 = n;
         }
-        this.sub_33f1(array, n7, n2 + sub_3062, n3 + sub_30a6, n6, false, false);
+        this.GetAFrameRect_todo(array, n7, n2 + sub_3062, n3 + sub_30a6, n6, false, false);
     }
     
     final int sub_36dd() {
@@ -878,20 +878,20 @@ public final class ASprite
         }
     }
     
-    final int sub_377d(final int n) {
-        int sub_3019;
-        for (int n2 = sub_3019 = this.sub_3019(n), i = 0; i < n2; ++i) {
-            final int sub_32e3 = this.sub_32e3(n, i);
-            if ((this.sub_332f(n, i) & 0x10) != 0x0) {
-                sub_3019 = sub_3019 - 1 + this.sub_377d(sub_32e3);
+    final int CountFrameModules(final int frame) {
+        int realcount;
+        for (int count = realcount = this.GetFModules(frame), fmodule = 0; fmodule < count; ++fmodule) {
+            final int index = this.sub_32e3(frame, fmodule);
+            if ((this.sub_332f(frame, fmodule) & 0x10) != 0x0) {
+                realcount = realcount - 1 + this.CountFrameModules(index);
             }
         }
-        return sub_3019;
+        return realcount;
     }
     
-    private int sub_3801(final int n) {
+    private int getStartModuleData(final int module) {
         if (this._modules_data_off_int != null) {
-            return this._modules_data_off_int[n];
+            return this._modules_data_off_int[module];
         }
         return -1;
     }
@@ -958,12 +958,12 @@ public final class ASprite
     }
     
     public final void sub_3af1() {
-        this.var_115f = new GLLibImage[this._palettes][this._nModules];
+        this.nope = new GLLibImage[this._palettes][this._nModules];
         this.var_1167 = new int[this._palettes][this._nModules];
     }
     
     public final boolean sub_3b2c() {
-        return this.var_115f != null;
+        return this.nope != null;
     }
     
     private static int sub_3b62(final int[] array, final int n) {
@@ -976,9 +976,9 @@ public final class ASprite
             final int[] sub_5a52 = GLLib.sub_5a52(sub_5a53 = GLLib.sub_5a72());
             final int n5 = sub_5a53;
             final int[] array = sub_5a52;
-            if (this.var_115f != null && this.var_115f[this._crt_pal][n] != null && sub_3b62(array, n5) == this.var_1167[this._crt_pal][n]) {
+            if (this.nope != null && this.nope[this._crt_pal][n] != null && sub_3b62(array, n5) == this.var_1167[this._crt_pal][n]) {
                 final GLLibImage class_l2;
-                final GLLibImage class_l = class_l2 = this.var_115f[this._crt_pal][n];
+                final GLLibImage class_l = class_l2 = this.nope[this._crt_pal][n];
                 final int width = class_l.image.getWidth();
                 final int height = class_l2.image.getHeight();
                 final int n6 = ASprite.midp2_flags[n4];
@@ -997,56 +997,45 @@ public final class ASprite
             final int[] sub_5a52 = GLLib.sub_5a52(sub_5a53 = GLLib.sub_5a72());
             final GLLibImage sub_1d9 = GLLibImage.createRGBImage(array, GLLib.var_201f, GLLib.var_2027, true);
             
-            final int n5 = n;
-            final GLLibImage class_l = sub_1d9;
-            final int n6 = sub_5a53;
-            final int[] array2 = sub_5a52;
-            final int n7 = n6;
-            final GLLibImage class_l2 = class_l;
-            n = n5;
-            this.var_115f[this._crt_pal][n] = class_l2;
-            this.var_1167[this._crt_pal][n] = sub_3b62(array2, n7);
-            final GLLibImage class_l3 = sub_1d9;
+            this.nope[this._crt_pal][n] = sub_1d9;
+            this.var_1167[this._crt_pal][n] = sub_3b62(sub_5a52, sub_5a53);
             final int width = sub_1d9.image.getWidth();
             final int height = sub_1d9.image.getHeight();
-            n4 = ASprite.midp2_flags[n4];
-            final int n8 = height;
-            n = width;
-            GLLib.DrawRegion(GLLib.g, class_l3, 0, 0, n, n8, n4, n2, n3, 20, false);
+            GLLib.DrawRegion(GLLib.g, sub_1d9, 0, 0, width, height, ASprite.midp2_flags[n4], n2, n3, 20, false);
             return true;
         }
         return false;
     }
     
-    static void sub_3d55(final int n) {
-        ASprite._poolCacheStack = new short[n][];
-        ASprite._poolCacheSprites = new ASprite[n][];
-        ASprite._poolCacheStackIndex = new int[n];
-        ASprite.var_1187 = new int[n];
+    static void InitCachePool(final int poolCount) {
+        ASprite._poolCacheStack = new short[poolCount][];
+        ASprite._poolCacheSprites = new ASprite[poolCount][];
+        ASprite._poolCacheStackIndex = new int[poolCount];
+        ASprite._poolCacheStackMax = new int[poolCount];
     }
     
-    static void sub_3d8a(final int n, int i) {
-        ASprite.var_1187[n] = i;
-        ASprite._poolCacheStack[n] = new short[i];
-        ASprite._poolCacheSprites[n] = new ASprite[i];
-        for (i = 0; i < ASprite._poolCacheStack[n].length; ++i) {
-            ASprite._poolCacheStack[n][i] = -1;
+    static void InitPoolSize(final int poolIndex, int size) {
+        ASprite._poolCacheStackMax[poolIndex] = size;
+        ASprite._poolCacheStack[poolIndex] = new short[size];
+        ASprite._poolCacheSprites[poolIndex] = new ASprite[size];
+        for (size = 0; size < ASprite._poolCacheStack[poolIndex].length; ++size) {
+            ASprite._poolCacheStack[poolIndex][size] = -1;
         }
     }
     
-    final void sub_3dee(int i) {
-        this._cur_pool = i;
+    final void SetPool(int poolIndex) {
+        this._cur_pool = poolIndex;
         if (this._module_image_imageAA == null) {
             this._module_image_imageAA = new GLLibImage[this._palettes][];
-            for (i = 0; i < this._palettes; ++i) {
-                this._module_image_imageAA[i] = new GLLibImage[this._nModules];
+            for (poolIndex = 0; poolIndex < this._palettes; ++poolIndex) {
+                this._module_image_imageAA[poolIndex] = new GLLibImage[this._nModules];
             }
         }
     }
     
     final void sub_3e59() {
         if (this._cur_pool >= 0) {
-            for (int i = 0; i < ASprite.var_1187[this._cur_pool]; ++i) {
+            for (int i = 0; i < ASprite._poolCacheStackMax[this._cur_pool]; ++i) {
                 if (ASprite._poolCacheSprites[this._cur_pool][i] == this) {
                     final short n2;
                     final int n = (n2 = ASprite._poolCacheStack[this._cur_pool][i]) >> 10;
@@ -1070,7 +1059,7 @@ public final class ASprite
             }
             ASprite._poolCacheStack[this._cur_pool][cur_index] = (short)((module & 0x3FF) + (this._crt_pal << 10));
             ASprite._poolCacheSprites[this._cur_pool][cur_index] = this;
-            ASprite._poolCacheStackIndex[this._cur_pool] = (ASprite._poolCacheStackIndex[this._cur_pool] + 1) % ASprite.var_1187[this._cur_pool];
+            ASprite._poolCacheStackIndex[this._cur_pool] = (ASprite._poolCacheStackIndex[this._cur_pool] + 1) % ASprite._poolCacheStackMax[this._cur_pool];
             this._module_image_imageAA[this._crt_pal][module] = (GLLibImage)cached;
         }
     }
@@ -1082,7 +1071,7 @@ public final class ASprite
     private int[] DecodeImage_int(int module) {
         if (this._modules_data_off_int != null && this._modules_data != null) {
             final byte b = (byte)((this.var_1117 == null) ? 0 : this.var_1117[module]);
-            final int sub_3801 = this.sub_3801(module);
+            final int sub_3801 = this.getStartModuleData(module);
             final int sizeX = this._modules_w_short[module] & 0xFFFF;
             final int sizeY = this._modules_h_short[module] & 0xFFFF;
             module = sub_3801;
@@ -1188,49 +1177,49 @@ public final class ASprite
         return null;
     }
     
-    final void sub_46d6(final short[] array) {
-        this.var_11ef = array[0];
-        this.var_11e7 = new short[this.var_11ef][];
-        int n = 1;
-        for (short n2 = 0; n2 < this.var_11ef; ++n2) {
-            (this.var_11e7[n2] = new short[2])[0] = array[n++];
-            this.var_11e7[n2][1] = array[n++];
+    final void SetCharMap(final short[] pNewMap) {
+        this._nDivider = pNewMap[0];
+        this._pMapCharShort = new short[this._nDivider][];
+        int index = 1;
+        for (int i = 0; i < this._nDivider; ++i) {
+            (this._pMapCharShort[i] = new short[2])[0] = pNewMap[index++];
+            this._pMapCharShort[i][1] = pNewMap[index++];
         }
-        int i = n;
-        while (i < array.length) {
-            final short n3 = array[i++];
-            final int n4;
-            final short[] array2;
-            (array2 = new short[((n4 = array[i++]) << 1) + 2])[0] = this.var_11e7[n3][0];
-            array2[1] = this.var_11e7[n3][1];
-            for (int j = 0; j < n4; ++j) {
-                array2[(j << 1) + 2] = array[i++];
-                array2[(j << 1) + 3] = array[i++];
+        int i = index;
+        while (i < pNewMap.length) {
+            final int insertIndex = pNewMap[i++];
+            final int count;
+            final short[] newEntry;
+            (newEntry = new short[((count = pNewMap[i++]) << 1) + 2])[0] = this._pMapCharShort[insertIndex][0];
+            newEntry[1] = this._pMapCharShort[insertIndex][1];
+            for (int j = 0; j < count; ++j) {
+                newEntry[(j << 1) + 2] = pNewMap[i++];
+                newEntry[(j << 1) + 3] = pNewMap[i++];
             }
-            this.var_11e7[n3] = array2;
+            this._pMapCharShort[insertIndex] = newEntry;
         }
         this.var_11cf = this.sub_33a1(0, 0);
         this.var_11af = this.var_11cf + this.sub_33a1(0, 1);
         
         this.var_11b7 = this.sub_33a1(0, 2) - this.sub_33a1(0, 1);
-        this.var_11c7 = this.sub_3379(this.sub_4851(32));
+        this._nSpaceWidth = this.sub_3379(this.GetCharFrame(32));
     }
     
-    private int sub_4851(final int n) {
-        if (this.var_11e7 == null) {
+    private int GetCharFrame(final int n) {
+        if (this._pMapCharShort == null) {
             return 0;
         }
-        final int n2 = n % this.var_11ef;
-        if (this.var_11e7[n2][0] == n) {
-            return this.var_11e7[n2][1];
+        final int n2 = n % this._nDivider;
+        if (this._pMapCharShort[n2][0] == n) {
+            return this._pMapCharShort[n2][1];
         }
         int n3;
         int length;
-        for (n3 = 2, length = this.var_11e7[n2].length; n3 < length && this.var_11e7[n2][n3] != n; n3 += 2) {}
+        for (n3 = 2, length = this._pMapCharShort[n2].length; n3 < length && this._pMapCharShort[n2][n3] != n; n3 += 2) {}
         if (n3 >= length) {
             return 1;
         }
-        return this.var_11e7[n2][n3 + 1];
+        return this._pMapCharShort[n2][n3 + 1];
     }
     
     final int sub_490a() {
@@ -1240,7 +1229,7 @@ public final class ASprite
         return this.var_11b7;
     }
     
-    final int sub_494e() {
+    final int _GetLineHeight() {
         if (this.var_11f7 >= 0) {
             return this.var_11af * this.var_11f7 >> 8;
         }
@@ -1249,23 +1238,23 @@ public final class ASprite
     
     private int GetSpaceWidth() {
         if (this.var_11f7 >= 0) {
-            return this.var_11c7 * this.var_11f7 >> 8;
+            return this._nSpaceWidth * this.var_11f7 >> 8;
         }
-        return this.var_11c7;
+        return this._nSpaceWidth;
     }
     
-    private int sub_49d6() {
+    private int GetLineHeight() {
         if (this.var_11f7 >= 0) {
-            return this.var_11bf * this.var_11f7 >> 8;
+            return this._nHeight * this.var_11f7 >> 8;
         }
-        return this.var_11bf;
+        return this._nHeight;
     }
     
-    final void sub_4a1a(final int var_11bf) {
-        this.var_11bf = var_11bf;
+    final void SetLineHeight(final int SetLineHeight) {
+        this._nHeight = SetLineHeight;
     }
     
-    final int sub_4a3a() {
+    final int i_forgot_what_this_is() {
         if (this.var_11f7 >= 0) {
             return this.var_11af * this.var_11f7 >> 8;
         }
@@ -1290,18 +1279,18 @@ public final class ASprite
         short lineSize = 0;
         int n3 = 1;
         int lastSpacePos = 0;
-        int var_11df = this.var_11df ? 1 : 0;
-        int var_11d7 = this.var_11d7 ? 1 : 0;
+        int var_11df = this._bBold ? 1 : 0;
+        int var_11d7 = this._bUnderline ? 1 : 0;
         int _crt_pal = this._crt_pal;
         int n4 = 0;
         short n5 = 0;
-        int var_11df2 = this.var_11df ? 1 : 0;
-        int var_11d8 = this.var_11d7 ? 1 : 0;
+        int var_11df2 = this._bBold ? 1 : 0;
+        int var_11d8 = this._bUnderline ? 1 : 0;
         int _crt_pal2;
         int n6 = ((_crt_pal2 = this._crt_pal) & 0xFFF) | ((var_11df2 != 0) ? 4096 : 0) | ((var_11d8 != 0) ? 8192 : 0);
         for (int i = 0; i < str_len; ++i) {
             final char c = s.charAt(i);
-            final int sub_63ed = this.sub_63ed(this.sub_4851(c));
+            final int sub_63ed = this.GetLineSpacing(this.GetCharFrame(c));
             if (c == ' ' || c == ASprite.var_1157) {
                 if (c == ' ') {
                     lineSize += (short)this.GetSpaceWidth();
@@ -1388,7 +1377,7 @@ public final class ASprite
                     }
                     ++i;
                 }
-                int n18 = sub_63ed + this.sub_49d6();
+                int n18 = sub_63ed + this.GetLineHeight();
                 if (var_11df2 != 0) {
                     ++n18;
                 }
@@ -1450,95 +1439,95 @@ public final class ASprite
         return ASprite._warpTextInfo;
     }
     
-    final void sub_547f(final Graphics graphics, final String s, final short[] array, final int n, int n2, int n3, int n4, final int n5, int sub_4a3a, final boolean b) {
-        n3 = array[0];
-        sub_4a3a = this.sub_4a3a();
-        if (n4 == -1) {
-            n4 = n3;
+    final void DrawPageB(final Graphics g, final String s, final short[] info, final int x, int y, int startLine, int maxLines, final int anchor, int sub_4a3a, final boolean b) {
+        startLine = info[0];
+        sub_4a3a = this.i_forgot_what_this_is();
+        if (maxLines == -1) {
+            maxLines = startLine;
         }
-        if (n4 > n3) {
-            n4 = n3;
+        if (maxLines > startLine) {
+            maxLines = startLine;
         }
         sub_4a3a += this.sub_490a();
-        if ((n5 & 0x20) != 0x0) {
-            n2 -= sub_4a3a * (n4 - 1);
+        if ((anchor & 0x20) != 0x0) {
+            y -= sub_4a3a * (maxLines - 1);
         }
-        else if ((n5 & 0x2) != 0x0) {
-            n2 -= sub_4a3a * (n4 - 1) >> 1;
+        else if ((anchor & 0x2) != 0x0) {
+            y -= sub_4a3a * (maxLines - 1) >> 1;
         }
-        ASprite.var_1197 = this._crt_pal;
-        final boolean var_11df = this.var_11df;
-        final boolean var_11d7 = this.var_11d7;
+        ASprite._old_pal = this._crt_pal;
+        final boolean var_11df = this._bBold;
+        final boolean var_11d7 = this._bUnderline;
         final int sub_3600;
-        final int n6 = (sub_3600 = GLLib.sub_3600(graphics, true)) + GLLib.sub_367d(graphics, true);
+        final int n6 = (sub_3600 = GLLib.sub_3600(g, true)) + GLLib.sub_367d(g, true);
         final int n7 = sub_3600 - sub_4a3a;
         final int n8 = n6 + sub_4a3a;
-        for (int n9 = 0, n10 = 0; n10 < n3 && n9 <= n4 - 1; ++n10, ++n9) {
-            ASprite.var_1207 = ((n10 > 0) ? sub_4a7e(array, n10 - 1) : 0);
-            ASprite.var_120f = sub_4a7e(array, n10);
-            if (ASprite.var_1207 < s.length() && s.charAt(ASprite.var_1207) == '\n') {
-                ++ASprite.var_1207;
+        for (int n9 = 0, n10 = 0; n10 < startLine && n9 <= maxLines - 1; ++n10, ++n9) {
+            ASprite._index1 = ((n10 > 0) ? sub_4a7e(info, n10 - 1) : 0);
+            ASprite._index2 = sub_4a7e(info, n10);
+            if (ASprite._index1 < s.length() && s.charAt(ASprite._index1) == '\n') {
+                ++ASprite._index1;
             }
-            int n11 = n;
-            int n12;
-            if ((n12 = n2 + n9 * sub_4a3a) >= n7) {
-                if (n12 > n8) {
+            int xx = x;
+            int yy;
+            if ((yy = y + n9 * sub_4a3a) >= n7) {
+                if (yy > n8) {
                     break;
                 }
-                if ((n5 & 0x2B) != 0x0) {
+                if ((anchor & 0x2B) != 0x0) {
                     if (this.var_11f7 >= 0) {
-                        if ((n5 & 0x8) != 0x0) {
-                            n11 = n - (sub_4aa2(array, n10) * this.var_11f7 >> 8);
+                        if ((anchor & 0x8) != 0x0) {
+                            xx = x - (sub_4aa2(info, n10) * this.var_11f7 >> 8);
                         }
-                        else if ((n5 & 0x1) != 0x0) {
-                            n11 = n - (sub_4aa2(array, n10) * this.var_11f7 >> 9);
+                        else if ((anchor & 0x1) != 0x0) {
+                            xx = x - (sub_4aa2(info, n10) * this.var_11f7 >> 9);
                         }
                     }
-                    else if ((n5 & 0x8) != 0x0) {
-                        n11 = n - sub_4aa2(array, n10);
+                    else if ((anchor & 0x8) != 0x0) {
+                        xx = x - sub_4aa2(info, n10);
                     }
-                    else if ((n5 & 0x1) != 0x0) {
-                        n11 = n - (sub_4aa2(array, n10) >> 1);
+                    else if ((anchor & 0x1) != 0x0) {
+                        xx = x - (sub_4aa2(info, n10) >> 1);
                     }
-                    if ((n5 & 0x20) != 0x0) {
-                        n12 -= this.sub_4a3a();
+                    if ((anchor & 0x20) != 0x0) {
+                        yy -= this.i_forgot_what_this_is();
                     }
-                    else if ((n5 & 0x2) != 0x0) {
-                        n12 -= this.sub_4a3a() >> 1;
+                    else if ((anchor & 0x2) != 0x0) {
+                        yy -= this.i_forgot_what_this_is() >> 1;
                     }
                 }
-                final short n13 = array[n10 * 3 + 3];
-                this.var_11df = ((n13 & 0x1000) != 0x0);
-                this.var_11d7 = ((n13 & 0x2000) != 0x0);
+                final short n13 = info[n10 * 3 + 3];
+                this._bBold = ((n13 & 0x1000) != 0x0);
+                this._bUnderline = ((n13 & 0x2000) != 0x0);
                 this.SetCurrentPalette(n13 & 0xFFF);
-                this.sub_5cf9(graphics, s, n11, n12, 0, false);
+                this.DrawStringOrChars(g, s, xx, yy, 0, false);
             }
         }
-        ASprite.var_1207 = -1;
-        ASprite.var_120f = -1;
+        ASprite._index1 = -1;
+        ASprite._index2 = -1;
         ASprite.var_1217 = -1;
-        this._crt_pal = ASprite.var_1197;
-        this.var_11df = var_11df;
-        this.var_11d7 = var_11d7;
+        this._crt_pal = ASprite._old_pal;
+        this._bBold = var_11df;
+        this._bUnderline = var_11d7;
     }
     
-    final void sub_5917(final String s, final char[] array) {
+    final void UpdateStringOrCharsSize(final String s, final char[] charBuff) {
         if (s == null) {
             return;
         }
-        ASprite.var_119f = 0;
-        ASprite.var_11a7 = this.sub_4a3a();
+        ASprite._text_w = 0;
+        ASprite._text_h = this.i_forgot_what_this_is();
         int n = 0;
         final boolean b = s != null;
-        int i = (ASprite.var_1207 >= 0) ? ASprite.var_1207 : 0;
+        int i = (ASprite._index1 >= 0) ? ASprite._index1 : 0;
         int n2;
         if (b) {
-            n2 = ((ASprite.var_120f >= 0) ? ASprite.var_120f : s.length());
+            n2 = ((ASprite._index2 >= 0) ? ASprite._index2 : s.length());
         }
         else {
-            n2 = ((ASprite.var_120f >= 0) ? ASprite.var_120f : 0);
+            n2 = ((ASprite._index2 >= 0) ? ASprite._index2 : 0);
         }
-        boolean var_11df = this.var_11df;
+        boolean var_11df = this._bBold;
         while (i < n2) {
             Label_0328: {
                 final char c;
@@ -1551,7 +1540,7 @@ public final class ASprite
                 else {
                     int sub_4851;
                     if (c > ' ') {
-                        sub_4851 = this.sub_4851(c);
+                        sub_4851 = this.GetCharFrame(c);
                     }
                     else {
                         if (c == ' ' || c == ASprite.var_1157) {
@@ -1565,11 +1554,11 @@ public final class ASprite
                             break Label_0328;
                         }
                         if (c == '\n') {
-                            if (n > ASprite.var_119f) {
-                                ASprite.var_119f = n;
+                            if (n > ASprite._text_w) {
+                                ASprite._text_w = n;
                             }
                             n = 0;
-                            ASprite.var_11a7 += this.sub_490a() + this.sub_4a3a();
+                            ASprite._text_h += this.sub_490a() + this.i_forgot_what_this_is();
                             break Label_0328;
                         }
                         if (c == '\u0001') {
@@ -1582,7 +1571,7 @@ public final class ASprite
                         ++i;
                         sub_4851 = (b ? s.charAt(i) : 0);
                     }
-                    n += this.sub_63ed(sub_4851) + this.sub_49d6();
+                    n += this.GetLineSpacing(sub_4851) + this.GetLineHeight();
                     if (var_11df) {
                         ++n;
                     }
@@ -1590,77 +1579,68 @@ public final class ASprite
             }
             ++i;
         }
-        if (n > ASprite.var_119f) {
-            ASprite.var_119f = n;
+        if (n > ASprite._text_w) {
+            ASprite._text_w = n;
         }
-        if (ASprite.var_119f > 0) {
-            ASprite.var_119f -= this.sub_49d6();
+        if (ASprite._text_w > 0) {
+            ASprite._text_w -= this.GetLineHeight();
         }
     }
     
-    final void sub_5cd2(final Graphics graphics, final String s, final int n, final int n2, final int n3) {
-        this.sub_5cf9(graphics, s, n, n2, n3, true);
+    final void DrawString(final Graphics graphics, final String s, final int n, final int n2, final int n3) {
+        this.DrawStringOrChars(graphics, s, n, n2, n3, true);
     }
     
-    private void sub_5cf9(Graphics graphics, String s, int n, int n2, int n3, final boolean b) {
-        
-        final Graphics graphics2 = graphics;
-        final String s2 = s;
-        final int n4 = n;
-        final int n5 = n2;
-        n2 = n5;
-        n = n4;
-        s = s2;
-        graphics = graphics2;
+    private void DrawStringOrChars(Graphics graphics, String s, int x, int y, int anchor, final boolean restorecol) {
         
         if (s != null) {
             if (this.var_11f7 >= 0) {
-                n2 += this.var_11cf * this.var_11f7 >> 8;
+                y += this.var_11cf * this.var_11f7 >> 8;
             }
             else {
-                n2 += this.var_11cf;
+                y += this.var_11cf;
             }
-            final boolean b2 = s != null;
-            this.sub_5917(s, null);
-            if ((n3 & 0x2B) != 0x0) {
-                if ((n3 & 0x8) != 0x0) {
-                    n -= ASprite.var_119f;
+            final boolean isDrawString = s != null;
+            this.UpdateStringOrCharsSize(s, null);
+            if ((anchor & 0x2B) != 0x0) {
+                if ((anchor & 0x8) != 0x0) {
+                    x -= ASprite._text_w;
                 }
-                else if ((n3 & 0x1) != 0x0) {
-                    n -= ASprite.var_119f >> 1;
+                else if ((anchor & 0x1) != 0x0) {
+                    x -= ASprite._text_w >> 1;
                 }
-                if ((n3 & 0x20) != 0x0) {
-                    n2 -= ASprite.var_11a7;
+                if ((anchor & 0x20) != 0x0) {
+                    y -= ASprite._text_h;
                 }
-                else if ((n3 & 0x2) != 0x0) {
-                    n2 -= ASprite.var_11a7 >> 1;
+                else if ((anchor & 0x2) != 0x0) {
+                    y -= ASprite._text_h >> 1;
                 }
             }
-            n3 = n;
-            if (b) {
-                ASprite.var_1197 = this._crt_pal;
+            anchor = x;
+            if (restorecol) {
+                ASprite._old_pal = this._crt_pal;
             }
-            final int n6 = (ASprite.var_1207 >= 0) ? ASprite.var_1207 : 0;
-            int var_1217;
-            if (b2) {
-                var_1217 = ((ASprite.var_120f >= 0) ? ASprite.var_120f : s.length());
+            final int index1 = (ASprite._index1 >= 0) ? ASprite._index1 : 0;
+            int index2;
+            if (isDrawString) {
+                index2 = ((ASprite._index2 >= 0) ? ASprite._index2 : s.length());
             }
             else {
-                var_1217 = ((ASprite.var_120f >= 0) ? ASprite.var_120f : 0);
+                index2 = ((ASprite._index2 >= 0) ? ASprite._index2 : 0);
             }
-            if (ASprite.var_1217 >= 0 && var_1217 > ASprite.var_1217) {
-                var_1217 = ASprite.var_1217;
+            if (ASprite.var_1217 >= 0 && index2 > ASprite.var_1217) {
+                index2 = ASprite.var_1217;
             }
-            for (int i = n6; i < var_1217; ++i) {
+            for (int i = index1; i < index2; ++i) {
                 final char c;
-                if ((c = (b2 ? s.charAt(i) : 0)) == '\\') {
+                if ((c = (isDrawString ? s.charAt(i) : 0)) == '\\') {
                     ++i;
                     final char c2;
-                    if ((c2 = (b2 ? s.charAt(i) : 0)) == '_') {
-                        this.var_11d7 = !this.var_11d7;
+                    if ((c2 = (isDrawString ? s.charAt(i) : 0)) == '_') {
+                        this._bUnderline = !this._bUnderline;
                     }
                     else if (c2 == '^') {
-                        this.var_11df = !this.var_11df;
+                        this._bBold = !this._bBold;
                     }
                     else {
                         this.SetCurrentPalette((c2 & '\u00ff') - 48);
@@ -1669,30 +1649,30 @@ public final class ASprite
                 else if (c != ASprite.var_1157) {
                     int sub_4851;
                     if (c > ' ') {
-                        sub_4851 = this.sub_4851(c);
+                        sub_4851 = this.GetCharFrame(c);
                     }
                     else {
                         if (c == ' ') {
-                            if (this.var_11d7) {
-                                final int sub_4852 = this.sub_4851(95);
-                                this.sub_71ae(graphics, sub_4852, n3 + (this.GetSpaceWidth() - this.sub_63ed(sub_4852) >> 1), n2, 0);
+                            if (this._bUnderline) {
+                                final int uc = this.GetCharFrame(95);
+                                this.PaintFrame(graphics, uc, anchor + (this.GetSpaceWidth() - this.GetLineSpacing(uc) >> 1), y, 0);
                             }
-                            n3 += this.GetSpaceWidth();
+                            anchor += this.GetSpaceWidth();
                             continue;
                         }
                         if (c == '\n') {
-                            n3 = n;
-                            n2 += this.sub_490a() + this.sub_4a3a();
+                            anchor = x;
+                            y += this.sub_490a() + this.i_forgot_what_this_is();
                             continue;
                         }
                         if (c == '\u0001') {
                             ++i;
                             final char c3;
-                            if ((c3 = (b2 ? s.charAt(i) : 0)) < this._palettes) {
+                            if ((c3 = (isDrawString ? s.charAt(i) : 0)) < this._palettes) {
                                 this.SetCurrentPalette(c3);
                             }
                             if (c3 == '\u00ff') {
-                                this._crt_pal = ASprite.var_1197;
+                                this._crt_pal = ASprite._old_pal;
                             }
                             continue;
                         }
@@ -1701,29 +1681,29 @@ public final class ASprite
                                 continue;
                             }
                             ++i;
-                            sub_4851 = (b2 ? s.charAt(i) : 0);
+                            sub_4851 = (isDrawString ? s.charAt(i) : 0);
                         }
                     }
                     final int n7 = sub_4851;
-                    this.sub_71ae(graphics, n7, n3, n2, 0);
-                    if (this.var_11d7) {
-                        final int sub_4853 = this.sub_4851(95);
-                        this.sub_71ae(graphics, sub_4853, n3 + (this.sub_63ed(n7) - this.sub_63ed(sub_4853) >> 1), n2, 0);
+                    this.PaintFrame(graphics, n7, anchor, y, 0);
+                    if (this._bUnderline) {
+                        final int sub_4853 = this.GetCharFrame(95);
+                        this.PaintFrame(graphics, sub_4853, anchor + (this.GetLineSpacing(n7) - this.GetLineSpacing(sub_4853) >> 1), y, 0);
                     }
-                    if (this.var_11df) {
-                        ++n3;
-                        this.sub_71ae(graphics, n7, n3, n2, 0);
+                    if (this._bBold) {
+                        ++anchor;
+                        this.PaintFrame(graphics, n7, anchor, y, 0);
                     }
-                    n3 += this.sub_63ed(n7) + this.sub_49d6();
+                    anchor += this.GetLineSpacing(n7) + this.GetLineHeight();
                 }
             }
-            if (b) {
-                this._crt_pal = ASprite.var_1197;
+            if (restorecol) {
+                this._crt_pal = ASprite._old_pal;
             }
         }
     }
     
-    private final int sub_63ed(final int n) {
+    private final int GetLineSpacing(final int n) {
         if (this.var_11f7 >= 0) {
             return this.sub_3379(n) * this.var_11f7 >> 8;
         }
@@ -1813,7 +1793,7 @@ public final class ASprite
             System.gc();
             ASprite.useSystemGc = false;
         }
-        for (int sub_3019 = this.sub_3019(n2), i = 0; i < sub_3019; ++i) {
+        for (int sub_3019 = this.GetFModules(n2), i = 0; i < sub_3019; ++i) {
             final int sub_32e3;
             final int n3 = sub_32e3 = this.sub_32e3(n2, i);
             if (((this._module_image_imageAA != null && n >= 0 && n < this._module_image_imageAA.length && this._module_image_imageAA[n] != null && sub_32e3 >= 0 && sub_32e3 < this._module_image_imageAA[n].length) ? this._module_image_imageAA[n][sub_32e3] : null) == null) {
@@ -1924,7 +1904,7 @@ public final class ASprite
                         ASprite.s_screenHeight = var_10c7;
                         ASprite.s_screenWidth = var_10cf;
                     }
-                    this6.sub_71ae(graphics, n9, n10, n11, 0);
+                    this6.PaintFrame(graphics, n9, n10, n11, 0);
                     if ((n12 & 0x4) != 0x0) {
                         final int var_1ddf = GLLib.s_screenWidth;
                         final int var_1de7 = GLLib.s_screenHeight;
@@ -1995,10 +1975,10 @@ public final class ASprite
             sub_3062 = anim * sub_3062 / 100;
             sub_30a6 = flags * sub_30a6 / 100;
         }
-        this.sub_71ae(g, aframe, posX + sub_3062, posY + sub_30a6, n4);
+        this.PaintFrame(g, aframe, posX + sub_3062, posY + sub_30a6, n4);
     }
     
-    final void sub_71ae(final Graphics graphics, final int n, final int n2, final int n3, final int n4) {
+    final void PaintFrame(final Graphics graphics, final int n, final int n2, final int n3, final int n4) {
         this.sub_71d4(graphics, n, n2, n3, n4);
     }
     
@@ -2117,7 +2097,7 @@ public final class ASprite
                     }
                 }
             }
-            sub_3019 = this.sub_3019(n);
+            sub_3019 = this.GetFModules(n);
         }
         if (sub_3019 > 0) {
             for (int i = 0; i < sub_3019; ++i) {
@@ -2171,7 +2151,7 @@ public final class ASprite
     final void sub_7d2b(final Graphics graphics, final int n, final int n2, final int n3, final int n4) {
         GLLib.sub_5b71();
         GLLib.sub_5c41(n4);
-        this.sub_71ae(graphics, n, n2, n3, 0);
+        this.PaintFrame(graphics, n, n2, n3, 0);
         GLLib.sub_5b96();
     }
     
@@ -2704,8 +2684,8 @@ public final class ASprite
     
     public ASprite() {
         this._cur_pool = -1;
-        this.var_11d7 = false;
-        this.var_11df = false;
+        this._bUnderline = false;
+        this._bBold = false;
         this.var_11f7 = -1;
     }
     
@@ -2719,8 +2699,8 @@ public final class ASprite
         ASprite.s_rc = new int[4];
         ASprite.useSystemGc = true;
         ASprite.var_1157 = '|';
-        ASprite.var_1207 = -1;
-        ASprite.var_120f = -1;
+        ASprite._index1 = -1;
+        ASprite._index2 = -1;
         ASprite.var_1217 = -1;
         ASprite.var_121f = 0;
     }

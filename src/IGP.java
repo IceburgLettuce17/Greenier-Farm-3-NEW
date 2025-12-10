@@ -234,20 +234,20 @@ public final class IGP implements Runnable, CommandListener
         if (b) {
             if (var_1e45 == 0) {
                 var_1fd5.SetCurrentPalette(var_1e3d);
-                var_1fd5.sub_547f(g, s, var_1fd5.WraptextB(s, n, false), n2, n3, 0, 10, n4, -1, false);
+                var_1fd5.DrawPageB(g, s, var_1fd5.WraptextB(s, n, false), n2, n3, 0, 10, n4, -1, false);
                 return;
             }
             var_1fdd.SetCurrentPalette(var_1e3d);
-            var_1fdd.sub_547f(g, s, var_1fdd.WraptextB(s, n, false), n2, n3, 0, 10, n4, -1, false);
+            var_1fdd.DrawPageB(g, s, var_1fdd.WraptextB(s, n, false), n2, n3, 0, 10, n4, -1, false);
         }
         else {
             if (var_1e45 == 0) {
                 var_1fd5.SetCurrentPalette(var_1e3d);
-                var_1fd5.sub_5cd2(g, s, n2, n3, n4);
+                var_1fd5.DrawString(g, s, n2, n3, n4);
                 return;
             }
             var_1fdd.SetCurrentPalette(var_1e3d);
-            var_1fdd.sub_5cd2(g, s, n2, n3, n4);
+            var_1fdd.DrawString(g, s, n2, n3, n4);
         }
     }
     
@@ -732,18 +732,18 @@ public final class IGP implements Runnable, CommandListener
                 }
                 case 2: {
                     GLLib.Pack_Open("/11");
-                    (var_1fd5 = sub_680f(var_1d35, 3, true, false)).sub_46d6((short[])GLLib.Pack_ReadArray(var_1d45));
-                    var_1e35 = var_1fd5.sub_494e();
-                    (var_1fdd = sub_680f(var_1d3d, 3, true, false)).sub_46d6((short[])GLLib.Pack_ReadArray(var_1d4d));
+                    (var_1fd5 = sub_680f(var_1d35, 3, true, false)).SetCharMap((short[])GLLib.Pack_ReadArray(var_1d45));
+                    var_1e35 = var_1fd5._GetLineHeight();
+                    (var_1fdd = sub_680f(var_1d3d, 3, true, false)).SetCharMap((short[])GLLib.Pack_ReadArray(var_1d4d));
                     if (s_screenWidth > 160 && s_screenWidth > 220) {
                         if (s_screenWidth <= 320) {
-                            var_1fd5.sub_4a1a(-1);
+                            var_1fd5.SetLineHeight(-1);
                             if (s_screenHeight == 240 || var_1efd) {
-                                var_1fd5.sub_4a1a(0);
+                                var_1fd5.SetLineHeight(0);
                             }
                         }
                         else if (s_screenWidth <= 480) {
-                            var_1fdd.sub_4a1a(-1);
+                            var_1fdd.SetLineHeight(-1);
                         }
                     }
                     GLLib.Pack_FullyClose();
@@ -767,7 +767,7 @@ public final class IGP implements Runnable, CommandListener
     private static void sub_3a10(final boolean b) {
         for (int i = 0; i < var_1d55; ++i) {
             if (var_1fcd[i] != null && i != var_1d35 && i != var_1d45 && i != var_1d3d && i != var_1d4d && i != 0) {
-                var_1fcd[i].sub_123f();
+                var_1fcd[i].unload();
                 var_1fcd[i] = null;
             }
         }
@@ -779,14 +779,14 @@ public final class IGP implements Runnable, CommandListener
             StringLoading = null;
             for (int j = 0; j < var_1d55; ++j) {
                 if (var_1fcd[j] != null) {
-                    var_1fcd[j].sub_123f();
+                    var_1fcd[j].unload();
                     var_1fcd[j] = null;
                 }
             }
             var_1fcd = null;
-            var_1fd5.sub_123f();
+            var_1fd5.unload();
             var_1fd5 = null;
-            var_1fdd.sub_123f();
+            var_1fdd.unload();
             var_1fdd = null;
         }
         System.gc();
@@ -846,9 +846,9 @@ public final class IGP implements Runnable, CommandListener
                         }
                         final int sub_48cb4 = sub_48cb(0, 15);
                         final int sub_48cb5 = sub_48cb(0, 29);
-                        var_1fd5.sub_5917(sub_2306(var_1cd5), null);
+                        var_1fd5.UpdateStringOrCharsSize(sub_2306(var_1cd5), null);
                         final short[] sub_4ac6 = var_1fd5.WraptextB(sub_2306(var_1cd5), var_1fa5 - sub_48a7, false);
-                        var_1e55 = ASprite.var_119f;
+                        var_1e55 = ASprite._text_w;
                         int n3 = var_1e4d = sub_4ac6[0] * var_1e35;
                         if (sub_48cb > var_1e4d) {
                             n3 = sub_48cb;
@@ -901,7 +901,7 @@ public final class IGP implements Runnable, CommandListener
                         var_1f4d[var_1d65][1] = 3;
                         var_1f4d[var_1d6d][0] = (var_1fa5 - n7 >> 2) * 3;
                         var_1f4d[var_1d6d][1] = var_1f4d[var_1d65][1];
-                        final int sub_33a1 = var_1fcd[0].sub_33a1(15, var_1fcd[0].sub_377d(15) - 1);
+                        final int sub_33a1 = var_1fcd[0].sub_33a1(15, var_1fcd[0].CountFrameModules(15) - 1);
                         var_1f4d[var_1d75][0] = var_1fa5 >> 2;
                         var_1f4d[var_1d75][1] = var_1f4d[var_1d65][1] + (sub_33a1 >> 1) + n5;
                         var_1f4d[var_1d7d][0] = (var_1fa5 >> 1) + (var_1fa5 >> 2);
@@ -963,7 +963,7 @@ public final class IGP implements Runnable, CommandListener
                         var_1f4d[var_1db5][1] = var_1f4d[var_1d8d][1] + sub_48cb2 - n11;
                         var_1f4d[var_1e05][0] = 0;
                         var_1f4d[var_1e05][1] = var_1f4d[0][1] - (sub_48cb5 >> 1);
-                        var_1fa5 = var_1fcd[0].sub_377d(15);
+                        var_1fa5 = var_1fcd[0].CountFrameModules(15);
                         var_1fa5 = var_1fcd[0].sub_33a1(15, var_1fa5 - 1);
                         var_1f4d[var_1e05][1] = var_1f4d[var_1d65][1] + (var_1fa5 >> 1) - (sub_48cb5 >> 1);
                     }
@@ -1662,7 +1662,7 @@ public final class IGP implements Runnable, CommandListener
     }
     
     private static void sub_6676(final Graphics graphics, final int n, final int n2, final int n3, final int n4) {
-        var_1fcd[n].sub_71ae(graphics, n2, n3, n4, 0);
+        var_1fcd[n].PaintFrame(graphics, n2, n3, n4, 0);
     }
     
     private static void sub_669f(final Graphics graphics, int max, int max2, int min, int min2) {

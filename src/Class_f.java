@@ -1030,10 +1030,10 @@ final class Class_f
                                 cGame.sub_264d4(Class_f.var_190d[n10], array);
                                 GLLib.SetClip(GLLib.g, array[0], array[1], array2[0] - array[0], array2[1] - array[1], true);
                                 if (cGame.var_7fc4 == 100) {
-                                    class_e2.sub_71ae(GLLib.g, class_f.var_186d, class_f.var_17ed, class_f.var_17f5, 0);
+                                    class_e2.PaintFrame(GLLib.g, class_f.var_186d, class_f.var_17ed, class_f.var_17f5, 0);
                                 }
                                 else if (cGame.sub_438b0(class_f.var_1865)) {
-                                    class_e2.sub_71ae(GLLib.g, class_e2.sub_3717() / 2 + class_f.var_186d, class_f.var_17ed, class_f.var_17f5, 0);
+                                    class_e2.PaintFrame(GLLib.g, class_e2.sub_3717() / 2 + class_f.var_186d, class_f.var_17ed, class_f.var_17f5, 0);
                                 }
                                 else {
                                     class_e2.sub_7d2b(GLLib.g, class_f.var_186d, class_f.var_17ed, class_f.var_17f5, cGame.var_7fc4);
@@ -1056,7 +1056,7 @@ final class Class_f
                             int n11 = class_f.var_17ed + class_f.var_16ad;
                             final int n12 = class_f.var_17f5 + class_f.var_16b5;
                             if (cGame.var_7fc4 == 100) {
-                                cGame.var_68d4[1].sub_71ae(GLLib.g, 34, n11, n12, 0);
+                                cGame.var_68d4[1].PaintFrame(GLLib.g, 34, n11, n12, 0);
                             }
                             else {
                                 n11 += 10;
@@ -1069,7 +1069,7 @@ final class Class_f
                         final int n13 = class_f.var_17ed + 5;
                         int n14 = class_f.var_17f5 - 80;
                         if (cGame.var_7fc4 == 100) {
-                            cGame.var_68d4[1].sub_71ae(GLLib.g, 64, n13, n14, 0);
+                            cGame.var_68d4[1].PaintFrame(GLLib.g, 64, n13, n14, 0);
                             break;
                         }
                         n14 += 40;
@@ -1099,7 +1099,7 @@ final class Class_f
                     }
                     if (b && cGame.sub_2cad2(class_f)) {
                         if (cGame.var_7fc4 == 100) {
-                            cGame.var_7ff4[14].sub_71ae(GLLib.g, class_f.var_1825, class_f.var_17ed, class_f.var_17f5, 0);
+                            cGame.var_7ff4[14].PaintFrame(GLLib.g, class_f.var_1825, class_f.var_17ed, class_f.var_17f5, 0);
                         }
                         else {
                             cGame.var_7ff4[14].sub_7d2b(GLLib.g, class_f.var_1825, class_f.var_17ed, class_f.var_17f5, cGame.var_7fc4);
@@ -1626,12 +1626,12 @@ final class Class_f
         }
         class_e.SetCurrentPalette(var_1875);
         if (cGame.var_7fc4 == 100) {
-            class_e.sub_71ae(GLLib.g, n2, this.var_17ed, this.var_17f5, 0);
+            class_e.PaintFrame(GLLib.g, n2, this.var_17ed, this.var_17f5, 0);
             return;
         }
         if (cGame.var_7fc4 < 100 && cGame.sub_438b0(n)) {
             n = class_e.sub_3717() / 2 + n2;
-            class_e.sub_71ae(GLLib.g, n, this.var_17ed, this.var_17f5, 0);
+            class_e.PaintFrame(GLLib.g, n, this.var_17ed, this.var_17f5, 0);
             return;
         }
         class_e.sub_7d2b(GLLib.g, n2, this.var_17ed, this.var_17f5, cGame.var_7fc4);

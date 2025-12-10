@@ -1493,7 +1493,7 @@ final class GLLibPlayer implements Runnable
                                 n15 += tileHeight;
                             }
                         }
-                        GLLibPlayer.s_TilesetSprite[nLayer].sub_71ae(gDest, sub_7ab4, n15, n16, sub_7ab5);
+                        GLLibPlayer.s_TilesetSprite[nLayer].PaintFrame(gDest, sub_7ab4, n15, n16, sub_7ab5);
                     }
                     if (GLLibPlayer.var_1707 != 100) {
                         GLLib.sub_5c77(false);
@@ -1765,7 +1765,7 @@ final class GLLibPlayer implements Runnable
             sub_61f8(0, 0, class_e, 0, n, n2, n3, 0, 0, 0, b, array);
         }
         else {
-            class_e.sub_71ae(GLLib.g, n, n2 - sub_5b8b(0), n3 - sub_5c0b(0), 0);
+            class_e.PaintFrame(GLLib.g, n, n2 - sub_5b8b(0), n3 - sub_5c0b(0), 0);
         }
         if (GLLibPlayer.var_1707 != 100) {
             GLLib.sub_5c77(false);
