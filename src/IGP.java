@@ -541,8 +541,8 @@ public final class IGP implements Runnable, CommandListener
         String string = "";
         upperCase = upperCase.toUpperCase();
         boolean b = false;
-        final int var_2065 = s_screenWidth;
-        if (var_2065 >= s_screenHeight && var_2065 == 320) {
+        
+        if (s_screenWidth >= s_screenHeight && s_screenWidth == 320) {
             b = true;
         }
         final char[] charArray = upperCase.toCharArray();
@@ -838,7 +838,7 @@ public final class IGP implements Runnable, CommandListener
                         CurrentState = 1;
                         var_2015 = var_1fad;
                         var_1fa5 = s_screenWidth;
-                        final int var_205d = s_screenHeight;
+                        
                         var_1f4d = new int[var_1e15][];
                         for (int i = 0; i < var_1e15; ++i) {
                             (var_1f4d[i] = new int[2])[0] = 0;
@@ -851,7 +851,7 @@ public final class IGP implements Runnable, CommandListener
                         final int sub_48cb3 = sub_48cb(0, 9);
                         int n = sub_48a7(0, 10);
                         int n2 = sub_48cb(0, 10);
-                        if ((var_1fa5 == 240 && (var_205d == 320 || var_205d == 400)) || (var_1fa5 == 360 && (var_205d == 640 || var_205d == 480))) {
+                        if ((var_1fa5 == 240 && (s_screenHeight == 320 || s_screenHeight == 400)) || (var_1fa5 == 360 && (s_screenHeight == 640 || s_screenHeight == 480))) {
                             n = sub_48a7(0, 35);
                             n2 = sub_48cb(0, 35);
                         }
@@ -867,44 +867,44 @@ public final class IGP implements Runnable, CommandListener
                         if (n2 > n3) {
                             n3 = n2;
                         }
-                        final int n4 = var_205d - (var_1e35 + sub_48cb3 + sub_48cb2 + n3) - 3 - sub_48cb4 >> 2;
+                        final int n4 = s_screenHeight - (var_1e35 + sub_48cb3 + sub_48cb2 + n3) - 3 - sub_48cb4 >> 2;
                         int n5 = -3;
-                        if (var_205d <= 160) {
+                        if (s_screenHeight <= 160) {
                             n5 = 2;
                         }
-                        else if (var_205d <= 220) {
+                        else if (s_screenHeight <= 220) {
                             n5 = 1;
                         }
-                        else if (var_205d <= 240) {
+                        else if (s_screenHeight <= 240) {
                             n5 = 0;
                         }
-                        else if (var_205d <= 320) {
+                        else if (s_screenHeight <= 320) {
                             n5 = 0;
                             if (var_1fa5 == 240) {
                                 n5 = 1;
                             }
                         }
-                        else if (var_205d <= 360) {
+                        else if (s_screenHeight <= 360) {
                             n5 = 3;
                         }
-                        else if (var_205d <= 400) {
+                        else if (s_screenHeight <= 400) {
                             n5 = 1;
                         }
-                        else if (var_205d <= 480) {
+                        else if (s_screenHeight <= 480) {
                             n5 = 6;
                             if (var_1fa5 == 360) {
                                 n5 = 0;
                             }
                         }
-                        else if (var_205d <= 640) {
+                        else if (s_screenHeight <= 640) {
                             n5 = 0;
                         }
-                        else if (var_205d <= 800) {
+                        else if (s_screenHeight <= 800) {
                             n5 = 3;
                         }
                         int n6 = sub_48a7(0, 15);
                         int n7 = sub_48a7(0, 17);
-                        if ((var_1fa5 == 240 && (var_205d == 320 || var_205d == 400)) || (var_1fa5 == 360 && (var_205d == 640 || var_205d == 480))) {
+                        if ((var_1fa5 == 240 && (s_screenHeight == 320 || s_screenHeight == 400)) || (var_1fa5 == 360 && (s_screenHeight == 640 || s_screenHeight == 480))) {
                             n6 = sub_48a7(0, 31);
                             n7 = sub_48a7(0, 33);
                         }
@@ -933,12 +933,12 @@ public final class IGP implements Runnable, CommandListener
                         var_1f4d[var_1dc5][0] = var_1fa5 - 5 - sub_48a9;
                         var_1f4d[var_1dc5][1] = var_1f4d[var_1dbd][1];
                         var_1f4d[var_1dad][0] = var_1fa5 - var_1c2d - sub_48a7;
-                        var_1f4d[var_1dad][1] = var_205d - 2 - sub_48cb;
+                        var_1f4d[var_1dad][1] = s_screenHeight - 2 - sub_48cb;
                         var_1f4d[var_1e0d][0] = var_1c2d;
-                        var_1f4d[var_1e0d][1] = var_205d - 2 - sub_48cb;
+                        var_1f4d[var_1e0d][1] = s_screenHeight - 2 - sub_48cb;
                         final int n9 = var_1f4d[var_1dad][0] - (n << 1);
                         var_1f4d[var_1dd5][0] = n9 / 3;
-                        var_1f4d[var_1dd5][1] = var_205d - 2 - n2;
+                        var_1f4d[var_1dd5][1] = s_screenHeight - 2 - n2;
                         var_1f4d[var_1de5][0] = var_1f4d[var_1dd5][0] + (n >> 1) + n % 2;
                         var_1f4d[var_1de5][1] = var_1f4d[var_1dd5][1] + (n2 >> 1) + n5;
                         var_1f4d[var_1dcd][0] = var_1f4d[var_1dd5][0] + n + n9 / 3;
@@ -952,9 +952,9 @@ public final class IGP implements Runnable, CommandListener
                         var_1f4d[var_1d8d][0] = (var_1fa5 >> 1) - (sub_48a8 >> 1);
                         var_1f4d[var_1d8d][1] = var_1f4d[var_1d85][1] + sub_48cb3 + n4;
                         var_1f4d[var_1dfd][0] = var_1fa5 - sub_48a7 >> 1;
-                        var_1f4d[var_1dfd][1] = var_1f4d[var_1d8d][1] + sub_48cb2 + (var_205d - var_1f4d[var_1d8d][1] - sub_48cb2 >> 1);
+                        var_1f4d[var_1dfd][1] = var_1f4d[var_1d8d][1] + sub_48cb2 + (s_screenHeight - var_1f4d[var_1d8d][1] - sub_48cb2 >> 1);
                         var_1f4d[var_1dfd][0] = var_1fa5 - n >> 2;
-                        if (var_205d > var_1fa5) {
+                        if (s_screenHeight > var_1fa5) {
                             var_1f4d[var_1dfd][1] = var_1f4d[var_1d8d][1] + sub_48cb2 + (var_1f4d[var_1ddd][1] - (var_1f4d[var_1d8d][1] + sub_48cb2) >> 1);
                             var_1f4d[var_1dfd][0] = var_1fa5 >> 1;
                         }
@@ -966,7 +966,7 @@ public final class IGP implements Runnable, CommandListener
                         var_1f4d[var_1da5][1] = var_1f4d[var_1d9d][1];
                         int n10 = sub_48a7(0, 8);
                         int n11 = sub_48cb(0, 8);
-                        if (var_1fa5 == 360 && var_205d == 480) {
+                        if (var_1fa5 == 360 && s_screenHeight == 480) {
                             n10 = sub_48a7(0, 39);
                             n11 = sub_48cb(0, 39);
                         }
@@ -1168,20 +1168,20 @@ public final class IGP implements Runnable, CommandListener
     
     public static void sub_48ef(int n, int n2) {
         int sub_4b75 = sub_4b75(n, n2);
-        final int var_2065 = s_screenWidth;
-        final int var_205d = s_screenHeight;
+        
+        
         final int n3 = n;
         n = n2;
         n2 = n3;
-        n2 = var_205d - n2;
+        n2 = s_screenHeight - n2;
         int n4 = sub_48cb(0, 10);
-        if ((var_2065 == 240 && (var_205d == 320 || var_205d == 400)) || (var_2065 == 360 && (var_205d == 640 || var_205d == 480))) {
+        if ((s_screenWidth == 240 && (s_screenHeight == 320 || s_screenHeight == 400)) || (s_screenWidth == 360 && (s_screenHeight == 640 || s_screenHeight == 480))) {
             n4 = sub_48cb(0, 35);
         }
         final int sub_48cb = sub_48cb(0, 15);
         final int sub_48a7 = sub_48a7(0, 6);
         final int sub_48cb2 = sub_48cb(0, 6);
-        if (Math.abs(var_20ad - n) > var_2065 * 10 / 100 && n2 < var_205d - n4 && n2 > sub_48cb && (var_20ad >= sub_48a7 || var_20b5 <= var_1f4d[var_1d9d][1] || var_20b5 >= var_1f4d[var_1d9d][1] + sub_48cb2) && (var_20ad <= var_2065 - sub_48a7 || var_20b5 <= var_1f4d[var_1da5][1] || var_20b5 >= var_1f4d[var_1da5][1] + sub_48cb2) && var_20b5 >= sub_48cb && var_20b5 <= var_205d - n4) {
+        if (Math.abs(var_20ad - n) > s_screenWidth * 10 / 100 && n2 < s_screenHeight - n4 && n2 > sub_48cb && (var_20ad >= sub_48a7 || var_20b5 <= var_1f4d[var_1d9d][1] || var_20b5 >= var_1f4d[var_1d9d][1] + sub_48cb2) && (var_20ad <= s_screenWidth - sub_48a7 || var_20b5 <= var_1f4d[var_1da5][1] || var_20b5 >= var_1f4d[var_1da5][1] + sub_48cb2) && var_20b5 >= sub_48cb && var_20b5 <= s_screenHeight - n4) {
             if (var_20ad - n < 0) {
                 sub_4b75 = 23;
                 var_2095 = true;
@@ -1211,11 +1211,11 @@ public final class IGP implements Runnable, CommandListener
         if ((sub_4b75 = sub_4b75(var_20ad, var_20b5)) != 0) {
             var_207d = sub_4b75;
         }
-        final int var_205d = s_screenHeight;
+        
         final int n = var_20ad;
         var_20ad = var_20b5;
         var_20b5 = n;
-        var_20b5 = var_205d - var_20b5;
+        var_20b5 = s_screenHeight - var_20b5;
         if (var_20ad == -1 || var_20b5 == -1) {
             var_20ad = IGP.var_20ad;
             var_20b5 = IGP.var_20b5;
@@ -1232,12 +1232,12 @@ public final class IGP implements Runnable, CommandListener
     }
     
     private static int sub_4b75(int n, int n2) {
-        final int var_2065 = s_screenWidth;
-        final int var_205d = s_screenHeight;
+        
+        
         final int n3 = n;
         n = n2;
         n2 = n3;
-        n2 = var_205d - n2;
+        n2 = s_screenHeight - n2;
         if (n < 0 || n2 < 0) {
             return 0;
         }
@@ -1245,7 +1245,7 @@ public final class IGP implements Runnable, CommandListener
             return 0;
         }
         if (n2 > var_1f4d[var_1d65][1] && n2 < var_1f4d[var_1d65][1] + sub_48cb(0, 15)) {
-            if (n < var_2065 >> 1) {
+            if (n < s_screenWidth >> 1) {
                 if (var_1fad > var_1f2d.length - 1) {
                     return 28;
                 }
@@ -1263,7 +1263,7 @@ public final class IGP implements Runnable, CommandListener
         }
         int n5 = sub_48a7(0, 10);
         int n6 = sub_48cb(0, 10);
-        if ((var_2065 == 240 && (var_205d == 320 || var_205d == 400)) || (var_2065 == 360 && (var_205d == 640 || var_205d == 480))) {
+        if ((s_screenWidth == 240 && (s_screenHeight == 320 || s_screenHeight == 400)) || (s_screenWidth == 360 && (s_screenHeight == 640 || s_screenHeight == 480))) {
             n5 = sub_48a7(0, 35);
             n6 = sub_48cb(0, 35);
         }
@@ -1310,6 +1310,7 @@ public final class IGP implements Runnable, CommandListener
     }
     
     final static int STATE_LOADING = 0;
+    final static int STATE_PAGE = 1;
     
     public static void paint(Graphics g) {
         if (var_2055) {
@@ -1323,19 +1324,16 @@ public final class IGP implements Runnable, CommandListener
             case STATE_LOADING: { 
                 g.setColor(0);
                 GLLib.FillRect(g, 0, 0, s_screenWidth, s_screenHeight, true);
-                final int n = s_screenWidth * 3 / 4;
                 if (CurrentLoadingStep > var_1fc5) {
                 	CurrentLoadingStep = var_1fc5;
                 }
-                final int n5 = (s_screenWidth - s_screenWidth * 3 / 4) / 2;
-                final int n6 = (s_screenWidth * 3 / 4) * CurrentLoadingStep / var_1fc5 + 1;
                 setClip(g, 0, 0, s_screenHeight, s_screenWidth);
                 g.setColor(16777215);
-                GLLib.FillRect(g, n5, var_206d, s_screenWidth * 3 / 4, 6, true);
+                GLLib.FillRect(g, (s_screenWidth - s_screenWidth * 3 / 4) / 2, var_206d, s_screenWidth * 3 / 4, 6, true);
                 g.setColor(0);
-                GLLib.FillRect(g, n5 + 1 + 1, var_206d + 1 + 1, s_screenWidth * 3 / 4 - 2 - 1, 3, true);
+                GLLib.FillRect(g, (s_screenWidth - s_screenWidth * 3 / 4) / 2 + 1 + 1, var_206d + 1 + 1, s_screenWidth * 3 / 4 - 2 - 1, 3, true);
                 g.setColor(16711680);
-                GLLib.FillRect(g, n5 + 1 + 1, var_206d + 1 + 1, n6, 3, true);
+                GLLib.FillRect(g, (s_screenWidth - s_screenWidth * 3 / 4) / 2 + 1 + 1, var_206d + 1 + 1, (s_screenWidth * 3 / 4) * CurrentLoadingStep / var_1fc5 + 1, 3, true);
                 if (StringLoading != null && !StringLoading.trim().equals("")) {
                     Image image = Image.createImage(s_screenWidth, 30);
                     final Graphics graphics5 = image.getGraphics();
@@ -1357,7 +1355,7 @@ public final class IGP implements Runnable, CommandListener
                 }
                 break;
             }
-            case /* STATE_PAGE */ 1: {
+            case STATE_PAGE: {
                 sub_5366(g);
                 if (System.currentTimeMillis() % 1000L <= 500L && (var_207d != 27 || var_208d)) {
                     break;
@@ -1375,18 +1373,18 @@ public final class IGP implements Runnable, CommandListener
             }
             case 3: {
                 sub_5366(g);
-                final int var_205d = s_screenHeight;
-                final int var_2065 = s_screenWidth;
-                final int n11 = var_205d * 40 / 100;
+                
+                
+                final int n11 = s_screenHeight * 40 / 100;
                 final int n12 = sub_48a7(0, 0) - 5;
-                sub_52f7(g, 0, n11 - 1, var_2065, var_205d - (n11 - 1 << 1), -1);
-                sub_52f7(g, 0, n11, var_2065, var_205d - (n11 << 1), -220209185);
+                sub_52f7(g, 0, n11 - 1, s_screenWidth, s_screenHeight - (n11 - 1 << 1), -1);
+                sub_52f7(g, 0, n11, s_screenWidth, s_screenHeight - (n11 << 1), -220209185);
                 g.setColor(16777215);
-                GLLib.FillRect(g, 0, var_205d - (n12 + 1), var_2065, n12 + 1, true);
+                GLLib.FillRect(g, 0, s_screenHeight - (n12 + 1), s_screenWidth, n12 + 1, true);
                 g.setColor(-220209185);
-                GLLib.FillRect(g, 0, var_205d - n12, var_2065, n12, true);
+                GLLib.FillRect(g, 0, s_screenHeight - n12, s_screenWidth, n12, true);
                 var_1e3d = 1;
-                sub_2361(sub_2306(var_1c8d), g, s_screenHeight, var_2065 >> 1, var_205d >> 1, 3, true);
+                sub_2361(sub_2306(var_1c8d), g, s_screenHeight, s_screenWidth >> 1, s_screenHeight >> 1, 3, true);
                 sub_6621(g);
                 break;
             }
@@ -1402,14 +1400,14 @@ public final class IGP implements Runnable, CommandListener
     }
     
     private static void sub_5366(final Graphics graphics) {
-        final int var_2065 = s_screenWidth;
-        final int var_205d = s_screenHeight;
+        
+        
         graphics.setColor(16777215);
         if (var_1c35[0]) {
             graphics.setColor(0);
         }
         graphics.setColor(16777215);
-        GLLib.FillRect(graphics, 0, 0, var_2065, var_205d, true);
+        GLLib.FillRect(graphics, 0, 0, s_screenWidth, s_screenHeight, true);
         final int n = var_1f4d[0][0];
         final int n2 = var_1f4d[0][1];
         final int n3 = var_1f4d[var_1d5d][0];
@@ -1432,44 +1430,44 @@ public final class IGP implements Runnable, CommandListener
         var_1e45 = 0;
         if (var_1ff5[var_1fad] == 6) {
             if (!var_2025.equals("0")) {
-                sub_2338(var_2025, graphics, var_2065, n, n2, 3);
+                sub_2338(var_2025, graphics, s_screenWidth, n, n2, 3);
             }
-            sub_2338(sub_2306(var_2015), graphics, var_2065, n3, n4, 3);
+            sub_2338(sub_2306(var_2015), graphics, s_screenWidth, n3, n4, 3);
             sub_6676(graphics, var_1d1d + (var_1fad - var_1c55), 0, n5, n6);
             int n18 = 8;
-            if (var_2065 == 360 && var_205d == 480) {
+            if (s_screenWidth == 360 && s_screenHeight == 480) {
                 n18 = 39;
             }
             sub_6676(graphics, 0, n18, n7, n8);
             if (var_1ef5 == null || !var_1ef5.equals("TMUS")) {
                 var_1e45 = 1;
                 int n19 = sub_48a7(0, 10);
-                if ((var_2065 == 240 && (var_205d == 320 || var_205d == 400)) || (var_2065 == 360 && (var_205d == 640 || var_205d == 480))) {
+                if ((s_screenWidth == 240 && (s_screenHeight == 320 || s_screenHeight == 400)) || (s_screenWidth == 360 && (s_screenHeight == 640 || s_screenHeight == 480))) {
                     n19 = sub_48a7(0, 35);
                 }
-                int n20 = var_2065 - var_1c2d - n19 >> 1;
-                if (var_205d > var_2065) {
-                    n20 = var_2065;
+                int n20 = s_screenWidth - var_1c2d - n19 >> 1;
+                if (s_screenHeight > s_screenWidth) {
+                    n20 = s_screenWidth;
                 }
                 sub_2361(sub_2306(var_1cd5), graphics, n20, n15, n16, 3, true);
             }
         }
         else if (var_1ff5[var_1fad] == 7) {
             if (!var_202d.equals("0")) {
-                sub_2338(var_202d, graphics, var_2065, n, n2, 3);
+                sub_2338(var_202d, graphics, s_screenWidth, n, n2, 3);
             }
-            sub_2338(sub_2306(var_1ca5), graphics, var_2065, n3, n4, 3);
+            sub_2338(sub_2306(var_1ca5), graphics, s_screenWidth, n3, n4, 3);
             sub_6676(graphics, var_1d25, 0, n5, n6);
         }
         else if (var_1ff5[var_1fad] == 8) {
-            sub_2338(sub_2306(var_1cad), graphics, var_2065, n, n2, 3);
-            sub_2338(sub_2306(var_1c95), graphics, var_2065 * 3 / 4, n3, n4, 3);
+            sub_2338(sub_2306(var_1cad), graphics, s_screenWidth, n, n2, 3);
+            sub_2338(sub_2306(var_1c95), graphics, s_screenWidth * 3 / 4, n3, n4, 3);
             sub_6676(graphics, var_1d2d, 0, n5, n6);
         }
         else {
             var_1e3d = 1;
-            sub_2338(sub_2306(var_1c9d), graphics, var_2065, n, n2, 3);
-            sub_2338(sub_2306(var_2015), graphics, var_2065 * 3 / 4, n3, n4, 3);
+            sub_2338(sub_2306(var_1c9d), graphics, s_screenWidth, n, n2, 3);
+            sub_2338(sub_2306(var_2015), graphics, s_screenWidth * 3 / 4, n3, n4, 3);
             sub_6676(graphics, var_1d15 + var_1fad, 0, n5, n6);
         }
         int n21 = 0;
@@ -1508,25 +1506,25 @@ public final class IGP implements Runnable, CommandListener
             final int sub_48a7 = sub_48a7(0, 19);
             int n42 = sub_48a7(0, 10);
             int n43 = sub_48cb(0, 10);
-            if ((var_2065 == 240 && (var_205d == 320 || var_205d == 400)) || (var_2065 == 360 && (var_205d == 640 || var_205d == 480))) {
+            if ((s_screenWidth == 240 && (s_screenHeight == 320 || s_screenHeight == 400)) || (s_screenWidth == 360 && (s_screenHeight == 640 || s_screenHeight == 480))) {
                 n42 = sub_48a7(0, 35);
                 n43 = sub_48cb(0, 35);
             }
             int n44 = 15;
             int n45 = 18;
-            if ((var_2065 == 240 && (var_205d == 320 || var_205d == 400)) || (var_2065 == 360 && (var_205d == 640 || var_205d == 480))) {
+            if ((s_screenWidth == 240 && (s_screenHeight == 320 || s_screenHeight == 400)) || (s_screenWidth == 360 && (s_screenHeight == 640 || s_screenHeight == 480))) {
                 n44 = 31;
                 n45 = 34;
             }
             sub_6676(graphics, 0, n44, n22, n23);
             sub_6676(graphics, 0, n45, n24, n25);
             int n46 = 13;
-            if ((var_2065 == 240 && (var_205d == 320 || var_205d == 400)) || (var_2065 == 360 && (var_205d == 640 || var_205d == 480))) {
+            if ((s_screenWidth == 240 && (s_screenHeight == 320 || s_screenHeight == 400)) || (s_screenWidth == 360 && (s_screenHeight == 640 || s_screenHeight == 480))) {
                 n46 = 37;
             }
             if (var_208d) {
                 n46 = 11;
-                if ((var_2065 == 240 && (var_205d == 320 || var_205d == 400)) || (var_2065 == 360 && (var_205d == 640 || var_205d == 480))) {
+                if ((s_screenWidth == 240 && (s_screenHeight == 320 || s_screenHeight == 400)) || (s_screenWidth == 360 && (s_screenHeight == 640 || s_screenHeight == 480))) {
                     n46 = 36;
                 }
             }
@@ -1545,19 +1543,19 @@ public final class IGP implements Runnable, CommandListener
             sub_6676(graphics, 0, 19, n40 - (n42 >> 1) + n47, n31 + (n43 >> 1) - (sub_48cb(0, 19) >> 1));
             if (sub_4ac6[0] > 1) {
                 int n49 = -4;
-                if (var_2065 == 320 || var_205d == 320) {
+                if (s_screenWidth == 320 || s_screenHeight == 320) {
                     n49 = 4;
                 }
                 sub_2361(sub_2306(var_1ccd), graphics, n42 - sub_48a7 + n49, n40 + (sub_48a7 >> 1), n41 - 2, 3, true);
             }
             else {
-                sub_2338(sub_2306(var_1ccd), graphics, var_2065, n40 - (n42 >> 1) + n47 + sub_48a7 + 2, n41 - 2, 6);
+                sub_2338(sub_2306(var_1ccd), graphics, s_screenWidth, n40 - (n42 >> 1) + n47 + sub_48a7 + 2, n41 - 2, 6);
             }
         }
         else {
             int n50 = 17;
             int n51 = 16;
-            if ((var_2065 == 240 && (var_205d == 320 || var_205d == 400)) || (var_2065 == 360 && (var_205d == 640 || var_205d == 480))) {
+            if ((s_screenWidth == 240 && (s_screenHeight == 320 || s_screenHeight == 400)) || (s_screenWidth == 360 && (s_screenHeight == 640 || s_screenHeight == 480))) {
                 n50 = 33;
                 n51 = 32;
             }
@@ -1565,19 +1563,19 @@ public final class IGP implements Runnable, CommandListener
             sub_6676(graphics, 0, n51, n22, n23);
             int n52 = 13;
             int n53 = 10;
-            if ((var_2065 == 240 && (var_205d == 320 || var_205d == 400)) || (var_2065 == 360 && (var_205d == 640 || var_205d == 480))) {
+            if ((s_screenWidth == 240 && (s_screenHeight == 320 || s_screenHeight == 400)) || (s_screenWidth == 360 && (s_screenHeight == 640 || s_screenHeight == 480))) {
                 n52 = 37;
                 n53 = 35;
             }
             if (var_208d) {
                 n52 = 11;
-                if ((var_2065 == 240 && (var_205d == 320 || var_205d == 400)) || (var_2065 == 360 && (var_205d == 640 || var_205d == 480))) {
+                if ((s_screenWidth == 240 && (s_screenHeight == 320 || s_screenHeight == 400)) || (s_screenWidth == 360 && (s_screenHeight == 640 || s_screenHeight == 480))) {
                     n52 = 36;
                 }
             }
             if (var_209d) {
                 n53 = 11;
-                if ((var_2065 == 240 && (var_205d == 320 || var_205d == 400)) || (var_2065 == 360 && (var_205d == 640 || var_205d == 480))) {
+                if ((s_screenWidth == 240 && (s_screenHeight == 320 || s_screenHeight == 400)) || (s_screenWidth == 360 && (s_screenHeight == 640 || s_screenHeight == 480))) {
                     n53 = 36;
                 }
             }
@@ -1587,11 +1585,11 @@ public final class IGP implements Runnable, CommandListener
             if (var_209d) {
                 var_1e3d = 1;
             }
-            sub_2338(sub_2306(var_1cc5), graphics, var_2065, n36, n37 - 2, 3);
+            sub_2338(sub_2306(var_1cc5), graphics, s_screenWidth, n36, n37 - 2, 3);
             final int sub_48a8 = sub_48a7(0, 19);
             int n54 = sub_48a7(0, 10);
             int n55 = sub_48cb(0, 10);
-            if ((var_2065 == 240 && (var_205d == 320 || var_205d == 400)) || (var_2065 == 360 && (var_205d == 640 || var_205d == 480))) {
+            if ((s_screenWidth == 240 && (s_screenHeight == 320 || s_screenHeight == 400)) || (s_screenWidth == 360 && (s_screenHeight == 640 || s_screenHeight == 480))) {
                 n54 = sub_48a7(0, 35);
                 n55 = sub_48cb(0, 35);
             }
@@ -1609,20 +1607,20 @@ public final class IGP implements Runnable, CommandListener
             }
             if (sub_4ac7[0] > 1) {
                 int n58 = -4;
-                if (var_2065 == 320 || var_205d == 320) {
+                if (s_screenWidth == 320 || s_screenHeight == 320) {
                     n58 = 4;
                 }
                 sub_2361(sub_2306(var_1ccd), graphics, n54 - sub_48a8 + n58, n38 + (sub_48a8 >> 1), n39 - 2, 3, true);
             }
             else {
-                sub_2338(sub_2306(var_1ccd), graphics, var_2065, n38 - (n54 >> 1) + n56 + sub_48a8 + 2, n39 - 2, 6);
+                sub_2338(sub_2306(var_1ccd), graphics, s_screenWidth, n38 - (n54 >> 1) + n56 + sub_48a8 + 2, n39 - 2, 6);
             }
             var_1e3d = 0;
         }
         var_1e3d = 0;
-        sub_2338(sub_2306(var_1cb5), graphics, var_2065, n32, n33, 3);
-        sub_2338(sub_2306(var_1cbd), graphics, var_2065, n34, n35, 3);
-        var_1e55 = var_1fd5.WraptextB(sub_2306(var_1cbd), var_2065, false)[2];
+        sub_2338(sub_2306(var_1cb5), graphics, s_screenWidth, n32, n33, 3);
+        sub_2338(sub_2306(var_1cbd), graphics, s_screenWidth, n34, n35, 3);
+        var_1e55 = var_1fd5.WraptextB(sub_2306(var_1cbd), s_screenWidth, false)[2];
         sub_6676(graphics, 0, 29, n34 + (var_1e55 >> 1) + 3, n17);
         if (b) {
             final int abs = Math.abs((int)(System.currentTimeMillis() / 80L % 8L) - 4);
