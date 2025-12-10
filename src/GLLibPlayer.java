@@ -226,10 +226,10 @@ final class GLLibPlayer implements Runnable
             GLLib.sub_5c41(this.var_15bf);
         }
         if (this.var_15cf != -1) {
-            final int sub_6475 = this.sprite.sub_6475();
-            this.sprite.sub_6434(this.var_15cf);
+            final int sub_6475 = this.sprite.GetCurrentPalette();
+            this.sprite.SetCurrentPalette(this.var_15cf);
             this.sprite.PaintAFrame(GLLib.g, this.curAnim, this.curFrame, this.posX, this.posY, this.curFlags);
-            this.sprite.sub_6434(sub_6475);
+            this.sprite.SetCurrentPalette(sub_6475);
         }
         else {
             this.sprite.PaintAFrame(GLLib.g, this.curAnim, this.curFrame, this.posX, this.posY, this.curFlags);
@@ -2044,7 +2044,7 @@ final class GLLibPlayer implements Runnable
         else if (n11 == 5) {
             n = n7;
             n7 = ASprite.s_screenWidth - n8 - n10;
-            GLLib.sub_3bae(graphics, (int[])o, 0, n10, n7, n, n10, n9, true, false, n2, -1, false);
+            GLLib.DrawRGB(graphics, (int[])o, 0, n10, n7, n, n10, n9, true, false, n2, -1, false);
         }
         else if (n11 == 4) {
             GLLib.DrawImage(graphics, (GLLibImage)o, n7, n8, 20, true);

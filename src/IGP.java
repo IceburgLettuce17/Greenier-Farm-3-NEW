@@ -233,20 +233,20 @@ public final class IGP implements Runnable, CommandListener
     private static void sub_2389(final String s, Graphics g, final int n, final int n2, final int n3, final int n4, final int n5, final boolean b) {
         if (b) {
             if (var_1e45 == 0) {
-                var_1fd5.sub_6434(var_1e3d);
+                var_1fd5.SetCurrentPalette(var_1e3d);
                 var_1fd5.sub_547f(g, s, var_1fd5.WraptextB(s, n, false), n2, n3, 0, 10, n4, -1, false);
                 return;
             }
-            var_1fdd.sub_6434(var_1e3d);
+            var_1fdd.SetCurrentPalette(var_1e3d);
             var_1fdd.sub_547f(g, s, var_1fdd.WraptextB(s, n, false), n2, n3, 0, 10, n4, -1, false);
         }
         else {
             if (var_1e45 == 0) {
-                var_1fd5.sub_6434(var_1e3d);
+                var_1fd5.SetCurrentPalette(var_1e3d);
                 var_1fd5.sub_5cd2(g, s, n2, n3, n4);
                 return;
             }
-            var_1fdd.sub_6434(var_1e3d);
+            var_1fdd.SetCurrentPalette(var_1e3d);
             var_1fdd.sub_5cd2(g, s, n2, n3, n4);
         }
     }
@@ -1710,14 +1710,14 @@ public final class IGP implements Runnable, CommandListener
         final int n3 = n;
         n = n3;
         final ASprite class_e;
-        (class_e = new ASprite()).sub_1372(GLLib.Pack_ReadData(n), 0);
+        (class_e = new ASprite()).Load(GLLib.Pack_ReadData(n), 0);
         for (n = 0; n2 >> n != 0; ++n) {
             if ((n2 >> n & 0x1) != 0x0) {
-                class_e.sub_64d8(n, 0, -1, -1);
+                class_e.BuildCacheImages(n, 0, -1, -1);
             }
         }
         if (b2) {
-            class_e.sub_2f84();
+            class_e.FreeCacheData();
         }
         return class_e;
     }

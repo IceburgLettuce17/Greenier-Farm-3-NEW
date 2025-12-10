@@ -2090,7 +2090,7 @@ public final class cGame extends GLLib implements Class_b
 					if (substate == 3) {
 						GLLib.g.setColor(0);
 						GLLib.FillRect(GLLib.g, 0, 0, GLLib.s_screenWidth, GLLib.s_screenHeight, true);
-						cGame.var_7ffc[0].sub_6434(1);
+						cGame.var_7ffc[0].SetCurrentPalette(1);
 						cGame.var_7ffc[0].sub_547f(GLLib.g, cGame.var_8054, cGame.var_805c,
 								GLLib.s_screenWidth >> 1, cGame.var_682c, 0, 999, 17, -1, false);
 						GLLib.sub_7018(GLLib.s_screenHeight >> 1, GLLib.s_screenWidth, GLLib.s_screenHeight >> 1, -16777216);
@@ -2858,7 +2858,7 @@ public final class cGame extends GLLib implements Class_b
 	private static ASprite sub_ca9c(final int n, final int n2, boolean b, final boolean b2, final int n3,
 			final int n4) {
 		ASprite class_e = new ASprite();
-		class_e.sub_1372(GLLib.Pack_ReadData(n), 0);
+		class_e.Load(GLLib.Pack_ReadData(n), 0);
 		for (int i = 0; i < cGame.var_7fbc.length; i += 2) {
 			if (n == cGame.var_7fbc[i] && GLLib.s_pack_filename.equals("/" + cGame.var_7fbc[i + 1])
 					&& !class_e.sub_3b2c()) {
@@ -2875,17 +2875,17 @@ public final class cGame extends GLLib implements Class_b
 		if (b) {
 			sub_cbb5(class_e, n2, n3, n4);
 			if (b2) {
-				class_e.sub_2f84();
+				class_e.FreeCacheData();
 			}
 		}
 		return class_e;
 	}
 
 	private static void sub_cbb5(final ASprite class_e, final int n, final int n2, final int n3) {
-		for (int i = 0; i < class_e.var_107f; ++i) {
+		for (int i = 0; i < class_e._palettes; ++i) {
 			if ((n >> i & 0x1) != 0x0) {
 				if (n2 == 0 && n3 == -1) {
-					class_e.sub_64d8(i, 0, -1, -1);
+					class_e.BuildCacheImages(i, 0, -1, -1);
 				} else {
 					for (int j = n2; j <= n3; ++j) {
 						class_e.sub_677f(i, j, -1);
@@ -10578,10 +10578,10 @@ public final class cGame extends GLLib implements Class_b
 			return;
 		}
 		if (cGame.var_689c[2] != null && cGame.var_689c[2][sub_237ff] != null) {
-			sub_6475 = cGame.var_689c[2][sub_237ff].sub_6475();
+			sub_6475 = cGame.var_689c[2][sub_237ff].GetCurrentPalette();
 		}
 		if (n6 >= 0) {
-			cGame.var_689c[2][sub_237ff].sub_6434(n6);
+			cGame.var_689c[2][sub_237ff].SetCurrentPalette(n6);
 		}
 		if (b) {
 			final short[] sub_4ac6 = cGame.var_689c[2][sub_237ff].WraptextB(s, n2, false);
@@ -10597,7 +10597,7 @@ public final class cGame extends GLLib implements Class_b
 			return;
 		}
 		cGame.var_689c[2][sub_237ff].sub_5cd2(GLLib.g, s, n8, n9, n7);
-		cGame.var_689c[2][sub_237ff].sub_6434(sub_6475);
+		cGame.var_689c[2][sub_237ff].SetCurrentPalette(sub_6475);
 	}
 
 	private static void drawText(String text, int var_1de7, int n, int n2, int n3) {
@@ -10660,8 +10660,8 @@ public final class cGame extends GLLib implements Class_b
 			if (array[8] < 0 || array[8] >= 255) {
 				return;
 			}
-			sub_3190 = class_e.sub_6475();
-			class_e.sub_6434(array[8]);
+			sub_3190 = class_e.GetCurrentPalette();
+			class_e.SetCurrentPalette(array[8]);
 			b2 = true;
 		}
 		if (array[19] >= 0 && array[19] < 10 && cGame.var_6914[array[19]] != null
@@ -10779,7 +10779,7 @@ public final class cGame extends GLLib implements Class_b
 			}
 		}
 		if (b2) {
-			class_e.sub_6434(sub_3190);
+			class_e.SetCurrentPalette(sub_3190);
 		}
 		if (b) {
 			final int var_1ddf = GLLib.s_screenWidth;
@@ -10848,7 +10848,7 @@ public final class cGame extends GLLib implements Class_b
 				final int sub_30ea2 = class_e.sub_30ea(n12 + n17);
 				final int sub_332f = class_e.sub_332f(n7, n17);
 				int[] array3 = new int[n10 * n11];
-				if (class_e.var_105f != null) {
+				if (class_e._modules_data != null) {
 					array3 = (int[]) class_e.DecodeImage(class_e.sub_32e3(n7, n17));
 				} else {
 					class_e._module_image_imageAA[0][class_e.sub_32e3(n7, n17)].getRGB(array3, 0, n10, 0, 0, n10, n11);
@@ -10903,7 +10903,7 @@ public final class cGame extends GLLib implements Class_b
 				final int n31 = n14 - class_e.sub_310b(n12 + n21) - n28;
 				final int sub_30ea4 = class_e.sub_30ea(n12 + n21);
 				int[] array4 = new int[n29 * n30];
-				if (class_e.var_105f != null) {
+				if (class_e._modules_data != null) {
 					array4 = (int[]) class_e.DecodeImage(class_e.sub_32e3(n7, n21));
 				} else {
 					class_e._module_image_imageAA[0][class_e.sub_32e3(n7, n21)].getRGB(array4, 0, n29, 0, 0, n29, n30);
@@ -26269,7 +26269,7 @@ public final class cGame extends GLLib implements Class_b
 	            if (GLLib.s_pack_filename.equals("/" + var4)) {
 	               var0.sub_68e7(var7, var5, var6);
 	               if (var8 != 0) {
-	                  var0.sub_2f84();
+	                  var0.FreeCacheData();
 	               }
 
 	               var3 = true;
@@ -29761,7 +29761,7 @@ public final class cGame extends GLLib implements Class_b
 		GLLib.s_gllib_instance = null;
 		GLLib.Text_FreeAll();
 		GLLib.Pack_FullyClose();
-		ASprite.var_f67 = null;
+		ASprite.temp_int = null;
 		try {
 			for (int i = 0; i < 99; ++i) {
 				GLLibPlayer.Snd_UnLoadSound(i);

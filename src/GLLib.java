@@ -911,11 +911,11 @@ public abstract class GLLib extends Canvas implements Runnable
         DrawLine(_g, y1, x2, x2, y2, true);
     }
     
-    static final void sub_3bae(final Graphics graphics, int[] rgb, final int n, int n2, int n3, int n4, int n5, int n6, final boolean b, final boolean b2, int n7, int n8, final boolean b3) {
+    static final void DrawRGB(final Graphics g, int[] rgbData, final int offset, int scanlength, int x, int y, int width, int height, final boolean processAlpha, final boolean b2, int n7, int n8, final boolean b3) {
         if (b3) {
-            int n9 = n6;
+            int n9 = height;
             if ((n7 & 0x4) != 0x0) {
-                n9 = n5;
+                n9 = width;
                 if (((n7 &= 0xFFFFFFFB) & 0x2) != 0x0) {
                     n7 &= 0xFFFFFFFD;
                 }
@@ -932,30 +932,25 @@ public abstract class GLLib extends Canvas implements Runnable
             else {
                 n7 |= 0x4;
             }
-            n8 = n3;
-            n3 = ASprite.s_screenWidth - n4 - n9;
-            n4 = n8;
+            n8 = x;
+            x = ASprite.s_screenWidth - y - n9;
+            y = n8;
         }
         if (n7 != 0) {
             int n10 = 0;
             if ((n7 & 0x4) != 0x0) {
-                n10 = n5;
-                n5 = n6;
-                n6 = n2;
-                n2 = n5;
+                n10 = width;
+                width = height;
+                height = scanlength;
+                scanlength = width;
             }
-            final int[] array = rgb;
-            final int n11 = n5;
-            final int n12 = n6;
-            final int n13 = n7;
-            final int n14 = n12;
-            n8 = n11;
-            rgb = ASprite.sub_9c11(array, n11, n14, n13, null);
+            n8 = width;
+            rgbData = ASprite.sub_9c11(rgbData, width, height, n7, null);
             if ((n7 & 0x4) != 0x0) {
-                n6 = n10;
+                height = n10;
             }
         }
-        graphics.drawRGB(rgb, 0, n2, n3, n4, n5, n6, b);
+        g.drawRGB(rgbData, 0, scanlength, x, y, width, height, processAlpha);
     }
     
     static final void sub_3d3b(final GLLibImage class_l, final int[] array, final int n, final int n2, final int n3, final int n4, final int n5, final int n6) {
@@ -1689,14 +1684,14 @@ public abstract class GLLib extends Canvas implements Runnable
         n = n2;
         n2 = i;
         if (n * n2 < 256) {
-            sub_3bae(graphics, GLLib.var_1fd7[GLLib.var_1fc7], 0, n, ASprite.s_screenWidth - n4 - n2, i, n, n2, true, true, 0, -1, false);
+            DrawRGB(graphics, GLLib.var_1fd7[GLLib.var_1fc7], 0, n, ASprite.s_screenWidth - n4 - n2, i, n, n2, true, true, 0, -1, false);
         }
         else {
             n += ASprite.s_screenWidth - n4 - n2;
             n2 += i;
             for (i = ASprite.s_screenWidth - n4 - n2; i < n; i += 16) {
                 for (j = i; j < n2; j += 16) {
-                    sub_3bae(graphics, GLLib.var_1fd7[GLLib.var_1fc7], 0, 16, i, j, 16, 16, true, true, 0, -1, false);
+                    DrawRGB(graphics, GLLib.var_1fd7[GLLib.var_1fc7], 0, 16, i, j, 16, 16, true, true, 0, -1, false);
                 }
             }
         }
@@ -1720,7 +1715,7 @@ public abstract class GLLib extends Canvas implements Runnable
     }
     
     private static final void sub_5ad0(final Graphics graphics, final int[] array, final int n, final int n2, final int n3, final int n4, final int n5, final boolean b) {
-        sub_3bae(graphics, array, 0, n, n2, n3, n4, n5, b, true, 0, -1, false);
+        DrawRGB(graphics, array, 0, n, n2, n3, n4, n5, b, true, 0, -1, false);
     }
     
     static final void sub_5aff() {
@@ -2211,7 +2206,7 @@ public abstract class GLLib extends Canvas implements Runnable
                 final int n33;
                 n7 = (n33 = n31);
                 n7 = n3;
-                sub_3bae(graphics, array, 0, n7, n, n33, n3, n32, true, true, 0, -1, true);
+                DrawRGB(graphics, array, 0, n7, n, n33, n3, n32, true, true, 0, -1, true);
                 n2 += n10;
                 i -= n10;
             }
@@ -2231,7 +2226,7 @@ public abstract class GLLib extends Canvas implements Runnable
                 final int n40;
                 n6 = (n40 = n37);
                 n6 = n40;
-                sub_3bae(graphics, array2, 0, n6, n7, n2, n39, n4, true, true, 0, -1, true);
+                DrawRGB(graphics, array2, 0, n6, n7, n2, n39, n4, true, true, 0, -1, true);
                 n += n10;
                 i -= n10;
             }

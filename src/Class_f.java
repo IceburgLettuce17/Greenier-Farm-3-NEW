@@ -782,8 +782,8 @@ final class Class_f
                             if (class_f14.sub_a2a0(1024)) {
                                 n18 = 1;
                             }
-                            if (class_f14.var_18b5.GetSprite().sub_6475() != n18) {
-                                class_f14.var_18b5.GetSprite().sub_6434(n18);
+                            if (class_f14.var_18b5.GetSprite().GetCurrentPalette() != n18) {
+                                class_f14.var_18b5.GetSprite().SetCurrentPalette(n18);
                             }
                         }
                         break;
@@ -970,15 +970,15 @@ final class Class_f
                         int var_1875 = class_f.var_1875;
                         if (class_f.var_189d != null) {
                             if (class_f.sub_a2a0(65536)) {
-                                var_1875 += class_f.var_189d.GetSprite().var_107f >> 1;
+                                var_1875 += class_f.var_189d.GetSprite()._palettes >> 1;
                             }
                             if (cGame.var_7fc4 < 100 && cGame.sub_438b0(class_f.var_1865)) {
                                 final ASprite sub_17f3;
-                                (sub_17f3 = class_f.var_189d.GetSprite()).sub_6434(var_1875);
+                                (sub_17f3 = class_f.var_189d.GetSprite()).SetCurrentPalette(var_1875);
                                 sub_17f3.PaintAFrame(GLLib.g, sub_17f3.sub_36dd() / 2 + class_f.var_189d.GetAnim(), class_f.var_189d.GetFrame(), class_f.var_17ed, class_f.var_17f5, 0);
                             }
                             else {
-                                class_f.var_189d.GetSprite().sub_6434(var_1875);
+                                class_f.var_189d.GetSprite().SetCurrentPalette(var_1875);
                                 class_f.var_189d.SetPos(class_f.var_17ed, class_f.var_17f5);
                                 class_f.var_189d.sub_1d9e(cGame.var_7fc4);
                                 class_f.var_189d.sub_1b7f();
@@ -1009,9 +1009,9 @@ final class Class_f
                         final ASprite class_e = ((var_1876 & 0x8000) != 0x0) ? cGame.var_68d4[n9] : cGame.var_7ff4[n9];
                         int var_1877 = class_f.var_1875;
                         if (class_f.sub_a2a0(65536)) {
-                            var_1877 += class_e.var_107f >> 1;
+                            var_1877 += class_e._palettes >> 1;
                         }
-                        class_e.sub_6434(var_1877);
+                        class_e.SetCurrentPalette(var_1877);
                         final ASprite class_e2 = class_e;
                         class_e2.sub_3524(Class_f.var_1905, class_f.var_186d, class_f.var_17cd, class_f.var_17d5);
                         if (cGame.var_7fc4 != 100) {
@@ -1564,9 +1564,9 @@ final class Class_f
         }
         int var_1875 = this.var_1875;
         if (this.sub_a2a0(65536)) {
-            var_1875 += class_e.var_107f >> 1;
+            var_1875 += class_e._palettes >> 1;
         }
-        class_e.sub_6434(var_1875);
+        class_e.SetCurrentPalette(var_1875);
         if (cGame.var_7fc4 < 100 && cGame.sub_438b0(n)) {
             GLLib.sub_5b96();
             GLLibPlayer.sub_6133(0, class_e, class_e.sub_3717() / 2 + n2, var_17cd, var_17d5, cGame.var_8074, null);
@@ -1595,9 +1595,9 @@ final class Class_f
                     }
                     int var_1876 = this.var_1875;
                     if (this.sub_a2a0(65536)) {
-                        var_1876 += class_e2.var_107f >> 1;
+                        var_1876 += class_e2._palettes >> 1;
                     }
-                    class_e2.sub_6434(var_1876);
+                    class_e2.SetCurrentPalette(var_1876);
                     if (cGame.var_7fc4 < 100 && cGame.sub_438b0(n)) {
                         GLLib.sub_5b96();
                         GLLibPlayer.sub_6133(0, class_e2, class_e2.sub_3717() / 2 + n2, var_17cd2, var_17d6, true, Class_f.var_190d[i]);
@@ -1622,9 +1622,9 @@ final class Class_f
             return;
         }
         if (this.sub_a2a0(65536)) {
-            var_1875 += class_e.var_107f >> 1;
+            var_1875 += class_e._palettes >> 1;
         }
-        class_e.sub_6434(var_1875);
+        class_e.SetCurrentPalette(var_1875);
         if (cGame.var_7fc4 == 100) {
             class_e.sub_71ae(GLLib.g, n2, this.var_17ed, this.var_17f5, 0);
             return;
@@ -2928,7 +2928,7 @@ final class Class_f
                 this.var_17ed = this.var_17cd * cGame.var_7fc4 / 100 - cGame.var_800c.var_17cd;
                 this.var_17f5 = this.var_17d5 * cGame.var_7fc4 / 100 - cGame.var_800c.var_17d5;
             }
-            this.var_189d.sub_1a6a(GLLib.Math_Rand(0, this.var_189d.GetSprite().var_107f));
+            this.var_189d.sub_1a6a(GLLib.Math_Rand(0, this.var_189d.GetSprite()._palettes));
             if (Class_f.var_1775 > -1) {
                 ++Class_f.var_1775;
             }
