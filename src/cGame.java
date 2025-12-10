@@ -2904,8 +2904,8 @@ public final class cGame extends GLLib implements Class_b
 		} else if (cGame.var_7fc4 == 50) {
 			n = 158;
 		}
-		GLLibPlayer.sub_3661(GLLib.s_screenWidth, GLLib.s_screenHeight, cGame.var_7ff4[n].var_f7f[0] & 0xFFFF,
-				cGame.var_7ff4[n].var_f87[0] & 0xFFFF);
+		GLLibPlayer.sub_3661(GLLib.s_screenWidth, GLLib.s_screenHeight, cGame.var_7ff4[n]._modules_w_short[0] & 0xFFFF,
+				cGame.var_7ff4[n]._modules_h_short[0] & 0xFFFF);
 		if (cGame.s_mapData == null) {
 			cGame.s_mapData = GLLib.Pack_ReadData(0);
 		}
@@ -10799,7 +10799,7 @@ public final class cGame extends GLLib implements Class_b
 		final int sub_6494 = class_e.sub_6494(n2);
 		for (short n5 = 0; n5 < sub_6494; ++n5) {
 			final int sub_310b = class_e.sub_310b(n4 + n5);
-			final int n6 = class_e.var_f87[class_e.sub_32e3(n2, n5)] & 0xFFFF;
+			final int n6 = class_e._modules_h_short[class_e.sub_32e3(n2, n5)] & 0xFFFF;
 			if (n3 < sub_310b + n6) {
 				n3 = sub_310b + n6;
 			}
@@ -10823,8 +10823,8 @@ public final class cGame extends GLLib implements Class_b
 			for (short n13 = 0; n13 < sub_6494; ++n13) {
 				final int sub_30ea = class_e.sub_30ea(n12 + n13);
 				final int sub_310b = class_e.sub_310b(n12 + n13);
-				n10 = (class_e.var_f7f[class_e.sub_32e3(n7, n13)] & 0xFFFF);
-				n11 = (class_e.var_f87[class_e.sub_32e3(n7, n13)] & 0xFFFF);
+				n10 = (class_e._modules_w_short[class_e.sub_32e3(n7, n13)] & 0xFFFF);
+				n11 = (class_e._modules_h_short[class_e.sub_32e3(n7, n13)] & 0xFFFF);
 				if (n8 < sub_30ea + n10) {
 					n8 = sub_30ea + n10;
 				}
@@ -10842,8 +10842,8 @@ public final class cGame extends GLLib implements Class_b
 				n16 = 4;
 			}
 			for (short n17 = 0; n17 < n16; ++n17) {
-				n10 = (class_e.var_f87[class_e.sub_32e3(n7, n17)] & 0xFFFF);
-				n11 = (class_e.var_f7f[class_e.sub_32e3(n7, n17)] & 0xFFFF);
+				n10 = (class_e._modules_h_short[class_e.sub_32e3(n7, n17)] & 0xFFFF);
+				n11 = (class_e._modules_w_short[class_e.sub_32e3(n7, n17)] & 0xFFFF);
 				final int n18 = n14 - class_e.sub_310b(n12 + n17) - n10;
 				final int sub_30ea2 = class_e.sub_30ea(n12 + n17);
 				final int sub_332f = class_e.sub_332f(n7, n17);
@@ -10872,8 +10872,8 @@ public final class cGame extends GLLib implements Class_b
 			for (short n21 = (short) n16; n21 < sub_6494; ++n21) {
 				final int sub_30ea3 = class_e.sub_30ea(n12 + n21);
 				final int sub_310b2 = class_e.sub_310b(n12 + n21);
-				final int n22 = class_e.var_f7f[class_e.sub_32e3(n7, n21)] & 0xFFFF;
-				final int n23 = class_e.var_f87[class_e.sub_32e3(n7, n21)] & 0xFFFF;
+				final int n22 = class_e._modules_w_short[class_e.sub_32e3(n7, n21)] & 0xFFFF;
+				final int n23 = class_e._modules_h_short[class_e.sub_32e3(n7, n21)] & 0xFFFF;
 				final int sub_332f2 = class_e.sub_332f(n7, n21);
 				int n24;
 				if (n22 == 1) {
@@ -10898,8 +10898,8 @@ public final class cGame extends GLLib implements Class_b
 				final int n26 = n24 ^ n25;
 				final int n27 = n25 ^ n26;
 				final int n28 = n26 ^ n27;
-				final int n29 = class_e.var_f87[class_e.sub_32e3(n7, n21)] & 0xFFFF;
-				final int n30 = class_e.var_f7f[class_e.sub_32e3(n7, n21)] & 0xFFFF;
+				final int n29 = class_e._modules_h_short[class_e.sub_32e3(n7, n21)] & 0xFFFF;
+				final int n30 = class_e._modules_w_short[class_e.sub_32e3(n7, n21)] & 0xFFFF;
 				final int n31 = n14 - class_e.sub_310b(n12 + n21) - n28;
 				final int sub_30ea4 = class_e.sub_30ea(n12 + n21);
 				int[] array4 = new int[n29 * n30];
@@ -24945,8 +24945,8 @@ public final class cGame extends GLLib implements Class_b
 		ASprite class_e = sub_237ff < 1000 ? cGame.var_68d4[sub_237ff] : cGame.var_7ff4[sub_237ff - 1000];
 		final short n6 = class_e.var_faf[n5];
 		final int sub_6494 = class_e.sub_6494(n5);
-		final int n7 = class_e.var_f7f[class_e.sub_32e3(n5, 0)] & 0xFFFF;
-		final int n8 = class_e.var_f87[class_e.sub_32e3(n5, 0)] & 0xFFFF;
+		final int n7 = class_e._modules_w_short[class_e.sub_32e3(n5, 0)] & 0xFFFF;
+		final int n8 = class_e._modules_h_short[class_e.sub_32e3(n5, 0)] & 0xFFFF;
 		for (short n9 = 4; n9 < sub_6494; ++n9) {
 			if (class_e.sub_30ea(n6 + n9) == class_e.sub_30ea(n6 + 1)) {
 				class_e.sub_3aab(n6 + n9, n - n7);

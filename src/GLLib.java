@@ -793,7 +793,7 @@ public abstract class GLLib extends Canvas implements Runnable
         _g.setClip(x, y, width, height);
     }
     
-    static final void sub_3731(final Graphics _g, int x1, int y1, int x2, int y2, final boolean processAlpha) {
+    static final void DrawLine(final Graphics _g, int x1, int y1, int x2, int y2, final boolean processAlpha) {
         x1 = ASprite.s_screenWidth - y1 - 1;
         y1 = x1;
         x2 = ASprite.s_screenWidth - y2 - 1;
@@ -904,11 +904,11 @@ public abstract class GLLib extends Canvas implements Runnable
         x3 = ASprite.s_screenWidth - y3 - 1;
         y3 = x3;
         _g.fillTriangle(x1, y1, x2, y2, x3, y3);
-        sub_3731(_g, x1, y1, x2, y2, true);
+        DrawLine(_g, x1, y1, x2, y2, true);
         x2 = y3;
         y1 = x3;
-        sub_3731(_g, x1, y1, y1, y3, true);
-        sub_3731(_g, y1, x2, x2, y2, true);
+        DrawLine(_g, x1, y1, y1, y3, true);
+        DrawLine(_g, y1, x2, x2, y2, true);
     }
     
     static final void sub_3bae(final Graphics graphics, int[] rgb, final int n, int n2, int n3, int n4, int n5, int n6, final boolean b, final boolean b2, int n7, int n8, final boolean b3) {
@@ -2091,7 +2091,7 @@ public abstract class GLLib extends Canvas implements Runnable
             n6 = (n6 << 16) / i;
             for (i = n3; i >= n; --i) {
                 setColor(graphics, n13 >> 16, n14 >> 16, n5 >> 16);
-                sub_3731(graphics, i, n2, i, n4, true);
+                DrawLine(graphics, i, n2, i, n4, true);
                 n13 += n15;
                 n14 += n16;
                 n5 += n6;
@@ -2105,7 +2105,7 @@ public abstract class GLLib extends Canvas implements Runnable
             n6 = (n6 << 16) / i;
             for (i = n; i <= n3; ++i) {
                 setColor(graphics, n13 >> 16, n14 >> 16, n5 >> 16);
-                sub_3731(graphics, i, n2, i, n4, true);
+                DrawLine(graphics, i, n2, i, n4, true);
                 n13 += n17;
                 n14 += n18;
                 n5 += n6;
@@ -2119,7 +2119,7 @@ public abstract class GLLib extends Canvas implements Runnable
             n6 = (n6 << 16) / i;
             for (i = n4; i >= n2; --i) {
                 setColor(graphics, n13 >> 16, n14 >> 16, n5 >> 16);
-                sub_3731(graphics, n, i, n3, i, true);
+                DrawLine(graphics, n, i, n3, i, true);
                 n13 += n19;
                 n14 += n20;
                 n5 += n6;
@@ -2133,7 +2133,7 @@ public abstract class GLLib extends Canvas implements Runnable
             n6 = (n6 << 16) / i;
             for (i = n2; i <= n4; ++i) {
                 setColor(graphics, n13 >> 16, n14 >> 16, n5 >> 16);
-                sub_3731(graphics, n, i, n3, i, true);
+                DrawLine(graphics, n, i, n3, i, true);
                 n13 += n21;
                 n14 += n22;
                 n5 += n6;

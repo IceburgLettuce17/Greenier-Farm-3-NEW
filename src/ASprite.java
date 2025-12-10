@@ -9,9 +9,9 @@ public final class ASprite
 {
     static int[] var_f67;
     private static int[] var_f6f;
-    private int var_f77;
-    short[] var_f7f;
-    short[] var_f87;
+    private int _nModules;
+    short[] _modules_w_short;
+    short[] _modules_h_short;
     private short[] var_f8f;
     private short[] var_f97;
     private byte[] var_f9f;
@@ -44,7 +44,7 @@ public final class ASprite
     private int[][][] var_1077;
     int var_107f;
     private int[] var_1087;
-    private int var_108f;
+    private int _crt_pal;
     private boolean var_1097;
     //private boolean var_109f;
     private int var_10a7;
@@ -60,7 +60,7 @@ public final class ASprite
     private static int[] var_10f7;
     private static int[] var_10ff;
     private static int[] var_1107;
-    private byte[] var_110f;
+    private byte[] _module_types;
     private byte[] var_1117;
     private int[] var_111f;
     private static int var_1127;
@@ -97,8 +97,8 @@ public final class ASprite
     private static int var_121f;
     
     final void sub_123f() {
-        this.var_f7f = null;
-        this.var_f87 = null;
+        this._modules_w_short = null;
+        this._modules_h_short = null;
         this.var_fe7 = null;
         this.var_fdf = null;
         this.var_fa7 = null;
@@ -149,19 +149,19 @@ public final class ASprite
             final int n4 = file[n3] & 0xFF;
             final int n5 = 7;
             ++n2;
-            this.var_f77 = (short)(n4 + ((file[n5] & 0xFF) << 8));
-            if (this.var_f77 > 0) {
-                this.var_f7f = new short[this.var_f77];
-                this.var_f87 = new short[this.var_f77];
+            this._nModules = (short)(n4 + ((file[n5] & 0xFF) << 8));
+            if (this._nModules > 0) {
+                this._modules_w_short = new short[this._nModules];
+                this._modules_h_short = new short[this._nModules];
                 int n6 = 0;
                 int n7 = 0;
                 short[][] array2 = null;
                 if ((this._bs_flags & 0x4) != 0x0) {
-                    this.var_1117 = new byte[this.var_f77];
+                    this.var_1117 = new byte[this._nModules];
                 }
                 boolean b = false;
                 boolean b2 = false;
-                for (int i = 0; i < this.var_f77; ++i) {
+                for (int i = 0; i < this._nModules; ++i) {
                     boolean b3 = false;
                     boolean b4 = false;
                     boolean b5 = false;
@@ -175,69 +175,69 @@ public final class ASprite
                     }
                     else if ((file[n2] & 0xFF) == 0xFF) {
                         ++n2;
-                        this.sub_2f12(this.var_f77);
-                        this.var_110f[i] = 1;
+                        this.sub_2f12(this._nModules);
+                        this._module_types[i] = 1;
                         b = true;
                         b2 = true;
                     }
                     else if ((file[n2] & 0xFF) == 0xFE) {
                         ++n2;
-                        this.sub_2f12(this.var_f77);
-                        this.var_110f[i] = 2;
+                        this.sub_2f12(this._nModules);
+                        this._module_types[i] = 2;
                         b = true;
                         b2 = true;
                     }
                     else if ((file[n2] & 0xFF) == 0xFD) {
                         ++n2;
-                        this.sub_2f12(this.var_f77);
-                        this.var_110f[i] = 5;
+                        this.sub_2f12(this._nModules);
+                        this._module_types[i] = 5;
                         b = false;
                         b2 = true;
                     }
                     else if ((file[n2] & 0xFF) == 0xFC) {
                         ++n2;
-                        this.sub_2f12(this.var_f77);
-                        this.var_110f[i] = 3;
+                        this.sub_2f12(this._nModules);
+                        this._module_types[i] = 3;
                         b = true;
                         b2 = true;
                         b3 = true;
                     }
                     else if ((file[n2] & 0xFF) == 0xFB) {
                         ++n2;
-                        this.sub_2f12(this.var_f77);
-                        this.var_110f[i] = 4;
+                        this.sub_2f12(this._nModules);
+                        this._module_types[i] = 4;
                         b = true;
                         b2 = true;
                         b3 = true;
                     }
                     else if ((file[n2] & 0xFF) == 0xFA) {
                         ++n2;
-                        this.sub_2f12(this.var_f77);
-                        this.var_110f[i] = 6;
+                        this.sub_2f12(this._nModules);
+                        this._module_types[i] = 6;
                         b = true;
                         b2 = false;
                         b4 = true;
                     }
                     else if ((file[n2] & 0xFF) == 0xF9) {
                         ++n2;
-                        this.sub_2f12(this.var_f77);
-                        this.var_110f[i] = 7;
+                        this.sub_2f12(this._nModules);
+                        this._module_types[i] = 7;
                         b = true;
                         b2 = false;
                         b4 = true;
                     }
                     else if ((file[n2] & 0xFF) == 0xF8) {
                         ++n2;
-                        this.sub_2f12(this.var_f77);
-                        this.var_110f[i] = 8;
+                        this.sub_2f12(this._nModules);
+                        this._module_types[i] = 8;
                         b = true;
                         b2 = true;
                         b4 = false;
                     }
                     else if ((file[n2] & 0xFF) == 0xF7) {
                         ++n2;
-                        this.sub_2f12(this.var_f77);
-                        this.var_110f[i] = 9;
+                        this.sub_2f12(this._nModules);
+                        this._module_types[i] = 9;
                         b = true;
                         b5 = true;
                         b2 = true;
@@ -248,7 +248,7 @@ public final class ASprite
                     }
                     if (b5) {
                         if (array2 == null) {
-                            array2 = new short[this.var_f77][];
+                            array2 = new short[this._nModules][];
                         }
                         final short[] array3 = new short[3];
                         final int n8 = (file[n2++] & 0xFF) + ((file[n2++] & 0xFF) << 8) + ((file[n2++] & 0xFF) << 16) + ((file[n2++] & 0xFF) << 24);
@@ -261,17 +261,17 @@ public final class ASprite
                     }
                     if (b2) {
                         if ((this._bs_flags & 0x10) == 0x0) {
-                            this.var_f7f[i] = (short)(file[n2++] & 0xFF);
-                            this.var_f87[i] = (short)(file[n2++] & 0xFF);
+                            this._modules_w_short[i] = (short)(file[n2++] & 0xFF);
+                            this._modules_h_short[i] = (short)(file[n2++] & 0xFF);
                         }
                         else {
-                            this.var_f7f[i] = (short)((file[n2++] & 0xFF) + ((file[n2++] & 0xFF) << 8));
-                            this.var_f87[i] = (short)((file[n2++] & 0xFF) + ((file[n2++] & 0xFF) << 8));
+                            this._modules_w_short[i] = (short)((file[n2++] & 0xFF) + ((file[n2++] & 0xFF) << 8));
+                            this._modules_h_short[i] = (short)((file[n2++] & 0xFF) + ((file[n2++] & 0xFF) << 8));
                         }
                     }
                     if (b3) {
                         if (array2 == null) {
-                            array2 = new short[this.var_f77][];
+                            array2 = new short[this._nModules][];
                         }
                         final short[] array4;
                         (array4 = new short[2])[0] = (short)((file[n2++] & 0xFF) + ((file[n2++] & 0xFF) << 8));
@@ -282,7 +282,7 @@ public final class ASprite
                     }
                     if (b4) {
                         if (array2 == null) {
-                            array2 = new short[this.var_f77][];
+                            array2 = new short[this._nModules][];
                         }
                         final short[] array5;
                         (array5 = new short[4])[0] = (short)((file[n2++] & 0xFF) + ((file[n2++] & 0xFF) << 8));
@@ -299,15 +299,15 @@ public final class ASprite
                     this.var_f97 = new short[n6 << 1];
                     int n9 = 0;
                     short n10 = 0;
-                    for (short n11 = 0; n11 < this.var_f77; ++n11) {
+                    for (short n11 = 0; n11 < this._nModules; ++n11) {
                         int n12;
-                        if (this.var_110f[n11] == 3 || this.var_110f[n11] == 4) {
+                        if (this._module_types[n11] == 3 || this._module_types[n11] == 4) {
                             n12 = 2;
                         }
-                        else if (this.var_110f[n11] == 6 || this.var_110f[n11] == 7) {
+                        else if (this._module_types[n11] == 6 || this._module_types[n11] == 7) {
                             n12 = 4;
                         }
-                        else if (this.var_110f[n11] == 9) {
+                        else if (this._module_types[n11] == 9) {
                             n12 = 3;
                         }
                         else {
@@ -329,41 +329,41 @@ public final class ASprite
             n = n2;
             
             int n13 = n;
-            final ASprite this4 = this;
+
             final short n14;
             if ((n14 = (short)((file[n13++] & 0xFF) + ((file[n13++] & 0xFF) << 8))) > 0) {
-                if ((this4._bs_flags & 0x100000) != 0x0) {
-                    this4.var_fe7 = new short[n14];
+                if ((this._bs_flags & 0x100000) != 0x0) {
+                    this.var_fe7 = new short[n14];
                 }
                 else {
-                    this4.var_fdf = new byte[n14];
+                    this.var_fdf = new byte[n14];
                 }
-                this4.var_ff7 = new short[n14];
-                this4.var_fff = new short[n14];
-                this4.var_fef = new byte[n14];
+                this.var_ff7 = new short[n14];
+                this.var_fff = new short[n14];
+                this.var_fef = new byte[n14];
                 for (short n15 = 0; n15 < n14; ++n15) {
-                    if ((this4._bs_flags & 0x100000) != 0x0) {
-                        this4.var_fe7[n15] = (short)((file[n13++] & 0xFF) + ((file[n13++] & 0xFF) << 8));
+                    if ((this._bs_flags & 0x100000) != 0x0) {
+                        this.var_fe7[n15] = (short)((file[n13++] & 0xFF) + ((file[n13++] & 0xFF) << 8));
                     }
                     else {
-                        this4.var_fdf[n15] = file[n13++];
+                        this.var_fdf[n15] = file[n13++];
                     }
-                    if ((this4._bs_flags & 0x400) != 0x0) {
-                        this4.var_ff7[n15] = (short)((file[n13++] & 0xFF) + ((file[n13++] & 0xFF) << 8));
-                        this4.var_fff[n15] = (short)((file[n13++] & 0xFF) + ((file[n13++] & 0xFF) << 8));
+                    if ((this._bs_flags & 0x400) != 0x0) {
+                        this.var_ff7[n15] = (short)((file[n13++] & 0xFF) + ((file[n13++] & 0xFF) << 8));
+                        this.var_fff[n15] = (short)((file[n13++] & 0xFF) + ((file[n13++] & 0xFF) << 8));
                     }
                     else {
-                        this4.var_ff7[n15] = file[n13++];
-                        this4.var_fff[n15] = file[n13++];
+                        this.var_ff7[n15] = file[n13++];
+                        this.var_fff[n15] = file[n13++];
                     }
-                    this4.var_fef[n15] = file[n13++];
+                    this.var_fef[n15] = file[n13++];
                 }
             }
             n = n13;
-            final ASprite this5 = this;
+
             int n16 = n;
-            final ASprite this6 = this5;
-            if ((this5._bs_flags & 0x8000) != 0x0) {
+            final ASprite this6 = this;
+            if ((this._bs_flags & 0x8000) != 0x0) {
                 final short n17 = (short)((file[n16++] & 0xFF) + ((file[n16++] & 0xFF) << 8));
                 if ((this6._bs_flags & 0x400) == 0x0) {
                     System.arraycopy(file, n16, this6.var_fc7 = new byte[n17 << 2], 0, n17 << 2);
@@ -469,7 +469,7 @@ public final class ASprite
                 }
             }
             n = offset;
-            if (this.var_f77 <= 0) {
+            if (this._nModules <= 0) {
                 if (ASprite.var_114f) {
                     System.gc();
                 }
@@ -583,11 +583,11 @@ public final class ASprite
                             --var_10b8[n60];
                         }
                     }
-                    if (this12.var_f77 > 0) {
-                        this12.var_1067 = new int[this12.var_f77];
+                    if (this12._nModules > 0) {
+                        this12.var_1067 = new int[this12._nModules];
                         int n61 = 0;
                         final int n62 = n32;
-                        for (int n63 = 0; n63 < this12.var_f77; ++n63) {
+                        for (int n63 = 0; n63 < this12._nModules; ++n63) {
                             int n64;
                             if ((this12._bs_flags & 0x80) != 0x0) {
                                 n64 = (file[n32++] & 0xFF) + ((file[n32++] & 0xFF) << 8) + ((file[n32++] & 0xFF) << 16) + ((file[n32++] & 0xFF) << 24);
@@ -601,7 +601,7 @@ public final class ASprite
                         }
                         int n65 = n62;
                         this12.var_105f = new byte[n61];
-                        for (int n66 = 0; n66 < this12.var_f77; ++n66) {
+                        for (int n66 = 0; n66 < this12._nModules; ++n66) {
                             int n67;
                             if ((this12._bs_flags & 0x80) != 0x0) {
                                 n67 = (file[n65++] & 0xFF) + ((file[n65++] & 0xFF) << 8) + ((file[n65++] & 0xFF) << 16) + ((file[n65++] & 0xFF) << 24);
@@ -655,10 +655,10 @@ public final class ASprite
     }
     
     private void sub_2f12(final int n) {
-        if (this.var_110f == null) {
-            this.var_110f = new byte[n];
+        if (this._module_types == null) {
+            this._module_types = new byte[n];
             for (int i = 0; i < n; ++i) {
-                this.var_110f[i] = 0;
+                this._module_types[i] = 0;
             }
         }
         if (this.var_111f == null) {
@@ -958,8 +958,8 @@ public final class ASprite
     }
     
     public final void sub_3af1() {
-        this.var_115f = new GLLibImage[this.var_107f][this.var_f77];
-        this.var_1167 = new int[this.var_107f][this.var_f77];
+        this.var_115f = new GLLibImage[this.var_107f][this._nModules];
+        this.var_1167 = new int[this.var_107f][this._nModules];
     }
     
     public final boolean sub_3b2c() {
@@ -976,9 +976,9 @@ public final class ASprite
             final int[] sub_5a52 = GLLib.sub_5a52(sub_5a53 = GLLib.sub_5a72());
             final int n5 = sub_5a53;
             final int[] array = sub_5a52;
-            if (this.var_115f != null && this.var_115f[this.var_108f][n] != null && sub_3b62(array, n5) == this.var_1167[this.var_108f][n]) {
+            if (this.var_115f != null && this.var_115f[this._crt_pal][n] != null && sub_3b62(array, n5) == this.var_1167[this._crt_pal][n]) {
                 final GLLibImage class_l2;
-                final GLLibImage class_l = class_l2 = this.var_115f[this.var_108f][n];
+                final GLLibImage class_l = class_l2 = this.var_115f[this._crt_pal][n];
                 final int width = class_l.image.getWidth();
                 final int height = class_l2.image.getHeight();
                 final int n6 = ASprite.midp2_flags[n4];
@@ -1004,8 +1004,8 @@ public final class ASprite
             final int n7 = n6;
             final GLLibImage class_l2 = class_l;
             n = n5;
-            this.var_115f[this.var_108f][n] = class_l2;
-            this.var_1167[this.var_108f][n] = sub_3b62(array2, n7);
+            this.var_115f[this._crt_pal][n] = class_l2;
+            this.var_1167[this._crt_pal][n] = sub_3b62(array2, n7);
             final GLLibImage class_l3 = sub_1d9;
             final int width = sub_1d9.image.getWidth();
             final int height = sub_1d9.image.getHeight();
@@ -1039,7 +1039,7 @@ public final class ASprite
         if (this._module_image_imageAA == null) {
             this._module_image_imageAA = new GLLibImage[this.var_107f][];
             for (i = 0; i < this.var_107f; ++i) {
-                this._module_image_imageAA[i] = new GLLibImage[this.var_f77];
+                this._module_image_imageAA[i] = new GLLibImage[this._nModules];
             }
         }
     }
@@ -1059,7 +1059,7 @@ public final class ASprite
     }
     
     private void UpdatePoolCache(int module, final Object cached) {
-        if (this._cur_pool >= 0 && this._module_image_imageAA[this.var_108f][module] == null) {
+        if (this._cur_pool >= 0 && this._module_image_imageAA[this._crt_pal][module] == null) {
             final int cur_index = ASprite._poolCacheStackIndex[this._cur_pool];
             short img_index = ASprite._poolCacheStack[this._cur_pool][cur_index];
             final int img_pal = img_index >> 10;
@@ -1068,48 +1068,40 @@ public final class ASprite
             if (img_index >= 0 && _poolCacheSprites[this._cur_pool][cur_index] != null) {
                 this._module_image_imageAA[img_pal][img_module] = null;
             }
-            ASprite._poolCacheStack[this._cur_pool][cur_index] = (short)((module & 0x3FF) + (this.var_108f << 10));
+            ASprite._poolCacheStack[this._cur_pool][cur_index] = (short)((module & 0x3FF) + (this._crt_pal << 10));
             ASprite._poolCacheSprites[this._cur_pool][cur_index] = this;
             ASprite._poolCacheStackIndex[this._cur_pool] = (ASprite._poolCacheStackIndex[this._cur_pool] + 1) % ASprite.var_1187[this._cur_pool];
-            this._module_image_imageAA[this.var_108f][module] = (GLLibImage)cached;
+            this._module_image_imageAA[this._crt_pal][module] = (GLLibImage)cached;
         }
     }
     
     Object DecodeImage(final int module) {
-        return this.sub_3ffb(module);
+        return this.DecodeImage_int(module);
     }
     
-    private int[] sub_3ffb(int n) {
+    private int[] DecodeImage_int(int module) {
         if (this.var_1067 != null && this.var_105f != null) {
-            final int n2 = n;
-            final byte b = (byte)((this.var_1117 == null) ? 0 : this.var_1117[n2]);
-            final byte[] var_105f = this.var_105f;
-            final int sub_3801 = this.sub_3801(n);
-            final int n3 = this.var_f7f[n] & 0xFFFF;
-            final int n4 = this.var_f87[n] & 0xFFFF;
-            final int n5 = n3;
-            n = sub_3801;
-            final byte[] array = var_105f;
-            final byte b2 = b;
+            final byte b = (byte)((this.var_1117 == null) ? 0 : this.var_1117[module]);
+            final int sub_3801 = this.sub_3801(module);
+            final int n3 = this._modules_w_short[module] & 0xFFFF;
+            final int n4 = this._modules_h_short[module] & 0xFFFF;
+            module = sub_3801;
             int i = 0;
-            int n6 = n5 * n4;
+            int n6 = n3 * n4;
             if (ASprite.var_f67 == null) {
                 ASprite.var_f67 = new int[27832];
             }
-            final byte b3 = b2;
-            final int var_108f = this.var_108f;
-            final byte b4 = b3;
             final int[] array2;
             boolean b5;
-            if ((array2 = (int[])((var_108f >= 0 && var_108f < this.var_107f && this.var_1077 != null && var_108f < this.var_1077[b4].length) ? this.var_1077[b4][var_108f] : null)) == null) {
+            if ((array2 = (int[])((_crt_pal >= 0 && _crt_pal < this.var_107f && this.var_1077 != null && _crt_pal < this.var_1077[b].length) ? this.var_1077[b][_crt_pal] : null)) == null) {
                 b5 = false;
             }
             else {
                 if (this.var_10af == 25840) {
                     while (i < n6) {
-                        final int n7 = array[n++] & 0xFF;
-                        final int n8 = array2[n7 & this.var_10b7[b2]];
-                        int n9 = n7 >> this.var_10bf[b2];
+                        final int n7 = var_105f[module++] & 0xFF;
+                        final int n8 = array2[n7 & this.var_10b7[b]];
+                        int n9 = n7 >> this.var_10bf[b];
                         while (n9-- >= 0) {
                             ASprite.var_f67[i++] = n8;
                         }
@@ -1118,8 +1110,8 @@ public final class ASprite
                 else if (this.var_10af == 10225) {
                     while (i < n6) {
                         int n10;
-                        if ((n10 = (array[n++] & 0xFF)) > 127) {
-                            final int n11 = array2[array[n++] & 0xFF];
+                        if ((n10 = (var_105f[module++] & 0xFF)) > 127) {
+                            final int n11 = array2[var_105f[module++] & 0xFF];
                             n10 -= 128;
                             while (n10-- > 0) {
                                 ASprite.var_f67[i++] = n11;
@@ -1131,19 +1123,19 @@ public final class ASprite
                     }
                 }
                 else if (this.var_10af == 22258) {
-                    --n;
+                    --module;
                     --i;
                     --n6;
                     while (i < n6) {
                         int n12;
-                        if ((n12 = array[++n]) < 0) {
+                        if ((n12 = var_105f[++module]) < 0) {
                             n12 += 128;
                             do {
-                                ASprite.var_f67[++i] = array2[array[++n] & 0xFF];
+                                ASprite.var_f67[++i] = array2[var_105f[++module] & 0xFF];
                             } while (--n12 > 0);
                         }
                         else {
-                            final int n13 = array2[array[++n] & 0xFF];
+                            final int n13 = array2[var_105f[++module] & 0xFF];
                             do {
                                 ASprite.var_f67[++i] = n13;
                             } while (--n12 > 0);
@@ -1153,7 +1145,7 @@ public final class ASprite
                 else if (this.var_10af == 5632) {
                     int n14 = n6 + (((n6 & 0x1) == 0x0) ? 0 : 2) >> 1;
                     while (--n14 >= 0) {
-                        final byte b6 = array[n++];
+                        final byte b6 = var_105f[module++];
                         ASprite.var_f67[i++] = array2[b6 >> 4 & 0xF];
                         ASprite.var_f67[i++] = array2[b6 & 0xF];
                     }
@@ -1161,7 +1153,7 @@ public final class ASprite
                 else if (this.var_10af == 1024) {
                     int n15 = n6 + (((n6 & 0x3) == 0x0) ? 0 : 4) >> 2;
                     while (--n15 >= 0) {
-                        final byte b7 = array[n++];
+                        final byte b7 = var_105f[module++];
                         ASprite.var_f67[i++] = array2[b7 >> 6 & 0x3];
                         ASprite.var_f67[i++] = array2[b7 >> 4 & 0x3];
                         ASprite.var_f67[i++] = array2[b7 >> 2 & 0x3];
@@ -1171,7 +1163,7 @@ public final class ASprite
                 else if (this.var_10af == 512) {
                     int n16 = n6 + (((n6 & 0x7) == 0x0) ? 0 : 8) >> 3;
                     while (--n16 >= 0) {
-                        final byte b8 = array[n++];
+                        final byte b8 = var_105f[module++];
                         ASprite.var_f67[i++] = array2[b8 >> 7 & 0x1];
                         ASprite.var_f67[i++] = array2[b8 >> 6 & 0x1];
                         ASprite.var_f67[i++] = array2[b8 >> 5 & 0x1];
@@ -1184,7 +1176,7 @@ public final class ASprite
                 }
                 else if (this.var_10af == 22018) {
                     while (--n6 >= 0) {
-                        ASprite.var_f67[i++] = array2[array[n++] & 0xFF];
+                        ASprite.var_f67[i++] = array2[var_105f[module++] & 0xFF];
                     }
                 }
                 b5 = true;
@@ -1300,13 +1292,13 @@ public final class ASprite
         int lastSpacePos = 0;
         int var_11df = this.var_11df ? 1 : 0;
         int var_11d7 = this.var_11d7 ? 1 : 0;
-        int var_108f = this.var_108f;
+        int _crt_pal = this._crt_pal;
         int n4 = 0;
         short n5 = 0;
         int var_11df2 = this.var_11df ? 1 : 0;
         int var_11d8 = this.var_11d7 ? 1 : 0;
-        int var_108f2;
-        int n6 = ((var_108f2 = this.var_108f) & 0xFFF) | ((var_11df2 != 0) ? 4096 : 0) | ((var_11d8 != 0) ? 8192 : 0);
+        int _crt_pal2;
+        int n6 = ((_crt_pal2 = this._crt_pal) & 0xFFF) | ((var_11df2 != 0) ? 4096 : 0) | ((var_11d8 != 0) ? 8192 : 0);
         for (int i = 0; i < str_len; ++i) {
             final char c = s.charAt(i);
             final int sub_63ed = this.sub_63ed(this.sub_4851(c));
@@ -1319,7 +1311,7 @@ public final class ASprite
                 n4 = 1;
                 n5 = 0;
                 var_11d7 = var_11d8;
-                var_108f = var_108f2;
+                _crt_pal = _crt_pal2;
                 if (lineSize > width) {
                     n4 = 0;
                     for (int pos = lastSpacePos; pos >= 0 && (s.charAt(pos) == ' ' || s.charAt(pos) == ASprite.var_1157); --pos) {
@@ -1345,8 +1337,8 @@ public final class ASprite
                     n3 = (short)(n10 + 1);
                     var_11ff3[n11] = (short)n6;
                     var_11d8 = var_11d7;
-                    var_108f2 = var_108f;
-                    n6 = ((var_108f & 0xFFF) | ((var_11df != 0) ? 4096 : 0) | ((var_11d7 != 0) ? 8192 : 0));
+                    _crt_pal2 = _crt_pal;
+                    n6 = ((_crt_pal & 0xFFF) | ((var_11df != 0) ? 4096 : 0) | ((var_11d7 != 0) ? 8192 : 0));
                     lineSize = 0;
                 }
             }
@@ -1363,7 +1355,7 @@ public final class ASprite
                     int n12 = char2 & '\u00ff';
                     n12 -= 48;
                     if (n12 < this.var_107f) {
-                        var_108f2 = n12;
+                        _crt_pal2 = n12;
                     }
                 }
             }
@@ -1383,7 +1375,7 @@ public final class ASprite
                 final short n17 = n16;
                 n3 = (short)(n16 + 1);
                 var_11ff6[n17] = (short)n6;
-                n6 = ((var_108f2 & 0xFFF) | ((var_11df2 != 0) ? 4096 : 0) | ((var_11d8 != 0) ? 8192 : 0));
+                n6 = ((_crt_pal2 & 0xFFF) | ((var_11df2 != 0) ? 4096 : 0) | ((var_11d8 != 0) ? 8192 : 0));
             }
             else {
                 if (c < ' ') {
@@ -1416,7 +1408,7 @@ public final class ASprite
                     if (b2) {
                         var_11df = var_11df2;
                         var_11d7 = var_11d8;
-                        var_108f = var_108f2;
+                        _crt_pal = _crt_pal2;
                         n5 = 0;
                     }
                     if (s.charAt(lastSpacePos) != '\n') {
@@ -1434,8 +1426,8 @@ public final class ASprite
                     n3 = (short)(n3 + 1);
                     var_11ff9[n23] = (short)n6;
                     var_11d8 = var_11d7;
-                    var_108f2 = var_108f;
-                    n6 = ((var_108f & 0xFFF) | ((var_11df != 0) ? 4096 : 0) | ((var_11d7 != 0) ? 8192 : 0));
+                    _crt_pal2 = _crt_pal;
+                    n6 = ((_crt_pal & 0xFFF) | ((var_11df != 0) ? 4096 : 0) | ((var_11d7 != 0) ? 8192 : 0));
                     lineSize = 0;
                     i = lastSpacePos;
                     var_11df2 = var_11df;
@@ -1474,7 +1466,7 @@ public final class ASprite
         else if ((n5 & 0x2) != 0x0) {
             n2 -= sub_4a3a * (n4 - 1) >> 1;
         }
-        ASprite.var_1197 = this.var_108f;
+        ASprite.var_1197 = this._crt_pal;
         final boolean var_11df = this.var_11df;
         final boolean var_11d7 = this.var_11d7;
         final int sub_3600;
@@ -1525,7 +1517,7 @@ public final class ASprite
         ASprite.var_1207 = -1;
         ASprite.var_120f = -1;
         ASprite.var_1217 = -1;
-        this.var_108f = ASprite.var_1197;
+        this._crt_pal = ASprite.var_1197;
         this.var_11df = var_11df;
         this.var_11d7 = var_11d7;
     }
@@ -1646,7 +1638,7 @@ public final class ASprite
             }
             n3 = n;
             if (b) {
-                ASprite.var_1197 = this.var_108f;
+                ASprite.var_1197 = this._crt_pal;
             }
             final int n6 = (ASprite.var_1207 >= 0) ? ASprite.var_1207 : 0;
             int var_1217;
@@ -1700,7 +1692,7 @@ public final class ASprite
                                 this.sub_6434(c3);
                             }
                             if (c3 == '\u00ff') {
-                                this.var_108f = ASprite.var_1197;
+                                this._crt_pal = ASprite.var_1197;
                             }
                             continue;
                         }
@@ -1726,7 +1718,7 @@ public final class ASprite
                 }
             }
             if (b) {
-                this.var_108f = ASprite.var_1197;
+                this._crt_pal = ASprite.var_1197;
             }
         }
     }
@@ -1738,15 +1730,15 @@ public final class ASprite
         return this.sub_3379(n);
     }
     
-    final void sub_6434(final int var_108f) {
+    final void sub_6434(final int _crt_pal) {
         
-        if (var_108f < this.var_107f && var_108f >= 0) {
-            this.var_108f = var_108f;
+        if (_crt_pal < this.var_107f && _crt_pal >= 0) {
+            this._crt_pal = _crt_pal;
         }
     }
     
     final int sub_6475() {
-        return this.var_108f;
+        return this._crt_pal;
     }
     
     final int sub_6494(final int n) {
@@ -1756,40 +1748,38 @@ public final class ASprite
         return this.var_f9f[n];
     }
     
-    final void sub_64d8(final int var_108f, int i, int n, int var_108f2) {
+    final void sub_64d8(final int pal, int i, int m2, int unk) {
         if (this._module_image_imageAA == null) {
             this._module_image_imageAA = new GLLibImage[this.var_107f][];
         }
-        if (this._module_image_imageAA[var_108f] == null) {
-            this._module_image_imageAA[var_108f] = new GLLibImage[this.var_f77];
+        if (this._module_image_imageAA[pal] == null) {
+            this._module_image_imageAA[pal] = new GLLibImage[this._nModules];
         }
-        if (this.var_f77 == 0) {
+        if (this._nModules == 0) {
             return;
         }
-        if (n == -1) {
-            n = this.var_f77 - 1;
+        if (m2 == -1) {
+            m2 = this._nModules - 1;
         }
         if ((this._bs_flags & 0x1000008) != 0x0) {
-            var_108f2 = this.var_108f;
-            this.var_108f = var_108f;
+            this._crt_pal = pal;
             if (ASprite.var_114f) {
                 System.gc();
             }
-            while (i <= n) {
-                final int n2 = i;
-                if (((this.var_110f != null) ? this.var_110f[n2] : 0) == 0) {
-                    int var_201f = this.var_f7f[i] & 0xFFFF;
-                    int var_2027 = this.var_f87[i] & 0xFFFF;
+            while (i <= m2) {
+                if (((this._module_types != null) ? this._module_types[i] : 0) == 0) {
+                    int sizeX = this._modules_w_short[i] & 0xFFFF;
+                    int sizeY = this._modules_h_short[i] & 0xFFFF;
                     int[] array;
-                    if (var_201f > 0 && var_2027 > 0 && (array = this.sub_3ffb(i)) != null) {
+                    if (sizeX > 0 && sizeY > 0 && (array = this.DecodeImage_int(i)) != null) {
                         if (GLLib.var_1fdf && (GLLib.var_1fe7 & 0xFF7E0) != 0x0) {
-                            array = GLLib.sub_5d84(null, array, 0, 0, var_201f, var_2027, 0, this.var_1097, false, false);
-                            var_201f = GLLib.var_201f;
-                            var_2027 = GLLib.var_2027;
+                            array = GLLib.sub_5d84(null, array, 0, 0, sizeX, sizeY, 0, this.var_1097, false, false);
+                            sizeX = GLLib.var_201f;
+                            sizeY = GLLib.var_2027;
                         }
                         final int[] array2 = array;
-                        final int n3 = var_201f;
-                        final int n4 = var_2027;
+                        final int n3 = sizeX;
+                        final int n4 = sizeY;
                         final int n5 = i;
                         final int n6 = n4;
                         final int n7 = n3;
@@ -1802,7 +1792,7 @@ public final class ASprite
                                 break;
                             }
                         }
-                        this._module_image_imageAA[var_108f][n5] = GLLibImage.createRGBImage(sub_9c11(array3, n6, n7, 4, null), n6, n7, b);
+                        this._module_image_imageAA[pal][n5] = GLLibImage.createRGBImage(sub_9c11(array3, n6, n7, 4, null), n6, n7, b);
                     }
                 }
                 ++i;
@@ -1810,7 +1800,7 @@ public final class ASprite
             if (ASprite.var_114f) {
                 System.gc();
             }
-            this.var_108f = var_108f2;
+            this._crt_pal = unk;
         }
         if (ASprite.var_114f) {
             System.gc();
@@ -1875,9 +1865,9 @@ public final class ASprite
             final int n6 = i;
             
             final int n7 = i;
-            final ASprite this4 = this;
+
             sub_312c = this.sub_312c(n7);
-            int sub_3718 = this4.sub_3189(n7);
+            int sub_3718 = this.sub_3189(n7);
             if ((GLLib.var_1fe7 & 0x2000) != 0x0) {
                 final int sub_5bbb = GLLib.sub_5bbb();
                 final int sub_5bfe = GLLib.sub_5bfe();
@@ -1889,11 +1879,11 @@ public final class ASprite
                 class_l = null;
             }
             else {
-                final ASprite this5 = this4;
+    
                 final int n8 = n7;
-                final int var_108f = n;
+                final int _crt_pal = n;
                 final int n9 = n8;
-                final ASprite this6 = this5;
+                final ASprite this6 = this;
                 boolean var_10e7 = false;
                 int sub_312c2 = this6.sub_312c(n9);
                 int sub_3719 = this6.sub_3189(n9);
@@ -1916,8 +1906,8 @@ public final class ASprite
                 }
                 else {
                     final int[] array3 = new int[j];
-                    final int var_108f2 = this6.var_108f;
-                    this6.var_108f = var_108f;
+                    final int _crt_pal2 = this6._crt_pal;
+                    this6._crt_pal = _crt_pal;
                     final int n12;
                     if (((n12 = ASprite.var_1107[0]) & 0x4) != 0x0) {
                         final int n13 = sub_312c2;
@@ -1951,7 +1941,7 @@ public final class ASprite
                         }
                     }
                     ASprite.var_10e7 = var_10e7;
-                    this6.var_108f = var_108f2;
+                    this6._crt_pal = _crt_pal2;
                     array2 = array3;
                 }
                 final int[] array4 = array2;
@@ -2016,9 +2006,9 @@ public final class ASprite
         int sub_3019 = -1;
         Label_0748: {
             if (ASprite.var_121f == 0) {
-                final int var_108f = this.var_108f;
+                final int _crt_pal = this._crt_pal;
                 final int n5 = this.var_1057 + 1;
-                if (this.var_10df != null && this.var_10df[var_108f] != null && this.var_10df[var_108f][n5][n] != null) {
+                if (this.var_10df != null && this.var_10df[_crt_pal] != null && this.var_10df[_crt_pal][n5][n] != null) {
                     int n6 = n4;
                     int n7 = 0;
                     final int sub_312c = this.sub_312c(n);
@@ -2078,9 +2068,9 @@ public final class ASprite
                         final int n17 = sub_312c;
                         final int n18 = sub_3020;
                         final int n19 = n17;
-                        final int var_108f2 = this.var_108f;
+                        final int _crt_pal2 = this._crt_pal;
                         final GLLibImage class_l;
-                        if ((class_l = ((this.var_10df == null || this.var_10df[var_108f2] == null) ? null : this.var_10df[var_108f2][this.var_1057 + 1][n])) != null) {
+                        if ((class_l = ((this.var_10df == null || this.var_10df[_crt_pal2] == null) ? null : this.var_10df[_crt_pal2][this.var_1057 + 1][n])) != null) {
                             Label_0733: {
                                 if (GLLib.var_1fdf && (GLLib.var_1fe7 & 0xFF7E0) != 0x0) {
                                     final GLLibImage class_l2 = class_l;
@@ -2138,8 +2128,8 @@ public final class ASprite
                 if (this.var_1057 >= 0) {
                     n29 = this.var_104f[this.var_1057][n29];
                 }
-                int n30 = this.var_f7f[n29] & 0xFFFF;
-                int n31 = this.var_f87[n29] & 0xFFFF;
+                int n30 = this._modules_w_short[n29] & 0xFFFF;
+                int n31 = this._modules_h_short[n29] & 0xFFFF;
                 final int n32 = n30;
                 final int n33 = n31;
                 int n34 = 0 + this.var_ff7[sub_3022];
@@ -2196,38 +2186,23 @@ public final class ASprite
         return -1;
     }
     
-    final void sub_7dca(Graphics graphics, int color, int n, int n2, int n3, int a, int a2) {
-        ASprite.s_rc[0] = a;
-        ASprite.s_rc[1] = a2;
+    final void sub_7dca(Graphics g, int module, int posX, int posY, int n3, int p2x, int p2y) {
+        ASprite.s_rc[0] = p2x;
+        ASprite.s_rc[1] = p2y;
         
-        final Graphics graphics2 = graphics;
-        final int n4 = color;
-        final int n5 = n;
-        final int n6 = n2;
-        final int n7 = n3;
-        final int[] var_1147 = ASprite.s_rc;
-        n3 = n7;
-        n2 = n6;
-        n = n5;
-        color = n4;
-        graphics = graphics2;
-        
-        a2 = n;
-        final int n8 = n2;
+        p2y = posX;
         final int n9 = n3;
         if (this.var_1057 >= 0) {
-            color = this.var_104f[this.var_1057][color];
+            module = this.var_104f[this.var_1057][module];
         }
         if ((GLLib.var_1fe7 & 0x2000) != 0x0 && GLLib.var_1fef[13][5] != 0) {
             final int sub_5bbb = GLLib.sub_5bbb();
             final int sub_5bfe = GLLib.sub_5bfe();
-            n = n * sub_5bbb / 100;
-            n2 = n2 * sub_5bfe / 100;
+            posX = posX * sub_5bbb / 100;
+            posY = posY * sub_5bfe / 100;
         }
         
-        final int n10 = color;
-        
-        if (((this.var_110f != null) ? this.var_110f[n10] : 0) == 0) {
+        if (((this._module_types != null) ? this._module_types[module] : 0) == 0) {
             if ((n3 & 0x1) == 0x0 || (n3 & 0x2) == 0x0) {
                 if ((n3 & 0x1) != 0x0) {
                     n3 = ((n3 & 0xFFFFFFFE) | 0x2);
@@ -2236,16 +2211,12 @@ public final class ASprite
                     n3 = ((n3 & 0xFFFFFFFD) | 0x1);
                 }
             }
-            final int n11 = n;
-            final int n12 = ASprite.s_screenWidth - n2;
-            final ASprite this4 = this;
-            final int n13 = color;
-            final int n14 = n3;
-            n2 = n13;
-            final ASprite this5 = this4;
-            int n15 = this4.var_f87[n2];
-            if ((n14 & 0x4) != 0x0) {
-                n15 = this5.var_f7f[n2];
+            final int n12 = ASprite.s_screenWidth - posY;
+            posY = module;
+
+            int n15 = this._modules_h_short[posY];
+            if ((n3 & 0x4) != 0x0) {
+                n15 = this._modules_w_short[posY];
             }
             if (n15 < 0) {
                 n15 += 255;
@@ -2253,162 +2224,152 @@ public final class ASprite
             if ((GLLib.var_1fe7 & 0x2000) != 0x0) {
                 n15 = n15 * GLLib.sub_5bfe() / 100;
             }
-            n = n12 - n15;
-            n2 = n11;
+            posX = n12 - n15;
+            posY = posX;
         }
-        final int n16 = var_1147[0];
-        final int n17 = a = var_1147[1];
+        final int n16 = s_rc[0];
+        final int n17 = p2x = s_rc[1];
         int var_1148 = n16;
-        int n18 = a;
+        int n18 = p2x;
         int n19 = var_1148;
         if ((n3 & 0x4) != 0x0) {
-            final int n20 = a;
-            a = var_1148;
+            final int n20 = p2x;
+            p2x = var_1148;
             var_1148 = n20;
         }
         final ASprite this6 = this;
-        final int n21 = color;
+        final int n21 = module;
         final ASprite this7 = this6;
-        if (((this6.var_110f != null) ? this7.var_110f[n21] : 0) != 0 && graphics != null) {
+        if (((this6._module_types != null) ? this7._module_types[n21] : 0) != 0 && g != null) {
+            ;
+            int n29 = var_1148;
             
-            final Graphics graphics3 = graphics;
-            final int n22 = color;
-            final int n23 = var_1148;
-            final int n24 = a;
-            final int n25 = n;
-            int n26 = n2;
-            int n27 = n25;
-            int n28 = n24;
-            int n29 = n23;
-            final int n30 = n22;
-            final Graphics graphics4 = graphics3;
-            
-            color = this.var_111f[n30];
-            graphics4.setColor(color);
-            switch (this.var_110f[n30]) {
+            module = this.var_111f[module];
+            g.setColor(module);
+            switch (this._module_types[module]) {
                 case 2: {
-                    if ((color & 0xFF000000) == 0xFF000000 || (color & 0xFF000000) == 0x0) {
-                        GLLib.FillRect(graphics4, n27, n26, n29, n28, true);
+                    if ((module & 0xFF000000) == 0xFF000000 || (module & 0xFF000000) == 0x0) {
+                        GLLib.FillRect(g, posX, posY, n29, p2x, true);
                         return;
                     }
-                    GLLib.sub_56ff(color);
-                    GLLib.sub_57eb(graphics4, n27, n26, n29, n28);
+                    GLLib.sub_56ff(module);
+                    GLLib.sub_57eb(g, posX, posY, n29, p2x);
                     return;
                 }
                 case 1: {
                     --n29;
-                    --n28;
-                    GLLib.DrawRect(graphics4, n27, n26, n29, n28, true);
+                    --p2x;
+                    GLLib.DrawRect(g, posX, posY, n29, p2x, true);
                     return;
                 }
                 case 3:
                 case 4: {
-                    if ((n3 = this.sub_7d5b(n30)) != -1) {
-                        a = this.var_f8f[n3];
-                        a2 = this.var_f8f[n3 + 1];
+                    if ((n3 = this.sub_7d5b(module)) != -1) {
+                        p2x = this.var_f8f[n3];
+                        p2y = this.var_f8f[n3 + 1];
                         if ((n9 & 0x1) != 0x0) {
-                            a = 90 - a;
+                            p2x = 90 - p2x;
                         }
                         if ((n9 & 0x2) != 0x0) {
-                            a = -a;
-                            a2 = -a2;
+                            p2x = -p2x;
+                            p2y = -p2y;
                         }
                         if ((n9 & 0x4) != 0x0) {
-                            a -= 90;
+                            p2x -= 90;
                         }
-                        if (this.var_110f[n30] == 3) {
-                            GLLib.DrawArc(graphics4, n27, n26, n29, n28, a, a2, true);
+                        if (this._module_types[module] == 3) {
+                            GLLib.DrawArc(g, posX, posY, n29, p2x, p2x, p2y, true);
                             return;
                         }
-                        GLLib.FillArc(graphics4, n27, n26, n29, n28, a, a2, true);
+                        GLLib.FillArc(g, posX, posY, n29, p2x, p2x, p2y, true);
                     }
                     return;
                 }
                 case 6:
                 case 7: {
-                    if ((n3 = this.sub_7d5b(n30)) != -1) {
-                        a = this.var_f8f[n3];
-                        a2 = this.var_f8f[n3 + 1];
-                        int a3 = this.var_f8f[n3 + 2];
-                        int a4 = this.var_f8f[n3 + 3];
-                        final int n31 = n27;
-                        final int n32 = n26;
+                    if ((n3 = this.sub_7d5b(module)) != -1) {
+                        p2x = this.var_f8f[n3];
+                        p2y = this.var_f8f[n3 + 1];
+                        int p3x = this.var_f8f[n3 + 2];
+                        int p3y = this.var_f8f[n3 + 3];
+                        final int n31 = posX;
+                        final int n32 = posY;
                         if ((n9 & 0x1) != 0x0) {
-                            a = -a;
-                            a3 = -a3;
-                            final int n33 = n27;
-                            final int a5 = a;
-                            final int abs = Math.abs(a);
-                            final int a6 = a3;
-                            n27 = n33 + ((abs > Math.abs(a3)) ? Math.abs(a5) : Math.abs(a6));
+                            p2x = -p2x;
+                            p3x = -p3x;
+                            final int n33 = posX;
+                            final int a5 = p2x;
+                            final int abs = Math.abs(p2x);
+                            final int a6 = p3x;
+                            posX = n33 + ((abs > Math.abs(p3x)) ? Math.abs(a5) : Math.abs(a6));
                         }
                         if ((n9 & 0x2) != 0x0) {
-                            a2 = -a2;
-                            a4 = -a4;
-                            final int n34 = n26;
-                            final int a7 = a2;
-                            final int abs2 = Math.abs(a2);
-                            final int a8 = a4;
-                            n26 = n34 + ((abs2 > Math.abs(a4)) ? Math.abs(a7) : Math.abs(a8));
+                            p2y = -p2y;
+                            p3y = -p3y;
+                            final int n34 = posY;
+                            final int a7 = p2y;
+                            final int abs2 = Math.abs(p2y);
+                            final int a8 = p3y;
+                            posY = n34 + ((abs2 > Math.abs(p3y)) ? Math.abs(a7) : Math.abs(a8));
                         }
                         if ((n9 & 0x4) != 0x0) {
-                            final int n35 = (Math.abs(a2) > Math.abs(a4)) ? Math.abs(a2) : Math.abs(a4);
-                            final int n36 = n26 - n32;
-                            n26 = n32 + (n27 - n31);
-                            n27 = n31 - n36 + n35;
-                            final int n37 = a;
-                            a = -a2;
-                            a2 = n37;
-                            final int n38 = a3;
-                            a3 = -a4;
-                            a4 = n38;
+                            final int n35 = (Math.abs(p2y) > Math.abs(p3y)) ? Math.abs(p2y) : Math.abs(p3y);
+                            final int n36 = posY - n32;
+                            posY = n32 + (posX - n31);
+                            posX = n31 - n36 + n35;
+                            final int n37 = p2x;
+                            p2x = -p2y;
+                            p2y = n37;
+                            final int n38 = p3x;
+                            p3x = -p3y;
+                            p3y = n38;
                         }
-                        if (this.var_110f[n30] == 6) {
-                            GLLib.DrawLine(graphics4, n27, n26, n27 + a, n26 + a2, true);
-                            GLLib.DrawLine(graphics4, n27 + a, n26 + a2, n27 + a3, n26 + a4, true);
-                            GLLib.DrawLine(graphics4, n27, n26, n27 + a3, n26 + a4, true);
+                        if (this._module_types[module] == 6) {
+                            GLLib.DrawLine(g, posX, posY, posX + p2x, posY + p2y, true);
+                            GLLib.DrawLine(g, posX + p2x, posY + p2y, posX + p3x, posY + p3y, true);
+                            GLLib.DrawLine(g, posX, posY, posX + p3x, posY + p3y, true);
                             return;
                         }
-                        GLLib.FillTriangle(graphics4, n27, n26, n27 + a, n26 + a2, n27 + a3, n26 + a4, true);
+                        GLLib.FillTriangle(g, posX, posY, posX + p2x, posY + p2y, posX + p3x, posY + p3y, true);
                     }
                     return;
                 }
                 case 8: {
-                    n3 = n27;
-                    a = n27 + n29;
-                    a2 = n26;
-                    int n39 = n26 + n28;
+                    n3 = posX;
+                    p2x = posX + n29;
+                    p2y = posY;
+                    int n39 = posY + p2x;
                     if ((n9 & 0x1) != 0x0) {
-                        n3 = a;
-                        a = n27;
+                        n3 = p2x;
+                        p2x = posX;
                     }
                     if ((n9 & 0x2) != 0x0) {
-                        a2 = n39;
-                        n39 = n26;
+                        p2y = n39;
+                        n39 = posY;
                     }
                     if ((n9 & 0x4) != 0x0) {
                         final int n40 = n3;
-                        n3 = a;
-                        a = n40;
+                        n3 = p2x;
+                        p2x = n40;
                     }
-                    GLLib.DrawLine(graphics4, n3, a2, a, n39, true);
+                    GLLib.DrawLine(g, n3, p2y, p2x, n39, true);
                     return;
                 }
                 case 9: {
-                    if ((n3 = this.sub_7d5b(n30)) == -1) {
+                    if ((n3 = this.sub_7d5b(module)) == -1) {
                         break;
                     }
-                    a = color;
-                    a2 = ((this.var_f8f[n3] & 0xFFFF) | (this.var_f8f[n3 + 1] << 16 & 0xFFFF0000));
+                    p2x = module;
+                    p2y = ((this.var_f8f[n3] & 0xFFFF) | (this.var_f8f[n3 + 1] << 16 & 0xFFFF0000));
                     final short n41 = this.var_f8f[n3 + 2];
                     if ((n9 & 0x1) != 0x0 && n41 < 2) {
-                        a = a2;
-                        a2 = color;
+                        p2x = p2y;
+                        p2y = module;
                     }
                     if ((n9 & 0x2) != 0x0 && n41 > 1) {
-                        final int n42 = a;
-                        a = a2;
-                        a2 = n42;
+                        final int n42 = p2x;
+                        p2x = p2y;
+                        p2y = n42;
                     }
                     int n43;
                     if (n41 == 0) {
@@ -2437,11 +2398,11 @@ public final class ASprite
                             n43 = 4;
                         }
                     }
-                    if (a >>> 24 != 255 || a2 >>> 24 != 255) {
-                        GLLib.sub_7041(graphics4, n27, n26, n29, n28, a, a2, n43);
+                    if (p2x >>> 24 != 255 || p2y >>> 24 != 255) {
+                        GLLib.sub_7041(g, posX, posY, n29, p2x, p2x, p2y, n43);
                         return;
                     }
-                    GLLib.sub_6ccf(graphics4, n27, n26, n29, n28, a, a2, n43);
+                    GLLib.sub_6ccf(g, posX, posY, n29, p2x, p2x, p2y, n43);
                     break;
                 }
             }
@@ -2453,159 +2414,158 @@ public final class ASprite
                 n3 &= 0xFFFFFFFB;
                 n44 += 90 * GLLib.var_1ed7 / 360;
             }
-            GLLib.sub_5cfb(GLLib.Math_Cos(GLLib.Math_Angle90 - n44), GLLib.Math_Cos(n44), a, var_1148, ASprite.s_rc);
+            GLLib.sub_5cfb(GLLib.Math_Cos(GLLib.Math_Angle90 - n44), GLLib.Math_Cos(n44), p2x, var_1148, ASprite.s_rc);
             int n45 = ASprite.s_rc[0];
             int n46 = ASprite.s_rc[1];
-            int n47 = a - GLLib.var_1fef[16][2];
+            int n47 = p2x - GLLib.var_1fef[16][2];
             int n48 = GLLib.var_1fef[16][1];
             if ((GLLib.var_1fe7 & 0x2000) != 0x0) {
                 n47 = n47 * GLLib.sub_5bbb() / 100;
                 n48 = n48 * GLLib.sub_5bfe() / 100;
-                a = a * GLLib.sub_5bbb() / 100;
+                p2x = p2x * GLLib.sub_5bbb() / 100;
                 var_1148 = var_1148 * GLLib.sub_5bfe() / 100;
                 n45 = n45 * GLLib.sub_5bbb() / 100;
                 n46 = n46 * GLLib.sub_5bbb() / 100;
             }
             final int n49 = n44;
-            GLLib.sub_5cbc(GLLib.Math_Cos(GLLib.Math_Angle90 - n49), GLLib.Math_Cos(n49), (a >> 1) - n47, (var_1148 >> 1) - n48, ASprite.s_rc);
-            n += ASprite.s_rc[0] - n45 / 2 + n47;
-            n2 += ASprite.s_rc[1] - n46 / 2 + n48;
+            GLLib.sub_5cbc(GLLib.Math_Cos(GLLib.Math_Angle90 - n49), GLLib.Math_Cos(n49), (p2x >> 1) - n47, (var_1148 >> 1) - n48, ASprite.s_rc);
+            posX += ASprite.s_rc[0] - n45 / 2 + n47;
+            posY += ASprite.s_rc[1] - n46 / 2 + n48;
         }
-        if (a <= 0 || var_1148 <= 0) {
+        if (p2x <= 0 || var_1148 <= 0) {
             return;
         }
-        if (graphics == null || sub_6ef1(graphics, a2, n8, var_1148, a)) {
+        if (g == null || sub_6ef1(g, p2y, posY, var_1148, p2x)) {
             GLLibImage class_l = null;
             if ((this._bs_flags & 0x1000008) != 0x0) {
-                if (this._module_image_imageAA != null && this._module_image_imageAA[this.var_108f] != null) {
-                    class_l = this._module_image_imageAA[this.var_108f][color];
+                if (this._module_image_imageAA != null && this._module_image_imageAA[this._crt_pal] != null) {
+                    class_l = this._module_image_imageAA[this._crt_pal][module];
                 }
                 boolean b = this.var_1097;
                 if (class_l == null) {
                     int[] array;
                     if (GLLib.var_1fdf && (GLLib.var_1fe7 & 0xFF7E0) != 0x0 && this.sub_3b2c()) {
-                        if (this.sub_3b85(color, n, n2, n3)) {
+                        if (this.sub_3b85(module, posX, posY, n3)) {
                             return;
                         }
-                        array = this.sub_3ffb(color);
+                        array = this.DecodeImage_int(module);
                     }
                     else {
-                        array = this.sub_3ffb(color);
+                        array = this.DecodeImage_int(module);
                     }
                     if (array != null) {
                         boolean b2 = false;
                         if (GLLib.var_1fdf && (GLLib.var_1fe7 & 0xFF7E0) != 0x0) {
-                            if (this.sub_3b85(color, n, n2, n3)) {
+                            if (this.sub_3b85(module, posX, posY, n3)) {
                                 return;
                             }
                             final boolean sub_3b2c;
                             if (!(sub_3b2c = this.sub_3b2c())) {
                                 n3 = (ASprite.var_1107[n9 & 0x7] | (n9 & 0xFFFFFFF8));
                             }
-                            array = GLLib.sub_5d84(graphics, array, n, n2, n19, n18, sub_3b2c ? 4 : n3, b, false, !sub_3b2c);
-                            if (this.sub_3c9a(color, n, n2, array, n3) || array == null) {
+                            array = GLLib.sub_5d84(g, array, posX, posY, n19, n18, sub_3b2c ? 4 : n3, b, false, !sub_3b2c);
+                            if (this.sub_3c9a(module, posX, posY, array, n3) || array == null) {
                                 return;
                             }
                             b = GLLib.var_1ff7;
                             n3 = 0;
-                            n = GLLib.var_200f;
-                            n2 = GLLib.var_2017;
-                            a = GLLib.var_201f;
+                            posX = GLLib.var_200f;
+                            posY = GLLib.var_2017;
+                            p2x = GLLib.var_201f;
                             var_1148 = GLLib.var_2027;
-                            n18 = a;
+                            n18 = p2x;
                             n19 = var_1148;
-                            GLLib.sub_3bae(graphics, array, 0, n18, n, n2, n18, n19, b, b, 0, -1, false);
+                            GLLib.sub_3bae(g, array, 0, n18, posX, posY, n18, n19, b, b, 0, -1, false);
                             b2 = true;
                         }
                         if (this._cur_pool >= 0) {
                             if (this._module_image_imageAA == null) {
                                 this._module_image_imageAA = new GLLibImage[this.var_107f][];
                                 for (int i = 0; i < this.var_107f; ++i) {
-                                    this._module_image_imageAA[i] = new GLLibImage[this.var_f77];
+                                    this._module_image_imageAA[i] = new GLLibImage[this._nModules];
                                 }
                             }
                             GLLibImage class_l2;
                             if (!b2) {
-                                final int[] array2 = new int[a * var_1148];
-                                a2 = var_1148;
-                                int n50 = a;
+                                final int[] array2 = new int[p2x * var_1148];
+                                p2y = var_1148;
+                                int n50 = p2x;
                                 if ((n3 & 0x4) != 0x0) {
-                                    a2 = a;
+                                    p2y = p2x;
                                     n50 = var_1148;
                                 }
-                                for (int j = 0; j < a2; ++j) {
+                                for (int j = 0; j < p2y; ++j) {
                                     for (int k = 0; k < n50; ++k) {
-                                        array2[n50 - k - 1 + j * n50] = array[j + a2 * k];
+                                        array2[n50 - k - 1 + j * n50] = array[j + p2y * k];
                                     }
                                 }
                                 if ((n3 & 0x4) != 0x0) {
-                                    class_l2 = GLLibImage.createRGBImage(array2, var_1148, a, this.var_1097);
+                                    class_l2 = GLLibImage.createRGBImage(array2, var_1148, p2x, this.var_1097);
                                 }
                                 else {
-                                    class_l2 = GLLibImage.createRGBImage(array2, a, var_1148, this.var_1097);
+                                    class_l2 = GLLibImage.createRGBImage(array2, p2x, var_1148, this.var_1097);
                                 }
                             }
                             else if ((n3 & 0x4) != 0x0) {
-                                class_l2 = GLLibImage.createRGBImage(array, var_1148, a, this.var_1097);
+                                class_l2 = GLLibImage.createRGBImage(array, var_1148, p2x, this.var_1097);
                             }
                             else {
-                                class_l2 = GLLibImage.createRGBImage(array, a, var_1148, this.var_1097);
+                                class_l2 = GLLibImage.createRGBImage(array, p2x, var_1148, this.var_1097);
                             }
-                            this.UpdatePoolCache(color, class_l2);
+                            this.UpdatePoolCache(module, class_l2);
                             if (!b2) {
                                 if (class_l2 != null) {
                                     if (ASprite.midp2_flags[n3 & 0x7] == 0) {
-                                        GLLib.DrawImage(graphics, class_l2, n, n2, 20, false);
+                                        GLLib.DrawImage(g, class_l2, posX, posY, 20, false);
                                         return;
                                     }
                                     if ((n3 & 0x4) != 0x0) {
-                                        GLLib.DrawRegion(graphics, class_l2, 0, 0, var_1148, a, ASprite.midp2_flags[n3 & 0x7], n, n2, 20, false);
+                                        GLLib.DrawRegion(g, class_l2, 0, 0, var_1148, p2x, ASprite.midp2_flags[n3 & 0x7], posX, posY, 20, false);
                                         return;
                                     }
-                                    GLLib.DrawRegion(graphics, class_l2, 0, 0, a, var_1148, ASprite.midp2_flags[n3 & 0x7], n, n2, 20, false);
+                                    GLLib.DrawRegion(g, class_l2, 0, 0, p2x, var_1148, ASprite.midp2_flags[n3 & 0x7], posX, posY, 20, false);
                                 }
                             }
                         }
                         else if (!b2) {
-                            n = a2;
-                            n2 = n8;
+                            posX = p2y;
                             final int n51 = n18;
                             final int n52 = n19;
                             final int n53 = n51;
-                            final Graphics graphics5 = graphics;
+                            final Graphics graphics5 = g;
                             final int[] array3 = array;
                             final int n54 = n52;
-                            final int n55 = n;
-                            final int n56 = n2;
+                            final int n55 = posX;
+                            final int n56 = posY;
                             final int n57 = n52;
                             final int n58 = n53;
                             final int n59 = b ? 1 : 0;
                             final int n60 = b ? 1 : 0;
-                            a2 = n59;
-                            a = n58;
+                            p2y = n59;
+                            p2x = n58;
                             n3 = n57;
-                            n2 = n56;
-                            n = n55;
+                            posY = n56;
+                            posX = n55;
                             final int n61;
-                            color = (n61 = n54);
+                            module = (n61 = n54);
                             final int n62 = n3;
-                            final int n63 = a;
-                            final int n64 = a2;
-                            a2 = n60;
-                            a = n64;
+                            final int n63 = p2x;
+                            final int n64 = p2y;
+                            p2y = n60;
+                            p2x = n64;
                             n3 = n63;
-                            color = n62;
-                            GLLib.sub_3bae(graphics5, array3, 0, n61, n, n2, color, n3, (boolean)(a != 0), (boolean)(a2 != 0), n9, -1, true);
+                            module = n62;
+                            GLLib.sub_3bae(graphics5, array3, 0, n61, posX, posY, module, n3, (boolean)(p2x != 0), (boolean)(p2y != 0), n9, -1, true);
                         }
                     }
                 }
                 else if (GLLib.var_1fdf && (GLLib.var_1fe7 & 0xFF7E0) != 0x0) {
-                    if (!this.sub_3b85(color, n, n2, n3)) {
+                    if (!this.sub_3b85(module, posX, posY, n3)) {
                         final boolean sub_3b2c2 = this.sub_3b2c();
-                        final Graphics graphics6 = graphics;
+                        final Graphics graphics6 = g;
                         final GLLibImage class_l3 = class_l;
-                        final int n65 = n;
-                        final int n66 = n2;
+                        final int n65 = posX;
+                        final int n66 = posY;
                         final int n67 = n18;
                         final int n68 = n19;
                         final int n69 = sub_3b2c2 ? 0 : n3;
@@ -2622,30 +2582,30 @@ public final class ASprite
                         final int[] sub_39a6 = sub_39a6(null);
                         GLLib.sub_3d3b(class_l4, sub_39a6, 0, n72, 0, 0, n72, n71);
                         final int[] sub_5d84 = GLLib.sub_5d84(graphics7, sub_39a6, n74, n73, n72, n71, n70, b5, false, b4);
-                        if (!this.sub_3c9a(color, n, n2, sub_5d84, n3) && sub_5d84 != null) {
+                        if (!this.sub_3c9a(module, posX, posY, sub_5d84, n3) && sub_5d84 != null) {
                             final boolean var_1ff7 = GLLib.var_1ff7;
-                            n = GLLib.var_200f;
-                            n2 = GLLib.var_2017;
-                            a = GLLib.var_201f;
+                            posX = GLLib.var_200f;
+                            posY = GLLib.var_2017;
+                            p2x = GLLib.var_201f;
                             final int var_1149 = GLLib.var_2027;
-                            final int n75 = a;
-                            GLLib.sub_3bae(graphics, sub_5d84, 0, n75, n, n2, n75, var_1149, var_1ff7, true, 0, -1, false);
+                            final int n75 = p2x;
+                            GLLib.sub_3bae(g, sub_5d84, 0, n75, posX, posY, n75, var_1149, var_1ff7, true, 0, -1, false);
                         }
                     }
                 }
                 else {
-                    a = n16;
+                    p2x = n16;
                     final int n76 = n17;
-                    final int n77 = a;
-                    a = n76;
+                    final int n77 = p2x;
+                    p2x = n76;
                     final int n78 = n77;
-                    this.UpdatePoolCache(color, class_l);
+                    this.UpdatePoolCache(module, class_l);
                     if (class_l != null) {
                         if (ASprite.midp2_flags[n3 & 0x7] == 0) {
-                            GLLib.DrawImage(graphics, class_l, n, n2, 20, false);
+                            GLLib.DrawImage(g, class_l, posX, posY, 20, false);
                             return;
                         }
-                        GLLib.DrawRegion(graphics, class_l, 0, 0, a, n78, ASprite.midp2_flags[n3 & 0x7], n, n2, 20, false);
+                        GLLib.DrawRegion(g, class_l, 0, 0, p2x, n78, ASprite.midp2_flags[n3 & 0x7], posX, posY, 20, false);
                     }
                 }
             }

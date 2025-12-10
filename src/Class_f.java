@@ -3626,8 +3626,8 @@ final class Class_f
     
     private void sub_aaf8(final int n, final int n2) {
         if (n > -1 && n2 > -1) {
-            int n3 = cGame.var_7ff4[0].var_f7f[0] & 0xFFFF;
-            int n4 = cGame.var_7ff4[0].var_f87[0] & 0xFFFF;
+            int n3 = cGame.var_7ff4[0]._modules_w_short[0] & 0xFFFF;
+            int n4 = cGame.var_7ff4[0]._modules_h_short[0] & 0xFFFF;
             final int n5 = n & 0x7FFF;
             (((n & 0x8000) != 0x0) ? cGame.var_68d4[n5] : cGame.var_7ff4[n5]).sub_3524(Class_f.var_1905, n2, this.var_17cd, this.var_17d5);
             if (cGame.var_7fc4 != 100) {
@@ -3635,8 +3635,8 @@ final class Class_f
                 Class_f.var_1905[1] = Class_f.var_1905[1] * cGame.var_7fc4 / 100;
                 Class_f.var_1905[2] = Class_f.var_1905[2] * cGame.var_7fc4 / 100;
                 Class_f.var_1905[3] = Class_f.var_1905[3] * cGame.var_7fc4 / 100;
-                n3 = (cGame.var_7ff4[158].var_f7f[0] & 0xFFFF);
-                n4 = (cGame.var_7ff4[158].var_f87[0] & 0xFFFF);
+                n3 = (cGame.var_7ff4[158]._modules_w_short[0] & 0xFFFF);
+                n4 = (cGame.var_7ff4[158]._modules_h_short[0] & 0xFFFF);
             }
             Class_f.var_1905[0] = Class_f.var_1905[0] / n3 * n3;
             Class_f.var_1905[1] = Class_f.var_1905[1] / n4 * n4;
