@@ -1473,7 +1473,7 @@ final class GLLibPlayer implements Runnable
                         GLLib.var_1fef[13][1] = GLLibPlayer.var_1707;
                         GLLib.sub_5c77(true);
                     }
-                    if (GLLibPlayer.s_TilesetSprite[nLayer].sub_3717() == 0) {
+                    if (GLLibPlayer.s_TilesetSprite[nLayer].GetFrames() == 0) {
                         GLLibPlayer.s_TilesetSprite[nLayer].sub_7dca(gDest, sub_7ab4, destX, n11, sub_7ab5, GLLibPlayer.s_TilesetInfo[2], GLLibPlayer.s_TilesetInfo[5]);
                     }
                     else {

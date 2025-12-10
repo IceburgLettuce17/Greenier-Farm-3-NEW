@@ -662,7 +662,7 @@ public final class cGame extends GLLib implements Class_b
 	private static int var_7bf4;
 	private static int var_7bfc;
 	private static int[][] var_7c04;
-	private static int[][] s_resourceFilenames2;
+	private static int[][] s_specialFilenames;
 	private static int[] var_7c14;
 	private static int[] var_7c1c;
 	private static int var_7c24;
@@ -2100,7 +2100,7 @@ public final class cGame extends GLLib implements Class_b
 				}
 				// Dunno this one too
 				case GS_POPUP: {
-					b = sub_3fc6c(substate);
+					b = drawPopup(substate);
 					break;
 				}
 				// Your neighbor's farm, enables lockdown system and home button
@@ -2855,40 +2855,40 @@ public final class cGame extends GLLib implements Class_b
 		}
 	}
 
-	private static ASprite sub_ca9c(final int n, final int n2, boolean b, final boolean b2, final int n3,
+	private static ASprite loadSprite(final int idx, final int n2, boolean isSpecial, final boolean b2, final int n3,
 			final int n4) {
-		ASprite class_e = new ASprite();
-		class_e.Load(GLLib.Pack_ReadData(n), 0);
+		ASprite spr = new ASprite();
+		spr.Load(GLLib.Pack_ReadData(idx), 0);
 		for (int i = 0; i < cGame.var_7fbc.length; i += 2) {
-			if (n == cGame.var_7fbc[i] && GLLib.s_pack_filename.equals("/" + cGame.var_7fbc[i + 1])
-					&& !class_e.sub_3b2c()) {
-				class_e.sub_3af1();
+			if (idx == cGame.var_7fbc[i] && GLLib.s_pack_filename.equals("/" + cGame.var_7fbc[i + 1])
+					&& !spr.HasUnkImageArr()) {
+				spr.InitUnkVars();
 			}
 		}
-		if (sub_43709(n) != -1) {
-			class_e.SetPool(sub_43709(n));
-			b = false;
+		if (isSpecialResource(idx) != -1) {
+			spr.SetPool(isSpecialResource(idx));
+			isSpecial = false;
 		}
-		if (sub_4378f(class_e, n)) {
-			return class_e;
+		if (sub_4378f(spr, idx)) {
+			return spr;
 		}
-		if (b) {
-			sub_cbb5(class_e, n2, n3, n4);
+		if (isSpecial) {
+			buildAllCacheImgs(spr, n2, n3, n4);
 			if (b2) {
-				class_e.FreeCacheData();
+				spr.FreeCacheData();
 			}
 		}
-		return class_e;
+		return spr;
 	}
 
-	private static void sub_cbb5(final ASprite class_e, final int n, final int n2, final int n3) {
-		for (int i = 0; i < class_e._palettes; ++i) {
+	private static void buildAllCacheImgs(final ASprite spr, final int n, final int type, final int n3) {
+		for (int i = 0; i < spr._palettes; ++i) {
 			if ((n >> i & 0x1) != 0x0) {
-				if (n2 == 0 && n3 == -1) {
-					class_e.BuildCacheImages(i, 0, -1, -1);
+				if (type == 0 && n3 == -1) {
+					spr.BuildCacheImages(i, 0, -1, -1);
 				} else {
-					for (int j = n2; j <= n3; ++j) {
-						class_e.sub_677f(i, j, -1);
+					for (int j = type; j <= n3; ++j) {
+						spr.BuildFrameCacheImages(i, j, -1);
 					}
 				}
 			}
@@ -3066,7 +3066,7 @@ public final class cGame extends GLLib implements Class_b
 		boolean b = false;
 		if ((cGame.var_6884[n][n2] & 0x1) != 0x0) {
 			if (cGame.var_689c[n][n2] == null) {
-				cGame.var_689c[n][n2] = sub_ca9c(n2, cGame.var_688c[n][n2], (cGame.var_6884[n][n2] & 0x8) != 0x0,
+				cGame.var_689c[n][n2] = loadSprite(n2, cGame.var_688c[n][n2], (cGame.var_6884[n][n2] & 0x8) != 0x0,
 						(cGame.var_6884[n][n2] & 0x10) != 0x0, (byte) cGame.var_6894[n][n2],
 						(byte) (cGame.var_6894[n][n2] >> 8));
 				final byte[] array = cGame.var_6884[n];
@@ -10799,7 +10799,7 @@ public final class cGame extends GLLib implements Class_b
 		final int sub_6494 = class_e.sub_6494(n2);
 		for (short n5 = 0; n5 < sub_6494; ++n5) {
 			final int sub_310b = class_e.sub_310b(n4 + n5);
-			final int n6 = class_e._modules_h_short[class_e.sub_32e3(n2, n5)] & 0xFFFF;
+			final int n6 = class_e._modules_h_short[class_e.GetFrameModule(n2, n5)] & 0xFFFF;
 			if (n3 < sub_310b + n6) {
 				n3 = sub_310b + n6;
 			}
@@ -10823,8 +10823,8 @@ public final class cGame extends GLLib implements Class_b
 			for (short n13 = 0; n13 < sub_6494; ++n13) {
 				final int sub_30ea = class_e.sub_30ea(n12 + n13);
 				final int sub_310b = class_e.sub_310b(n12 + n13);
-				n10 = (class_e._modules_w_short[class_e.sub_32e3(n7, n13)] & 0xFFFF);
-				n11 = (class_e._modules_h_short[class_e.sub_32e3(n7, n13)] & 0xFFFF);
+				n10 = (class_e._modules_w_short[class_e.GetFrameModule(n7, n13)] & 0xFFFF);
+				n11 = (class_e._modules_h_short[class_e.GetFrameModule(n7, n13)] & 0xFFFF);
 				if (n8 < sub_30ea + n10) {
 					n8 = sub_30ea + n10;
 				}
@@ -10842,16 +10842,16 @@ public final class cGame extends GLLib implements Class_b
 				n16 = 4;
 			}
 			for (short n17 = 0; n17 < n16; ++n17) {
-				n10 = (class_e._modules_h_short[class_e.sub_32e3(n7, n17)] & 0xFFFF);
-				n11 = (class_e._modules_w_short[class_e.sub_32e3(n7, n17)] & 0xFFFF);
+				n10 = (class_e._modules_h_short[class_e.GetFrameModule(n7, n17)] & 0xFFFF);
+				n11 = (class_e._modules_w_short[class_e.GetFrameModule(n7, n17)] & 0xFFFF);
 				final int n18 = n14 - class_e.sub_310b(n12 + n17) - n10;
 				final int sub_30ea2 = class_e.sub_30ea(n12 + n17);
 				final int sub_332f = class_e.sub_332f(n7, n17);
 				int[] array3 = new int[n10 * n11];
 				if (class_e._modules_data != null) {
-					array3 = (int[]) class_e.DecodeImage(class_e.sub_32e3(n7, n17));
+					array3 = (int[]) class_e.DecodeImage(class_e.GetFrameModule(n7, n17));
 				} else {
-					class_e._module_image_imageAA[0][class_e.sub_32e3(n7, n17)].getRGB(array3, 0, n10, 0, 0, n10, n11);
+					class_e._module_image_imageAA[0][class_e.GetFrameModule(n7, n17)].getRGB(array3, 0, n10, 0, 0, n10, n11);
 				}
 				for (int i = 0; i < n11; ++i) {
 					for (int j = 0; j < n10; ++j) {
@@ -10872,8 +10872,8 @@ public final class cGame extends GLLib implements Class_b
 			for (short n21 = (short) n16; n21 < sub_6494; ++n21) {
 				final int sub_30ea3 = class_e.sub_30ea(n12 + n21);
 				final int sub_310b2 = class_e.sub_310b(n12 + n21);
-				final int n22 = class_e._modules_w_short[class_e.sub_32e3(n7, n21)] & 0xFFFF;
-				final int n23 = class_e._modules_h_short[class_e.sub_32e3(n7, n21)] & 0xFFFF;
+				final int n22 = class_e._modules_w_short[class_e.GetFrameModule(n7, n21)] & 0xFFFF;
+				final int n23 = class_e._modules_h_short[class_e.GetFrameModule(n7, n21)] & 0xFFFF;
 				final int sub_332f2 = class_e.sub_332f(n7, n21);
 				int n24;
 				if (n22 == 1) {
@@ -10898,15 +10898,15 @@ public final class cGame extends GLLib implements Class_b
 				final int n26 = n24 ^ n25;
 				final int n27 = n25 ^ n26;
 				final int n28 = n26 ^ n27;
-				final int n29 = class_e._modules_h_short[class_e.sub_32e3(n7, n21)] & 0xFFFF;
-				final int n30 = class_e._modules_w_short[class_e.sub_32e3(n7, n21)] & 0xFFFF;
+				final int n29 = class_e._modules_h_short[class_e.GetFrameModule(n7, n21)] & 0xFFFF;
+				final int n30 = class_e._modules_w_short[class_e.GetFrameModule(n7, n21)] & 0xFFFF;
 				final int n31 = n14 - class_e.sub_310b(n12 + n21) - n28;
 				final int sub_30ea4 = class_e.sub_30ea(n12 + n21);
 				int[] array4 = new int[n29 * n30];
 				if (class_e._modules_data != null) {
-					array4 = (int[]) class_e.DecodeImage(class_e.sub_32e3(n7, n21));
+					array4 = (int[]) class_e.DecodeImage(class_e.GetFrameModule(n7, n21));
 				} else {
-					class_e._module_image_imageAA[0][class_e.sub_32e3(n7, n21)].getRGB(array4, 0, n29, 0, 0, n29, n30);
+					class_e._module_image_imageAA[0][class_e.GetFrameModule(n7, n21)].getRGB(array4, 0, n29, 0, 0, n29, n30);
 				}
 				for (int k = 0; k < n27; ++k) {
 					for (int l = 0; l < n28; ++l) {
@@ -24765,7 +24765,7 @@ public final class cGame extends GLLib implements Class_b
 		return false;
 	}
 
-	private static boolean sub_3fc6c(final int n) {
+	private static boolean drawPopup(final int n) {
 		if (n == 1) {
 			cGame.var_68ac = 100;
 			cGame.var_7b2c = 0;
@@ -24945,8 +24945,8 @@ public final class cGame extends GLLib implements Class_b
 		ASprite class_e = sub_237ff < 1000 ? cGame.var_68d4[sub_237ff] : cGame.var_7ff4[sub_237ff - 1000];
 		final short n6 = class_e.var_faf[n5];
 		final int sub_6494 = class_e.sub_6494(n5);
-		final int n7 = class_e._modules_w_short[class_e.sub_32e3(n5, 0)] & 0xFFFF;
-		final int n8 = class_e._modules_h_short[class_e.sub_32e3(n5, 0)] & 0xFFFF;
+		final int n7 = class_e._modules_w_short[class_e.GetFrameModule(n5, 0)] & 0xFFFF;
+		final int n8 = class_e._modules_h_short[class_e.GetFrameModule(n5, 0)] & 0xFFFF;
 		for (short n9 = 4; n9 < sub_6494; ++n9) {
 			if (class_e.sub_30ea(n6 + n9) == class_e.sub_30ea(n6 + 1)) {
 				class_e.sub_3aab(n6 + n9, n - n7);
@@ -26137,7 +26137,7 @@ public final class cGame extends GLLib implements Class_b
 			sub_cd28(cGame.var_711c + 1);
 			GLLib.Pack_Open("/5");
 			if (cGame.s_currencySeprType != 7) {
-				cGame.var_7ff4[81] = sub_ca9c(81, 1, true, false, 0, -1);
+				cGame.var_7ff4[81] = loadSprite(81, 1, true, false, 0, -1);
 			}
 			GLLib.Pack_FullyClose();
 			sub_2f549();
@@ -26226,50 +26226,47 @@ public final class cGame extends GLLib implements Class_b
 		return false;
 	}
 
-	private static int sub_43709(final int n) {
-		for (int i = 0; i < cGame.s_resourceFilenames2.length; ++i) {
-			if (cGame.s_resourceFilenames2[i][1] == n && GLLib.s_pack_filename.equals("/" + cGame.s_resourceFilenames2[i][0])) {
-				return cGame.s_resourceFilenames2[i][2];
+	private static int isSpecialResource(final int idx) {
+		for (int i = 0; i < cGame.s_specialFilenames.length; ++i) {
+			if (cGame.s_specialFilenames[i][1] == idx && GLLib.s_pack_filename.equals("/" + cGame.s_specialFilenames[i][0])) {
+				return cGame.s_specialFilenames[i][2];
 			}
 		}
 		return -1;
 	}
 
-	private static boolean sub_4378f(ASprite var0, int state) {
+	private static boolean sub_4378f(ASprite spr, int state) {
 	      byte var2 = 0;
 	      boolean var3 = false;
 
 	      do {
-	         int var5 = var2;
-	         int[] var9 = var_7c14;
-
 	         byte var10000;
 	         while (true) {
-	            if (var5 >= var9.length) {
+	            if (var2 >= var_7c14.length) {
 	               var10000 = -1;
 	               break;
 	            }
 
-	            if (state == var9[var5 + 1]) {
-	               var10000 = (byte)var5;
+	            if (state == var_7c14[var2 + 1]) {
+	               var10000 = var2;
 	               break;
 	            }
 
-	            var5 += 6;
+	            var2 += 6;
 	         }
 
 	         var2 = var10000;
 	         if (var10000 >= 0) {
-	            int var4 = var_7c14[var2];
-	            var5 = var_7c14[var2 + 2];
+	            int packIndex = var_7c14[var2];
+	            int var5 = var_7c14[var2 + 2];
 	            int var6 = var_7c14[var2 + 3];
 	            int var7 = var_7c14[var2 + 4];
 	            int var8 = var_7c14[var2 + 5];
 	            var2 += 6;
-	            if (GLLib.s_pack_filename.equals("/" + var4)) {
-	               var0.sub_68e7(var7, var5, var6);
+	            if (GLLib.s_pack_filename.equals("/" + packIndex)) {
+	               spr.sub_68e7(var7, var5, var6);
 	               if (var8 != 0) {
-	                  var0.FreeCacheData();
+	                  spr.FreeCacheData();
 	               }
 
 	               var3 = true;
@@ -30239,7 +30236,8 @@ public final class cGame extends GLLib implements Class_b
 		cGame.var_7bac = "";
 		cGame.var_7c04 = new int[][] { { 0, 100 }, { 1, 40 }, { 2, 80 }, { 3, 50 }, { 4, 50 }, { 5, 50 }, { 6, 50 },
 				{ 7, 40 }, { 8, 20 }, { 9, 0 } };
-		cGame.s_resourceFilenames2 = new int[][] { { Integer.parseInt("/2".substring(1)), 0, 0 },
+		cGame.s_specialFilenames = new int[][] { 
+			{ Integer.parseInt("/2".substring(1)), 0, 0 },
 				{ Integer.parseInt("/2".substring(1)), 1, 0 }, { Integer.parseInt("/2".substring(1)), 2, 0 },
 				{ Integer.parseInt("/2".substring(1)), 3, 0 }, { Integer.parseInt("/2".substring(1)), 4, 0 },
 				{ Integer.parseInt("/5".substring(1)), 6, 1 }, { Integer.parseInt("/5".substring(1)), 1, 1 },

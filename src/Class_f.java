@@ -912,7 +912,7 @@ final class Class_f
                         for (int j = 0; j < sub_5cb3; j += n3) {
                             if (cGame.var_7fc4 < 100 && cGame.sub_438b0(79)) {
                                 GLLib.sub_5b96();
-                                GLLibPlayer.sub_6133(0, cGame.var_7ff4[79], cGame.var_7ff4[79].sub_3717() / 2, j, n4, cGame.var_8074, null);
+                                GLLibPlayer.sub_6133(0, cGame.var_7ff4[79], cGame.var_7ff4[79].GetFrames() / 2, j, n4, cGame.var_8074, null);
                                 GLLib.sub_5b71();
                             }
                             else {
@@ -928,7 +928,7 @@ final class Class_f
                         for (int k = 0; k < sub_5cb3; k += n5) {
                             if (cGame.var_7fc4 < 100 && cGame.sub_438b0(78)) {
                                 GLLib.sub_5b96();
-                                GLLibPlayer.sub_6133(0, cGame.var_7ff4[78], cGame.var_7ff4[78].sub_3717() / 2, k, n6, cGame.var_8074, null);
+                                GLLibPlayer.sub_6133(0, cGame.var_7ff4[78], cGame.var_7ff4[78].GetFrames() / 2, k, n6, cGame.var_8074, null);
                                 GLLib.sub_5b71();
                             }
                             else {
@@ -944,7 +944,7 @@ final class Class_f
                         for (int l = 0; l < sub_5cb3; l += n7) {
                             if (cGame.var_7fc4 < 100 && cGame.sub_438b0(77)) {
                                 GLLib.sub_5b96();
-                                GLLibPlayer.sub_6133(0, cGame.var_7ff4[77], cGame.var_7ff4[77].sub_3717() / 2, l, n8, cGame.var_8074, null);
+                                GLLibPlayer.sub_6133(0, cGame.var_7ff4[77], cGame.var_7ff4[77].GetFrames() / 2, l, n8, cGame.var_8074, null);
                                 GLLib.sub_5b71();
                             }
                             else {
@@ -1033,7 +1033,7 @@ final class Class_f
                                     class_e2.PaintFrame(GLLib.g, class_f.var_186d, class_f.var_17ed, class_f.var_17f5, 0);
                                 }
                                 else if (cGame.sub_438b0(class_f.var_1865)) {
-                                    class_e2.PaintFrame(GLLib.g, class_e2.sub_3717() / 2 + class_f.var_186d, class_f.var_17ed, class_f.var_17f5, 0);
+                                    class_e2.PaintFrame(GLLib.g, class_e2.GetFrames() / 2 + class_f.var_186d, class_f.var_17ed, class_f.var_17f5, 0);
                                 }
                                 else {
                                     class_e2.sub_7d2b(GLLib.g, class_f.var_186d, class_f.var_17ed, class_f.var_17f5, cGame.var_7fc4);
@@ -1569,7 +1569,7 @@ final class Class_f
         class_e.SetCurrentPalette(var_1875);
         if (cGame.var_7fc4 < 100 && cGame.sub_438b0(n)) {
             GLLib.sub_5b96();
-            GLLibPlayer.sub_6133(0, class_e, class_e.sub_3717() / 2 + n2, var_17cd, var_17d5, cGame.var_8074, null);
+            GLLibPlayer.sub_6133(0, class_e, class_e.GetFrames() / 2 + n2, var_17cd, var_17d5, cGame.var_8074, null);
             GLLib.sub_5b71();
         }
         else {
@@ -1600,7 +1600,7 @@ final class Class_f
                     class_e2.SetCurrentPalette(var_1876);
                     if (cGame.var_7fc4 < 100 && cGame.sub_438b0(n)) {
                         GLLib.sub_5b96();
-                        GLLibPlayer.sub_6133(0, class_e2, class_e2.sub_3717() / 2 + n2, var_17cd2, var_17d6, true, Class_f.var_190d[i]);
+                        GLLibPlayer.sub_6133(0, class_e2, class_e2.GetFrames() / 2 + n2, var_17cd2, var_17d6, true, Class_f.var_190d[i]);
                         GLLib.sub_5b71();
                     }
                     else {
@@ -1630,7 +1630,7 @@ final class Class_f
             return;
         }
         if (cGame.var_7fc4 < 100 && cGame.sub_438b0(n)) {
-            n = class_e.sub_3717() / 2 + n2;
+            n = class_e.GetFrames() / 2 + n2;
             class_e.PaintFrame(GLLib.g, n, this.var_17ed, this.var_17f5, 0);
             return;
         }
