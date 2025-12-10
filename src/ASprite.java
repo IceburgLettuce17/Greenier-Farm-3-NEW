@@ -929,14 +929,14 @@ public final class ASprite
         }
     }
     
-    static int[] sub_39a6(final int[] array) {
-        if (array == null || array != ASprite.temp_int) {
+    static int[] InitTempBuffers(final int[] buf) {
+        if (buf == null || buf != ASprite.temp_int) {
             if (ASprite.temp_int == null) {
                 ASprite.temp_int = new int[27832];
             }
             return ASprite.temp_int;
         }
-        if (array == null || array != ASprite._temp_int) {
+        if (buf == null || buf != ASprite._temp_int) {
             if (ASprite._temp_int == null) {
                 ASprite._temp_int = new int[27832];
             }
@@ -977,14 +977,10 @@ public final class ASprite
             final int n5 = sub_5a53;
             final int[] array = sub_5a52;
             if (this.nope != null && this.nope[this._crt_pal][n] != null && sub_3b62(array, n5) == this.var_1167[this._crt_pal][n]) {
-                final GLLibImage class_l2;
-                final GLLibImage class_l = class_l2 = this.nope[this._crt_pal][n];
+                final GLLibImage class_l = this.nope[this._crt_pal][n];
                 final int width = class_l.image.getWidth();
-                final int height = class_l2.image.getHeight();
-                final int n6 = ASprite.midp2_flags[n4];
-                n4 = height;
-                n = width;
-                GLLib.DrawRegion(GLLib.g, class_l, 0, 0, n, n4, n6, n2, n3, 20, false);
+                final int height = class_l.image.getHeight();
+                GLLib.DrawRegion(GLLib.g, class_l, 0, 0, width, height, ASprite.midp2_flags[n4], n2, n3, 20, false);
                 return true;
             }
         }
@@ -1459,7 +1455,7 @@ public final class ASprite
         final boolean var_11df = this._bBold;
         final boolean var_11d7 = this._bUnderline;
         final int sub_3600;
-        final int n6 = (sub_3600 = GLLib.sub_3600(g, true)) + GLLib.sub_367d(g, true);
+        final int n6 = (sub_3600 = GLLib.GetClipY(g, true)) + GLLib.GetClipHeight(g, true);
         final int n7 = sub_3600 - sub_4a3a;
         final int n8 = n6 + sub_4a3a;
         for (int n9 = 0, n10 = 0; n10 < startLine && n9 <= maxLines - 1; ++n10, ++n9) {
@@ -1933,10 +1929,10 @@ public final class ASprite
     }
     
     private static boolean sub_6ef1(final Graphics graphics, final int n, final int n2, int n3, int n4) {
-        final int sub_35c6 = GLLib.GetClip(graphics, true);
-        final int sub_3600 = GLLib.sub_3600(graphics, true);
-        final int sub_3601 = GLLib.sub_3643(graphics, true);
-        final int sub_367d = GLLib.sub_367d(graphics, true);
+        final int sub_35c6 = GLLib.GetClipX(graphics, true);
+        final int sub_3600 = GLLib.GetClipY(graphics, true);
+        final int sub_3601 = GLLib.GetClipWidth(graphics, true);
+        final int sub_367d = GLLib.GetClipHeight(graphics, true);
         if ((GLLib.var_1fe7 & 0x2000) != 0x0) {
             final int sub_5bbb = GLLib.sub_5bbb();
             final int sub_5bfe = GLLib.sub_5bfe();
@@ -2069,7 +2065,7 @@ public final class ASprite
                                         final GLLibImage class_l4 = class_l3;
                                         final boolean var_1097 = this.var_1097;
                                         final GLLibImage class_l5 = class_l4;
-                                        final int[] sub_39a6 = sub_39a6(null);
+                                        final int[] sub_39a6 = InitTempBuffers(null);
                                         GLLib.sub_3d3b(class_l5, sub_39a6, 0, n26, 0, 0, n26, n25);
                                         final int[] sub_5d84 = GLLib.sub_5d84(graphics, sub_39a6, n28, n27, n26, n25, n24, var_1097, false, true);
                                         if (sub_5d84 != null) {
@@ -2171,15 +2167,12 @@ public final class ASprite
         ASprite.s_rc[1] = p2y;
         
         p2y = posX;
-        final int n9 = n3;
         if (this.var_1057 >= 0) {
             module = this.var_104f[this.var_1057][module];
         }
         if ((GLLib.var_1fe7 & 0x2000) != 0x0 && GLLib.var_1fef[13][5] != 0) {
-            final int sub_5bbb = GLLib.sub_5bbb();
-            final int sub_5bfe = GLLib.sub_5bfe();
-            posX = posX * sub_5bbb / 100;
-            posY = posY * sub_5bfe / 100;
+            posX *= GLLib.sub_5bbb() / 100;
+            posY *= GLLib.sub_5bfe() / 100;
         }
         
         if (((this._module_types != null) ? this._module_types[module] : 0) == 0) {
@@ -2217,29 +2210,23 @@ public final class ASprite
             p2x = var_1148;
             var_1148 = n20;
         }
-        final ASprite this6 = this;
-        final int n21 = module;
-        final ASprite this7 = this6;
-        if (((this6._module_types != null) ? this7._module_types[n21] : 0) != 0 && g != null) {
-            ;
-            int n29 = var_1148;
-            
+        if (((this._module_types != null) ? this._module_types[module] : 0) != 0 && g != null) {
             module = this.var_111f[module];
             g.setColor(module);
             switch (this._module_types[module]) {
                 case 2: {
                     if ((module & 0xFF000000) == 0xFF000000 || (module & 0xFF000000) == 0x0) {
-                        GLLib.FillRect(g, posX, posY, n29, p2x, true);
+                        GLLib.FillRect(g, posX, posY, var_1148, p2x, true);
                         return;
                     }
                     GLLib.sub_56ff(module);
-                    GLLib.sub_57eb(g, posX, posY, n29, p2x);
+                    GLLib.sub_57eb(g, posX, posY, var_1148, p2x);
                     return;
                 }
                 case 1: {
-                    --n29;
+                    --var_1148;
                     --p2x;
-                    GLLib.DrawRect(g, posX, posY, n29, p2x, true);
+                    GLLib.DrawRect(g, posX, posY, var_1148, p2x, true);
                     return;
                 }
                 case 3:
@@ -2247,21 +2234,21 @@ public final class ASprite
                     if ((n3 = this.sub_7d5b(module)) != -1) {
                         p2x = this.var_f8f[n3];
                         p2y = this.var_f8f[n3 + 1];
-                        if ((n9 & 0x1) != 0x0) {
+                        if ((n3 & 0x1) != 0x0) {
                             p2x = 90 - p2x;
                         }
-                        if ((n9 & 0x2) != 0x0) {
+                        if ((n3 & 0x2) != 0x0) {
                             p2x = -p2x;
                             p2y = -p2y;
                         }
-                        if ((n9 & 0x4) != 0x0) {
+                        if ((n3 & 0x4) != 0x0) {
                             p2x -= 90;
                         }
                         if (this._module_types[module] == 3) {
-                            GLLib.DrawArc(g, posX, posY, n29, p2x, p2x, p2y, true);
+                            GLLib.DrawArc(g, posX, posY, var_1148, p2x, p2x, p2y, true);
                             return;
                         }
-                        GLLib.FillArc(g, posX, posY, n29, p2x, p2x, p2y, true);
+                        GLLib.FillArc(g, posX, posY, var_1148, p2x, p2x, p2y, true);
                     }
                     return;
                 }
@@ -2274,7 +2261,7 @@ public final class ASprite
                         int p3y = this.var_f8f[n3 + 3];
                         final int n31 = posX;
                         final int n32 = posY;
-                        if ((n9 & 0x1) != 0x0) {
+                        if ((n3 & 0x1) != 0x0) {
                             p2x = -p2x;
                             p3x = -p3x;
                             final int n33 = posX;
@@ -2283,7 +2270,7 @@ public final class ASprite
                             final int a6 = p3x;
                             posX = n33 + ((abs > Math.abs(p3x)) ? Math.abs(a5) : Math.abs(a6));
                         }
-                        if ((n9 & 0x2) != 0x0) {
+                        if ((n3 & 0x2) != 0x0) {
                             p2y = -p2y;
                             p3y = -p3y;
                             final int n34 = posY;
@@ -2292,7 +2279,7 @@ public final class ASprite
                             final int a8 = p3y;
                             posY = n34 + ((abs2 > Math.abs(p3y)) ? Math.abs(a7) : Math.abs(a8));
                         }
-                        if ((n9 & 0x4) != 0x0) {
+                        if ((n3 & 0x4) != 0x0) {
                             final int n35 = (Math.abs(p2y) > Math.abs(p3y)) ? Math.abs(p2y) : Math.abs(p3y);
                             final int n36 = posY - n32;
                             posY = n32 + (posX - n31);
@@ -2316,18 +2303,18 @@ public final class ASprite
                 }
                 case 8: {
                     n3 = posX;
-                    p2x = posX + n29;
+                    p2x = posX + var_1148;
                     p2y = posY;
                     int n39 = posY + p2x;
-                    if ((n9 & 0x1) != 0x0) {
+                    if ((n3 & 0x1) != 0x0) {
                         n3 = p2x;
                         p2x = posX;
                     }
-                    if ((n9 & 0x2) != 0x0) {
+                    if ((n3 & 0x2) != 0x0) {
                         p2y = n39;
                         n39 = posY;
                     }
-                    if ((n9 & 0x4) != 0x0) {
+                    if ((n3 & 0x4) != 0x0) {
                         final int n40 = n3;
                         n3 = p2x;
                         p2x = n40;
@@ -2342,11 +2329,11 @@ public final class ASprite
                     p2x = module;
                     p2y = ((this.var_f8f[n3] & 0xFFFF) | (this.var_f8f[n3 + 1] << 16 & 0xFFFF0000));
                     final short n41 = this.var_f8f[n3 + 2];
-                    if ((n9 & 0x1) != 0x0 && n41 < 2) {
+                    if ((n3 & 0x1) != 0x0 && n41 < 2) {
                         p2x = p2y;
                         p2y = module;
                     }
-                    if ((n9 & 0x2) != 0x0 && n41 > 1) {
+                    if ((n3 & 0x2) != 0x0 && n41 > 1) {
                         final int n42 = p2x;
                         p2x = p2y;
                         p2y = n42;
@@ -2364,7 +2351,7 @@ public final class ASprite
                     else {
                         n43 = 32;
                     }
-                    if ((n9 & 0x4) != 0x0) {
+                    if ((n3 & 0x4) != 0x0) {
                         if (n43 == 4) {
                             n43 = 16;
                         }
@@ -2379,10 +2366,10 @@ public final class ASprite
                         }
                     }
                     if (p2x >>> 24 != 255 || p2y >>> 24 != 255) {
-                        GLLib.sub_7041(g, posX, posY, n29, p2x, p2x, p2y, n43);
+                        GLLib.sub_7041(g, posX, posY, var_1148, p2x, p2x, p2y, n43);
                         return;
                     }
-                    GLLib.sub_6ccf(g, posX, posY, n29, p2x, p2x, p2y, n43);
+                    GLLib.sub_6ccf(g, posX, posY, var_1148, p2x, p2x, p2y, n43);
                     break;
                 }
             }
@@ -2441,7 +2428,7 @@ public final class ASprite
                             }
                             final boolean sub_3b2c;
                             if (!(sub_3b2c = this.sub_3b2c())) {
-                                n3 = (ASprite.var_1107[n9 & 0x7] | (n9 & 0xFFFFFFF8));
+                                n3 = (ASprite.var_1107[n3 & 0x7] | (n3 & 0xFFFFFFF8));
                             }
                             array = GLLib.sub_5d84(g, array, posX, posY, n19, n18, sub_3b2c ? 4 : n3, b, false, !sub_3b2c);
                             if (this.sub_3c9a(module, posX, posY, array, n3) || array == null) {
@@ -2535,7 +2522,7 @@ public final class ASprite
                             p2x = n64;
                             n3 = n63;
                             module = n62;
-                            GLLib.DrawRGB(graphics5, array3, 0, n61, posX, posY, module, n3, (boolean)(p2x != 0), (boolean)(p2y != 0), n9, -1, true);
+                            GLLib.DrawRGB(graphics5, array3, 0, n61, posX, posY, module, n3, (boolean)(p2x != 0), (boolean)(p2y != 0), n3, -1, true);
                         }
                     }
                 }
@@ -2559,7 +2546,7 @@ public final class ASprite
                         final int n74 = n65;
                         final GLLibImage class_l4 = class_l3;
                         final Graphics graphics7 = graphics6;
-                        final int[] sub_39a6 = sub_39a6(null);
+                        final int[] sub_39a6 = InitTempBuffers(null);
                         GLLib.sub_3d3b(class_l4, sub_39a6, 0, n72, 0, 0, n72, n71);
                         final int[] sub_5d84 = GLLib.sub_5d84(graphics7, sub_39a6, n74, n73, n72, n71, n70, b5, false, b4);
                         if (!this.sub_3c9a(module, posX, posY, sub_5d84, n3) && sub_5d84 != null) {
@@ -2596,7 +2583,7 @@ public final class ASprite
         if ((n3 & 0x7) == 0x0) {
             return array;
         }
-        sub_39a6 = sub_39a6(array);
+        sub_39a6 = InitTempBuffers(array);
         int n4 = 0;
         int n5 = 0;
         switch (n3 & 0x7) {
@@ -2678,8 +2665,8 @@ public final class ASprite
         return sub_39a6;
     }
     
-    static final int[] sub_9f61(final int[] array) {
-        return sub_39a6(array);
+    static final int[] _InitTempBuffers(final int[] buf) {
+        return InitTempBuffers(buf);
     }
     
     public ASprite() {

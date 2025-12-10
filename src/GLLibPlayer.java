@@ -1064,10 +1064,10 @@ final class GLLibPlayer implements Runnable
                 int sub_3601 = 0;
                 int sub_367d = 0;
                 if (graphics != null) {
-                    sub_35c6 = GLLib.GetClip(graphics, true);
-                    sub_3600 = GLLib.sub_3600(graphics, true);
-                    sub_3601 = GLLib.sub_3643(graphics, true);
-                    sub_367d = GLLib.sub_367d(graphics, true);
+                    sub_35c6 = GLLib.GetClipX(graphics, true);
+                    sub_3600 = GLLib.GetClipY(graphics, true);
+                    sub_3601 = GLLib.GetClipWidth(graphics, true);
+                    sub_367d = GLLib.GetClipHeight(graphics, true);
                 }
                 if (isFlag(n3, 128)) {
                     GLLibPlayer.var_16f7 = 0;
@@ -1856,10 +1856,10 @@ final class GLLibPlayer implements Runnable
             final int var_10cf = GLLibPlayer.s_TilesetLayerInfo[0][8];
             ASprite.s_screenHeight = var_10c7;
             ASprite.s_screenWidth = var_10cf;
-            final int sub_35c6 = GLLib.GetClip(graphics, true);
-            final int sub_3240 = GLLib.sub_3600(graphics, true);
-            final int sub_3241 = GLLib.sub_3643(graphics, true);
-            final int sub_367d = GLLib.sub_367d(graphics, true);
+            final int sub_35c6 = GLLib.GetClipX(graphics, true);
+            final int sub_3240 = GLLib.GetClipY(graphics, true);
+            final int sub_3241 = GLLib.GetClipWidth(graphics, true);
+            final int sub_367d = GLLib.GetClipHeight(graphics, true);
             int var_16f7 = 1;
             if (n5 == 0) {
                 var_16f7 = GLLibPlayer.var_16f7;

@@ -86,9 +86,8 @@ public final class IGP implements Runnable, CommandListener
     private static int var_1e05;
     private static int var_1e0d;
     private static int var_1e15;
-    private static int var_1e1d;
-    private static int[] var_1e25;
-    private static int var_1e2d;
+    private static int _lib_nChunks;
+    private static int[] _lib_pOffset;
     private static int var_1e35;
     private static int var_1e3d;
     private static int var_1e45;
@@ -112,7 +111,7 @@ public final class IGP implements Runnable, CommandListener
     private static String s_GAME_SEPARATOR;
     private static String var_1edd;
     private static boolean var_1ee5;
-    private static boolean var_1eed;
+    private static boolean b_useIGPRedir;
     private static String var_1ef5;
     private static boolean var_1efd;
     private static String[] var_1f05;
@@ -161,7 +160,7 @@ public final class IGP implements Runnable, CommandListener
     private static int s_screenHeight;
     private static int s_screenWidth;
     private static int var_206d;
-    private static int var_2075;
+    private static int realWidth;
     private static int var_207d;
     private static boolean var_2085;
     private static boolean var_208d;
@@ -171,18 +170,25 @@ public final class IGP implements Runnable, CommandListener
     private static int var_20ad;
     private static int var_20b5;
     
-    private static boolean tryReadFromDataIGP() {
-        sub_21d0();
+    private static boolean Lib_Open() {
+        Lib_Close();
         try {
-            final InputStream dataIGP = getResourceAsStream("/dataIGP");
-            var_1e25 = new int[var_1e1d = (var_1e1d = (dataIGP.read() & 0xFF)) + ((dataIGP.read() & 0xFF) << 8)];
-            for (int i = 0; i < var_1e1d; ++i) {
-                var_1e25[i] = dataIGP.read();
-                var_1e25[i] += (dataIGP.read()) << 8;
-                var_1e25[i] += (dataIGP.read()) << 16;
-                var_1e25[i] += (dataIGP.read()) << 24;
-            }
-            dataIGP.close();
+            final InputStream is = getResourceAsStream("/dataIGP");
+            
+            // Number of chunks...
+         	_lib_nChunks  = (is.read() & 0xFF);
+         	_lib_nChunks += (is.read() & 0xFF) << 8;
+         	
+			// Offset of each chunk...
+			_lib_pOffset = new int[_lib_nChunks];
+			for (int i = 0; i < _lib_nChunks; i++)
+			{
+				_lib_pOffset[i]  = (is.read() & 0xFF);
+				_lib_pOffset[i] += (is.read() & 0xFF) << 8;
+				_lib_pOffset[i] += (is.read() & 0xFF) << 16;
+				_lib_pOffset[i] += (is.read() & 0xFF) << 24;
+			}
+            is.close();
         }
         catch (final Exception ex) {
             return false;
@@ -190,33 +196,38 @@ public final class IGP implements Runnable, CommandListener
         return true;
     }
     
-    private static void sub_21d0() {
-        var_1e25 = null;
-        var_1e1d = 0;
+    private static void Lib_Close() {
+        _lib_pOffset = null;
+        _lib_nChunks = 0;
         System.gc();
     }
     
-    private static byte[] sub_21f6(int i) {
-        if (i < 0 || i >= var_1e1d - 1) {
-            return null;
-        }
-        if (var_1e25[i + 1] - var_1e25[i] == 0) {
-            return null;
-        }
-        byte[] b = null;
+    private static byte[] Lib_GetData(int index) {
+    	if (index < 0 || index >= _lib_nChunks-1)
+			return null;
+
+		int chunk_size = _lib_pOffset[index+1] - _lib_pOffset[index];
+		if (chunk_size == 0)
+			return null;
+		
+        byte[] data = null;
         try {
-            InputStream dataIGP = getResourceAsStream("/dataIGP");
-            dataIGP.skip(2 + 4 * var_1e1d + var_1e25[i]);
-            for (i = (b = new byte[var_1e25[i + 1]]).length; i > 0; i -= dataIGP.read(b)) {}
-            dataIGP.close();
+        	data = new byte[_lib_pOffset[index + 1]];
+            InputStream is = getResourceAsStream("/dataIGP");
+            is.skip(2 + 4 * _lib_nChunks + _lib_pOffset[index]);
+            for (index = data.length; index > 0; index -= is.read(data)) {}
+            is.close();
         }
         catch (final Exception ex) {}
-        return b;
+        return data;
     }
     
-    private static int sub_22c9(final byte[] array) {
-        return array[var_1e2d++] + (array[var_1e2d++] << 8);
-    }
+    static int dataOffset;
+
+	static int readInt( byte[] data )
+	{
+		return ( data[dataOffset++]&0xFF ) + ( (data[dataOffset++]&0xFF) << 8 );
+	}
     
     private static String sub_2306(final int n) {
         return "" + var_1f15[n];
@@ -256,7 +267,7 @@ public final class IGP implements Runnable, CommandListener
         s_screenHeight = screenHeight;
         s_screenWidth = screenWidth;
         var_206d = s_screenHeight >> 1;
-        var_2075 = s_screenWidth >> 1;
+        realWidth = s_screenWidth >> 1;
         if (/*2 >*/ s_screenHeight > 2) {
             var_1c2d = 2;
         }
@@ -322,53 +333,53 @@ public final class IGP implements Runnable, CommandListener
         return url;
     }
     
-    private static void sub_277b(final int n, final String str, final int n2, String property, final String s2, final int n3) {
+    private static void parseSplash(final int page, final String code, final int check, String jadEntry, final String urlTemplate, final int n3) {
         try {
             String s3 = "";
-            String s4;
-            if (var_1eed) {
-                s4 = getRedirLink(MidletInstance.getAppProperty(property), str, s2);
-                if (str.equals(SCFR_PREFIX)) {
-                    property = s_IGP_FREEMIUM;
-                    s3 = getRedirLink(MidletInstance.getAppProperty(property), var_1f25[n - var_1f2d.length], s2);
+            String url;
+            if (b_useIGPRedir) {
+                url = getRedirLink(MidletInstance.getAppProperty(jadEntry), code, urlTemplate);
+                if (code.equals(SCFR_PREFIX)) {
+                    jadEntry = s_IGP_FREEMIUM;
+                    s3 = getRedirLink(MidletInstance.getAppProperty(jadEntry), var_1f25[page - var_1f2d.length], urlTemplate);
                 }
             }
-            else if (str.equals(CCTL_PREFIX)) {
-                s4 = var_203d;
+            else if (code.equals(CCTL_PREFIX)) {
+                url = var_203d;
             }
             else {
-                property = URL_PREFIX + "-" + str;
-                s4 = MidletInstance.getAppProperty(property);
+                jadEntry = URL_PREFIX + "-" + code;
+                url = MidletInstance.getAppProperty(jadEntry);
             }
-            if (str.equals(SCFR_PREFIX)) {
-                if (var_1eed) {
+            if (code.equals(SCFR_PREFIX)) {
+                if (b_useIGPRedir) {
                     final int index;
-                    if ((index = s4.indexOf(SCFR_PREFIX)) >= 0) {
-                        s4 = s4.substring(0, index) + var_1f25[n - var_1f2d.length] + s4.substring(index + var_1f25[n - var_1f2d.length].length());
+                    if ((index = url.indexOf(SCFR_PREFIX)) >= 0) {
+                        url = url.substring(0, index) + var_1f25[page - var_1f2d.length] + url.substring(index + var_1f25[page - var_1f2d.length].length());
                     }
                 }
                 else {
-                    property = URL_PREFIX + "-" + SCFR_PREFIX + "-" + var_1f25[n - var_1f2d.length];
-                    s4 = MidletInstance.getAppProperty(property);
-                    property = URL_PREFIX + "-" + SCFR_PREFIX + "-" + var_1f25[n - var_1f2d.length];
-                    s3 = MidletInstance.getAppProperty(property);
+                    jadEntry = URL_PREFIX + "-" + SCFR_PREFIX + "-" + var_1f25[page - var_1f2d.length];
+                    url = MidletInstance.getAppProperty(jadEntry);
+                    jadEntry = URL_PREFIX + "-" + SCFR_PREFIX + "-" + var_1f25[page - var_1f2d.length];
+                    s3 = MidletInstance.getAppProperty(jadEntry);
                 }
             }
-            final boolean sub_258f = checkURL(s4, 7);
+            final boolean sub_258f = checkURL(url, 7);
             boolean sub_258f2 = true;
-            if (str.equals(SCFR_PREFIX)) {
+            if (code.equals(SCFR_PREFIX)) {
                 sub_258f2 = checkURL(s3, 7);
             }
-            if (sub_258f && sub_258f2 && (s4.toUpperCase().compareTo("NO") != 0 || s4.toUpperCase().compareTo("0") != 0)) {
-                var_1ffd[n] = true;
-                var_1fed[n] = s4;
-                if (var_1ffd[n]) {
-                    switch (var_1ff5[n] = n3) {
+            if (sub_258f && sub_258f2 && (url.toUpperCase().compareTo("NO") != 0 || url.toUpperCase().compareTo("0") != 0)) {
+                var_1ffd[page] = true;
+                var_1fed[page] = url;
+                if (var_1ffd[page]) {
+                    switch (var_1ff5[page] = n3) {
                         case 4: {
                             ++var_2005;
                             if (var_1ee5) {
                                 final StringBuffer sb = new StringBuffer();
-                                var_1fed[n] = sb.append(var_1fed[n]).append(var_1eb5).append(var_1ec5).append((var_2005 < 10) ? "0" : "").append(var_2005).toString();
+                                var_1fed[page] = sb.append(var_1fed[page]).append(var_1eb5).append(var_1ec5).append((var_2005 < 10) ? "0" : "").append(var_2005).toString();
                                 return;
                             }
                             break;
@@ -378,7 +389,7 @@ public final class IGP implements Runnable, CommandListener
                             if (var_1ee5) {
                                 final StringBuffer sb2 = new StringBuffer();
                                 final String[] var_1fed2 = var_1fed;
-                                var_1fed2[n] = sb2.append(var_1fed2[n]).append(var_1eb5).append(SCFR_PREFIX).toString();
+                                var_1fed2[page] = sb2.append(var_1fed2[page]).append(var_1eb5).append(SCFR_PREFIX).toString();
                                 return;
                             }
                             break;
@@ -387,7 +398,7 @@ public final class IGP implements Runnable, CommandListener
                             if (var_1ee5) {
                                 final StringBuffer sb3 = new StringBuffer();
                                 final String[] var_1fed3 = var_1fed;
-                                var_1fed3[n] = sb3.append(var_1fed3[n]).append(var_1eb5).append(GMCL_PREFIX).toString();
+                                var_1fed3[page] = sb3.append(var_1fed3[page]).append(var_1eb5).append(GMCL_PREFIX).toString();
                                 return;
                             }
                             break;
@@ -396,7 +407,7 @@ public final class IGP implements Runnable, CommandListener
                             if (var_1ee5) {
                                 final StringBuffer sb4 = new StringBuffer();
                                 final String[] var_1fed4 = var_1fed;
-                                var_1fed4[n] = sb4.append(var_1fed4[n]).append(var_1eb5).append(CCTL_PREFIX).toString();
+                                var_1fed4[page] = sb4.append(var_1fed4[page]).append(var_1eb5).append(CCTL_PREFIX).toString();
                                 break;
                             }
                             break;
@@ -409,42 +420,42 @@ public final class IGP implements Runnable, CommandListener
     }
     
     private static String[] sub_2b59(final byte[] bytes) {
-        final String[] array = new String[sub_22c9(bytes)];
+        final String[] array = new String[readInt(bytes)];
         for (int i = 0; i < array.length; ++i) {
-            final int sub_22c9 = sub_22c9(bytes);
-            array[i] = new String(bytes, var_1e2d, sub_22c9);
-            var_1e2d += sub_22c9;
+            final int sub_22c9 = readInt(bytes);
+            array[i] = new String(bytes, dataOffset, sub_22c9);
+            dataOffset += sub_22c9;
         }
         return array;
     }
     
     private static void sub_2bc9() {
         try {
-            if (!tryReadFromDataIGP()) {
+            if (!Lib_Open()) {
                 s_isAvailable = false;
                 return;
             }
-            final byte[] sub_21f6 = sub_21f6(0);
-            sub_22c9(sub_21f6);
-            var_1e2d += sub_22c9(sub_21f6);
-            final int sub_22c9 = sub_22c9(sub_21f6);
-            var_1ef5 = new String(sub_21f6, var_1e2d, sub_22c9);
-            var_1e2d += sub_22c9;
-            var_1e2d += sub_22c9(sub_21f6);
-            var_1e2d += sub_22c9(sub_21f6);
-            var_1e2d += sub_22c9(sub_21f6);
-            var_1efd = (sub_22c9(sub_21f6) == 1);
-            sub_22c9(sub_21f6);
-            sub_22c9(sub_21f6);
-            var_1f05 = sub_2b59(sub_21f6);
-            var_1f2d = sub_2b59(sub_21f6);
-            var_1f25 = sub_2b59(sub_21f6);
-            sub_2b59(sub_21f6);
+            final byte[] data = Lib_GetData(0);
+            readInt(data);
+            dataOffset += readInt(data);
+            final int size = readInt(data);
+            var_1ef5 = new String(data, dataOffset, size);
+            dataOffset += size;
+            dataOffset += readInt(data);
+            dataOffset += readInt(data);
+            dataOffset += readInt(data);
+            var_1efd = (readInt(data) == 1);
+            readInt(data);
+            readInt(data);
+            var_1f05 = sub_2b59(data);
+            var_1f2d = sub_2b59(data);
+            var_1f25 = sub_2b59(data);
+            sub_2b59(data);
             for (int i = 0; i < var_1c35.length; ++i) {
-                var_1c35[i] = (sub_22c9(sub_21f6) == 1);
+                var_1c35[i] = (readInt(data) == 1);
             }
             try {
-                s_dataIGPVersion = new String(sub_21f6, var_1e2d, sub_22c9(sub_21f6));
+                s_dataIGPVersion = new String(data, dataOffset, readInt(data));
                 new StringBuffer().append("IGP dataIGP version: ").append(s_dataIGPVersion);
                 new StringBuffer().append(s_igpClassVersion).append("z");
                 if (!s_dataIGPVersion.startsWith(s_igpClassVersion)) {
@@ -455,7 +466,7 @@ public final class IGP implements Runnable, CommandListener
             catch (final Exception ex) {
                 s_isAvailable = false;
             }
-            sub_21d0();
+            Lib_Close();
         }
         catch (final Exception ex2) {
             s_isAvailable = false;
@@ -492,7 +503,7 @@ public final class IGP implements Runnable, CommandListener
         try {
             if ((var_1edd = MidletInstance.getAppProperty(k_URL_TEMPLATE_GAME)) != null) {
                 var_1edd = var_1edd.trim();
-                var_1eed = true;
+                b_useIGPRedir = true;
                 if (var_1edd.indexOf(s_igaUrlRedir) != -1) {
                     var_1ee5 = true;
                 }
@@ -500,10 +511,10 @@ public final class IGP implements Runnable, CommandListener
         }
         catch (final Exception ex3) {}
         for (int l = 0; l < var_1f2d.length; ++l) {
-            sub_277b(l, var_1f2d[l], 7, s_IGP_PROMOS, var_1edd, 4);
+            parseSplash(l, var_1f2d[l], 7, s_IGP_PROMOS, var_1edd, 4);
         }
         for (int n2 = 0; n2 < var_1f25.length; ++n2) {
-            sub_277b(var_1c55 + n2, SCFR_PREFIX, 7, s_IGP_CATEGORIES, var_1edd, 6);
+            parseSplash(var_1c55 + n2, SCFR_PREFIX, 7, s_IGP_CATEGORIES, var_1edd, 6);
         }
         try {
             final String trim;
@@ -512,8 +523,8 @@ public final class IGP implements Runnable, CommandListener
             }
         }
         catch (final Exception ex4) {}
-        sub_277b(var_1c5d, GMCL_PREFIX, 7, s_IGP_CATEGORIES, var_1edd, 7);
-        sub_277b(var_1c65, CCTL_PREFIX, 7, s_IGP_CATEGORIES, var_1edd, 8);
+        parseSplash(var_1c5d, GMCL_PREFIX, 7, s_IGP_CATEGORIES, var_1edd, 7);
+        parseSplash(var_1c65, CCTL_PREFIX, 7, s_IGP_CATEGORIES, var_1edd, 8);
         var_2025 = sub_3135(MidletInstance.getAppProperty(s_TITLE_FREEMIUM));
         var_202d = sub_3135(MidletInstance.getAppProperty(s_TITLE_GLCLUB));
         var_1fe5 = sub_357f();
@@ -678,7 +689,7 @@ public final class IGP implements Runnable, CommandListener
     
     private static void sub_36b3(int offset) {
         try {
-            var_1e2d = 0;
+            dataOffset = 0;
             switch (offset) {
                 case -1: {
                     var_1fcd = new ASprite[var_1d55];
@@ -703,19 +714,19 @@ public final class IGP implements Runnable, CommandListener
                     return;
                 }
                 case 1: {
-                    tryReadFromDataIGP();
+                    Lib_Open();
                     final byte[] sub_21f6;
-                    sub_22c9(sub_21f6 = sub_21f6(offset));
+                    readInt(sub_21f6 = Lib_GetData(offset));
                     final int sub_22c9;
-                    var_1f15 = new String[sub_22c9 = sub_22c9(sub_21f6)];
+                    var_1f15 = new String[sub_22c9 = readInt(sub_21f6)];
                     final byte[] bytes = new byte[sub_22c9];
-                    System.arraycopy(sub_21f6, var_1e2d, bytes, 0, sub_22c9);
-                    var_1e2d += sub_22c9;
-                    sub_22c9(sub_21f6);
+                    System.arraycopy(sub_21f6, dataOffset, bytes, 0, sub_22c9);
+                    dataOffset += sub_22c9;
+                    readInt(sub_21f6);
                     final int n;
-                    var_1f1d = new short[n = ((sub_21f6[var_1e2d++] & 0xFF) | (sub_21f6[var_1e2d++] & 0xFF) << 8)];
+                    var_1f1d = new short[n = ((sub_21f6[dataOffset++] & 0xFF) | (sub_21f6[dataOffset++] & 0xFF) << 8)];
                     for (int i = 0; i < n - 1; ++i) {
-                        var_1f1d[i] = (short)((sub_21f6[var_1e2d++] & 0xFF) + ((sub_21f6[var_1e2d++] & 0xFF) << 8));
+                        var_1f1d[i] = (short)((sub_21f6[dataOffset++] & 0xFF) + ((sub_21f6[dataOffset++] & 0xFF) << 8));
                     }
                     var_1f1d[n - 1] = (short)sub_22c9;
                     for (int j = 0; j < n; ++j) {
@@ -772,7 +783,7 @@ public final class IGP implements Runnable, CommandListener
             }
         }
         if (b) {
-            sub_21d0();
+            Lib_Close();
             GLLib.Pack_FullyClose();
             var_1f1d = null;
             var_1f15 = null;
@@ -1298,6 +1309,8 @@ public final class IGP implements Runnable, CommandListener
         var_20b5 = -1;
     }
     
+    final static int STATE_LOADING = 0;
+    
     public static void paint(Graphics g) {
         if (var_2055) {
             return;
@@ -1305,31 +1318,24 @@ public final class IGP implements Runnable, CommandListener
         if (!s_isAvailable) {
             return;
         }
-        sub_669f(g, 0, 0, s_screenHeight, s_screenWidth);
+        setClip(g, 0, 0, s_screenHeight, s_screenWidth);
         switch (CurrentState) {
-            case /* STATE_LOADING */ 0: { 
+            case STATE_LOADING: { 
                 g.setColor(0);
                 GLLib.FillRect(g, 0, 0, s_screenWidth, s_screenHeight, true);
                 final int n = s_screenWidth * 3 / 4;
-                int n2 = CurrentLoadingStep;
-                final int n3 = n;
-                final int n4 = var_206d;
                 if (CurrentLoadingStep > var_1fc5) {
                 	CurrentLoadingStep = var_1fc5;
                 }
-                final int n5 = (s_screenWidth - n3) / 2;
-                final int n6 = (n3 - 2 - 2) * n2 / var_1fc5 + 1;
-                sub_669f(g, 0, 0, s_screenHeight, s_screenWidth);
+                final int n5 = (s_screenWidth - s_screenWidth * 3 / 4) / 2;
+                final int n6 = (s_screenWidth * 3 / 4) * CurrentLoadingStep / var_1fc5 + 1;
+                setClip(g, 0, 0, s_screenHeight, s_screenWidth);
                 g.setColor(16777215);
-                GLLib.FillRect(g, n5, n4, n3, 6, true);
+                GLLib.FillRect(g, n5, var_206d, s_screenWidth * 3 / 4, 6, true);
                 g.setColor(0);
-                final int n7 = n5 + 1 + 1;
-                final int n8 = n4 + 1 + 1;
-                final int n9 = n3 - 2 - 1;
-                final int n10 = n8;
-                GLLib.FillRect(g, n7, n10, n9, 3, true);
+                GLLib.FillRect(g, n5 + 1 + 1, var_206d + 1 + 1, s_screenWidth * 3 / 4 - 2 - 1, 3, true);
                 g.setColor(16711680);
-                GLLib.FillRect(g, n5 + 1 + 1, n10, n6, 3, true);
+                GLLib.FillRect(g, n5 + 1 + 1, var_206d + 1 + 1, n6, 3, true);
                 if (StringLoading != null && !StringLoading.trim().equals("")) {
                     Image image = Image.createImage(s_screenWidth, 30);
                     final Graphics graphics5 = image.getGraphics();
@@ -1344,7 +1350,7 @@ public final class IGP implements Runnable, CommandListener
                     GLLib.g = graphics5;
                     //}
                     GLLib.g.setFont(s_igpFont);
-                    GLLib.DrawString(StringLoading, var_2075, 25, 33);
+                    GLLib.DrawString(StringLoading, realWidth, 25, 33);
                     GLLib.g = g;
                     g.drawRegion(image, 0, 0, s_screenHeight, 30, 5, var_206d + 5 + 30, 0, 0);
                     return;
@@ -1665,12 +1671,8 @@ public final class IGP implements Runnable, CommandListener
         var_1fcd[n].PaintFrame(graphics, n2, n3, n4, 0);
     }
     
-    private static void sub_669f(final Graphics graphics, int max, int max2, int min, int min2) {
-        max = Math.max(0, 0);
-        max2 = Math.max(0, 0);
-        min = Math.min(min, s_screenHeight);
-        min2 = Math.min(min2, s_screenWidth);
-        GLLib.SetClip(graphics, max, max2, min2, min, true);
+    private static void setClip(final Graphics g, int max, int max2, int min, int min2) {
+        GLLib.SetClip(g, max = Math.max(0, 0), max2 = Math.max(0, 0), Math.min(min2, s_screenWidth), min = Math.min(min, s_screenHeight), true);
     }
     
     public final void run() {

@@ -747,29 +747,29 @@ public abstract class GLLib extends Canvas implements Runnable
         _g.setColor(red);
     }
     
-    static final int GetClip(final Graphics _g, final boolean y) {
+    static final int GetClipX(final Graphics _g, final boolean y) {
         if (y) {
             return _g.getClipY();
         }
         return _g.getClipX();
     }
     
-    static final int sub_3600(final Graphics graphics, final boolean b) {
-        if (b) {
-            return ASprite.s_screenWidth - graphics.getClipX() - graphics.getClipWidth();
+    static final int GetClipY(final Graphics _g, final boolean x) {
+        if (x) {
+            return ASprite.s_screenWidth - _g.getClipX() - _g.getClipWidth();
         }
-        return graphics.getClipY();
+        return _g.getClipY();
     }
     
-    static final int sub_3643(final Graphics graphics, final boolean b) {
-        if (b) {
-            return graphics.getClipHeight();
+    static final int GetClipWidth(final Graphics _g, final boolean h) {
+        if (h) {
+            return _g.getClipHeight();
         }
-        return graphics.getClipWidth();
+        return _g.getClipWidth();
     }
     
-    static final int sub_367d(final Graphics graphics, final boolean b) {
-        if (b) {
+    static final int GetClipHeight(final Graphics graphics, final boolean w) {
+        if (w) {
             return graphics.getClipWidth();
         }
         return graphics.getClipHeight();
@@ -1645,10 +1645,9 @@ public abstract class GLLib extends Canvas implements Runnable
            var2++;
         }
 
-        int var1 = var10000;
         if (var10000 == -1 || var_1fd7 == null) {
            var_1fc7++;
-           var1 = 0;
+           var10000 = 0;
            var_1fcf[0] = var0;
            if (var_1fd7[0] == null) {
               var_1fd7[0] = new int[256];
@@ -1661,41 +1660,37 @@ public abstract class GLLib extends Canvas implements Runnable
            }
         }
 
-        var_1fc7 = var1;
+        var_1fc7 = var10000;
      }
     
-    static void sub_57eb(final Graphics graphics, int i, int j, int n, int n2) {
-        final int sub_35c6 = GetClip(graphics, true);
-        final int sub_3600 = sub_3600(graphics, true);
-        final int sub_3601 = sub_3643(graphics, true);
-        final int sub_367d = sub_367d(graphics, true);
-        final int n3 = (i > sub_35c6) ? i : sub_35c6;
-        final int n4 = (j > sub_3600) ? j : sub_3600;
-        n = ((i + n < sub_35c6 + sub_3601) ? (i + n) : (sub_35c6 + sub_3601)) - n3;
-        n2 = ((j + n2 < sub_3600 + sub_367d) ? (j + n2) : (sub_3600 + sub_367d)) - n4;
-        if (n <= 0 || n2 <= 0) {
+    static void sub_57eb(final Graphics graphics, int y, int j, int width, int height) {
+        final int clipY = GetClipX(graphics, true);
+        final int clipX = GetClipY(graphics, true);
+        final int clipH = GetClipWidth(graphics, true);
+        final int clipW = GetClipHeight(graphics, true);
+        final int x = (y > clipY) ? y : clipY;
+        final int _y = (j > clipX) ? j : clipX;
+        width = ((y + width < clipY + clipH) ? (y + width) : (clipY + clipH)) - x;
+        height = ((j + height < clipX + clipW) ? (j + height) : (clipX + clipW)) - _y;
+        if (width <= 0 || height <= 0) {
             return;
         }
-        i = (j > sub_3600) ? j : sub_3600;
-        j = n3;
-        SetClip(graphics, n3, i, n, n2, true);
-        i = n3;
-        i = n;
-        n = n2;
-        n2 = i;
-        if (n * n2 < 256) {
-            DrawRGB(graphics, GLLib.var_1fd7[GLLib.var_1fc7], 0, n, ASprite.s_screenWidth - n4 - n2, i, n, n2, true, true, 0, -1, false);
+        y = (j > clipX) ? j : clipX;
+        j = x;
+        SetClip(graphics, x, y, width, height, true);
+        if (height * width < 256) {
+            DrawRGB(graphics, GLLib.var_1fd7[GLLib.var_1fc7], 0, width, ASprite.s_screenWidth - _y - height, y, width, height, true, true, 0, -1, false);
         }
         else {
-            n += ASprite.s_screenWidth - n4 - n2;
-            n2 += i;
-            for (i = ASprite.s_screenWidth - n4 - n2; i < n; i += 16) {
-                for (j = i; j < n2; j += 16) {
-                    DrawRGB(graphics, GLLib.var_1fd7[GLLib.var_1fc7], 0, 16, i, j, 16, 16, true, true, 0, -1, false);
+            width += ASprite.s_screenWidth - _y - height;
+            height += y;
+            for (y = ASprite.s_screenWidth - _y - height; y < width; y += 16) {
+                for (j = y; j < height; j += 16) {
+                    DrawRGB(graphics, GLLib.var_1fd7[GLLib.var_1fc7], 0, 16, y, j, 16, 16, true, true, 0, -1, false);
                 }
             }
         }
-        SetClip(graphics, sub_35c6, sub_3600, sub_3601, sub_367d, true);
+        SetClip(graphics, clipY, clipX, clipH, clipW, true);
     }
     
     public static int[] sub_5a52(final int n) {
@@ -1800,7 +1795,7 @@ public abstract class GLLib extends Canvas implements Runnable
         }
         GLLib.var_201f = n;
         GLLib.var_2027 = i;
-        int[] array = ASprite.sub_9f61(sub_9c11);
+        int[] array = ASprite._InitTempBuffers(sub_9c11);
         if ((GLLib.var_1fe7 & 0x2000) == 0x0) {
             return null;
         }
@@ -1829,7 +1824,7 @@ public abstract class GLLib extends Canvas implements Runnable
                 n11 += 90 * GLLib.var_1ed7 / 360;
             }
             if (n10 != 0) {
-                sub_9f61 = ASprite.sub_9f61(sub_9c12 = ASprite.sub_9c11(sub_9c12, n12, n, n10, null));
+                sub_9f61 = ASprite._InitTempBuffers(sub_9c12 = ASprite.sub_9c11(sub_9c12, n12, n, n10, null));
             }
             final int sub_2be7 = Math_Cos(GLLib.Math_Angle90 - n11);
             final int sub_2be8 = Math_Cos(n11);
@@ -1873,7 +1868,7 @@ public abstract class GLLib extends Canvas implements Runnable
             GLLib.var_201f = var_201f;
             GLLib.var_2027 = i;
             GLLib.var_1ff7 = true;
-            array = ASprite.sub_9f61(sub_9c11 = sub_9f61);
+            array = ASprite._InitTempBuffers(sub_9c11 = sub_9f61);
             var_200f = GLLib.var_200f;
             var_2017 = GLLib.var_2017;
             n = GLLib.var_201f;
@@ -1923,7 +1918,7 @@ public abstract class GLLib extends Canvas implements Runnable
             final int n46 = n;
             var_2017 = n44;
             var_200f = n46;
-            sub_9f62 = ASprite.sub_9f61(sub_9c13 = ASprite.sub_9c11(array6, n45, var_200f, var_2017, null));
+            sub_9f62 = ASprite._InitTempBuffers(sub_9c13 = ASprite.sub_9c11(array6, n45, var_200f, var_2017, null));
         }
         final int var_201f2 = var_1fff * n40 / 100 + ((var_1fff * n40 % 100 != 0) ? 1 : 0);
         final int var_2019 = n * n39 / 100 + ((n * n39 % 100 != 0) ? 1 : 0);
@@ -1934,10 +1929,10 @@ public abstract class GLLib extends Canvas implements Runnable
         }
         final int n47 = (var_1fff << 8) / var_201f2;
         final int n48 = (n << 8) / var_2019;
-        GetClip(graphics, false);
-        sub_3600(graphics, false);
-        sub_3643(graphics, false);
-        sub_367d(graphics, false);
+        GetClipX(graphics, false);
+        GetClipY(graphics, false);
+        GetClipWidth(graphics, false);
+        GetClipHeight(graphics, false);
         final int n49 = var_201f2;
         final int n50 = var_201f2;
         final int n51;
@@ -2152,7 +2147,7 @@ public abstract class GLLib extends Canvas implements Runnable
             n5 = n6;
             n6 = n9;
         }
-        final int[] sub_39a6 = ASprite.sub_39a6(null);
+        final int[] sub_39a6 = ASprite.InitTempBuffers(null);
         final int n10 = (i < sub_39a6.length / n8) ? i : (sub_39a6.length / n8);
         final int n11 = n5 >>> 24;
         final int n12 = n5 >> 16 & 0xFF;
