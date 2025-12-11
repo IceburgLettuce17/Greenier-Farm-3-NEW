@@ -621,8 +621,8 @@ public final class cGame extends GLLib implements Class_b
 	static int var_7aac;
 	static String var_7ab4;
 	private static boolean s_unkBoolean;
-	private static String var_7ac4;
-	private static String var_7acc;
+	private static String s_popup_title;
+	private static String s_popup_desc;
 	private static String var_7ad4;
 	private static String var_7adc;
 	private static int var_7ae4;
@@ -630,11 +630,11 @@ public final class cGame extends GLLib implements Class_b
 	//private static boolean var_7af4;
 	//private static boolean var_7afc;
 	private static int var_7b04;
-	private static int var_7b0c;
+	private static int s_popup_onCloseAct2;
 	private static Class_f var_7b14;
-	private static String var_7b1c;
-	private static int var_7b24;
-	private static int var_7b2c;
+	private static String s_popup_subtext;
+	private static int s_popup_boxset;
+	private static int s_popup_onCloseAct;
 	private static Class_f var_7b34;
 	private static int var_7b3c;
 	private static int[] var_7b44;
@@ -5097,7 +5097,7 @@ public final class cGame extends GLLib implements Class_b
 	}
 
 	private static void sub_12578() {
-		switch (cGame.var_7b24) {
+		switch (cGame.s_popup_boxset) {
 		case 2: {
 			sub_23a84(49);
 			final int var_18c5 = cGame.var_7b14.var_18c5;
@@ -5112,7 +5112,7 @@ public final class cGame extends GLLib implements Class_b
 		}
 		case 3: {
 			sub_23a84(57);
-			cGame.var_7b2c = 34;
+			cGame.s_popup_onCloseAct = 34;
 			cGame.var_67cc = 1;
 			sub_2c69b();
 			break;
@@ -5121,7 +5121,7 @@ public final class cGame extends GLLib implements Class_b
 	}
 
 	private static void sub_12624() {
-		switch (cGame.var_7b24) {
+		switch (cGame.s_popup_boxset) {
 		case 2: {
 			sub_23a84(57);
 			cGame.var_67cc = 1;
@@ -5144,20 +5144,20 @@ public final class cGame extends GLLib implements Class_b
 
 	private static void sub_126b4() {
 		boolean b = false;
-		if (cGame.var_7b24 != 2 && cGame.var_7b24 != 3 && cGame.var_7b24 != 4) {
+		if (cGame.s_popup_boxset != 2 && cGame.s_popup_boxset != 3 && cGame.s_popup_boxset != 4) {
 			final String sub_4e1f;
-			if (cGame.var_7ac4 == (((sub_4e1f = GLLib.Text_GetStringFromLocaleFile(42)) == null) ? "" : sub_4e1f)
+			if (cGame.s_popup_title == (((sub_4e1f = GLLib.Text_GetStringFromLocaleFile(42)) == null) ? "" : sub_4e1f)
 					&& cGame.var_7ad4 != "") {
-				cGame.var_7ac4 = cGame.var_7ad4;
+				cGame.s_popup_title = cGame.var_7ad4;
 				b = true;
 			} else {
 				final String sub_4e1f2;
-				if (cGame.var_7ac4 == (((sub_4e1f2 = GLLib.Text_GetStringFromLocaleFile(163)) == null) ? "" : sub_4e1f2)
+				if (cGame.s_popup_title == (((sub_4e1f2 = GLLib.Text_GetStringFromLocaleFile(163)) == null) ? "" : sub_4e1f2)
 						&& cGame.var_7ad4 != "") {
-					cGame.var_7ac4 = cGame.var_7ad4;
-					cGame.var_7acc = cGame.var_7adc;
+					cGame.s_popup_title = cGame.var_7ad4;
+					cGame.s_popup_desc = cGame.var_7adc;
 					//cGame.var_7afc = false;
-					cGame.var_7b24 = 1;
+					cGame.s_popup_boxset = 1;
 					sub_4074f();
 					sub_2000c(4, 5, true);
 					sub_2000c(4, 6, true);
@@ -5171,7 +5171,7 @@ public final class cGame extends GLLib implements Class_b
 			}
 			Label_0360: {
 				final String sub_4e1f3;
-				if (cGame.var_7ac4 == (((sub_4e1f3 = GLLib.Text_GetStringFromLocaleFile(292)) == null) ? "" : sub_4e1f3)) {
+				if (cGame.s_popup_title == (((sub_4e1f3 = GLLib.Text_GetStringFromLocaleFile(292)) == null) ? "" : sub_4e1f3)) {
 					final int n = GameDatas.s_allDatas[3].m_dataVars[sub_df89(cGame.var_808c)][1];
 					if (cGame.var_808c == 1) {
 						sub_2bae9(n, 1, 27);
@@ -5185,7 +5185,7 @@ public final class cGame extends GLLib implements Class_b
 					b = true;
 				} else {
 					final String sub_4e1f4;
-					if (cGame.var_7ac4 == (((sub_4e1f4 = GLLib.Text_GetStringFromLocaleFile(300)) == null) ? "" : sub_4e1f4)) {
+					if (cGame.s_popup_title == (((sub_4e1f4 = GLLib.Text_GetStringFromLocaleFile(300)) == null) ? "" : sub_4e1f4)) {
 						if (cGame.var_7fa4 != -1) {
 							sub_26a6a(true, cGame.var_7fa4, '\u0002');
 						}
@@ -5206,7 +5206,7 @@ public final class cGame extends GLLib implements Class_b
 					}
 				}
 			}
-			if (cGame.var_7b0c == 26) {
+			if (cGame.s_popup_onCloseAct2 == 26) {
 				sub_23a84(60);
 			} else {
 				sub_23a84(61);
@@ -5266,7 +5266,7 @@ public final class cGame extends GLLib implements Class_b
 		}
 		sub_23a84(56);
 		if (cGame.var_7eb4[cGame.s_currentQuest] > 0) {
-			cGame.var_7ab4 = (cGame.var_7acc = GLLib.Text_ReplaceText(
+			cGame.var_7ab4 = (cGame.s_popup_desc = GLLib.Text_ReplaceText(
 					(GLLib.Text_GetStringFromLocaleFile(381) == null ? "" : GLLib.Text_GetStringFromLocaleFile(381)), "%d",
 					GLLib.BigNumberSeparate(cGame.var_7eb4[cGame.s_currentQuest] - getCash(), cGame.s_currencySeprType, " ")));
 			cGame.var_7aac = 19;
@@ -5288,7 +5288,7 @@ public final class cGame extends GLLib implements Class_b
 		sub_23a84(56);
 		if (cGame.var_7eec[cGame.s_currentQuest] > 0) {
 			final String sub_4e1f;
-			cGame.var_7ab4 = (cGame.var_7acc = GLLib.Text_ReplaceText(
+			cGame.var_7ab4 = (cGame.s_popup_desc = GLLib.Text_ReplaceText(
 					((sub_4e1f = GLLib.Text_GetStringFromLocaleFile(381)) == null) ? "" : sub_4e1f, "%d",
 					GLLib.BigNumberSeparate(cGame.var_7eec[cGame.s_currentQuest] - getCash(), cGame.s_currencySeprType, " ")));
 			cGame.var_7aac = 19;
@@ -5310,7 +5310,7 @@ public final class cGame extends GLLib implements Class_b
 		sub_23a84(56);
 		if (cGame.var_7f24[cGame.s_currentQuest] > 0) {
 			final String sub_4e1f;
-			cGame.var_7ab4 = (cGame.var_7acc = GLLib.Text_ReplaceText(
+			cGame.var_7ab4 = (cGame.s_popup_desc = GLLib.Text_ReplaceText(
 					((sub_4e1f = GLLib.Text_GetStringFromLocaleFile(381)) == null) ? "" : sub_4e1f, "%d",
 					GLLib.BigNumberSeparate(cGame.var_7f24[cGame.s_currentQuest] - getCash(), cGame.s_currencySeprType, " ")));
 			cGame.var_7aac = 19;
@@ -8375,7 +8375,7 @@ public final class cGame extends GLLib implements Class_b
 				cGame.s_currentQuest = c;
 				cGame.s_currentQuest = c;
 				sub_48d55();
-				cGame.var_7b0c = 26;
+				cGame.s_popup_onCloseAct2 = 26;
 				return;
 			}
 		}
@@ -11201,7 +11201,7 @@ public final class cGame extends GLLib implements Class_b
 					cGame.s_currentQuest = 0;
 					sub_48d55();
 					if (cGame.s_questStates[cGame.s_currentQuest] == 1) {
-						cGame.var_7b0c = 26;
+						cGame.s_popup_onCloseAct2 = 26;
 					} else {
 						sub_23a84(60);
 						sub_81e0(26);
@@ -11213,7 +11213,7 @@ public final class cGame extends GLLib implements Class_b
 					cGame.s_currentQuest = 1;
 					sub_48d55();
 					if (cGame.s_questStates[cGame.s_currentQuest] == 1) {
-						cGame.var_7b0c = 26;
+						cGame.s_popup_onCloseAct2 = 26;
 					} else {
 						sub_23a84(60);
 						sub_81e0(26);
@@ -11225,7 +11225,7 @@ public final class cGame extends GLLib implements Class_b
 					cGame.s_currentQuest = 2;
 					sub_48d55();
 					if (cGame.s_questStates[cGame.s_currentQuest] == 1) {
-						cGame.var_7b0c = 26;
+						cGame.s_popup_onCloseAct2 = 26;
 					} else {
 						sub_23a84(60);
 						sub_81e0(26);
@@ -11237,7 +11237,7 @@ public final class cGame extends GLLib implements Class_b
 					cGame.s_currentQuest = 3;
 					sub_48d55();
 					if (cGame.s_questStates[cGame.s_currentQuest] == 1) {
-						cGame.var_7b0c = 26;
+						cGame.s_popup_onCloseAct2 = 26;
 					} else {
 						sub_23a84(60);
 						sub_81e0(26);
@@ -11524,7 +11524,7 @@ public final class cGame extends GLLib implements Class_b
 					sub_23a84(61);
 					if (cGame.var_6bcc == '\u0001') {
 						sub_48d55();
-						cGame.var_7b0c = 26;
+						cGame.s_popup_onCloseAct2 = 26;
 					} else {
 						sub_81e0(26);
 					}
@@ -11609,15 +11609,15 @@ public final class cGame extends GLLib implements Class_b
 						final Class_f var_6aac = cGame.var_6aac;
 						final String var_7acc = s2;
 						final String var_7ac4 = s;
-						cGame.var_7b24 = 2;
+						cGame.s_popup_boxset = 2;
 						cGame.var_7b14 = var_6aac;
 						sub_2000c(4, 5, true);
 						sub_2000c(4, 6, true);
 						sub_2000c(4, 7, true);
 						sub_4019a(7, 0, 10);
-						cGame.var_7ac4 = var_7ac4;
-						cGame.var_7acc = var_7acc;
-						cGame.var_7b1c = GLLib.BigNumberSeparate(cGame.var_7b14.sub_a709(), cGame.s_currencySeprType, " ");
+						cGame.s_popup_title = var_7ac4;
+						cGame.s_popup_desc = var_7acc;
+						cGame.s_popup_subtext = GLLib.BigNumberSeparate(cGame.var_7b14.sub_a709(), cGame.s_currencySeprType, " ");
 						sub_2000c(4, 13, true);
 						sub_2000c(4, 15, true);
 						sub_2000c(4, 16, true);
@@ -24683,15 +24683,15 @@ public final class cGame extends GLLib implements Class_b
 							final String sub_4e1f6;
 							final String var_7acc = ((sub_4e1f6 = GLLib.Text_GetStringFromLocaleFile(628)) == null) ? "" : sub_4e1f6;
 							final String var_7ac4 = s2;
-							cGame.var_7b24 = 6;
+							cGame.s_popup_boxset = 6;
 							sub_2000c(4, 5, true);
 							sub_2000c(4, 6, true);
 							sub_2000c(4, 7, true);
 							sub_2000c(4, 11, true);
 							sub_2024d(4, 11, true);
 							sub_4019a(7, 0, 10);
-							cGame.var_7ac4 = var_7ac4;
-							cGame.var_7acc = var_7acc;
+							cGame.s_popup_title = var_7ac4;
+							cGame.s_popup_desc = var_7acc;
 							sub_81e0(19);
 							return true;
 						}
@@ -24768,12 +24768,12 @@ public final class cGame extends GLLib implements Class_b
 	private static boolean drawPopup(final int n) {
 		if (n == 1) {
 			cGame.var_68ac = 100;
-			cGame.var_7b2c = 0;
+			cGame.s_popup_onCloseAct = 0;
 			sub_2c69b();
 			sub_1fb8e(4);
 			cGame.var_7b04 = 0;
 			int n2 = 10;
-			if (cGame.var_7ac4 == "") {
+			if (cGame.s_popup_title == "") {
 				n2 = 3;
 			}
 			if (cGame.var_68bc[4][n2][5] > -1 && cGame.var_68d4[cGame.var_68bc[4][n2][5]] == null) {
@@ -24782,7 +24782,7 @@ public final class cGame extends GLLib implements Class_b
 				sub_d2e8(1, 3);
 				GLLib.Pack_FullyClose();
 			}
-			switch (cGame.var_7b24) {
+			switch (cGame.s_popup_boxset) {
 			case 0: {
 				if (cGame.var_711c == 15 && cGame.var_70ec == 2) {
 					sub_23a84(60);
@@ -24800,8 +24800,8 @@ public final class cGame extends GLLib implements Class_b
 				break;
 			}
 			}
-			final int sub_83cf = getPreviousState();
-			sub_2000c(4, 0, sub_83cf != 17 && sub_83cf != 17 && sub_83cf != 18 && sub_83cf != 35 && sub_83cf != 36);
+			final int firstState = getPreviousState();
+			sub_2000c(4, 0, firstState != 17 && firstState != 17 && firstState != 18 && firstState != 35 && firstState != 36);
 			sub_2000c(1, 45, false);
 			sub_2000c(1, 46, false);
 		}
@@ -24809,9 +24809,9 @@ public final class cGame extends GLLib implements Class_b
 			//cGame.var_7afc = false;
 			sub_4074f();
 			cGame.var_6bec = false;
-			cGame.var_7ac4 = "";
-			cGame.var_7acc = "";
-			cGame.var_7b1c = "";
+			cGame.s_popup_title = "";
+			cGame.s_popup_desc = "";
+			cGame.s_popup_subtext = "";
 			cGame.var_7b14 = null;
 			if (cGame.var_816c) {
 				cGame.var_816c = false;
@@ -24822,12 +24822,12 @@ public final class cGame extends GLLib implements Class_b
 					sub_2024d(8, 206, true);
 				}
 			}
-			if (cGame.var_7b2c == 34) {
+			if (cGame.s_popup_onCloseAct == 34) {
 				sub_81e0(34);
-			} else if (cGame.var_7b0c != -1) {
-				sub_81e0(cGame.var_7b0c);
-				cGame.var_7b0c = -1;
-			} else if (cGame.var_7b24 == 6) {
+			} else if (cGame.s_popup_onCloseAct2 != -1) {
+				sub_81e0(cGame.s_popup_onCloseAct2);
+				cGame.s_popup_onCloseAct2 = -1;
+			} else if (cGame.s_popup_boxset == 6) {
 				cGame.s_isPaused = true;
 				cGame.s_clickblocked = true;
 				cGame.var_69dc = true;
@@ -24835,9 +24835,9 @@ public final class cGame extends GLLib implements Class_b
 				GLLibPlayer.Tileset_Destroy(1);
 				sub_81e0(25);
 			}
-			cGame.var_7b24 = 0;
+			cGame.s_popup_boxset = 0;
 		}
-		if (n == 8 && cGame.var_7b24 != 2 && cGame.var_7b24 != 4 && cGame.var_7b24 != 5 && cGame.var_7b04 > 700
+		if (n == 8 && cGame.s_popup_boxset != 2 && cGame.s_popup_boxset != 4 && cGame.s_popup_boxset != 5 && cGame.var_7b04 > 700
 				&& GLLib.sub_762d()) {
 			sub_126b4();
 		}
@@ -24845,7 +24845,7 @@ public final class cGame extends GLLib implements Class_b
 			final int sub_2b09;
 			if ((sub_2b09 = GLLib.IsAnyKeyDown()) == 19 || sub_2b09 == 11) {
 				if (cGame.s_tutorialState == -1) {
-					switch (cGame.var_7b24) {
+					switch (cGame.s_popup_boxset) {
 					case 0:
 					case 1:
 					case 6: {
@@ -24869,17 +24869,17 @@ public final class cGame extends GLLib implements Class_b
 		}
 		if (n == 3) {
 			sub_1dcc1(4);
-			if (cGame.var_7ac4 == "" || cGame.var_7ac4 == null) {
-				drawText(cGame.var_7acc, 4, 2, 0, 0);
+			if (cGame.s_popup_title == "" || cGame.s_popup_title == null) {
+				drawText(cGame.s_popup_desc, 4, 2, 0, 0);
 			} else {
-				sub_1df06(cGame.var_7ac4, 4, 8, 0, 0);
-				drawText(cGame.var_7acc, 4, 9, 0, 0);
+				sub_1df06(cGame.s_popup_title, 4, 8, 0, 0);
+				drawText(cGame.s_popup_desc, 4, 9, 0, 0);
 			}
-			if (cGame.var_7b1c != "") {
-				sub_1df06(cGame.var_7b1c, 4, 14, 0, 0);
+			if (cGame.s_popup_subtext != "") {
+				sub_1df06(cGame.s_popup_subtext, 4, 14, 0, 0);
 			}
 			if (cGame.var_68bc[4][15][10] == 1) {
-				switch (cGame.var_7b24) {
+				switch (cGame.s_popup_boxset) {
 				case 2: {
 					final String sub_4e1f2;
 					sub_1df06(((sub_4e1f2 = GLLib.Text_GetStringFromLocaleFile(45)) == null) ? "" : sub_4e1f2, 4, 17, 0, 0);
@@ -24929,8 +24929,8 @@ public final class cGame extends GLLib implements Class_b
 	}
 
 	private static void sub_40279(final String var_7acc, int sub_237ff, int n) {
-		cGame.var_7b24 = 0;
-		cGame.var_7acc = var_7acc;
+		cGame.s_popup_boxset = 0;
+		cGame.s_popup_desc = var_7acc;
 		sub_2000c(4, 1, true);
 		sub_2000c(4, 7, false);
 		sub_4019a(sub_237ff, n, 3);
@@ -24989,7 +24989,7 @@ public final class cGame extends GLLib implements Class_b
 	private static void sub_405d4(final String var_7ac4, final String var_7acc, final int n, final int n2,
 			final boolean var_7afc) {
 		//cGame.var_7afc = var_7afc;
-		cGame.var_7b24 = 1;
+		cGame.s_popup_boxset = 1;
 		sub_4074f();
 		sub_2000c(4, 5, true);
 		sub_2000c(4, 6, true);
@@ -24997,8 +24997,8 @@ public final class cGame extends GLLib implements Class_b
 		sub_2000c(4, 11, true);
 		sub_2024d(4, 11, true);
 		sub_4019a(n, n2, 10);
-		cGame.var_7ac4 = var_7ac4;
-		cGame.var_7acc = var_7acc;
+		cGame.s_popup_title = var_7ac4;
+		cGame.s_popup_desc = var_7acc;
 		sub_81e0(19);
 	}
 
@@ -25018,15 +25018,15 @@ public final class cGame extends GLLib implements Class_b
 		if (cGame.var_807c == 0) {
 			sub_2000c(4, 30, true);
 		}
-		cGame.var_7b24 = 1;
+		cGame.s_popup_boxset = 1;
 		sub_2000c(4, 5, true);
 		sub_2000c(4, 6, true);
 		sub_2000c(4, 7, true);
 		sub_2000c(4, 11, true);
 		sub_2024d(4, 11, true);
 		sub_4019a(7, 0, 10);
-		cGame.var_7ac4 = var_7ac4;
-		cGame.var_7acc = var_7acc;
+		cGame.s_popup_title = var_7ac4;
+		cGame.s_popup_desc = var_7acc;
 		sub_81e0(19);
 	}
 
@@ -27980,16 +27980,16 @@ public final class cGame extends GLLib implements Class_b
 				addCash(cGame.s_pond_highRodCashCost);
 			}
 			sub_2000c(4, 30, true);
-			cGame.var_7b24 = 1;
+			cGame.s_popup_boxset = 1;
 			sub_2000c(4, 5, true);
 			sub_2000c(4, 6, true);
 			sub_2000c(4, 11, true);
 			sub_2024d(4, 11, true);
 			sub_4019a(7, 0, 10);
 			final String sub_4e1f;
-			cGame.var_7ac4 = (((sub_4e1f = GLLib.Text_GetStringFromLocaleFile(401)) == null) ? "" : sub_4e1f);
+			cGame.s_popup_title = (((sub_4e1f = GLLib.Text_GetStringFromLocaleFile(401)) == null) ? "" : sub_4e1f);
 			final String sub_4e1f2;
-			cGame.var_7acc = (((sub_4e1f2 = GLLib.Text_GetStringFromLocaleFile(402)) == null) ? "" : sub_4e1f2);
+			cGame.s_popup_desc = (((sub_4e1f2 = GLLib.Text_GetStringFromLocaleFile(402)) == null) ? "" : sub_4e1f2);
 			sub_82a7(19);
 			return false;
 		}
@@ -30220,16 +30220,16 @@ public final class cGame extends GLLib implements Class_b
 		cGame.var_7a9c = true;
 		cGame.var_7aac = -1;
 		cGame.s_unkBoolean = true;
-		cGame.var_7ac4 = "";
-		cGame.var_7acc = "";
+		cGame.s_popup_title = "";
+		cGame.s_popup_desc = "";
 		cGame.var_7ad4 = "";
 		cGame.var_7adc = "";
 		//cGame.var_7af4 = false;
 		//cGame.var_7afc = false;
 		cGame.var_7b04 = 0;
-		cGame.var_7b0c = -1;
-		cGame.var_7b1c = "";
-		cGame.var_7b2c = 0;
+		cGame.s_popup_onCloseAct2 = -1;
+		cGame.s_popup_subtext = "";
+		cGame.s_popup_onCloseAct = 0;
 		cGame.var_7b34 = null;
 		cGame.var_7b9c = 1;
 		cGame.var_7ba4 = "";
