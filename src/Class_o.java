@@ -9,10 +9,6 @@ import java.util.Timer;
 import java.util.Vector;
 import javax.microedition.midlet.MIDlet;
 
-// 
-// Decompiled by Procyon v0.6.0
-// 
-
 public final class Class_o {
 	private static MIDlet application;
 	static int itemAmount;
@@ -122,6 +118,9 @@ public final class Class_o {
 		}
 	}
 
+	/// Initializes an instance of PaySMS.
+	/// @param String language: The language code to use (example: "EN")
+	/// @return void
 	public static void Init(final String language) {
 		Class_o.language = language;
 		Class_o.application = GLLib.s_application;
@@ -186,6 +185,11 @@ public final class Class_o {
 		return true;
 	}
 
+
+	/// Sets certain fields to values from your .jad file
+	/// @note This function is called from GLLib, and is required for PaySMS to function properly.
+	/// @note make sure to set all the fields here before using PaySMS.
+	/// @return true if things went right, otherwise false
 	public static boolean parseJadFields() {
 		Class_o.var_2b8d = 6;
 		final String unlocked = rmsLoad(Class_o.rmsNames[6]);
@@ -335,6 +339,10 @@ public final class Class_o {
 		return Class_o.isSms || Class_o.redeemUnlocked;
 	}
 
+	/// Sends an IAP request.
+	/// @param int pricePoint: The price point of your item.
+	/// @param String itemType: The type of your item.
+	/// @return void
 	public static void sendRequest(final int pricePoint, String itemType) {
 		new StringBuffer().append("PaySMS.sendRequest: start (PricePoint:").append(pricePoint).append(") (Item Type: ")
 				.append(itemType).append(")");
@@ -521,6 +529,8 @@ public final class Class_o {
 		}
 	}
 
+	/// Sends a redeem request.
+	/// @return void
 	public static void sendRedeemRequest() {
 		Class_o.redeemUnlocked = true;
 		rmsSave(Class_o.rmsNames[4], "1");
@@ -604,6 +614,8 @@ public final class Class_o {
 		return Class_o.var_2afd;
 	}
 
+	/// Gets the package ID from an RMS record.
+	/// @return int: your package ID
 	public static int getPackageIdInt() {
 		String packageId = rmsLoad(Class_o.rmsNames[2]);
 		if (packageId == null || packageId.length() == 0) {
@@ -618,6 +630,9 @@ public final class Class_o {
 		return packageIdInt;
 	}
 
+	/// Verifies a redeem code.
+	/// @param int inputCode: The code to verify.
+	/// @return true if your inputCode is valid, otherwise false
 	public static boolean verifyRequest(int inputCode) {
 		boolean equals = false;
 		if ((Class_o.code = getCodeRms()) != null && Class_o.code.length() > 0) {
@@ -675,7 +690,9 @@ public final class Class_o {
 		rmsSave(Class_o.rmsNames[4], "0");
 		//Class_o.var_2b5d = false;
 	}
-
+	
+	/// Resets the PaySMS instance.
+	/// @return void
 	public static void reset() {
 		Class_o.currentAutoDetectedRegion = -1;
 		Class_o.var_29ed = -1;
@@ -807,7 +824,7 @@ public final class Class_o {
 		}
 		return false;
 	}
-
+	
 	private static boolean detectRegion() {
 		if (Class_o.currentAutoDetectedRegion != -1) {
 			Class_o.var_29ed = Class_o.currentAutoDetectedRegion;
@@ -844,7 +861,7 @@ public final class Class_o {
 		}
 		return false;
 	}
-
+	
 	private static void sendCCARD(final int pricepoint, String itemtype) {
 		new StringBuffer().append("PaySMS.sendRequest CREDIT CARD: Pricepoint:").append(pricepoint).append(" Type:").append(itemtype);
 		final String contentID = getAppProperty("IAP-ContentID-" + itemtype + "-" + pricepoint);
@@ -904,6 +921,11 @@ public final class Class_o {
 		return anArray;
 	}
 
+	// Public version of getPrice(int). All documentation of getPrice should go here
+	
+	/// Gets the price of an item from the JAD.
+	/// @param int pricePoint: The price point of your item.
+	/// @return String: the price
 	public static String getPriceTHUNK(final int pricePoint) {
 		return getPrice(pricePoint);
 	}
@@ -955,7 +977,11 @@ public final class Class_o {
 			}
 		}
 	}
-
+	
+	/// Gets the value of a virtual currency item.
+	/// @param long basecurrency: The base currency to calculate.
+	/// @param int pricePoint: The price point of your item.
+	/// @return long: your currency value
 	public static long getVirtualCurrency(final long basecurrency, final int pricepoint) {
 		new StringBuffer().append("PaySMS.getVirtualCurrency: begin basecurrency ").append(basecurrency).append(", pricepoint")
 				.append(pricepoint);
@@ -1012,7 +1038,7 @@ public final class Class_o {
 		}
 		return "";
 	}
-
+	
 	private static String GetBillingType(final int n) {
 		if (getTestFieldInt() != 0) {
 			if (getTestFieldInt() == 1) {
@@ -1055,6 +1081,9 @@ public final class Class_o {
 		return null;
 	}
 
+	/// Gets the terms and conditions of IAP. You can then display this value in-game.
+	/// @note Don't forget to populate your IAP_texts file with TNCs for each country.
+	/// @return String: your tncs
 	public static String GetTermsAndConditions() {
 		new StringBuffer().append("PaySMS.GetTermsAndConditions: currentValidProfiles: ").append(
 				(Class_o.currentValidProfiles == null) ? "NULL" : ("Size: " + Class_o.currentValidProfiles.size()));
@@ -1089,7 +1118,11 @@ public final class Class_o {
 				.append("'");
 		return tncWoPhone;
 	}
-
+	
+		
+	/// Gets the amount of items for a currency.
+	/// @param String currency: The currency.
+	/// @return int: your currency amount
 	public static int getCurrencyAmount(final String currency) {
 		if (currency.equals("Cash")) {
 			return Class_o.cashVector.size();
@@ -1151,7 +1184,11 @@ public final class Class_o {
 		new StringBuffer().append("PaySMS.parseValidItems: number of cash: ").append(Class_o.cashVector.size());
 		new StringBuffer().append("PaySMS.parseValidItems: number of coin: ").append(Class_o.coinVector.size());
 	}
-
+	
+	/// Gets the price point of an item.
+	/// @param int itemIndex: The index of your item.
+	/// @param String pricePoint: The price point of your item.
+	/// @return int: your price point
 	public static int getPricePoint(final int itemIndex, final String itemType) {
 		new StringBuffer().append("PaySMS.getPricePoint: itemIndex").append(itemIndex).append(", itemType ").append(itemType);
 		if (itemType.equals("Cash") && itemIndex <= Class_o.cashVector.size()) {
@@ -1184,7 +1221,7 @@ public final class Class_o {
 		}
 		return /* ret */ -1;
 	}
-
+	
 	private static boolean isValidContentID(final int pricePoint, final String contentID) {
 		final String _contentID = getAppProperty("IAP-ContentID-" + contentID + "-" + pricePoint);
 		boolean retaddr = false;
@@ -1555,6 +1592,10 @@ public final class Class_o {
 		return recordStr;
 	}
 
+	/// Saves an RMS record.
+	/// @param String record: Your record name.
+	/// @param String value: The value of your record.
+	/// @return void
 	public static void rmsSave(final String record, final String value) {
 		RecordStore rs = null;
 		try {
@@ -1603,7 +1644,9 @@ public final class Class_o {
 		}
 		return 1L;
 	}
-
+	
+	/// Gets the item type from an RMS record.
+	/// @return String: your item type
 	public static String getItemTypeRms() {
 		if (rmsLoad(Class_o.rmsNames[5]) != null) {
 			return rmsLoad(Class_o.rmsNames[5]);
@@ -1678,7 +1721,8 @@ public final class Class_o {
 		vector.copyInto(anArray);
 		return anArray;
 	}
-
+	
+	// Still investigating this function's name since 2024....
 	public static int GetSpecialFlow() {
 		if (Class_o.currentValidProfiles == null || Class_o.currentValidProfiles.size() <= 0) {
 			return 0;
@@ -1737,7 +1781,7 @@ public final class Class_o {
 					return 7;
 				}
 				
-				// Estonia (Spain?)
+				// Spain (WHAT THE HELL IS ESTONIA :skull:)
 				if (countryCode.equals("34:ES")) {
 					return 0;
 				}
@@ -1760,7 +1804,10 @@ public final class Class_o {
 		}
 		return 8;
 	}
-
+	
+	/// Finds the price using a price point.
+	/// @param int pricepoint: Your price point
+	/// @return int: your price
 	public static int findPrice(final int pricepoint) {
 		if (GetSpecialFlow() == 6) {
 			if (Class_o.currentValidProfiles == null) {
@@ -1786,6 +1833,8 @@ public final class Class_o {
 		return 0;
 	}
 
+	/// Gets the support URL from your JAD. (URL-SUPPORT)
+	/// @return String your support url.
 	public static String getFullSupportUrl() {
 		try {
 			final String supportUrl = GLLib.s_application.getAppProperty("URL-SUPPORT");
@@ -1832,7 +1881,8 @@ public final class Class_o {
 		}
 		return s1.toUpperCase().equals(s2.toUpperCase());
 	}
-
+	
+	// IDRN to do docs for getters and setters
 	static String getDebugNumber() {
 		return Class_o.debugNum;
 	}
@@ -1900,7 +1950,7 @@ public final class Class_o {
 	static Vector getCurrentValidProfiles() {
 		return Class_o.currentValidProfiles;
 	}
-
+	
 	static void storeProfile(final Vector vector) {
 		storeProfileID(vector);
 	}

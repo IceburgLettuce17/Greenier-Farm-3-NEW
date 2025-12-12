@@ -8828,7 +8828,7 @@ public final class cGame extends GLLib implements Class_b
 		sub_23a84(61);
 	}
 
-	private static void sub_1a782() {
+	private static void drawDebugPausePage() {
 		sub_23a84(61);
 		sub_1b5e6();
 		if (!cGame.s_displayDebugInfo) {
@@ -12667,7 +12667,7 @@ public final class cGame extends GLLib implements Class_b
 					return;
 				}
 				case 983051: {
-					sub_1a782();
+					drawDebugPausePage();
 					return;
 				}
 				case 983124: {
