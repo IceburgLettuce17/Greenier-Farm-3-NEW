@@ -144,7 +144,7 @@ public final class Class_o {
 		if (Class_o.VERSION != null) {
 			Class_o.VERSION += "";
 		}
-		if (!setValidProfilesFromRms() && getTestFieldInt() == 0 && Class_o.var_29ad && detectRegion()) {
+		if (!setValidProfilesFromRms() && getBillingTypeInt() == 0 && Class_o.var_29ad && detectRegion()) {
 			detectCarrier();
 		}
 		parseValidItems();
@@ -219,10 +219,10 @@ public final class Class_o {
 				if ((Class_o.iapTestField = getAppProperty("IAP-Test")).length() == 0) {
 					Class_o.iapTestField = "0";
 				}
-				if (getTestFieldInt() != 0) {
-					if (getTestFieldInt() == 1) {
+				if (getBillingTypeInt() != 0) {
+					if (getBillingTypeInt() == 1) {
 						Class_o.testProfile = Class_o.var_2b05;
-					} else if (getTestFieldInt() == 2) {
+					} else if (getBillingTypeInt() == 2) {
 						Class_o.testProfile = Class_o.var_2b0d;
 					} else {
 						Class_o.iapTestField = "0";
@@ -308,7 +308,7 @@ public final class Class_o {
 
 	private static boolean checkAvailable() {
 		boolean retbool;
-		if (getTestFieldInt() != 0) {
+		if (getBillingTypeInt() != 0) {
 			retbool = true;
 		} else if (Class_o.creditCardEnabled && (Class_o.var_29a5 == null || Class_o.var_29a5.length == 0)) {
 			retbool = true;
@@ -354,11 +354,11 @@ public final class Class_o {
 		if (Class_o.overrideFromJad.equals("1")) {
 			type = Class_o.billingType;
 		} else {
-			if (getTestFieldInt() != 0) {
+			if (getBillingTypeInt() != 0) {
 				Class_o.var_29a5 = Class_o.var_29bd;
-				if (getTestFieldInt() == 1) {
+				if (getBillingTypeInt() == 1) {
 					type = "SMS";
-				} else if (getTestFieldInt() == 2) {
+				} else if (getBillingTypeInt() == 2) {
 					type = "HTTP";
 				}
 				for (int i = 0; i < Class_o.var_29a5.length; ++i) {
@@ -562,7 +562,7 @@ public final class Class_o {
 			return 3;
 		} else {
 			if (Class_o.var_2af5 != 1) {
-				if (!Class_o.overrideFromJad.equals("1") && getTestFieldInt() == 0) {
+				if (!Class_o.overrideFromJad.equals("1") && getBillingTypeInt() == 0) {
 					if (Class_o.var_2afd != 0) {
 						return 3;
 					}
@@ -642,31 +642,27 @@ public final class Class_o {
 				.append(equals ? "Unlocked" : "Still Locked");
 		if (equals) {
 			try {
-				final String sub_6b21 = rmsLoad(Class_o.rmsNames[7]);
+				final String moneySpent = rmsLoad(Class_o.rmsNames[7]);
 				String substring = "0";
-				if (sub_6b21 != null && !sub_6b21.equals("")) {
-					substring = sub_6b21.substring(0, sub_6b21.indexOf(95));
+				if (moneySpent != null && !moneySpent.equals("")) {
+					substring = moneySpent.substring(0, moneySpent.indexOf(95));
 				}
 				inputCode = getPackageIdInt();
 				inputCode = getPricePoint(inputCode, getItemTypeRms());
-				final String sub_5260 = sub_5260(0, inputCode);
+				final String profileID = sub_5260(0, inputCode);
 				final String sub_5261 = sub_5260(9, inputCode);
-				final String s = substring;
-				final String s2 = sub_5261;
-				final String replace = s.replace(',', '.');
-				final String replace2 = s2.replace(',', '.');
+				final String replace = substring.replace(',', '.');
+				final String replace2 = sub_5261.replace(',', '.');
 				final long sub_5262 = sub_7695(replace);
 				final long sub_5263 = sub_7695(replace2);
-				final String s3 = replace;
-				final String s4 = replace2;
-				inputCode = ((s3.indexOf(Class_o.var_2b95) != -1 || s4.indexOf(Class_o.var_2b95) != -1)
+				inputCode = ((replace.indexOf(Class_o.var_2b95) != -1 || replace2.indexOf(Class_o.var_2b95) != -1)
 						? Class_o.var_2b95
 						: ' ');
 				final long n = sub_5262 + sub_5263;
-				final String s5 = (inputCode == 32) ? (n / 100000L + "")
+				final String totalMoneySpent = (inputCode == 32) ? (n / 100000L + "")
 						: ("" + n / 100000L + (char) inputCode + n % 100000L);
-				new StringBuffer().append("totalMoneySpent : ").append(s5).append("  profileID: ").append(sub_5260);
-				rmsSave(Class_o.rmsNames[7], s5 + "_" + sub_5260);
+				new StringBuffer().append("totalMoneySpent : ").append(totalMoneySpent).append("  profileID: ").append(profileID);
+				rmsSave(Class_o.rmsNames[7], totalMoneySpent + "_" + profileID);
 			} catch (final Exception obj) {
 				new StringBuffer().append("Exception : ").append(obj);
 			}
@@ -948,7 +944,7 @@ public final class Class_o {
 				return null;
 			} else {
 				int profileIndex = -1;
-				if (getTestFieldInt() == 0) {
+				if (getBillingTypeInt() == 0) {
 					for (int i = 0; i < Class_o.currentValidProfiles.size(); ++i) {
 						final int intValue = ((Integer) Class_o.currentValidProfiles.elementAt(i)).intValue();
 						try {
@@ -986,7 +982,7 @@ public final class Class_o {
 		new StringBuffer().append("PaySMS.getVirtualCurrency: begin basecurrency ").append(basecurrency).append(", pricepoint")
 				.append(pricepoint);
 		long currency = 0L;
-		if (getTestFieldInt() == 0 && Class_o.currentValidProfiles != null && Class_o.currentValidProfiles.size() > 0) {
+		if (getBillingTypeInt() == 0 && Class_o.currentValidProfiles != null && Class_o.currentValidProfiles.size() > 0) {
 			for (int j = 0; j < Class_o.currentValidProfiles.size(); ++j) {
 				final int value = ((Integer) Class_o.currentValidProfiles.elementAt(j)).intValue();
 				try {
@@ -1022,7 +1018,7 @@ public final class Class_o {
 	}
 
 	private static String sub_5260(final int n, final int i) {
-		if (getTestFieldInt() == 0) {
+		if (getBillingTypeInt() == 0) {
 			for (int j = 0; j < Class_o.currentValidProfiles.size(); ++j) {
 				final int intValue = ((Integer) Class_o.currentValidProfiles.elementAt(j)).intValue();
 				if (Class_o.var_29a5[intValue][14].equals(String.valueOf(i))) {
@@ -1040,14 +1036,14 @@ public final class Class_o {
 	}
 	
 	private static String GetBillingType(final int n) {
-		if (getTestFieldInt() != 0) {
-			if (getTestFieldInt() == 1) {
+		if (getBillingTypeInt() != 0) {
+			if (getBillingTypeInt() == 1) {
 				return "sms_2d";
 			}
-			if (getTestFieldInt() == 2) {
+			if (getBillingTypeInt() == 2) {
 				return "http_2d";
 			}
-			if (getTestFieldInt() == 3) {
+			if (getBillingTypeInt() == 3) {
 				return "cc_2d";
 			}
 		}
@@ -1092,7 +1088,7 @@ public final class Class_o {
 		}
 		String tncID = null;
 		String supportNumber = null;
-		if (getTestFieldInt() == 0) {
+		if (getBillingTypeInt() == 0) {
 			if (Class_o.currentValidProfiles.size() > 0) {
 				final int intValue = ((Integer) Class_o.currentValidProfiles.elementAt(0)).intValue();
 				try {
@@ -1136,7 +1132,7 @@ public final class Class_o {
 	private static void parseValidItems() {
 		Class_o.cashVector.removeAllElements();
 		Class_o.coinVector.removeAllElements();
-		if (getTestFieldInt() == 0 && Class_o.currentValidProfiles != null && Class_o.currentValidProfiles.size() > 0) {
+		if (getBillingTypeInt() == 0 && Class_o.currentValidProfiles != null && Class_o.currentValidProfiles.size() > 0) {
 			for (int i = 0; i < Class_o.currentValidProfiles.size(); ++i) {
 				final int id;
 				if (isValidContentID(
@@ -1149,7 +1145,7 @@ public final class Class_o {
 					Class_o.coinVector.addElement(new Integer(id));
 				}
 			}
-		} else if (Class_o.creditCardEnabled || getTestFieldInt() != 0) {
+		} else if (Class_o.creditCardEnabled || getBillingTypeInt() != 0) {
 			new StringBuffer().append("PaySMS.parseValidItems: IAP_TEST_FIELD or CC. creditCardEnabled = ")
 					.append(Class_o.creditCardEnabled);
 			for (int j = 1; j <= Class_o.var_2b8d; ++j) {
@@ -1302,7 +1298,7 @@ public final class Class_o {
 		return prop;
 	}
 
-	private static int getTestFieldInt() {
+	private static int getBillingTypeInt() {
 		if (Class_o.iapTestField.equals("0")) {
 			return 0;
 		}
@@ -1471,19 +1467,19 @@ public final class Class_o {
 	}
 
 	private static String[] readFile(final String filename) {
-		final InputStream istream = "".getClass().getResourceAsStream(filename);
-		String newString;
+		final InputStream is = "".getClass().getResourceAsStream(filename);
+		String bytesStr;
 		try {
 			final ByteArrayOutputStream baos = new ByteArrayOutputStream(2048);
 			final byte[] madeBytes = new byte[256];
-			int read = istream.read(madeBytes);
+			int read = is.read(madeBytes);
 			while (read != -1) {
 				baos.write(madeBytes, 0, read);
 			}
-			istream.close();
+			is.close();
 			final byte[] bytes = baos.toByteArray();
 			baos.close();
-			newString = new String(bytes, 0, bytes.length, "UTF-8");
+			bytesStr = new String(bytes, 0, bytes.length, "UTF-8");
 		} catch (final Exception ex) {
 			new StringBuffer().append("PaySMS.readFile: ").append(filename).append(" Exception: ").append(ex.toString());
 			return null;
@@ -1492,19 +1488,19 @@ public final class Class_o {
 		final Vector vector = new Vector();
 		int i;
 		do {
-			i = newString.indexOf(10, n);
+			i = bytesStr.indexOf(10, n);
 			if (i != -1) {
-				vector.addElement(newString.substring(n, i));
+				vector.addElement(bytesStr.substring(n, i));
 				n = i + 1;
 			}
 		} while (i != -1);
-		final String[] bytesStr = new String[vector.size()];
-		vector.copyInto(bytesStr);
-		return bytesStr;
+		final String[] vecStr = new String[vector.size()];
+		vector.copyInto(vecStr);
+		return vecStr;
 	}
 
 	private static String[][] getProfilesRegions() {
-		if (!Class_o.var_29ad || getTestFieldInt() != 0) {
+		if (!Class_o.var_29ad || getBillingTypeInt() != 0) {
 			return null;
 		}
 		final Vector vector = new Vector();
@@ -1576,7 +1572,7 @@ public final class Class_o {
 		String recordStr = null;
 		try {
 			final byte[] record;
-			rs = RecordStore.openRecordStore(s, (boolean) (1 != 0));
+			rs = RecordStore.openRecordStore(s, true);
 			record = rs.getRecord(1);
 			if (rs.getNumRecords() >= 1 && record != null) {
 				recordStr = new String(record);
@@ -1727,7 +1723,7 @@ public final class Class_o {
 		if (Class_o.currentValidProfiles == null || Class_o.currentValidProfiles.size() <= 0) {
 			return 0;
 		}
-		if (getTestFieldInt() != 0) {
+		if (getBillingTypeInt() != 0) {
 			return 8;
 		}
 		try {
