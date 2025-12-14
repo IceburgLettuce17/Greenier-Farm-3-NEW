@@ -4726,7 +4726,7 @@ public final class cGame extends GLLib implements Class_b
 		sub_2024d(1, 30, b);
 	}
 
-	private static void sub_118ee() {
+	private static void onExitMarket() {
 		playSndNoLoop(57);
 		cGame.var_67cc = 1;
 		sub_2c69b();
@@ -11602,21 +11602,16 @@ public final class cGame extends GLLib implements Class_b
 					if (cGame.var_6aac.var_1835 == 0 && n <= cGame.var_8064[22]) {
 						sub_4052e(485, 486, 7, 0);
 					} else {
-						final String sub_4e1f6;
-						final String s = ((sub_4e1f6 = GLLib.Text_GetStringFromLocaleFile(441)) == null) ? "" : sub_4e1f6;
-						final String sub_4e1f7;
-						final String s2 = ((sub_4e1f7 = GLLib.Text_GetStringFromLocaleFile(442)) == null) ? "" : sub_4e1f7;
-						final Class_f var_6aac = cGame.var_6aac;
-						final String var_7acc = s2;
-						final String var_7ac4 = s;
+						final String sub_4e1f6 = (GLLib.Text_GetStringFromLocaleFile(441)) == null ? "" : GLLib.Text_GetStringFromLocaleFile(441);
+						final String sub_4e1f7 = (GLLib.Text_GetStringFromLocaleFile(442)) == null ? "" : GLLib.Text_GetStringFromLocaleFile(442);
 						cGame.s_popup_boxset = 2;
 						cGame.var_7b14 = var_6aac;
 						sub_2000c(4, 5, true);
 						sub_2000c(4, 6, true);
 						sub_2000c(4, 7, true);
 						sub_4019a(7, 0, 10);
-						cGame.s_popup_title = var_7ac4;
-						cGame.s_popup_desc = var_7acc;
+						cGame.s_popup_title = sub_4e1f6;
+						cGame.s_popup_desc = sub_4e1f7;
 						cGame.s_popup_subtext = GLLib.BigNumberSeparate(cGame.var_7b14.sub_a709(), cGame.s_currencySeprType, " ");
 						sub_2000c(4, 13, true);
 						sub_2000c(4, 15, true);
@@ -11689,7 +11684,7 @@ public final class cGame extends GLLib implements Class_b
 			case 2: {
 				switch (n) {
 				case 131185: {
-					sub_118ee();
+					onExitMarket();
 					return;
 				}
 				case 131076: {
@@ -19202,7 +19197,7 @@ public final class cGame extends GLLib implements Class_b
 					final String sub_4e1f2;
 					platformRequest("Show_Toast_" + (((sub_4e1f2 = GLLib.Text_GetStringFromLocaleFile(498)) == null) ? "" : sub_4e1f2));
 				} else {
-					sub_118ee();
+					onExitMarket();
 				}
 			}
 			if (cGame.s_tutorialState > 0) {
