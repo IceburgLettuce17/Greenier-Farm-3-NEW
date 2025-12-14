@@ -4732,7 +4732,7 @@ public final class cGame extends GLLib implements Class_b
 		sub_2c69b();
 	}
 
-	private static void sub_11915() {
+	private static void buyMarketItem0() {
 		if (cGame.var_722c == 1 && cGame.var_721c == 0 && cGame.var_7224 == -1) {
 			playSndNoLoop(61);
 			sub_3151e(0, 0);
@@ -4743,61 +4743,61 @@ public final class cGame extends GLLib implements Class_b
 			sub_4052e(487, 488, 7, 0);
 			return;
 		}
-		sub_3225a(0);
+		buyMarketItem(0);
 		if (cGame.s_tutorialState == 41) {
 			cGame.s_hasFinishedTut = true;
 		}
 	}
 
-	private static void sub_119a4() {
+	private static void buyMarketItem2() {
 		if (cGame.var_722c == 1 && cGame.var_721c == 0 && cGame.var_7224 == -1) {
 			playSndNoLoop(61);
 			sub_3151e(0, 2);
 			return;
 		}
-		sub_3225a(2);
+		buyMarketItem(2);
 	}
 
-	private static void sub_119f0() {
+	private static void buyMarketItem3() {
 		if (cGame.var_722c == 1 && cGame.var_721c == 0 && cGame.var_7224 == -1) {
 			playSndNoLoop(61);
 			sub_3151e(0, 3);
 			return;
 		}
-		sub_3225a(3);
+		buyMarketItem(3);
 	}
 
-	private static void sub_11a3c() {
+	private static void buyMarketItem4() {
 		if (cGame.var_722c == 1 && cGame.var_721c == 0 && cGame.var_7224 == -1) {
 			playSndNoLoop(61);
 			sub_3151e(0, 4);
 			return;
 		}
-		sub_3225a(4);
+		buyMarketItem(4);
 	}
 
-	private static void sub_11a88() {
+	private static void buyMarketItem5() {
 		if (cGame.var_722c == 1 && cGame.var_721c == 0 && cGame.var_7224 == -1) {
 			playSndNoLoop(61);
 			sub_3151e(0, 4);
 			return;
 		}
-		sub_3225a(5);
+		buyMarketItem(5);
 	}
 
-	private static void sub_11ad4() {
+	private static void showInfoOfMarketItem3() {
 		playSndNoLoop(61);
-		sub_32132(3);
+		showInfoOfMarketItem(3);
 	}
 
-	private static void sub_11af8() {
+	private static void showInfoOfMarketItem4() {
 		playSndNoLoop(61);
-		sub_32132(4);
+		showInfoOfMarketItem(4);
 	}
 
-	private static void sub_11b1c() {
+	private static void showInfoOfMarketItem5() {
 		playSndNoLoop(61);
-		sub_32132(5);
+		showInfoOfMarketItem(5);
 	}
 
 	private static void sub_11b40() {
@@ -11702,7 +11702,7 @@ public final class cGame extends GLLib implements Class_b
 					return;
 				}
 				case 131100: {
-					sub_11915();
+					buyMarketItem0();
 					return;
 				}
 				case 131114: {
@@ -11711,50 +11711,50 @@ public final class cGame extends GLLib implements Class_b
 						sub_3151e(0, 1);
 						break Label_7332;
 					}
-					sub_3225a(1);
+					buyMarketItem(1);
 					return;
 				}
 				case 131128: {
-					sub_119a4();
+					buyMarketItem2();
 					return;
 				}
 				case 131142: {
-					sub_119f0();
+					buyMarketItem3();
 					return;
 				}
 				case 131156: {
-					sub_11a3c();
+					buyMarketItem4();
 					return;
 				}
 				case 131170: {
-					sub_11a88();
+					buyMarketItem5();
 					return;
 				}
 				case 131113: {
 					playSndNoLoop(61);
-					sub_32132(0);
+					showInfoOfMarketItem(0);
 					return;
 				}
 				case 131127: {
 					playSndNoLoop(61);
-					sub_32132(1);
+					showInfoOfMarketItem(1);
 					return;
 				}
 				case 131141: {
 					playSndNoLoop(61);
-					sub_32132(2);
+					showInfoOfMarketItem(2);
 					return;
 				}
 				case 131155: {
-					sub_11ad4();
+					showInfoOfMarketItem3();
 					return;
 				}
 				case 131169: {
-					sub_11af8();
+					showInfoOfMarketItem4();
 					return;
 				}
 				case 131183: {
-					sub_11b1c();
+					showInfoOfMarketItem5();
 					return;
 				}
 				case 131082: {
@@ -19175,7 +19175,7 @@ public final class cGame extends GLLib implements Class_b
 			sub_1f8c5(2);
 		}
 		if (n == 5) {
-			sub_32132(-1);
+			showInfoOfMarketItem(-1);
 			cGame.s_marketItemNames = null;
 			cGame.s_marketCropItemIDs = null;
 			cGame.var_71b4 = null;
@@ -19310,7 +19310,7 @@ public final class cGame extends GLLib implements Class_b
 	}
 
 	private static void sub_3151e(final int var_721c, int var_7224) {
-		sub_32132(-1);
+		showInfoOfMarketItem(-1);
 		cGame.var_721c = var_721c;
 		cGame.var_7224 = var_7224;
 		cGame.var_719c = '\0';
@@ -19467,7 +19467,7 @@ public final class cGame extends GLLib implements Class_b
 	}
 
 	private static void sub_31ca6(int n) {
-		sub_32132(-1);
+		showInfoOfMarketItem(-1);
 		cGame.var_721c = 0;
 		cGame.var_7224 = -1;
 		cGame.var_719c = '\0';
@@ -19585,11 +19585,11 @@ public final class cGame extends GLLib implements Class_b
 			if (cGame.var_721c == 2 && cGame.s_market_currPage + var_720c == 0) {
 				sub_2000c(2, 41, false);
 			}
-			sub_32132(cGame.var_720c = var_720c);
+			showInfoOfMarketItem(cGame.var_720c = var_720c);
 		}
 	}
 
-	private static void sub_32132(final int var_720c) {
+	private static void showInfoOfMarketItem(final int var_720c) {
 		final boolean b = cGame.var_720c != var_720c && var_720c > -1;
 		if (cGame.var_720c >= 0 && cGame.var_720c < 6) {
 			final int n = 14 * cGame.var_720c;
@@ -19618,7 +19618,7 @@ public final class cGame extends GLLib implements Class_b
 		}
 	}
 
-	private static void sub_3225a(int n) {
+	private static void buyMarketItem(int n) {
 		n += cGame.s_market_currPage;
 		final boolean b = cGame.s_marketItemCosts[n] == 0;
 		if (!cGame.s_marketItemIsLocked[n]
@@ -19754,7 +19754,7 @@ public final class cGame extends GLLib implements Class_b
 			sub_31ee1(i, true, cGame.var_721c == 0 && cGame.var_7224 == -1 && cGame.var_722c != 4);
 		}
 		if (var_720c != -1) {
-			sub_32132(var_720c - n);
+			showInfoOfMarketItem(var_720c - n);
 		}
 		sub_2c69b();
 		sub_1fb8e(2);
