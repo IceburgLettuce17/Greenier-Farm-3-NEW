@@ -1821,7 +1821,7 @@ final class Class_f
                     final int sub_2d213;
                     if ((sub_2d213 = cGame.sub_2d213(array2[0], array2[1])) >= 1 && !cGame.var_6d5c[sub_2d213] && cGame.s_tutorialState == -1 && cGame.sub_4abbb(cGame.var_80f4[0]) && cGame.sub_4abbb(cGame.var_80f4[1])) {
                         cGame.var_6d54 = sub_2d213;
-                        cGame.sub_81e0(12);
+                        cGame.switchToState(12);
                     }
                 }
             }
@@ -2136,7 +2136,7 @@ final class Class_f
                         cGame.var_7d24 = true;
                     }
                     if (cGame.var_7aac != -1) {
-                        cGame.sub_81e0(34);
+                        cGame.switchToState(34);
                         cGame.var_815c = true;
                     }
                     cGame.var_6af4 = -1;
@@ -2234,7 +2234,7 @@ final class Class_f
                 cGame.var_7d24 = true;
             }
             if (cGame.var_7aac != -1) {
-                cGame.sub_81e0(34);
+                cGame.switchToState(34);
                 cGame.var_815c = true;
             }
             cGame.var_6af4 = -1;
