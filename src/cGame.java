@@ -4854,7 +4854,7 @@ public final class cGame extends GLLib implements Class_b
 		sub_22d97(0);
 	}
 
-	private static void sub_11d30() {
+	private static void onExitSaledesk() {
 		playSndNoLoop(57);
 		cGame.var_67cc = 1;
 		sub_2c69b();
@@ -11783,7 +11783,7 @@ public final class cGame extends GLLib implements Class_b
 			case 3: {
 				switch (n) {
 				case 196813: {
-					sub_11d30();
+					onExitSaledesk();
 					return;
 				}
 				case 196618: {
@@ -19837,7 +19837,7 @@ public final class cGame extends GLLib implements Class_b
 					final String sub_4e1f2;
 					platformRequest("Show_Toast_" + (((sub_4e1f2 = GLLib.Text_GetStringFromLocaleFile(498)) == null) ? "" : sub_4e1f2));
 				} else {
-					sub_11d30();
+					onExitSaledesk();
 				}
 			}
 			if (cGame.var_6914[0] != null && !sub_2351a(0, 1)) {
