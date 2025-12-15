@@ -30,12 +30,12 @@ final class GLLibPlayer implements Runnable
     private int k_animBaseFrameTime;
     private int nbLoop;
     private boolean animIsOver;
-    private int var_15bf;
-    private static int var_15c7;
-    private int var_15cf;
+    private int unkInt1;
+    private static int k_fifty;
+    private int sprPalette;
     private static final int k_snd_nbChannel;
     static int s_snd_masterVolume;
-    private static int var_15e7;
+    private static int s_snd_maxNbSoundSlot;
     private static boolean s_snd_isSoundEngineInitialized;
     private static byte[][] s_snd_sndSlot;
     private static int[] s_snd_sndType;
@@ -50,7 +50,7 @@ final class GLLibPlayer implements Runnable
     private static int[] s_snd_queue;
     private static int[] s_snd_queue_pointer;
     private static int[] s_snd_queue_size;
-    private static boolean var_165f;
+    private static boolean k_unkBool;
     private static int[] var_1667;
     private static int[] var_166f;
     private static int[] var_1677;
@@ -71,7 +71,7 @@ final class GLLibPlayer implements Runnable
     private static int[][][] var_16ef;
     private static int var_16f7;
     private static ASprite[] s_TilesetSprite;
-    private static int var_1707;
+    private static int k_hundred;
     
     GLLibPlayer() {
         this.Reset();
@@ -93,9 +93,9 @@ final class GLLibPlayer implements Runnable
         this.curFlags = 0;
         this.curTime = 0;
         this.nbLoop = 1;
-        this.var_15cf = -1;
+        this.sprPalette = -1;
         this.animIsOver = true;
-        this.var_15bf = -1;
+        this.unkInt1 = -1;
     }
     
     final void SetPos(final int x, final int y) {
@@ -126,7 +126,7 @@ final class GLLibPlayer implements Runnable
     final void SetAnim(int anim, final int nbLoop) {
         if (this.animIsOver || anim != this.curAnim) {
             this.curAnim = anim;
-            this.k_animBaseFrameTime = GLLibPlayer.var_15c7;
+            this.k_animBaseFrameTime = GLLibPlayer.k_fifty;
             if (this.curAnim >= 0) {
                 this.curFrame = 0 % this.GetNbFrame();
                 this.curTime = 0;
@@ -187,7 +187,7 @@ final class GLLibPlayer implements Runnable
     }
     
     final void sub_1a6a(final int var_15cf) {
-        this.var_15cf = var_15cf;
+        this.sprPalette = var_15cf;
     }
     
     final int GetNbLoop() {
@@ -212,7 +212,7 @@ final class GLLibPlayer implements Runnable
         return this.curAnim < 0 || (this.nbLoop >= 0 && this.animIsOver);
     }
     
-    final void sub_1b7f() {
+    final void Render() {
         if (this.curAnim < 0) {
             return;
         }
@@ -220,16 +220,16 @@ final class GLLibPlayer implements Runnable
             return;
         }
         boolean b = false;
-        if (this.var_15bf != -1 && this.var_15bf != 100 && (GLLib.var_1fe7 & 0x2000) == 0x0) {
+        if (this.unkInt1 != -1 && this.unkInt1 != 100 && (GLLib.var_1fe7 & 0x2000) == 0x0) {
             b = true;
             GLLib.sub_5b71();
-            GLLib.sub_5c41(this.var_15bf);
+            GLLib.sub_5c41(this.unkInt1);
         }
-        if (this.var_15cf != -1) {
-            final int sub_6475 = this.sprite.GetCurrentPalette();
-            this.sprite.SetCurrentPalette(this.var_15cf);
+        if (this.sprPalette != -1) {
+            final int sprPalette = this.sprite.GetCurrentPalette();
+            this.sprite.SetCurrentPalette(this.sprPalette);
             this.sprite.PaintAFrame(GLLib.g, this.curAnim, this.curFrame, this.posX, this.posY, this.curFlags);
-            this.sprite.SetCurrentPalette(sub_6475);
+            this.sprite.SetCurrentPalette(sprPalette);
         }
         else {
             this.sprite.PaintAFrame(GLLib.g, this.curAnim, this.curFrame, this.posX, this.posY, this.curFlags);
@@ -271,7 +271,7 @@ final class GLLibPlayer implements Runnable
     }
     
     final void sub_1d9e(final int var_15bf) {
-        this.var_15bf = var_15bf;
+        this.unkInt1 = var_15bf;
     }
     
     static final Player Snd_GetChannelPlayer(final int channel) {
@@ -367,8 +367,8 @@ final class GLLibPlayer implements Runnable
             GLLibPlayer.s_snd_queue_pointer[nbSoundSlot] = 0;
             GLLibPlayer.s_snd_queue_size[nbSoundSlot] = 0;
         }
-        GLLibPlayer.s_snd_sndSlot = new byte[GLLibPlayer.var_15e7 = 119][];
-        GLLibPlayer.s_snd_sndType = new int[GLLibPlayer.var_15e7];
+        GLLibPlayer.s_snd_sndSlot = new byte[GLLibPlayer.s_snd_maxNbSoundSlot = 119][];
+        GLLibPlayer.s_snd_sndType = new int[GLLibPlayer.s_snd_maxNbSoundSlot];
         GLLibPlayer.s_snd_masterVolume = 100;
         GLLibPlayer.s_snd_isSoundEngineInitialized = true;
         GLLibPlayer.s_pSoundPlayerIns = new GLLibPlayer();
@@ -521,88 +521,85 @@ final class GLLibPlayer implements Runnable
         catch (final Exception ex) {}
     }
     
-    private static void sub_2745() {
+    private static void Snd_Update_Exec() {
         if (!GLLibPlayer.s_snd_isSoundEngineInitialized) {
             return;
         }
-        if (GLLibPlayer.var_165f) {
+        if (GLLibPlayer.k_unkBool) {
             return;
         }
-        GLLibPlayer.var_165f = true;
-        for (int i = 0; i < GLLibPlayer.k_snd_nbChannel; ++i) {
-            sub_1fe4(i, GLLibPlayer.var_1667);
+        GLLibPlayer.k_unkBool = true;
+        for (int channel = 0; channel < GLLibPlayer.k_snd_nbChannel; ++channel) {
+            sub_1fe4(channel, GLLibPlayer.var_1667);
             if (GLLibPlayer.var_1667[5] > 0) {
-                if (GLLibPlayer.s_snd_state[i] == 2) {
-                    boolean sub_29de;
+                if (GLLibPlayer.s_snd_state[channel] == 2) {
+                    boolean isPlaying;
                     try {
-                        sub_29de = Snd_IsPlaying(i);
+                        isPlaying = Snd_IsPlaying(channel);
                     }
                     catch (final Exception obj) {
-                        new StringBuffer().append("Snd_update.error on channel (").append(i).append(").").append(obj);
-                        sub_29de = false;
+                        new StringBuffer().append("Snd_update.error on channel (").append(channel).append(").").append(obj);
+                        isPlaying = false;
                     }
-                    if (!sub_29de) {
-                        GLLibPlayer.s_snd_state[i] = 1;
+                    if (!isPlaying) {
+                        GLLibPlayer.s_snd_state[channel] = 1;
                     }
                 }
                 while (GLLibPlayer.var_1667[5] > 0) {
                     try {
                         switch (GLLibPlayer.var_1667[0]) {
                             case 1: {
-                                Snd_PrepareExec(i, GLLibPlayer.var_1667[1], GLLibPlayer.var_1667[2]);
+                                Snd_PrepareExec(channel, GLLibPlayer.var_1667[1], GLLibPlayer.var_1667[2]);
                                 break;
                             }
                             case 2: {
-                                Snd_FreeChannelExec(i);
+                                Snd_FreeChannelExec(channel);
                                 break;
                             }
                             case 3: {
-                                Snd_PlayExec(i, GLLibPlayer.var_1667[1], GLLibPlayer.var_1667[2], GLLibPlayer.var_1667[4], GLLibPlayer.var_1667[3]);
+                                Snd_PlayExec(channel, GLLibPlayer.var_1667[1], GLLibPlayer.var_1667[2], GLLibPlayer.var_1667[4], GLLibPlayer.var_1667[3]);
                                 break;
                             }
                             case 4: {
-                                final int n = i;
-                                if (GLLibPlayer.s_snd_Player[n] != null) {
-                                    GLLibPlayer.s_snd_Player[n].stop();
-                                    GLLibPlayer.s_snd_state[n] = 1;
+                                if (GLLibPlayer.s_snd_Player[channel] != null) {
+                                    GLLibPlayer.s_snd_Player[channel].stop();
+                                    GLLibPlayer.s_snd_state[channel] = 1;
                                 }
                                 break;
                             }
                             case 5: {
-                                final int n2 = i;
-                                if (GLLibPlayer.s_snd_state[n2] == 2 && GLLibPlayer.s_snd_Player[n2] != null) {
-                                    GLLibPlayer.s_snd_Player[n2].getState();
-                                    GLLibPlayer.s_snd_Player[n2].stop();
-                                    GLLibPlayer.s_snd_state[n2] = 3;
+                                if (GLLibPlayer.s_snd_state[channel] == 2 && GLLibPlayer.s_snd_Player[channel] != null) {
+                                    GLLibPlayer.s_snd_Player[channel].getState();
+                                    GLLibPlayer.s_snd_Player[channel].stop();
+                                    GLLibPlayer.s_snd_state[channel] = 3;
                                 }
                                 break;
                             }
                             case 6: {
-                                final int n3 = i;
-                                if (GLLibPlayer.s_snd_state[n3] == 3 && GLLibPlayer.s_snd_Player[n3] != null) {
-                                    GLLibPlayer.s_snd_Player[n3].start();
-                                    GLLibPlayer.s_snd_state[n3] = 2;
+                                if (GLLibPlayer.s_snd_state[channel] == 3 && GLLibPlayer.s_snd_Player[channel] != null) {
+                                    GLLibPlayer.s_snd_Player[channel].start();
+                                    GLLibPlayer.s_snd_state[channel] = 2;
                                     break;
                                 }
                                 break;
                             }
                         }
                     }
-                    catch (final Exception obj2) {
-                        new StringBuffer().append("Snd_update.error on channel (").append(i).append(").").append(obj2);
-                        obj2.printStackTrace();
+                    catch (final Exception e2) {
+                        new StringBuffer().append("Snd_update.error on channel (").append(channel).append(").").append(e2);
+                        e2.printStackTrace();
                     }
-                    sub_1fe4(i, GLLibPlayer.var_1667);
+                    sub_1fe4(channel, GLLibPlayer.var_1667);
                 }
             }
-            sub_2d9e(i);
+            sub_2d9e(channel);
         }
-        GLLibPlayer.var_165f = false;
+        GLLibPlayer.k_unkBool = false;
     }
     
     public final void run() {
         while (GLLibPlayer.s_pThread != null) {
-            sub_2745();
+            Snd_Update_Exec();
             try {
                 Thread.sleep(50);
             }
@@ -673,13 +670,13 @@ final class GLLibPlayer implements Runnable
         return b;
     }
     
-    private static int sub_2bd9(final int n) {
+    private static int Snd_TempoGet(final int channel) {
         if (!GLLibPlayer.s_snd_isSoundEngineInitialized) {
             return -1;
         }
         try {
             final TempoControl tempoControl;
-            if ((tempoControl = (TempoControl)((Controllable)GLLibPlayer.s_snd_Player[n]).getControl("TempoControl")) != null) {
+            if ((tempoControl = (TempoControl)((Controllable)GLLibPlayer.s_snd_Player[channel]).getControl("TempoControl")) != null) {
                 return tempoControl.getTempo();
             }
         }
@@ -687,12 +684,12 @@ final class GLLibPlayer implements Runnable
         return -1;
     }
     
-    private static boolean sub_2c4b(final int n, final int tempo) {
+    private static boolean Snd_TempoSet(final int channel, final int tempo) {
         if (!GLLibPlayer.s_snd_isSoundEngineInitialized) {
             return false;
         }
         final TempoControl tempoControl;
-        if ((tempoControl = (TempoControl)((Controllable)GLLibPlayer.s_snd_Player[n]).getControl("TempoControl")) != null) {
+        if ((tempoControl = (TempoControl)((Controllable)GLLibPlayer.s_snd_Player[channel]).getControl("TempoControl")) != null) {
             tempoControl.setTempo(tempo);
             return true;
         }
@@ -797,10 +794,10 @@ final class GLLibPlayer implements Runnable
             final int n8 = GLLibPlayer.var_1677[n2 + 1];
             int sub_2bd9 = -1;
             try {
-                sub_2bd9 = sub_2bd9(n);
+                sub_2bd9 = Snd_TempoGet(n);
                 final int n9 = (1 > GLLibPlayer.var_1677[n2 + 2] * var_169f / 1000) ? 1 : (GLLibPlayer.var_1677[n2 + 2] * var_169f / 1000);
                 sub_2bd9 = ((sub_2bd9 < n8) ? ((n8 < sub_2bd9 + n9) ? n8 : (sub_2bd9 + n9)) : ((n8 > sub_2bd9 - n9) ? n8 : (sub_2bd9 - n9)));
-                sub_2c4b(n, sub_2bd9);
+                Snd_TempoSet(n, sub_2bd9);
             }
             catch (final Exception ex3) {
                 sub_2cdc(0, n);
@@ -813,8 +810,8 @@ final class GLLibPlayer implements Runnable
             try {
                 final int n10 = GLLibPlayer.var_1677[n2 + 1];
                 final int sub_2bd10;
-                if ((((sub_2bd10 = sub_2bd9(n)) - n10 < 0) ? (-(sub_2bd10 - n10)) : (sub_2bd10 - n10)) >= 500) {
-                    sub_2c4b(n, n10);
+                if ((((sub_2bd10 = Snd_TempoGet(n)) - n10 < 0) ? (-(sub_2bd10 - n10)) : (sub_2bd10 - n10)) >= 500) {
+                    Snd_TempoSet(n, n10);
                 }
             }
             catch (final Exception ex4) {}
@@ -901,10 +898,10 @@ final class GLLibPlayer implements Runnable
                 sub_239b(i, true);
             }
             if (GLLib.s_game_isPaused) {
-                sub_2745();
+                Snd_Update_Exec();
             }
             if (GLLib.s_game_isPaused) {
-                sub_2745();
+                Snd_Update_Exec();
             }
         }
         catch (final Exception ex) {}
@@ -963,17 +960,13 @@ final class GLLibPlayer implements Runnable
     
     private static void setFlag(final int n, final int n2, final boolean b) {
         if (b) {
-            final int[] array = GLLibPlayer.s_TilesetLayerInfo[0];
-            final int n3 = 15;
-            array[n3] |= n2;
+            GLLibPlayer.s_TilesetLayerInfo[0][15] |= n2;
             return;
         }
-        final int[] array2 = GLLibPlayer.s_TilesetLayerInfo[0];
-        final int n4 = 15;
-        array2[n4] &= ~n2;
+        GLLibPlayer.s_TilesetLayerInfo[0][15] &= ~n2;
     }
     
-    static void Tileset_LoadLayer(final int n, byte[] MapSizes, byte[] MapData, byte[] MapFlip, final ASprite MapSprite, final int n2, final int n3, final int n4, final int n5, final boolean b) {
+    static void Tileset_LoadLayer(final int nLayer, byte[] MapSizes, byte[] MapData, byte[] MapFlip, final ASprite MapSprite, final int n2, final int n3, final int n4, final int n5, final boolean b) {
         if (GLLibPlayer.s_bTilesetPlayerInitialized) {
             Tileset_Destroy(0, false);
             GLLibPlayer.s_TilesetLayerInfo[0][18] = 0;
@@ -1042,8 +1035,8 @@ final class GLLibPlayer implements Runnable
                 }
                 return;
             }
-            int n5 = GLLibPlayer.s_TilesetLayerInfo[n3][18] * 100 / GLLibPlayer.var_1707;
-            final int n6 = GLLibPlayer.s_TilesetLayerInfo[n3][19] * 100 / GLLibPlayer.var_1707;
+            int n5 = GLLibPlayer.s_TilesetLayerInfo[n3][18] * 100 / GLLibPlayer.k_hundred;
+            final int n6 = GLLibPlayer.s_TilesetLayerInfo[n3][19] * 100 / GLLibPlayer.k_hundred;
             if (n5 == 0) {
                 GLLibPlayer.s_TilesetLayerInfo[n3][18] = GLLibPlayer.s_TilesetInfo[0];
                 n5 = GLLibPlayer.s_TilesetLayerInfo[n3][18];
@@ -1468,34 +1461,32 @@ final class GLLibPlayer implements Runnable
                     else {
                         sub_7ab5 = sub_7ab4(nLayer, 1, offsetCur, false);
                     }
-                    if (GLLibPlayer.var_1707 != 100) {
+                    if (GLLibPlayer.k_hundred != 100) {
                         GLLib.sub_5b71();
-                        GLLib.var_1fef[13][1] = GLLibPlayer.var_1707;
+                        GLLib.var_1fef[13][1] = GLLibPlayer.k_hundred;
                         GLLib.sub_5c77(true);
                     }
                     if (GLLibPlayer.s_TilesetSprite[nLayer].GetFrames() == 0) {
                         GLLibPlayer.s_TilesetSprite[nLayer].sub_7dca(gDest, sub_7ab4, destX, n11, sub_7ab5, GLLibPlayer.s_TilesetInfo[2], GLLibPlayer.s_TilesetInfo[5]);
                     }
                     else {
-                        int n15 = destX;
-                        int n16 = n11;
                         if ((sub_7ab5 & 0x1) != 0x0) {
-                            n15 += tileWidth;
+                        	destX += tileWidth;
                         }
                         if ((sub_7ab5 & 0x2) != 0x0) {
-                            n16 += tileHeight;
+                        	destX += tileHeight;
                         }
                         if ((sub_7ab5 & 0x4) != 0x0) {
                             if ((sub_7ab5 & 0x1) != 0x0) {
-                                n15 -= tileHeight;
+                            	destX -= tileHeight;
                             }
                             else {
-                                n15 += tileHeight;
+                            	destX += tileHeight;
                             }
                         }
-                        GLLibPlayer.s_TilesetSprite[nLayer].PaintFrame(gDest, sub_7ab4, n15, n16, sub_7ab5);
+                        GLLibPlayer.s_TilesetSprite[nLayer].PaintFrame(gDest, sub_7ab4, destX, n11, sub_7ab5);
                     }
-                    if (GLLibPlayer.var_1707 != 100) {
+                    if (GLLibPlayer.k_hundred != 100) {
                         GLLib.sub_5c77(false);
                         GLLib.sub_5b96();
                     }
@@ -1550,9 +1541,8 @@ final class GLLibPlayer implements Runnable
                 }
             }
         }
-        final int var_1ddf3 = GLLib.s_screenWidth;
         nLayer = GLLib.s_screenHeight;
-        ASprite.s_screenHeight = var_1ddf3;
+        ASprite.s_screenHeight = GLLib.s_screenWidth;
         ASprite.s_screenWidth = nLayer;
     }
     
@@ -1755,9 +1745,9 @@ final class GLLibPlayer implements Runnable
     }
     
     static final void sub_6133(int var_1707, final ASprite class_e, final int n, final int n2, final int n3, final boolean b, final int[] array) {
-        if (GLLibPlayer.var_1707 != 100) {
+        if (GLLibPlayer.k_hundred != 100) {
             GLLib.sub_5b71();
-            var_1707 = GLLibPlayer.var_1707;
+            var_1707 = GLLibPlayer.k_hundred;
             GLLib.var_1fef[13][1] = var_1707;
             GLLib.sub_5c77(true);
         }
@@ -1767,7 +1757,7 @@ final class GLLibPlayer implements Runnable
         else {
             class_e.PaintFrame(GLLib.g, n, n2 - sub_5b8b(0), n3 - sub_5c0b(0), 0);
         }
-        if (GLLibPlayer.var_1707 != 100) {
+        if (GLLibPlayer.k_hundred != 100) {
             GLLib.sub_5c77(false);
             GLLib.sub_5b96();
         }
@@ -2107,12 +2097,12 @@ final class GLLibPlayer implements Runnable
     }
     
     static {
-        GLLibPlayer.var_15c7 = 50;
+        GLLibPlayer.k_fifty = 50;
         k_snd_nbChannel = 1;
         GLLibPlayer.s_bTilesetPlayerInitialized = false;
         GLLibPlayer.s_TilesetMaxLayerCount = 4;
         var_16b7 = 20;
         var_16bf = 6;
-        GLLibPlayer.var_1707 = 100;
+        GLLibPlayer.k_hundred = 100;
     }
 }

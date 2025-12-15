@@ -981,7 +981,7 @@ final class Class_f
                                 class_f.var_189d.GetSprite().SetCurrentPalette(var_1875);
                                 class_f.var_189d.SetPos(class_f.var_17ed, class_f.var_17f5);
                                 class_f.var_189d.sub_1d9e(cGame.s_zoomLevel);
-                                class_f.var_189d.sub_1b7f();
+                                class_f.var_189d.Render();
                             }
                             if (class_f.sub_a2a0(33554432)) {
                                 cGame.var_7ff4[class_f.var_1865].sub_354b(Class_f.var_1905, class_f.var_189d.GetAnim(), class_f.var_189d.GetFrame(), class_f.var_17cd, class_f.var_17d5, class_f.var_189d.curFlags);
@@ -1112,7 +1112,7 @@ final class Class_f
                 if ((class_f9 = var_17ad4).var_18b5 != null) {
                     class_f9.var_18b5.SetPos(class_f9.var_17ed + class_f9.var_18a5, class_f9.var_17f5 + class_f9.var_18ad);
                     class_f9.var_18b5.sub_1d9e(cGame.s_zoomLevel);
-                    class_f9.var_18b5.sub_1b7f();
+                    class_f9.var_18b5.Render();
                 }
             }
         }
@@ -2912,7 +2912,7 @@ final class Class_f
         if (this.var_189d != null) {
             this.var_189d.sub_1d9e(cGame.s_zoomLevel);
             this.var_189d.SetPos(this.var_17ed, this.var_17f5);
-            this.var_189d.sub_1b7f();
+            this.var_189d.Render();
         }
     }
     
