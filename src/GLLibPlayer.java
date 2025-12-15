@@ -270,8 +270,8 @@ final class GLLibPlayer implements Runnable
         this.curTime += DT;
     }
     
-    final void sub_1d9e(final int var_15bf) {
-        this.unkInt1 = var_15bf;
+    final void setUnkInt1(final int unkInt1) {
+        this.unkInt1 = unkInt1;
     }
     
     static final Player Snd_GetChannelPlayer(final int channel) {

@@ -13956,7 +13956,7 @@ public final class cGame extends GLLib implements Class_b
 				return;
 			}
 			cGame.var_6b5c.SetPos(cGame.var_6aac.var_17ed, cGame.var_6aac.var_17f5);
-			cGame.var_6b5c.sub_1d9e(cGame.s_zoomLevel);
+			cGame.var_6b5c.setUnkInt1(cGame.s_zoomLevel);
 			cGame.var_6b5c.Render();
 			GLLib.sub_5c77(false);
 		}
@@ -16348,7 +16348,7 @@ public final class cGame extends GLLib implements Class_b
 
 	private static void sub_29ee2() {
 		if (cGame.var_6d6c != null && !cGame.var_6d6c.IsAnimOver()) {
-			cGame.var_6d6c.sub_1d9e(cGame.s_zoomLevel);
+			cGame.var_6d6c.setUnkInt1(cGame.s_zoomLevel);
 			cGame.var_6d6c.Render();
 		}
 		if (cGame.var_6df4 && cGame.var_6dec[cGame.var_6d54] != null) {
