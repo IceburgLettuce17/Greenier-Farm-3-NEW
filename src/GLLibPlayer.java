@@ -30,7 +30,7 @@ final class GLLibPlayer implements Runnable
     private int k_animBaseFrameTime;
     private int nbLoop;
     private boolean animIsOver;
-    private int unkInt1;
+    private int zoomLevel;
     private static int k_fifty;
     private int sprPalette;
     private static final int k_snd_nbChannel;
@@ -95,7 +95,7 @@ final class GLLibPlayer implements Runnable
         this.nbLoop = 1;
         this.sprPalette = -1;
         this.animIsOver = true;
-        this.unkInt1 = -1;
+        this.zoomLevel = -1;
     }
     
     final void SetPos(final int x, final int y) {
@@ -186,8 +186,8 @@ final class GLLibPlayer implements Runnable
         }
     }
     
-    final void sub_1a6a(final int var_15cf) {
-        this.sprPalette = var_15cf;
+    final void setSprPalette(final int palette) {
+        this.sprPalette = palette;
     }
     
     final int GetNbLoop() {
@@ -220,10 +220,10 @@ final class GLLibPlayer implements Runnable
             return;
         }
         boolean b = false;
-        if (this.unkInt1 != -1 && this.unkInt1 != 100 && (GLLib.var_1fe7 & 0x2000) == 0x0) {
+        if (this.zoomLevel != -1 && this.zoomLevel != 100 && (GLLib.var_1fe7 & 0x2000) == 0x0) {
             b = true;
             GLLib.sub_5b71();
-            GLLib.sub_5c41(this.unkInt1);
+            GLLib.sub_5c41(this.zoomLevel);
         }
         if (this.sprPalette != -1) {
             final int sprPalette = this.sprite.GetCurrentPalette();
@@ -270,8 +270,8 @@ final class GLLibPlayer implements Runnable
         this.curTime += DT;
     }
     
-    final void setUnkInt1(final int unkInt1) {
-        this.unkInt1 = unkInt1;
+    final void setZoomLevel(final int zoomLevel) {
+        this.zoomLevel = zoomLevel;
     }
     
     static final Player Snd_GetChannelPlayer(final int channel) {

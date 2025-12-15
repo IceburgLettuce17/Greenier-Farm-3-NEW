@@ -453,7 +453,7 @@ final class Class_f
                                 else {
                                     class_f11.var_18b5.SetPos(class_f11.var_17ed, class_f11.var_17f5 - 50);
                                 }
-                                class_f11.var_18b5.setUnkInt1(cGame.s_zoomLevel);
+                                class_f11.var_18b5.setZoomLevel(cGame.s_zoomLevel);
                                 if (class_f11.var_18b5.IsAnimOver()) {
                                     if (sub_1923 == 1 && cGame.s_tutorialState == 18) {
                                         cGame.s_hasFinishedTut = true;
@@ -466,7 +466,7 @@ final class Class_f
                             }
                             if ((class_f11.var_18b5 == null || class_f11.var_18b5.GetSprite() != cGame.var_7ff4[16]) && class_f11.var_1675) {
                                 (class_f11.var_18b5 = new GLLibPlayer(cGame.var_7ff4[16], class_f11.var_17ed, class_f11.var_17f5)).SetAnim(0, -1);
-                                class_f11.var_18b5.sub_1a6a(1);
+                                class_f11.var_18b5.setSprPalette(1);
                             }
                             else if (class_f11.var_18b5 != null && !class_f11.var_1675 && class_f11.var_18b5.GetSprite() == cGame.var_7ff4[16]) {
                                 class_f11.var_18b5 = null;
@@ -772,7 +772,7 @@ final class Class_f
                         }
                         if ((class_f14.var_18b5 == null || class_f14.var_18b5.GetSprite() != cGame.var_7ff4[16]) && class_f14.var_185d == 5) {
                             (class_f14.var_18b5 = new GLLibPlayer(cGame.var_7ff4[16], class_f14.var_17ed, class_f14.var_17f5)).SetAnim(0, -1);
-                            class_f14.var_18b5.sub_1a6a(0);
+                            class_f14.var_18b5.setSprPalette(0);
                         }
                         else if (class_f14.var_18b5 != null && class_f14.var_185d != 5 && class_f14.var_18b5.GetSprite() == cGame.var_7ff4[16]) {
                             class_f14.var_18b5 = null;
@@ -980,7 +980,7 @@ final class Class_f
                             else {
                                 class_f.var_189d.GetSprite().SetCurrentPalette(var_1875);
                                 class_f.var_189d.SetPos(class_f.var_17ed, class_f.var_17f5);
-                                class_f.var_189d.setUnkInt1(cGame.s_zoomLevel);
+                                class_f.var_189d.setZoomLevel(cGame.s_zoomLevel);
                                 class_f.var_189d.Render();
                             }
                             if (class_f.sub_a2a0(33554432)) {
@@ -1111,7 +1111,7 @@ final class Class_f
                 final Class_f class_f9;
                 if ((class_f9 = var_17ad4).var_18b5 != null) {
                     class_f9.var_18b5.SetPos(class_f9.var_17ed + class_f9.var_18a5, class_f9.var_17f5 + class_f9.var_18ad);
-                    class_f9.var_18b5.setUnkInt1(cGame.s_zoomLevel);
+                    class_f9.var_18b5.setZoomLevel(cGame.s_zoomLevel);
                     class_f9.var_18b5.Render();
                 }
             }
@@ -2910,7 +2910,7 @@ final class Class_f
     
     final void sub_8e7d() {
         if (this.var_189d != null) {
-            this.var_189d.setUnkInt1(cGame.s_zoomLevel);
+            this.var_189d.setZoomLevel(cGame.s_zoomLevel);
             this.var_189d.SetPos(this.var_17ed, this.var_17f5);
             this.var_189d.Render();
         }
@@ -2928,7 +2928,7 @@ final class Class_f
                 this.var_17ed = this.var_17cd * cGame.s_zoomLevel / 100 - cGame.var_800c.var_17cd;
                 this.var_17f5 = this.var_17d5 * cGame.s_zoomLevel / 100 - cGame.var_800c.var_17d5;
             }
-            this.var_189d.sub_1a6a(GLLib.Math_Rand(0, this.var_189d.GetSprite()._palettes));
+            this.var_189d.setSprPalette(GLLib.Math_Rand(0, this.var_189d.GetSprite()._palettes));
             if (Class_f.var_1775 > -1) {
                 ++Class_f.var_1775;
             }
