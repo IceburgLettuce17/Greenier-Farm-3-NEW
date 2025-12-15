@@ -17072,14 +17072,14 @@ public final class cGame extends GLLib implements Class_b
 
 	protected final void pointerReleased(final int n, final int n2) {
 		if (cGame.s_game_states[cGame.s_game_state] == GS_IGP) {
-			IGP.sub_48ef(n, n2);
+			IGP.updatePointerReleased(n, n2);
 		}
 		super.pointerReleased(n, n2);
 	}
 
 	protected final void pointerPressed(final int n, final int n2) {
 		if (cGame.s_game_states[cGame.s_game_state] == GS_IGP) {
-			IGP.sub_4acf(n, n2);
+			IGP.updatePointerPressed(n, n2);
 		}
 		super.pointerPressed(n, n2);
 		cGame.var_6f0c = GLLib.s_screenX;

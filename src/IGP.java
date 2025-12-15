@@ -1166,14 +1166,11 @@ public final class IGP implements Runnable, CommandListener
         return var_1fcd[n].sub_3189(n2);
     }
     
-    public static void sub_48ef(int n, int n2) {
-        int sub_4b75 = sub_4b75(n, n2);
-        
-        
-        final int n3 = n;
-        n = n2;
-        n2 = n3;
-        n2 = s_screenHeight - n2;
+    public static void updatePointerReleased(int x, int y) {
+        int sub_4b75 = sub_4b75(x, y);
+        x = y;
+        y = x;
+        y = s_screenHeight - y;
         int n4 = sub_48cb(0, 10);
         if ((s_screenWidth == 240 && (s_screenHeight == 320 || s_screenHeight == 400)) || (s_screenWidth == 360 && (s_screenHeight == 640 || s_screenHeight == 480))) {
             n4 = sub_48cb(0, 35);
@@ -1181,8 +1178,8 @@ public final class IGP implements Runnable, CommandListener
         final int sub_48cb = sub_48cb(0, 15);
         final int sub_48a7 = sub_48a7(0, 6);
         final int sub_48cb2 = sub_48cb(0, 6);
-        if (Math.abs(var_20ad - n) > s_screenWidth * 10 / 100 && n2 < s_screenHeight - n4 && n2 > sub_48cb && (var_20ad >= sub_48a7 || var_20b5 <= var_1f4d[var_1d9d][1] || var_20b5 >= var_1f4d[var_1d9d][1] + sub_48cb2) && (var_20ad <= s_screenWidth - sub_48a7 || var_20b5 <= var_1f4d[var_1da5][1] || var_20b5 >= var_1f4d[var_1da5][1] + sub_48cb2) && var_20b5 >= sub_48cb && var_20b5 <= s_screenHeight - n4) {
-            if (var_20ad - n < 0) {
+        if (Math.abs(var_20ad - x) > s_screenWidth * 10 / 100 && y < s_screenHeight - n4 && y > sub_48cb && (var_20ad >= sub_48a7 || var_20b5 <= var_1f4d[var_1d9d][1] || var_20b5 >= var_1f4d[var_1d9d][1] + sub_48cb2) && (var_20ad <= s_screenWidth - sub_48a7 || var_20b5 <= var_1f4d[var_1da5][1] || var_20b5 >= var_1f4d[var_1da5][1] + sub_48cb2) && var_20b5 >= sub_48cb && var_20b5 <= s_screenHeight - n4) {
+            if (var_20ad - x < 0) {
                 sub_4b75 = 23;
                 var_2095 = true;
             }
@@ -1206,19 +1203,17 @@ public final class IGP implements Runnable, CommandListener
         var_20b5 = -1;
     }
     
-    public static void sub_4acf(int var_20ad, int var_20b5) {
+    public static void updatePointerPressed(int x, int y) {
         final int sub_4b75;
-        if ((sub_4b75 = sub_4b75(var_20ad, var_20b5)) != 0) {
+        if ((sub_4b75 = sub_4b75(x, y)) != 0) {
             var_207d = sub_4b75;
         }
-        
-        final int n = var_20ad;
-        var_20ad = var_20b5;
-        var_20b5 = n;
-        var_20b5 = s_screenHeight - var_20b5;
-        if (var_20ad == -1 || var_20b5 == -1) {
-            var_20ad = IGP.var_20ad;
-            var_20b5 = IGP.var_20b5;
+        x = y;
+        y = x;
+        y = s_screenHeight - y;
+        if (x == -1 || y == -1) {
+            x = IGP.var_20ad;
+            y = IGP.var_20b5;
         }
     }
     
@@ -1228,7 +1223,7 @@ public final class IGP implements Runnable, CommandListener
         var_208d = false;
         var_209d = false;
         var_20a5 = false;
-        sub_4acf(n, n2);
+        updatePointerPressed(n, n2);
     }
     
     private static int sub_4b75(int n, int n2) {
