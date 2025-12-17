@@ -751,9 +751,9 @@ public final class ASprite
         return n2;
     }
     
-    final int GetFrameModule(int sub_3356, final int n) {
-        sub_3356 = this.sub_3356(sub_3356, n);
-        return this.sub_328e(sub_3356);
+    final int GetFrameModule(int frame, final int fmodule) {
+        frame = this.sub_3356(frame, fmodule);
+        return this.sub_328e(frame);
     }
     
     private int sub_330a(final int n) {
@@ -929,7 +929,7 @@ public final class ASprite
         }
     }
     
-    static int[] InitTempBuffers(final int[] buf) {
+    static int[] InitTempBuffer(final int[] buf) {
         if (buf == null || buf != ASprite.temp_int) {
             if (ASprite.temp_int == null) {
                 ASprite.temp_int = new int[27832];
@@ -1966,17 +1966,15 @@ public final class ASprite
         this.PaintFrame(g, aframe, posX + hx, posY + hy, n4);
     }
     
-    final void PaintFrame(final Graphics graphics, final int n, final int n2, final int n3, final int n4) {
-        this.sub_71d4(graphics, n, n2, n3, n4);
+    final void PaintFrame(final Graphics g, final int frame, final int posX, final int posY, final int flags) {
+        this.sub_71d4(g, frame, posX, posY, flags);
     }
     
     final void sub_71d4(final Graphics graphics, final int n, final int n2, final int n3, final int n4) {
         int sub_3019 = -1;
         Label_0748: {
             if (ASprite.var_121f == 0) {
-                final int _crt_pal = this._crt_pal;
-                final int n5 = this.var_1057 + 1;
-                if (this.var_10df != null && this.var_10df[_crt_pal] != null && this.var_10df[_crt_pal][n5][n] != null) {
+                if (this.var_10df != null && this.var_10df[_crt_pal] != null && this.var_10df[_crt_pal][this.var_1057 + 1][n] != null) {
                     int n6 = n4;
                     int n7 = 0;
                     final int sub_312c = this.sub_312c(n);
@@ -1984,9 +1982,8 @@ public final class ASprite
                     int sub_31e6 = this.sub_31e6(n);
                     int sub_3021 = this.sub_3238(n);
                     if ((n4 & 0x4) != 0x0) {
-                        final int n8 = sub_31e6;
                         sub_31e6 = sub_3021;
-                        sub_3021 = n8;
+                        sub_3021 = sub_31e6;
                     }
                     if ((n4 & 0x1) != 0x0) {
                         sub_31e6 = -sub_31e6 - sub_312c;
@@ -1995,9 +1992,8 @@ public final class ASprite
                         sub_3021 = -sub_3021 - sub_3020;
                     }
                     if ((n4 & 0x4) != 0x0) {
-                        final int n9 = sub_31e6;
                         sub_31e6 = -sub_3021 - sub_3020;
-                        sub_3021 = n9;
+                        sub_3021 = sub_31e6;
                     }
                     int n10 = n2 + sub_31e6;
                     int n11 = n3 + sub_3021;
@@ -2057,7 +2053,7 @@ public final class ASprite
                                         final GLLibImage class_l4 = class_l3;
                                         final boolean var_1097 = this.var_1097;
                                         final GLLibImage class_l5 = class_l4;
-                                        final int[] sub_39a6 = InitTempBuffers(null);
+                                        final int[] sub_39a6 = InitTempBuffer(null);
                                         GLLib.GetRGB(class_l5, sub_39a6, 0, n26, 0, 0, n26, n25);
                                         final int[] sub_5d84 = GLLib.sub_5d84(graphics, sub_39a6, n28, n27, n26, n25, n24, var_1097, false, true);
                                         if (sub_5d84 != null) {
@@ -2136,10 +2132,10 @@ public final class ASprite
         }
     }
     
-    final void sub_7d2b(final Graphics graphics, final int n, final int n2, final int n3, final int n4) {
+    final void PaintFrameWithZoom(final Graphics g, final int frame, final int posX, final int posY, final int zoom) {
         GLLib.sub_5b71();
-        GLLib.sub_5c41(n4);
-        this.PaintFrame(graphics, n, n2, n3, 0);
+        GLLib.Custom_SetZoomLevel(zoom);
+        this.PaintFrame(g, frame, posX, posY, 0);
         GLLib.sub_5b96();
     }
     
@@ -2538,7 +2534,7 @@ public final class ASprite
                         final int n74 = n65;
                         final GLLibImage class_l4 = class_l3;
                         final Graphics graphics7 = graphics6;
-                        final int[] sub_39a6 = InitTempBuffers(null);
+                        final int[] sub_39a6 = InitTempBuffer(null);
                         GLLib.GetRGB(class_l4, sub_39a6, 0, n72, 0, 0, n72, n71);
                         final int[] sub_5d84 = GLLib.sub_5d84(graphics7, sub_39a6, n74, n73, n72, n71, n70, b5, false, b4);
                         if (!this.sub_3c9a(module, posX, posY, sub_5d84, n3) && sub_5d84 != null) {
@@ -2571,11 +2567,11 @@ public final class ASprite
         }
     }
     
-    static final int[] sub_9c11(final int[] array, final int n, int n2, int n3, int[] sub_39a6) {
+    static final int[] sub_9c11(final int[] buffer, final int n, int n2, int n3, int[] initBuffer) {
         if ((n3 & 0x7) == 0x0) {
-            return array;
+            return buffer;
         }
-        sub_39a6 = InitTempBuffers(array);
+        initBuffer = InitTempBuffer(buffer);
         int n4 = 0;
         int n5 = 0;
         switch (n3 & 0x7) {
@@ -2585,7 +2581,7 @@ public final class ASprite
                 while (--n2 >= 0) {
                     n3 = n;
                     while (--n3 >= 0) {
-                        sub_39a6[--n6] = array[n7++];
+                        initBuffer[--n6] = buffer[n7++];
                     }
                     n7 -= n << 1;
                 }
@@ -2594,14 +2590,14 @@ public final class ASprite
             case 2: {
                 int n9 = (n2 - 1) * n;
                 while (--n2 >= 0) {
-                    System.arraycopy(array, n5, sub_39a6, n9, n);
+                    System.arraycopy(buffer, n5, initBuffer, n9, n);
                     n9 -= n;
                     n5 += n;
                 }
                 break;
             }
             case 3: {
-                for (int i = n * n2 - 1; i >= 0; sub_39a6[n4++] = array[i--]) {}
+                for (int i = n * n2 - 1; i >= 0; initBuffer[n4++] = buffer[i--]) {}
                 break;
             }
             case 4: {
@@ -2609,7 +2605,7 @@ public final class ASprite
                 while (--n2 >= 0) {
                     n3 = n;
                     while (--n3 >= 0) {
-                        sub_39a6[--n11] = array[n2];
+                        initBuffer[--n11] = buffer[n2];
                         n2 += n2;
                     }
                 }
@@ -2621,7 +2617,7 @@ public final class ASprite
                     int n16 = n2 - 1 - n2;
                     n3 = n;
                     while (--n3 >= 0) {
-                        sub_39a6[--n14] = array[n16];
+                        initBuffer[--n14] = buffer[n16];
                         n16 += n2;
                     }
                 }
@@ -2634,7 +2630,7 @@ public final class ASprite
                     int n20 = n17--;
                     n3 = n;
                     while (--n3 >= 0) {
-                        sub_39a6[--n18] = array[n20];
+                        initBuffer[--n18] = buffer[n20];
                         n20 -= n2;
                     }
                 }
@@ -2647,18 +2643,18 @@ public final class ASprite
                     int n24 = n21++;
                     n3 = n;
                     while (--n3 >= 0) {
-                        sub_39a6[--n22] = array[n24];
+                        initBuffer[--n22] = buffer[n24];
                         n24 -= n2;
                     }
                 }
                 break;
             }
         }
-        return sub_39a6;
+        return initBuffer;
     }
     
     static final int[] _InitTempBuffers(final int[] buf) {
-        return InitTempBuffers(buf);
+        return InitTempBuffer(buf);
     }
     
     public ASprite() {

@@ -223,7 +223,7 @@ final class GLLibPlayer implements Runnable
         if (this.zoomLevel != -1 && this.zoomLevel != 100 && (GLLib.var_1fe7 & 0x2000) == 0x0) {
             b = true;
             GLLib.sub_5b71();
-            GLLib.sub_5c41(this.zoomLevel);
+            GLLib.Custom_SetZoomLevel(this.zoomLevel);
         }
         if (this.sprPalette != -1) {
             final int sprPalette = this.sprite.GetCurrentPalette();
@@ -270,7 +270,7 @@ final class GLLibPlayer implements Runnable
         this.curTime += DT;
     }
     
-    final void setZoomLevel(final int zoomLevel) {
+    final void SetZoomLevel(final int zoomLevel) {
         this.zoomLevel = zoomLevel;
     }
     
@@ -907,22 +907,22 @@ final class GLLibPlayer implements Runnable
         catch (final Exception ex) {}
     }
     
-    static void sub_3661(final int n, final int n2, final int n3, final int n4) {
+    static void Tileset_Init(final int nDestWidth, final int nDestHeight, final int nTileWidth, final int nTileHeight) {
         GLLibPlayer.s_TilesetInfo = new int[8];
         GLLibPlayer.s_TilesetLayerInfo = new int[GLLibPlayer.s_TilesetMaxLayerCount][GLLibPlayer.var_16b7];
         GLLibPlayer.s_TilesetLayerImage = new GLLibImage[GLLibPlayer.s_TilesetMaxLayerCount][1];
         GLLibPlayer.s_TilesetLayerGraphics = new Graphics[GLLibPlayer.s_TilesetMaxLayerCount][1];
-        if (n3 > 0 && n4 > 0) {
+        if (nTileWidth > 0 && nTileHeight > 0) {
             GLLibPlayer.s_TilesetLayerData = new byte[GLLibPlayer.s_TilesetMaxLayerCount][2][];
             GLLibPlayer.s_TilesetSprite = new ASprite[GLLibPlayer.s_TilesetMaxLayerCount];
-            GLLibPlayer.s_TilesetInfo[2] = n3;
+            GLLibPlayer.s_TilesetInfo[2] = nTileWidth;
             GLLibPlayer.s_TilesetInfo[4] = 0;
-            GLLibPlayer.s_TilesetInfo[5] = n4;
+            GLLibPlayer.s_TilesetInfo[5] = nTileHeight;
             GLLibPlayer.s_TilesetInfo[7] = 0;
         }
         GLLibPlayer.var_16ef = new int[GLLibPlayer.s_TilesetMaxLayerCount][GLLibPlayer.var_16bf][4];
-        GLLibPlayer.s_TilesetInfo[0] = n;
-        GLLibPlayer.s_TilesetInfo[1] = n2;
+        GLLibPlayer.s_TilesetInfo[0] = nDestWidth;
+        GLLibPlayer.s_TilesetInfo[1] = nDestHeight;
         GLLibPlayer.s_bTilesetPlayerInitialized = true;
     }
     

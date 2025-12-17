@@ -272,7 +272,7 @@ final class Class_f
                                         
                                         class_f.var_15d5 -= GLLib.s_game_frameDT;
                                         if (class_f.var_15d5 < 0) {
-                                            (class_f.var_189d = new GLLibPlayer(cGame.var_7ff4[class_f.var_1865], class_f.var_17ed, class_f.var_17f5)).SetAnim(0, 1);
+                                            (class_f.var_189d = new GLLibPlayer(cGame.s_gameSprites[class_f.var_1865], class_f.var_17ed, class_f.var_17f5)).SetAnim(0, 1);
                                         }
                                     }
                                     else if (class_f.var_189d != null) {
@@ -300,7 +300,7 @@ final class Class_f
                                         final Class_f class_f7 = class_f;
                                         class_f7.var_15d5 -= GLLib.s_game_frameDT;
                                         if (class_f.var_15d5 < 0) {
-                                            (class_f.var_189d = new GLLibPlayer(cGame.var_7ff4[class_f.var_1865], class_f.var_17ed, class_f.var_17f5)).SetAnim(0, 1);
+                                            (class_f.var_189d = new GLLibPlayer(cGame.s_gameSprites[class_f.var_1865], class_f.var_17ed, class_f.var_17f5)).SetAnim(0, 1);
                                         }
                                     }
                                     else if (class_f.var_189d != null) {
@@ -329,10 +329,10 @@ final class Class_f
                                 if (cGame.sub_35bc4()) {
                                     if (class_f.var_18b5 == null) {
                                         final ASprite class_e;
-                                        final short n2 = (class_e = cGame.var_7ff4[class_f.var_1865]).var_faf[1];
+                                        final short n2 = (class_e = cGame.s_gameSprites[class_f.var_1865]).var_faf[1];
                                         class_f.var_18a5 = class_e.sub_30ea(n2);
                                         class_f.var_18ad = class_e.sub_310b(n2);
-                                        class_f.var_18b5 = new GLLibPlayer(cGame.var_7ff4[147], class_f.var_17ed, class_f.var_17f5);
+                                        class_f.var_18b5 = new GLLibPlayer(cGame.s_gameSprites[147], class_f.var_17ed, class_f.var_17f5);
                                     }
                                     if (class_f.var_15d5 >= 0) {
                                         final Class_f class_f8 = class_f;
@@ -368,7 +368,7 @@ final class Class_f
                                 for (int n4 = 0; !b && n4 < cGame.var_7514; b = (cGame.var_7544[n4] > 0L && n3 < cGame.var_7544[n4] + cGame.var_753c[n4]), ++n4) {}
                                 if (b) {
                                     if (class_f.var_189d == null) {
-                                        (class_f.var_189d = new GLLibPlayer(cGame.var_7ff4[class_f.var_1865], class_f.var_17ed, class_f.var_17f5)).SetAnim(1, -1);
+                                        (class_f.var_189d = new GLLibPlayer(cGame.s_gameSprites[class_f.var_1865], class_f.var_17ed, class_f.var_17f5)).SetAnim(1, -1);
                                         cGame.playSndNoLoop(37);
                                     }
                                     else {
@@ -384,7 +384,7 @@ final class Class_f
                                     final Class_f class_f9 = class_f;
                                     class_f9.var_15d5 -= GLLib.s_game_frameDT;
                                     if (class_f.var_15d5 < 0) {
-                                        (class_f.var_189d = new GLLibPlayer(cGame.var_7ff4[class_f.var_1865], class_f.var_17ed, class_f.var_17f5)).SetAnim(0, 1);
+                                        (class_f.var_189d = new GLLibPlayer(cGame.s_gameSprites[class_f.var_1865], class_f.var_17ed, class_f.var_17f5)).SetAnim(0, 1);
                                         if (class_f.sub_b03e()) {
                                             cGame.playSndNoLoop(30);
                                         }
@@ -443,7 +443,7 @@ final class Class_f
                                         final GameDatas class_h = GameDatas.s_allDatas[0];
                                         class_f11.var_16a5 = (short)class_h.m_dataVars[class_f11.var_1835][30];
                                         final ASprite class_e2;
-                                        final short n5 = (class_e2 = cGame.var_7ff4[class_h.m_dataVars[class_f11.var_1835][31]]).var_faf[class_f11.var_16a5];
+                                        final short n5 = (class_e2 = cGame.s_gameSprites[class_h.m_dataVars[class_f11.var_1835][31]]).var_faf[class_f11.var_16a5];
                                         class_f11.var_16bd = class_e2.sub_30ea(n5);
                                         class_f11.var_16c5 = class_e2.sub_310b(n5);
                                         class_f11.var_18a5 = class_f11.var_16bd;
@@ -453,7 +453,7 @@ final class Class_f
                                 else {
                                     class_f11.var_18b5.SetPos(class_f11.var_17ed, class_f11.var_17f5 - 50);
                                 }
-                                class_f11.var_18b5.setZoomLevel(cGame.s_zoomLevel);
+                                class_f11.var_18b5.SetZoomLevel(cGame.s_zoomLevel);
                                 if (class_f11.var_18b5.IsAnimOver()) {
                                     if (sub_1923 == 1 && cGame.s_tutorialState == 18) {
                                         cGame.s_hasFinishedTut = true;
@@ -464,11 +464,11 @@ final class Class_f
                                     class_f11.var_18b5.Update(GLLib.s_game_frameDT);
                                 }
                             }
-                            if ((class_f11.var_18b5 == null || class_f11.var_18b5.GetSprite() != cGame.var_7ff4[16]) && class_f11.var_1675) {
-                                (class_f11.var_18b5 = new GLLibPlayer(cGame.var_7ff4[16], class_f11.var_17ed, class_f11.var_17f5)).SetAnim(0, -1);
+                            if ((class_f11.var_18b5 == null || class_f11.var_18b5.GetSprite() != cGame.s_gameSprites[16]) && class_f11.var_1675) {
+                                (class_f11.var_18b5 = new GLLibPlayer(cGame.s_gameSprites[16], class_f11.var_17ed, class_f11.var_17f5)).SetAnim(0, -1);
                                 class_f11.var_18b5.setSprPalette(1);
                             }
-                            else if (class_f11.var_18b5 != null && !class_f11.var_1675 && class_f11.var_18b5.GetSprite() == cGame.var_7ff4[16]) {
+                            else if (class_f11.var_18b5 != null && !class_f11.var_1675 && class_f11.var_18b5.GetSprite() == cGame.s_gameSprites[16]) {
                                 class_f11.var_18b5 = null;
                             }
                             if (!class_f11.sub_a2a0(512)) {
@@ -770,11 +770,11 @@ final class Class_f
                         else if (cGame.var_8034 == class_f14) {
                             cGame.sub_11320(false, null);
                         }
-                        if ((class_f14.var_18b5 == null || class_f14.var_18b5.GetSprite() != cGame.var_7ff4[16]) && class_f14.var_185d == 5) {
-                            (class_f14.var_18b5 = new GLLibPlayer(cGame.var_7ff4[16], class_f14.var_17ed, class_f14.var_17f5)).SetAnim(0, -1);
+                        if ((class_f14.var_18b5 == null || class_f14.var_18b5.GetSprite() != cGame.s_gameSprites[16]) && class_f14.var_185d == 5) {
+                            (class_f14.var_18b5 = new GLLibPlayer(cGame.s_gameSprites[16], class_f14.var_17ed, class_f14.var_17f5)).SetAnim(0, -1);
                             class_f14.var_18b5.setSprPalette(0);
                         }
-                        else if (class_f14.var_18b5 != null && class_f14.var_185d != 5 && class_f14.var_18b5.GetSprite() == cGame.var_7ff4[16]) {
+                        else if (class_f14.var_18b5 != null && class_f14.var_185d != 5 && class_f14.var_18b5.GetSprite() == cGame.s_gameSprites[16]) {
                             class_f14.var_18b5 = null;
                         }
                         if (class_f14.var_18b5 != null && class_f14.var_185d == 5) {
@@ -897,7 +897,7 @@ final class Class_f
                         int n2 = 138;
                         if (cGame.s_zoomLevel != 100) {
                             GLLib.sub_5b71();
-                            GLLib.sub_5c41(cGame.s_zoomLevel);
+                            GLLib.Custom_SetZoomLevel(cGame.s_zoomLevel);
                             n2 = 138 * cGame.s_zoomLevel / 100;
                         }
                         GLLibPlayer.s_TilesetLayerGraphics[0][0].setColor(-15682062);
@@ -912,11 +912,11 @@ final class Class_f
                         for (int j = 0; j < sub_5cb3; j += n3) {
                             if (cGame.s_zoomLevel < 100 && cGame.sub_438b0(79)) {
                                 GLLib.sub_5b96();
-                                GLLibPlayer.sub_6133(0, cGame.var_7ff4[79], cGame.var_7ff4[79].GetFrames() / 2, j, n4, cGame.var_8074, null);
+                                GLLibPlayer.sub_6133(0, cGame.s_gameSprites[79], cGame.s_gameSprites[79].GetFrames() / 2, j, n4, cGame.var_8074, null);
                                 GLLib.sub_5b71();
                             }
                             else {
-                                GLLibPlayer.sub_6133(0, cGame.var_7ff4[79], 0, j, n4, cGame.var_8074, null);
+                                GLLibPlayer.sub_6133(0, cGame.s_gameSprites[79], 0, j, n4, cGame.var_8074, null);
                             }
                         }
                         int n5 = 240;
@@ -928,11 +928,11 @@ final class Class_f
                         for (int k = 0; k < sub_5cb3; k += n5) {
                             if (cGame.s_zoomLevel < 100 && cGame.sub_438b0(78)) {
                                 GLLib.sub_5b96();
-                                GLLibPlayer.sub_6133(0, cGame.var_7ff4[78], cGame.var_7ff4[78].GetFrames() / 2, k, n6, cGame.var_8074, null);
+                                GLLibPlayer.sub_6133(0, cGame.s_gameSprites[78], cGame.s_gameSprites[78].GetFrames() / 2, k, n6, cGame.var_8074, null);
                                 GLLib.sub_5b71();
                             }
                             else {
-                                GLLibPlayer.sub_6133(0, cGame.var_7ff4[78], 0, k, n6, cGame.var_8074, null);
+                                GLLibPlayer.sub_6133(0, cGame.s_gameSprites[78], 0, k, n6, cGame.var_8074, null);
                             }
                         }
                         int n7 = 400;
@@ -944,11 +944,11 @@ final class Class_f
                         for (int l = 0; l < sub_5cb3; l += n7) {
                             if (cGame.s_zoomLevel < 100 && cGame.sub_438b0(77)) {
                                 GLLib.sub_5b96();
-                                GLLibPlayer.sub_6133(0, cGame.var_7ff4[77], cGame.var_7ff4[77].GetFrames() / 2, l, n8, cGame.var_8074, null);
+                                GLLibPlayer.sub_6133(0, cGame.s_gameSprites[77], cGame.s_gameSprites[77].GetFrames() / 2, l, n8, cGame.var_8074, null);
                                 GLLib.sub_5b71();
                             }
                             else {
-                                GLLibPlayer.sub_6133(0, cGame.var_7ff4[77], 0, l, n8, cGame.var_8074, null);
+                                GLLibPlayer.sub_6133(0, cGame.s_gameSprites[77], 0, l, n8, cGame.var_8074, null);
                             }
                         }
                         if (cGame.s_zoomLevel != 100) {
@@ -980,11 +980,11 @@ final class Class_f
                             else {
                                 class_f.var_189d.GetSprite().SetCurrentPalette(var_1875);
                                 class_f.var_189d.SetPos(class_f.var_17ed, class_f.var_17f5);
-                                class_f.var_189d.setZoomLevel(cGame.s_zoomLevel);
+                                class_f.var_189d.SetZoomLevel(cGame.s_zoomLevel);
                                 class_f.var_189d.Render();
                             }
                             if (class_f.sub_a2a0(33554432)) {
-                                cGame.var_7ff4[class_f.var_1865].sub_354b(Class_f.var_1905, class_f.var_189d.GetAnim(), class_f.var_189d.GetFrame(), class_f.var_17cd, class_f.var_17d5, class_f.var_189d.curFlags);
+                                cGame.s_gameSprites[class_f.var_1865].sub_354b(Class_f.var_1905, class_f.var_189d.GetAnim(), class_f.var_189d.GetFrame(), class_f.var_17cd, class_f.var_17d5, class_f.var_189d.curFlags);
                                 if (cGame.s_zoomLevel != 100) {
                                     Class_f.var_1905[0] = Class_f.var_1905[0] * cGame.s_zoomLevel / 100;
                                     Class_f.var_1905[1] = Class_f.var_1905[1] * cGame.s_zoomLevel / 100;
@@ -1006,7 +1006,7 @@ final class Class_f
                     else if (class_f.var_1865 > -1 && class_f.var_186d > -1) {
                         final int var_1876;
                         final int n9 = (var_1876 = class_f.var_1865) & 0x7FFF;
-                        final ASprite class_e = ((var_1876 & 0x8000) != 0x0) ? cGame.var_68d4[n9] : cGame.var_7ff4[n9];
+                        final ASprite class_e = ((var_1876 & 0x8000) != 0x0) ? cGame.var_68d4[n9] : cGame.s_gameSprites[n9];
                         int var_1877 = class_f.var_1875;
                         if (class_f.sub_a2a0(65536)) {
                             var_1877 += class_e._palettes >> 1;
@@ -1036,7 +1036,7 @@ final class Class_f
                                     class_e2.PaintFrame(GLLib.g, class_e2.GetFrames() / 2 + class_f.var_186d, class_f.var_17ed, class_f.var_17f5, 0);
                                 }
                                 else {
-                                    class_e2.sub_7d2b(GLLib.g, class_f.var_186d, class_f.var_17ed, class_f.var_17f5, cGame.s_zoomLevel);
+                                    class_e2.PaintFrameWithZoom(GLLib.g, class_f.var_186d, class_f.var_17ed, class_f.var_17f5, cGame.s_zoomLevel);
                                 }
                                 GLLib.SetClip(GLLib.g, 0, 0, GLLib.s_screenWidth, GLLib.s_screenHeight, true);
                             }
@@ -1060,7 +1060,7 @@ final class Class_f
                             }
                             else {
                                 n11 += 10;
-                                cGame.var_68d4[1].sub_7d2b(GLLib.g, 34, n11, n12, cGame.s_zoomLevel);
+                                cGame.var_68d4[1].PaintFrameWithZoom(GLLib.g, 34, n11, n12, cGame.s_zoomLevel);
                             }
                         }
                         if (!class_f.sub_a2a0(2048)) {
@@ -1073,14 +1073,14 @@ final class Class_f
                             break;
                         }
                         n14 += 40;
-                        cGame.var_68d4[1].sub_7d2b(GLLib.g, 64, n13, n14, cGame.s_zoomLevel);
+                        cGame.var_68d4[1].PaintFrameWithZoom(GLLib.g, 64, n13, n14, cGame.s_zoomLevel);
                         break;
                     }
                 }
                 if (class_f.var_18bd && cGame.var_6aac == class_f) {
                     final Class_f class_f7 = class_f;
                     final int var_1878 = class_f.var_1825;
-                    final ASprite class_e3 = cGame.var_7ff4[14];
+                    final ASprite class_e3 = cGame.s_gameSprites[14];
                     final int n15 = var_1878;
                     final ASprite class_e4 = class_e3;
                     final Class_f class_f8 = class_f7;
@@ -1099,10 +1099,10 @@ final class Class_f
                     }
                     if (b && cGame.sub_2cad2(class_f)) {
                         if (cGame.s_zoomLevel == 100) {
-                            cGame.var_7ff4[14].PaintFrame(GLLib.g, class_f.var_1825, class_f.var_17ed, class_f.var_17f5, 0);
+                            cGame.s_gameSprites[14].PaintFrame(GLLib.g, class_f.var_1825, class_f.var_17ed, class_f.var_17f5, 0);
                         }
                         else {
-                            cGame.var_7ff4[14].sub_7d2b(GLLib.g, class_f.var_1825, class_f.var_17ed, class_f.var_17f5, cGame.s_zoomLevel);
+                            cGame.s_gameSprites[14].PaintFrameWithZoom(GLLib.g, class_f.var_1825, class_f.var_17ed, class_f.var_17f5, cGame.s_zoomLevel);
                         }
                     }
                 }
@@ -1111,7 +1111,7 @@ final class Class_f
                 final Class_f class_f9;
                 if ((class_f9 = var_17ad4).var_18b5 != null) {
                     class_f9.var_18b5.SetPos(class_f9.var_17ed + class_f9.var_18a5, class_f9.var_17f5 + class_f9.var_18ad);
-                    class_f9.var_18b5.setZoomLevel(cGame.s_zoomLevel);
+                    class_f9.var_18b5.SetZoomLevel(cGame.s_zoomLevel);
                     class_f9.var_18b5.Render();
                 }
             }
@@ -1551,14 +1551,14 @@ final class Class_f
     private void sub_5bd2(int n, final int n2) {
         final int n3 = n & 0x7FFF;
         final ASprite class_e;
-        if ((class_e = (((n & 0x8000) != 0x0) ? cGame.var_68d4[n3] : cGame.var_7ff4[n3])) == null || n2 < 0) {
+        if ((class_e = (((n & 0x8000) != 0x0) ? cGame.var_68d4[n3] : cGame.s_gameSprites[n3])) == null || n2 < 0) {
             return;
         }
         int var_17cd = this.var_17cd;
         int var_17d5 = this.var_17d5;
         if (cGame.s_zoomLevel != 100) {
             GLLib.sub_5b71();
-            GLLib.sub_5c41(cGame.s_zoomLevel);
+            GLLib.Custom_SetZoomLevel(cGame.s_zoomLevel);
             var_17cd = var_17cd * cGame.s_zoomLevel / 100;
             var_17d5 = var_17d5 * cGame.s_zoomLevel / 100;
         }
@@ -1578,7 +1578,7 @@ final class Class_f
         if (n2 > -1) {
             final int n4 = n & 0x7FFF;
             final ASprite class_e2;
-            (class_e2 = (((n & 0x8000) != 0x0) ? cGame.var_68d4[n4] : cGame.var_7ff4[n4])).sub_3524(Class_f.var_1905, n2, this.var_17cd, this.var_17d5);
+            (class_e2 = (((n & 0x8000) != 0x0) ? cGame.var_68d4[n4] : cGame.s_gameSprites[n4])).sub_3524(Class_f.var_1905, n2, this.var_17cd, this.var_17d5);
             if (cGame.s_zoomLevel != 100) {
                 Class_f.var_1905[0] = Class_f.var_1905[0] * cGame.s_zoomLevel / 100;
                 Class_f.var_1905[1] = Class_f.var_1905[1] * cGame.s_zoomLevel / 100;
@@ -1616,7 +1616,7 @@ final class Class_f
     
     private void sub_5f3b(int n, final int n2) {
         final int n3 = n & 0x7FFF;
-        final ASprite class_e = ((n & 0x8000) != 0x0) ? cGame.var_68d4[n3] : cGame.var_7ff4[n3];
+        final ASprite class_e = ((n & 0x8000) != 0x0) ? cGame.var_68d4[n3] : cGame.s_gameSprites[n3];
         int var_1875 = this.var_1875;
         if (class_e == null || n2 < 0) {
             return;
@@ -1634,7 +1634,7 @@ final class Class_f
             class_e.PaintFrame(GLLib.g, n, this.var_17ed, this.var_17f5, 0);
             return;
         }
-        class_e.sub_7d2b(GLLib.g, n2, this.var_17ed, this.var_17f5, cGame.s_zoomLevel);
+        class_e.PaintFrameWithZoom(GLLib.g, n2, this.var_17ed, this.var_17f5, cGame.s_zoomLevel);
     }
     
     final void sub_605f() {
@@ -1985,11 +1985,11 @@ final class Class_f
         if (sub_4c91(0, 23) > 0) {
             final Class_f[] array2 = { null };
             sub_5439(0, 23, array2, 1);
-            (array2[0].var_189d = new GLLibPlayer(cGame.var_7ff4[13], array2[0].var_17cd, array2[0].var_17d5)).SetAnim(1, 1);
+            (array2[0].var_189d = new GLLibPlayer(cGame.s_gameSprites[13], array2[0].var_17cd, array2[0].var_17d5)).SetAnim(1, 1);
             return;
         }
         final Class_f sub_92ea = sub_92ea(23, 0, new int[] { Class_f.var_1795 * 100 / cGame.s_zoomLevel, Class_f.var_179d * 100 / cGame.s_zoomLevel, 255 });
-        (sub_92ea.var_189d = new GLLibPlayer(cGame.var_7ff4[13], sub_92ea.var_17cd, sub_92ea.var_17d5)).SetAnim(1, 1);
+        (sub_92ea.var_189d = new GLLibPlayer(cGame.s_gameSprites[13], sub_92ea.var_17cd, sub_92ea.var_17d5)).SetAnim(1, 1);
     }
     
     static void sub_6cdb() {
@@ -2403,7 +2403,7 @@ final class Class_f
             final int var_1865;
             final int n = (var_1865 = this.var_1865) & 0x7FFF;
             final ASprite class_e;
-            final int n2 = (class_e = (((var_1865 & 0x8000) != 0x0) ? cGame.var_68d4[n] : cGame.var_7ff4[n])).sub_312c(this.var_186d) >> 1;
+            final int n2 = (class_e = (((var_1865 & 0x8000) != 0x0) ? cGame.var_68d4[n] : cGame.s_gameSprites[n])).sub_312c(this.var_186d) >> 1;
             final int n3 = class_e.sub_3189(this.var_186d) >> 1;
             if (this.var_17cd - n2 > GLLibPlayer.sub_5b8b(0) && this.var_17d5 - n3 > GLLibPlayer.sub_5c0b(0)) {
                 this.sub_aac5();
@@ -2505,7 +2505,7 @@ final class Class_f
                 cGame.sub_4a20b(this.var_18c5, 1, 20);
                 this.sub_a25c(256);
                 this.sub_aa8a();
-                (this.var_18b5 = new GLLibPlayer(cGame.var_7ff4[13], this.var_17ed, this.var_17f5)).SetAnim(0, 2);
+                (this.var_18b5 = new GLLibPlayer(cGame.s_gameSprites[13], this.var_17ed, this.var_17f5)).SetAnim(0, 2);
                 this.var_18a5 = this.var_16bd;
                 this.var_18ad = this.var_16c5;
                 cGame.playSndNoLoop(32);
@@ -2571,7 +2571,7 @@ final class Class_f
             this.var_1635 = 0;
             this.var_1815 = class_h.m_dataVars[this.var_1835][27];
             this.var_181d = class_h.m_dataVars[this.var_1835][28];
-            final ASprite class_e = cGame.var_7ff4[class_h.m_dataVars[this.var_1835][31]];
+            final ASprite class_e = cGame.s_gameSprites[class_h.m_dataVars[this.var_1835][31]];
             this.var_1875 = class_h.m_dataVars[this.var_1835][32];
             this.var_186d = class_h.m_dataVars[this.var_1835][33];
             this.var_169d = (short)class_h.m_dataVars[this.var_1835][29];
@@ -2580,7 +2580,7 @@ final class Class_f
                 this.var_189d.SetSprite(class_e);
                 this.var_189d.SetAnim(0, -1);
             }
-            (this.var_18b5 = new GLLibPlayer(cGame.var_7ff4[13], this.var_17ed, this.var_17f5 - 50)).SetAnim(1, 1);
+            (this.var_18b5 = new GLLibPlayer(cGame.s_gameSprites[13], this.var_17ed, this.var_17f5 - 50)).SetAnim(1, 1);
             if (cGame.var_807c == 0) {
                 cGame.sub_4a20b(var_18c5, 1, 21);
             }
@@ -2910,7 +2910,7 @@ final class Class_f
     
     final void sub_8e7d() {
         if (this.var_189d != null) {
-            this.var_189d.setZoomLevel(cGame.s_zoomLevel);
+            this.var_189d.SetZoomLevel(cGame.s_zoomLevel);
             this.var_189d.SetPos(this.var_17ed, this.var_17f5);
             this.var_189d.Render();
         }
@@ -2953,7 +2953,7 @@ final class Class_f
             Class_f.var_1775 = 0;
             Class_f.var_177d = var_177d;
         }
-        if (cGame.var_7ff4[85] == null) {
+        if (cGame.s_gameSprites[85] == null) {
             cGame.sub_d500(0, 85, 15, 0, 24, 0, -1);
             GLLib.Pack_Open("/5");
             cGame.sub_d2c8(0);
@@ -2962,11 +2962,11 @@ final class Class_f
         if (sub_4c91(0, 21) > 0) {
             final Class_f[] array = { null };
             sub_5439(0, 21, array, 1);
-            (array[0].var_189d = new GLLibPlayer(cGame.var_7ff4[85], array[0].var_17cd, array[0].var_17d5)).SetAnim(0, 1);
+            (array[0].var_189d = new GLLibPlayer(cGame.s_gameSprites[85], array[0].var_17cd, array[0].var_17d5)).SetAnim(0, 1);
             return array[0];
         }
         final Class_f sub_92ea = sub_92ea(21, 0, new int[] { (cGame.var_800c.var_17cd + (GLLib.s_screenWidth >> 1)) * 100 / cGame.s_zoomLevel, (cGame.var_800c.var_17d5 + (GLLib.s_screenHeight >> 1)) * 100 / cGame.s_zoomLevel, 255 });
-        (sub_92ea.var_189d = new GLLibPlayer(cGame.var_7ff4[85], sub_92ea.var_17cd, sub_92ea.var_17d5)).SetAnim(0, 1);
+        (sub_92ea.var_189d = new GLLibPlayer(cGame.s_gameSprites[85], sub_92ea.var_17cd, sub_92ea.var_17d5)).SetAnim(0, 1);
         return sub_92ea;
     }
     
@@ -3072,7 +3072,7 @@ final class Class_f
             case 34: {
                 class_f.var_17dd = array[0];
                 class_f.var_1865 = array[1];
-                (class_f.var_189d = new GLLibPlayer(cGame.var_7ff4[class_f.var_1865], 0, 0)).SetAnim(array[2], -1);
+                (class_f.var_189d = new GLLibPlayer(cGame.s_gameSprites[class_f.var_1865], 0, 0)).SetAnim(array[2], -1);
                 class_f.var_185d = array[3];
                 switch (array[3]) {
                     case 0: {
@@ -3142,8 +3142,8 @@ final class Class_f
                 class_f.var_1815 = array[7];
                 class_f.var_181d = array[8];
                 class_f.var_1825 = cGame.sub_2d629(class_f.var_1815, class_f.var_181d);
-                if (cGame.var_7ff4[class_f.var_1865].sub_36dd() > 0) {
-                    (class_f.var_189d = new GLLibPlayer(cGame.var_7ff4[class_f.var_1865], class_f.var_17cd, class_f.var_17d5)).SetAnim(0, -1);
+                if (cGame.s_gameSprites[class_f.var_1865].sub_36dd() > 0) {
+                    (class_f.var_189d = new GLLibPlayer(cGame.s_gameSprites[class_f.var_1865], class_f.var_17cd, class_f.var_17d5)).SetAnim(0, -1);
                     class_f.sub_a21a(33554432);
                 }
                 else {
@@ -3181,7 +3181,7 @@ final class Class_f
                 class_f.var_1815 = array[3];
                 class_f.var_181d = array[4];
                 class_f.var_1825 = 16;
-                final ASprite class_e = cGame.var_7ff4[array[5]];
+                final ASprite class_e = cGame.s_gameSprites[array[5]];
                 class_f.var_1875 = array[6];
                 if (array[7] == 1) {
                     class_f.sub_a21a(32);
@@ -3208,7 +3208,7 @@ final class Class_f
                 class_f.var_17d5 = array[1];
                 class_f.var_17dd = array[2];
                 class_f.var_1865 = array[3];
-                class_f.var_189d = new GLLibPlayer(cGame.var_7ff4[class_f.var_1865], class_f.var_17cd, class_f.var_17d5);
+                class_f.var_189d = new GLLibPlayer(cGame.s_gameSprites[class_f.var_1865], class_f.var_17cd, class_f.var_17d5);
                 class_f.var_1845 = class_f.var_17cd;
                 class_f.var_184d = class_f.var_17d5;
                 class_f.var_17e5 = 100;
@@ -3221,7 +3221,7 @@ final class Class_f
                 class_f.var_17d5 = array[1];
                 class_f.var_17dd = array[2];
                 class_f.var_1865 = array[4];
-                final ASprite class_e2 = cGame.var_7ff4[class_f.var_1865];
+                final ASprite class_e2 = cGame.s_gameSprites[class_f.var_1865];
                 class_f.var_186d = 0;
                 class_f.var_189d = new GLLibPlayer(class_e2, class_f.var_17cd, class_f.var_17d5);
                 class_f.var_1845 = class_f.var_17cd;
@@ -3296,7 +3296,7 @@ final class Class_f
                 class_f.var_186d = array[4];
                 class_f.var_1875 = array[5];
                 if (array[6] != -1) {
-                    (class_f.var_189d = new GLLibPlayer(cGame.var_7ff4[class_f.var_1865], class_f.var_17cd, class_f.var_17d5)).SetAnim(array[6], -1);
+                    (class_f.var_189d = new GLLibPlayer(cGame.s_gameSprites[class_f.var_1865], class_f.var_17cd, class_f.var_17d5)).SetAnim(array[6], -1);
                 }
                 else if (class_f.var_1865 == 152 || class_f.var_1865 == 153 || class_f.var_1865 == 154 || class_f.var_1865 == 156 || class_f.var_1865 == 9) {
                     class_f.sub_a21a(50331648);
@@ -3323,7 +3323,7 @@ final class Class_f
                 class_f.var_1805 = array[5];
                 class_f.var_180d = array[6];
                 if (array.length > 7) {
-                    (class_f.var_189d = new GLLibPlayer(cGame.var_7ff4[class_f.var_1865], class_f.var_17cd, class_f.var_17d5)).SetAnim(array[7], array[8]);
+                    (class_f.var_189d = new GLLibPlayer(cGame.s_gameSprites[class_f.var_1865], class_f.var_17cd, class_f.var_17d5)).SetAnim(array[7], array[8]);
                 }
                 else {
                     class_f.sub_a21a(16777216);
@@ -3335,7 +3335,7 @@ final class Class_f
                 class_f.var_17cd = array[0];
                 class_f.var_17d5 = array[1];
                 class_f.var_17dd = array[2];
-                (class_f.var_189d = new GLLibPlayer(cGame.var_7ff4[144], class_f.var_17cd, class_f.var_17d5)).SetAnim(0, -1);
+                (class_f.var_189d = new GLLibPlayer(cGame.s_gameSprites[144], class_f.var_17cd, class_f.var_17d5)).SetAnim(0, -1);
                 class_f.sub_a21a(514);
                 class_f.var_1865 = 144;
                 class_f.var_186d = 0;
@@ -3392,7 +3392,7 @@ final class Class_f
                 n = cGame.var_68d4[this.var_1865 & 0x7FFF].sub_383d(this.var_186d);
             }
             else {
-                n = cGame.var_7ff4[this.var_1865].sub_383d(this.var_186d);
+                n = cGame.s_gameSprites[this.var_1865].sub_383d(this.var_186d);
             }
             if (n > 0) {
                 final int[] array = new int[4];
@@ -3405,7 +3405,7 @@ final class Class_f
                     cGame.var_68d4[this.var_1865 & 0x7FFF].sub_3882(this.var_186d, 0, array, 0);
                 }
                 else {
-                    cGame.var_7ff4[this.var_1865].sub_3882(this.var_186d, 0, array, 0);
+                    cGame.s_gameSprites[this.var_1865].sub_3882(this.var_186d, 0, array, 0);
                 }
                 final int n2 = this.var_17cd + array[0];
                 final int n3 = this.var_17d5 + array[1];
@@ -3626,17 +3626,17 @@ final class Class_f
     
     private void sub_aaf8(final int n, final int n2) {
         if (n > -1 && n2 > -1) {
-            int n3 = cGame.var_7ff4[0]._modules_w_short[0] & 0xFFFF;
-            int n4 = cGame.var_7ff4[0]._modules_h_short[0] & 0xFFFF;
+            int n3 = cGame.s_gameSprites[0]._modules_w_short[0] & 0xFFFF;
+            int n4 = cGame.s_gameSprites[0]._modules_h_short[0] & 0xFFFF;
             final int n5 = n & 0x7FFF;
-            (((n & 0x8000) != 0x0) ? cGame.var_68d4[n5] : cGame.var_7ff4[n5]).sub_3524(Class_f.var_1905, n2, this.var_17cd, this.var_17d5);
+            (((n & 0x8000) != 0x0) ? cGame.var_68d4[n5] : cGame.s_gameSprites[n5]).sub_3524(Class_f.var_1905, n2, this.var_17cd, this.var_17d5);
             if (cGame.s_zoomLevel != 100) {
                 Class_f.var_1905[0] = Class_f.var_1905[0] * cGame.s_zoomLevel / 100;
                 Class_f.var_1905[1] = Class_f.var_1905[1] * cGame.s_zoomLevel / 100;
                 Class_f.var_1905[2] = Class_f.var_1905[2] * cGame.s_zoomLevel / 100;
                 Class_f.var_1905[3] = Class_f.var_1905[3] * cGame.s_zoomLevel / 100;
-                n3 = (cGame.var_7ff4[158]._modules_w_short[0] & 0xFFFF);
-                n4 = (cGame.var_7ff4[158]._modules_h_short[0] & 0xFFFF);
+                n3 = (cGame.s_gameSprites[158]._modules_w_short[0] & 0xFFFF);
+                n4 = (cGame.s_gameSprites[158]._modules_h_short[0] & 0xFFFF);
             }
             Class_f.var_1905[0] = Class_f.var_1905[0] / n3 * n3;
             Class_f.var_1905[1] = Class_f.var_1905[1] / n4 * n4;

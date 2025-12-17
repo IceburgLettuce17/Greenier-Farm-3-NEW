@@ -1715,7 +1715,7 @@ public abstract class GLLib extends Canvas implements Runnable
         DrawRGB(graphics, array, 0, n, n2, n3, n4, n5, b, true, 0, -1, false);
     }
     
-    static final void sub_5aff() {
+    static final void Custom_ResetZoomLevel() {
         GLLib.var_1fe7 = 0;
         (GLLib.var_1fef = new int[20][])[13] = new int[7];
         GLLib.var_1fef[13][1] = 100;
@@ -1751,10 +1751,10 @@ public abstract class GLLib extends Canvas implements Runnable
         return GLLib.var_1fef[13][4];
     }
     
-    static final void sub_5c41(final int n) {
-        GLLib.var_1fef[13][1] = n;
-        GLLib.var_1fef[13][3] = n;
-        GLLib.var_1fef[13][4] = n;
+    static final void Custom_SetZoomLevel(final int level) {
+        GLLib.var_1fef[13][1] = level;
+        GLLib.var_1fef[13][3] = level;
+        GLLib.var_1fef[13][4] = level;
     }
     
     static final void sub_5c77(final boolean b) {
@@ -1879,8 +1879,6 @@ public abstract class GLLib extends Canvas implements Runnable
         }
         final int sub_5bfe = sub_5bfe();
         final int sub_5bbb = sub_5bbb();
-        final int[] array4 = sub_9c11;
-        final int[] array5 = array;
         final int n30 = var_200f;
         final int n31 = var_2017;
         final int n32 = n;
@@ -1900,8 +1898,8 @@ public abstract class GLLib extends Canvas implements Runnable
         int var_1fff = n32;
         final int n41 = n31;
         final int n42 = n30;
-        int[] sub_9f62 = array5;
-        int[] sub_9c13 = array4;
+        int[] sub_9f62 = array;
+        int[] sub_9c13 = sub_9c11;
         int n43 = 0;
         int n44 = n37 & 0xFFFFFFFE;
         if ((n37 & 0x4) != 0x0) {
@@ -2149,7 +2147,7 @@ public abstract class GLLib extends Canvas implements Runnable
             n5 = n6;
             n6 = n9;
         }
-        final int[] sub_39a6 = ASprite.InitTempBuffers(null);
+        final int[] sub_39a6 = ASprite.InitTempBuffer(null);
         final int n10 = (i < sub_39a6.length / n8) ? i : (sub_39a6.length / n8);
         final int n11 = n5 >>> 24;
         final int n12 = n5 >> 16 & 0xFF;

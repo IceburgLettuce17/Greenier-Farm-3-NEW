@@ -787,7 +787,7 @@ public final class cGame extends GLLib implements Class_b
 	private static boolean var_7fdc;
 	static int s_currencySeprType;
 	private static int s_languageCode;
-	static ASprite[] var_7ff4;
+	static ASprite[] s_gameSprites;
 	private static ASprite[] var_7ffc;
 	private static Class_f var_8004;
 	static Class_f var_800c;
@@ -1022,7 +1022,7 @@ public final class cGame extends GLLib implements Class_b
 							cGame.s_iapEnabled = false;
 						}
 						Init(true);
-						GLLib.sub_5aff();
+						GLLib.Custom_ResetZoomLevel();
 					}
 					if (substate == SS_GAMELOFT_PAUSER) {
 						// Seems to be for quitting something?
@@ -1641,7 +1641,7 @@ public final class cGame extends GLLib implements Class_b
 						if (cGame.var_741c && (cGame.var_68bc[7][43][17] > -1 && cGame.var_68bc[7][43][17] < 30
 								&& (cGame.var_68ec[cGame.var_68bc[7][43][17]] != null
 										&& cGame.var_68ec[cGame.var_68bc[7][43][17]].IsAnimOver()))) {
-							cGame.var_7ff4[138].PaintFrame(GLLib.g, 11, 555, 194, 0);
+							cGame.s_gameSprites[138].PaintFrame(GLLib.g, 11, 555, 194, 0);
 						}
 					}
 					b = false;
@@ -2904,13 +2904,13 @@ public final class cGame extends GLLib implements Class_b
 		} else if (cGame.s_zoomLevel == 50) {
 			n = 158;
 		}
-		GLLibPlayer.sub_3661(GLLib.s_screenWidth, GLLib.s_screenHeight, cGame.var_7ff4[n]._modules_w_short[0] & 0xFFFF,
-				cGame.var_7ff4[n]._modules_h_short[0] & 0xFFFF);
+		GLLibPlayer.Tileset_Init(GLLib.s_screenWidth, GLLib.s_screenHeight, cGame.s_gameSprites[n]._modules_w_short[0] & 0xFFFF,
+				cGame.s_gameSprites[n]._modules_h_short[0] & 0xFFFF);
 		if (cGame.s_mapData == null) {
 			cGame.s_mapData = GLLib.Pack_ReadData(0);
 		}
 		GLLibPlayer.sub_3837();
-		GLLibPlayer.Tileset_LoadLayer(0, GLLib.Pack_ReadData(2), cGame.s_mapData, GLLib.Pack_ReadData(1), cGame.var_7ff4[n], 0, 16, 2,
+		GLLibPlayer.Tileset_LoadLayer(0, GLLib.Pack_ReadData(2), cGame.s_mapData, GLLib.Pack_ReadData(1), cGame.s_gameSprites[n], 0, 16, 2,
 				2, true);
 		GLLib.Pack_FullyClose();
 	}
@@ -8287,7 +8287,7 @@ public final class cGame extends GLLib implements Class_b
 		sub_2c8b0(array3, array2);
 		array4[0] = array2[0] * cGame.s_zoomLevel / 100 - GLLibPlayer.sub_5b8b(0);
 		array4[1] = array2[1] * cGame.s_zoomLevel / 100 - GLLibPlayer.sub_5c0b(0);
-		(cGame.var_6d6c = new GLLibPlayer(cGame.var_7ff4[13], 0, 0)).SetAnim(2, 2);
+		(cGame.var_6d6c = new GLLibPlayer(cGame.s_gameSprites[13], 0, 0)).SetAnim(2, 2);
 		cGame.var_6d64 = 1;
 		if (cGame.s_zoomLevel == 100) {
 			cGame.var_800c.sub_6b0c(array2[0], array2[1], 1000);
@@ -10654,7 +10654,7 @@ public final class cGame extends GLLib implements Class_b
 			return;
 		}
 		final ASprite class_e;
-		if ((class_e = ((n3 < 1000) ? cGame.var_68d4[n3] : cGame.var_7ff4[n3 - 1000])) == null) {
+		if ((class_e = ((n3 < 1000) ? cGame.var_68d4[n3] : cGame.s_gameSprites[n3 - 1000])) == null) {
 			return;
 		}
 		int sub_3190 = 0;
@@ -10693,7 +10693,7 @@ public final class cGame extends GLLib implements Class_b
 					if (n10 < 50) {
 						n10 = 50;
 					}
-					class_e.sub_7d2b(GLLib.g, n4, array[2], array[3], n10);
+					class_e.PaintFrameWithZoom(GLLib.g, n4, array[2], array[3], n10);
 				} else if (n3 == 1 && n4 == 56) {
 					class_e.PaintFrame(GLLib.g, n4, array[2], array[3], 0);
 					if (cGame.var_7024 > 0) {
@@ -10722,7 +10722,7 @@ public final class cGame extends GLLib implements Class_b
 						if (array[21] != 0) {
 							sub_1edd0(array, array[2] + max, array[3] + sub_3189, 94);
 						} else {
-							class_e.sub_7d2b(GLLib.g, n4, array[2] + max, array[3] + sub_3189, 94);
+							class_e.PaintFrameWithZoom(GLLib.g, n4, array[2] + max, array[3] + sub_3189, 94);
 						}
 					} else if (array[21] != 0) {
 						sub_1edd0(array, array[2], array[3], 100);
@@ -10738,7 +10738,7 @@ public final class cGame extends GLLib implements Class_b
 						if (cGame.var_6fa4 == 2 && max > 1000 && (max - 1000 == 50 || max - 1000 == 51)) {
 							sub_3189 = 100;
 						}
-						final ASprite class_e2 = (max < 1000) ? cGame.var_68d4[max] : cGame.var_7ff4[max - 1000];
+						final ASprite class_e2 = (max < 1000) ? cGame.var_68d4[max] : cGame.s_gameSprites[max - 1000];
 						if (cGame.var_6fa4 == 2 && max > 1000
 								&& (cGame.var_722c == 1 || cGame.var_722c == 2 || cGame.var_722c == 4)) {
 							if (cGame.var_722c == 1) {
@@ -10748,19 +10748,19 @@ public final class cGame extends GLLib implements Class_b
 							} else {
 								sub_3189 = 90;
 							}
-							class_e2.sub_7d2b(GLLib.g, n17, n16, n, sub_3189);
+							class_e2.PaintFrameWithZoom(GLLib.g, n17, n16, n, sub_3189);
 						} else if ((max = Math.max(class_e2.sub_312c(n17), class_e2.sub_3189(n17))) < sub_3189) {
 							if (n2 == 0) {
 								class_e2.PaintFrame(GLLib.g, n17, n16, n, 0);
 							} else {
-								class_e2.sub_7d2b(GLLib.g, n17, n16, n, 94);
+								class_e2.PaintFrameWithZoom(GLLib.g, n17, n16, n, 94);
 							}
 						} else {
 							sub_3189 = sub_3189 * 100 / max;
 							if (n2 == 0) {
-								class_e2.sub_7d2b(GLLib.g, n17, n16, n, sub_3189);
+								class_e2.PaintFrameWithZoom(GLLib.g, n17, n16, n, sub_3189);
 							} else {
-								class_e2.sub_7d2b(GLLib.g, n17, n16, n, sub_3189 * 94 / 100);
+								class_e2.PaintFrameWithZoom(GLLib.g, n17, n16, n, sub_3189 * 94 / 100);
 							}
 						}
 					} else {
@@ -10811,7 +10811,7 @@ public final class cGame extends GLLib implements Class_b
 		return n3;
 	}
 
-	private static void sub_1edd0(short[] array, final int n, final int n2, final int n3) {
+	private static void sub_1edd0(short[] array, final int n, final int n2, final int zoom) {
 		final short n4 = array[5];
 		final short n5 = array[6];
 		if (cGame.var_68dc[n5] == null) {
@@ -10938,9 +10938,9 @@ public final class cGame extends GLLib implements Class_b
 			final byte[] var_68e4 = cGame.var_68e4;
 			final short n34 = n5;
 			var_68e4[n34] |= 0x1;
-			if (n3 != 100) {
+			if (zoom != 100) {
 				GLLib.sub_5b71();
-				GLLib.sub_5c41(n3);
+				GLLib.Custom_SetZoomLevel(zoom);
 				GLLib.DrawImage(GLLib.g, cGame.var_68dc[n5], GLLib.s_screenHeight - n2 - sub_1ed28(n4, n5), n,
 						20, false);
 				GLLib.sub_5b96();
@@ -10955,7 +10955,7 @@ public final class cGame extends GLLib implements Class_b
 		n = cGame.var_68bc[1][n2][5];
 		n2 = cGame.var_68bc[1][n2][6];
 		sub_30ea = cGame.var_68bc[1][sub_30ea][6];
-		final ASprite class_e = (n < 1000) ? cGame.var_68d4[n] : cGame.var_7ff4[n - 1000];
+		final ASprite class_e = (n < 1000) ? cGame.var_68d4[n] : cGame.s_gameSprites[n - 1000];
 		int n4 = Integer.MIN_VALUE;
 		final short n5 = class_e.var_faf[sub_30ea];
 		final int sub_6494 = class_e.sub_6494(sub_30ea);
@@ -10982,7 +10982,7 @@ public final class cGame extends GLLib implements Class_b
 					&& cGame.var_68bc[var_6fa4][i][18] == 1 && cGame.var_68bc[var_6fa4][i][10] == 1) {
 				final short n = cGame.var_68bc[var_6fa4][i][5];
 				final short n2 = cGame.var_68bc[var_6fa4][i][6];
-				final ASprite class_e = (n < 1000) ? cGame.var_68d4[n] : cGame.var_7ff4[n - 1000];
+				final ASprite class_e = (n < 1000) ? cGame.var_68d4[n] : cGame.s_gameSprites[n - 1000];
 				short n3 = cGame.var_68bc[var_6fa4][i][2];
 				short n4 = cGame.var_68bc[var_6fa4][i][3];
 				if (var_6fa4 == 2) {
@@ -11088,7 +11088,7 @@ public final class cGame extends GLLib implements Class_b
 							final short n8;
 							final ASprite class_e;
 							if ((class_e = (((n8 = n6) < 1000) ? cGame.var_68d4[n8]
-									: cGame.var_7ff4[n8 - 1000])) == null || cGame.var_68bc[n][k][6] < 0) {
+									: cGame.s_gameSprites[n8 - 1000])) == null || cGame.var_68bc[n][k][6] < 0) {
 								continue;
 							}
 							sub_31e6 = class_e.sub_31e6(n7);
@@ -13038,7 +13038,7 @@ public final class cGame extends GLLib implements Class_b
 				final ASprite class_e;
 				if (cGame.var_68bc[n2][i][0] == 205 && cGame.var_68bc[n2][i][18] == 1
 						&& (class_e = (((n8 = cGame.var_68bc[n2][i][5]) < 1000) ? cGame.var_68d4[n8]
-								: cGame.var_7ff4[n8 - 1000])) != null) {
+								: cGame.s_gameSprites[n8 - 1000])) != null) {
 					final short n9 = cGame.var_68bc[n2][i][6];
 					final short n10 = cGame.var_68bc[n2][i][2];
 					final short n11 = cGame.var_68bc[n2][i][3];
@@ -13247,7 +13247,7 @@ public final class cGame extends GLLib implements Class_b
 		if (n5 < 30) {
 			short n6 = cGame.var_68bc[n][n2][5];
 			(cGame.var_68ec[n5] = new GLLibPlayer(
-					(n6 < 1000) ? cGame.var_68d4[n6] : cGame.var_7ff4[n6 - 1000], 0,
+					(n6 < 1000) ? cGame.var_68d4[n6] : cGame.s_gameSprites[n6 - 1000], 0,
 					0)).SetAnim(anim, nbLoop);
 			cGame.var_68bc[n][n2][17] = (short) n5;
 		}
@@ -13671,7 +13671,7 @@ public final class cGame extends GLLib implements Class_b
 			if (cGame.var_6aac != null) {
 				cGame.var_6aac.var_18bd = true;
 				if (cGame.var_6b5c == null) {
-					(cGame.var_6b5c = new GLLibPlayer(cGame.var_7ff4[3], cGame.var_6aac.var_17cd,
+					(cGame.var_6b5c = new GLLibPlayer(cGame.s_gameSprites[3], cGame.var_6aac.var_17cd,
 							cGame.var_6aac.var_17d5)).SetAnim(2, -1);
 				} else {
 					cGame.var_6b5c.SetPos(cGame.var_6aac.var_17cd, cGame.var_6aac.var_17d5);
@@ -13736,14 +13736,14 @@ public final class cGame extends GLLib implements Class_b
 					final int var_1865;
 					final int n = (var_1865 = cGame.var_6aac.var_1865) & 0x7FFF;
 					final ASprite class_e;
-					n2 = (class_e = (((var_1865 & 0x8000) != 0x0) ? cGame.var_68d4[n] : cGame.var_7ff4[n]))
+					n2 = (class_e = (((var_1865 & 0x8000) != 0x0) ? cGame.var_68d4[n] : cGame.s_gameSprites[n]))
 							.sub_312c(cGame.var_6aac.var_186d) >> 1;
 					n3 = class_e.sub_3189(cGame.var_6aac.var_186d) >> 1;
 				} else {
 					final int var_187d;
 					final int n4 = (var_187d = cGame.var_6aac.var_187d) & 0x7FFF;
 					final ASprite class_e2;
-					n2 = (class_e2 = (((var_187d & 0x8000) != 0x0) ? cGame.var_68d4[n4] : cGame.var_7ff4[n4]))
+					n2 = (class_e2 = (((var_187d & 0x8000) != 0x0) ? cGame.var_68d4[n4] : cGame.s_gameSprites[n4]))
 							.sub_312c(cGame.var_6aac.var_1885) >> 1;
 					n3 = class_e2.sub_3189(cGame.var_6aac.var_1885) >> 1;
 				}
@@ -13956,7 +13956,7 @@ public final class cGame extends GLLib implements Class_b
 				return;
 			}
 			cGame.var_6b5c.SetPos(cGame.var_6aac.var_17ed, cGame.var_6aac.var_17f5);
-			cGame.var_6b5c.setZoomLevel(cGame.s_zoomLevel);
+			cGame.var_6b5c.SetZoomLevel(cGame.s_zoomLevel);
 			cGame.var_6b5c.Render();
 			GLLib.sub_5c77(false);
 		}
@@ -14273,7 +14273,7 @@ public final class cGame extends GLLib implements Class_b
 			class_f.var_169d = (short) class_h.m_dataVars[n2][29];
 			class_f.var_16a5 = (short) class_h.m_dataVars[n2][30];
 			final ASprite class_e;
-			final short n3 = (class_e = cGame.var_7ff4[class_h.m_dataVars[n2][31]]).var_faf[class_f.var_169d];
+			final short n3 = (class_e = cGame.s_gameSprites[class_h.m_dataVars[n2][31]]).var_faf[class_f.var_169d];
 			class_f.var_16ad = class_e.sub_30ea(n3);
 			class_f.var_16b5 = class_e.sub_310b(n3);
 			final short n4 = class_e.var_faf[class_f.var_16a5];
@@ -16348,16 +16348,16 @@ public final class cGame extends GLLib implements Class_b
 
 	private static void sub_29ee2() {
 		if (cGame.var_6d6c != null && !cGame.var_6d6c.IsAnimOver()) {
-			cGame.var_6d6c.setZoomLevel(cGame.s_zoomLevel);
+			cGame.var_6d6c.SetZoomLevel(cGame.s_zoomLevel);
 			cGame.var_6d6c.Render();
 		}
 		if (cGame.var_6df4 && cGame.var_6dec[cGame.var_6d54] != null) {
-			final int var_17ed = cGame.var_6dec[cGame.var_6d54].var_17ed;
-			final int var_17f5 = cGame.var_6dec[cGame.var_6d54].var_17f5;
+			final int x = cGame.var_6dec[cGame.var_6d54].var_17ed;
+			final int y = cGame.var_6dec[cGame.var_6d54].var_17f5;
 			if (cGame.s_zoomLevel == 100) {
-				cGame.var_7ff4[143].PaintFrame(GLLib.g, 0, var_17ed, var_17f5, 0);
+				cGame.s_gameSprites[143].PaintFrame(GLLib.g, 0, x, y, 0);
 			} else {
-				cGame.var_7ff4[143].sub_7d2b(GLLib.g, 0, var_17ed, var_17f5, cGame.s_zoomLevel);
+				cGame.s_gameSprites[143].PaintFrameWithZoom(GLLib.g, 0, x, y, cGame.s_zoomLevel);
 			}
 		}
 		cGame.var_6df4 = false;
@@ -18507,9 +18507,9 @@ public final class cGame extends GLLib implements Class_b
 		cGame.var_711c = 0;
 		cGame.var_7124 = 0;
 		cGame.var_70f4 = 0;
-		if (cGame.var_7ff4[81] != null) {
-			cGame.var_7ff4[81].unload();
-			cGame.var_7ff4[81] = null;
+		if (cGame.s_gameSprites[81] != null) {
+			cGame.s_gameSprites[81].unload();
+			cGame.s_gameSprites[81] = null;
 		}
 		sub_d500(0, 101, 65535, 1, 0, 0, -1);
 		sub_d2e8(0, 3);
@@ -18578,7 +18578,7 @@ public final class cGame extends GLLib implements Class_b
 				Class_f.sub_545c(0, cGame.var_7114[cGame.var_70ec][i * 6],
 						cGame.var_7114[cGame.var_70ec][i * 6 + 1], array4, 1);
 				if (array4[0].var_189d == null) {
-					array4[0].var_189d = new GLLibPlayer(cGame.var_7ff4[array4[0].var_1865], array4[0].var_17ed,
+					array4[0].var_189d = new GLLibPlayer(cGame.s_gameSprites[array4[0].var_1865], array4[0].var_17ed,
 							array4[0].var_17f5);
 				}
 				array4[0].var_189d.SetAnim(cGame.var_7114[cGame.var_70ec][i * 6 + 2],
@@ -18636,7 +18636,7 @@ public final class cGame extends GLLib implements Class_b
 			case 22: {
 				final Class_f sub_53db3;
 				if ((sub_53db3 = Class_f.sub_53db(0, cGame.var_7114[cGame.var_70ec][i * 6])).var_189d == null) {
-					sub_53db3.var_189d = new GLLibPlayer(cGame.var_7ff4[sub_53db3.var_1865], sub_53db3.var_17ed,
+					sub_53db3.var_189d = new GLLibPlayer(cGame.s_gameSprites[sub_53db3.var_1865], sub_53db3.var_17ed,
 							sub_53db3.var_17f5);
 				}
 				sub_53db3.var_189d.SetAnim(cGame.var_7114[cGame.var_70ec][i * 6 + 1],
@@ -19018,7 +19018,7 @@ public final class cGame extends GLLib implements Class_b
 		cGame.var_7fdc = false;
 		cGame.var_807c = 0;
 		cGame.var_8084 = 0;
-		cGame.var_7ff4 = new ASprite[159];
+		cGame.s_gameSprites = new ASprite[159];
 		cGame.var_7ffc = new ASprite[6];
 		ASprite.InitCachePool(cGame.var_7c04[cGame.var_7c04.length - 1][0]);
 		for (int n7 = 0; n7 < cGame.var_7c04.length - 1; ++n7) {
@@ -19026,7 +19026,7 @@ public final class cGame extends GLLib implements Class_b
 		}
 		sub_1c6ac();
 		cGame.var_689c = new ASprite[3][];
-		cGame.var_689c[0] = cGame.var_7ff4;
+		cGame.var_689c[0] = cGame.s_gameSprites;
 		cGame.var_689c[1] = cGame.var_68d4;
 		cGame.var_689c[2] = cGame.var_7ffc;
 		cGame.var_68a4 = new int[3];
@@ -20688,7 +20688,7 @@ public final class cGame extends GLLib implements Class_b
 		for (int n = (cGame.var_746c - cGame.var_7484 >= 5) ? 5 : (cGame.var_746c - cGame.var_7484),
 				i = 0; i <= n; ++i) {
 			if (cGame.var_7484 + i < cGame.var_747c && i < 5 && cGame.var_74c4[i + cGame.var_7484]) {
-				cGame.var_7ff4[138].PaintFrame(GLLib.g, 11, cGame.var_68bc[22][25 + i * 15][2] - 100,
+				cGame.s_gameSprites[138].PaintFrame(GLLib.g, 11, cGame.var_68bc[22][25 + i * 15][2] - 100,
 						cGame.var_68bc[22][25 + i * 15][3] - 50, 0);
 			}
 		}
@@ -22201,7 +22201,7 @@ public final class cGame extends GLLib implements Class_b
 				Class_f.sub_6bd7();
 				cGame.var_800c.sub_6b0c(array[0].var_17cd, array[0].var_17d5, 1000);
 				final ASprite class_e;
-				final short n24 = (class_e = cGame.var_7ff4[128]).var_faf[5];
+				final short n24 = (class_e = cGame.s_gameSprites[128]).var_faf[5];
 				if (cGame.var_8004 != null) {
 					cGame.var_8004.var_17cd = array[0].var_17cd + class_e.sub_30ea(n24);
 					cGame.var_8004.var_17d5 = array[0].var_17d5 + class_e.sub_310b(n24);
@@ -24934,7 +24934,7 @@ public final class cGame extends GLLib implements Class_b
 		n = n3;
 		sub_237ff = cGame.var_68bc[4][1][5];
 		final short n5 = cGame.var_68bc[4][1][6];
-		ASprite class_e = sub_237ff < 1000 ? cGame.var_68d4[sub_237ff] : cGame.var_7ff4[sub_237ff - 1000];
+		ASprite class_e = sub_237ff < 1000 ? cGame.var_68d4[sub_237ff] : cGame.s_gameSprites[sub_237ff - 1000];
 		final short n6 = class_e.var_faf[n5];
 		final int sub_6494 = class_e.sub_6494(n5);
 		final int n7 = class_e._modules_w_short[class_e.GetFrameModule(n5, 0)] & 0xFFFF;
@@ -26129,7 +26129,7 @@ public final class cGame extends GLLib implements Class_b
 			sub_cd28(cGame.var_711c + 1);
 			GLLib.Pack_Open("/5");
 			if (cGame.s_currencySeprType != 7) {
-				cGame.var_7ff4[81] = loadSprite(81, 1, true, false, 0, -1);
+				cGame.s_gameSprites[81] = loadSprite(81, 1, true, false, 0, -1);
 			}
 			GLLib.Pack_FullyClose();
 			sub_2f549();
@@ -29743,7 +29743,7 @@ public final class cGame extends GLLib implements Class_b
 
 	protected final void UnInit() {
 		super.UnInit();
-		cGame.var_7ff4 = null;
+		cGame.s_gameSprites = null;
 		cGame.var_7ffc = null;
 		GLLib.s_display = null;
 		GLLib.s_gllib_instance = null;
