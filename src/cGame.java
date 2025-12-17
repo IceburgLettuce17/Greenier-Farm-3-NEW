@@ -10855,7 +10855,7 @@ public final class cGame extends GLLib implements Class_b
 				if (class_e._modules_data != null) {
 					array3 = (int[]) class_e.DecodeImage(class_e.GetFrameModule(n7, n17));
 				} else {
-					class_e._module_image_imageAA[0][class_e.GetFrameModule(n7, n17)].getRGB(array3, 0, n10, 0, 0, n10, n11);
+					class_e._modules_image[0][class_e.GetFrameModule(n7, n17)].getRGB(array3, 0, n10, 0, 0, n10, n11);
 				}
 				for (int i = 0; i < n11; ++i) {
 					for (int j = 0; j < n10; ++j) {
@@ -10910,7 +10910,7 @@ public final class cGame extends GLLib implements Class_b
 				if (class_e._modules_data != null) {
 					array4 = (int[]) class_e.DecodeImage(class_e.GetFrameModule(n7, n21));
 				} else {
-					class_e._module_image_imageAA[0][class_e.GetFrameModule(n7, n21)].getRGB(array4, 0, n29, 0, 0, n29, n30);
+					class_e._modules_image[0][class_e.GetFrameModule(n7, n21)].getRGB(array4, 0, n29, 0, 0, n29, n30);
 				}
 				for (int k = 0; k < n27; ++k) {
 					for (int l = 0; l < n28; ++l) {

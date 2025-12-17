@@ -53,7 +53,7 @@ public final class ASprite
     private int[] var_10bf;
     static int s_screenHeight;
     static int s_screenWidth;
-    GLLibImage[][] _module_image_imageAA;
+    GLLibImage[][] _modules_image;
     private GLLibImage[][][] var_10df;
     private static boolean var_10e7;
     private static int[] midp2_flags;
@@ -124,15 +124,15 @@ public final class ASprite
             }
             this.var_1077 = null;
         }
-        if (this._module_image_imageAA != null) {
-            for (int k = 0; k < this._module_image_imageAA.length; ++k) {
-                this._module_image_imageAA[k] = null;
+        if (this._modules_image != null) {
+            for (int k = 0; k < this._modules_image.length; ++k) {
+                this._modules_image[k] = null;
             }
-            this._module_image_imageAA = null;
+            this._modules_image = null;
         }
     }
     
-    final void Load(final byte[] file, int n) {
+    final void Load(final byte[] file, int offset_) {
         if (file == null) {
             return;
         }
@@ -142,13 +142,13 @@ public final class ASprite
             }
             this._bs_flags = (file[2] & 0xFF) + ((file[3] & 0xFF) << 8) + ((file[4] & 0xFF) << 16) + ((file[5] & 0xFF) << 24);
             
-            int n2 = 6;
+            int offset2 = 6;
             
             final int n3 = 6;
-            ++n2;
+            ++offset2;
             final int n4 = file[n3] & 0xFF;
             final int n5 = 7;
-            ++n2;
+            ++offset2;
             this._nModules = (short)(n4 + ((file[n5] & 0xFF) << 8));
             if (this._nModules > 0) {
                 this._modules_w_short = new short[this._nModules];
@@ -165,77 +165,77 @@ public final class ASprite
                     boolean bLoadAModuleArc = false;
                     boolean bLoadAModuleTriangle = false;
                     boolean a = false;
-                    if ((file[n2] & 0xFF) == 0x0) {
-                        ++n2;
+                    if ((file[offset2] & 0xFF) == 0x0) {
+                        ++offset2;
                         bLoadAModuleColor = false;
                         bLoadAModuleSize = true;
                         if ((this._bs_flags & 0x4) != 0x0) {
-                            this._module_types[i] = file[n2++];
+                            this._module_types[i] = file[offset2++];
                         }
                     }
-                    else if ((file[n2] & 0xFF) == 0xFF) {
-                        ++n2;
+                    else if ((file[offset2] & 0xFF) == 0xFF) {
+                        ++offset2;
                         this.sub_2f12(this._nModules);
                         this._module_types_2[i] = 1;
                         bLoadAModuleColor = true;
                         bLoadAModuleSize = true;
                     }
-                    else if ((file[n2] & 0xFF) == 0xFE) {
-                        ++n2;
+                    else if ((file[offset2] & 0xFF) == 0xFE) {
+                        ++offset2;
                         this.sub_2f12(this._nModules);
                         this._module_types_2[i] = 2;
                         bLoadAModuleColor = true;
                         bLoadAModuleSize = true;
                     }
-                    else if ((file[n2] & 0xFF) == 0xFD) {
-                        ++n2;
+                    else if ((file[offset2] & 0xFF) == 0xFD) {
+                        ++offset2;
                         this.sub_2f12(this._nModules);
                         this._module_types_2[i] = 5;
                         bLoadAModuleColor = false;
                         bLoadAModuleSize = true;
                     }
-                    else if ((file[n2] & 0xFF) == 0xFC) {
-                        ++n2;
+                    else if ((file[offset2] & 0xFF) == 0xFC) {
+                        ++offset2;
                         this.sub_2f12(this._nModules);
                         this._module_types_2[i] = 3;
                         bLoadAModuleColor = true;
                         bLoadAModuleSize = true;
                         bLoadAModuleArc = true;
                     }
-                    else if ((file[n2] & 0xFF) == 0xFB) {
-                        ++n2;
+                    else if ((file[offset2] & 0xFF) == 0xFB) {
+                        ++offset2;
                         this.sub_2f12(this._nModules);
                         this._module_types_2[i] = 4;
                         bLoadAModuleColor = true;
                         bLoadAModuleSize = true;
                         bLoadAModuleArc = true;
                     }
-                    else if ((file[n2] & 0xFF) == 0xFA) {
-                        ++n2;
+                    else if ((file[offset2] & 0xFF) == 0xFA) {
+                        ++offset2;
                         this.sub_2f12(this._nModules);
                         this._module_types_2[i] = 6;
                         bLoadAModuleColor = true;
                         bLoadAModuleSize = false;
                         bLoadAModuleTriangle = true;
                     }
-                    else if ((file[n2] & 0xFF) == 0xF9) {
-                        ++n2;
+                    else if ((file[offset2] & 0xFF) == 0xF9) {
+                        ++offset2;
                         this.sub_2f12(this._nModules);
                         this._module_types_2[i] = 7;
                         bLoadAModuleColor = true;
                         bLoadAModuleSize = false;
                         bLoadAModuleTriangle = true;
                     }
-                    else if ((file[n2] & 0xFF) == 0xF8) {
-                        ++n2;
+                    else if ((file[offset2] & 0xFF) == 0xF8) {
+                        ++offset2;
                         this.sub_2f12(this._nModules);
                         this._module_types_2[i] = 8;
                         bLoadAModuleColor = true;
                         bLoadAModuleSize = true;
                         bLoadAModuleTriangle = false;
                     }
-                    else if ((file[n2] & 0xFF) == 0xF7) {
-                        ++n2;
+                    else if ((file[offset2] & 0xFF) == 0xF7) {
+                        ++offset2;
                         this.sub_2f12(this._nModules);
                         this._module_types_2[i] = 9;
                         bLoadAModuleColor = true;
@@ -244,29 +244,29 @@ public final class ASprite
                         bLoadAModuleTriangle = false;
                     }
                     if (bLoadAModuleColor) {
-                        this._module_colors_int[i] = (file[n2++] & 0xFF) + ((file[n2++] & 0xFF) << 8) + ((file[n2++] & 0xFF) << 16) + ((file[n2++] & 0xFF) << 24);
+                        this._module_colors_int[i] = (file[offset2++] & 0xFF) + ((file[offset2++] & 0xFF) << 8) + ((file[offset2++] & 0xFF) << 16) + ((file[offset2++] & 0xFF) << 24);
                     }
                     if (a) {
                         if (tmpExtraInfo == null) {
                             tmpExtraInfo = new short[this._nModules][];
                         }
                         final short[] array3 = new short[3];
-                        final int n8 = (file[n2++] & 0xFF) + ((file[n2++] & 0xFF) << 8) + ((file[n2++] & 0xFF) << 16) + ((file[n2++] & 0xFF) << 24);
+                        final int n8 = (file[offset2++] & 0xFF) + ((file[offset2++] & 0xFF) << 8) + ((file[offset2++] & 0xFF) << 16) + ((file[offset2++] & 0xFF) << 24);
                         array3[0] = (short)n8;
                         array3[1] = (short)(n8 >> 16);
-                        array3[2] = file[n2++];
+                        array3[2] = file[offset2++];
                         tmpExtraInfo[i] = array3;
                         ++tmpExtraInfoCount;
                         tmpExtraInfoSize += 3;
                     }
                     if (bLoadAModuleSize) {
                         if ((this._bs_flags & 0x10) == 0x0) {
-                            this._modules_w_short[i] = (short)(file[n2++] & 0xFF);
-                            this._modules_h_short[i] = (short)(file[n2++] & 0xFF);
+                            this._modules_w_short[i] = (short)(file[offset2++] & 0xFF);
+                            this._modules_h_short[i] = (short)(file[offset2++] & 0xFF);
                         }
                         else {
-                            this._modules_w_short[i] = (short)((file[n2++] & 0xFF) + ((file[n2++] & 0xFF) << 8));
-                            this._modules_h_short[i] = (short)((file[n2++] & 0xFF) + ((file[n2++] & 0xFF) << 8));
+                            this._modules_w_short[i] = (short)((file[offset2++] & 0xFF) + ((file[offset2++] & 0xFF) << 8));
+                            this._modules_h_short[i] = (short)((file[offset2++] & 0xFF) + ((file[offset2++] & 0xFF) << 8));
                         }
                     }
                     if (bLoadAModuleArc) {
@@ -274,8 +274,8 @@ public final class ASprite
                             tmpExtraInfo = new short[this._nModules][];
                         }
                         final short[] aShort;
-                        (aShort = new short[2])[0] = (short)((file[n2++] & 0xFF) + ((file[n2++] & 0xFF) << 8));
-                        aShort[1] = (short)((file[n2++] & 0xFF) + ((file[n2++] & 0xFF) << 8));
+                        (aShort = new short[2])[0] = (short)((file[offset2++] & 0xFF) + ((file[offset2++] & 0xFF) << 8));
+                        aShort[1] = (short)((file[offset2++] & 0xFF) + ((file[offset2++] & 0xFF) << 8));
                         tmpExtraInfo[i] = aShort;
                         ++tmpExtraInfoCount;
                         tmpExtraInfoSize += 2;
@@ -285,10 +285,10 @@ public final class ASprite
                             tmpExtraInfo = new short[this._nModules][];
                         }
                         final short[] aShort;
-                        (aShort = new short[4])[0] = (short)((file[n2++] & 0xFF) + ((file[n2++] & 0xFF) << 8));
-                        aShort[1] = (short)((file[n2++] & 0xFF) + ((file[n2++] & 0xFF) << 8));
-                        aShort[2] = (short)((file[n2++] & 0xFF) + ((file[n2++] & 0xFF) << 8));
-                        aShort[3] = (short)((file[n2++] & 0xFF) + ((file[n2++] & 0xFF) << 8));
+                        (aShort = new short[4])[0] = (short)((file[offset2++] & 0xFF) + ((file[offset2++] & 0xFF) << 8));
+                        aShort[1] = (short)((file[offset2++] & 0xFF) + ((file[offset2++] & 0xFF) << 8));
+                        aShort[2] = (short)((file[offset2++] & 0xFF) + ((file[offset2++] & 0xFF) << 8));
+                        aShort[3] = (short)((file[offset2++] & 0xFF) + ((file[offset2++] & 0xFF) << 8));
                         tmpExtraInfo[i] = aShort;
                         ++tmpExtraInfoCount;
                         tmpExtraInfoSize += 4;
@@ -326,9 +326,9 @@ public final class ASprite
                     }
                 }
             }
-            n = n2;
+            offset_ = offset2;
             
-            int n13 = n;
+            int n13 = offset_;
 
             final short n14;
             if ((n14 = (short)((file[n13++] & 0xFF) + ((file[n13++] & 0xFF) << 8))) > 0) {
@@ -359,9 +359,9 @@ public final class ASprite
                     this.var_fef[n15] = file[n13++];
                 }
             }
-            n = n13;
+            offset_ = n13;
 
-            int n16 = n;
+            int n16 = offset_;
             
             if ((this._bs_flags & 0x8000) != 0x0) {
                 final short n17 = (short)((file[n16++] & 0xFF) + ((file[n16++] & 0xFF) << 8));
@@ -427,8 +427,8 @@ public final class ASprite
                     }
                 }
             }
-            n = n16;
-            int n26 = n;
+            offset_ = n16;
+            int n26 = offset_;
             final short nModules;
             if ((nModules = (short)((file[n26++] & 0xFF) + ((file[n26++] & 0xFF) << 8))) > 0) {
                 this._aframes = new byte[nModules];
@@ -456,9 +456,9 @@ public final class ASprite
                     this.var_1047[i] = file[n26++];
                 }
             }
-            n = n26;
+            offset_ = n26;
             
-            int offset = n;
+            int offset = offset_;
             final short nAnims = (short)((file[offset++] & 0xFF) + ((file[offset++] & 0xFF) << 8));
             if (nAnims > 0) {
                 this._anims_naf = new byte[nAnims];
@@ -468,7 +468,7 @@ public final class ASprite
                     this._anims_af_start[i] = (short)((file[offset++] & 0xFF) + ((file[offset++] & 0xFF) << 8));
                 }
             }
-            n = offset;
+            offset_ = offset;
             if (this._nModules <= 0) {
                 if (ASprite.useSystemGc) {
                     System.gc();
@@ -477,7 +477,7 @@ public final class ASprite
             }
             if ((this._bs_flags & 0x1000000) != 0x0) {
                 final ASprite this11 = this;
-                int n32 = n;
+                int n32 = offset_;
                 final ASprite this12 = this11;
                 if ((this11._bs_flags & 0x1000000) != 0x0 && n32 < file.length) {
                     final short n33 = (short)((file[n32++] & 0xFF) + ((file[n32++] & 0xFF) << 8));
@@ -620,25 +620,25 @@ public final class ASprite
             if ((this._bs_flags & 0x1000) != 0x0) {
                 final int sub_3717;
                 if ((sub_3717 = this.GetFrames()) > 0) {
-                    n = 0;
+                    offset_ = 0;
                     if ((this._bs_flags & 0x400) == 0x0 && (this.var_10a7 & 0x4) == 0x0) {
                         this._frames_rc = new byte[sub_3717 << 2];
                         for (int n68 = 0; n68 < sub_3717; ++n68) {
                             this.sub_33cb(ASprite.s_rc, n68);
-                            this._frames_rc[n++] = (byte)ASprite.s_rc[0];
-                            this._frames_rc[n++] = (byte)ASprite.s_rc[1];
-                            this._frames_rc[n++] = (byte)(ASprite.s_rc[2] - ASprite.s_rc[0]);
-                            this._frames_rc[n++] = (byte)(ASprite.s_rc[3] - ASprite.s_rc[1]);
+                            this._frames_rc[offset_++] = (byte)ASprite.s_rc[0];
+                            this._frames_rc[offset_++] = (byte)ASprite.s_rc[1];
+                            this._frames_rc[offset_++] = (byte)(ASprite.s_rc[2] - ASprite.s_rc[0]);
+                            this._frames_rc[offset_++] = (byte)(ASprite.s_rc[3] - ASprite.s_rc[1]);
                         }
                     }
                     else {
                         this._frames_rc_short = new short[sub_3717 << 2];
                         for (int n69 = 0; n69 < sub_3717; ++n69) {
                             this.sub_33cb(ASprite.s_rc, n69);
-                            this._frames_rc_short[n++] = (short)ASprite.s_rc[0];
-                            this._frames_rc_short[n++] = (short)ASprite.s_rc[1];
-                            this._frames_rc_short[n++] = (short)(ASprite.s_rc[2] - ASprite.s_rc[0]);
-                            this._frames_rc_short[n++] = (short)(ASprite.s_rc[3] - ASprite.s_rc[1]);
+                            this._frames_rc_short[offset_++] = (short)ASprite.s_rc[0];
+                            this._frames_rc_short[offset_++] = (short)ASprite.s_rc[1];
+                            this._frames_rc_short[offset_++] = (short)(ASprite.s_rc[2] - ASprite.s_rc[0]);
+                            this._frames_rc_short[offset_++] = (short)(ASprite.s_rc[3] - ASprite.s_rc[1]);
                         }
                     }
                 }
@@ -946,7 +946,7 @@ public final class ASprite
     }
     
     final boolean sub_3a3a(final int n) {
-        return n >= 0 && this._module_image_imageAA != null && n < this._module_image_imageAA.length && this._module_image_imageAA[n] != null;
+        return n >= 0 && this._modules_image != null && n < this._modules_image.length && this._modules_image[n] != null;
     }
     
     final void sub_3aab(final int n, final int n2) {
@@ -1021,10 +1021,10 @@ public final class ASprite
     
     final void SetPool(int poolIndex) {
         this._cur_pool = poolIndex;
-        if (this._module_image_imageAA == null) {
-            this._module_image_imageAA = new GLLibImage[this._palettes][];
+        if (this._modules_image == null) {
+            this._modules_image = new GLLibImage[this._palettes][];
             for (poolIndex = 0; poolIndex < this._palettes; ++poolIndex) {
-                this._module_image_imageAA[poolIndex] = new GLLibImage[this._nModules];
+                this._modules_image[poolIndex] = new GLLibImage[this._nModules];
             }
         }
     }
@@ -1037,26 +1037,26 @@ public final class ASprite
                     final int n = (n2 = ASprite._poolCacheStack[this._cur_pool][i]) >> 10;
                     final int n3 = n2 & 0x3FF;
                     ASprite._poolCacheSprites[this._cur_pool][i] = null;
-                    this._module_image_imageAA[n][n3] = null;
+                    this._modules_image[n][n3] = null;
                 }
             }
         }
     }
     
     private void UpdatePoolCache(int module, final Object cached) {
-        if (this._cur_pool >= 0 && this._module_image_imageAA[this._crt_pal][module] == null) {
+        if (this._cur_pool >= 0 && this._modules_image[this._crt_pal][module] == null) {
             final int cur_index = ASprite._poolCacheStackIndex[this._cur_pool];
             short img_index = ASprite._poolCacheStack[this._cur_pool][cur_index];
             final int img_pal = img_index >> 10;
             final int img_module = img_index & 0x3FF;
 
             if (img_index >= 0 && _poolCacheSprites[this._cur_pool][cur_index] != null) {
-                this._module_image_imageAA[img_pal][img_module] = null;
+                this._modules_image[img_pal][img_module] = null;
             }
             ASprite._poolCacheStack[this._cur_pool][cur_index] = (short)((module & 0x3FF) + (this._crt_pal << 10));
             ASprite._poolCacheSprites[this._cur_pool][cur_index] = this;
             ASprite._poolCacheStackIndex[this._cur_pool] = (ASprite._poolCacheStackIndex[this._cur_pool] + 1) % ASprite._poolCacheStackMax[this._cur_pool];
-            this._module_image_imageAA[this._crt_pal][module] = (GLLibImage)cached;
+            this._modules_image[this._crt_pal][module] = (GLLibImage)cached;
         }
     }
     
@@ -1725,11 +1725,11 @@ public final class ASprite
     }
     
     final void BuildCacheImages(final int pal, int m1, int m2, int pal_copy) {
-        if (this._module_image_imageAA == null) {
-            this._module_image_imageAA = new GLLibImage[this._palettes][];
+        if (this._modules_image == null) {
+            this._modules_image = new GLLibImage[this._palettes][];
         }
-        if (this._module_image_imageAA[pal] == null) {
-            this._module_image_imageAA[pal] = new GLLibImage[this._nModules];
+        if (this._modules_image[pal] == null) {
+            this._modules_image[pal] = new GLLibImage[this._nModules];
         }
         if (this._nModules == 0) {
             return;
@@ -1768,7 +1768,7 @@ public final class ASprite
                                 break;
                             }
                         }
-                        this._module_image_imageAA[pal][n5] = GLLibImage.createRGBImage(sub_9c11(array3, n6, n7, 4, null), n6, n7, b);
+                        this._modules_image[pal][n5] = GLLibImage.createRGBImage(sub_9c11(array3, n6, n7, 4, null), n6, n7, b);
                     }
                 }
                 ++m1;
@@ -1791,7 +1791,7 @@ public final class ASprite
         }
         for (int numModules = this.GetFModules(frame), m = 0; m < numModules; ++m) {
             final int moduleId = this.GetFrameModule(frame, m);
-            if (((this._module_image_imageAA != null && palette >= 0 && palette < this._module_image_imageAA.length && this._module_image_imageAA[palette] != null && moduleId >= 0 && moduleId < this._module_image_imageAA[palette].length) ? this._module_image_imageAA[palette][moduleId] : null) == null) {
+            if (((this._modules_image != null && palette >= 0 && palette < this._modules_image.length && this._modules_image[palette] != null && moduleId >= 0 && moduleId < this._modules_image[palette].length) ? this._modules_image[palette][moduleId] : null) == null) {
                 this.BuildCacheImages(palette, moduleId, moduleId, -1);
             }
         }
@@ -1801,8 +1801,8 @@ public final class ASprite
     }
     
     final void sub_68a3(final int n) {
-        if (this._module_image_imageAA != null && n < this._module_image_imageAA.length) {
-            this._module_image_imageAA[n] = null;
+        if (this._modules_image != null && n < this._modules_image.length) {
+            this._modules_image[n] = null;
         }
     }
     
@@ -2393,8 +2393,8 @@ public final class ASprite
         if (g == null || sub_6ef1(g, p2y, posY, var_1148, p2x)) {
             GLLibImage class_l = null;
             if ((this._bs_flags & 0x1000008) != 0x0) {
-                if (this._module_image_imageAA != null && this._module_image_imageAA[this._crt_pal] != null) {
-                    class_l = this._module_image_imageAA[this._crt_pal][module];
+                if (this._modules_image != null && this._modules_image[this._crt_pal] != null) {
+                    class_l = this._modules_image[this._crt_pal][module];
                 }
                 boolean b = this.var_1097;
                 if (class_l == null) {
@@ -2434,10 +2434,10 @@ public final class ASprite
                             b2 = true;
                         }
                         if (this._cur_pool >= 0) {
-                            if (this._module_image_imageAA == null) {
-                                this._module_image_imageAA = new GLLibImage[this._palettes][];
+                            if (this._modules_image == null) {
+                                this._modules_image = new GLLibImage[this._palettes][];
                                 for (int i = 0; i < this._palettes; ++i) {
-                                    this._module_image_imageAA[i] = new GLLibImage[this._nModules];
+                                    this._modules_image[i] = new GLLibImage[this._nModules];
                                 }
                             }
                             GLLibImage class_l2;
