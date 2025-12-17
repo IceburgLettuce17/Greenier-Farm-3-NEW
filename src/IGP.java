@@ -89,7 +89,7 @@ public final class IGP implements Runnable, CommandListener
     private static int _lib_nChunks;
     private static int[] _lib_pOffset;
     private static int var_1e35;
-    private static int var_1e3d;
+    private static int palette;
     private static int var_1e45;
     private static int var_1e4d;
     private static int var_1e55;
@@ -132,7 +132,7 @@ public final class IGP implements Runnable, CommandListener
     private static IGP var_1f7d;
     private static boolean var_1f85;
     private static String var_1f8d;
-    private static boolean s_isAvailable;
+    private static boolean IsAvailable;
     private static int CurrentState;
     private static int var_1fa5;
     private static int var_1fad;
@@ -241,24 +241,24 @@ public final class IGP implements Runnable, CommandListener
         sub_2389(s, graphics, n, n2, n3, 3, 10, true);
     }
     
-    private static void sub_2389(final String s, Graphics g, final int n, final int n2, final int n3, final int n4, final int n5, final boolean b) {
+    private static void sub_2389(final String s, Graphics g, final int n, final int x, final int y, final int anchor, final int n5, final boolean b) {
         if (b) {
             if (var_1e45 == 0) {
-                var_1fd5.SetCurrentPalette(var_1e3d);
-                var_1fd5.DrawPageB(g, s, var_1fd5.WraptextB(s, n, false), n2, n3, 0, 10, n4, -1, false);
+                var_1fd5.SetCurrentPalette(palette);
+                var_1fd5.DrawPageB(g, s, var_1fd5.WraptextB(s, n, false), x, y, 0, 10, anchor, -1, false);
                 return;
             }
-            var_1fdd.SetCurrentPalette(var_1e3d);
-            var_1fdd.DrawPageB(g, s, var_1fdd.WraptextB(s, n, false), n2, n3, 0, 10, n4, -1, false);
+            var_1fdd.SetCurrentPalette(palette);
+            var_1fdd.DrawPageB(g, s, var_1fdd.WraptextB(s, n, false), x, y, 0, 10, anchor, -1, false);
         }
         else {
             if (var_1e45 == 0) {
-                var_1fd5.SetCurrentPalette(var_1e3d);
-                var_1fd5.DrawString(g, s, n2, n3, n4);
+                var_1fd5.SetCurrentPalette(palette);
+                var_1fd5.DrawString(g, s, x, y, anchor);
                 return;
             }
-            var_1fdd.SetCurrentPalette(var_1e3d);
-            var_1fdd.DrawString(g, s, n2, n3, n4);
+            var_1fdd.SetCurrentPalette(palette);
+            var_1fdd.DrawString(g, s, x, y, anchor);
         }
     }
     
@@ -432,7 +432,7 @@ public final class IGP implements Runnable, CommandListener
     private static void sub_2bc9() {
         try {
             if (!Lib_Open()) {
-                s_isAvailable = false;
+                IsAvailable = false;
                 return;
             }
             final byte[] data = Lib_GetData(0);
@@ -464,12 +464,12 @@ public final class IGP implements Runnable, CommandListener
                 }
             }
             catch (final Exception ex) {
-                s_isAvailable = false;
+                IsAvailable = false;
             }
             Lib_Close();
         }
         catch (final Exception ex2) {
-            s_isAvailable = false;
+            IsAvailable = false;
             return;
         }
         final String[] array = var_1f2d;
@@ -497,7 +497,7 @@ public final class IGP implements Runnable, CommandListener
         if (s_moreGamesAppProp != null && moreGamesStatAppProp.toLowerCase().equals(var_1e9d.toLowerCase())) {
             var_204d = s_moreGamesAppProp;
             var_2055 = true;
-            s_isAvailable = true;
+            IsAvailable = true;
             return;
         }
         try {
@@ -529,9 +529,9 @@ public final class IGP implements Runnable, CommandListener
         var_202d = sub_3135(MidletInstance.getAppProperty(s_TITLE_GLCLUB));
         var_1fe5 = sub_357f();
         if (sub_3607() > 0) {
-            s_isAvailable = true;
+            IsAvailable = true;
         }
-        new StringBuffer().append("isAvailable = ").append(s_isAvailable);
+        new StringBuffer().append("isAvailable = ").append(IsAvailable);
     }
     
     private static String sub_3135(String upperCase) {
@@ -556,7 +556,7 @@ public final class IGP implements Runnable, CommandListener
     }
     
     public static boolean IsAvailable() {
-        return s_isAvailable;
+        return IsAvailable;
     }
     
     public static void enterIGP(String loadingMsg, final int lang) {
@@ -775,14 +775,14 @@ public final class IGP implements Runnable, CommandListener
         catch (final Exception ex2) {}
     }
     
-    private static void sub_3a10(final boolean b) {
+    private static void unloadResources(final boolean complete) {
         for (int i = 0; i < var_1d55; ++i) {
             if (var_1fcd[i] != null && i != var_1d35 && i != var_1d45 && i != var_1d3d && i != var_1d4d && i != 0) {
                 var_1fcd[i].unload();
                 var_1fcd[i] = null;
             }
         }
-        if (b) {
+        if (complete) {
             Lib_Close();
             GLLib.Pack_FullyClose();
             var_1f1d = null;
@@ -822,7 +822,7 @@ public final class IGP implements Runnable, CommandListener
         if (var_2055) {
             return true;
         }
-        if (!s_isAvailable) {
+        if (!IsAvailable) {
             return true;
         }
         if (var_2085) {
@@ -844,19 +844,19 @@ public final class IGP implements Runnable, CommandListener
                             (var_1f4d[i] = new int[2])[0] = 0;
                             var_1f4d[i][1] = 0;
                         }
-                        final int sub_48a7 = sub_48a7(0, 0);
-                        final int sub_48cb = sub_48cb(0, 0);
-                        final int sub_48a8 = sub_48a7(var_1d15, 0);
-                        final int sub_48cb2 = sub_48cb(var_1d15, 0);
-                        final int sub_48cb3 = sub_48cb(0, 9);
-                        int n = sub_48a7(0, 10);
-                        int n2 = sub_48cb(0, 10);
+                        final int sub_48a7 = GetFrameWidth(0, 0);
+                        final int sub_48cb = GetFrameHeight(0, 0);
+                        final int sub_48a8 = GetFrameWidth(var_1d15, 0);
+                        final int sub_48cb2 = GetFrameHeight(var_1d15, 0);
+                        final int sub_48cb3 = GetFrameHeight(0, 9);
+                        int n = GetFrameWidth(0, 10);
+                        int n2 = GetFrameHeight(0, 10);
                         if ((var_1fa5 == 240 && (s_screenHeight == 320 || s_screenHeight == 400)) || (var_1fa5 == 360 && (s_screenHeight == 640 || s_screenHeight == 480))) {
-                            n = sub_48a7(0, 35);
-                            n2 = sub_48cb(0, 35);
+                            n = GetFrameWidth(0, 35);
+                            n2 = GetFrameHeight(0, 35);
                         }
-                        final int sub_48cb4 = sub_48cb(0, 15);
-                        final int sub_48cb5 = sub_48cb(0, 29);
+                        final int sub_48cb4 = GetFrameHeight(0, 15);
+                        final int sub_48cb5 = GetFrameHeight(0, 29);
                         var_1fd5.UpdateStringOrCharsSize(sub_2306(var_1cd5), null);
                         final short[] sub_4ac6 = var_1fd5.WraptextB(sub_2306(var_1cd5), var_1fa5 - sub_48a7, false);
                         var_1e55 = ASprite._text_w;
@@ -902,11 +902,11 @@ public final class IGP implements Runnable, CommandListener
                         else if (s_screenHeight <= 800) {
                             n5 = 3;
                         }
-                        int n6 = sub_48a7(0, 15);
-                        int n7 = sub_48a7(0, 17);
+                        int n6 = GetFrameWidth(0, 15);
+                        int n7 = GetFrameWidth(0, 17);
                         if ((var_1fa5 == 240 && (s_screenHeight == 320 || s_screenHeight == 400)) || (var_1fa5 == 360 && (s_screenHeight == 640 || s_screenHeight == 480))) {
-                            n6 = sub_48a7(0, 31);
-                            n7 = sub_48a7(0, 33);
+                            n6 = GetFrameWidth(0, 31);
+                            n7 = GetFrameWidth(0, 33);
                         }
                         var_1f4d[var_1d65][0] = var_1fa5 - n6 >> 2;
                         var_1f4d[var_1d65][1] = 3;
@@ -926,8 +926,8 @@ public final class IGP implements Runnable, CommandListener
                         var_1f4d[var_1d85][1] = var_1f4d[0][1] + n4 + (var_1e35 >> 1) - n5 + 2;
                         var_1f4d[var_1d5d][0] = var_1fa5 >> 1;
                         var_1f4d[var_1d5d][1] = var_1f4d[var_1d85][1] + (sub_48cb3 >> 1) + n5 - 2;
-                        final int sub_48a9 = sub_48a7(0, 2);
-                        final int sub_48cb6 = sub_48cb(0, 2);
+                        final int sub_48a9 = GetFrameWidth(0, 2);
+                        final int sub_48cb6 = GetFrameHeight(0, 2);
                         var_1f4d[var_1dbd][0] = 5;
                         var_1f4d[var_1dbd][1] = var_1f4d[var_1d85][1] + (sub_48cb3 >> 1) - (sub_48cb6 >> 1);
                         var_1f4d[var_1dc5][0] = var_1fa5 - 5 - sub_48a9;
@@ -961,14 +961,14 @@ public final class IGP implements Runnable, CommandListener
                         var_1f4d[var_1d95][0] = var_1fa5 >> 1;
                         var_1f4d[var_1d95][1] = var_1f4d[var_1d8d][1] + (sub_48cb2 << 1) / 3;
                         var_1f4d[var_1d9d][0] = 5;
-                        var_1f4d[var_1d9d][1] = var_1f4d[var_1d8d][1] + (sub_48cb2 >> 1) - (sub_48cb(0, 6) >> 1);
-                        var_1f4d[var_1da5][0] = var_1fa5 - sub_48a7(0, 4) - 5;
+                        var_1f4d[var_1d9d][1] = var_1f4d[var_1d8d][1] + (sub_48cb2 >> 1) - (GetFrameHeight(0, 6) >> 1);
+                        var_1f4d[var_1da5][0] = var_1fa5 - GetFrameWidth(0, 4) - 5;
                         var_1f4d[var_1da5][1] = var_1f4d[var_1d9d][1];
-                        int n10 = sub_48a7(0, 8);
-                        int n11 = sub_48cb(0, 8);
+                        int n10 = GetFrameWidth(0, 8);
+                        int n11 = GetFrameHeight(0, 8);
                         if (var_1fa5 == 360 && s_screenHeight == 480) {
-                            n10 = sub_48a7(0, 39);
-                            n11 = sub_48cb(0, 39);
+                            n10 = GetFrameWidth(0, 39);
+                            n11 = GetFrameHeight(0, 39);
                         }
                         var_1f4d[var_1db5][0] = var_1f4d[var_1d8d][0] + sub_48a8 - n10;
                         var_1f4d[var_1db5][1] = var_1f4d[var_1d8d][1] + sub_48cb2 - n11;
@@ -1126,7 +1126,7 @@ public final class IGP implements Runnable, CommandListener
                     break;
                 }
                 case 2: {
-                    sub_3a10(false);
+                    unloadResources(false);
                     var_1fa5 = var_1fad;
                     int var_1fbd;
                     final int n12 = (var_1ff5[var_1fa5] == 4) ? (var_1fbd = var_1ff5[var_1fa5]) : ((var_1ff5[var_1fa5] == 6) ? (var_1fbd = 6) : ((var_1ff5[var_1fa5] == 7) ? (var_1fbd = 7) : ((var_1ff5[var_1fa5] == 8) ? (var_1fbd = 8) : (var_1fbd = -1))));
@@ -1149,7 +1149,7 @@ public final class IGP implements Runnable, CommandListener
                     break;
                 }
                 case 4: {
-                    sub_3a10(true);
+                    unloadResources(true);
                     var_1f85 = false;
                     return true;
                 }
@@ -1158,12 +1158,12 @@ public final class IGP implements Runnable, CommandListener
         return false;
     }
     
-    private static int sub_48a7(final int n, final int n2) {
-        return var_1fcd[n].GetFrameWidth(n2);
+    private static int GetFrameWidth(final int sprId, final int frame) {
+        return var_1fcd[sprId].GetFrameWidth(frame);
     }
     
-    private static int sub_48cb(final int n, final int n2) {
-        return var_1fcd[n].GetFrameHeight(n2);
+    private static int GetFrameHeight(final int sprId, final int frame) {
+        return var_1fcd[sprId].GetFrameHeight(frame);
     }
     
     public static void updatePointerReleased(int x, int y) {
@@ -1171,14 +1171,14 @@ public final class IGP implements Runnable, CommandListener
         x = y;
         y = x;
         y = s_screenHeight - y;
-        int n4 = sub_48cb(0, 10);
+        int n4 = GetFrameHeight(0, 10);
         if ((s_screenWidth == 240 && (s_screenHeight == 320 || s_screenHeight == 400)) || (s_screenWidth == 360 && (s_screenHeight == 640 || s_screenHeight == 480))) {
-            n4 = sub_48cb(0, 35);
+            n4 = GetFrameHeight(0, 35);
         }
-        final int sub_48cb = sub_48cb(0, 15);
-        final int sub_48a7 = sub_48a7(0, 6);
-        final int sub_48cb2 = sub_48cb(0, 6);
-        if (Math.abs(var_20ad - x) > s_screenWidth * 10 / 100 && y < s_screenHeight - n4 && y > sub_48cb && (var_20ad >= sub_48a7 || var_20b5 <= var_1f4d[var_1d9d][1] || var_20b5 >= var_1f4d[var_1d9d][1] + sub_48cb2) && (var_20ad <= s_screenWidth - sub_48a7 || var_20b5 <= var_1f4d[var_1da5][1] || var_20b5 >= var_1f4d[var_1da5][1] + sub_48cb2) && var_20b5 >= sub_48cb && var_20b5 <= s_screenHeight - n4) {
+        final int frame15H = GetFrameHeight(0, 15);
+        final int frame6W = GetFrameWidth(0, 6);
+        final int frame6H = GetFrameHeight(0, 6);
+        if (Math.abs(var_20ad - x) > s_screenWidth * 10 / 100 && y < s_screenHeight - n4 && y > frame15H && (var_20ad >= frame6W || var_20b5 <= var_1f4d[var_1d9d][1] || var_20b5 >= var_1f4d[var_1d9d][1] + frame6H) && (var_20ad <= s_screenWidth - frame6W || var_20b5 <= var_1f4d[var_1da5][1] || var_20b5 >= var_1f4d[var_1da5][1] + frame6H) && var_20b5 >= frame15H && var_20b5 <= s_screenHeight - n4) {
             if (var_20ad - x < 0) {
                 sub_4b75 = 23;
                 var_2095 = true;
@@ -1239,7 +1239,7 @@ public final class IGP implements Runnable, CommandListener
         if (CurrentState == 0 || !var_1f85) {
             return 0;
         }
-        if (n2 > var_1f4d[var_1d65][1] && n2 < var_1f4d[var_1d65][1] + sub_48cb(0, 15)) {
+        if (n2 > var_1f4d[var_1d65][1] && n2 < var_1f4d[var_1d65][1] + GetFrameHeight(0, 15)) {
             if (n < s_screenWidth >> 1) {
                 if (var_1fad > var_1f2d.length - 1) {
                     return 28;
@@ -1250,17 +1250,17 @@ public final class IGP implements Runnable, CommandListener
             }
         }
         final int n4 = Math.abs((int)(System.currentTimeMillis() / 80L % 8L) - 4) + 1;
-        if (n > var_1f4d[var_1d9d][0] + n4 && n < var_1f4d[var_1d9d][0] + sub_48a7(0, 6) + n4 && n2 > var_1f4d[var_1d9d][1] && n2 < var_1f4d[var_1d9d][1] + sub_48cb(0, 6)) {
+        if (n > var_1f4d[var_1d9d][0] + n4 && n < var_1f4d[var_1d9d][0] + GetFrameWidth(0, 6) + n4 && n2 > var_1f4d[var_1d9d][1] && n2 < var_1f4d[var_1d9d][1] + GetFrameHeight(0, 6)) {
             return 23;
         }
-        if (n > var_1f4d[var_1da5][0] - n4 && n < var_1f4d[var_1da5][0] + sub_48a7(0, 4) - n4 && n2 > var_1f4d[var_1da5][1] && n2 < var_1f4d[var_1da5][1] + sub_48cb(0, 4)) {
+        if (n > var_1f4d[var_1da5][0] - n4 && n < var_1f4d[var_1da5][0] + GetFrameWidth(0, 4) - n4 && n2 > var_1f4d[var_1da5][1] && n2 < var_1f4d[var_1da5][1] + GetFrameHeight(0, 4)) {
             return 24;
         }
-        int n5 = sub_48a7(0, 10);
-        int n6 = sub_48cb(0, 10);
+        int n5 = GetFrameWidth(0, 10);
+        int n6 = GetFrameHeight(0, 10);
         if ((s_screenWidth == 240 && (s_screenHeight == 320 || s_screenHeight == 400)) || (s_screenWidth == 360 && (s_screenHeight == 640 || s_screenHeight == 480))) {
-            n5 = sub_48a7(0, 35);
-            n6 = sub_48cb(0, 35);
+            n5 = GetFrameWidth(0, 35);
+            n6 = GetFrameHeight(0, 35);
         }
         if (var_1ff5[var_1fad] == 6 || var_1ff5[var_1fad] == 7 || var_1ff5[var_1fad] == 8) {
             if (n > var_1f4d[var_1ddd][0] && n < var_1f4d[var_1ddd][0] + n5 && n2 > var_1f4d[var_1ddd][1] && n2 < var_1f4d[var_1ddd][1] + n6) {
@@ -1278,12 +1278,12 @@ public final class IGP implements Runnable, CommandListener
                 return 25;
             }
         }
-        if (n > var_1f4d[var_1dad][0] - 10 && n < var_1f4d[var_1dad][0] + sub_48a7(0, 0) + 10 && n2 > var_1f4d[var_1dad][1] - 10 && n2 < var_1f4d[var_1dad][1] + sub_48cb(0, 0) + 10) {
+        if (n > var_1f4d[var_1dad][0] - 10 && n < var_1f4d[var_1dad][0] + GetFrameWidth(0, 0) + 10 && n2 > var_1f4d[var_1dad][1] - 10 && n2 < var_1f4d[var_1dad][1] + GetFrameHeight(0, 0) + 10) {
             var_20a5 = true;
             return 26;
         }
-        final int sub_48a7 = sub_48a7(var_1d15, 0);
-        final int sub_48cb = sub_48cb(var_1d15, 0);
+        final int sub_48a7 = GetFrameWidth(var_1d15, 0);
+        final int sub_48cb = GetFrameHeight(var_1d15, 0);
         if (n > var_1f4d[var_1d8d][0] && n < var_1f4d[var_1d8d][0] + sub_48a7 && n2 > var_1f4d[var_1d8d][1] && n2 < var_1f4d[var_1d8d][1] + sub_48cb) {
             return 25;
         }
@@ -1311,7 +1311,7 @@ public final class IGP implements Runnable, CommandListener
         if (var_2055) {
             return;
         }
-        if (!s_isAvailable) {
+        if (!IsAvailable) {
             return;
         }
         setClip(g, 0, 0, s_screenHeight, s_screenWidth);
@@ -1371,14 +1371,14 @@ public final class IGP implements Runnable, CommandListener
                 
                 
                 final int n11 = s_screenHeight * 40 / 100;
-                final int n12 = sub_48a7(0, 0) - 5;
-                sub_52f7(g, 0, n11 - 1, s_screenWidth, s_screenHeight - (n11 - 1 << 1), -1);
-                sub_52f7(g, 0, n11, s_screenWidth, s_screenHeight - (n11 << 1), -220209185);
+                final int n12 = GetFrameWidth(0, 0) - 5;
+                DrawRGB(g, 0, n11 - 1, s_screenWidth, s_screenHeight - (n11 - 1 << 1), -1);
+                DrawRGB(g, 0, n11, s_screenWidth, s_screenHeight - (n11 << 1), -220209185);
                 g.setColor(16777215);
                 GLLib.FillRect(g, 0, s_screenHeight - (n12 + 1), s_screenWidth, n12 + 1, true);
                 g.setColor(-220209185);
                 GLLib.FillRect(g, 0, s_screenHeight - n12, s_screenWidth, n12, true);
-                var_1e3d = 1;
+                palette = 1;
                 sub_2361(sub_2306(var_1c8d), g, s_screenHeight, s_screenWidth >> 1, s_screenHeight >> 1, 3, true);
                 sub_6621(g);
                 break;
@@ -1386,12 +1386,12 @@ public final class IGP implements Runnable, CommandListener
         }
     }
     
-    private static void sub_52f7(final Graphics graphics, final int n, final int n2, final int n3, final int n4, final int n5) {
-        final int[] array = new int[n3 * n4];
-        for (int i = 0; i < array.length; ++i) {
-            array[i] = n5;
+    private static void DrawRGB(final Graphics graphics, final int n, final int y, final int scanlength, final int height, final int n5) {
+        final int[] rgbData = new int[scanlength * height];
+        for (int i = 0; i < rgbData.length; ++i) {
+            rgbData[i] = n5;
         }
-        graphics.drawRGB(array, 0, n3, 0, n2, n3, n4, true);
+        graphics.drawRGB(rgbData, 0, scanlength, 0, y, scanlength, height, true);
     }
     
     private static void sub_5366(final Graphics graphics) {
@@ -1420,25 +1420,25 @@ public final class IGP implements Runnable, CommandListener
         final int n15 = var_1f4d[var_1dfd][0];
         final int n16 = var_1f4d[var_1dfd][1];
         final int n17 = var_1f4d[var_1e05][1];
-        sub_6676(graphics, 0, 9, n9, n10);
-        var_1e3d = 1;
+        PaintFrame(graphics, 0, 9, n9, n10);
+        palette = 1;
         var_1e45 = 0;
         if (var_1ff5[var_1fad] == 6) {
             if (!var_2025.equals("0")) {
                 sub_2338(var_2025, graphics, s_screenWidth, n, n2, 3);
             }
             sub_2338(sub_2306(var_2015), graphics, s_screenWidth, n3, n4, 3);
-            sub_6676(graphics, var_1d1d + (var_1fad - var_1c55), 0, n5, n6);
+            PaintFrame(graphics, var_1d1d + (var_1fad - var_1c55), 0, n5, n6);
             int n18 = 8;
             if (s_screenWidth == 360 && s_screenHeight == 480) {
                 n18 = 39;
             }
-            sub_6676(graphics, 0, n18, n7, n8);
+            PaintFrame(graphics, 0, n18, n7, n8);
             if (var_1ef5 == null || !var_1ef5.equals("TMUS")) {
                 var_1e45 = 1;
-                int n19 = sub_48a7(0, 10);
+                int n19 = GetFrameWidth(0, 10);
                 if ((s_screenWidth == 240 && (s_screenHeight == 320 || s_screenHeight == 400)) || (s_screenWidth == 360 && (s_screenHeight == 640 || s_screenHeight == 480))) {
-                    n19 = sub_48a7(0, 35);
+                    n19 = GetFrameWidth(0, 35);
                 }
                 int n20 = s_screenWidth - var_1c2d - n19 >> 1;
                 if (s_screenHeight > s_screenWidth) {
@@ -1452,18 +1452,18 @@ public final class IGP implements Runnable, CommandListener
                 sub_2338(var_202d, graphics, s_screenWidth, n, n2, 3);
             }
             sub_2338(sub_2306(var_1ca5), graphics, s_screenWidth, n3, n4, 3);
-            sub_6676(graphics, var_1d25, 0, n5, n6);
+            PaintFrame(graphics, var_1d25, 0, n5, n6);
         }
         else if (var_1ff5[var_1fad] == 8) {
             sub_2338(sub_2306(var_1cad), graphics, s_screenWidth, n, n2, 3);
             sub_2338(sub_2306(var_1c95), graphics, s_screenWidth * 3 / 4, n3, n4, 3);
-            sub_6676(graphics, var_1d2d, 0, n5, n6);
+            PaintFrame(graphics, var_1d2d, 0, n5, n6);
         }
         else {
-            var_1e3d = 1;
+            palette = 1;
             sub_2338(sub_2306(var_1c9d), graphics, s_screenWidth, n, n2, 3);
             sub_2338(sub_2306(var_2015), graphics, s_screenWidth * 3 / 4, n3, n4, 3);
-            sub_6676(graphics, var_1d15 + var_1fad, 0, n5, n6);
+            PaintFrame(graphics, var_1d15 + var_1fad, 0, n5, n6);
         }
         int n21 = 0;
         if (var_1fad >= var_1c55) {
@@ -1474,8 +1474,8 @@ public final class IGP implements Runnable, CommandListener
             b = true;
         }
         if (b) {
-            sub_6676(graphics, 0, 2, n11, n12);
-            sub_6676(graphics, 0, 3, n13, n14);
+            PaintFrame(graphics, 0, 2, n11, n12);
+            PaintFrame(graphics, 0, 3, n13, n14);
         }
         final int n22 = var_1f4d[var_1d65][0];
         final int n23 = var_1f4d[var_1d65][1];
@@ -1498,12 +1498,12 @@ public final class IGP implements Runnable, CommandListener
         final int n40 = var_1f4d[var_1df5][0];
         final int n41 = var_1f4d[var_1df5][1];
         if (var_1ff5[var_1fad] == 6 || var_1ff5[var_1fad] == 7 || var_1ff5[var_1fad] == 8) {
-            final int sub_48a7 = sub_48a7(0, 19);
-            int n42 = sub_48a7(0, 10);
-            int n43 = sub_48cb(0, 10);
+            final int sub_48a7 = GetFrameWidth(0, 19);
+            int n42 = GetFrameWidth(0, 10);
+            int n43 = GetFrameHeight(0, 10);
             if ((s_screenWidth == 240 && (s_screenHeight == 320 || s_screenHeight == 400)) || (s_screenWidth == 360 && (s_screenHeight == 640 || s_screenHeight == 480))) {
-                n42 = sub_48a7(0, 35);
-                n43 = sub_48cb(0, 35);
+                n42 = GetFrameWidth(0, 35);
+                n43 = GetFrameHeight(0, 35);
             }
             int n44 = 15;
             int n45 = 18;
@@ -1511,8 +1511,8 @@ public final class IGP implements Runnable, CommandListener
                 n44 = 31;
                 n45 = 34;
             }
-            sub_6676(graphics, 0, n44, n22, n23);
-            sub_6676(graphics, 0, n45, n24, n25);
+            PaintFrame(graphics, 0, n44, n22, n23);
+            PaintFrame(graphics, 0, n45, n24, n25);
             int n46 = 13;
             if ((s_screenWidth == 240 && (s_screenHeight == 320 || s_screenHeight == 400)) || (s_screenWidth == 360 && (s_screenHeight == 640 || s_screenHeight == 480))) {
                 n46 = 37;
@@ -1523,10 +1523,10 @@ public final class IGP implements Runnable, CommandListener
                     n46 = 36;
                 }
             }
-            sub_6676(graphics, 0, n46, n30, n31);
-            var_1e3d = 0;
+            PaintFrame(graphics, 0, n46, n30, n31);
+            palette = 0;
             if (var_208d) {
-                var_1e3d = 1;
+                palette = 1;
             }
             final short[] sub_4ac6;
             var_1e55 = (sub_4ac6 = var_1fd5.WraptextB(sub_2306(var_1ccd), n42 - sub_48a7 - 4, false))[2];
@@ -1535,7 +1535,7 @@ public final class IGP implements Runnable, CommandListener
             }
             final int n48;
             final int n47 = ((n48 = n42 - (var_1e55 + sub_48a7 + 4)) < 0) ? 0 : (n48 >> 1);
-            sub_6676(graphics, 0, 19, n40 - (n42 >> 1) + n47, n31 + (n43 >> 1) - (sub_48cb(0, 19) >> 1));
+            PaintFrame(graphics, 0, 19, n40 - (n42 >> 1) + n47, n31 + (n43 >> 1) - (GetFrameHeight(0, 19) >> 1));
             if (sub_4ac6[0] > 1) {
                 int n49 = -4;
                 if (s_screenWidth == 320 || s_screenHeight == 320) {
@@ -1554,8 +1554,8 @@ public final class IGP implements Runnable, CommandListener
                 n50 = 33;
                 n51 = 32;
             }
-            sub_6676(graphics, 0, n50, n24, n25);
-            sub_6676(graphics, 0, n51, n22, n23);
+            PaintFrame(graphics, 0, n50, n24, n25);
+            PaintFrame(graphics, 0, n51, n22, n23);
             int n52 = 13;
             int n53 = 10;
             if ((s_screenWidth == 240 && (s_screenHeight == 320 || s_screenHeight == 400)) || (s_screenWidth == 360 && (s_screenHeight == 640 || s_screenHeight == 480))) {
@@ -1574,19 +1574,19 @@ public final class IGP implements Runnable, CommandListener
                     n53 = 36;
                 }
             }
-            sub_6676(graphics, 0, n53, n26, n27);
-            sub_6676(graphics, 0, n52, n28, n29);
-            var_1e3d = 0;
+            PaintFrame(graphics, 0, n53, n26, n27);
+            PaintFrame(graphics, 0, n52, n28, n29);
+            palette = 0;
             if (var_209d) {
-                var_1e3d = 1;
+                palette = 1;
             }
             sub_2338(sub_2306(var_1cc5), graphics, s_screenWidth, n36, n37 - 2, 3);
-            final int sub_48a8 = sub_48a7(0, 19);
-            int n54 = sub_48a7(0, 10);
-            int n55 = sub_48cb(0, 10);
+            final int sub_48a8 = GetFrameWidth(0, 19);
+            int n54 = GetFrameWidth(0, 10);
+            int n55 = GetFrameHeight(0, 10);
             if ((s_screenWidth == 240 && (s_screenHeight == 320 || s_screenHeight == 400)) || (s_screenWidth == 360 && (s_screenHeight == 640 || s_screenHeight == 480))) {
-                n54 = sub_48a7(0, 35);
-                n55 = sub_48cb(0, 35);
+                n54 = GetFrameWidth(0, 35);
+                n55 = GetFrameHeight(0, 35);
             }
             final short[] sub_4ac7;
             var_1e55 = (sub_4ac7 = var_1fd5.WraptextB(sub_2306(var_1ccd), n54 - sub_48a8 - 4, false))[2];
@@ -1595,10 +1595,10 @@ public final class IGP implements Runnable, CommandListener
             }
             final int n57;
             final int n56 = ((n57 = n54 - (var_1e55 + sub_48a8 + 4)) < 0) ? 0 : (n57 >> 1);
-            sub_6676(graphics, 0, 19, n38 - (n54 >> 1) + n56, n29 + (n55 >> 1) - (sub_48cb(0, 19) >> 1));
-            var_1e3d = 0;
+            PaintFrame(graphics, 0, 19, n38 - (n54 >> 1) + n56, n29 + (n55 >> 1) - (GetFrameHeight(0, 19) >> 1));
+            palette = 0;
             if (var_208d) {
-                var_1e3d = 1;
+                palette = 1;
             }
             if (sub_4ac7[0] > 1) {
                 int n58 = -4;
@@ -1610,13 +1610,13 @@ public final class IGP implements Runnable, CommandListener
             else {
                 sub_2338(sub_2306(var_1ccd), graphics, s_screenWidth, n38 - (n54 >> 1) + n56 + sub_48a8 + 2, n39 - 2, 6);
             }
-            var_1e3d = 0;
+            palette = 0;
         }
-        var_1e3d = 0;
+        palette = 0;
         sub_2338(sub_2306(var_1cb5), graphics, s_screenWidth, n32, n33, 3);
         sub_2338(sub_2306(var_1cbd), graphics, s_screenWidth, n34, n35, 3);
         var_1e55 = var_1fd5.WraptextB(sub_2306(var_1cbd), s_screenWidth, false)[2];
-        sub_6676(graphics, 0, 29, n34 + (var_1e55 >> 1) + 3, n17);
+        PaintFrame(graphics, 0, 29, n34 + (var_1e55 >> 1) + 3, n17);
         if (b) {
             final int abs = Math.abs((int)(System.currentTimeMillis() / 80L % 8L) - 4);
             int n59 = 6;
@@ -1638,8 +1638,8 @@ public final class IGP implements Runnable, CommandListener
                 }
                 ++var_1f35;
             }
-            sub_6676(graphics, 0, n59, n62 + n61, n63);
-            sub_6676(graphics, 0, n60, n64 - n61, n65);
+            PaintFrame(graphics, 0, n59, n62 + n61, n63);
+            PaintFrame(graphics, 0, n60, n64 - n61, n65);
             if (var_1f35 > 4) {
                 var_1f3d = false;
                 var_1f45 = false;
@@ -1651,17 +1651,17 @@ public final class IGP implements Runnable, CommandListener
     }
     
     private static void sub_6621(final Graphics graphics) {
-        final int n = var_1f4d[var_1dad][0];
-        final int n2 = var_1f4d[var_1dad][1];
-        int n3 = 0;
+        final int posX = var_1f4d[var_1dad][0];
+        final int posY = var_1f4d[var_1dad][1];
+        int frame = 0;
         if (var_20a5) {
-            n3 = 1;
+            frame = 1;
         }
-        sub_6676(graphics, 0, n3, n, n2);
+        PaintFrame(graphics, 0, frame, posX, posY);
     }
     
-    private static void sub_6676(final Graphics graphics, final int n, final int n2, final int n3, final int n4) {
-        var_1fcd[n].PaintFrame(graphics, n2, n3, n4, 0);
+    private static void PaintFrame(final Graphics g, final int sprId, final int frame, final int posX, final int posY) {
+        var_1fcd[sprId].PaintFrame(g, frame, posX, posY, 0);
     }
     
     private static void setClip(final Graphics g, int max, int max2, int min, int min2) {
@@ -1791,7 +1791,7 @@ public final class IGP implements Runnable, CommandListener
         var_1f7d = null;
         var_1f85 = false;
         var_1f8d = null;
-        s_isAvailable = false;
+        IsAvailable = false;
         var_1fe5 = new int[2];
         var_2005 = 0;
         //var_200d = 0;
