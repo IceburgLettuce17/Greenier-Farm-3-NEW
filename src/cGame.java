@@ -3456,10 +3456,10 @@ public final class cGame extends GLLib implements Class_b
 	}
 
 	static void sub_e503() {
-		sub_e522(false);
+		saveGame(false);
 	}
 
-	private static void sub_e522(final boolean b) {
+	private static void saveGame(final boolean b) {
 		if (cGame.var_807c != 0 || cGame.var_6aa4 != -1) {
 			return;
 		}
@@ -6941,7 +6941,7 @@ public final class cGame extends GLLib implements Class_b
 
 	private static void sub_162f2() {
 		if (sub_2e449(cGame.var_7c6c[0])) {
-			sub_2e482(cGame.var_7cf4[0]);
+			addCoin(cGame.var_7cf4[0]);
 			cGame.var_68cc[8][7] = GLLib.BigNumberSeparate(getCash(), cGame.s_currencySeprType, " ");
 			cGame.var_68cc[8][4] = GLLib.BigNumberSeparate(getCoin(), cGame.s_currencySeprType, " ");
 			playSndNoLoop(49);
@@ -6958,7 +6958,7 @@ public final class cGame extends GLLib implements Class_b
 
 	private static void sub_1638f() {
 		if (sub_2e449(cGame.var_7c6c[1])) {
-			sub_2e482(cGame.var_7cf4[1]);
+			addCoin(cGame.var_7cf4[1]);
 			cGame.var_68cc[8][7] = GLLib.BigNumberSeparate(getCash(), cGame.s_currencySeprType, " ");
 			cGame.var_68cc[8][4] = GLLib.BigNumberSeparate(getCoin(), cGame.s_currencySeprType, " ");
 			return;
@@ -6974,7 +6974,7 @@ public final class cGame extends GLLib implements Class_b
 
 	private static void sub_16427() {
 		if (sub_2e449(cGame.var_7c6c[2])) {
-			sub_2e482(cGame.var_7cf4[2]);
+			addCoin(cGame.var_7cf4[2]);
 			cGame.var_68cc[8][7] = GLLib.BigNumberSeparate(getCash(), cGame.s_currencySeprType, " ");
 			cGame.var_68cc[8][4] = GLLib.BigNumberSeparate(getCoin(), cGame.s_currencySeprType, " ");
 			return;
@@ -6990,7 +6990,7 @@ public final class cGame extends GLLib implements Class_b
 
 	private static void sub_164bf() {
 		if (sub_2e449(cGame.var_7c6c[3])) {
-			sub_2e482(cGame.var_7cf4[3]);
+			addCoin(cGame.var_7cf4[3]);
 			cGame.var_68cc[8][7] = GLLib.BigNumberSeparate(getCash(), cGame.s_currencySeprType, " ");
 			cGame.var_68cc[8][4] = GLLib.BigNumberSeparate(getCoin(), cGame.s_currencySeprType, " ");
 			return;
@@ -7006,7 +7006,7 @@ public final class cGame extends GLLib implements Class_b
 
 	private static void sub_16557() {
 		if (sub_2e449(cGame.var_7c6c[4])) {
-			sub_2e482(cGame.var_7cf4[4]);
+			addCoin(cGame.var_7cf4[4]);
 			cGame.var_68cc[8][7] = GLLib.BigNumberSeparate(getCash(), cGame.s_currencySeprType, " ");
 			cGame.var_68cc[8][4] = GLLib.BigNumberSeparate(getCoin(), cGame.s_currencySeprType, " ");
 			return;
@@ -7022,7 +7022,7 @@ public final class cGame extends GLLib implements Class_b
 
 	private static void sub_165ef() {
 		if (sub_2e449(cGame.var_7c6c[5])) {
-			sub_2e482(cGame.var_7cf4[5]);
+			addCoin(cGame.var_7cf4[5]);
 			cGame.var_68cc[8][7] = GLLib.BigNumberSeparate(getCash(), cGame.s_currencySeprType, " ");
 			cGame.var_68cc[8][4] = GLLib.BigNumberSeparate(getCoin(), cGame.s_currencySeprType, " ");
 			return;
@@ -7969,7 +7969,7 @@ public final class cGame extends GLLib implements Class_b
 		sub_3e7c1();
 		sub_3d6da(false, -1);
 		playSndNoLoop(61);
-		sub_e522(false);
+		saveGame(false);
 		sub_8281(36);
 	}
 
@@ -8042,7 +8042,7 @@ public final class cGame extends GLLib implements Class_b
 			sub_42685(0);
 			sub_42685(1);
 			addExperience(cGame.var_7bc4);
-			sub_2e482(cGame.var_7bcc);
+			addCoin(cGame.var_7bcc);
 			sub_2b022(cGame.var_7bb4);
 			sub_41ff0();
 			sub_4014a(756 + cGame.var_7bb4, cGame.var_68bc[17][22][5], cGame.var_68bc[17][22][6]);
@@ -8969,12 +8969,12 @@ public final class cGame extends GLLib implements Class_b
 
 	private static void sub_1ab86() {
 		playSndNoLoop(61);
-		sub_2e482(100000);
+		addCoin(100000);
 	}
 
 	private static void sub_1abab() {
 		playSndNoLoop(61);
-		sub_2e482(1000000);
+		addCoin(1000000);
 	}
 
 	private static void debugResetCoins() {
@@ -9085,7 +9085,7 @@ public final class cGame extends GLLib implements Class_b
 
 	private static void pauseExit() {
 		playSndNoLoop(61);
-		sub_e522(false);
+		saveGame(false);
 		sub_44ced(1);
 	}
 
@@ -14123,7 +14123,7 @@ public final class cGame extends GLLib implements Class_b
 				}
 			}
 		}
-		GLLibPlayer.sub_3b5c(null, 0, 0, 0);
+		GLLibPlayer.Tileset_Draw(null, 0, 0, 0);
 		sub_23dba();
 		if (cGame.var_68bc[1][78][10] != 0) {
 			if (cGame.var_79ec < 100) {
@@ -18047,7 +18047,7 @@ public final class cGame extends GLLib implements Class_b
 
 	static boolean sub_2e369(final int n) {
 		if (n <= getCoin()) {
-			sub_2e482(-n);
+			addCoin(-n);
 			return true;
 		}
 		return false;
@@ -18077,7 +18077,7 @@ public final class cGame extends GLLib implements Class_b
 		return false;
 	}
 
-	static void sub_2e482(int n) {
+	static void addCoin(int n) {
 		setCoins((getCoin() + n < 0) ? 0
 				: ((getCoin() + n > cGame.s_maxCoin) ? cGame.s_maxCoin : (getCoin() + n)));
 		if (n > 0) {
@@ -24416,7 +24416,7 @@ public final class cGame extends GLLib implements Class_b
 			if (getNextState() != 7 && getNextState() != 29 && getNextState() != 28 && getNextState() != 26 && getNextState() != 19
 					&& getNextState() != 20 && getNextState() != 35 && getNextState() != 27 && getNextState() != 8
 					&& getNextState() != 12) {
-				sub_e522(false);
+				saveGame(false);
 			}
 			if (cGame.s_tutorialState == 0) {
 				sub_2f41f(15);
@@ -26810,7 +26810,7 @@ public final class cGame extends GLLib implements Class_b
 			sub_b76e();
 			GLLib.var_1e17 = 1;
 			sub_8281(17);
-			sub_e522(true);
+			saveGame(true);
 			cGame.var_7a9c = true;
 			cGame.var_6864 = true;
 			for (int k = 0; k <= 10; ++k) {
@@ -28180,7 +28180,7 @@ public final class cGame extends GLLib implements Class_b
 				n7 = 36;
 				final String sub_4e1f2;
 				s = (((sub_4e1f2 = GLLib.Text_GetStringFromLocaleFile(385)) == null) ? "" : sub_4e1f2);
-				sub_2e482(cGame.var_7dc4[i]);
+				addCoin(cGame.var_7dc4[i]);
 				//cGame.var_7e1c += cGame.var_7dc4[i];
 				break;
 			}

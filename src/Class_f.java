@@ -963,7 +963,7 @@ final class Class_f
             for (Class_f var_17ad3 = Class_f.var_157d[n]; var_17ad3 != null; var_17ad3 = var_17ad3.var_17ad) {
                 final Class_f class_f;
                 if ((class_f = var_17ad3).var_17c5 == 10) {
-                    GLLibPlayer.sub_3b5c(GLLib.g, 0, 0, 0);
+                    GLLibPlayer.Tileset_Draw(GLLib.g, 0, 0, 0);
                 }
                 else if (class_f.sub_a2a0(8)) {
                     if (!class_f.sub_a2a0(16777216) || class_f.var_189d != null) {
@@ -1147,7 +1147,7 @@ final class Class_f
                     cGame.addExperience(var_17ad.var_1725);
                 }
                 else if (var_17ad.var_16fd == 36) {
-                    cGame.sub_2e482(var_17ad.var_1725);
+                    cGame.addCoin(var_17ad.var_1725);
                 }
                 else if (var_17ad.var_16fd == 6) {
                     cGame.addCash(var_17ad.var_1725);
@@ -2813,7 +2813,7 @@ final class Class_f
                     return;
                 }
                 if (this.var_16fd == 36) {
-                    cGame.sub_2e482(this.var_1725);
+                    cGame.addCoin(this.var_1725);
                     return;
                 }
                 if (this.var_16fd == 6) {

@@ -28,7 +28,7 @@ public final class GloftGF2M extends MIDlet
         if (GloftGF2M.s_game != null) {
             if (cGame.getState() == cGame.GS_MANOR_COLLECTIONS) {
                 if (cGame.var_7a34 > 0) {
-                    cGame.sub_2e482(cGame.var_7a34);
+                    cGame.addCoin(cGame.var_7a34);
                 }
                 if (cGame.var_7a3c > 0) {
                     cGame.addExperience(cGame.var_7a3c);
