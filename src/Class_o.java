@@ -80,8 +80,8 @@ public final class Class_o {
 	private static String[] var_2b75;
 	private static int[] var_2b7d;
 	private static int[] var_2b85;
-	private static int var_2b8d;
-	private static char var_2b95;
+	private static int contentIDAmnt;
+	private static char currencySeparator;
 
 	private static String separateStr(final String string, int index, final char unused) {
 		int srcBegin = 0;
@@ -136,7 +136,7 @@ public final class Class_o {
 		Class_o.redeemUnlocked = getRedeemUnlockedRms();
 		Class_o.code = getCodeRms();
 		if (Class_o.code.equals("")) {
-			Class_o.code = sub_6f82();
+			Class_o.code = generateCode();
 			rmsSave(Class_o.rmsNames[1], Class_o.code);
 		}
 		Class_o.smsCount = getSmsCountRms();
@@ -144,7 +144,7 @@ public final class Class_o {
 		if (Class_o.VERSION != null) {
 			Class_o.VERSION += "";
 		}
-		if (!setValidProfilesFromRms() && getBillingTypeInt() == 0 && Class_o.var_29ad && detectRegion()) {
+		if (!setValidProfilesFromRms() && getTestFieldInt() == 0 && Class_o.var_29ad && detectRegion()) {
 			detectCarrier();
 		}
 		parseValidItems();
@@ -191,7 +191,7 @@ public final class Class_o {
 	/// @note make sure to set all the fields here before using PaySMS.
 	/// @return true if things went right, otherwise false
 	public static boolean parseJadFields() {
-		Class_o.var_2b8d = 6;
+		Class_o.contentIDAmnt = 6;
 		final String unlocked = rmsLoad(Class_o.rmsNames[6]);
 		boolean isUnlocked;
 		if (unlocked != null && !unlocked.equals("1") && unlocked.equals("0")) {
@@ -219,10 +219,10 @@ public final class Class_o {
 				if ((Class_o.iapTestField = getAppProperty("IAP-Test")).length() == 0) {
 					Class_o.iapTestField = "0";
 				}
-				if (getBillingTypeInt() != 0) {
-					if (getBillingTypeInt() == 1) {
+				if (getTestFieldInt() != 0) {
+					if (getTestFieldInt() == 1) {
 						Class_o.testProfile = Class_o.var_2b05;
-					} else if (getBillingTypeInt() == 2) {
+					} else if (getTestFieldInt() == 2) {
 						Class_o.testProfile = Class_o.var_2b0d;
 					} else {
 						Class_o.iapTestField = "0";
@@ -252,7 +252,7 @@ public final class Class_o {
 				Class_o.cashVector = new Vector();
 				Class_o.coinVector = new Vector();
 				for (int i = 0; i < Class_o.currencys.length; ++i) {
-					for (int j = 1; j <= Class_o.var_2b8d; ++j) {
+					for (int j = 1; j <= Class_o.contentIDAmnt; ++j) {
 						final String contentID;
 						if ((contentID = getAppProperty("IAP-ContentID-" + Class_o.currencys[i] + "-" + j)) != null
 								&& !contentID.equals("")) {
@@ -307,30 +307,32 @@ public final class Class_o {
 	}
 
 	private static boolean checkAvailable() {
-		boolean retbool;
-		if (getBillingTypeInt() != 0) {
-			retbool = true;
+		boolean validProfiles;
+		
+		// Is on test profile?
+		if (getTestFieldInt() != 0) {
+			validProfiles = true;
 		} else if (Class_o.creditCardEnabled && (Class_o.var_29a5 == null || Class_o.var_29a5.length == 0)) {
-			retbool = true;
+			validProfiles = true;
 		} else if (Class_o.var_29a5.length == 1) {
-			retbool = true;
+			validProfiles = true;
 		} else if (Class_o.var_29a5.length > 1) {
 			final String s = Class_o.var_29a5[0][2];
 			final String s2 = Class_o.var_29a5[0][3];
-			retbool = true;
+			validProfiles = true;
 			for (int i = 1; i < Class_o.var_29a5.length; ++i) {
 				final String anObject = Class_o.var_29a5[i][2];
 				final String anObject2 = Class_o.var_29a5[i][3];
 				if (!s.equals(anObject) || !s2.equals(anObject2)) {
-					retbool = false;
+					validProfiles = false;
 					break;
 				}
 			}
 		} else {
-			retbool = false;
+			validProfiles = false;
 		}
-		new StringBuffer().append("PaySMS.checkAvailable:validProfiles: ").append(retbool ? "true" : "false");
-		return retbool;
+		new StringBuffer().append("PaySMS.checkAvailable:validProfiles: ").append(validProfiles ? "true" : "false");
+		return validProfiles;
 	}
 
 	public static boolean sub_34dd() {
@@ -354,11 +356,11 @@ public final class Class_o {
 		if (Class_o.overrideFromJad.equals("1")) {
 			type = Class_o.billingType;
 		} else {
-			if (getBillingTypeInt() != 0) {
+			if (getTestFieldInt() != 0) {
 				Class_o.var_29a5 = Class_o.var_29bd;
-				if (getBillingTypeInt() == 1) {
+				if (getTestFieldInt() == 1) {
 					type = "SMS";
-				} else if (getBillingTypeInt() == 2) {
+				} else if (getTestFieldInt() == 2) {
 					type = "HTTP";
 				}
 				for (int i = 0; i < Class_o.var_29a5.length; ++i) {
@@ -562,7 +564,7 @@ public final class Class_o {
 			return 3;
 		} else {
 			if (Class_o.var_2af5 != 1) {
-				if (!Class_o.overrideFromJad.equals("1") && getBillingTypeInt() == 0) {
+				if (!Class_o.overrideFromJad.equals("1") && getTestFieldInt() == 0) {
 					if (Class_o.var_2afd != 0) {
 						return 3;
 					}
@@ -655,8 +657,8 @@ public final class Class_o {
 				final String replace2 = sub_5261.replace(',', '.');
 				final long sub_5262 = sub_7695(replace);
 				final long sub_5263 = sub_7695(replace2);
-				inputCode = ((replace.indexOf(Class_o.var_2b95) != -1 || replace2.indexOf(Class_o.var_2b95) != -1)
-						? Class_o.var_2b95
+				inputCode = ((replace.indexOf(Class_o.currencySeparator) != -1 || replace2.indexOf(Class_o.currencySeparator) != -1)
+						? Class_o.currencySeparator
 						: ' ');
 				final long n = sub_5262 + sub_5263;
 				final String totalMoneySpent = (inputCode == 32) ? (n / 100000L + "")
@@ -944,7 +946,7 @@ public final class Class_o {
 				return null;
 			} else {
 				int profileIndex = -1;
-				if (getBillingTypeInt() == 0) {
+				if (getTestFieldInt() == 0) {
 					for (int i = 0; i < Class_o.currentValidProfiles.size(); ++i) {
 						final int intValue = ((Integer) Class_o.currentValidProfiles.elementAt(i)).intValue();
 						try {
@@ -982,7 +984,7 @@ public final class Class_o {
 		new StringBuffer().append("PaySMS.getVirtualCurrency: begin basecurrency ").append(basecurrency).append(", pricepoint")
 				.append(pricepoint);
 		long currency = 0L;
-		if (getBillingTypeInt() == 0 && Class_o.currentValidProfiles != null && Class_o.currentValidProfiles.size() > 0) {
+		if (getTestFieldInt() == 0 && Class_o.currentValidProfiles != null && Class_o.currentValidProfiles.size() > 0) {
 			for (int j = 0; j < Class_o.currentValidProfiles.size(); ++j) {
 				final int value = ((Integer) Class_o.currentValidProfiles.elementAt(j)).intValue();
 				try {
@@ -1018,7 +1020,7 @@ public final class Class_o {
 	}
 
 	private static String sub_5260(final int n, final int i) {
-		if (getBillingTypeInt() == 0) {
+		if (getTestFieldInt() == 0) {
 			for (int j = 0; j < Class_o.currentValidProfiles.size(); ++j) {
 				final int intValue = ((Integer) Class_o.currentValidProfiles.elementAt(j)).intValue();
 				if (Class_o.var_29a5[intValue][14].equals(String.valueOf(i))) {
@@ -1036,14 +1038,14 @@ public final class Class_o {
 	}
 	
 	private static String GetBillingType(final int n) {
-		if (getBillingTypeInt() != 0) {
-			if (getBillingTypeInt() == 1) {
+		if (getTestFieldInt() != 0) {
+			if (getTestFieldInt() == 1) {
 				return "sms_2d";
 			}
-			if (getBillingTypeInt() == 2) {
+			if (getTestFieldInt() == 2) {
 				return "http_2d";
 			}
-			if (getBillingTypeInt() == 3) {
+			if (getTestFieldInt() == 3) {
 				return "cc_2d";
 			}
 		}
@@ -1088,7 +1090,7 @@ public final class Class_o {
 		}
 		String tncID = null;
 		String supportNumber = null;
-		if (getBillingTypeInt() == 0) {
+		if (getTestFieldInt() == 0) {
 			if (Class_o.currentValidProfiles.size() > 0) {
 				final int intValue = ((Integer) Class_o.currentValidProfiles.elementAt(0)).intValue();
 				try {
@@ -1132,7 +1134,7 @@ public final class Class_o {
 	private static void parseValidItems() {
 		Class_o.cashVector.removeAllElements();
 		Class_o.coinVector.removeAllElements();
-		if (getBillingTypeInt() == 0 && Class_o.currentValidProfiles != null && Class_o.currentValidProfiles.size() > 0) {
+		if (getTestFieldInt() == 0 && Class_o.currentValidProfiles != null && Class_o.currentValidProfiles.size() > 0) {
 			for (int i = 0; i < Class_o.currentValidProfiles.size(); ++i) {
 				final int id;
 				if (isValidContentID(
@@ -1145,10 +1147,10 @@ public final class Class_o {
 					Class_o.coinVector.addElement(new Integer(id));
 				}
 			}
-		} else if (Class_o.creditCardEnabled || getBillingTypeInt() != 0) {
+		} else if (Class_o.creditCardEnabled || getTestFieldInt() != 0) {
 			new StringBuffer().append("PaySMS.parseValidItems: IAP_TEST_FIELD or CC. creditCardEnabled = ")
 					.append(Class_o.creditCardEnabled);
-			for (int j = 1; j <= Class_o.var_2b8d; ++j) {
+			for (int j = 1; j <= Class_o.contentIDAmnt; ++j) {
 				if (isValidContentID(j, "Cash")) {
 					Class_o.cashVector.addElement(new Integer(j));
 				}
@@ -1220,13 +1222,13 @@ public final class Class_o {
 	
 	private static boolean isValidContentID(final int pricePoint, final String contentID) {
 		final String _contentID = getAppProperty("IAP-ContentID-" + contentID + "-" + pricePoint);
-		boolean retaddr = false;
+		boolean value = false;
 		if (Class_o.validContentIds.contains(_contentID)) {
-			retaddr = true;
+			value = true;
 		}
 		new StringBuffer().append("PaySMS.isValidContentID: IAP-ContentID-").append(contentID).append("-").append(pricePoint)
-				.append(": ").append(_contentID).append(retaddr ? " - Valid" : " - Invalid");
-		return retaddr;
+				.append(": ").append(_contentID).append(value ? " - Valid" : " - Invalid");
+		return value;
 	}
 
 	private static String retrieveTermsAndConditions(final String id) {
@@ -1250,11 +1252,11 @@ public final class Class_o {
 		}
 		String s2;
 		try {
-			final int index = tnc.indexOf("<phone>");
-			final int index2 = tnc.indexOf("</phone>", index + "<phone>".length());
-			final String substring = tnc.substring(0, index);
-			final String substring2 = tnc.substring(index + "<phone>".length(), index2);
-			final String substring3 = tnc.substring(index2 + "</phone>".length(), tnc.length());
+			final int phoneBegin = tnc.indexOf("<phone>");
+			final int phoneEnd = tnc.indexOf("</phone>", phoneBegin + "<phone>".length());
+			final String substring = tnc.substring(0, phoneBegin);
+			final String substring2 = tnc.substring(phoneBegin + "<phone>".length(), phoneEnd);
+			final String substring3 = tnc.substring(phoneEnd + "</phone>".length(), tnc.length());
 			if (string == null || string.equals("")) {
 				s2 = substring + substring3;
 			} else {
@@ -1298,7 +1300,7 @@ public final class Class_o {
 		return prop;
 	}
 
-	private static int getBillingTypeInt() {
+	private static int getTestFieldInt() {
 		if (Class_o.iapTestField.equals("0")) {
 			return 0;
 		}
@@ -1372,15 +1374,15 @@ public final class Class_o {
 			for (int n6 = 0; n6 < n; ++n6) {
 				final String s = Class_o.var_29a5[n6][9];
 				final String s2 = Class_o.var_29a5[n6][7];
-				final int int1 = Integer.parseInt(Class_o.var_29a5[n6][14]);
+				final int tier = Integer.parseInt(Class_o.var_29a5[n6][14]);
 				if (s2 != null) {
 					Class_o.var_29a5[n6][16] = ""
 							+ sub_7695(s) * (100 + Integer.parseInt(Class_o.var_29a5[n6][5])) * 100000L / sub_7695(s2);
 					new StringBuffer().append("bonus    ").append(100 + Integer.parseInt(Class_o.var_29a5[n6][5]))
-							.append(", tier ").append(int1);
+							.append(", tier ").append(tier);
 				}
 				new StringBuffer().append("profile Id :\t").append(Class_o.var_29a5[n6][0]).append("\tTier:\t")
-						.append(int1).append("\tRatios :\t").append(Class_o.var_29a5[n6][16]);
+						.append(tier).append("\tRatios :\t").append(Class_o.var_29a5[n6][16]);
 			}
 		} catch (final Exception ex) {
 		}
@@ -1500,7 +1502,7 @@ public final class Class_o {
 	}
 
 	private static String[][] getProfilesRegions() {
-		if (!Class_o.var_29ad || getBillingTypeInt() != 0) {
+		if (!Class_o.var_29ad || getTestFieldInt() != 0) {
 			return null;
 		}
 		final Vector vector = new Vector();
@@ -1567,23 +1569,23 @@ public final class Class_o {
 		return regionsConfig;
 	}
 
-	private static String rmsLoad(final String s) {
+	private static String rmsLoad(final String recordName) {
 		RecordStore rs = null;
 		String recordStr = null;
 		try {
 			final byte[] record;
-			rs = RecordStore.openRecordStore(s, true);
+			rs = RecordStore.openRecordStore(recordName, true);
 			record = rs.getRecord(1);
 			if (rs.getNumRecords() >= 1 && record != null) {
 				recordStr = new String(record);
 			}
 		} catch (final Exception ex) {
-			new StringBuffer().append("PaySMS.rmsLoad: Exception: ").append(s).append(" ").append(ex.toString());
+			new StringBuffer().append("PaySMS.rmsLoad: Exception: ").append(recordName).append(" ").append(ex.toString());
 		}
 		try {
 			rs.closeRecordStore();
 		} catch (final Exception ex2) {
-			new StringBuffer().append("PaySMS.rmsLoad: Exception: ").append(s).append(" ").append(ex2.toString());
+			new StringBuffer().append("PaySMS.rmsLoad: Exception: ").append(recordName).append(" ").append(ex2.toString());
 		}
 		return recordStr;
 	}
@@ -1674,7 +1676,7 @@ public final class Class_o {
 		rmsSave(Class_o.rmsNames[3], String.valueOf(profile));
 	}
 
-	private static String sub_6f82() {
+	private static String generateCode() {
 		int i;
 		for (i = Math.abs(new Random().nextInt() % 9999); i < 1000; i += 1000) {
 			if (i < 1000) {
@@ -1723,7 +1725,7 @@ public final class Class_o {
 		if (Class_o.currentValidProfiles == null || Class_o.currentValidProfiles.size() <= 0) {
 			return 0;
 		}
-		if (getBillingTypeInt() != 0) {
+		if (getTestFieldInt() != 0) {
 			return 8;
 		}
 		try {
@@ -1852,18 +1854,18 @@ public final class Class_o {
 
 	private static long sub_7695(String str) {
 		final int index;
-		if ((index = (str = str.replace((char) 44, (char) 46)).indexOf(Class_o.var_2b95)) == -1) {
-			return sub_773b(str) * 100000L;
+		if ((index = (str = str.replace((char) 44, (char) 46)).indexOf(Class_o.currencySeparator)) == -1) {
+			return getAmountFromStr(str) * 100000L;
 		}
-		final long n = sub_773b(str.substring(0, index)) * 100000L;
+		final long n = getAmountFromStr(str.substring(0, index)) * 100000L;
 		for (str = str.substring(index + 1); str.length() < "100000".length() - 1; str += "0") {
 		}
-		return n + sub_773b(str);
+		return n + getAmountFromStr(str);
 	}
 
-	private static int sub_773b(final String s) {
+	private static int getAmountFromStr(final String string) {
 		try {
-			return Integer.parseInt(s);
+			return Integer.parseInt(string);
 		} catch (final Exception ex) {
 			return -1;
 		}
@@ -2023,7 +2025,7 @@ public final class Class_o {
 		Class_o.var_2b75 = new String[] { "1104", "1106", "1108", "1110" };
 		Class_o.var_2b7d = new int[] { 100, 110, 120, 130, 140, 150 };
 		Class_o.var_2b85 = new int[] { 199, 399, 999, 1999, 2999, 3999 };
-		Class_o.var_2b8d = 4;
-		Class_o.var_2b95 = '.';
+		Class_o.contentIDAmnt = 4;
+		Class_o.currencySeparator = '.';
 	}
 }
