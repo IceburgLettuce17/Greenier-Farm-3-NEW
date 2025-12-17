@@ -10525,9 +10525,9 @@ public final class cGame extends GLLib implements Class_b
 					&& (cGame.var_6914[n5][12] & 0x8) != 0x0) {
 				final int n6 = cGame.var_6914[n5][0] >> 16 & 0xFFFF;
 				final int n7 = cGame.var_6914[n5][0] & 0xFFFF;
-				if (cGame.var_68d4[cGame.var_68bc[n6][n7][5]].sub_383d(cGame.var_68bc[n6][n7][6]) > 0) {
+				if (cGame.var_68d4[cGame.var_68bc[n6][n7][5]].GetFrameRectCount(cGame.var_68bc[n6][n7][6]) > 0) {
 					final int[] array3 = new int[4];
-					cGame.var_68d4[cGame.var_68bc[n6][n7][5]].sub_3882(cGame.var_68bc[n6][n7][6], 0, array3, 0);
+					cGame.var_68d4[cGame.var_68bc[n6][n7][5]].GetFrameRect(cGame.var_68bc[n6][n7][6], 0, array3, 0);
 					GLLib.SetClip(GLLib.g, cGame.var_68bc[n6][n7][2] + array3[0],
 							cGame.var_68bc[n6][n7][3] + array3[1], array3[2], array3[3], true);
 					b = true;
@@ -10616,9 +10616,9 @@ public final class cGame extends GLLib implements Class_b
 					&& (cGame.var_6914[n4][12] & 0x8) != 0x0) {
 				final int n5 = cGame.var_6914[n4][0] >> 16 & 0xFFFF;
 				final int n6 = cGame.var_6914[n4][0] & 0xFFFF;
-				if (cGame.var_68d4[cGame.var_68bc[n5][n6][5]].sub_383d(cGame.var_68bc[n5][n6][6]) > 0) {
+				if (cGame.var_68d4[cGame.var_68bc[n5][n6][5]].GetFrameRectCount(cGame.var_68bc[n5][n6][6]) > 0) {
 					final int[] array3 = new int[4];
-					cGame.var_68d4[cGame.var_68bc[n5][n6][5]].sub_3882(cGame.var_68bc[n5][n6][6], 0, array3, 0);
+					cGame.var_68d4[cGame.var_68bc[n5][n6][5]].GetFrameRect(cGame.var_68bc[n5][n6][6], 0, array3, 0);
 					n = cGame.var_68bc[n5][n6][2] + array3[0];
 					GLLib.SetClip(GLLib.g, n, cGame.var_68bc[n5][n6][3] + array3[1], array3[2], array3[3], true);
 					n = 1;
@@ -10672,9 +10672,9 @@ public final class cGame extends GLLib implements Class_b
 				&& (cGame.var_6914[array[19]][12] & 0x8) != 0x0) {
 			final int n7 = cGame.var_6914[array[19]][0] >> 16 & 0xFFFF;
 			final int n8 = cGame.var_6914[array[19]][0] & 0xFFFF;
-			if (cGame.var_68d4[cGame.var_68c4[n7][n8][5]].sub_383d(cGame.var_68c4[n7][n8][6]) > 0) {
+			if (cGame.var_68d4[cGame.var_68c4[n7][n8][5]].GetFrameRectCount(cGame.var_68c4[n7][n8][6]) > 0) {
 				final int[] array2 = new int[4];
-				cGame.var_68d4[cGame.var_68c4[n7][n8][5]].sub_3882(cGame.var_68c4[n7][n8][6], 0, array2, 0);
+				cGame.var_68d4[cGame.var_68c4[n7][n8][5]].GetFrameRect(cGame.var_68c4[n7][n8][6], 0, array2, 0);
 				GLLib.SetClip(GLLib.g, cGame.var_68c4[n7][n8][2] + array2[0],
 						cGame.var_68c4[n7][n8][3] + array2[1], array2[2], array2[3], true);
 				b = true;
@@ -10715,8 +10715,8 @@ public final class cGame extends GLLib implements Class_b
 						n13 = 1;
 					}
 					if (n13 != 0 && array[22] == 0) {
-						final int sub_312c = class_e.sub_312c(n4);
-						sub_3189 = class_e.sub_3189(n4);
+						final int sub_312c = class_e.GetFrameWidth(n4);
+						sub_3189 = class_e.GetFrameHeight(n4);
 						max = (((max = sub_312c - sub_312c * 94 / 100 >> 1) != 0) ? max : 1);
 						sub_3189 = (((sub_3189 = sub_3189 - sub_3189 * 94 / 100 >> 1) != 0) ? sub_3189 : 1);
 						if (array[21] != 0) {
@@ -10749,7 +10749,7 @@ public final class cGame extends GLLib implements Class_b
 								sub_3189 = 90;
 							}
 							class_e2.PaintFrameWithZoom(GLLib.g, n17, n16, n, sub_3189);
-						} else if ((max = Math.max(class_e2.sub_312c(n17), class_e2.sub_3189(n17))) < sub_3189) {
+						} else if ((max = Math.max(class_e2.GetFrameWidth(n17), class_e2.GetFrameHeight(n17))) < sub_3189) {
 							if (n2 == 0) {
 								class_e2.PaintFrame(GLLib.g, n17, n16, n, 0);
 							} else {
@@ -10799,7 +10799,7 @@ public final class cGame extends GLLib implements Class_b
 	private static int sub_1ed28(final int n, final int n2) {
 		final ASprite class_e = cGame.var_68d4[n];
 		int n3 = Integer.MIN_VALUE;
-		final short n4 = class_e.var_faf[n2];
+		final short n4 = class_e._frames_fm_start[n2];
 		final int sub_6494 = class_e.sub_6494(n2);
 		for (short n5 = 0; n5 < sub_6494; ++n5) {
 			final int sub_310b = class_e.sub_310b(n4 + n5);
@@ -10822,7 +10822,7 @@ public final class cGame extends GLLib implements Class_b
 			int n9 = Integer.MIN_VALUE;
 			int n10 = 0;
 			int n11 = 0;
-			final short n12 = class_e.var_faf[n7];
+			final short n12 = class_e._frames_fm_start[n7];
 			final int sub_6494 = class_e.sub_6494(n7);
 			for (short n13 = 0; n13 < sub_6494; ++n13) {
 				final int sub_30ea = class_e.sub_30ea(n12 + n13);
@@ -10957,9 +10957,9 @@ public final class cGame extends GLLib implements Class_b
 		sub_30ea = cGame.var_68bc[1][sub_30ea][6];
 		final ASprite class_e = (n < 1000) ? cGame.var_68d4[n] : cGame.s_gameSprites[n - 1000];
 		int n4 = Integer.MIN_VALUE;
-		final short n5 = class_e.var_faf[sub_30ea];
+		final short n5 = class_e._frames_fm_start[sub_30ea];
 		final int sub_6494 = class_e.sub_6494(sub_30ea);
-		final short n6 = class_e.var_faf[n2];
+		final short n6 = class_e._frames_fm_start[n2];
 		final int sub_6495 = class_e.sub_6494(n2);
 		for (short n7 = 0; n7 < sub_6494; ++n7) {
 			sub_30ea = class_e.sub_30ea(n5 + n7);
@@ -10993,10 +10993,10 @@ public final class cGame extends GLLib implements Class_b
 					break;
 				}
 				final int sub_383d;
-				if ((sub_383d = class_e.sub_383d(n2)) > 0) {
+				if ((sub_383d = class_e.GetFrameRectCount(n2)) > 0) {
 					final int[] array = new int[4];
 					for (int j = 0; j < sub_383d; j++) {
-						class_e.sub_3882(n2, j, array, 0);
+						class_e.GetFrameRect(n2, j, array, 0);
 						n5 = var_6fa4 << 16 | (i & 0xFFFF);
 						final int n6 = n3 + array[0];
 						final int n7 = n4 + array[1];
@@ -11093,8 +11093,8 @@ public final class cGame extends GLLib implements Class_b
 							}
 							sub_31e6 = class_e.sub_31e6(n7);
 							sub_3238 = class_e.sub_3238(n7);
-							sub_312c = class_e.sub_312c(n7);
-							sub_3239 = class_e.sub_3189(n7);
+							sub_312c = class_e.GetFrameWidth(n7);
+							sub_3239 = class_e.GetFrameHeight(n7);
 							if (cGame.var_68bc[n][k][22] != 0) {
 								if (sub_312c > cGame.var_68bc[n][k][22]) {
 									sub_31e6 += sub_312c - cGame.var_68bc[n][k][22] >> 1;
@@ -13029,7 +13029,7 @@ public final class cGame extends GLLib implements Class_b
 			final short n6 = cGame.var_68bc[n2][i][2];
 			final short n7 = cGame.var_68bc[n2][i][3];
 			final int[] array = new int[4];
-			cGame.var_68d4[n4].sub_3882(n5, 0, array, 0);
+			cGame.var_68d4[n4].GetFrameRect(n5, 0, array, 0);
 			++i;
 			while (i <= n3) {
 				cGame.var_68bc[n2][i][2] = (short) (cGame.var_68c4[n2][i][2] + cGame.var_6914[n][8]);
@@ -13042,9 +13042,9 @@ public final class cGame extends GLLib implements Class_b
 					final short n9 = cGame.var_68bc[n2][i][6];
 					final short n10 = cGame.var_68bc[n2][i][2];
 					final short n11 = cGame.var_68bc[n2][i][3];
-					if (class_e.sub_383d(n9) > 0) {
+					if (class_e.GetFrameRectCount(n9) > 0) {
 						final int[] array2 = new int[4];
-						class_e.sub_3882(n9, 0, array2, 0);
+						class_e.GetFrameRect(n9, 0, array2, 0);
 						int n12 = n10 + array2[0];
 						int n13 = n11 + array2[1];
 						int n14 = array2[2];
@@ -13092,9 +13092,9 @@ public final class cGame extends GLLib implements Class_b
 					final short n8 = cGame.var_68bc[n2][i][6];
 					final short n9 = cGame.var_68bc[n2][i][2];
 					final short n10 = cGame.var_68bc[n2][i][3];
-					if (cGame.var_68d4[n7].sub_383d(n8) > 0) {
+					if (cGame.var_68d4[n7].GetFrameRectCount(n8) > 0) {
 						final int[] array = new int[4];
-						cGame.var_68d4[n7].sub_3882(n8, 0, array, 0);
+						cGame.var_68d4[n7].GetFrameRect(n8, 0, array, 0);
 						sub_2c7ce(n2 << 16 | (i & 0xFFFF), n9 + array[0], n10 + array[1], array[2], array[3]);
 					}
 				}
@@ -13143,9 +13143,9 @@ public final class cGame extends GLLib implements Class_b
 			final short n4 = cGame.var_68bc[n][n2][6];
 			final short n5 = cGame.var_68bc[n][n2][2];
 			final short n6 = cGame.var_68bc[n][n2][3];
-			if (cGame.var_68d4[n3].sub_383d(n4) > 0) {
+			if (cGame.var_68d4[n3].GetFrameRectCount(n4) > 0) {
 				final int[] array = new int[4];
-				cGame.var_68d4[n3].sub_3882(n4, 0, array, 0);
+				cGame.var_68d4[n3].GetFrameRect(n4, 0, array, 0);
 				sub_2c7ce(n << 16 | (n2 & 0xFFFF), n5 + array[0], n6 + array[1], array[2], array[3]);
 			}
 		}
@@ -13186,8 +13186,8 @@ public final class cGame extends GLLib implements Class_b
 	}
 
 	private static int sub_2361c(final int n, int i, int j, final int n2, final int n3, final int n4, int n5, int n6) {
-		n5 += cGame.var_68d4[cGame.var_68bc[n][n3][5]].sub_312c(cGame.var_68bc[n][n3][6]) + 10;
-		n6 = cGame.var_68d4[cGame.var_68bc[n][n3][5]].sub_3189(cGame.var_68bc[n][n3][6]) + 10;
+		n5 += cGame.var_68d4[cGame.var_68bc[n][n3][5]].GetFrameWidth(cGame.var_68bc[n][n3][6]) + 10;
+		n6 = cGame.var_68d4[cGame.var_68bc[n][n3][5]].GetFrameHeight(cGame.var_68bc[n][n3][6]) + 10;
 		int n7 = n4;
 		int n8 = 2;
 		int n9 = 3;
@@ -13737,15 +13737,15 @@ public final class cGame extends GLLib implements Class_b
 					final int n = (var_1865 = cGame.var_6aac.var_1865) & 0x7FFF;
 					final ASprite class_e;
 					n2 = (class_e = (((var_1865 & 0x8000) != 0x0) ? cGame.var_68d4[n] : cGame.s_gameSprites[n]))
-							.sub_312c(cGame.var_6aac.var_186d) >> 1;
-					n3 = class_e.sub_3189(cGame.var_6aac.var_186d) >> 1;
+							.GetFrameWidth(cGame.var_6aac.var_186d) >> 1;
+					n3 = class_e.GetFrameHeight(cGame.var_6aac.var_186d) >> 1;
 				} else {
 					final int var_187d;
 					final int n4 = (var_187d = cGame.var_6aac.var_187d) & 0x7FFF;
 					final ASprite class_e2;
 					n2 = (class_e2 = (((var_187d & 0x8000) != 0x0) ? cGame.var_68d4[n4] : cGame.s_gameSprites[n4]))
-							.sub_312c(cGame.var_6aac.var_1885) >> 1;
-					n3 = class_e2.sub_3189(cGame.var_6aac.var_1885) >> 1;
+							.GetFrameWidth(cGame.var_6aac.var_1885) >> 1;
+					n3 = class_e2.GetFrameHeight(cGame.var_6aac.var_1885) >> 1;
 				}
 				if (cGame.var_6aac.var_17cd - n2 > GLLibPlayer.sub_5b8b(0)
 						&& cGame.var_6aac.var_17d5 - n3 > GLLibPlayer.sub_5c0b(0)) {
@@ -14273,10 +14273,10 @@ public final class cGame extends GLLib implements Class_b
 			class_f.var_169d = (short) class_h.m_dataVars[n2][29];
 			class_f.var_16a5 = (short) class_h.m_dataVars[n2][30];
 			final ASprite class_e;
-			final short n3 = (class_e = cGame.s_gameSprites[class_h.m_dataVars[n2][31]]).var_faf[class_f.var_169d];
+			final short n3 = (class_e = cGame.s_gameSprites[class_h.m_dataVars[n2][31]])._frames_fm_start[class_f.var_169d];
 			class_f.var_16ad = class_e.sub_30ea(n3);
 			class_f.var_16b5 = class_e.sub_310b(n3);
-			final short n4 = class_e.var_faf[class_f.var_16a5];
+			final short n4 = class_e._frames_fm_start[class_f.var_16a5];
 			class_f.var_16bd = class_e.sub_30ea(n4);
 			class_f.var_16c5 = class_e.sub_310b(n4);
 			if (class_h.m_dataVars[n2][19] != 5 && class_h.m_dataVars[n2][19] != 110) {
@@ -18380,7 +18380,7 @@ public final class cGame extends GLLib implements Class_b
 							if (sub_2dcf3(5) < sub_2df26()) {
 								final String sub_4e1f;
 								final String sub_4e1f2;
-								sub_406d3(((sub_4e1f = GLLib.Text_GetStringFromLocaleFile(475)) == null) ? "" : sub_4e1f,
+								drawCustomPopupNoOpts(((sub_4e1f = GLLib.Text_GetStringFromLocaleFile(475)) == null) ? "" : sub_4e1f,
 										GLLib.Text_ReplaceText(((sub_4e1f2 = GLLib.Text_GetStringFromLocaleFile(476)) == null) ? "" : sub_4e1f2,
 												"%slots", "" + GLLib.BigNumberSeparate(n, cGame.s_currencySeprType, " ")),
 										7, 0);
@@ -18401,7 +18401,7 @@ public final class cGame extends GLLib implements Class_b
 							if (sub_2dcf3(5) < sub_2df26()) {
 								final String sub_4e1f3;
 								final String sub_4e1f4;
-								sub_406d3(((sub_4e1f3 = GLLib.Text_GetStringFromLocaleFile(475)) == null) ? "" : sub_4e1f3,
+								drawCustomPopupNoOpts(((sub_4e1f3 = GLLib.Text_GetStringFromLocaleFile(475)) == null) ? "" : sub_4e1f3,
 										GLLib.Text_ReplaceText(((sub_4e1f4 = GLLib.Text_GetStringFromLocaleFile(476)) == null) ? "" : sub_4e1f4,
 												"%slots", "" + GLLib.BigNumberSeparate(n2, cGame.s_currencySeprType, " ")),
 										7, 0);
@@ -18454,7 +18454,7 @@ public final class cGame extends GLLib implements Class_b
 						if (sub_2dcf3(5) < sub_2df26()) {
 							final String sub_4e1f5;
 							final String sub_4e1f6;
-							sub_406d3(((sub_4e1f5 = GLLib.Text_GetStringFromLocaleFile(475)) == null) ? "" : sub_4e1f5,
+							drawCustomPopupNoOpts(((sub_4e1f5 = GLLib.Text_GetStringFromLocaleFile(475)) == null) ? "" : sub_4e1f5,
 									GLLib.Text_ReplaceText(((sub_4e1f6 = GLLib.Text_GetStringFromLocaleFile(476)) == null) ? "" : sub_4e1f6,
 											"%slots",
 											"" + GLLib.BigNumberSeparate(var_16e5 + var_16ed, cGame.s_currencySeprType, " ")),
@@ -19213,7 +19213,7 @@ public final class cGame extends GLLib implements Class_b
 			sub_1df06(GLLib.BigNumberSeparate(getCoin(), cGame.s_currencySeprType, " "), 2, 5, 0, 0);
 			sub_1df06(GLLib.BigNumberSeparate(getCash(), cGame.s_currencySeprType, " "), 2, 9, 0, 0);
 			final int[] array = new int[4];
-			cGame.var_68d4[cGame.var_68bc[2][26][5]].sub_3882(cGame.var_68bc[2][26][6], 0, array, 0);
+			cGame.var_68d4[cGame.var_68bc[2][26][5]].GetFrameRect(cGame.var_68bc[2][26][6], 0, array, 0);
 			final int n2 = cGame.var_68bc[2][26][2] + array[0];
 			final int n3 = cGame.var_68bc[2][26][3] + array[1];
 			final int n4 = array[2];
@@ -20643,14 +20643,14 @@ public final class cGame extends GLLib implements Class_b
 			n = cGame.var_68bc[22][92][3];
 			sub_1e07e("+" + Integer.toString(cGame.var_750c), n13 + 40, n + 10, 0, 0, 0, 0, 2, 0, false, false);
 			final int[] array = new int[4];
-			cGame.var_68d4[cGame.var_68bc[22][10][5]].sub_3882(cGame.var_68bc[22][10][6], 0, array, 0);
+			cGame.var_68d4[cGame.var_68bc[22][10][5]].GetFrameRect(cGame.var_68bc[22][10][6], 0, array, 0);
 			GLLib.SetClip(GLLib.g, cGame.var_68bc[22][10][2] + array[0],
 					cGame.var_68bc[22][10][3] + array[1], array[2], array[3], true);
 			sub_351a0();
 			GLLib.SetClip(GLLib.g, 0, 0, GLLib.s_screenWidth, GLLib.s_screenHeight, true);
 			final String sub_4e1f6;
 			sub_1df06(((sub_4e1f6 = GLLib.Text_GetStringFromLocaleFile(200)) == null) ? "" : sub_4e1f6, 22, 94, 0, 0);
-			cGame.var_68d4[cGame.var_68bc[22][95][5]].sub_3882(cGame.var_68bc[22][95][6], 0, array, 0);
+			cGame.var_68d4[cGame.var_68bc[22][95][5]].GetFrameRect(cGame.var_68bc[22][95][6], 0, array, 0);
 			final int n14 = cGame.var_68bc[22][95][2] + array[0];
 			final int n15 = cGame.var_68bc[22][95][3] + array[1];
 			final int n16 = array[2];
@@ -21121,13 +21121,13 @@ public final class cGame extends GLLib implements Class_b
 			n = cGame.var_68bc[22][92][3];
 			sub_1e07e("+" + Integer.toString(cGame.var_75fc), n6 + 40, n + 10, 0, 0, 0, 0, 2, 0, false, false);
 			final int[] array = new int[4];
-			cGame.var_68d4[cGame.var_68bc[22][10][5]].sub_3882(cGame.var_68bc[22][10][6], 0, array, 0);
+			cGame.var_68d4[cGame.var_68bc[22][10][5]].GetFrameRect(cGame.var_68bc[22][10][6], 0, array, 0);
 			GLLib.SetClip(GLLib.g, cGame.var_68bc[22][10][2] + array[0],
 					cGame.var_68bc[22][10][3] + array[1], array[2], array[3], true);
 			GLLib.SetClip(GLLib.g, 0, 0, GLLib.s_screenWidth, GLLib.s_screenHeight, true);
 			final String sub_4e1f3;
 			sub_1df06(((sub_4e1f3 = GLLib.Text_GetStringFromLocaleFile(468)) == null) ? "" : sub_4e1f3, 22, 94, 0, 0);
-			cGame.var_68d4[cGame.var_68bc[22][95][5]].sub_3882(cGame.var_68bc[22][95][6], 0, array, 0);
+			cGame.var_68d4[cGame.var_68bc[22][95][5]].GetFrameRect(cGame.var_68bc[22][95][6], 0, array, 0);
 			final int n7 = cGame.var_68bc[22][95][2] + array[0];
 			final int n8 = cGame.var_68bc[22][95][3] + array[1];
 			final int n9 = array[2];
@@ -21790,7 +21790,7 @@ public final class cGame extends GLLib implements Class_b
 			}
 			sub_1df06("" + cGame.s_barnItemAmount + " / " + decryptInt(cGame.s_maxBarnStorage), 10, 2, 0, 0);
 			final int[] array3 = new int[4];
-			cGame.var_68d4[cGame.var_68bc[10][12][5]].sub_3882(cGame.var_68bc[10][12][6], 0, array3, 0);
+			cGame.var_68d4[cGame.var_68bc[10][12][5]].GetFrameRect(cGame.var_68bc[10][12][6], 0, array3, 0);
 			final int n7 = cGame.var_68bc[10][12][2] + array3[0];
 			final int n8 = cGame.var_68bc[10][12][3] + array3[1];
 			final int n9 = array3[2];
@@ -22201,7 +22201,7 @@ public final class cGame extends GLLib implements Class_b
 				Class_f.sub_6bd7();
 				cGame.var_800c.sub_6b0c(array[0].var_17cd, array[0].var_17d5, 1000);
 				final ASprite class_e;
-				final short n24 = (class_e = cGame.s_gameSprites[128]).var_faf[5];
+				final short n24 = (class_e = cGame.s_gameSprites[128])._frames_fm_start[5];
 				if (cGame.var_8004 != null) {
 					cGame.var_8004.var_17cd = array[0].var_17cd + class_e.sub_30ea(n24);
 					cGame.var_8004.var_17d5 = array[0].var_17d5 + class_e.sub_310b(n24);
@@ -22911,7 +22911,7 @@ public final class cGame extends GLLib implements Class_b
 			final String sub_4e1f2;
 			sub_1df06(((sub_4e1f2 = GLLib.Text_GetStringFromLocaleFile(171)) == null) ? "" : sub_4e1f2, 10, 1, 0, 0);
 			final int[] array = new int[4];
-			cGame.var_68d4[cGame.var_68bc[10][12][5]].sub_3882(cGame.var_68bc[10][12][6], 0, array, 0);
+			cGame.var_68d4[cGame.var_68bc[10][12][5]].GetFrameRect(cGame.var_68bc[10][12][6], 0, array, 0);
 			final int n2 = cGame.var_68bc[10][12][2] + array[0];
 			final int n3 = cGame.var_68bc[10][12][3] + array[1];
 			final int n4 = array[2];
@@ -23131,7 +23131,7 @@ public final class cGame extends GLLib implements Class_b
 			final String sub_4e1f;
 			sub_1df06(((sub_4e1f = GLLib.Text_GetStringFromLocaleFile(162)) == null) ? "" : sub_4e1f, 10, 1, 0, 0);
 			final int[] array = new int[4];
-			cGame.var_68d4[cGame.var_68bc[10][12][5]].sub_3882(cGame.var_68bc[10][12][6], 0, array, 0);
+			cGame.var_68d4[cGame.var_68bc[10][12][5]].GetFrameRect(cGame.var_68bc[10][12][6], 0, array, 0);
 			final int n2 = cGame.var_68bc[10][12][2] + array[0];
 			final int n3 = cGame.var_68bc[10][12][3] + array[1];
 			final int n4 = array[2];
@@ -23362,7 +23362,7 @@ public final class cGame extends GLLib implements Class_b
 			drawText(((sub_4e1f9 = GLLib.Text_GetStringFromLocaleFile(523 + (getLevel() - 2))) == null) ? "" : sub_4e1f9, 12, 27, 0, 0);
 			if (cGame.var_7934 == 0 && cGame.var_795c > 0) {
 				final int[] array = new int[4];
-				cGame.var_68d4[cGame.var_68bc[12][8][5]].sub_3882(cGame.var_68bc[12][8][6], 0, array, 0);
+				cGame.var_68d4[cGame.var_68bc[12][8][5]].GetFrameRect(cGame.var_68bc[12][8][6], 0, array, 0);
 				final int n7 = cGame.var_68bc[12][8][2] + array[0];
 				final int n8 = cGame.var_68bc[12][8][3] + array[1];
 				final int n9 = array[2];
@@ -23666,7 +23666,7 @@ public final class cGame extends GLLib implements Class_b
 	private static boolean openCollectionRoom(int n) {
 		if (n == 0) {
 			cGame.var_7a44 = (cGame.var_7a44 = cGame.var_68d4[cGame.var_68bc[16][2][5]]
-					.sub_3189(cGame.var_68bc[16][2][6]) + 10) + 10;
+					.GetFrameHeight(cGame.var_68bc[16][2][6]) + 10) + 10;
 			if (cGame.var_7a2c > 13) {
 				cGame.var_7a2c = 10;
 				sub_3d334();
@@ -23727,7 +23727,7 @@ public final class cGame extends GLLib implements Class_b
 			final String sub_4e1f;
 			sub_1df06(((sub_4e1f = GLLib.Text_GetStringFromLocaleFile(219)) == null) ? "" : sub_4e1f, 16, 90, 0, 0);
 			final int[] array3 = new int[4];
-			cGame.var_68d4[cGame.var_68bc[16][1][5]].sub_3882(cGame.var_68bc[16][1][6], 0, array3, 0);
+			cGame.var_68d4[cGame.var_68bc[16][1][5]].GetFrameRect(cGame.var_68bc[16][1][6], 0, array3, 0);
 			final int n2 = cGame.var_68bc[16][1][2] + array3[0];
 			final int n3 = cGame.var_68bc[16][1][3] + array3[1];
 			final int n4 = array3[2];
@@ -24114,7 +24114,7 @@ public final class cGame extends GLLib implements Class_b
 		if (n == 3) {
 			sub_1dcc1(19);
 			final int[] array = new int[4];
-			cGame.var_68d4[cGame.var_68bc[19][1][5]].sub_3882(cGame.var_68bc[19][1][6], 0, array, 0);
+			cGame.var_68d4[cGame.var_68bc[19][1][5]].GetFrameRect(cGame.var_68bc[19][1][6], 0, array, 0);
 			n = cGame.var_68bc[19][1][2] + array[0];
 			GLLib.SetClip(GLLib.g, n, cGame.var_68bc[19][1][3] + array[1], array[2], array[3], true);
 			n = GLLib.s_screenWidth;;
@@ -24641,7 +24641,7 @@ public final class cGame extends GLLib implements Class_b
 							if (sub_2dcf3(5) < sub_2df26()) {
 								final String sub_4e1f3;
 								final String sub_4e1f4;
-								sub_406d3(((sub_4e1f3 = GLLib.Text_GetStringFromLocaleFile(475)) == null) ? "" : sub_4e1f3,
+								drawCustomPopupNoOpts(((sub_4e1f3 = GLLib.Text_GetStringFromLocaleFile(475)) == null) ? "" : sub_4e1f3,
 										GLLib.Text_ReplaceText(((sub_4e1f4 = GLLib.Text_GetStringFromLocaleFile(476)) == null) ? "" : sub_4e1f4,
 												"%slots", "" + j),
 										7, 0);
@@ -24935,7 +24935,7 @@ public final class cGame extends GLLib implements Class_b
 		sub_237ff = cGame.var_68bc[4][1][5];
 		final short n5 = cGame.var_68bc[4][1][6];
 		ASprite class_e = sub_237ff < 1000 ? cGame.var_68d4[sub_237ff] : cGame.s_gameSprites[sub_237ff - 1000];
-		final short n6 = class_e.var_faf[n5];
+		final short n6 = class_e._frames_fm_start[n5];
 		final int sub_6494 = class_e.sub_6494(n5);
 		final int n7 = class_e._modules_w_short[class_e.GetFrameModule(n5, 0)] & 0xFFFF;
 		final int n8 = class_e._modules_h_short[class_e.GetFrameModule(n5, 0)] & 0xFFFF;
@@ -25001,11 +25001,11 @@ public final class cGame extends GLLib implements Class_b
 	static void sub_40658(final int n, final int n2) {
 		final String sub_4e1f;
 		final String sub_4e1f2;
-		sub_406d3(((sub_4e1f = GLLib.Text_GetStringFromLocaleFile(n)) == null) ? "" : sub_4e1f,
+		drawCustomPopupNoOpts(((sub_4e1f = GLLib.Text_GetStringFromLocaleFile(n)) == null) ? "" : sub_4e1f,
 				((sub_4e1f2 = GLLib.Text_GetStringFromLocaleFile(n2)) == null) ? "" : sub_4e1f2, 7, 0);
 	}
 
-	static void sub_406d3(final String var_7ac4, final String var_7acc, final int n, final int n2) {
+	static void drawCustomPopupNoOpts(final String title, final String desc, final int n, final int n2) {
 		sub_4074f();
 		if (cGame.var_807c == 0) {
 			sub_2000c(4, 30, true);
@@ -25017,8 +25017,8 @@ public final class cGame extends GLLib implements Class_b
 		sub_2000c(4, 11, true);
 		sub_2024d(4, 11, true);
 		sub_4019a(7, 0, 10);
-		cGame.s_popup_title = var_7ac4;
-		cGame.s_popup_desc = var_7acc;
+		cGame.s_popup_title = title;
+		cGame.s_popup_desc = desc;
 		switchToState(19);
 	}
 
@@ -25423,7 +25423,7 @@ public final class cGame extends GLLib implements Class_b
 				final String sub_4e1f;
 				sub_1df06(((sub_4e1f = GLLib.Text_GetStringFromLocaleFile(157)) == null) ? "" : sub_4e1f, 9, 1, 0, 0);
 				final int[] array = new int[4];
-				cGame.var_68d4[cGame.var_68bc[9][11][5]].sub_3882(cGame.var_68bc[9][11][6], 0, array, 0);
+				cGame.var_68d4[cGame.var_68bc[9][11][5]].GetFrameRect(cGame.var_68bc[9][11][6], 0, array, 0);
 				final int n3 = cGame.var_68bc[9][11][2] + array[0];
 				final int n4 = cGame.var_68bc[9][11][3] + array[1];
 				final int n5 = array[2];
@@ -29541,10 +29541,10 @@ public final class cGame extends GLLib implements Class_b
 						final short n25 = cGame.var_68c4[n23][n22][6];
 						final short n26 = cGame.var_68c4[n23][n22][2];
 						final short n27 = cGame.var_68c4[n23][n22][3];
-						final int sub_383d = cGame.var_68d4[n24].sub_383d(n25);
+						final int sub_383d = cGame.var_68d4[n24].GetFrameRectCount(n25);
 						final int[] array = new int[4];
 						if (sub_383d > 0) {
-							cGame.var_68d4[n24].sub_3882(n25, 0, array, 0);
+							cGame.var_68d4[n24].GetFrameRect(n25, 0, array, 0);
 						}
 						int n28 = 0;
 						int n29 = 0;

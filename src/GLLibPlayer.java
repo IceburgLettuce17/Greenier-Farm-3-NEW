@@ -1789,8 +1789,8 @@ final class GLLibPlayer implements Runnable
             if (var_1de7 == 0) {
                 sub_31e6 = ((ASprite)o).sub_31e6(n);
                 sub_3238 = ((ASprite)o).sub_3238(n);
-                sub_312c = ((ASprite)o).sub_312c(n);
-                sub_3239 = ((ASprite)o).sub_3189(n);
+                sub_312c = ((ASprite)o).GetFrameWidth(n);
+                sub_3239 = ((ASprite)o).GetFrameHeight(n);
                 if ((GLLib.var_1fe7 & 0x2000) != 0x0) {
                     final int n12 = GLLib.var_1fef[13][1];
                     sub_31e6 = sub_31e6 * n12 / 100;

@@ -1159,11 +1159,11 @@ public final class IGP implements Runnable, CommandListener
     }
     
     private static int sub_48a7(final int n, final int n2) {
-        return var_1fcd[n].sub_312c(n2);
+        return var_1fcd[n].GetFrameWidth(n2);
     }
     
     private static int sub_48cb(final int n, final int n2) {
-        return var_1fcd[n].sub_3189(n2);
+        return var_1fcd[n].GetFrameHeight(n2);
     }
     
     public static void updatePointerReleased(int x, int y) {

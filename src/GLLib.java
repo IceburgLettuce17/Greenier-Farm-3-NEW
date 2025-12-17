@@ -1134,18 +1134,16 @@ public abstract class GLLib extends Canvas implements Runnable
         return length;
     }
     
-    private static int[] sub_447e(final byte[] array, final boolean b, int[] array2) {
-        final int n = ((array.length & 0x3) == 0x0) ? (array.length >>> 2) : ((array.length >>> 2) + 1);
+    private static int[] sub_447e(final byte[] key, final boolean b, int[] array2) {
+        final int n = ((key.length & 0x3) == 0x0) ? (key.length >>> 2) : ((key.length >>> 2) + 1);
         if (b) {
-            (array2 = new int[n + 1])[n] = array.length;
+            (array2 = new int[n + 1])[n] = key.length;
         }
         else {
             array2 = new int[n];
         }
-        for (int length = array.length, i = 0; i < length; ++i) {
-            final int[] array3 = array2;
-            final int n2 = i >>> 2;
-            array3[n2] |= (0xFF & array[i]) << ((i & 0x3) << 3);
+        for (int length = key.length, i = 0; i < length; ++i) {
+            array2[i >>> 2] |= (0xFF & key[i]) << ((i & 0x3) << 3);
         }
         return array2;
     }
@@ -1170,16 +1168,16 @@ public abstract class GLLib extends Canvas implements Runnable
         return ~n3;
     }
     
-    static byte[] sub_4655(byte[] array, final String anObject, final boolean b) {
-        byte[] bytes = null;
-        if ("".equals(anObject) == false && anObject != null) {
-            bytes = anObject.getBytes();
+	static byte[] sub_4655(byte[] array, final String key, final boolean b) {
+        byte[] keyBytes = null;
+        if ("".equals(key) == false && key != null) {
+            keyBytes = key.getBytes();
         }
         if (array.length == 0) {
             return array;
         }
         final int[] sub_447e = sub_447e(array, true, null);
-        int[] sub_447e2 = sub_447e(bytes, false, null);
+        int[] sub_447e2 = sub_447e(keyBytes, false, null);
         final int n = sub_447e.length - 1;
         if (n >= 1) {
             if (sub_447e2.length < 4) {
@@ -1206,11 +1204,10 @@ public abstract class GLLib extends Canvas implements Runnable
                 n2 = n12;
             }
         }
-        final int[] array9;
         final int n13;
-        final byte[] array8 = new byte[n13 = (array9 = sub_447e).length << 2];
+        final byte[] array8 = new byte[n13 = sub_447e.length << 2];
         for (int j = 0; j < n13; ++j) {
-            array8[j] = (byte)(array9[j >>> 2] >>> ((j & 0x3) << 3));
+            array8[j] = (byte)(sub_447e[j >>> 2] >>> ((j & 0x3) << 3));
         }
         return array8;
     }

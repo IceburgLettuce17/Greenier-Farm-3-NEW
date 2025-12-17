@@ -329,7 +329,7 @@ final class Class_f
                                 if (cGame.sub_35bc4()) {
                                     if (class_f.var_18b5 == null) {
                                         final ASprite class_e;
-                                        final short n2 = (class_e = cGame.s_gameSprites[class_f.var_1865]).var_faf[1];
+                                        final short n2 = (class_e = cGame.s_gameSprites[class_f.var_1865])._frames_fm_start[1];
                                         class_f.var_18a5 = class_e.sub_30ea(n2);
                                         class_f.var_18ad = class_e.sub_310b(n2);
                                         class_f.var_18b5 = new GLLibPlayer(cGame.s_gameSprites[147], class_f.var_17ed, class_f.var_17f5);
@@ -443,7 +443,7 @@ final class Class_f
                                         final GameDatas class_h = GameDatas.s_allDatas[0];
                                         class_f11.var_16a5 = (short)class_h.m_dataVars[class_f11.var_1835][30];
                                         final ASprite class_e2;
-                                        final short n5 = (class_e2 = cGame.s_gameSprites[class_h.m_dataVars[class_f11.var_1835][31]]).var_faf[class_f11.var_16a5];
+                                        final short n5 = (class_e2 = cGame.s_gameSprites[class_h.m_dataVars[class_f11.var_1835][31]])._frames_fm_start[class_f11.var_16a5];
                                         class_f11.var_16bd = class_e2.sub_30ea(n5);
                                         class_f11.var_16c5 = class_e2.sub_310b(n5);
                                         class_f11.var_18a5 = class_f11.var_16bd;
@@ -828,8 +828,8 @@ final class Class_f
                         final Class_f class_f17;
                         if ((class_f17 = class_f).var_189d != null && class_f17.var_189d.IsAnimOver() && (Class_f.var_1785 == -1 || Class_f.var_1785 < Class_f.var_178d)) {
                             class_f17.var_189d.SetAnim(1, 1);
-                            final int sub_312c = class_f17.var_189d.GetSprite().sub_312c(0);
-                            final int sub_1924 = class_f17.var_189d.GetSprite().sub_3189(0);
+                            final int sub_312c = class_f17.var_189d.GetSprite().GetFrameWidth(0);
+                            final int sub_1924 = class_f17.var_189d.GetSprite().GetFrameHeight(0);
                             class_f17.var_17cd = Class_f.var_1795 + GLLib.Math_Rand(-sub_312c, sub_312c);
                             class_f17.var_17d5 = Class_f.var_179d + GLLib.Math_Rand(-sub_1924, sub_1924);
                             if (Class_f.var_1785 > -1) {
@@ -1088,8 +1088,8 @@ final class Class_f
                     if (class_e4 != null && n15 > -1) {
                         final int n16 = class_f8.var_17ed + class_e4.sub_31e6(n15);
                         final int n17 = class_f8.var_17f5 + class_e4.sub_3238(n15);
-                        final int n18 = n16 + class_e4.sub_312c(n15);
-                        final int n19 = n17 + class_e4.sub_3189(n15);
+                        final int n18 = n16 + class_e4.GetFrameWidth(n15);
+                        final int n19 = n17 + class_e4.GetFrameHeight(n15);
                         final int n20 = 0 + GLLib.s_screenWidth;
                         final int n21 = 0 + GLLib.s_screenHeight;
                         b = (n18 > 0 && n16 < n20 && n19 > 0 && n17 < n21);
@@ -1614,27 +1614,27 @@ final class Class_f
         }
     }
     
-    private void sub_5f3b(int n, final int n2) {
+    private void sub_5f3b(int n, final int frame2) {
         final int n3 = n & 0x7FFF;
         final ASprite class_e = ((n & 0x8000) != 0x0) ? cGame.var_68d4[n3] : cGame.s_gameSprites[n3];
-        int var_1875 = this.var_1875;
-        if (class_e == null || n2 < 0) {
+        int palette = this.var_1875;
+        if (class_e == null || frame2 < 0) {
             return;
         }
         if (this.sub_a2a0(65536)) {
-            var_1875 += class_e._palettes >> 1;
+            palette += class_e._palettes >> 1;
         }
-        class_e.SetCurrentPalette(var_1875);
+        class_e.SetCurrentPalette(palette);
         if (cGame.s_zoomLevel == 100) {
-            class_e.PaintFrame(GLLib.g, n2, this.var_17ed, this.var_17f5, 0);
+            class_e.PaintFrame(GLLib.g, frame2, this.var_17ed, this.var_17f5, 0);
             return;
         }
         if (cGame.s_zoomLevel < 100 && cGame.sub_438b0(n)) {
-            n = class_e.GetFrames() / 2 + n2;
+            n = class_e.GetFrames() / 2 + frame2;
             class_e.PaintFrame(GLLib.g, n, this.var_17ed, this.var_17f5, 0);
             return;
         }
-        class_e.PaintFrameWithZoom(GLLib.g, n2, this.var_17ed, this.var_17f5, cGame.s_zoomLevel);
+        class_e.PaintFrameWithZoom(GLLib.g, frame2, this.var_17ed, this.var_17f5, cGame.s_zoomLevel);
     }
     
     final void sub_605f() {
@@ -2350,7 +2350,7 @@ final class Class_f
             if (cGame.sub_2dcf3(5) < cGame.sub_2df26()) {
                 final String sub_4e1f;
                 final String sub_4e1f2;
-                cGame.sub_406d3(((sub_4e1f = GLLib.Text_GetStringFromLocaleFile(475)) == null) ? "" : sub_4e1f, GLLib.Text_ReplaceText(((sub_4e1f2 = GLLib.Text_GetStringFromLocaleFile(476)) == null) ? "" : sub_4e1f2, "%slots", "3"), 7, 0);
+                cGame.drawCustomPopupNoOpts(((sub_4e1f = GLLib.Text_GetStringFromLocaleFile(475)) == null) ? "" : sub_4e1f, GLLib.Text_ReplaceText(((sub_4e1f2 = GLLib.Text_GetStringFromLocaleFile(476)) == null) ? "" : sub_4e1f2, "%slots", "3"), 7, 0);
             }
             else {
                 cGame.sub_40658(471, 477);
@@ -2403,8 +2403,8 @@ final class Class_f
             final int var_1865;
             final int n = (var_1865 = this.var_1865) & 0x7FFF;
             final ASprite class_e;
-            final int n2 = (class_e = (((var_1865 & 0x8000) != 0x0) ? cGame.var_68d4[n] : cGame.s_gameSprites[n])).sub_312c(this.var_186d) >> 1;
-            final int n3 = class_e.sub_3189(this.var_186d) >> 1;
+            final int n2 = (class_e = (((var_1865 & 0x8000) != 0x0) ? cGame.var_68d4[n] : cGame.s_gameSprites[n])).GetFrameWidth(this.var_186d) >> 1;
+            final int n3 = class_e.GetFrameHeight(this.var_186d) >> 1;
             if (this.var_17cd - n2 > GLLibPlayer.sub_5b8b(0) && this.var_17d5 - n3 > GLLibPlayer.sub_5c0b(0)) {
                 this.sub_aac5();
             }
@@ -2598,10 +2598,10 @@ final class Class_f
                 this.var_16ed = class_h.m_dataVars[this.var_1835][21];
             }
             cGame.playSndNoLoop(44);
-            final short n = class_e.var_faf[this.var_169d];
+            final short n = class_e._frames_fm_start[this.var_169d];
             this.var_16ad = class_e.sub_30ea(n);
             this.var_16b5 = class_e.sub_310b(n);
-            final short n2 = class_e.var_faf[this.var_16a5];
+            final short n2 = class_e._frames_fm_start[this.var_16a5];
             this.var_16bd = class_e.sub_30ea(n2);
             this.var_16c5 = class_e.sub_310b(n2);
             this.var_168d = false;
@@ -2775,8 +2775,8 @@ final class Class_f
         }
         this.var_1705 += 4 * GLLib.s_game_frameDT;
         if (this.var_16fd == 57) {
-            this.var_1845 = cGame.var_800c.var_17cd + cGame.var_68bc[1][26][2] + (cGame.var_68d4[1].sub_312c(33) >> 1);
-            this.var_184d = cGame.var_800c.var_17d5 + cGame.var_68bc[1][26][3] + (cGame.var_68d4[1].sub_312c(33) >> 1);
+            this.var_1845 = cGame.var_800c.var_17cd + cGame.var_68bc[1][26][2] + (cGame.var_68d4[1].GetFrameWidth(33) >> 1);
+            this.var_184d = cGame.var_800c.var_17d5 + cGame.var_68bc[1][26][3] + (cGame.var_68d4[1].GetFrameWidth(33) >> 1);
         }
         else if (this.var_16fd >= 59) {
             if ((this.var_1725 & 0xFFFF) == 0x5) {
@@ -2789,8 +2789,8 @@ final class Class_f
             }
         }
         else if (this.var_16fd == 37) {
-            this.var_1845 = cGame.var_800c.var_17cd + cGame.var_68bc[1][21][2] + (cGame.var_68d4[1].sub_312c(4) >> 1);
-            this.var_184d = cGame.var_800c.var_17d5 + cGame.var_68bc[1][21][3] + (cGame.var_68d4[1].sub_312c(4) >> 1);
+            this.var_1845 = cGame.var_800c.var_17cd + cGame.var_68bc[1][21][2] + (cGame.var_68d4[1].GetFrameWidth(4) >> 1);
+            this.var_184d = cGame.var_800c.var_17d5 + cGame.var_68bc[1][21][3] + (cGame.var_68d4[1].GetFrameWidth(4) >> 1);
         }
         else {
             this.var_1845 = cGame.var_800c.var_17cd;
@@ -2920,8 +2920,8 @@ final class Class_f
         if (this.var_189d != null && this.var_189d.IsAnimOver() && (Class_f.var_1775 == -1 || Class_f.var_1775 < Class_f.var_177d)) {
             cGame.playSndNoLoop(GLLib.Math_Rand(26, 30));
             this.var_189d.SetAnim(0, 1);
-            final int sub_312c = this.var_189d.GetSprite().sub_312c(0);
-            final int sub_3189 = this.var_189d.GetSprite().sub_3189(0);
+            final int sub_312c = this.var_189d.GetSprite().GetFrameWidth(0);
+            final int sub_3189 = this.var_189d.GetSprite().GetFrameHeight(0);
             this.var_17cd = (cGame.var_800c.var_17cd + GLLib.Math_Rand(sub_312c, GLLib.s_screenWidth - sub_312c)) * 100 / cGame.s_zoomLevel;
             this.var_17d5 = (cGame.var_800c.var_17d5 + GLLib.Math_Rand(sub_3189, GLLib.s_screenHeight - sub_3189)) * 100 / cGame.s_zoomLevel;
             if (cGame.s_game_states[cGame.s_game_state] == 13) {
@@ -3389,10 +3389,10 @@ final class Class_f
         if (this.var_1865 != -1 && this.var_186d != -1 && (this.var_1865 & 0xFFFF0000) == 0x0) {
             int n;
             if ((this.var_1865 & 0x8000) != 0x0) {
-                n = cGame.var_68d4[this.var_1865 & 0x7FFF].sub_383d(this.var_186d);
+                n = cGame.var_68d4[this.var_1865 & 0x7FFF].GetFrameRectCount(this.var_186d);
             }
             else {
-                n = cGame.s_gameSprites[this.var_1865].sub_383d(this.var_186d);
+                n = cGame.s_gameSprites[this.var_1865].GetFrameRectCount(this.var_186d);
             }
             if (n > 0) {
                 final int[] array = new int[4];
@@ -3402,10 +3402,10 @@ final class Class_f
                 array2[1] = GLLib.s_screenY;
                 cGame.sub_26427(array2, array3);
                 if ((this.var_1865 & 0x8000) != 0x0) {
-                    cGame.var_68d4[this.var_1865 & 0x7FFF].sub_3882(this.var_186d, 0, array, 0);
+                    cGame.var_68d4[this.var_1865 & 0x7FFF].GetFrameRect(this.var_186d, 0, array, 0);
                 }
                 else {
-                    cGame.s_gameSprites[this.var_1865].sub_3882(this.var_186d, 0, array, 0);
+                    cGame.s_gameSprites[this.var_1865].GetFrameRect(this.var_186d, 0, array, 0);
                 }
                 final int n2 = this.var_17cd + array[0];
                 final int n3 = this.var_17d5 + array[1];
