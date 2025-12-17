@@ -1290,10 +1290,10 @@ public final class cGame extends GLLib implements Class_b
 									|| cGame.s_tutorialState == 46 || cGame.s_tutorialState == 48 || cGame.s_tutorialState == 39
 									|| cGame.s_tutorialState == 43)) {
 								state = GLLib.s_screenX;
-								final int var_203f = GLLib.s_screenY;
+								
 								final short n7 = cGame.var_68bc[4][2][2];
 								final short n8 = cGame.var_68bc[4][2][3];
-								if (state >= n7 - 68 && state < n7 + 375 && var_203f > n8 - 20 && var_203f < n8 + 200) {
+								if (state >= n7 - 68 && state < n7 + 375 && GLLib.s_screenY > n8 - 20 && GLLib.s_screenY < n8 + 200) {
 									cGame.s_hasFinishedTut = true;
 									b2 = true;
 									break Label_2355;
@@ -17070,18 +17070,18 @@ public final class cGame extends GLLib implements Class_b
 		}
 	}
 
-	protected final void pointerReleased(final int n, final int n2) {
+	protected final void pointerReleased(final int x, final int y) {
 		if (cGame.s_game_states[cGame.s_game_state] == GS_IGP) {
-			IGP.updatePointerReleased(n, n2);
+			IGP.updatePointerReleased(x, y);
 		}
-		super.pointerReleased(n, n2);
+		super.pointerReleased(x, y);
 	}
 
-	protected final void pointerPressed(final int n, final int n2) {
+	protected final void pointerPressed(final int x, final int y) {
 		if (cGame.s_game_states[cGame.s_game_state] == GS_IGP) {
-			IGP.updatePointerPressed(n, n2);
+			IGP.updatePointerPressed(x, y);
 		}
-		super.pointerPressed(n, n2);
+		super.pointerPressed(x, y);
 		cGame.var_6f0c = GLLib.s_screenX;
 		cGame.var_6f14 = GLLib.s_screenY;
 		cGame.var_6f2c = GLLib.s_screenX;
@@ -17096,27 +17096,27 @@ public final class cGame extends GLLib implements Class_b
 		//cGame.var_6f04 = 0;
 	}
 
-	protected final void pointerDragged(final int n, final int var_6f1c) {
+	protected final void pointerDragged(final int x, final int y) {
 		if (cGame.s_game_states[cGame.s_game_state] == GS_IGP) {
-			IGP.sub_4b41(n, var_6f1c);
+			IGP.updatePointerDragged(x, y);
 		}
-		cGame.var_6f1c = var_6f1c;
-		cGame.var_6f24 = 480 - n;
-		final int var_2037 = GLLib.s_screenX;
-		final int var_203f = GLLib.s_screenY;
-		super.pointerDragged(n, var_6f1c);
+		cGame.var_6f1c = y;
+		cGame.var_6f24 = 480 - x;
+		
+		
+		super.pointerDragged(x, y);
 		if (((GLLib.s_screenX - cGame.var_6f3c < 0) ? (-(GLLib.s_screenX - cGame.var_6f3c))
-				: (GLLib.s_screenX - cGame.var_6f3c)) < ((var_2037 - cGame.var_6f3c < 0)
-						? (-(var_2037 - cGame.var_6f3c))
-						: (var_2037 - cGame.var_6f3c))) {
-			cGame.var_6f3c = var_2037;
+				: (GLLib.s_screenX - cGame.var_6f3c)) < ((GLLib.s_screenX - cGame.var_6f3c < 0)
+						? (-(GLLib.s_screenX - cGame.var_6f3c))
+						: (GLLib.s_screenX - cGame.var_6f3c))) {
+			cGame.var_6f3c = GLLib.s_screenX;
 			//cGame.var_6f4c = 0;
 		}
 		if (((GLLib.s_screenY - cGame.var_6f44 < 0) ? (-(GLLib.s_screenY - cGame.var_6f44))
-				: (GLLib.s_screenY - cGame.var_6f44)) < ((var_203f - cGame.var_6f44 < 0)
-						? (-(var_203f - cGame.var_6f44))
-						: (var_203f - cGame.var_6f44))) {
-			cGame.var_6f44 = var_203f;
+				: (GLLib.s_screenY - cGame.var_6f44)) < ((GLLib.s_screenY - cGame.var_6f44 < 0)
+						? (-(GLLib.s_screenY - cGame.var_6f44))
+						: (GLLib.s_screenY - cGame.var_6f44))) {
+			cGame.var_6f44 = GLLib.s_screenY;
 			//cGame.var_6f4c = 0;
 		}
 		//cGame.var_6f04 += GLLib.s_game_frameDT;
@@ -17139,18 +17139,13 @@ public final class cGame extends GLLib implements Class_b
 			cGame.var_6f6c[1] = n4;
 			cGame.var_6f6c[2] = n5;
 			cGame.var_6f6c[3] = n6;
-			final int[] var_6f64 = cGame.var_6f64;
-			final int[] var_6f6c = cGame.var_6f6c;
-			final int[] array = var_6f64;
 			n3 = var_6f64[0];
 			n6 = var_6f6c[0];
-			n4 = array[0] + array[2];
-			final int n7 = var_6f6c[0] + var_6f6c[2];
-			n5 = array[1];
-			final int n8 = var_6f6c[1];
-			n = array[1] + array[3];
+			n4 = var_6f64[0] + var_6f64[2];
+			n5 = var_6f64[1];
+			n = var_6f64[1] + var_6f64[3];
 			n2 = var_6f6c[1] + var_6f6c[3];
-			if (n >= n8 && n5 <= n2 && n4 >= n6 && n3 <= n7) {
+			if (n >= var_6f6c[1] && n5 <= n2 && n4 >= n6 && n3 <= var_6f6c[0] + var_6f6c[2]) {
 				return true;
 			}
 		}
@@ -17324,12 +17319,10 @@ public final class cGame extends GLLib implements Class_b
 		final int[] array;
 		(array = new int[2])[0] = n;
 		array[1] = n2;
-		final int[] array2 = array;
 		final int n5 = 0;
-		array2[n5] -= n3 >> 1;
-		final int[] array3 = array;
+		array[n5] -= n3 >> 1;
 		final int n6 = 1;
-		array3[n6] -= n4 >> 1;
+		array[n6] -= n4 >> 1;
 		int n7;
 		for (n = 0, n2 = 0; n2 < n3 && n == 0; ++n2) {
 			for (n7 = 0; n7 < n4 && n == 0; ++n7) {
@@ -23448,19 +23441,19 @@ public final class cGame extends GLLib implements Class_b
 		}
 		if (substate == 8 && !cGame.s_displayPauseSndOpt && cGame.s_displayPauseHelp) {
 			if (GLLib.sub_76c6() || GLLib.sub_7693() || cGame.var_799c) {
-				final int var_2037 = GLLib.s_screenX;
-				final int var_203f = GLLib.s_screenY;
+				
+				
 				final short n2 = cGame.var_68bc[15][59][2];
 				final short n3 = cGame.var_68bc[15][59][3];
 				final short n4 = cGame.var_68bc[15][59][5];
 				final short n5 = cGame.var_68bc[15][59][6];
-				if (sub_2c577(var_2037, var_203f, n2, n3, n4, n5)) {
+				if (sub_2c577(GLLib.s_screenX, GLLib.s_screenY, n2, n3, n4, n5)) {
 					if (!cGame.var_799c) {
-						cGame.var_79a4 = var_203f;
+						cGame.var_79a4 = GLLib.s_screenY;
 					}
 					cGame.var_799c = true;
 					if (cGame.var_79cc >= n5) {
-						final boolean b = (cGame.var_79c4 += var_203f - cGame.var_79a4) > cGame.var_79cc / 2
+						final boolean b = (cGame.var_79c4 += GLLib.s_screenY - cGame.var_79a4) > cGame.var_79cc / 2
 								- n5 / 2;
 						final boolean b2 = cGame.var_79c4 < -cGame.var_79cc / 2;
 						if (b) {
@@ -23469,7 +23462,7 @@ public final class cGame extends GLLib implements Class_b
 							cGame.var_79c4 = -cGame.var_79cc / 2;
 						}
 					}
-					cGame.var_79a4 = var_203f;
+					cGame.var_79a4 = GLLib.s_screenY;
 				}
 			}
 			if (GLLib.sub_762d()) {
@@ -27204,20 +27197,20 @@ public final class cGame extends GLLib implements Class_b
 		}
 		if (n == 8 && cGame.var_6924) {
 			if (GLLib.sub_76c6() || GLLib.sub_7693() || cGame.var_799c) {
-				final int var_2037 = GLLib.s_screenX;
-				final int var_203f = GLLib.s_screenY;
-				if (sub_2c577(var_2037, var_203f, cGame.var_68bc[8][156][2], cGame.var_68bc[8][156][3],
+				
+				
+				if (sub_2c577(GLLib.s_screenX, GLLib.s_screenY, cGame.var_68bc[8][156][2], cGame.var_68bc[8][156][3],
 						cGame.var_68bc[8][156][5], cGame.var_68bc[8][156][6])) {
 					if (!cGame.var_7d44) {
-						cGame.var_7d3c = var_203f;
+						cGame.var_7d3c = GLLib.s_screenY;
 					}
 					cGame.var_7d44 = true;
-					if ((cGame.var_7d2c += var_203f - cGame.var_7d3c) > 0) {
+					if ((cGame.var_7d2c += GLLib.s_screenY - cGame.var_7d3c) > 0) {
 						cGame.var_7d2c = 0;
 					} else if (cGame.var_7d2c < -cGame.var_7d34) {
 						cGame.var_7d2c = -cGame.var_7d34;
 					}
-					cGame.var_7d3c = var_203f;
+					cGame.var_7d3c = GLLib.s_screenY;
 				}
 			}
 			if (GLLib.s_screenY < cGame.var_68bc[8][156][3]
@@ -27722,12 +27715,12 @@ public final class cGame extends GLLib implements Class_b
 			}
 		}
 		if (n == 8 && cGame.s_pond_pondState == 1 && GLLib.sub_762d()) {
-			final int var_2037 = GLLib.s_screenX;
-			final int var_203f = GLLib.s_screenY;
+			
+			
 			for (int j = 0; j < cGame.s_pond_bubbleIndex; ++j) {
-				if (cGame.s_pond_bubblePlayers[j].GetAnim() == 0 && cGame.var_7d74 < 5 && var_2037 > cGame.s_pond_bubbleXs[j] - 65
-						&& var_2037 < cGame.s_pond_bubbleXs[j] + 65 && var_203f > cGame.s_pond_bubbleYs[j] - 30
-						&& var_203f < cGame.s_pond_bubbleYs[j] + 30 && !cGame.var_7e44 && cGame.var_7e3c == -1) {
+				if (cGame.s_pond_bubblePlayers[j].GetAnim() == 0 && cGame.var_7d74 < 5 && GLLib.s_screenX > cGame.s_pond_bubbleXs[j] - 65
+						&& GLLib.s_screenX < cGame.s_pond_bubbleXs[j] + 65 && GLLib.s_screenY > cGame.s_pond_bubbleYs[j] - 30
+						&& GLLib.s_screenY < cGame.s_pond_bubbleYs[j] + 30 && !cGame.var_7e44 && cGame.var_7e3c == -1) {
 					cGame.var_7e44 = true;
 					cGame.var_7e3c = j;
 					break;

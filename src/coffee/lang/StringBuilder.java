@@ -1,4 +1,9 @@
-package java.lang;
+package coffee.lang;
+
+import java.lang.Object;
+import java.lang.String;
+import java.lang.StringBuffer;
+import java.lang.System;
 
 // A basic StringBuilder shim I made to fix an error.
 // Only has functions that Green Farm 3 calls.

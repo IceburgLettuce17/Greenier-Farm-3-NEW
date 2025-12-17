@@ -257,14 +257,16 @@ public abstract class GLLib extends Canvas implements Runnable
         }
         catch (final Exception ex) {
             GLLib.s_game_state = -1;
+            this.UnInit();
+            GLLib.s_application.notifyDestroyed();
             
         }
         
-        this.UnInit();
+        
         
         // Uncommenting the line below makes
         // the MIDlet crash, for some reason
-        //GLLib.s_application.notifyDestroyed();
+        //
     }
     
     public void paint(final Graphics _g) {
@@ -953,8 +955,8 @@ public abstract class GLLib extends Canvas implements Runnable
         g.drawRGB(rgbData, 0, scanlength, x, y, width, height, processAlpha);
     }
     
-    static final void sub_3d3b(final GLLibImage class_l, final int[] array, final int n, final int n2, final int n3, final int n4, final int n5, final int n6) {
-        class_l.getRGB(array, 0, n2, 0, 0, n5, n6);
+    static final void GetRGB(final GLLibImage image, final int[] rgbData, final int offset, final int scanlength, final int x, final int y, final int width, final int height) {
+        image.getRGB(rgbData, 0, scanlength, 0, 0, width, height);
     }
     
     static int Mem_SetByte(final byte[] dst, int dst_off, final byte src) {

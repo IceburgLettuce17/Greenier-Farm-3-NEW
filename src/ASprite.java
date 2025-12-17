@@ -1882,9 +1882,9 @@ public final class ASprite
                         sub_312c2 = sub_3719;
                         sub_3719 = n13;
                     }
-                    final GLLibImage sub_1b2;
+                    final GLLibImage img;
                     final Graphics graphics;
-                    (graphics = (sub_1b2 = GLLibImage.createImage(sub_312c2, sub_3719)).image.getGraphics()).setColor(-65281);
+                    (graphics = (img = GLLibImage.createImage(sub_312c2, sub_3719)).image.getGraphics()).setColor(-65281);
                     graphics.fillRect(0, 0, sub_312c2, sub_3719);
                     if ((n12 & 0x4) != 0x0) {
                         final int var_10c7 = sub_3719;
@@ -1899,7 +1899,7 @@ public final class ASprite
                         ASprite.s_screenHeight = var_1ddf;
                         ASprite.s_screenWidth = var_1de7;
                     }
-                    GLLib.sub_3d3b(sub_1b2, array3, 0, sub_312c2, 0, 0, sub_312c2, sub_3719);
+                    GLLib.GetRGB(img, array3, 0, sub_312c2, 0, 0, sub_312c2, sub_3719);
                     final int displayColor = GLLib.g.getDisplayColor(16711935);
                     while (j > 0) {
                         --j;
@@ -2058,7 +2058,7 @@ public final class ASprite
                                         final boolean var_1097 = this.var_1097;
                                         final GLLibImage class_l5 = class_l4;
                                         final int[] sub_39a6 = InitTempBuffers(null);
-                                        GLLib.sub_3d3b(class_l5, sub_39a6, 0, n26, 0, 0, n26, n25);
+                                        GLLib.GetRGB(class_l5, sub_39a6, 0, n26, 0, 0, n26, n25);
                                         final int[] sub_5d84 = GLLib.sub_5d84(graphics, sub_39a6, n28, n27, n26, n25, n24, var_1097, false, true);
                                         if (sub_5d84 != null) {
                                             GLLib.DrawRGB(graphics, sub_5d84, 0, GLLib.var_201f, n28, n27, GLLib.var_201f, GLLib.var_2027, GLLib.var_1ff7, true, 0, -1, false);
@@ -2539,7 +2539,7 @@ public final class ASprite
                         final GLLibImage class_l4 = class_l3;
                         final Graphics graphics7 = graphics6;
                         final int[] sub_39a6 = InitTempBuffers(null);
-                        GLLib.sub_3d3b(class_l4, sub_39a6, 0, n72, 0, 0, n72, n71);
+                        GLLib.GetRGB(class_l4, sub_39a6, 0, n72, 0, 0, n72, n71);
                         final int[] sub_5d84 = GLLib.sub_5d84(graphics7, sub_39a6, n74, n73, n72, n71, n70, b5, false, b4);
                         if (!this.sub_3c9a(module, posX, posY, sub_5d84, n3) && sub_5d84 != null) {
                             final boolean var_1ff7 = GLLib.var_1ff7;

@@ -1217,13 +1217,13 @@ public final class IGP implements Runnable, CommandListener
         }
     }
     
-    public static void sub_4b41(final int n, final int n2) {
+    public static void updatePointerDragged(final int x, final int y) {
         var_1fa5 = 0;
         var_207d = 0;
         var_208d = false;
         var_209d = false;
         var_20a5 = false;
-        updatePointerPressed(n, n2);
+        updatePointerPressed(x, y);
     }
     
     private static int sub_4b75(int n, int n2) {

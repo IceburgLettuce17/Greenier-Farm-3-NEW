@@ -18,7 +18,7 @@ MIDlet-Icon: /icon.png
 MIDlet-1: Green Farm 3, /icon.png,GloftGF2M
 MIDlet-Description: Discover farming in a new and fun way
 TITLE-GLCLUB: 0
-MicroEdition-Profile: MIDP-1.0
+MicroEdition-Profile: MIDP-2.1
 MIDlet-Jar-URL: GreenFarm3_Samsung_GT_S8000_EN_IGP_EU_IAP_TS_106.jar
 MIDlet-Permissions: javax.wireless.messaging.sms.send,javax.microedition.io.Connector.sms,javax.microedition.io.Connector.http
 GameVer: 1.0.6
