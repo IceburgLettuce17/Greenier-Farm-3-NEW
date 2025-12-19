@@ -3574,15 +3574,15 @@ public final class cGame extends GLLib implements Class_b
 				}
 			}
 			final int sub_3d86 = GLLib.Mem_SetShort(array2, sub_3db5, n26);
-			final byte[] array4;
-			final byte[] array3 = array4 = array2;
+			final byte[] array4 = array2;
+			final byte[] array3 = array4;
 			final int n28 = sub_3d86;
 			final Class_f var_800c = cGame.var_800c;
 			final int n29 = n28;
-			final byte[] array5 = array3;
+			final byte[] array5 = array2;
 			int n30 = GLLib.Mem_SetInt(array5,
 					GLLib.Mem_SetShort(array5, GLLib.Mem_SetShort(array5,
-							GLLib.Mem_SetByte(array3, n29, (byte) var_800c.var_17c5), (short) var_800c.var_17cd),
+							GLLib.Mem_SetByte(array2, n29, (byte) var_800c.var_17c5), (short) var_800c.var_17cd),
 							(short) var_800c.var_17d5),
 					var_800c.var_17dd);
 			for (Class_f var_17ad = Class_f.var_157d[0]; var_17ad != null; var_17ad = var_17ad.var_17ad) {
