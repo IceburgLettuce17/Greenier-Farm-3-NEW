@@ -85,7 +85,8 @@ interface Define
 	final static int TEXT_DELIVER = 38;
 	final static int TEXT_POPUP_LETSTELLEVERYONE = 42;
 	final static int TEXT_OK = 45;
-	final static int TEXT_LOADING = 46;
+	final static int TEXT_POPUP_MEMFULL = 47;
+	final static int TEXT_POPUP_MEMFULLDESC = 48;
 	final static int TEXT_PAUSE_TITLE = 63;
 	final static int TEXT_PAUSE_CUSTOMERCARE = 64;
 	final static int TEXT_PAUSE_OPTIONS = 65;
