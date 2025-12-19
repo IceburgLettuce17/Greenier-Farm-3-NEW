@@ -26,6 +26,5 @@ public final class GLLibImage
         this.image = image;
     }
     
-    public GLLibImage() {
-    }
+    public GLLibImage() {}
 }

@@ -13,6 +13,59 @@
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 interface Define 
 {
+	// GameStates..... (in the style of Platinum Sudoku
+	final static int GS_EXIT = -1;
+	final static int GS_GAMELOFT = 1;
+	final static int GS_INIT = 2;
+	final static int GS_UNK_3 = 3;
+	final static int GS_LOADING = 4;
+	// 5?
+	// 6?
+	final static int GS_MARKET = 7;
+	final static int GS_SALEDESK = 8;
+	final static int GS_MILL_PRODUCE = 9;
+	final static int GS_KITCHEN_PRODUCE = 10;
+	final static int GS_KITCHEN = 11;
+	final static int GS_ACRE = 12;
+	final static int GS_LEVELUP = 13;
+	final static int GS_PAUSE = 14;
+	final static int GS_MAIL_REQUEST = 15;
+	final static int GS_MAIL_SEND = 16;
+    final static int GS_FARM = 17;
+	final static int GS_FARM_TUTORIAL = 18; // Used to be UNK_18
+	final static int GS_POPUP = 19;	
+	// 20?
+	final static int GS_UNK_21 = 21; // This one is really unknown...
+	// 22?
+	// 23?
+	// 24?
+	final static int GS_POND = 25;
+	final static int GS_FARMDIARY = 26;
+	final static int GS_MILL = 27;
+	final static int GS_BARN = 28;
+	final static int GS_MANOR = 29;
+	final static int GS_MANOR_RESTORE = 30;
+	final static int GS_MANOR_COLLECTIONS = 31;
+	final static int GS_MANOR_TROPHIES = 32;
+	// 33?
+	final static int GS_BUYSCR = 34;
+	final static int GS_HUD = 35;
+	final static int GS_FARM_NEIGHBOR = 36;
+	final static int GS_MAIL_NEIGHBOR = 37;
+	final static int GS_MAIL = 38;
+	final static int GS_SILO = 39;
+	
+	
+	final static int GS_UNK_42 = 42;
+	
+	final static int GS_IGP = 44;
+
+	final static int GS_FIRST = GS_GAMELOFT;
+	
+	final static int GS_LAST = GS_IGP;
+	
+	
+	
 	// Text indices. These are used in GLLib.Text_GetStringFromLocaleFile method
 	final static int TEXT_TUTORIAL_HARVEST = 4;
 	final static int TEXT_TUTORIAL_GROW = 5;

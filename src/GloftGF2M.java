@@ -26,7 +26,10 @@ public final class GloftGF2M extends MIDlet
     
     public final void destroyApp(final boolean unconditional) {
         if (GloftGF2M.s_game != null) {
-            if (cGame.getState() == cGame.GS_MANOR_COLLECTIONS) {
+			
+			// If we exit the MIDlet in Collection Room (gs 31),
+			// make sure to collect any Coins or Experience that was dropped.
+            if (cGame.getState() == Define.GS_MANOR_COLLECTIONS) {
                 if (cGame.var_7a34 > 0) {
                     cGame.addCoin(cGame.var_7a34);
                 }

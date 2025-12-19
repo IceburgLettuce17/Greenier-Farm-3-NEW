@@ -56,7 +56,7 @@ public abstract class GLLib extends Canvas implements Runnable
     private static Hashtable gameActionKeyTable;
     private static int var_1e97;
     static final int var_1e9f;
-    static final int var_1ea7;
+    static final int ALWAYS_128;
     static Random s_math_random;
     static int var_1eb7;
     static int var_1ebf;
@@ -87,10 +87,10 @@ public abstract class GLLib extends Canvas implements Runnable
     private static boolean var_1f87;
     static String text_encoding;
     private static int[] idk;
-    private static byte[][] localeGroups;
+    private static byte[][] s_text_localeGroups;
     private static int[] var_1fa7;
     private static int[][] var_1faf;
-    private static String[][] text_stringCacheArray;
+    private static String[][] s_text_stringCacheArray;
     private static RecordStore s_rs;
     private static int var_1fc7;
     private static int[] var_1fcf;
@@ -261,12 +261,6 @@ public abstract class GLLib extends Canvas implements Runnable
             GLLib.s_application.notifyDestroyed();
             
         }
-        
-        
-        
-        // Uncommenting the line below makes
-        // the MIDlet crash, for some reason
-        //
     }
     
     public void paint(final Graphics _g) {
@@ -1355,22 +1349,22 @@ public abstract class GLLib extends Canvas implements Runnable
         }
     }
     
-    private static int sub_4c47(final InputStream inputStream) {
-        int sub_4332 = 0;
+    private static int sub_4c47(final InputStream is) {
+        int locId = 0;
         try {
-            sub_4332 = Stream_Read(inputStream);
-            GLLib.var_1fa7[sub_4332] = Stream_Read32(inputStream);
-            if (GLLib.var_1fa7[sub_4332] > 1024) {
-                GLLib.var_1fa7[sub_4332] = 1024;
+            locId = Stream_Read(is);
+            GLLib.var_1fa7[locId] = Stream_Read32(is);
+            if (GLLib.var_1fa7[locId] > 1024) {
+                GLLib.var_1fa7[locId] = 1024;
             }
-            GLLib.var_1faf[sub_4332] = new int[GLLib.var_1fa7[sub_4332] + 1];
-            for (int i = 1; i < GLLib.var_1fa7[sub_4332] + 1; ++i) {
-                GLLib.var_1faf[sub_4332][i] = Stream_Read32(inputStream);
+            GLLib.var_1faf[locId] = new int[GLLib.var_1fa7[locId] + 1];
+            for (int i = 1; i < GLLib.var_1fa7[locId] + 1; ++i) {
+                GLLib.var_1faf[locId][i] = Stream_Read32(is);
             }
-            Stream_ReadFully(inputStream, GLLib.localeGroups[sub_4332] = new byte[GLLib.var_1faf[sub_4332][GLLib.var_1fa7[sub_4332]]], 0, GLLib.localeGroups[sub_4332].length);
+            Stream_ReadFully(is, GLLib.s_text_localeGroups[locId] = new byte[GLLib.var_1faf[locId][GLLib.var_1fa7[locId]]], 0, GLLib.s_text_localeGroups[locId].length);
         }
         catch (final Exception ex) {}
-        return sub_4332;
+        return locId;
     }
     
     static void Text_LoadTextFromPack(String filename, final int index) {
@@ -1382,10 +1376,10 @@ public abstract class GLLib extends Canvas implements Runnable
             for (int i = 0; i < 32; ++i) {
                 GLLib.idk[i] = -1;
             }
-            GLLib.localeGroups = new byte[32][];
+            GLLib.s_text_localeGroups = new byte[32][];
             GLLib.var_1faf = new int[32][];
             GLLib.var_1fa7 = new int[32];
-            GLLib.text_stringCacheArray = new String[32][];
+            GLLib.s_text_stringCacheArray = new String[32][];
         }
         GLLib.idk[index] = sub_4c47(GLLib.s_pack_is);
         Pack_Close(true);
@@ -1395,9 +1389,9 @@ public abstract class GLLib extends Canvas implements Runnable
             for (int j = 0; j < GLLib.var_1fa7[n2]; ++j) {
                 array[j] = Text_GetStringFromLocaleFile(j + (n2 << 10));
             }
-            GLLib.text_stringCacheArray[n2] = array;
+            GLLib.s_text_stringCacheArray[n2] = array;
             GLLib.var_1faf[n2] = null;
-            GLLib.localeGroups[n2] = null;
+            GLLib.s_text_localeGroups[n2] = null;
             System.gc();
         }
     }
@@ -1405,15 +1399,15 @@ public abstract class GLLib extends Canvas implements Runnable
 	static String Text_GetStringFromLocaleFile(int id) {
         final int groupId = id >> 10;
         id &= 0x3FF;
-        if (GLLib.text_stringCacheArray != null && GLLib.text_stringCacheArray[groupId] != null) {
-            return GLLib.text_stringCacheArray[groupId][id];
+        if (GLLib.s_text_stringCacheArray != null && GLLib.s_text_stringCacheArray[groupId] != null) {
+            return GLLib.s_text_stringCacheArray[groupId][id];
         }
         try {
             final int length = GLLib.var_1faf[groupId][id + 1];
             if (length - GLLib.var_1faf[groupId][id] == 0) {
                 return null;
             }
-            return new String(GLLib.localeGroups[groupId], GLLib.var_1faf[groupId][id], length, GLLib.text_encoding);
+            return new String(GLLib.s_text_localeGroups[groupId], GLLib.var_1faf[groupId][id], length, GLLib.text_encoding);
         }
         catch (final Exception ex) {
             return null;
@@ -1432,14 +1426,14 @@ public abstract class GLLib extends Canvas implements Runnable
             if ((n2 = GLLib.idk[index]) == -1) {
                 return;
             }
-            if (GLLib.text_stringCacheArray[n2] != null) {
+            if (GLLib.s_text_stringCacheArray[n2] != null) {
                 for (int i = 0; i < GLLib.var_1fa7[n2]; ++i) {
-                    GLLib.text_stringCacheArray[n2][i] = null;
+                    GLLib.s_text_stringCacheArray[n2][i] = null;
                 }
-                GLLib.text_stringCacheArray[n2] = null;
+                GLLib.s_text_stringCacheArray[n2] = null;
             }
             GLLib.var_1faf[n2] = null;
-            GLLib.localeGroups[n2] = null;
+            GLLib.s_text_localeGroups[n2] = null;
             GLLib.var_1fa7[n2] = 0;
             GLLib.idk[index] = -1;
         }
@@ -2056,74 +2050,70 @@ public abstract class GLLib extends Canvas implements Runnable
         return sub_9f62;
     }
     
-    static void sub_6ccf(final Graphics graphics, final int n, final int n2, int n3, int n4, int n5, int n6, int i) {
-        final int n7 = n5 >> 16 & 0xFF;
-        final int n8 = n5 >> 8 & 0xFF;
-        n5 &= 0xFF;
+    static void sub_6ccf(final Graphics g, final int x1, final int n2, int x2, int n4, int blue, int n6, int y1) {
+        final int n7 = blue >> 16 & 0xFF;
+        final int n8 = blue >> 8 & 0xFF;
+        blue &= 0xFF;
         final int n9 = n6 >> 16 & 0xFF;
         final int n10 = n6 >> 8 & 0xFF;
         n6 &= 0xFF;
         final int n11 = n9 - n7;
         final int n12 = n10 - n8;
-        n6 -= n5;
-        n3 = n + n3 - 1;
+        n6 -= blue;
+        x2 = x1 + x2 - 1;
         n4 = n2 + n4 - 1;
-        int n13 = n7 << 16;
-        int n14 = n8 << 16;
-        n5 <<= 16;
-        if (i == 4) {
-            i = n3 - n;
-            final int n15 = (n11 << 16) / i;
-            final int n16 = (n12 << 16) / i;
-            n6 = (n6 << 16) / i;
-            for (i = n3; i >= n; --i) {
-                setColor(graphics, n13 >> 16, n14 >> 16, n5 >> 16);
-                DrawLine(graphics, i, n2, i, n4, true);
-                n13 += n15;
-                n14 += n16;
-                n5 += n6;
+        int red = n7 << 16;
+        int green = n8 << 16;
+        blue <<= 16;
+        if (y1 == 4) {
+            y1 = x2 - x1;
+            final int n15 = (n11 << 16) / y1;
+            final int n16 = (n12 << 16) / y1;
+            n6 = (n6 << 16) / y1;
+            for (y1 = x2; y1 >= x1; --y1) {
+                setColor(g, red >> 16, green >> 16, blue >> 16);
+                DrawLine(g, y1, n2, y1, n4, true);
+                red += n15;
+                green += n16;
+                blue += n6;
             }
             return;
         }
-        if (i == 8) {
-            i = n3 - n;
-            final int n17 = (n11 << 16) / i;
-            final int n18 = (n12 << 16) / i;
-            n6 = (n6 << 16) / i;
-            for (i = n; i <= n3; ++i) {
-                setColor(graphics, n13 >> 16, n14 >> 16, n5 >> 16);
-                DrawLine(graphics, i, n2, i, n4, true);
-                n13 += n17;
-                n14 += n18;
-                n5 += n6;
+        if (y1 == 8) {
+            y1 = x2 - x1;
+            final int n17 = (n11 << 16) / y1;
+            final int n18 = (n12 << 16) / y1;
+            n6 = (n6 << 16) / y1;
+            for (y1 = x1; y1 <= x2; ++y1) {
+                setColor(g, red >> 16, green >> 16, blue >> 16);
+                DrawLine(g, y1, n2, y1, n4, true);
+                red += n17;
+                green += n18;
+                blue += n6;
             }
             return;
         }
-        if (i == 16) {
-            i = n4 - n2;
-            final int n19 = (n11 << 16) / i;
-            final int n20 = (n12 << 16) / i;
-            n6 = (n6 << 16) / i;
-            for (i = n4; i >= n2; --i) {
-                setColor(graphics, n13 >> 16, n14 >> 16, n5 >> 16);
-                DrawLine(graphics, n, i, n3, i, true);
-                n13 += n19;
-                n14 += n20;
-                n5 += n6;
+        if (y1 == 16) {
+            y1 = n4 - n2;
+            n6 = (n6 << 16) / y1;
+            for (y1 = n4; y1 >= n2; --y1) {
+                setColor(g, red >> 16, green >> 16, blue >> 16);
+                DrawLine(g, x1, y1, x2, y1, true);
+                red += (n11 << 16) / y1;
+                green += (n12 << 16) / y1;
+                blue += n6;
             }
             return;
         }
-        if (i == 32) {
-            i = n4 - n2;
-            final int n21 = (n11 << 16) / i;
-            final int n22 = (n12 << 16) / i;
-            n6 = (n6 << 16) / i;
-            for (i = n2; i <= n4; ++i) {
-                setColor(graphics, n13 >> 16, n14 >> 16, n5 >> 16);
-                DrawLine(graphics, n, i, n3, i, true);
-                n13 += n21;
-                n14 += n22;
-                n5 += n6;
+        if (y1 == 32) {
+            y1 = n4 - n2;
+            n6 = (n6 << 16) / y1;
+            for (y1 = n2; y1 <= n4; ++y1) {
+                setColor(g, red >> 16, green >> 16, blue >> 16);
+                DrawLine(g, x1, y1, x2, y1, true);
+                red += (n11 << 16) / y1;
+                green += (n12 << 16) / y1;
+                blue += n6;
             }
         }
     }
@@ -2378,7 +2368,7 @@ public abstract class GLLib extends Canvas implements Runnable
         GLLib.s_platformRequestUrl = null;
         GLLib.var_1e97 = 25;
         var_1e9f = 256;
-        var_1ea7 = 128;
+        ALWAYS_128 = 128;
         var_1ed7 = 256;
         Math_Angle90 = 90 * GLLib.var_1ed7 / 360;
         GLLib.Math_Angle180 = 180 * GLLib.var_1ed7 / 360;
