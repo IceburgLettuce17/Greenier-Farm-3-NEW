@@ -1713,25 +1713,25 @@ public final class cGame extends GLLib implements Class_b
 							cGame.var_783c = (((sub_4e1f20 = GLLib.Text_GetStringFromLocaleFile(Class_f.TEXT_MANOR_COLLROOMDESC)) == null) ? "" : sub_4e1f20);
 						} else if (cGame.var_808c == 2) {
 							final String sub_4e1f21;
-							cGame.var_783c = (((sub_4e1f21 = GLLib.Text_GetStringFromLocaleFile(245)) == null) ? "" : sub_4e1f21);
+							cGame.var_783c = (((sub_4e1f21 = GLLib.Text_GetStringFromLocaleFile(Class_f.TEXT_MANOR_TROPHYROOMDESC)) == null) ? "" : sub_4e1f21);
 						} else if (cGame.var_808c == 3) {
 							final String sub_4e1f22;
-							cGame.var_7834 = (((sub_4e1f22 = GLLib.Text_GetStringFromLocaleFile(251)) == null) ? "" : sub_4e1f22);
+							cGame.var_7834 = (((sub_4e1f22 = GLLib.Text_GetStringFromLocaleFile(Class_f.TEXT_MANOR_COINS)) == null) ? "" : sub_4e1f22);
 						} else if (cGame.var_808c == 4) {
 							final String sub_4e1f23;
-							cGame.var_7834 = (((sub_4e1f23 = GLLib.Text_GetStringFromLocaleFile(252)) == null) ? "" : sub_4e1f23);
+							cGame.var_7834 = (((sub_4e1f23 = GLLib.Text_GetStringFromLocaleFile(Class_f.TEXT_MANOR_FERTILIZER)) == null) ? "" : sub_4e1f23);
 						} else if (cGame.var_808c == 5) {
 							final String sub_4e1f24;
-							cGame.var_7834 = (((sub_4e1f24 = GLLib.Text_GetStringFromLocaleFile(253)) == null) ? "" : sub_4e1f24);
+							cGame.var_7834 = (((sub_4e1f24 = GLLib.Text_GetStringFromLocaleFile(Class_f.TEXT_MANOR_CROP)) == null) ? "" : sub_4e1f24);
 						} else if (cGame.var_808c == 6) {
 							final String sub_4e1f25;
-							cGame.var_7834 = (((sub_4e1f25 = GLLib.Text_GetStringFromLocaleFile(254)) == null) ? "" : sub_4e1f25);
+							cGame.var_7834 = (((sub_4e1f25 = GLLib.Text_GetStringFromLocaleFile(Class_f.TEXT_MANOR_INGREDIENT)) == null) ? "" : sub_4e1f25);
 						} else if (cGame.var_808c == 7) {
 							final String sub_4e1f26;
-							cGame.var_7834 = (((sub_4e1f26 = GLLib.Text_GetStringFromLocaleFile(255)) == null) ? "" : sub_4e1f26);
+							cGame.var_7834 = (((sub_4e1f26 = GLLib.Text_GetStringFromLocaleFile(Class_f.TEXT_MANOR_FEED)) == null) ? "" : sub_4e1f26);
 						} else if (cGame.var_808c == 8) {
 							final String sub_4e1f27;
-							cGame.var_7834 = (((sub_4e1f27 = GLLib.Text_GetStringFromLocaleFile(256)) == null) ? "" : sub_4e1f27);
+							cGame.var_7834 = (((sub_4e1f27 = GLLib.Text_GetStringFromLocaleFile(Class_f.TEXT_MANOR_FARMCASH)) == null) ? "" : sub_4e1f27);
 						}
 						state = sub_df89(cGame.var_808c + 1);
 						final GameDatas class_h;
@@ -1853,13 +1853,13 @@ public final class cGame extends GLLib implements Class_b
 						switch (cGame.var_77f4) {
 						case 1: {
 							final String sub_4e1f29;
-							sub_1df06(((sub_4e1f29 = GLLib.Text_GetStringFromLocaleFile(284)) == null) ? "" : sub_4e1f29, 14, 1, 0, 0);
+							sub_1df06(((sub_4e1f29 = GLLib.Text_GetStringFromLocaleFile(Class_f.TEXT_MANOR_ROOMRESTORE)) == null) ? "" : sub_4e1f29, 14, 1, 0, 0);
 							final String sub_4e1f30;
 							sub_1df06(((sub_4e1f30 = GLLib.Text_GetStringFromLocaleFile(cGame.var_77d4)) == null) ? "" : sub_4e1f30, 14,
 									2, 0, 0);
 							sub_1df06(GLLib.BigNumberSeparate(cGame.var_77e4, cGame.s_currencySeprType, " "), 14, 12, 0, 0);
 							final String sub_4e1f31;
-							drawText(((sub_4e1f31 = GLLib.Text_GetStringFromLocaleFile(285)) == null) ? "" : sub_4e1f31, 14, 11, 0, 0);
+							drawText(((sub_4e1f31 = GLLib.Text_GetStringFromLocaleFile(Class_f.TEXT_MANOR_STARTRESTORING)) == null) ? "" : sub_4e1f31, 14, 11, 0, 0);
 							if (!sub_20167(14, 66)) {
 								break;
 							}
@@ -1877,29 +1877,29 @@ public final class cGame extends GLLib implements Class_b
 						}
 						case 2: {
 							final String sub_4e1f32;
-							sub_1df06(((sub_4e1f32 = GLLib.Text_GetStringFromLocaleFile(284)) == null) ? "" : sub_4e1f32, 14, 1, 0, 0);
+							sub_1df06(((sub_4e1f32 = GLLib.Text_GetStringFromLocaleFile(Class_f.TEXT_MANOR_ROOMRESTORE)) == null) ? "" : sub_4e1f32, 14, 1, 0, 0);
 							final String sub_4e1f33;
-							sub_1df06(((sub_4e1f33 = GLLib.Text_GetStringFromLocaleFile(279)) == null) ? "" : sub_4e1f33, 14, 16, 0, 0);
+							sub_1df06(((sub_4e1f33 = GLLib.Text_GetStringFromLocaleFile(Class_f.TEXT_MISC_TIMELEFT)) == null) ? "" : sub_4e1f33, 14, 16, 0, 0);
 							sub_1df06(cGame.var_7804, 14, 17, 0, 0);
 							if (sub_20167(14, 18)) {
 								sub_1df06("" + cGame.var_780c, 14, 20, 0, 0);
 							}
 							if (sub_20167(14, 47)) {
 								final String sub_4e1f34;
-								sub_1df06(((sub_4e1f34 = GLLib.Text_GetStringFromLocaleFile(250)) == null) ? "" : sub_4e1f34, 14, 48, 0,
+								sub_1df06(((sub_4e1f34 = GLLib.Text_GetStringFromLocaleFile(Class_f.TEXT_MANOR_FINISH)) == null) ? "" : sub_4e1f34, 14, 48, 0,
 										0);
 							}
 							break;
 						}
 						case 3: {
 							final String sub_4e1f35;
-							sub_1df06(((sub_4e1f35 = GLLib.Text_GetStringFromLocaleFile(284)) == null) ? "" : sub_4e1f35, 14, 1, 0, 0);
+							sub_1df06(((sub_4e1f35 = GLLib.Text_GetStringFromLocaleFile(Class_f.TEXT_MANOR_ROOMRESTORE)) == null) ? "" : sub_4e1f35, 14, 1, 0, 0);
 							final String sub_4e1f36;
-							sub_1df06(((sub_4e1f36 = GLLib.Text_GetStringFromLocaleFile(279)) == null) ? "" : sub_4e1f36, 14, 16, 0, 0);
+							sub_1df06(((sub_4e1f36 = GLLib.Text_GetStringFromLocaleFile(Class_f.TEXT_MISC_TIMELEFT)) == null) ? "" : sub_4e1f36, 14, 16, 0, 0);
 							sub_1df06(cGame.var_7804, 14, 17, 0, 0);
 							if (sub_20167(14, 47)) {
 								final String sub_4e1f37;
-								sub_1df06(((sub_4e1f37 = GLLib.Text_GetStringFromLocaleFile(250)) == null) ? "" : sub_4e1f37, 14, 48, 0,
+								sub_1df06(((sub_4e1f37 = GLLib.Text_GetStringFromLocaleFile(Class_f.TEXT_MANOR_FINISH)) == null) ? "" : sub_4e1f37, 14, 48, 0,
 										0);
 								break;
 							}
@@ -1986,7 +1986,7 @@ public final class cGame extends GLLib implements Class_b
 						case 0: {
 							sub_1dcc1(11);
 							final String sub_4e1f39;
-							sub_1df06(((sub_4e1f39 = GLLib.Text_GetStringFromLocaleFile(298)) == null) ? "" : sub_4e1f39, 11, 3, 0, 0);
+							sub_1df06(((sub_4e1f39 = GLLib.Text_GetStringFromLocaleFile(Class_f.TEXT_ACRE_EXPANDTONEWACRE)) == null) ? "" : sub_4e1f39, 11, 3, 0, 0);
 							final String sub_4e1f40;
 							sub_1df06(((sub_4e1f40 = GLLib.Text_GetStringFromLocaleFile(312 + (cGame.var_6d54 - 1))) == null) ? ""
 									: sub_4e1f40, 11, 4, 0, 0);
@@ -2031,7 +2031,7 @@ public final class cGame extends GLLib implements Class_b
 							}
 							if (cGame.var_6dd4) {
 								final String sub_4e1f45;
-								sub_1df06(((sub_4e1f45 = GLLib.Text_GetStringFromLocaleFile(297)) == null) ? "" : sub_4e1f45, 11, 7, 0,
+								sub_1df06(((sub_4e1f45 = GLLib.Text_GetStringFromLocaleFile(Class_f.TEXT_ACRE_BUY)) == null) ? "" : sub_4e1f45, 11, 7, 0,
 										0);
 								break;
 							}
@@ -3304,22 +3304,22 @@ public final class cGame extends GLLib implements Class_b
 		String s = "";
 		if (n > 0) {
 			if (i > 0) {
-				s = s + i + (((GLLib.Text_GetStringFromLocaleFile(193)) == null) ? "" : GLLib.Text_GetStringFromLocaleFile(193)) + " ";
+				s = s + i + (((GLLib.Text_GetStringFromLocaleFile(Class_f.TEXT_DAYS)) == null) ? "" : GLLib.Text_GetStringFromLocaleFile(Class_f.TEXT_DAYS)) + " ";
 			}
 			if (j > 0) {
-				s = s + j + (((GLLib.Text_GetStringFromLocaleFile(194)) == null) ? "" : GLLib.Text_GetStringFromLocaleFile(194)) + " ";
+				s = s + j + (((GLLib.Text_GetStringFromLocaleFile(Class_f.TEXT_HOURS)) == null) ? "" : GLLib.Text_GetStringFromLocaleFile(Class_f.TEXT_HOURS)) + " ";
 			}
 			if (k > 0) {
 				if (k / 10 < 1) {
 					s += "0";
 				}
-				s = s + k + (((GLLib.Text_GetStringFromLocaleFile(195)) == null) ? "" : GLLib.Text_GetStringFromLocaleFile(195)) + " ";
+				s = s + k + (((GLLib.Text_GetStringFromLocaleFile(Class_f.TEXT_MINUTES)) == null) ? "" : GLLib.Text_GetStringFromLocaleFile(Class_f.TEXT_MINUTES)) + " ";
 			}
 			if (l > 0) {
 				if (l / 10 < 1) {
 					s += "0";
 				}
-				s = s + l + (((GLLib.Text_GetStringFromLocaleFile(196)) == null) ? "" : GLLib.Text_GetStringFromLocaleFile(196));
+				s = s + l + (((GLLib.Text_GetStringFromLocaleFile(Class_f.TEXT_SECONDS)) == null) ? "" : GLLib.Text_GetStringFromLocaleFile(Class_f.TEXT_SECONDS));
 			}
 		} else {
 			s = "-";
@@ -4614,10 +4614,10 @@ public final class cGame extends GLLib implements Class_b
 		if (cGame.var_8034 != null) {
 			if (cGame.var_8034.var_17c5 == 54 && cGame.var_8034.sub_a2a0(32)) {
 				final String sub_4e1f;
-				cGame.var_68cc[1][6] = (((sub_4e1f = GLLib.Text_GetStringFromLocaleFile(464)) == null) ? "" : sub_4e1f);
+				cGame.var_68cc[1][6] = (((sub_4e1f = GLLib.Text_GetStringFromLocaleFile(Class_f.TEXT_UNTILADULT)) == null) ? "" : sub_4e1f);
 			} else {
 				final String sub_4e1f2;
-				cGame.var_68cc[1][6] = (((sub_4e1f2 = GLLib.Text_GetStringFromLocaleFile(463)) == null) ? "" : sub_4e1f2);
+				cGame.var_68cc[1][6] = (((sub_4e1f2 = GLLib.Text_GetStringFromLocaleFile(Class_f.TEXT_UNTILREADY)) == null) ? "" : sub_4e1f2);
 			}
 			cGame.var_68cc[1][5] = Integer.toString(cGame.var_8034.m_prepareTime);
 			cGame.var_68cc[1][7] = cGame.s_plantGrowTime;
@@ -5147,7 +5147,7 @@ public final class cGame extends GLLib implements Class_b
 			final String sub_4e1f;
 			
 			// Skip the Line!
-			if (cGame.s_popup_title == (((sub_4e1f = GLLib.Text_GetStringFromLocaleFile(42)) == null) ? "" : sub_4e1f)
+			if (cGame.s_popup_title == (((sub_4e1f = GLLib.Text_GetStringFromLocaleFile(Class_f.TEXT_POPUP_LETSTELLEVERYONE)) == null) ? "" : sub_4e1f)
 					&& cGame.var_7ad4 != "") {
 				cGame.s_popup_title = cGame.var_7ad4;
 				b = true;
@@ -5155,7 +5155,7 @@ public final class cGame extends GLLib implements Class_b
 				
 				// Task completed!
 				final String sub_4e1f2;
-				if (cGame.s_popup_title == (((sub_4e1f2 = GLLib.Text_GetStringFromLocaleFile(163)) == null) ? "" : sub_4e1f2)
+				if (cGame.s_popup_title == (((sub_4e1f2 = GLLib.Text_GetStringFromLocaleFile(Class_f.TEXT_POPUP_WHOOPS)) == null) ? "" : sub_4e1f2)
 						&& cGame.var_7ad4 != "") {
 					cGame.s_popup_title = cGame.var_7ad4;
 					cGame.s_popup_desc = cGame.var_7adc;
@@ -5174,7 +5174,7 @@ public final class cGame extends GLLib implements Class_b
 			}
 			Label_0360: {
 				final String sub_4e1f3;
-				if (cGame.s_popup_title == (((sub_4e1f3 = GLLib.Text_GetStringFromLocaleFile(292)) == null) ? "" : sub_4e1f3)) {
+				if (cGame.s_popup_title == (((sub_4e1f3 = GLLib.Text_GetStringFromLocaleFile(Class_f.TEXT_POPUP_ROOMRESTORED)) == null) ? "" : sub_4e1f3)) {
 					final int n = GameDatas.s_allDatas[3].m_dataVars[sub_df89(cGame.var_808c)][1];
 					if (cGame.var_808c == 1) {
 						sub_2bae9(n, 1, 27);
@@ -5188,7 +5188,7 @@ public final class cGame extends GLLib implements Class_b
 					b = true;
 				} else {
 					final String sub_4e1f4;
-					if (cGame.s_popup_title == (((sub_4e1f4 = GLLib.Text_GetStringFromLocaleFile(300)) == null) ? "" : sub_4e1f4)) {
+					if (cGame.s_popup_title == (((sub_4e1f4 = GLLib.Text_GetStringFromLocaleFile(Class_f.TEXT_POPUP_CONGRATS)) == null) ? "" : sub_4e1f4)) {
 						if (cGame.var_7fa4 != -1) {
 							sub_26a6a(true, cGame.var_7fa4, '\u0002');
 						}
@@ -6932,10 +6932,10 @@ public final class cGame extends GLLib implements Class_b
 		final String sub_4e1f;
 		String sub_4e1f2;
 		String sub_4e1f3;
-		sub_405b1(((sub_4e1f = GLLib.Text_GetStringFromLocaleFile(380)) == null) ? "" : sub_4e1f,
+		sub_405b1(((sub_4e1f = GLLib.Text_GetStringFromLocaleFile(Class_f.TEXT_NOTIAP_NOTENOUGHCASH)) == null) ? "" : sub_4e1f,
 				GLLib.Text_ReplaceText(
 						cGame.s_iapEnabled ? (((sub_4e1f2 = GLLib.Text_GetStringFromLocaleFile(Class_f.TEXT_NOTENOUGHCASH)) == null) ? "" : sub_4e1f2)
-								: (((sub_4e1f3 = GLLib.Text_GetStringFromLocaleFile(852)) == null) ? "" : sub_4e1f3),
+								: (((sub_4e1f3 = GLLib.Text_GetStringFromLocaleFile(Class_f.TEXT_NOTIAP_NOTENOUGHCASHDESC)) == null) ? "" : sub_4e1f3),
 						"%d", GLLib.BigNumberSeparate(cGame.var_7c6c[n] - getCash(), cGame.s_currencySeprType, " ")),
 				7);
 	}
@@ -7217,7 +7217,7 @@ public final class cGame extends GLLib implements Class_b
 		sub_2024d(8, 204, true);
 		sub_2000c(8, 205, true);
 		final String sub_4e1f;
-		cGame.var_68cc[8][205] = (((sub_4e1f = GLLib.Text_GetStringFromLocaleFile(cGame.var_6924 ? 45 : 767)) == null) ? ""
+		cGame.var_68cc[8][205] = (((sub_4e1f = GLLib.Text_GetStringFromLocaleFile(cGame.var_6924 ? Class_f.TEXT_OK : Class_f.TEXT_IAP_TERMSCONDS)) == null) ? ""
 				: sub_4e1f);
 	}
 
@@ -7225,7 +7225,7 @@ public final class cGame extends GLLib implements Class_b
 		if (cGame.var_6924) {
 			sub_16b22();
 			final String sub_4e1f;
-			cGame.var_68cc[8][205] = (((sub_4e1f = GLLib.Text_GetStringFromLocaleFile(767)) == null) ? "" : sub_4e1f);
+			cGame.var_68cc[8][205] = (((sub_4e1f = GLLib.Text_GetStringFromLocaleFile(Class_f.TEXT_IAP_TERMSCONDS)) == null) ? "" : sub_4e1f);
 			sub_2000c(8, 157, false);
 			sub_2000c(8, 158, false);
 			sub_2c69b();
@@ -7709,7 +7709,7 @@ public final class cGame extends GLLib implements Class_b
 			if (!cGame.var_6924) {
 				sub_16b22();
 				final String sub_4e1f;
-				cGame.var_68cc[8][205] = (((sub_4e1f = GLLib.Text_GetStringFromLocaleFile(45)) == null) ? "" : sub_4e1f);
+				cGame.var_68cc[8][205] = (((sub_4e1f = GLLib.Text_GetStringFromLocaleFile(Class_f.TEXT_OK)) == null) ? "" : sub_4e1f);
 				sub_2000c(8, 157, true);
 				sub_2000c(8, 158, true);
 				sub_2c69b();
@@ -8631,7 +8631,7 @@ public final class cGame extends GLLib implements Class_b
 				if (i + 11264 == 11265) {
 					final String sub_4e1f2;
 					sb = new StringBuffer().append(cGame.var_79d4)
-							.append(((sub_4e1f2 = GLLib.Text_GetStringFromLocaleFile(11265)) == null) ? "" : sub_4e1f2).append(" ");
+							.append(((sub_4e1f2 = GLLib.Text_GetStringFromLocaleFile(Class_f.TEXT_CREDITS_VERSION)) == null) ? "" : sub_4e1f2).append(" ");
 					version = GloftGF2M.s_instance.getAppProperty("MIDlet-Version");
 				} else {
 					sb = new StringBuffer().append(cGame.var_79d4);
@@ -9220,7 +9220,7 @@ public final class cGame extends GLLib implements Class_b
 				sub_2000c(15, 2, true);
 				sub_2024d(15, 2, true);
 				final String sub_4e1f;
-				cGame.var_68cc[15][3] = (((sub_4e1f = GLLib.Text_GetStringFromLocaleFile(64)) == null) ? "" : sub_4e1f);
+				cGame.var_68cc[15][3] = (((sub_4e1f = GLLib.Text_GetStringFromLocaleFile(Class_f.TEXT_PAUSE_CUSTOMERCARE)) == null) ? "" : sub_4e1f);
 				sub_2000c(15, 3, true);
 			}
 			sub_2000c(15, 4, true);
@@ -9238,7 +9238,7 @@ public final class cGame extends GLLib implements Class_b
 				sub_2024d(15, 148, true);
 				sub_2000c(15, 149, true);
 				final String sub_4e1f2;
-				cGame.var_68cc[15][149] = (((sub_4e1f2 = GLLib.Text_GetStringFromLocaleFile(839)) == null) ? "" : sub_4e1f2);
+				cGame.var_68cc[15][149] = (((sub_4e1f2 = GLLib.Text_GetStringFromLocaleFile(Class_f.TEXT_PAUSE_IGP)) == null) ? "" : sub_4e1f2);
 			}
 			sub_2000c(15, 13, true);
 			sub_2024d(15, 13, true);
@@ -11607,8 +11607,8 @@ public final class cGame extends GLLib implements Class_b
 					if (cGame.var_6aac.var_1835 == 0 && n <= cGame.var_8064[22]) {
 						sub_4052e(485, 486, 7, 0);
 					} else {
-						final String sub_4e1f6 = (GLLib.Text_GetStringFromLocaleFile(441)) == null ? "" : GLLib.Text_GetStringFromLocaleFile(441);
-						final String sub_4e1f7 = (GLLib.Text_GetStringFromLocaleFile(442)) == null ? "" : GLLib.Text_GetStringFromLocaleFile(442);
+						final String sub_4e1f6 = (GLLib.Text_GetStringFromLocaleFile(Class_f.TEXT_POPUP_SELL)) == null ? "" : GLLib.Text_GetStringFromLocaleFile(Class_f.TEXT_POPUP_SELL);
+						final String sub_4e1f7 = (GLLib.Text_GetStringFromLocaleFile(Class_f.TEXT_POPUP_SELLDESC)) == null ? "" : GLLib.Text_GetStringFromLocaleFile(Class_f.TEXT_POPUP_SELLDESC);
 						cGame.s_popup_boxset = 2;
 						cGame.var_7b14 = var_6aac;
 						sub_2000c(4, 5, true);
@@ -14401,7 +14401,7 @@ public final class cGame extends GLLib implements Class_b
 		}
 		if (sub_20167(1, 87)) {
 			final String sub_4e1f;
-			drawText(((sub_4e1f = GLLib.Text_GetStringFromLocaleFile(458)) == null) ? "" : sub_4e1f, 1, 88, 0, 0);
+			drawText(((sub_4e1f = GLLib.Text_GetStringFromLocaleFile(Class_f.TEXT_NEWTROPHY)) == null) ? "" : sub_4e1f, 1, 88, 0, 0);
 			return;
 		}
 		if (sub_20167(1, 78)) {
@@ -14418,19 +14418,19 @@ public final class cGame extends GLLib implements Class_b
 		if (cGame.var_6bd4) {
 			if (sub_20167(1, 47)) {
 				final String sub_4e1f;
-				sub_1df06(((sub_4e1f = GLLib.Text_GetStringFromLocaleFile(152)) == null) ? "" : sub_4e1f, 1, 51, 0, 0);
+				sub_1df06(((sub_4e1f = GLLib.Text_GetStringFromLocaleFile(Class_f.TEXT_QUEST_NEW)) == null) ? "" : sub_4e1f, 1, 51, 0, 0);
 			}
 			if (sub_20167(1, 48)) {
 				final String sub_4e1f2;
-				sub_1df06(((sub_4e1f2 = GLLib.Text_GetStringFromLocaleFile(152)) == null) ? "" : sub_4e1f2, 1, 52, 0, 0);
+				sub_1df06(((sub_4e1f2 = GLLib.Text_GetStringFromLocaleFile(Class_f.TEXT_QUEST_NEW)) == null) ? "" : sub_4e1f2, 1, 52, 0, 0);
 			}
 			if (sub_20167(1, 49)) {
 				final String sub_4e1f3;
-				sub_1df06(((sub_4e1f3 = GLLib.Text_GetStringFromLocaleFile(152)) == null) ? "" : sub_4e1f3, 1, 53, 0, 0);
+				sub_1df06(((sub_4e1f3 = GLLib.Text_GetStringFromLocaleFile(Class_f.TEXT_QUEST_NEW)) == null) ? "" : sub_4e1f3, 1, 53, 0, 0);
 			}
 			if (sub_20167(1, 50)) {
 				final String sub_4e1f4;
-				sub_1df06(((sub_4e1f4 = GLLib.Text_GetStringFromLocaleFile(152)) == null) ? "" : sub_4e1f4, 1, 54, 0, 0);
+				sub_1df06(((sub_4e1f4 = GLLib.Text_GetStringFromLocaleFile(Class_f.TEXT_QUEST_NEW)) == null) ? "" : sub_4e1f4, 1, 54, 0, 0);
 			}
 		}
 	}
@@ -14490,10 +14490,10 @@ public final class cGame extends GLLib implements Class_b
 			cGame.s_currentQuest = i;
 			if (c == '\u0001') {
 				final String sub_4e1f;
-				cGame.s_questText = (((sub_4e1f = GLLib.Text_GetStringFromLocaleFile(152)) == null) ? "" : sub_4e1f);
+				cGame.s_questText = (((sub_4e1f = GLLib.Text_GetStringFromLocaleFile(Class_f.TEXT_QUEST_NEW)) == null) ? "" : sub_4e1f);
 			} else if (c == '\u0002') {
 				final String sub_4e1f2;
-				cGame.s_questText = (((sub_4e1f2 = GLLib.Text_GetStringFromLocaleFile(153)) == null) ? "" : sub_4e1f2);
+				cGame.s_questText = (((sub_4e1f2 = GLLib.Text_GetStringFromLocaleFile(Class_f.TEXT_QUEST_PROGRESS)) == null) ? "" : sub_4e1f2);
 			} else {
 				cGame.s_questText = "%Task%";
 			}
@@ -14580,7 +14580,7 @@ public final class cGame extends GLLib implements Class_b
 			if (!cGame.var_6c8c) {
 				cGame.var_6c8c = true;
 				final String sub_4e1f;
-				sub_40279(((sub_4e1f = GLLib.Text_GetStringFromLocaleFile(19)) == null) ? "" : sub_4e1f, 15, 0);
+				sub_40279(((sub_4e1f = GLLib.Text_GetStringFromLocaleFile(Class_f.TEXT_TUTORIAL_MANOR)) == null) ? "" : sub_4e1f, 15, 0);
 			}
 			if (cGame.s_hasFinishedTut) {
 				++cGame.var_6c5c;
@@ -14629,7 +14629,7 @@ public final class cGame extends GLLib implements Class_b
 			if (!cGame.var_6c8c) {
 				cGame.var_6c8c = true;
 				final String sub_4e1f2;
-				sub_40279(((sub_4e1f2 = GLLib.Text_GetStringFromLocaleFile(25)) == null) ? "" : sub_4e1f2, 7, 0);
+				sub_40279(((sub_4e1f2 = GLLib.Text_GetStringFromLocaleFile(Class_f.TEXT_TUTORIAL_MAILBOX)) == null) ? "" : sub_4e1f2, 7, 0);
 				final Class_f[] array3 = { null };
 				Class_f.sub_545c(0, 50, 15, array3, 1);
 				if (array3[0] != null) {
@@ -14843,7 +14843,7 @@ public final class cGame extends GLLib implements Class_b
 				cGame.s_hasFinishedTut = false;
 				sub_271e4(cGame.s_tutorialState);
 				final String sub_4e1f;
-				sub_40279(((sub_4e1f = GLLib.Text_GetStringFromLocaleFile(4)) == null) ? "" : sub_4e1f, 7, 0);
+				sub_40279(((sub_4e1f = GLLib.Text_GetStringFromLocaleFile(Class_f.TEXT_TUTORIAL_HARVEST) == null) ? "" : sub_4e1f, 7, 0);
 			}
 			if (cGame.s_hasFinishedTut) {
 				sub_2738d();
@@ -14904,7 +14904,7 @@ public final class cGame extends GLLib implements Class_b
 			if (!cGame.var_6c8c) {
 				cGame.var_6c8c = true;
 				final String sub_4e1f2;
-				sub_40279(((sub_4e1f2 = GLLib.Text_GetStringFromLocaleFile(6)) == null) ? "" : sub_4e1f2, 7, 0);
+				sub_40279(((sub_4e1f2 = GLLib.Text_GetStringFromLocaleFile(Class_f.TEXT_TUTORIAL_PLANT)) == null) ? "" : sub_4e1f2, 7, 0);
 			}
 			if (cGame.s_hasFinishedTut) {
 				sub_2738d();
@@ -15083,7 +15083,7 @@ public final class cGame extends GLLib implements Class_b
 			if (!cGame.var_6c8c) {
 				cGame.var_6c8c = true;
 				final String sub_4e1f3;
-				sub_40279(((sub_4e1f3 = GLLib.Text_GetStringFromLocaleFile(5)) == null) ? "" : sub_4e1f3, 7, 0);
+				sub_40279(((sub_4e1f3 = GLLib.Text_GetStringFromLocaleFile(Class_f.TEXT_TUTORIAL_GROW)) == null) ? "" : sub_4e1f3, 7, 0);
 			}
 			if (cGame.s_hasFinishedTut) {
 				sub_2738d();
@@ -15138,7 +15138,7 @@ public final class cGame extends GLLib implements Class_b
 			if (!cGame.var_6c8c) {
 				cGame.var_6c8c = true;
 				final String sub_4e1f4;
-				sub_40279(((sub_4e1f4 = GLLib.Text_GetStringFromLocaleFile(16)) == null) ? "" : sub_4e1f4, 7, 0);
+				sub_40279(((sub_4e1f4 = GLLib.Text_GetStringFromLocaleFile(Class_f.TEXT_TUTORIAL_ADULTCOW)) == null) ? "" : sub_4e1f4, 7, 0);
 			}
 			if (cGame.s_hasFinishedTut) {
 				sub_2738d();
@@ -15150,7 +15150,7 @@ public final class cGame extends GLLib implements Class_b
 			if (!cGame.var_6c8c) {
 				cGame.var_6c8c = true;
 				final String sub_4e1f5;
-				sub_40279(((sub_4e1f5 = GLLib.Text_GetStringFromLocaleFile(20)) == null) ? "" : sub_4e1f5, 7, 0);
+				sub_40279(((sub_4e1f5 = GLLib.Text_GetStringFromLocaleFile(Class_f.TEXT_TUTORIAL_FEED1)) == null) ? "" : sub_4e1f5, 7, 0);
 			}
 			if (cGame.s_hasFinishedTut) {
 				sub_2738d();
@@ -15178,7 +15178,7 @@ public final class cGame extends GLLib implements Class_b
 			if (!cGame.var_6c8c) {
 				cGame.var_6c8c = true;
 				final String sub_4e1f6;
-				sub_40279(((sub_4e1f6 = GLLib.Text_GetStringFromLocaleFile(22)) == null) ? "" : sub_4e1f6, 7, 0);
+				sub_40279(((sub_4e1f6 = GLLib.Text_GetStringFromLocaleFile(Class_f.TEXT_TUTORIAL_FEED2)) == null) ? "" : sub_4e1f6, 7, 0);
 			}
 			if (sub_202b7(1, 44)) {
 				sub_2024d(1, 44, false);
@@ -15373,7 +15373,7 @@ public final class cGame extends GLLib implements Class_b
 				cGame.var_6c8c = true;
 				sub_28ca1();
 				final String sub_4e1f7;
-				sub_40279(((sub_4e1f7 = GLLib.Text_GetStringFromLocaleFile(23)) == null) ? "" : sub_4e1f7, 7, 0);
+				sub_40279(((sub_4e1f7 = GLLib.Text_GetStringFromLocaleFile(Class_f.TEXT_TUTORIAL_FEEDCASH)) == null) ? "" : sub_4e1f7, 7, 0);
 			}
 			if (cGame.s_hasFinishedTut) {
 				sub_2738d();
@@ -15440,7 +15440,7 @@ public final class cGame extends GLLib implements Class_b
 					array16[j].sub_aac5();
 				}
 				final String sub_4e1f8;
-				sub_40279(((sub_4e1f8 = GLLib.Text_GetStringFromLocaleFile(12)) == null) ? "" : sub_4e1f8, 7, 0);
+				sub_40279(((sub_4e1f8 = GLLib.Text_GetStringFromLocaleFile(Class_f.TEXT_TUTORIAL_WHEATREADY)) == null) ? "" : sub_4e1f8, 7, 0);
 			}
 			if (cGame.s_hasFinishedTut) {
 				sub_2738d();
@@ -15487,7 +15487,7 @@ public final class cGame extends GLLib implements Class_b
 				sub_271e4(cGame.s_tutorialState);
 				cGame.var_70e4 &= 0xFFFFFFFE;
 				final String sub_4e1f9;
-				sub_40279(((sub_4e1f9 = GLLib.Text_GetStringFromLocaleFile(13)) == null) ? "" : sub_4e1f9, 7, 0);
+				sub_40279(((sub_4e1f9 = GLLib.Text_GetStringFromLocaleFile(Class_f.TEXT_TUTORIAL_PLOTS)) == null) ? "" : sub_4e1f9, 7, 0);
 			}
 			if (cGame.s_hasFinishedTut) {
 				sub_2738d();
@@ -15593,7 +15593,7 @@ public final class cGame extends GLLib implements Class_b
 				cGame.var_6c8c = true;
 				sub_271e4(cGame.s_tutorialState);
 				final String sub_4e1f10;
-				sub_40279(((sub_4e1f10 = GLLib.Text_GetStringFromLocaleFile(15)) == null) ? "" : sub_4e1f10, 7, 0);
+				sub_40279(((sub_4e1f10 = GLLib.Text_GetStringFromLocaleFile(Class_f.TEXT_TUTORIAL_TOMATO)) == null) ? "" : sub_4e1f10, 7, 0);
 			}
 			if (cGame.s_hasFinishedTut) {
 				sub_2738d();
@@ -15679,7 +15679,7 @@ public final class cGame extends GLLib implements Class_b
 				cGame.s_hasFinishedTut = false;
 				cGame.var_6c8c = true;
 				final String sub_4e1f11;
-				sub_40279(((sub_4e1f11 = GLLib.Text_GetStringFromLocaleFile(11)) == null) ? "" : sub_4e1f11, 7, 0);
+				sub_40279(((sub_4e1f11 = GLLib.Text_GetStringFromLocaleFile(Class_f.TEXT_TUTORIAL_BARN)) == null) ? "" : sub_4e1f11, 7, 0);
 			}
 			if (cGame.s_hasFinishedTut) {
 				final Class_f[] array21 = { null };
@@ -15765,7 +15765,7 @@ public final class cGame extends GLLib implements Class_b
 			if (!cGame.var_6c8c) {
 				cGame.var_6c8c = true;
 				final String sub_4e1f12;
-				sub_40279(((sub_4e1f12 = GLLib.Text_GetStringFromLocaleFile(8)) == null) ? "" : sub_4e1f12, 7, 0);
+				sub_40279(((sub_4e1f12 = GLLib.Text_GetStringFromLocaleFile(Class_f.TEXT_TUTORIAL_SALESDESK)) == null) ? "" : sub_4e1f12, 7, 0);
 			}
 			if (cGame.s_hasFinishedTut) {
 				sub_2738d();
@@ -18381,8 +18381,8 @@ public final class cGame extends GLLib implements Class_b
 							if (sub_2dcf3(5) < sub_2df26()) {
 								final String sub_4e1f;
 								final String sub_4e1f2;
-								drawCustomPopupNoOpts(((sub_4e1f = GLLib.Text_GetStringFromLocaleFile(475)) == null) ? "" : sub_4e1f,
-										GLLib.Text_ReplaceText(((sub_4e1f2 = GLLib.Text_GetStringFromLocaleFile(476)) == null) ? "" : sub_4e1f2,
+								drawCustomPopupNoOpts(((sub_4e1f = GLLib.Text_GetStringFromLocaleFile(Class_f.TEXT_POPUP_BARNFULL)) == null) ? "" : sub_4e1f,
+										GLLib.Text_ReplaceText(((sub_4e1f2 = GLLib.Text_GetStringFromLocaleFile(Class_f.TEXT_POPUP_BARNFULLDESC)) == null) ? "" : sub_4e1f2,
 												"%slots", "" + GLLib.BigNumberSeparate(n, cGame.s_currencySeprType, " ")),
 										7, 0);
 								break;
@@ -18402,8 +18402,8 @@ public final class cGame extends GLLib implements Class_b
 							if (sub_2dcf3(5) < sub_2df26()) {
 								final String sub_4e1f3;
 								final String sub_4e1f4;
-								drawCustomPopupNoOpts(((sub_4e1f3 = GLLib.Text_GetStringFromLocaleFile(475)) == null) ? "" : sub_4e1f3,
-										GLLib.Text_ReplaceText(((sub_4e1f4 = GLLib.Text_GetStringFromLocaleFile(476)) == null) ? "" : sub_4e1f4,
+								drawCustomPopupNoOpts(((sub_4e1f3 = GLLib.Text_GetStringFromLocaleFile(Class_f.TEXT_POPUP_BARNFULL)) == null) ? "" : sub_4e1f3,
+										GLLib.Text_ReplaceText(((sub_4e1f4 = GLLib.Text_GetStringFromLocaleFile(Class_f.TEXT_POPUP_BARNFULLDESC)) == null) ? "" : sub_4e1f4,
 												"%slots", "" + GLLib.BigNumberSeparate(n2, cGame.s_currencySeprType, " ")),
 										7, 0);
 								break;
@@ -18455,8 +18455,8 @@ public final class cGame extends GLLib implements Class_b
 						if (sub_2dcf3(5) < sub_2df26()) {
 							final String sub_4e1f5;
 							final String sub_4e1f6;
-							drawCustomPopupNoOpts(((sub_4e1f5 = GLLib.Text_GetStringFromLocaleFile(475)) == null) ? "" : sub_4e1f5,
-									GLLib.Text_ReplaceText(((sub_4e1f6 = GLLib.Text_GetStringFromLocaleFile(476)) == null) ? "" : sub_4e1f6,
+							drawCustomPopupNoOpts(((sub_4e1f5 = GLLib.Text_GetStringFromLocaleFile(Class_f.TEXT_POPUP_BARNFULL)) == null) ? "" : sub_4e1f5,
+									GLLib.Text_ReplaceText(((sub_4e1f6 = GLLib.Text_GetStringFromLocaleFile(Class_f.TEXT_POPUP_BARNFULLDESC)) == null) ? "" : sub_4e1f6,
 											"%slots",
 											"" + GLLib.BigNumberSeparate(var_16e5 + var_16ed, cGame.s_currencySeprType, " ")),
 									7, 0);
@@ -19145,7 +19145,7 @@ public final class cGame extends GLLib implements Class_b
 			cGame.var_71f4 = null;
 			cGame.var_71fc = null;
 			cGame.s_marketItemIsLocked = null;
-			cGame.var_68cc[2][1] = ((GLLib.Text_GetStringFromLocaleFile(121) == null) ? "" : GLLib.Text_GetStringFromLocaleFile(121));
+			cGame.var_68cc[2][1] = ((GLLib.Text_GetStringFromLocaleFile(Class_f.TEXT_MARKET) == null) ? "" : GLLib.Text_GetStringFromLocaleFile(Class_f.TEXT_MARKET));
 		}
 		if (n == 1) {
 			if (cGame.var_721c == 0) {
@@ -19243,7 +19243,7 @@ public final class cGame extends GLLib implements Class_b
 					if (sub_20167(2, 40 + i * 14)) {
 						final String sub_4e1f4;
 						sub_1df06(
-								(((sub_4e1f4 = GLLib.Text_GetStringFromLocaleFile(447)) == null) ? "" : sub_4e1f4)
+								(((sub_4e1f4 = GLLib.Text_GetStringFromLocaleFile(Class_f.TEXT_PREFIX_LEVEL)) == null) ? "" : sub_4e1f4)
 										+ Integer.toString(cGame.var_71fc[i + cGame.s_market_currPage]),
 								2, 32 + i * 14, 0, 0);
 					}
@@ -19808,7 +19808,7 @@ public final class cGame extends GLLib implements Class_b
 			cGame.var_68bc[3][191][5] = 1138;
 			cGame.var_68bc[3][191][6] = 12;
 			final String sub_4e1f;
-			cGame.var_68cc[3][197] = (((sub_4e1f = GLLib.Text_GetStringFromLocaleFile(460)) == null) ? "" : sub_4e1f);
+			cGame.var_68cc[3][197] = (((sub_4e1f = GLLib.Text_GetStringFromLocaleFile(Class_f.TEXT_SALESDESK_NOITEM)) == null) ? "" : sub_4e1f);
 		}
 		if (n == 5) {
 			if (cGame.var_7294 > 0) {
@@ -20670,7 +20670,7 @@ public final class cGame extends GLLib implements Class_b
 				if (getLevel() < cGame.var_734c[cGame.var_7304][n21]) {
 					final String sub_4e1f8;
 					sub_1df06(
-							(((sub_4e1f8 = GLLib.Text_GetStringFromLocaleFile(447)) == null) ? "" : sub_4e1f8)
+							(((sub_4e1f8 = GLLib.Text_GetStringFromLocaleFile(Class_f.TEXT_PREFIX_LEVEL)) == null) ? "" : sub_4e1f8)
 									+ Integer.toString(cGame.var_734c[cGame.var_7304][n21]),
 							22, 101 + n20 * 9, 0, 0);
 				} else {
@@ -21144,7 +21144,7 @@ public final class cGame extends GLLib implements Class_b
 						: sub_4e1f4, 22, 97 + k * 9, 0, 0);
 				if (getLevel() < cGame.var_75cc[k + cGame.var_758c]) {
 					final String sub_4e1f5;
-					sub_1df06((((sub_4e1f5 = GLLib.Text_GetStringFromLocaleFile(447)) == null) ? "" : sub_4e1f5)
+					sub_1df06((((sub_4e1f5 = GLLib.Text_GetStringFromLocaleFile(Class_f.TEXT_PREFIX_LEVEL)) == null) ? "" : sub_4e1f5)
 							+ Integer.toString(cGame.var_75cc[k + cGame.var_758c]), 22, 101 + k * 9, 0, 0);
 				} else {
 					sub_1df06(sub_dceb(cGame.var_75b4[k + cGame.var_758c]), 22, 100 + k * 9, 0, 0);
@@ -24642,8 +24642,8 @@ public final class cGame extends GLLib implements Class_b
 							if (sub_2dcf3(5) < sub_2df26()) {
 								final String sub_4e1f3;
 								final String sub_4e1f4;
-								drawCustomPopupNoOpts(((sub_4e1f3 = GLLib.Text_GetStringFromLocaleFile(475)) == null) ? "" : sub_4e1f3,
-										GLLib.Text_ReplaceText(((sub_4e1f4 = GLLib.Text_GetStringFromLocaleFile(476)) == null) ? "" : sub_4e1f4,
+								drawCustomPopupNoOpts(((sub_4e1f3 = GLLib.Text_GetStringFromLocaleFile(Class_f.TEXT_POPUP_BARNFULL)) == null) ? "" : sub_4e1f3,
+										GLLib.Text_ReplaceText(((sub_4e1f4 = GLLib.Text_GetStringFromLocaleFile(Class_f.TEXT_POPUP_BARNFULLDESC)) == null) ? "" : sub_4e1f4,
 												"%slots", "" + j),
 										7, 0);
 							} else {
@@ -25441,7 +25441,7 @@ public final class cGame extends GLLib implements Class_b
 					sub_1df06(((sub_4e1f2 = GLLib.Text_GetStringFromLocaleFile(cGame.var_7b4c[n + cGame.var_7b3c])) == null) ? ""
 							: sub_4e1f2, 9, n9 + 13, 0, 0);
 					if (getLevel() < cGame.var_7b54[n + cGame.var_7b3c]) {
-						sub_1df06((((sub_4e1f3 = GLLib.Text_GetStringFromLocaleFile(447)) == null) ? "" : sub_4e1f3)
+						sub_1df06((((sub_4e1f3 = GLLib.Text_GetStringFromLocaleFile(Class_f.TEXT_PREFIX_LEVEL)) == null) ? "" : sub_4e1f3)
 								+ Integer.toString(cGame.var_7b54[n + cGame.var_7b3c]), 9, n9 + 22, 0, 0);
 					}
 				}
@@ -26512,7 +26512,7 @@ public final class cGame extends GLLib implements Class_b
 						sub_2024d(27, 14, true);
 						sub_2000c(27, 15, true);
 						final String sub_4e1f18;
-						cGame.var_68cc[27][15] = (((sub_4e1f18 = GLLib.Text_GetStringFromLocaleFile(767)) == null) ? "" : sub_4e1f18);
+						cGame.var_68cc[27][15] = (((sub_4e1f18 = GLLib.Text_GetStringFromLocaleFile(Class_f.TEXT_IAP_TERMSCONDS)) == null) ? "" : sub_4e1f18);
 						b = false;
 						b2 = false;
 					}
@@ -26941,7 +26941,7 @@ public final class cGame extends GLLib implements Class_b
 		if (n == 0) {
 			if (!cGame.s_iapEnabled && cGame.var_7aac == 19) {
 				final String sub_4e1f;
-				final String s = ((sub_4e1f = GLLib.Text_GetStringFromLocaleFile(852)) == null) ? "" : sub_4e1f;
+				final String s = ((sub_4e1f = GLLib.Text_GetStringFromLocaleFile(Class_f.TEXT_NOTIAP_NOTENOUGHCASHDESC)) == null) ? "" : sub_4e1f;
 				final String var_7ab4 = cGame.var_7ab4;
 				int n2 = 0;
 				for (int i = 0; i < var_7ab4.length(); ++i) {
@@ -26955,7 +26955,7 @@ public final class cGame extends GLLib implements Class_b
 					}
 				}
 				final String sub_4e1f2;
-				sub_405b1(((sub_4e1f2 = GLLib.Text_GetStringFromLocaleFile(380)) == null) ? "" : sub_4e1f2,
+				sub_405b1(((sub_4e1f2 = GLLib.Text_GetStringFromLocaleFile(Class_f.TEXT_NOTIAP_NOTENOUGHCASH)) == null) ? "" : sub_4e1f2,
 						GLLib.Text_ReplaceText(s, "%d", GLLib.BigNumberSeparate(n2, cGame.s_currencySeprType, " ")), 7);
 				cGame.var_7aac = -1;
 				cGame.var_7d24 = false;
@@ -27073,7 +27073,7 @@ public final class cGame extends GLLib implements Class_b
 			sub_1fb8e(8);
 			if (cGame.s_iapEnabled && cGame.var_7aac == 19) {
 				final String sub_4e1f15;
-				sub_405b1(((sub_4e1f15 = GLLib.Text_GetStringFromLocaleFile(380)) == null) ? "" : sub_4e1f15, cGame.var_7ab4, 7);
+				sub_405b1(((sub_4e1f15 = GLLib.Text_GetStringFromLocaleFile(Class_f.TEXT_NOTIAP_NOTENOUGHCASH)) == null) ? "" : sub_4e1f15, cGame.var_7ab4, 7);
 				cGame.var_7aac = -1;
 				cGame.var_7d24 = true;
 			} else if (cGame.var_7aac == 18) {
@@ -28198,7 +28198,7 @@ public final class cGame extends GLLib implements Class_b
 				n6 = 1;
 				n7 = 6;
 				final String sub_4e1f4;
-				s = (((sub_4e1f4 = GLLib.Text_GetStringFromLocaleFile(256)) == null) ? "" : sub_4e1f4);
+				s = (((sub_4e1f4 = GLLib.Text_GetStringFromLocaleFile(Class_f.TEXT_MANOR_FARMCASH)) == null) ? "" : sub_4e1f4);
 				addCash(cGame.var_7dc4[i]);
 				//cGame.var_7e14 += cGame.var_7dc4[i];
 				break;
