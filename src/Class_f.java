@@ -57,7 +57,7 @@ final class Class_f
     int var_170d;
     private int m_itemIndex;
     private int var_171d;
-    private int var_1725;
+    private int rewardNum;
     boolean var_172d;
     private boolean var_1735;
     private int var_173d;
@@ -163,7 +163,7 @@ final class Class_f
         this.var_170d = 0;
         this.m_itemIndex = 0;
         this.var_171d = 0;
-        this.var_1725 = 0;
+        this.rewardNum = 0;
         this.var_172d = false;
         this.var_1735 = false;
         this.var_173d = 0;
@@ -588,7 +588,7 @@ final class Class_f
                                     }
                                     case 3: {
                                         if (class_f11.var_189d.IsAnimOver()) {
-                                            if (!cGame.var_6c24 && cGame.getState() == 18) {
+                                            if (!cGame.var_6c24 && cGame.getState() == Define.GS_FARM_TUTORIAL) {
                                                 cGame.var_6c24 = true;
                                                 cGame.var_6c8c = (cGame.s_hasFinishedTut = false);
                                                 cGame.s_tutorialState = 33;
@@ -1145,17 +1145,17 @@ final class Class_f
         for (Class_f var_17ad = Class_f.var_157d[2]; var_17ad != null; var_17ad = var_17ad.var_17ad) {
             if (var_17ad.var_17c5 == 47) {
                 if (var_17ad != null && var_17ad.var_16fd == 37) {
-                    cGame.addExperience(var_17ad.var_1725);
+                    cGame.addExperience(var_17ad.rewardNum);
                 }
                 else if (var_17ad.var_16fd == 36) {
-                    cGame.addCoin(var_17ad.var_1725);
+                    cGame.addCoin(var_17ad.rewardNum);
                 }
                 else if (var_17ad.var_16fd == 6) {
-                    cGame.addCash(var_17ad.var_1725);
+                    cGame.addCash(var_17ad.rewardNum);
                 }
                 else if (var_17ad.var_16fd == 59) {
-                    final int n = var_17ad.var_1725 & 0xFFFF;
-                    final int n2 = var_17ad.var_1725 >> 16;
+                    final int n = var_17ad.rewardNum & 0xFFFF;
+                    final int n2 = var_17ad.rewardNum >> 16;
                     if (n == 110) {
                         cGame.sub_2e64f(n2);
                     }
@@ -1507,8 +1507,8 @@ final class Class_f
         int n2 = 0;
         while (var_17ad != null) {
             final int n3;
-            if (var_17ad.var_17c5 == 47 && var_17ad.var_16fd == 59 && (n3 = (var_17ad.var_1725 & 0xFFFF)) != 110 && n3 != 5 && (n3 < 111 || n3 > 116)) {
-                n2 += var_17ad.var_1725 >> 16;
+            if (var_17ad.var_17c5 == 47 && var_17ad.var_16fd == 59 && (n3 = (var_17ad.rewardNum & 0xFFFF)) != 110 && n3 != 5 && (n3 < 111 || n3 > 116)) {
+                n2 += var_17ad.rewardNum >> 16;
             }
             var_17ad = var_17ad.var_17ad;
         }
@@ -1821,7 +1821,7 @@ final class Class_f
                     final int sub_2d213;
                     if ((sub_2d213 = cGame.sub_2d213(array2[0], array2[1])) >= 1 && !cGame.var_6d5c[sub_2d213] && cGame.s_tutorialState == -1 && cGame.sub_4abbb(cGame.var_80f4[0]) && cGame.sub_4abbb(cGame.var_80f4[1])) {
                         cGame.var_6d54 = sub_2d213;
-                        cGame.switchToState(12);
+                        cGame.switchToState(Define.GS_ACRE);
                     }
                 }
             }
@@ -2136,7 +2136,7 @@ final class Class_f
                         cGame.var_7d24 = true;
                     }
                     if (cGame.var_7aac != -1) {
-                        cGame.switchToState(34);
+                        cGame.switchToState(Define.GS_BUYSCR);
                         cGame.var_815c = true;
                     }
                     cGame.var_6af4 = -1;
@@ -2234,7 +2234,7 @@ final class Class_f
                 cGame.var_7d24 = true;
             }
             if (cGame.var_7aac != -1) {
-                cGame.switchToState(34);
+                cGame.switchToState(Define.GS_BUYSCR);
                 cGame.var_815c = true;
             }
             cGame.var_6af4 = -1;
@@ -2363,7 +2363,7 @@ final class Class_f
     
     final boolean sub_7a79() {
         if (this.var_185d == 2) {
-            if (cGame.s_tutorialState != 18 && cGame.var_6af4 == -1) {
+            if (cGame.s_tutorialState != Define.GS_FARM_TUTORIAL && cGame.var_6af4 == -1) {
                 cGame.playSndNoLoop(47);
                 cGame.sub_11320(true, this);
                 return true;
@@ -2779,7 +2779,7 @@ final class Class_f
             this.var_184d = cGame.var_800c.camY + cGame.var_68bc[1][26][3] + (cGame.var_68d4[1].GetFrameWidth(33) >> 1);
         }
         else if (this.var_16fd >= 59) {
-            if ((this.var_1725 & 0xFFFF) == 0x5) {
+            if ((this.rewardNum & 0xFFFF) == 0x5) {
                 this.var_1845 = cGame.var_800c.camX + cGame.var_68bc[1][28][2];
                 this.var_184d = cGame.var_800c.camY + cGame.var_68bc[1][28][3];
             }
@@ -2809,20 +2809,20 @@ final class Class_f
             if (this.var_176d) {
                 this.sub_4bf4();
                 if (this.var_16fd == 37) {
-                    cGame.addExperience(this.var_1725);
+                    cGame.addExperience(this.rewardNum);
                     return;
                 }
                 if (this.var_16fd == 36) {
-                    cGame.addCoin(this.var_1725);
+                    cGame.addCoin(this.rewardNum);
                     return;
                 }
                 if (this.var_16fd == 6) {
-                    cGame.addCash(this.var_1725);
+                    cGame.addCash(this.rewardNum);
                     return;
                 }
                 if (this.var_16fd == 59) {
-                    final int n3 = this.var_1725 & 0xFFFF;
-                    final int n4 = this.var_1725 >> 16;
+                    final int n3 = this.rewardNum & 0xFFFF;
+                    final int n4 = this.rewardNum >> 16;
                     if (n3 == 110) {
                         cGame.sub_2e64f(n4);
                         final short n5;
@@ -2861,9 +2861,9 @@ final class Class_f
         this.var_1705 = 0;
         this.var_172d = false;
         this.var_1735 = var_1735;
-        this.var_1725 = var_1736;
+        this.rewardNum = var_1736;
         if (var_16fd == 59) {
-            itemIndex = (this.var_1725 & 0xFFFF);
+            itemIndex = (this.rewardNum & 0xFFFF);
             new StringBuffer().append("itemIndex : ").append(itemIndex);
             this.spriteId = (cGame.var_80d4[itemIndex] | 0x8000);
             this.var_186d = cGame.var_80dc[itemIndex];
@@ -2894,16 +2894,16 @@ final class Class_f
     }
     
     final void sub_8d93() {
-        int var_1725 = 0;
+        int num = 0;
         if (this.var_16fd == 37 || this.var_16fd == 36 || this.var_16fd == 6) {
-            var_1725 = this.var_1725;
+            num = this.rewardNum;
         }
         else if (this.var_16fd == 59) {
-            var_1725 = this.var_1725 >> 16;
+            num = this.rewardNum >> 16;
         }
-        if (var_1725 > 0) {
+        if (num > 0) {
             GLLib.sub_5c77(true);
-            cGame.sub_1e07e("+" + GLLib.BigNumberSeparate(var_1725, cGame.s_currencySeprType, " "), (this.camX + this.var_1805) * cGame.s_zoomLevel / 100 - cGame.var_800c.camX + 10, (this.camY + this.var_180d) * cGame.s_zoomLevel / 100 - cGame.var_800c.camY + 10, 0, 0, 0, 0, 2, 1, false, false);
+            cGame.drawStringWithPalette("+" + GLLib.BigNumberSeparate(num, cGame.s_currencySeprType, " "), (this.camX + this.var_1805) * cGame.s_zoomLevel / 100 - cGame.var_800c.camX + 10, (this.camY + this.var_180d) * cGame.s_zoomLevel / 100 - cGame.var_800c.camY + 10, 0, 0, 0, 0, 2, 1, false, false);
             GLLib.sub_5c77(false);
         }
     }
@@ -2924,7 +2924,7 @@ final class Class_f
             final int sub_3189 = this.var_189d.GetSprite().GetFrameHeight(0);
             this.camX = (cGame.var_800c.camX + GLLib.Math_Rand(sub_312c, GLLib.s_screenWidth - sub_312c)) * 100 / cGame.s_zoomLevel;
             this.camY = (cGame.var_800c.camY + GLLib.Math_Rand(sub_3189, GLLib.s_screenHeight - sub_3189)) * 100 / cGame.s_zoomLevel;
-            if (cGame.s_game_states[cGame.s_game_state] == 13) {
+            if (cGame.s_game_states[cGame.s_game_state] == Define.GS_LEVELUP) {
                 this.posX = this.camX * cGame.s_zoomLevel / 100 - cGame.var_800c.camX;
                 this.posY = this.camY * cGame.s_zoomLevel / 100 - cGame.var_800c.camY;
             }
