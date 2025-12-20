@@ -2305,7 +2305,7 @@ public abstract class GLLib extends Canvas implements Runnable
     }
     
     static boolean sub_7848() {
-        return Class_o.sub_34dd();
+        return Class_o.canRedeemCode();
     }
     
     static int IAP_GetPackageIDInt() {
