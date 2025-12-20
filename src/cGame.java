@@ -502,7 +502,7 @@ public final class cGame extends GLLib implements Class_b
 	private static short[] var_76f4;
 	private static int[] var_76fc;
 	private static int[] var_7704;
-	private static int[] var_770c;
+	private static int[] s_barn_itemIDs;
 	private static int[] var_7714;
 	private static short[] var_771c;
 	private static short[] var_7724;
@@ -559,14 +559,14 @@ public final class cGame extends GLLib implements Class_b
 	private static boolean var_78bc;
 	private static int var_78c4;
 	private static int var_78cc;
-	private static int[] var_78d4;
-	private static int[] var_78dc;
+	private static int[] s_reqItem_itemStrs;
+	private static int[] s_reqItem_itemIds;
 	private static int[] var_78e4;
 	private static short[] var_78ec;
 	private static short[] var_78f4;
 	private static short[] var_78fc;
 	private static short[] var_7904;
-	private static int var_790c;
+	private static int s_reqItem_itemIndex;
 	private static boolean var_7914;
 	private static Class_f var_791c;
 	//private static int var_7924;
@@ -636,14 +636,14 @@ public final class cGame extends GLLib implements Class_b
 	private static int s_popup_boxset;
 	private static int s_popup_onCloseAct;
 	private static Class_f var_7b34;
-	private static int var_7b3c;
+	private static int s_mailbox_scrollLevel;
 	private static int[] var_7b44;
-	private static int[] var_7b4c;
+	private static int[] s_mailbox_neighborNames;
 	private static int[] var_7b54;
-	private static int[] var_7b5c;
-	private static int[] var_7b64;
+	private static int[] s_mailbox_neighborSprs;
+	private static int[] s_mailbox_neighborSprIdxs;
 	private static int[] var_7b6c;
-	private static int var_7b74;
+	private static int s_mailbox_neighborCnt;
 	private static boolean var_7b7c;
 	private static int var_7b84;
 	private static int var_7b8c;
@@ -3575,7 +3575,6 @@ public final class cGame extends GLLib implements Class_b
 			}
 			final int sub_3d86 = GLLib.Mem_SetShort(array2, sub_3db5, n26);
 			final byte[] array4 = array2;
-			final byte[] array3 = array4;
 			final int n28 = sub_3d86;
 			final Class_f var_800c = cGame.var_800c;
 			final int n29 = n28;
@@ -7683,7 +7682,7 @@ public final class cGame extends GLLib implements Class_b
 		if (cGame.var_7b7c) {
 			return;
 		}
-		if (cGame.var_6e24[0 + cGame.var_7b3c][4] != -1) {
+		if (cGame.var_6e24[0 + cGame.s_mailbox_scrollLevel][4] != -1) {
 			sub_41a13(0);
 		}
 	}
@@ -7692,7 +7691,7 @@ public final class cGame extends GLLib implements Class_b
 		if (cGame.var_7b7c) {
 			return;
 		}
-		if (cGame.var_6e24[1 + cGame.var_7b3c][4] != -1) {
+		if (cGame.var_6e24[1 + cGame.s_mailbox_scrollLevel][4] != -1) {
 			sub_41a13(1);
 		}
 	}
@@ -7701,7 +7700,7 @@ public final class cGame extends GLLib implements Class_b
 		if (cGame.var_7b7c) {
 			return;
 		}
-		if (cGame.var_6e24[2 + cGame.var_7b3c][4] != -1) {
+		if (cGame.var_6e24[2 + cGame.s_mailbox_scrollLevel][4] != -1) {
 			sub_41a13(2);
 		}
 	}
@@ -7710,7 +7709,7 @@ public final class cGame extends GLLib implements Class_b
 		if (cGame.var_7b7c) {
 			return;
 		}
-		if (cGame.var_6e24[3 + cGame.var_7b3c][4] != -1) {
+		if (cGame.var_6e24[3 + cGame.s_mailbox_scrollLevel][4] != -1) {
 			sub_41a13(3);
 		}
 	}
@@ -7719,7 +7718,7 @@ public final class cGame extends GLLib implements Class_b
 		if (cGame.var_7b7c) {
 			return;
 		}
-		if (cGame.var_6e24[4 + cGame.var_7b3c][4] != -1) {
+		if (cGame.var_6e24[4 + cGame.s_mailbox_scrollLevel][4] != -1) {
 			sub_41a13(4);
 		}
 	}
@@ -7728,7 +7727,7 @@ public final class cGame extends GLLib implements Class_b
 		if (cGame.var_7b7c) {
 			return;
 		}
-		if (cGame.var_6e24[0 + cGame.var_7b3c][3] != -1) {
+		if (cGame.var_6e24[0 + cGame.s_mailbox_scrollLevel][3] != -1) {
 			sub_41938(0);
 		}
 	}
@@ -7737,7 +7736,7 @@ public final class cGame extends GLLib implements Class_b
 		if (cGame.var_7b7c) {
 			return;
 		}
-		if (cGame.var_6e24[1 + cGame.var_7b3c][3] != -1) {
+		if (cGame.var_6e24[1 + cGame.s_mailbox_scrollLevel][3] != -1) {
 			sub_41938(1);
 		}
 	}
@@ -7746,7 +7745,7 @@ public final class cGame extends GLLib implements Class_b
 		if (cGame.var_7b7c) {
 			return;
 		}
-		if (cGame.var_6e24[2 + cGame.var_7b3c][3] != -1) {
+		if (cGame.var_6e24[2 + cGame.s_mailbox_scrollLevel][3] != -1) {
 			sub_41938(2);
 		}
 	}
@@ -7755,7 +7754,7 @@ public final class cGame extends GLLib implements Class_b
 		if (cGame.var_7b7c) {
 			return;
 		}
-		if (cGame.var_6e24[3 + cGame.var_7b3c][3] != -1) {
+		if (cGame.var_6e24[3 + cGame.s_mailbox_scrollLevel][3] != -1) {
 			sub_41938(3);
 		}
 	}
@@ -7764,7 +7763,7 @@ public final class cGame extends GLLib implements Class_b
 		if (cGame.var_7b7c) {
 			return;
 		}
-		if (cGame.var_6e24[4 + cGame.var_7b3c][3] != -1) {
+		if (cGame.var_6e24[4 + cGame.s_mailbox_scrollLevel][3] != -1) {
 			sub_41938(4);
 		}
 	}
@@ -7845,7 +7844,7 @@ public final class cGame extends GLLib implements Class_b
 			sub_1fb8e(9);
 			cGame.var_698c = true;
 			int n = 0;
-			for (int i = 0; i < cGame.var_7b74; ++i) {
+			for (int i = 0; i < cGame.s_mailbox_neighborCnt; ++i) {
 				if (n < 5) {
 					sub_41599(i, cGame.var_698c);
 					++n;
@@ -21644,7 +21643,7 @@ public final class cGame extends GLLib implements Class_b
 				final int var_76ec = cGame.var_76ec;
 				cGame.var_6aa4 = 4;
 				final int n = cGame.var_7704[var_76ec];
-				final int n2 = cGame.var_770c[var_76ec];
+				final int n2 = cGame.s_barn_itemIDs[var_76ec];
 				final int n3 = cGame.var_7714[var_76ec];
 				boolean b = false;
 				sub_2da54(n, n2, -1);
@@ -21781,7 +21780,7 @@ public final class cGame extends GLLib implements Class_b
 		if (cGame.s_barnItemCount > 0) {
 			cGame.var_76fc = new int[cGame.s_barnItemCount];
 			cGame.var_7704 = new int[cGame.s_barnItemCount];
-			cGame.var_770c = new int[cGame.s_barnItemCount];
+			cGame.s_barn_itemIDs = new int[cGame.s_barnItemCount];
 			cGame.var_7714 = new int[cGame.s_barnItemCount];
 			cGame.var_771c = new short[cGame.s_barnItemCount];
 			cGame.var_7724 = new short[cGame.s_barnItemCount];
@@ -21825,7 +21824,7 @@ public final class cGame extends GLLib implements Class_b
 					if (sub_2e024(array[j], k) > 0) {
 						cGame.var_76fc[n2] = k;
 						cGame.var_7704[n2] = array[j];
-						cGame.var_770c[n2] = (short) class_h.m_dataVars[k + n5][0];
+						cGame.s_barn_itemIDs[n2] = (short) class_h.m_dataVars[k + n5][0];
 						cGame.var_7714[n2] = n3;
 						cGame.var_771c[n2] = (short) sub_2e024(array[j], k);
 						cGame.var_7724[n2] = (short) class_h.m_dataVars[k + n5][3];
@@ -22835,8 +22834,8 @@ public final class cGame extends GLLib implements Class_b
 			cGame.var_78b4 = null;
 			sub_d7d7(1);
 			if (cGame.var_78bc) {
-				sub_4014a(756 + cGame.var_7bb4, cGame.var_7b5c[cGame.var_7bb4],
-						cGame.var_7b64[cGame.var_7bb4]);
+				sub_4014a(756 + cGame.var_7bb4, cGame.s_mailbox_neighborSprs[cGame.var_7bb4],
+						cGame.s_mailbox_neighborSprIdxs[cGame.var_7bb4]);
 			}
 			sub_239ef(10);
 		}
@@ -22987,7 +22986,7 @@ public final class cGame extends GLLib implements Class_b
 		sub_49db0(n3 = cGame.var_80bc[0] + cGame.var_7bb4, 1, 28, false);
 		sub_49db0(cGame.var_78ac[n + cGame.var_786c], 1, 26, false);
 		sub_2bae9(n3, 1, 28);
-		sub_4014a(756 + cGame.var_7bb4, cGame.var_7b5c[cGame.var_7bb4], cGame.var_7b64[cGame.var_7bb4]);
+		sub_4014a(756 + cGame.var_7bb4, cGame.s_mailbox_neighborSprs[cGame.var_7bb4], cGame.s_mailbox_neighborSprIdxs[cGame.var_7bb4]);
 		cGame.var_78bc = true;
 		cGame.var_67cc = 1;
 		sub_2c69b();
@@ -23017,8 +23016,8 @@ public final class cGame extends GLLib implements Class_b
 			cGame.var_68cc[10][66] = "";
 			sub_2c69b();
 			sub_1fb8e(10);
-			cGame.var_78d4 = new int[117];
-			cGame.var_78dc = new int[117];
+			cGame.s_reqItem_itemStrs = new int[117];
+			cGame.s_reqItem_itemIds = new int[117];
 			cGame.var_78e4 = new int[117];
 			cGame.var_78ec = new short[117];
 			cGame.var_78f4 = new short[117];
@@ -23047,8 +23046,8 @@ public final class cGame extends GLLib implements Class_b
 			cGame.var_7914 = false;
 		}
 		if (n == 5) {
-			cGame.var_78d4 = null;
-			cGame.var_78dc = null;
+			cGame.s_reqItem_itemStrs = null;
+			cGame.s_reqItem_itemIds = null;
 			cGame.var_78e4 = null;
 			cGame.var_78ec = null;
 			cGame.var_78f4 = null;
@@ -23066,7 +23065,7 @@ public final class cGame extends GLLib implements Class_b
 				sub_18688();
 			}
 			if (cGame.var_6914[0] != null && !sub_2351a(0, 1)) {
-				if (cGame.var_6914[0][8] < -cGame.var_774c && cGame.var_78cc < cGame.var_790c - 6) {
+				if (cGame.var_6914[0][8] < -cGame.var_774c && cGame.var_78cc < cGame.s_reqItem_itemIndex - 6) {
 					sub_3b90d(1);
 				} else if (cGame.var_6914[0][8] > -10 && cGame.var_78cc > 0) {
 					sub_3b90d(-1);
@@ -23088,10 +23087,10 @@ public final class cGame extends GLLib implements Class_b
 			final int n7 = n3;
 			n = n2;
 			GLLib.SetClip(GLLib.g, n, n7, n6, n5, true);
-			n = ((cGame.var_790c - cGame.var_78cc >= 6) ? 6 : (cGame.var_790c - cGame.var_78cc));
+			n = ((cGame.s_reqItem_itemIndex - cGame.var_78cc >= 6) ? 6 : (cGame.s_reqItem_itemIndex - cGame.var_78cc));
 			for (int i = 0; i < n; ++i) {
 				final String sub_4e1f2;
-				drawText(((sub_4e1f2 = GLLib.Text_GetStringFromLocaleFile(cGame.var_78d4[cGame.var_78cc + i])) == null) ? ""
+				drawText(((sub_4e1f2 = GLLib.Text_GetStringFromLocaleFile(cGame.s_reqItem_itemStrs[cGame.var_78cc + i])) == null) ? ""
 						: sub_4e1f2, 10, 14 + i * 7, 0, 0);
 			}
 			final int var_1ddf = GLLib.s_screenWidth;
@@ -23105,19 +23104,19 @@ public final class cGame extends GLLib implements Class_b
 	private static void sub_3b70c(int i) {
 		int n = 0;
 		cGame.var_78cc = 0;
-		cGame.var_790c = 0;
+		cGame.s_reqItem_itemIndex = 0;
 		if ((i & 0x1) != 0x0) {
 			final GameDatas class_h = GameDatas.s_allDatas[1];
 			for (int j = 0; j < 117; ++j) {
 				if (class_h.m_dataVars[j][14] > 0 && class_h.m_dataVars[j][11] <= getLevel()) {
-					cGame.var_78dc[cGame.var_790c] = j;
-					cGame.var_78e4[cGame.var_790c] = 0;
-					cGame.var_78d4[cGame.var_790c] = class_h.m_dataVars[j][2];
-					cGame.var_78ec[cGame.var_790c] = (short) class_h.m_dataVars[j][3];
-					cGame.var_78f4[cGame.var_790c] = (short) class_h.m_dataVars[j][4];
-					cGame.var_78fc[cGame.var_790c] = (short) class_h.m_dataVars[j][11];
-					cGame.var_7904[cGame.var_790c] = (short) class_h.m_dataVars[j][1];
-					++cGame.var_790c;
+					cGame.s_reqItem_itemIds[cGame.s_reqItem_itemIndex] = j;
+					cGame.var_78e4[cGame.s_reqItem_itemIndex] = 0;
+					cGame.s_reqItem_itemStrs[cGame.s_reqItem_itemIndex] = class_h.m_dataVars[j][2];
+					cGame.var_78ec[cGame.s_reqItem_itemIndex] = (short) class_h.m_dataVars[j][3];
+					cGame.var_78f4[cGame.s_reqItem_itemIndex] = (short) class_h.m_dataVars[j][4];
+					cGame.var_78fc[cGame.s_reqItem_itemIndex] = (short) class_h.m_dataVars[j][11];
+					cGame.var_7904[cGame.s_reqItem_itemIndex] = (short) class_h.m_dataVars[j][1];
+					++cGame.s_reqItem_itemIndex;
 					if (n < 6) {
 						sub_3b82d(n, true);
 						++n;
@@ -23156,8 +23155,8 @@ public final class cGame extends GLLib implements Class_b
 		final int n2 = cGame.var_6914[0][8];
 		int n3;
 		int i;
-		for (n3 = ((cGame.var_790c - cGame.var_78cc >= 6) ? 6
-				: (cGame.var_790c - cGame.var_78cc)), i = 0; i < n3; ++i) {
+		for (n3 = ((cGame.s_reqItem_itemIndex - cGame.var_78cc >= 6) ? 6
+				: (cGame.s_reqItem_itemIndex - cGame.var_78cc)), i = 0; i < n3; ++i) {
 			sub_3b82d(i, true);
 		}
 		while (i < 6) {
@@ -23174,7 +23173,7 @@ public final class cGame extends GLLib implements Class_b
 				.Math_Rand(0, 100)) {
 			switch (cGame.var_78e4[n + cGame.var_78cc]) {
 			case 0: {
-				cGame.var_6e24[cGame.var_7bb4][4] = cGame.var_78dc[n + cGame.var_78cc];
+				cGame.var_6e24[cGame.var_7bb4][4] = cGame.s_reqItem_itemIds[n + cGame.var_78cc];
 				break;
 			}
 			}
@@ -24033,7 +24032,7 @@ public final class cGame extends GLLib implements Class_b
 					sub_3e400(-1);
 				}
 			}
-			cGame.var_68cc[19][75] = (GLLib.Text_GetStringFromLocaleFile(457) == null ? "" : GLLib.Text_GetStringFromLocaleFile(457));
+			cGame.var_68cc[19][75] = (GLLib.Text_GetStringFromLocaleFile(Define.TEXT_TROPHIES) == null ? "" : GLLib.Text_GetStringFromLocaleFile(Define.TEXT_TROPHIES));
 			for (int l = 0; l < 5; ++l) {
 				cGame.var_68cc[19][3 + l * 14] = cGame.var_6e6c[cGame.s_trophy_scrollLevel + l];
 				cGame.var_68cc[19][4 + l * 14] = cGame.var_6e74[cGame.s_trophy_scrollLevel + l];
@@ -24209,7 +24208,7 @@ public final class cGame extends GLLib implements Class_b
 		if (n == 3) {
 			sub_1dcc1(23);
 			final String title;
-			sub_1df06(((title = GLLib.Text_GetStringFromLocaleFile(482)) == null) ? "" : title, 23, 1, 0, 0);
+			sub_1df06(((title = GLLib.Text_GetStringFromLocaleFile(Define.TEXT_SILOTITLE)) == null) ? "" : title, 23, 1, 0, 0);
 			final String maxText;
 			sub_1df06(((maxText = GLLib.Text_GetStringFromLocaleFile(Define.TEXT_MAXIMUM)) == null) ? "" : maxText, 23, 39, 0, 0);
 			sub_1e44e(23, 32);
@@ -24217,25 +24216,25 @@ public final class cGame extends GLLib implements Class_b
 			sub_1df06(((moreText = GLLib.Text_GetStringFromLocaleFile(Define.TEXT_MORE)) == null) ? "" : moreText, 23, 38, 0, 0);
 			sub_1df06(Integer.toString(sub_2e954()) + "/" + decryptInt(cGame.s_siloMaxStorage), 23, 35, 0, 0);
 			final String sub_4e1f4;
-			sub_1df06(((sub_4e1f4 = GLLib.Text_GetStringFromLocaleFile(459)) == null) ? "" : sub_4e1f4, 23, 36, 0, 0);
+			sub_1df06(((sub_4e1f4 = GLLib.Text_GetStringFromLocaleFile(Define.TEXT_SILO_ANIMALS)) == null) ? "" : sub_4e1f4, 23, 36, 0, 0);
 			sub_1df06(Integer.toString(cGame.s_animalAmountInSilo) + "/" + getMaxSiloAmount(), 23, 37, 0, 0);
 			final String sub_4e1f5;
-			drawText(((sub_4e1f5 = GLLib.Text_GetStringFromLocaleFile(8263)) == null) ? "" : sub_4e1f5, 23, 4, 0, 0);
+			drawText(((sub_4e1f5 = GLLib.Text_GetStringFromLocaleFile(Define.TEXT_ITEM_COWFEED)) == null) ? "" : sub_4e1f5, 23, 4, 0, 0);
 			sub_1df06(Integer.toString(getFeed(0)), 23, 5, 0, 0);
 			final String sub_4e1f6;
-			drawText(((sub_4e1f6 = GLLib.Text_GetStringFromLocaleFile(8264)) == null) ? "" : sub_4e1f6, 23, 8, 0, 0);
+			drawText(((sub_4e1f6 = GLLib.Text_GetStringFromLocaleFile(Define.TEXT_ITEM_CHICKENFEED)) == null) ? "" : sub_4e1f6, 23, 8, 0, 0);
 			sub_1df06(Integer.toString(getFeed(1)), 23, 9, 0, 0);
 			final String sub_4e1f7;
-			drawText(((sub_4e1f7 = GLLib.Text_GetStringFromLocaleFile(8265)) == null) ? "" : sub_4e1f7, 23, 12, 0, 0);
+			drawText(((sub_4e1f7 = GLLib.Text_GetStringFromLocaleFile(Define.TEXT_ITEM_PIGFEED)) == null) ? "" : sub_4e1f7, 23, 12, 0, 0);
 			sub_1df06(Integer.toString(getFeed(2)), 23, 13, 0, 0);
 			final String sub_4e1f8;
-			drawText(((sub_4e1f8 = GLLib.Text_GetStringFromLocaleFile(8266)) == null) ? "" : sub_4e1f8, 23, 16, 0, 0);
+			drawText(((sub_4e1f8 = GLLib.Text_GetStringFromLocaleFile(Define.TEXT_ITEM_GOATFEED)) == null) ? "" : sub_4e1f8, 23, 16, 0, 0);
 			sub_1df06(Integer.toString(getFeed(3)), 23, 17, 0, 0);
 			final String sub_4e1f9;
-			drawText(((sub_4e1f9 = GLLib.Text_GetStringFromLocaleFile(8267)) == null) ? "" : sub_4e1f9, 23, 20, 0, 0);
+			drawText(((sub_4e1f9 = GLLib.Text_GetStringFromLocaleFile(Define.TEXT_ITEM_SHEEPFEED)) == null) ? "" : sub_4e1f9, 23, 20, 0, 0);
 			sub_1df06(Integer.toString(getFeed(4)), 23, 21, 0, 0);
 			final String sub_4e1f10;
-			drawText(((sub_4e1f10 = GLLib.Text_GetStringFromLocaleFile(8268)) == null) ? "" : sub_4e1f10, 23, 24, 0, 0);
+			drawText(((sub_4e1f10 = GLLib.Text_GetStringFromLocaleFile(Define.TEXT_ITEM_SUPERFEED)) == null) ? "" : sub_4e1f10, 23, 24, 0, 0);
 			sub_1df06(Integer.toString(getFeed(5)), 23, 25, 0, 0);
 		}
 		return false;
@@ -25168,29 +25167,29 @@ public final class cGame extends GLLib implements Class_b
 			sub_237d7(9, 0, 1, 15, 84, 137);
 			sub_1daf4(9);
 			if (cGame.var_7b9c != 4 && cGame.var_7b9c != 3) {
-				cGame.var_7b3c = 0;
+				cGame.s_mailbox_scrollLevel = 0;
 				cGame.var_7b44 = null;
-				cGame.var_7b4c = null;
+				cGame.s_mailbox_neighborNames = null;
 				cGame.var_7b54 = null;
-				cGame.var_7b5c = null;
-				cGame.var_7b64 = null;
+				cGame.s_mailbox_neighborSprs = null;
+				cGame.s_mailbox_neighborSprIdxs = null;
 				cGame.var_7b6c = null;
-				cGame.var_7b74 = 0;
+				cGame.s_mailbox_neighborCnt = 0;
 				final GameDatas class_h = GameDatas.s_allDatas[8];
-				cGame.var_7b74 = 10;
+				cGame.s_mailbox_neighborCnt = 10;
 				if (class_h != null) {
-					cGame.var_7b44 = new int[cGame.var_7b74];
-					cGame.var_7b4c = new int[cGame.var_7b74];
-					cGame.var_7b54 = new int[cGame.var_7b74];
-					cGame.var_7b5c = new int[cGame.var_7b74];
-					cGame.var_7b64 = new int[cGame.var_7b74];
-					cGame.var_7b6c = new int[cGame.var_7b74];
-					for (int i = 0; i < cGame.var_7b74; ++i) {
+					cGame.var_7b44 = new int[cGame.s_mailbox_neighborCnt];
+					cGame.s_mailbox_neighborNames = new int[cGame.s_mailbox_neighborCnt];
+					cGame.var_7b54 = new int[cGame.s_mailbox_neighborCnt];
+					cGame.s_mailbox_neighborSprs = new int[cGame.s_mailbox_neighborCnt];
+					cGame.s_mailbox_neighborSprIdxs = new int[cGame.s_mailbox_neighborCnt];
+					cGame.var_7b6c = new int[cGame.s_mailbox_neighborCnt];
+					for (int i = 0; i < cGame.s_mailbox_neighborCnt; ++i) {
 						cGame.var_7b44[i] = class_h.m_dataVars[i][0];
-						cGame.var_7b4c[i] = class_h.m_dataVars[i][2];
+						cGame.s_mailbox_neighborNames[i] = class_h.m_dataVars[i][2];
 						cGame.var_7b54[i] = class_h.m_dataVars[i][6];
-						cGame.var_7b5c[i] = class_h.m_dataVars[i][4];
-						cGame.var_7b64[i] = class_h.m_dataVars[i][5];
+						cGame.s_mailbox_neighborSprs[i] = class_h.m_dataVars[i][4];
+						cGame.s_mailbox_neighborSprIdxs[i] = class_h.m_dataVars[i][5];
 						cGame.var_7b6c[i] = class_h.m_dataVars[i][9];
 					}
 				}
@@ -25285,7 +25284,7 @@ public final class cGame extends GLLib implements Class_b
 				sub_2024d(9, 59, false);
 				cGame.var_698c = false;
 				int n2 = 0;
-				for (int j = 0; j < cGame.var_7b74; ++j) {
+				for (int j = 0; j < cGame.s_mailbox_neighborCnt; ++j) {
 					if (n2 < 5) {
 						sub_41599(j, cGame.var_698c);
 						++n2;
@@ -25325,14 +25324,14 @@ public final class cGame extends GLLib implements Class_b
 			cGame.var_7b8c = 0;
 			sub_2000c(9, 67, false);
 			cGame.var_7b9c = 1;
-			cGame.var_7b3c = 0;
+			cGame.s_mailbox_scrollLevel = 0;
 			cGame.var_7b44 = null;
-			cGame.var_7b4c = null;
+			cGame.s_mailbox_neighborNames = null;
 			cGame.var_7b54 = null;
-			cGame.var_7b5c = null;
-			cGame.var_7b64 = null;
+			cGame.s_mailbox_neighborSprs = null;
+			cGame.s_mailbox_neighborSprIdxs = null;
 			cGame.var_7b6c = null;
-			cGame.var_7b74 = 0;
+			cGame.s_mailbox_neighborCnt = 0;
 			cGame.var_698c = false;
 			sub_239ef(9);
 		}
@@ -25346,9 +25345,9 @@ public final class cGame extends GLLib implements Class_b
 			}
 			if (cGame.var_698c) {
 				if (cGame.var_6914[0] != null && !sub_2351a(0, 1)) {
-					if (cGame.var_6914[0][8] < -cGame.var_7b94 && cGame.var_7b3c < cGame.var_7b74 - 5) {
+					if (cGame.var_6914[0][8] < -cGame.var_7b94 && cGame.s_mailbox_scrollLevel < cGame.s_mailbox_neighborCnt - 5) {
 						sub_418b1(1);
-					} else if (cGame.var_6914[0][8] > -10 && cGame.var_7b3c > 0) {
+					} else if (cGame.var_6914[0][8] > -10 && cGame.s_mailbox_scrollLevel > 0) {
 						sub_418b1(-1);
 					}
 				}
@@ -25383,13 +25382,13 @@ public final class cGame extends GLLib implements Class_b
 				int n9;
 				String sub_4e1f2;
 				String sub_4e1f3;
-				for (n = 0; n < cGame.var_7b74 && n < 5; ++n) {
+				for (n = 0; n < cGame.s_mailbox_neighborCnt && n < 5; ++n) {
 					n9 = n * 11;
-					sub_1df06(((sub_4e1f2 = GLLib.Text_GetStringFromLocaleFile(cGame.var_7b4c[n + cGame.var_7b3c])) == null) ? ""
+					sub_1df06(((sub_4e1f2 = GLLib.Text_GetStringFromLocaleFile(cGame.s_mailbox_neighborNames[n + cGame.s_mailbox_scrollLevel])) == null) ? ""
 							: sub_4e1f2, 9, n9 + 13, 0, 0);
-					if (getLevel() < cGame.var_7b54[n + cGame.var_7b3c]) {
+					if (getLevel() < cGame.var_7b54[n + cGame.s_mailbox_scrollLevel]) {
 						sub_1df06((((sub_4e1f3 = GLLib.Text_GetStringFromLocaleFile(Define.TEXT_PREFIX_LEVEL)) == null) ? "" : sub_4e1f3)
-								+ Integer.toString(cGame.var_7b54[n + cGame.var_7b3c]), 9, n9 + 22, 0, 0);
+								+ Integer.toString(cGame.var_7b54[n + cGame.s_mailbox_scrollLevel]), 9, n9 + 22, 0, 0);
 					}
 				}
 				final int var_1ddf = GLLib.s_screenWidth;
@@ -25406,9 +25405,9 @@ public final class cGame extends GLLib implements Class_b
 		final int n2 = (n3 = n * 11) + 21;
 		final int n4 = n3 + 16;
 		if (b) {
-			cGame.var_68bc[9][n4][5] = (short) cGame.var_7b5c[cGame.var_7b3c + n];
-			cGame.var_68bc[9][n4][6] = (short) cGame.var_7b64[cGame.var_7b3c + n];
-			final boolean b2 = getLevel() < cGame.var_7b54[cGame.var_7b3c + n];
+			cGame.var_68bc[9][n4][5] = (short) cGame.s_mailbox_neighborSprs[cGame.s_mailbox_scrollLevel + n];
+			cGame.var_68bc[9][n4][6] = (short) cGame.s_mailbox_neighborSprIdxs[cGame.s_mailbox_scrollLevel + n];
+			final boolean b2 = getLevel() < cGame.var_7b54[cGame.s_mailbox_scrollLevel + n];
 			final int n5 = n3 + 17;
 			for (int n6 = n3 + 20, i = n5; i <= n6; ++i) {
 				sub_2000c(9, i, !b2);
@@ -25426,21 +25425,21 @@ public final class cGame extends GLLib implements Class_b
 				cGame.var_68bc[9][n4][9] = 1;
 				sub_2024d(9, n3 + 12, true);
 			}
-			sub_2000c(9, n3 + 15, cGame.var_6e24[n + cGame.var_7b3c][3] != -1);
+			sub_2000c(9, n3 + 15, cGame.var_6e24[n + cGame.s_mailbox_scrollLevel][3] != -1);
 			cGame.var_68bc[9][n3 + 15][5] = 28;
 			cGame.var_68bc[9][n3 + 15][6] = 1;
-			sub_2000c(9, n3 + 14, cGame.var_6e24[n + cGame.var_7b3c][4] != -1);
+			sub_2000c(9, n3 + 14, cGame.var_6e24[n + cGame.s_mailbox_scrollLevel][4] != -1);
 			if (sub_20167(9, n3 + 14)) {
 				final GameDatas class_h = GameDatas.s_allDatas[1];
-				cGame.var_68bc[9][n3 + 14][5] = (short) class_h.m_dataVars[cGame.var_6e24[n + cGame.var_7b3c][4]][3];
-				cGame.var_68bc[9][n3 + 14][6] = (short) class_h.m_dataVars[cGame.var_6e24[n + cGame.var_7b3c][4]][4];
+				cGame.var_68bc[9][n3 + 14][5] = (short) class_h.m_dataVars[cGame.var_6e24[n + cGame.s_mailbox_scrollLevel][4]][3];
+				cGame.var_68bc[9][n3 + 14][6] = (short) class_h.m_dataVars[cGame.var_6e24[n + cGame.s_mailbox_scrollLevel][4]][4];
 			}
-			final int n7 = cGame.var_7b3c + n;
+			final int n7 = cGame.s_mailbox_scrollLevel + n;
 			final int n8 = cGame.var_6e24[n7][1] / cGame.var_8064[25] / 3;
 			sub_49db0(cGame.var_80bc[0] + n7, n8, 29, false);
 			sub_2bae9(cGame.var_80bc[0] + n7, n8, 29);
 			sub_2bae9(cGame.var_80bc[0] + n7, n8, 42);
-			sub_2b081(9, n5, cGame.var_6e24[cGame.var_7b3c + n][1]);
+			sub_2b081(9, n5, cGame.var_6e24[cGame.s_mailbox_scrollLevel + n][1]);
 			return;
 		}
 		sub_2000c(9, n2, false);
@@ -25450,7 +25449,7 @@ public final class cGame extends GLLib implements Class_b
 	}
 
 	private static void sub_418b1(final int n) {
-		cGame.var_7b3c += n;
+		cGame.s_mailbox_scrollLevel += n;
 		final int n2 = cGame.var_6914[0][8];
 		for (int i = 0; i < 5; ++i) {
 			sub_41599(i, true);
@@ -25466,14 +25465,14 @@ public final class cGame extends GLLib implements Class_b
 			sub_40658(471, 477);
 			return;
 		}
-		if (sub_2da54(0, cGame.var_6e24[n + cGame.var_7b3c][3], 1)) {
-			sub_41ad0(15 + n * 11, cGame.var_6e24[n + cGame.var_7b3c][3], true);
+		if (sub_2da54(0, cGame.var_6e24[n + cGame.s_mailbox_scrollLevel][3], 1)) {
+			sub_41ad0(15 + n * 11, cGame.var_6e24[n + cGame.s_mailbox_scrollLevel][3], true);
 			playSndNoLoop(48);
-			cGame.var_6e24[n + cGame.var_7b3c][3] = -1;
-			cGame.var_6e34[n + cGame.var_7b3c][5] = System.currentTimeMillis() / 1000L;
-			sub_49db0(cGame.var_80bc[0] + n + cGame.var_7b3c, 1, 37, false);
-			sub_2b10b(n + cGame.var_7b3c,
-					GameDatas.s_allDatas[24].m_dataVars[cGame.var_6e24[n + cGame.var_7b3c][1] / cGame.var_8064[25]][5]);
+			cGame.var_6e24[n + cGame.s_mailbox_scrollLevel][3] = -1;
+			cGame.var_6e34[n + cGame.s_mailbox_scrollLevel][5] = System.currentTimeMillis() / 1000L;
+			sub_49db0(cGame.var_80bc[0] + n + cGame.s_mailbox_scrollLevel, 1, 37, false);
+			sub_2b10b(n + cGame.s_mailbox_scrollLevel,
+					GameDatas.s_allDatas[24].m_dataVars[cGame.var_6e24[n + cGame.s_mailbox_scrollLevel][1] / cGame.var_8064[25]][5]);
 		}
 	}
 
@@ -25482,11 +25481,11 @@ public final class cGame extends GLLib implements Class_b
 			sub_40658(471, 477);
 			return;
 		}
-		if (sub_2da54(0, cGame.var_6e24[n + cGame.var_7b3c][4], 1)) {
-			sub_41ad0(14 + n * 11, cGame.var_6e24[n + cGame.var_7b3c][4], false);
-			sub_41ad0(14 + n * 11, cGame.var_6e24[n + cGame.var_7b3c][4], false);
+		if (sub_2da54(0, cGame.var_6e24[n + cGame.s_mailbox_scrollLevel][4], 1)) {
+			sub_41ad0(14 + n * 11, cGame.var_6e24[n + cGame.s_mailbox_scrollLevel][4], false);
+			sub_41ad0(14 + n * 11, cGame.var_6e24[n + cGame.s_mailbox_scrollLevel][4], false);
 			playSndNoLoop(48);
-			cGame.var_6e24[n + cGame.var_7b3c][4] = -1;
+			cGame.var_6e24[n + cGame.s_mailbox_scrollLevel][4] = -1;
 			sub_49db0(n = cGame.var_80bc[0] + cGame.var_7bb4, 1, 30, false);
 			sub_2bae9(n, 1, 31);
 		}
@@ -25513,13 +25512,13 @@ public final class cGame extends GLLib implements Class_b
 	}
 
 	private static void sub_41ba8(final int n) {
-		if (getLevel() < cGame.var_7b54[cGame.var_7b3c + n]) {
+		if (getLevel() < cGame.var_7b54[cGame.s_mailbox_scrollLevel + n]) {
 			playSndNoLoop(56);
 			return;
 		}
 		playSndNoLoop(61);
 		switchToState(37);
-		cGame.var_7bb4 = n + cGame.var_7b3c;
+		cGame.var_7bb4 = n + cGame.s_mailbox_scrollLevel;
 	}
 
 	private static boolean openNeighborView(int var_7bb4) {
@@ -25554,7 +25553,7 @@ public final class cGame extends GLLib implements Class_b
 			final String sub_4e1f;
 			sub_1df06(((sub_4e1f = GLLib.Text_GetStringFromLocaleFile(157)) == null) ? "" : sub_4e1f, 17, 2, 0, 0);
 			final String sub_4e1f2;
-			sub_1df06(((sub_4e1f2 = GLLib.Text_GetStringFromLocaleFile(cGame.var_7b4c[cGame.var_7bb4])) == null) ? "" : sub_4e1f2, 17,
+			sub_1df06(((sub_4e1f2 = GLLib.Text_GetStringFromLocaleFile(cGame.s_mailbox_neighborNames[cGame.var_7bb4])) == null) ? "" : sub_4e1f2, 17,
 					11, 0, 0);
 			var_7bb4 = cGame.var_7bb4;
 			if (cGame.var_6e2c[var_7bb4][0] != 0) {
@@ -25696,8 +25695,8 @@ public final class cGame extends GLLib implements Class_b
 			sub_2024d(17, 3, true);
 			sub_2024d(17, 8, true);
 		}
-		cGame.var_68bc[17][22][5] = (short) cGame.var_7b5c[cGame.var_7bb4];
-		cGame.var_68bc[17][22][6] = (short) cGame.var_7b64[cGame.var_7bb4];
+		cGame.var_68bc[17][22][5] = (short) cGame.s_mailbox_neighborSprs[cGame.var_7bb4];
+		cGame.var_68bc[17][22][6] = (short) cGame.s_mailbox_neighborSprIdxs[cGame.var_7bb4];
 		sub_423b1();
 		sub_2c69b();
 		sub_1fb8e(17);

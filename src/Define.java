@@ -154,13 +154,16 @@ interface Define
 	final static int TEXT_PREFIX_LEVEL = 447;
 	final static int TEXT_PREVIOUS = 454;
 	final static int TEXT_INVENTORY = 456;
+	final static int TEXT_TROPHIES = 457;
 	final static int TEXT_NEWTROPHY = 458;
+	final static int TEXT_SILO_ANIMALS = 459;
 	final static int TEXT_SALESDESK_NOITEM = 460;
 	final static int TEXT_UNTILREADY = 463;	
 	final static int TEXT_UNTILADULT = 464;
 	final static int TEXT_FEEDTYPES = 468;
 	final static int TEXT_POPUP_BARNFULL = 475;
 	final static int TEXT_POPUP_BARNFULLDESC = 476;
+	final static int TEXT_SILOTITLE = 482;
 	final static int TEXT_MAXIMUM = 483;
 	final static int TEXT_MORE = 484;
 	final static int TEXT_CANNOTGOBACK = 498;
@@ -176,6 +179,14 @@ interface Define
 	
 	final static int TEXT_PAUSE_IGP = 839;
 	final static int TEXT_NOTIAP_NOTENOUGHCASHDESC = 852;
+	
+	// 82XX are mostly Item names
+	final static int TEXT_ITEM_COWFEED = 8263;
+	final static int TEXT_ITEM_CHICKENFEED = 8264;
+	final static int TEXT_ITEM_PIGFEED = 8265;
+	final static int TEXT_ITEM_GOATFEED = 8266;
+	final static int TEXT_ITEM_SHEEPFEED = 8267;
+	final static int TEXT_ITEM_SUPERFEED = 8268;
 	
 	final static int TEXT_CREDITS_VERSION = 11265;
 }
