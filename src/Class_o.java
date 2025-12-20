@@ -37,7 +37,7 @@ public final class Class_o {
 	private static String var_2a1d;
 	private static String igpCode;
 	private static String phoneModel;
-	private static String var_2a35;
+	private static String downloadCode;
 	private static String smsContent;
 	private static String code;
 	private static int currentProfile;
@@ -75,9 +75,9 @@ public final class Class_o {
 	private static String[] var_2b4d;
 	private static boolean creditCardEnabled;
 	//private static boolean var_2b5d;
-	private static String[] var_2b65;
-	private static String[] var_2b6d;
-	private static String[] var_2b75;
+	private static String[] turkeyProfiles;
+	private static String[] openMarketProfiles;
+	private static String[] telkomselProfiles;
 	private static int[] var_2b7d;
 	private static int[] var_2b85;
 	private static int contentIDAmnt;
@@ -248,7 +248,7 @@ public final class Class_o {
 				if (!Class_o.debugMnc.equals("")) {
 					Class_o.var_2a1d = Class_o.debugMnc;
 				}
-				Class_o.var_2a35 = getAppProperty("Download-Code");
+				Class_o.downloadCode = getAppProperty("Download-Code");
 				if (getAppProperty("IAP-EnableCreditCard").equals("1")) {
 					Class_o.creditCardEnabled = true;
 				}
@@ -470,7 +470,7 @@ public final class Class_o {
 			if (!(sub_5e3c = getAppProperty("IAP-ContentID-" + Class_o.itemType + "-" + Class_o.pricePoint))
 					.equals("")) {
 				appendToSms(sub_5e3c);
-				appendToSms(Class_o.var_2a35);
+				appendToSms(Class_o.downloadCode);
 				appendToSms("ct" + Class_o.smsCount);
 				new StringBuffer().append("PaySMS.sendSMS: smsContent: ").append(Class_o.smsContent);
 				Class_o.var_2a75 = true;
@@ -517,8 +517,8 @@ public final class Class_o {
 			itemType = contentID;
 			Class_o.http.cancel();
 			String fullUrl = "b=contentpurchase" + "%7C" + Class_o.igpCode + "%7C" + itemType + "%7C" + itemType + "%7C" + Class_o.code;
-			if (!var_2a35.equals("")) {
-				fullUrl = fullUrl + "&d=" + var_2a35;
+			if (!downloadCode.equals("")) {
+				fullUrl = fullUrl + "&d=" + downloadCode;
 			}
 			Class_o.var_2995 = -100;
 			Class_o.http.sendByGet(httpUrl, fullUrl + "&phoneId=" + phoneModel);
@@ -894,7 +894,7 @@ public final class Class_o {
 		itemtype = itemtype + "&content_id=" + contentID;
 		itemtype = itemtype + "&tier=" + pricepoint;
 		itemtype = itemtype + "&code=" + Class_o.code;
-		itemtype = itemtype + "&d=" + Class_o.var_2a35;
+		itemtype = itemtype + "&d=" + Class_o.downloadCode;
 		final String creditCard = Class_o.var_2b4d[11] + itemtype;
 		new StringBuffer().append("PaySMS.sendRequest CREDIT CARD: ").append(creditCard);
 		if (creditCard != null) {
@@ -1766,22 +1766,22 @@ public final class Class_o {
 			final int h = ((Integer) Class_o.currentValidProfiles.elementAt(0)).intValue();
 			final String profileID = Class_o.var_29a5[h][0];
 			new StringBuffer().append("profileID : ").append(profileID);
-			for (int i = 0; i < Class_o.var_2b65.length; ++i) {
-				if (profileID != null && profileID.equals(Class_o.var_2b65[i])) {
+			for (int i = 0; i < Class_o.turkeyProfiles.length; ++i) {
+				if (profileID != null && profileID.equals(Class_o.turkeyProfiles[i])) {
 					new StringBuffer().append("PaySMS. Found valid the Turkey profile: ")
 							.append(Class_o.var_29a5[h][0]);
 					return 3;
 				}
 			}
-			for (int j = 0; j < Class_o.var_2b6d.length; ++j) {
-				if (profileID != null && profileID.equals(Class_o.var_2b6d[j])) {
+			for (int j = 0; j < Class_o.openMarketProfiles.length; ++j) {
+				if (profileID != null && profileID.equals(Class_o.openMarketProfiles[j])) {
 					new StringBuffer().append("PaySMS. Found valid the FR Open Market profile: ")
 							.append(Class_o.var_29a5[h][0]);
 					return 6;
 				}
 			}
-			for (int k = 0; k < Class_o.var_2b75.length; ++k) {
-				if (profileID != null && profileID.equals(Class_o.var_2b75[k])) {
+			for (int k = 0; k < Class_o.telkomselProfiles.length; ++k) {
+				if (profileID != null && profileID.equals(Class_o.telkomselProfiles[k])) {
 					new StringBuffer().append("PaySMS. Found valid the Indonesia Telkomsel profile: ")
 							.append(Class_o.var_29a5[h][0]);
 					return 11;
@@ -1813,7 +1813,7 @@ public final class Class_o {
 					return 7;
 				}
 				
-				// Spain (WHAT THE HELL IS ESTONIA :skull:)
+				// Spain
 				if (countryCode.equals("34:ES")) {
 					return 0;
 				}
@@ -2017,7 +2017,7 @@ public final class Class_o {
 		Class_o.var_2a1d = null;
 		Class_o.igpCode = null;
 		Class_o.phoneModel = null;
-		Class_o.var_2a35 = null;
+		Class_o.downloadCode = null;
 		Class_o.smsContent = "";
 		Class_o.code = "";
 		Class_o.currentProfile = -1;
@@ -2057,10 +2057,10 @@ public final class Class_o {
 		Class_o.var_2b4d = null;
 		Class_o.creditCardEnabled = false;
 		//Class_o.var_2b5d = false;
-		Class_o.var_2b65 = new String[] { "2124", "2126", "2128", "2130", "3501", "3503", "3505", "3507", "3509",
+		Class_o.turkeyProfiles = new String[] { "2124", "2126", "2128", "2130", "3501", "3503", "3505", "3507", "3509",
 				"3511" };
-		Class_o.var_2b6d = new String[] { "1152", "1154", "1049", "1156", "2741", "2743", "2745", "2878" };
-		Class_o.var_2b75 = new String[] { "1104", "1106", "1108", "1110" };
+		Class_o.openMarketProfiles = new String[] { "1152", "1154", "1049", "1156", "2741", "2743", "2745", "2878" };
+		Class_o.telkomselProfiles = new String[] { "1104", "1106", "1108", "1110" };
 		Class_o.var_2b7d = new int[] { 100, 110, 120, 130, 140, 150 };
 		Class_o.var_2b85 = new int[] { 199, 399, 999, 1999, 2999, 3999 };
 		Class_o.contentIDAmnt = 4;

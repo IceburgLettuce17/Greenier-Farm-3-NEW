@@ -6858,7 +6858,7 @@ public final class cGame extends GLLib implements Class_b
 		playSndNoLoop(61);
 		sub_17332();
 		cGame.var_7d24 = true;
-		if (GLLib.sub_7848()) {
+		if (GLLib.IAP_CanRedeemCode()) {
 			sub_175b0();
 			sub_16c4d();
 			cGame.var_6974 = (cGame.var_696c = 3);
@@ -7194,7 +7194,7 @@ public final class cGame extends GLLib implements Class_b
 		sub_2000c(8, 14, false);
 		sub_2000c(8, 11, true);
 		cGame.var_6964 = true;
-		if (GLLib.sub_7848()) {
+		if (GLLib.IAP_CanRedeemCode()) {
 			cGame.var_696c = 3;
 		} else {
 			cGame.var_696c = 2;
@@ -13972,7 +13972,7 @@ public final class cGame extends GLLib implements Class_b
 
 	private static void sub_253a8() {
 		if (cGame.var_7cb4 == 0) {
-			if (GLLib.sub_7848()) {
+			if (GLLib.IAP_CanRedeemCode()) {
 				cGame.var_7cb4 = 1;
 			} else {
 				cGame.var_7cb4 = 2;
@@ -26984,7 +26984,7 @@ public final class cGame extends GLLib implements Class_b
 				sub_16cdc();
 				cGame.var_6984 = false;
 				sub_171dc();
-			} else if (GLLib.sub_7848()) {
+			} else if (GLLib.IAP_CanRedeemCode()) {
 				sub_1715b();
 				sub_16bcb();
 				sub_174e9();
