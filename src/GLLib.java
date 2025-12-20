@@ -99,8 +99,8 @@ public abstract class GLLib extends Canvas implements Runnable
     static int var_1fe7;
     static int[][] var_1fef;
     static boolean var_1ff7;
-    private static int var_1fff;
-    private static int var_2007;
+    private static int s_rgb_width;
+    private static int s_rgb_height;
     static int var_200f;
     static int var_2017;
     static int var_201f;
@@ -771,14 +771,14 @@ public abstract class GLLib extends Canvas implements Runnable
         return graphics.getClipHeight();
     }
     
-    static final void sub_36b7(final Graphics graphics, int n, int n2, int n3, int n4, final boolean b) {
-        final int n5 = n;
-        n = ASprite.s_screenWidth - n2 - n4;
-        n2 = n5;
-        final int n6 = n3;
-        n3 = n4;
-        n4 = n6;
-        graphics.clipRect(n, n2, n3, n4);
+    static final void ClipRect(final Graphics g, int x, int y, int width, int height, final boolean processAlpha) {
+        final int n5 = x;
+        x = ASprite.s_screenWidth - y - height;
+        y = n5;
+        final int n6 = width;
+        width = height;
+        height = n6;
+        g.clipRect(x, y, width, height);
     }
     
     static final void SetClip(final Graphics _g, int x, int y, int width, int height, final boolean processAlpha) {
@@ -941,7 +941,7 @@ public abstract class GLLib extends Canvas implements Runnable
                 scanlength = width;
             }
             n8 = width;
-            rgbData = ASprite.sub_9c11(rgbData, width, height, n7, null);
+            rgbData = ASprite.GetRGBData(rgbData, width, height, n7, null);
             if ((n7 & 0x4) != 0x0) {
                 height = n10;
             }
@@ -1702,7 +1702,7 @@ public abstract class GLLib extends Canvas implements Runnable
         return -1;
     }
     
-    private static final void sub_5ad0(final Graphics graphics, final int[] array, final int n, final int n2, final int n3, final int n4, final int n5, final boolean b) {
+    private static final void drawRGB(final Graphics graphics, final int[] array, final int n, final int n2, final int n3, final int n4, final int n5, final boolean b) {
         DrawRGB(graphics, array, 0, n, n2, n3, n4, n5, b, true, 0, -1, false);
     }
     
@@ -1771,63 +1771,52 @@ public abstract class GLLib extends Canvas implements Runnable
         array[1] = Math.max(Math.abs(a2), abs = Math.abs(abs - n3));
     }
     
-    static final int[] sub_5d84(final Graphics graphics, int[] sub_9c11, int var_200f, int var_2017, int n, int i, int n2, boolean var_1ff7, final boolean b, final boolean b2) {
+    static final int[] GetRGBData(final Graphics g, int[] data, int var_200f, int var_2017, int width, int height, int n2, boolean var_1ff7, final boolean b, final boolean b2) {
         GLLib.var_1ff7 = var_1ff7;
-        GLLib.var_1fff = n;
-        GLLib.var_2007 = i;
+        GLLib.s_rgb_width = width;
+        GLLib.s_rgb_height = height;
         GLLib.var_200f = var_200f;
         GLLib.var_2017 = var_2017;
         if ((GLLib.var_1fe7 & 0x5600) != 0x0) {
             if ((n2 & 0x4) != 0x0) {
-                GLLib.var_1fff = i;
-                GLLib.var_2007 = n;
-                n = GLLib.var_1fff;
-                i = GLLib.var_2007;
+                GLLib.s_rgb_width = height;
+                GLLib.s_rgb_height = width;
+                width = GLLib.s_rgb_width;
+                height = GLLib.s_rgb_height;
             }
-            sub_9c11 = ASprite.sub_9c11(sub_9c11, n, i, n2, null);
+            data = ASprite.GetRGBData(data, width, height, n2, null);
         }
-        GLLib.var_201f = n;
-        GLLib.var_2027 = i;
-        int[] array = ASprite._InitTempBuffers(sub_9c11);
+        GLLib.var_201f = width;
+        GLLib.var_2027 = height;
+        int[] array = ASprite._InitTempBuffers(data);
         if ((GLLib.var_1fe7 & 0x2000) == 0x0) {
             return null;
         }
         final int n3;
         final boolean b3 = (n3 = GLLib.var_1fef[13][0]) != 1 && (n3 == 2 || b);
-        final int n4;
+        int n4;
         if ((n4 = GLLib.var_1fef[13][6]) % GLLib.Math_Angle360 != 0) {
             var_1ff7 = true;
-            final int[] array2 = sub_9c11;
-            final int[] array3 = array;
-            final int n5 = var_200f;
-            final int n6 = var_2017;
-            final int n7 = n;
-            final int n8 = i;
-            final int n9 = n4;
-            int n10 = n2;
-            int n11 = n9;
-            n = n8;
-            final int n12 = n7;
-            final int var_2018 = n6;
-            final int var_200f2 = n5;
-            int[] sub_9f61 = array3;
-            int[] sub_9c12 = array2;
+            width = height;
+            final int var_2018 = var_2017;
+            final int var_200f2 = var_200f;
+            int[] sub_9f61 = array;
             if ((n2 & 0x4) != 0x0) {
-                n10 = (n2 & 0xFFFFFFFB);
-                n11 += 90 * GLLib.var_1ed7 / 360;
+                n2 = (n2 & 0xFFFFFFFB);
+                n4 += 90 * GLLib.var_1ed7 / 360;
             }
-            if (n10 != 0) {
-                sub_9f61 = ASprite._InitTempBuffers(sub_9c12 = ASprite.sub_9c11(sub_9c12, n12, n, n10, null));
+            if (n2 != 0) {
+            	array = ASprite._InitTempBuffers(data = ASprite.GetRGBData(data, width, width, n2, null));
             }
-            final int sub_2be7 = Math_Cos(GLLib.Math_Angle90 - n11);
-            final int sub_2be8 = Math_Cos(n11);
-            sub_5cfb(sub_2be7, sub_2be8, n12, n, ASprite.s_rc);
+            final int sub_2be7 = Math_Cos(GLLib.Math_Angle90 - n4);
+            final int sub_2be8 = Math_Cos(n4);
+            sub_5cfb(sub_2be7, sub_2be8, width, width, ASprite.s_rc);
             final int var_201f = ASprite.s_rc[0];
-            i = ASprite.s_rc[1];
+            height = ASprite.s_rc[1];
             final int n13 = var_201f >> 1;
-            final int n14 = i >> 1;
-            final int n15 = var_201f - n12 >> 1;
-            final int n16 = i - n >> 1;
+            final int n14 = height >> 1;
+            final int n15 = var_201f - width >> 1;
+            final int n16 = height - width >> 1;
             final int n17 = n14 * sub_2be7;
             final int n18 = -n14 * sub_2be8;
             final int n19 = n13 * sub_2be7;
@@ -1840,13 +1829,13 @@ public abstract class GLLib extends Canvas implements Runnable
                 int n25 = n23 - n17;
                 int n26 = n18 - n24;
                 int n27 = j;
-                for (int k = 0; k < i; ++k) {
+                for (int k = 0; k < height; ++k) {
                     final int n28 = n21 + (n25 + 128 >> 8);
                     final int n29 = n22 + (n26 + 128 >> 8);
                     n25 += sub_2be7;
                     n26 += sub_2be8;
-                    if (n28 >= 0 && n29 >= 0 && n28 < n12 && n29 < n) {
-                        sub_9f61[n27] = sub_9c12[n29 * n12 + n28];
+                    if (n28 >= 0 && n29 >= 0 && n28 < width && n29 < width) {
+                        sub_9f61[n27] = data[n29 * width + n28];
                     }
                     else {
                         sub_9f61[n27] = 0;
@@ -1859,21 +1848,21 @@ public abstract class GLLib extends Canvas implements Runnable
             GLLib.var_200f = var_200f2;
             GLLib.var_2017 = var_2018;
             GLLib.var_201f = var_201f;
-            GLLib.var_2027 = i;
+            GLLib.var_2027 = height;
             GLLib.var_1ff7 = true;
-            array = ASprite._InitTempBuffers(sub_9c11 = sub_9f61);
+            array = ASprite._InitTempBuffers(data = sub_9f61);
             var_200f = GLLib.var_200f;
             var_2017 = GLLib.var_2017;
-            n = GLLib.var_201f;
-            i = GLLib.var_2027;
+            width = GLLib.var_201f;
+            height = GLLib.var_2027;
             n2 &= ~n2;
         }
         final int sub_5bfe = sub_5bfe();
         final int sub_5bbb = sub_5bbb();
         final int n30 = var_200f;
         final int n31 = var_2017;
-        final int n32 = n;
-        final int n33 = i;
+        final int n32 = width;
+        final int n33 = height;
         final int n34 = sub_5bfe;
         final int n35 = sub_5bbb;
         final int n36 = GLLib.var_1fef[13][2];
@@ -1885,12 +1874,12 @@ public abstract class GLLib extends Canvas implements Runnable
         final int n38 = n36;
         final int n39 = n35;
         final int n40 = n34;
-        n = n33;
+        width = n33;
         int var_1fff = n32;
         final int n41 = n31;
         final int n42 = n30;
         int[] sub_9f62 = array;
-        int[] sub_9c13 = sub_9c11;
+        int[] sub_9c13 = data;
         int n43 = 0;
         int n44 = n37 & 0xFFFFFFFE;
         if ((n37 & 0x4) != 0x0) {
@@ -1899,31 +1888,31 @@ public abstract class GLLib extends Canvas implements Runnable
         }
         if (n44 != 0) {
             if ((n44 & 0x4) != 0x0) {
-                GLLib.var_1fff = n;
-                GLLib.var_2007 = var_1fff;
-                var_1fff = GLLib.var_1fff;
-                n = GLLib.var_2007;
+                GLLib.s_rgb_width = width;
+                GLLib.s_rgb_height = var_1fff;
+                var_1fff = GLLib.s_rgb_width;
+                width = GLLib.s_rgb_height;
             }
             final int[] array6 = sub_9c13;
             final int n45 = var_1fff;
-            final int n46 = n;
+            final int n46 = width;
             var_2017 = n44;
             var_200f = n46;
-            sub_9f62 = ASprite._InitTempBuffers(sub_9c13 = ASprite.sub_9c11(array6, n45, var_200f, var_2017, null));
+            sub_9f62 = ASprite._InitTempBuffers(sub_9c13 = ASprite.GetRGBData(array6, n45, var_200f, var_2017, null));
         }
         final int var_201f2 = var_1fff * n40 / 100 + ((var_1fff * n40 % 100 != 0) ? 1 : 0);
-        final int var_2019 = n * n39 / 100 + ((n * n39 % 100 != 0) ? 1 : 0);
+        final int var_2019 = width * n39 / 100 + ((width * n39 % 100 != 0) ? 1 : 0);
         GLLib.var_201f = var_201f2;
         GLLib.var_2027 = var_2019;
         if (var_201f2 <= 0 || var_2019 <= 0) {
             return null;
         }
         final int n47 = (var_1fff << 8) / var_201f2;
-        final int n48 = (n << 8) / var_2019;
-        GetClipX(graphics, false);
-        GetClipY(graphics, false);
-        GetClipWidth(graphics, false);
-        GetClipHeight(graphics, false);
+        final int n48 = (width << 8) / var_2019;
+        GetClipX(g, false);
+        GetClipY(g, false);
+        GetClipWidth(g, false);
+        GetClipHeight(g, false);
         final int n49 = var_201f2;
         final int n50 = var_201f2;
         final int n51;
@@ -1933,7 +1922,7 @@ public abstract class GLLib extends Canvas implements Runnable
         int n52 = n51;
         int n53 = n41;
         if (n38 < 0) {
-            n = n51 * var_201f2;
+            width = n51 * var_201f2;
             int n54;
             int n55;
             if ((n37 & 0x1) != 0x0) {
@@ -1951,8 +1940,8 @@ public abstract class GLLib extends Canvas implements Runnable
             int n57 = n56;
             int n58 = n56 * var_201f2;
             int n59 = n41 + var_2019 - n56;
-            int n60 = (i = var_2019) * n48;
-            while (--i >= 0) {
+            int n60 = (height = var_2019) * n48;
+            while (--height >= 0) {
                 int n61 = (((n60 -= n48) >> 8) * var_1fff << 8) + n54;
                 n2 = n50;
                 while (--n2 >= 0) {
@@ -1961,36 +1950,36 @@ public abstract class GLLib extends Canvas implements Runnable
                 }
                 if (--n56 == 0) {
                     if (b2) {
-                        sub_5ad0(graphics, sub_9f62, var_201f2, n42, n59, var_201f2, n57, b7);
+                        drawRGB(g, sub_9f62, var_201f2, n42, n59, var_201f2, n57, b7);
                     }
                     n57 = n51;
                     n59 -= n51;
                     n56 = n51;
-                    n58 = n;
+                    n58 = width;
                 }
             }
         }
         else {
             int n62;
             if ((n37 & 0x1) != 0x0) {
-                n = (n49 - 1) * n47;
+                width = (n49 - 1) * n47;
                 n62 = -n47;
             }
             else {
-                n = 0;
+                width = 0;
                 n62 = n47;
             }
             if (!b6 && !b7) {
                 final int n63 = (n38 & 0xFF) << 24;
                 for (int l = 0, n64 = 0; l < var_2019; ++l, n64 += n48) {
                     final int n65 = (n64 >> 8) * var_1fff;
-                    i = 0;
-                    for (int n66 = n; i < var_201f2; ++i, n66 += n62) {
+                    height = 0;
+                    for (int n66 = width; height < var_201f2; ++height, n66 += n62) {
                         sub_9f62[n43++] = (n63 | (sub_9c13[n65 + (n66 >> 8)] & 0xFFFFFF));
                     }
                     if (--n52 == 0) {
                         if (b2) {
-                            sub_5ad0(graphics, sub_9f62, var_201f2, n42, n53, var_201f2, n51, true);
+                            drawRGB(g, sub_9f62, var_201f2, n42, n53, var_201f2, n51, true);
                         }
                         n53 += n51;
                         n52 = n51;
@@ -2002,8 +1991,8 @@ public abstract class GLLib extends Canvas implements Runnable
                 final int n67 = (n38 & 0xFF) << 24;
                 for (int n68 = 0, n69 = 0; n68 < var_2019; ++n68, n69 += n48) {
                     final int n70 = (n69 >> 8) * var_1fff;
-                    i = 0;
-                    for (int n71 = n; i < var_201f2; ++i, n71 += n62) {
+                    height = 0;
+                    for (int n71 = width; height < var_201f2; ++height, n71 += n62) {
                         if ((n2 = (sub_9c13[n70 + (n71 >> 8)] & 0xFFFFFF)) != 16711935 && n2 != 0) {
                             sub_9f62[n43++] = (n67 | n2);
                         }
@@ -2013,7 +2002,7 @@ public abstract class GLLib extends Canvas implements Runnable
                     }
                     if (--n52 == 0) {
                         if (b2) {
-                            sub_5ad0(graphics, sub_9f62, var_201f2, n42, n53, var_201f2, n51, true);
+                            drawRGB(g, sub_9f62, var_201f2, n42, n53, var_201f2, n51, true);
                         }
                         n53 += n51;
                         n52 = n51;
@@ -2024,15 +2013,15 @@ public abstract class GLLib extends Canvas implements Runnable
             else {
                 for (int n72 = 0, n73 = 0; n72 < var_2019; ++n72, n73 += n48) {
                     final int n74 = (n73 >> 8) * var_1fff;
-                    i = 0;
-                    for (int n75 = n; i < var_201f2; ++i, n75 += n62) {
+                    height = 0;
+                    for (int n75 = width; height < var_201f2; ++height, n75 += n62) {
                         final int n76 = n74 + (n75 >> 8);
                         n2 = ((sub_9c13[n76] >>> 24) * n38 >> 8 & 0xFF & 0xFF) << 24;
                         sub_9f62[n43++] = (n2 | (sub_9c13[n76] & 0xFFFFFF));
                     }
                     if (--n52 == 0) {
                         if (b2) {
-                            sub_5ad0(graphics, sub_9f62, var_201f2, n42, n53, var_201f2, n51, true);
+                            drawRGB(g, sub_9f62, var_201f2, n42, n53, var_201f2, n51, true);
                         }
                         n53 += n51;
                         n52 = n51;
@@ -2041,7 +2030,7 @@ public abstract class GLLib extends Canvas implements Runnable
                 }
             }
             if (b2 && n52 != n51) {
-                sub_5ad0(graphics, sub_9f62, var_201f2, n42, n53, var_201f2, n51 - n52, true);
+                drawRGB(g, sub_9f62, var_201f2, n42, n53, var_201f2, n51 - n52, true);
             }
         }
         if (b2) {

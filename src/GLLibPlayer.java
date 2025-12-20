@@ -1351,7 +1351,7 @@ final class GLLibPlayer implements Runnable
         if (n6 > (n8 + n10) * 100 || n7 > (n9 + n11) * 100 || n6 + n4 < n8 * 100 || n7 + n5 < n9 * 100) {
             return;
         }
-        GLLib.sub_36b7(graphics, n6, n7, n4, n5, true);
+        GLLib.ClipRect(graphics, n6, n7, n4, n5, true);
         GLLib.DrawImage(graphics, GLLibPlayer.s_TilesetLayerImage[n][0], n3 - n7 + ASprite.s_screenWidth - GLLibPlayer.s_TilesetLayerInfo[n][8], n6 - n2, 20, false);
     }
     
@@ -1558,7 +1558,7 @@ final class GLLibPlayer implements Runnable
         return n2;
     }
     
-    static final void sub_5a36(final int n, final int n2, final int n3) {
+    static final void Tileset_SetCamera(final int nLayer, final int x, final int y) {
         if (!GLLibPlayer.s_bTilesetPlayerInitialized) {
             return;
         }
@@ -1569,8 +1569,8 @@ final class GLLibPlayer implements Runnable
         if (GLLibPlayer.s_TilesetLayerInfo[0][0] != 1 || GLLibPlayer.s_TilesetLayerInfo[0][1] != 1) {
             return;
         }
-        GLLibPlayer.s_TilesetLayerInfo[0][13] = n2;
-        GLLibPlayer.s_TilesetLayerInfo[0][14] = Tileset_GetTranslatedOriginY(0, n3);
+        GLLibPlayer.s_TilesetLayerInfo[0][13] = x;
+        GLLibPlayer.s_TilesetLayerInfo[0][14] = Tileset_GetTranslatedOriginY(0, y);
         if (isFlag(0, 16)) {
             if (GLLibPlayer.s_TilesetLayerInfo[0][13] < 0) {
                 GLLibPlayer.s_TilesetLayerInfo[0][13] = 0;
@@ -2012,39 +2012,33 @@ final class GLLibPlayer implements Runnable
         }
     }
     
-    private static void sub_78bd(final Graphics graphics, final Object o, int n, final int n2, final int n3, int n4, int n5, int n6, int n7, final int n8, final int n9, final int n10, final int n11, final int n12, final int n13, final int n14, final int n15, final int[] array, final boolean b) {
-        GLLib.sub_36b7(graphics, n3, n4, n5, n6, true);
+    private static void sub_78bd(final Graphics g, final Object o, int rgbY, final int uHeight, final int crX, int crY, int width, int height, int rgbX, final int uWidth, final int rgbHeight, final int rgbScanLength, final int n11, final int n12, final int n13, final int n14, final int n15, final int[] array, final boolean b) {
+        GLLib.ClipRect(g, crX, crY, width, height, true);
         if (!b) {
-            final int n16 = array[0];
-            final int n17 = array[1];
-            final int n18 = array[2];
-            final int n19 = array[3];
-            n6 = n18;
-            n5 = n17;
-            n4 = n16;
-            GLLib.sub_36b7(graphics, n16, n5, n6, n19, true);
+            crY = array[0];
+            GLLib.ClipRect(g, array[0], array[1], array[2], array[3], true);
         }
         if (n11 == 0) {
-            ((ASprite)o).sub_71d4(graphics, n, n7, n8, n2);
+            ((ASprite)o).sub_71d4(g, rgbY, rgbX, uWidth, uHeight);
         }
         else if (n11 == 5) {
-            n = n7;
-            n7 = ASprite.s_screenWidth - n8 - n10;
-            GLLib.DrawRGB(graphics, (int[])o, 0, n10, n7, n, n10, n9, true, false, n2, -1, false);
+            rgbY = rgbX;
+            rgbX = ASprite.s_screenWidth - uWidth - rgbScanLength;
+            GLLib.DrawRGB(g, (int[])o, 0, rgbScanLength, rgbX, rgbY, rgbScanLength, rgbHeight, true, false, uHeight, -1, false);
         }
         else if (n11 == 4) {
-            GLLib.DrawImage(graphics, (GLLibImage)o, n7, n8, 20, true);
+            GLLib.DrawImage(g, (GLLibImage)o, rgbX, uWidth, 20, true);
         }
         else if (n11 == 1) {
-            GLLib.DrawRect(graphics, n7, n8, n9, n10, true);
+            GLLib.DrawRect(g, rgbX, uWidth, rgbHeight, rgbScanLength, true);
         }
         else if (n11 == 2) {
-            GLLib.FillRect(graphics, n7, n8, n9, n10, true);
+            GLLib.FillRect(g, rgbX, uWidth, rgbHeight, rgbScanLength, true);
         }
         else if (n11 == 3) {
-            GLLib.sub_57eb(graphics, n7, n8, n9, n10);
+            GLLib.sub_57eb(g, rgbX, uWidth, rgbHeight, rgbScanLength);
         }
-        GLLib.SetClip(graphics, n12, n13, n14, n15, true);
+        GLLib.SetClip(g, n12, n13, n14, n15, true);
     }
     
     private static final void sub_7a8a(final int n, int n2, int n3, final int n4) {
