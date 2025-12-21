@@ -263,7 +263,7 @@ public final class IGP implements Runnable, CommandListener
     }
     
     public static void initialize(MIDlet midlet, Canvas game, int screenWidth, final int screenHeight) {
-        new StringBuffer().append("initialize(midlet = ").append(midlet).append(", game = ").append(game).append(", screenWidth = ").append(screenWidth).append(", screenHeight = ").append(screenHeight).append(", cmdListener = ").append((Object)null).append(")");
+        new coffee.lang.StringBuilder().append("initialize(midlet = ").append(midlet).append(", game = ").append(game).append(", screenWidth = ").append(screenWidth).append(", screenHeight = ").append(screenHeight).append(", cmdListener = ").append((Object)null).append(")");
         s_screenHeight = screenHeight;
         s_screenWidth = screenWidth;
         var_206d = s_screenHeight >> 1;
@@ -275,7 +275,7 @@ public final class IGP implements Runnable, CommandListener
             MidletInstance = midlet;
             //s_game = game;
             sub_2bc9();
-            new StringBuffer().append(s_fullIgpSignature).append("");
+            new coffee.lang.StringBuilder().append(s_fullIgpSignature).append("");
             sub_3367();
             s_igaUrlRedir = null;
             var_1edd = null;
@@ -378,7 +378,7 @@ public final class IGP implements Runnable, CommandListener
                         case 4: {
                             ++var_2005;
                             if (var_1ee5) {
-                                final StringBuffer sb = new StringBuffer();
+                                final coffee.lang.StringBuilder sb = new coffee.lang.StringBuilder();
                                 var_1fed[page] = sb.append(var_1fed[page]).append(var_1eb5).append(var_1ec5).append((var_2005 < 10) ? "0" : "").append(var_2005).toString();
                                 return;
                             }
@@ -387,7 +387,7 @@ public final class IGP implements Runnable, CommandListener
                         case 6: {
                             //++var_200d;
                             if (var_1ee5) {
-                                final StringBuffer sb2 = new StringBuffer();
+                                final coffee.lang.StringBuilder sb2 = new coffee.lang.StringBuilder();
                                 final String[] var_1fed2 = var_1fed;
                                 var_1fed2[page] = sb2.append(var_1fed2[page]).append(var_1eb5).append(SCFR_PREFIX).toString();
                                 return;
@@ -396,7 +396,7 @@ public final class IGP implements Runnable, CommandListener
                         }
                         case 7: {
                             if (var_1ee5) {
-                                final StringBuffer sb3 = new StringBuffer();
+                                final coffee.lang.StringBuilder sb3 = new coffee.lang.StringBuilder();
                                 final String[] var_1fed3 = var_1fed;
                                 var_1fed3[page] = sb3.append(var_1fed3[page]).append(var_1eb5).append(GMCL_PREFIX).toString();
                                 return;
@@ -405,7 +405,7 @@ public final class IGP implements Runnable, CommandListener
                         }
                         case 8: {
                             if (var_1ee5) {
-                                final StringBuffer sb4 = new StringBuffer();
+                                final coffee.lang.StringBuilder sb4 = new coffee.lang.StringBuilder();
                                 final String[] var_1fed4 = var_1fed;
                                 var_1fed4[page] = sb4.append(var_1fed4[page]).append(var_1eb5).append(CCTL_PREFIX).toString();
                                 break;
@@ -456,11 +456,11 @@ public final class IGP implements Runnable, CommandListener
             }
             try {
                 s_dataIGPVersion = new String(data, dataOffset, readInt(data));
-                new StringBuffer().append("IGP dataIGP version: ").append(s_dataIGPVersion);
-                new StringBuffer().append(s_igpClassVersion).append("z");
+                new coffee.lang.StringBuilder().append("IGP dataIGP version: ").append(s_dataIGPVersion);
+                new coffee.lang.StringBuilder().append(s_igpClassVersion).append("z");
                 if (!s_dataIGPVersion.startsWith(s_igpClassVersion)) {
-                    new StringBuffer().append("Invalid dataIGP file, dataIGP file IGP Version : ").append(s_dataIGPVersion);
-                    new StringBuffer().append("IGP Class version : ").append(s_igpClassVersion);
+                    new coffee.lang.StringBuilder().append("Invalid dataIGP file, dataIGP file IGP Version : ").append(s_dataIGPVersion);
+                    new coffee.lang.StringBuilder().append("IGP Class version : ").append(s_igpClassVersion);
                 }
             }
             catch (final Exception ex) {
@@ -531,7 +531,7 @@ public final class IGP implements Runnable, CommandListener
         if (sub_3607() > 0) {
             IsAvailable = true;
         }
-        new StringBuffer().append("isAvailable = ").append(IsAvailable);
+        new coffee.lang.StringBuilder().append("isAvailable = ").append(IsAvailable);
     }
     
     private static String sub_3135(String upperCase) {
@@ -560,7 +560,7 @@ public final class IGP implements Runnable, CommandListener
     }
     
     public static void enterIGP(String loadingMsg, final int lang) {
-        new StringBuffer().append("enterIGP(loadingMsg = ").append(loadingMsg).append(", appLanguage = ").append(0).append(" (").append(var_1f05[0]).append(")");
+        new coffee.lang.StringBuilder().append("enterIGP(loadingMsg = ").append(loadingMsg).append(", appLanguage = ").append(0).append(" (").append(var_1f05[0]).append(")");
         if (var_2055) {
             sub_3539();
             var_1f85 = true;
@@ -1669,7 +1669,7 @@ public final class IGP implements Runnable, CommandListener
     }
     
     public final void run() {
-        new StringBuffer().append("Thread.activeCount() = ").append(Thread.activeCount());
+        new coffee.lang.StringBuilder().append("Thread.activeCount() = ").append(Thread.activeCount());
         while (var_1f85) {
             try {
                 if (var_1f8d != null) {
@@ -1678,7 +1678,7 @@ public final class IGP implements Runnable, CommandListener
                         var_1f55 = false;
                         final String urlPlatformRequest = var_1c15;
                         var_1c15 = null;
-                        new StringBuffer().append("urlPlatformRequest = ").append(urlPlatformRequest);
+                        new coffee.lang.StringBuilder().append("urlPlatformRequest = ").append(urlPlatformRequest);
                         try {
                             MidletInstance.platformRequest(urlPlatformRequest);
                             Thread.sleep(200L);

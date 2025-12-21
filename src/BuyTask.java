@@ -41,17 +41,17 @@ final class BuyTask extends Thread
                     smsAdress = smsProto + Class_o.sub_789f()[Class_o.getCurrentProfile()][11];
                 }
             }
-            new StringBuffer().append("PaySMS.buy: smsAdress: ").append(smsAdress);
+            new coffee.lang.StringBuilder().append("PaySMS.buy: smsAdress: ").append(smsAdress);
             Class_o.conn = (MessageConnection)Connector.open(smsAdress);
-            new StringBuffer().append("PaySMS.buy: Connection opened - conn: ").append(Class_o.conn);
+            new coffee.lang.StringBuilder().append("PaySMS.buy: Connection opened - conn: ").append(Class_o.conn);
             final TextMessage msg = (TextMessage)Class_o.conn.newMessage("text");
-            new StringBuffer().append("PaySMS.buy: TextMessage created - msg: ").append(msg);
+            new coffee.lang.StringBuilder().append("PaySMS.buy: TextMessage created - msg: ").append(msg);
             msg.setPayloadText(Class_o.getSmsContent());
             try {
                 Thread.sleep(200L);
             }
             catch (final Exception ex) {
-                new StringBuffer().append("PaySMS.buy: Exception trying to sleep: ").append(ex.toString());
+                new coffee.lang.StringBuilder().append("PaySMS.buy: Exception trying to sleep: ").append(ex.toString());
             }
             Class_o.setTimer(new Timer());
             Class_o.getTimer().schedule(new BuyCloseTask(), 30000);
@@ -70,14 +70,14 @@ final class BuyTask extends Thread
                 Thread.sleep(100L);
             }
             catch (final Exception ex2) {
-                new StringBuffer().append("PaySMS.buy: Exception trying to sleep: ").append(ex2.toString());
+                new coffee.lang.StringBuilder().append("PaySMS.buy: Exception trying to sleep: ").append(ex2.toString());
             }
         }
         catch (final SecurityException ex3) {
             Class_o.setIsSms(false);
             Class_o.rmsSave(Class_o.rmsNames[0], "0");
             Class_o.sub_78fd(-9);
-            new StringBuffer().append("PaySMS.buy: SMS sent failed! Security Exception: ").append(ex3.toString());
+            new coffee.lang.StringBuilder().append("PaySMS.buy: SMS sent failed! Security Exception: ").append(ex3.toString());
         }
         catch (final Throwable t) {
             Class_o.setIsSms(false);
@@ -88,7 +88,7 @@ final class BuyTask extends Thread
             else {
                 Class_o.sub_78fd(-1);
             }
-            new StringBuffer().append("PaySMS.buy: SMS sent failed! Exception: ").append(t.toString());
+            new coffee.lang.StringBuilder().append("PaySMS.buy: SMS sent failed! Exception: ").append(t.toString());
         }
         try {
             if (Class_o.conn != null) {
@@ -96,7 +96,7 @@ final class BuyTask extends Thread
             }
         }
         catch (final Exception ex4) {
-            new StringBuffer().append("PaySMS.buy: Failed to close connection! Exception: ").append(ex4.toString());
+            new coffee.lang.StringBuilder().append("PaySMS.buy: Failed to close connection! Exception: ").append(ex4.toString());
         }
         Class_o.sub_78dd();
     }

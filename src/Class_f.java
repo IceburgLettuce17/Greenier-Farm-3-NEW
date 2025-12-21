@@ -2864,7 +2864,7 @@ final class Class_f
         this.rewardNum = var_1736;
         if (var_16fd == 59) {
             itemIndex = (this.rewardNum & 0xFFFF);
-            new StringBuffer().append("itemIndex : ").append(itemIndex);
+            new coffee.lang.StringBuilder().append("itemIndex : ").append(itemIndex);
             this.spriteId = (cGame.var_80d4[itemIndex] | 0x8000);
             this.var_186d = cGame.var_80dc[itemIndex];
         }

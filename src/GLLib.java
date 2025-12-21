@@ -1143,7 +1143,7 @@ public abstract class GLLib extends Canvas implements Runnable
     }
     
     static String sub_4545(final byte[] array) {
-        final StringBuffer sb = new StringBuffer(array.length << 1);
+        final coffee.lang.StringBuilder sb = new coffee.lang.StringBuilder(array.length << 1);
         for (int i = 0; i < array.length; ++i) {
             sb.append(GLLib.var_1f77[array[i] >> 4 & 0xF]);
             sb.append(GLLib.var_1f77[array[i] & 0xF]);
