@@ -45,7 +45,6 @@ final class Class_n
     }
     
     final void sub_2f7(int i, int n, int n2, int n3, int abs) {
-        final int n8 = var_1fd;
         n2 = 0;
         for (int j = 0; j < 9216; ++j) {
             this.var_1b5[j] = -1;
@@ -57,30 +56,27 @@ final class Class_n
         }
         this.var_22d = -1;
         i += n * var_1fd;
-        final int n9 = n3;
-        final int n10 = abs;
         while (i != -1) {
             this.sub_b6e(i);
-            final short n11 = this.var_1cd[i];
             this.var_1cd[i] = -1;
             this.var_1d5[i] = -1;
-            n = i % n8;
-            n3 = i / n8;
-            if (n == n9 && n3 == n10) {
+            n = i % var_1fd;
+            n3 = i / var_1fd;
+            if (n == n3 && n3 == abs) {
                 break;
             }
             for (int k = 0; k < this.var_1f5; ++k) {
                 abs = n + Class_n.var_1ad[k << 1];
                 final int n12 = n3 + Class_n.var_1ad[(k << 1) + 1];
-                if (abs >= 0 && abs < n8) {
+                if (abs >= 0 && abs < var_1fd) {
                     if (n12 >= 0 && n12 < var_205) {
-                        final int n13 = n12 * n8 + abs;
+                        final int n13 = n12 * var_1fd + abs;
                         if (this.var_1cd[n13] != -1) {
                             int n14 = this.var_1dd;
                             if (k >= 4) {
                                 n14 = this.var_1e5;
-                                final int n15 = i % n8;
-                                final int n16 = i / n8;
+                                final int n15 = i % var_1fd;
+                                final int n16 = i / var_1fd;
                                 if (k == 4) {
                                     if ((this.var_20d[n16 * this.var_1fd + (n15 - 1)] & this.var_215) != 0x0) {
                                         continue;
@@ -110,9 +106,9 @@ final class Class_n
                                 }
                             }
                             if ((this.var_20d[n12 * this.var_1fd + abs] & this.var_215) == 0x0) {
-                                final int n17 = n11 + n14 + ((n2 == k) ? 0 : this.var_1ed);
-                                abs = Math.abs(abs - n9);
-                                final int abs2 = Math.abs(n12 - n10);
+                                final int n17 = this.var_1cd[i] + n14 + ((n2 == k) ? 0 : this.var_1ed);
+                                abs = Math.abs(abs - n3);
+                                final int abs2 = Math.abs(n12 - abs);
                                 if (this.var_1f5 == 4) {
                                     abs = this.var_1dd * (abs + abs2);
                                 }
@@ -143,15 +139,15 @@ final class Class_n
                 continue;
             }
             n = this.var_1b5[i];
-            if (i % n8 != n % n8) {
-                if (i % n8 > n % n8) {
+            if (i % var_1fd != n % var_1fd) {
+                if (i % var_1fd > n % var_1fd) {
                     n2 = 3;
                 }
                 else {
                     n2 = 2;
                 }
             }
-            else if (i / n8 != n / n8) {
+            else if (i / var_1fd != n / var_1fd) {
                 n2 = 1;
             }
             else {
@@ -164,6 +160,8 @@ final class Class_n
         }
         this.var_225 = 0;
         while (i != -1) {
+            n3 = i / var_1fd;
+            n2 = i % var_1fd;
             var_21d[this.var_225++] = (short)(n3 * this.var_1fd + n2);
             i = this.var_1b5[i];
         }
