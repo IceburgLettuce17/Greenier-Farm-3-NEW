@@ -2857,7 +2857,7 @@ final class Class_f
         this.rewardNum = var_1736;
         if (var_16fd == 59) {
             itemIndex = (this.rewardNum & 0xFFFF);
-            new coffee.lang.StringBuilder().append("itemIndex : ").append(itemIndex);
+            new StringBuffer().append("itemIndex : ").append(itemIndex);
             this.spriteId = (cGame.var_80d4[itemIndex] | 0x8000);
             this.var_186d = cGame.var_80dc[itemIndex];
         }
@@ -3447,7 +3447,7 @@ final class Class_f
                 this.var_1625 = 0;
             }
             cGame.var_8044 = 100;
-            cGame.s_plantGrowTime = "0:0:0";
+            cGame.s_prepareTime = "0:0:0";
             return;
         }
         if (this.var_17c5 == 52) {

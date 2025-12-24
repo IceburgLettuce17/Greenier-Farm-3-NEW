@@ -233,7 +233,7 @@ public final class Class_o {
 						Class_o.testProfile = "";
 					}
 				}
-				new coffee.lang.StringBuilder().append("PaySMS.parseJadFields:iapTestField: ").append(Class_o.iapTestField)
+				new StringBuffer().append("PaySMS.parseJadFields:iapTestField: ").append(Class_o.iapTestField)
 						.append(" useTestProfile: ").append(Class_o.testProfile);
 				Class_o.debugNum = getAppProperty("IAP-DebugNumber");
 				final String smsProp;
@@ -264,7 +264,7 @@ public final class Class_o {
 						}
 					}
 				}
-				new coffee.lang.StringBuilder().append("PaySMS.parseJadFields: ValidContentIDs: ").append(Class_o.validContentIds);
+				new StringBuffer().append("PaySMS.parseJadFields: ValidContentIDs: ").append(Class_o.validContentIds);
 				for (int k = 0; k < Class_o.validContentIds.size(); ++k) {
 					final String obj = (String) Class_o.validContentIds.elementAt(k);
 					boolean b2 = false;
@@ -283,7 +283,7 @@ public final class Class_o {
 				if (Class_o.validContentIds.size() == 0) {
 					hasIGPCode = false;
 				} else {
-					new coffee.lang.StringBuilder().append("PaySMS.parseJadFields: ValidContentIDs: ")
+					new StringBuffer().append("PaySMS.parseJadFields: ValidContentIDs: ")
 							.append(Class_o.validContentIds);
 					String str;
 					if ((str = getAppProperty("IAP-Profiles")).equals("")) {
@@ -304,7 +304,7 @@ public final class Class_o {
 					}
 				}
 			}
-			new coffee.lang.StringBuilder().append("PaySMS.checkAvailable:parseJadFields: ").append(hasIGPCode ? "true" : "false");
+			new StringBuffer().append("PaySMS.checkAvailable:parseJadFields: ").append(hasIGPCode ? "true" : "false");
 			isUnlocked = (hasIGPCode && checkAvailable());
 		}
 		return isUnlocked;
@@ -335,7 +335,7 @@ public final class Class_o {
 		} else {
 			validProfiles = false;
 		}
-		new coffee.lang.StringBuilder().append("PaySMS.checkAvailable:validProfiles: ").append(validProfiles ? "true" : "false");
+		new StringBuffer().append("PaySMS.checkAvailable:validProfiles: ").append(validProfiles ? "true" : "false");
 		return validProfiles;
 	}
 
@@ -357,7 +357,7 @@ public final class Class_o {
 	* returns void
 	*/
 	public static void sendRequest(final int pricePoint, String itemType) {
-		new coffee.lang.StringBuilder().append("PaySMS.sendRequest: start (PricePoint:").append(pricePoint).append(") (Item Type: ")
+		new StringBuffer().append("PaySMS.sendRequest: start (PricePoint:").append(pricePoint).append(") (Item Type: ")
 				.append(itemType).append(")");
 		Class_o.pricePoint = pricePoint;
 		Class_o.itemAmount = getItemAmount(pricePoint, itemType);
@@ -382,7 +382,7 @@ public final class Class_o {
 					}
 				}
 			} else {
-				new coffee.lang.StringBuilder().append("PaySMS.sendRequest: currentValidProfiles: ")
+				new StringBuffer().append("PaySMS.sendRequest: currentValidProfiles: ")
 						.append((Class_o.currentValidProfiles == null) ? "null"
 								: ("Size: " + Class_o.currentValidProfiles.size()));
 				if (Class_o.currentValidProfiles == null || Class_o.currentValidProfiles.size() == 0) {
@@ -404,9 +404,9 @@ public final class Class_o {
 					}
 				}
 			}
-			new coffee.lang.StringBuilder().append("PaySMS.sendRequest: currentProfile: ").append(Class_o.currentProfile);
+			new StringBuffer().append("PaySMS.sendRequest: currentProfile: ").append(Class_o.currentProfile);
 			if (b && Class_o.currentProfile != -1) {
-				new coffee.lang.StringBuilder().append("PaySMS.sendRequest: Id: ")
+				new StringBuffer().append("PaySMS.sendRequest: Id: ")
 						.append(Class_o.var_29a5[Class_o.currentProfile][0]).append(" Billing: ")
 						.append(Class_o.var_29a5[Class_o.currentProfile][6]).append(" Region: ")
 						.append(Class_o.var_29a5[Class_o.currentProfile][2]).append(" Carrier: ")
@@ -417,7 +417,7 @@ public final class Class_o {
 		if (!Class_o.var_299d) {
 			return;
 		}
-		new coffee.lang.StringBuilder().append("creditCardEnabled: ").append(Class_o.creditCardEnabled);
+		new StringBuffer().append("creditCardEnabled: ").append(Class_o.creditCardEnabled);
 		if (b && type.equals("SMS")) {
 			Class_o.var_2a65 = true;
 			Class_o.isSms = false;
@@ -472,12 +472,12 @@ public final class Class_o {
 				appendToSms(sub_5e3c);
 				appendToSms(Class_o.downloadCode);
 				appendToSms("ct" + Class_o.smsCount);
-				new coffee.lang.StringBuilder().append("PaySMS.sendSMS: smsContent: ").append(Class_o.smsContent);
+				new StringBuffer().append("PaySMS.sendSMS: smsContent: ").append(Class_o.smsContent);
 				Class_o.var_2a75 = true;
 				new BuyTask().start();
 				return;
 			}
-			new coffee.lang.StringBuilder().append("PaySMS.sendHTTP:Error: Wrong Item. IAP-ContentID-").append(Class_o.itemType)
+			new StringBuffer().append("PaySMS.sendHTTP:Error: Wrong Item. IAP-ContentID-").append(Class_o.itemType)
 					.append("-").append(Class_o.pricePoint).append(" missing in JAD");
 			Class_o.var_2afd = -2;
 			
@@ -500,7 +500,7 @@ public final class Class_o {
 				Class_o.var_2afd = 4;
 				return;
 			}
-			new coffee.lang.StringBuilder().append("PaySMS.sendHTTP: URL = ").append(httpUrl);
+			new StringBuffer().append("PaySMS.sendHTTP: URL = ").append(httpUrl);
 			if (!httpUrl.startsWith("http://")) {
 				httpUrl = "http://" + httpUrl;
 			}
@@ -509,7 +509,7 @@ public final class Class_o {
 			}
 			final String contentID = getAppProperty("IAP-ContentID-" + Class_o.itemType + "-" + Class_o.pricePoint);
 			if (contentID.equals("")) {
-				new coffee.lang.StringBuilder().append("PaySMS.sendHTTP:Error: Wrong Item. IAP-ContentID-").append(Class_o.itemType)
+				new StringBuffer().append("PaySMS.sendHTTP:Error: Wrong Item. IAP-ContentID-").append(Class_o.itemType)
 						.append("-").append(Class_o.pricePoint).append(" missing in JAD");
 				Class_o.var_2afd = -2;
 				return;
@@ -658,7 +658,7 @@ public final class Class_o {
 		if ((Class_o.code = getCodeRms()) != null && Class_o.code.length() > 0) {
 			equals = String.valueOf(inputCode).equals(String.valueOf(Integer.parseInt(Class_o.code) ^ 0xD0A4));
 		}
-		new coffee.lang.StringBuilder().append("PaySMS.verifyRequest: inputCode: ").append(inputCode).append(" ")
+		new StringBuffer().append("PaySMS.verifyRequest: inputCode: ").append(inputCode).append(" ")
 				.append(equals ? "Unlocked" : "Still Locked");
 		if (equals) {
 			try {
@@ -681,10 +681,10 @@ public final class Class_o {
 				final long n = sub_5262 + sub_5263;
 				final String totalMoneySpent = (inputCode == 32) ? (n / 100000L + "")
 						: ("" + n / 100000L + (char) inputCode + n % 100000L);
-				new coffee.lang.StringBuilder().append("totalMoneySpent : ").append(totalMoneySpent).append("  profileID: ").append(profileID);
+				new StringBuffer().append("totalMoneySpent : ").append(totalMoneySpent).append("  profileID: ").append(profileID);
 				rmsSave(Class_o.rmsNames[7], totalMoneySpent + "_" + profileID);
 			} catch (final Exception obj) {
-				new coffee.lang.StringBuilder().append("Exception : ").append(obj);
+				new StringBuffer().append("Exception : ").append(obj);
 			}
 			Class_o.var_2afd = 0;
 			if (!GetBillingType(getPackageIdInt()).equals("http_2d")) {
@@ -731,7 +731,7 @@ public final class Class_o {
 		}
 		if (Class_o.currentValidProfiles.size() == 1) {
 			Class_o.currentProfile = ((Integer) Class_o.currentValidProfiles.elementAt(0)).intValue();
-			new coffee.lang.StringBuilder().append("PaySMS.detectCarrier: Carrier selection skipped, detected profile: ")
+			new StringBuffer().append("PaySMS.detectCarrier: Carrier selection skipped, detected profile: ")
 					.append(Class_o.currentProfile);
 			return true;
 		}
@@ -747,7 +747,7 @@ public final class Class_o {
 		}
 		Class_o.var_29e5 = sub_70ca(Class_o.var_29e5);
 		final String[] currentIDS = sub_70ca(array);
-		new coffee.lang.StringBuilder().append("PaySMS.detectCarrier: currentIDS ").append(currentIDS.length)
+		new StringBuffer().append("PaySMS.detectCarrier: currentIDS ").append(currentIDS.length)
 				.append(", currentCarriers = ").append(Class_o.var_29e5.length);
 		if (currentIDS.length == 1) {
 			Class_o.var_29dd = 0;
@@ -756,14 +756,14 @@ public final class Class_o {
 					Class_o.currentValidProfiles.addElement(new Integer(j));
 				}
 			}
-			new coffee.lang.StringBuilder().append(
+			new StringBuffer().append(
 					"PaySMS.detectCarrier: Carrier selection skipped, only one profile. currentValidProfiles.size() ")
 					.append(Class_o.currentValidProfiles.size());
 			return true;
 		}
 		if (Class_o.var_29e5.length == 1) {
 			Class_o.var_29dd = 0;
-			new coffee.lang.StringBuilder().append("PaySMS.detectCarrier: Carrier selection skipped, only one carrier: ")
+			new StringBuffer().append("PaySMS.detectCarrier: Carrier selection skipped, only one carrier: ")
 					.append(Class_o.var_29e5[Class_o.var_29dd]);
 			for (int k = 0; k < Class_o.var_29a5.length; ++k) {
 				if (Class_o.var_29a5[k][2].indexOf(Class_o.profilesAndRegions[Class_o.var_29ed][0]) != -1) {
@@ -775,7 +775,7 @@ public final class Class_o {
 					}
 				}
 			}
-			new coffee.lang.StringBuilder().append("PaySMS.detectCarrier: currentValidProfiles.size =  ")
+			new StringBuffer().append("PaySMS.detectCarrier: currentValidProfiles.size =  ")
 					.append(Class_o.currentValidProfiles.size());
 			return true;
 		}
@@ -783,14 +783,14 @@ public final class Class_o {
 			final String[][] array2 = new String[currentIDS.length][2];
 			boolean b = true;
 			for (int m = 0; m < currentIDS.length; ++m) {
-				new coffee.lang.StringBuilder().append("PaySMS.detectCarrier: currentIDS[").append(m).append("]= ")
+				new StringBuffer().append("PaySMS.detectCarrier: currentIDS[").append(m).append("]= ")
 						.append(currentIDS[m]);
 				int i2 = 0;
 				while (i2 < Class_o.var_29a5.length) {
 					if (Class_o.var_29a5[i2][0].equals(currentIDS[m])) {
 						array2[m][0] = Class_o.var_29a5[i2][3];
 						array2[m][1] = "" + i2;
-						new coffee.lang.StringBuilder().append("PaySMS.detectCarrier: is Openmarket???? ")
+						new StringBuffer().append("PaySMS.detectCarrier: is Openmarket???? ")
 								.append(Class_o.var_29a5[i2][1]);
 						if (Class_o.var_29a5[i2][1].indexOf("Open Market") == -1) {
 							b = false;
@@ -806,12 +806,12 @@ public final class Class_o {
 			for (int n = 1; n < array2.length; ++n) {
 				if (!array2[n][0].equals(array2[n - 1][0])) {
 					b2 = false;
-					new coffee.lang.StringBuilder().append("PaySMS.detectCarrier: multiCarrierProfiles[i] ").append(array2[n][0]);
-					new coffee.lang.StringBuilder().append("PaySMS.detectCarrier: multiCarrierProfiles[i-1] ")
+					new StringBuffer().append("PaySMS.detectCarrier: multiCarrierProfiles[i] ").append(array2[n][0]);
+					new StringBuffer().append("PaySMS.detectCarrier: multiCarrierProfiles[i-1] ")
 							.append(array2[n - 1][0]);
 				}
 			}
-			new coffee.lang.StringBuilder().append("PaySMS.detectCarrier: multiCarrierProfiles: ").append(b2)
+			new StringBuffer().append("PaySMS.detectCarrier: multiCarrierProfiles: ").append(b2)
 					.append(", isOpenMarket: ").append(b);
 			if (b2) {
 				for (int n2 = 0; n2 < currentIDS.length; ++n2) {
@@ -822,10 +822,10 @@ public final class Class_o {
 						}
 					}
 				}
-				new coffee.lang.StringBuilder().append(
+				new StringBuffer().append(
 						"PaySMS.detectCarrier: Dont auto skip carrier selection(except OpenMarket). currentValidProfiles.size() ")
 						.append(Class_o.currentValidProfiles.size());
-				new coffee.lang.StringBuilder().append("PaySMS.detectCarrier: More than one carrier, but multicarrier profiles: ")
+				new StringBuffer().append("PaySMS.detectCarrier: More than one carrier, but multicarrier profiles: ")
 						.append(array2[0][0]);
 				return true;
 			}
@@ -836,7 +836,7 @@ public final class Class_o {
 			final int[] array3 = new int[length];
 			for (int i3 = 0; i3 < length; ++i3) {
 				array3[i3] = i3;
-				new coffee.lang.StringBuilder().append("PaySMS.detectCarrier: carrierNames[").append(i3).append("]: ")
+				new StringBuffer().append("PaySMS.detectCarrier: carrierNames[").append(i3).append("]: ")
 						.append(Class_o.var_29e5[i3]);
 			}
 		}
@@ -858,13 +858,13 @@ public final class Class_o {
 		if (Class_o.var_29fd.length == 1 && (Class_o.smsProperty == null || Class_o.currentAutoDetectedRegion == -1)) {
 			Class_o.var_29ed = 0;
 			Class_o.currentAutoDetectedRegion = 0;
-			new coffee.lang.StringBuilder().append("PaySMS.detectRegion: Region selection skipped, only one region: ")
+			new StringBuffer().append("PaySMS.detectRegion: Region selection skipped, only one region: ")
 					.append(Class_o.var_29fd[Class_o.var_29ed]);
 			return true;
 		}
 		if (Class_o.smsProperty != null && Class_o.currentAutoDetectedRegion != -1) {
 			Class_o.var_29ed = Class_o.currentAutoDetectedRegion;
-			new coffee.lang.StringBuilder().append("PaySMS.detectRegion: Region selection skipped, region auto-detected: ")
+			new StringBuffer().append("PaySMS.detectRegion: Region selection skipped, region auto-detected: ")
 					.append(Class_o.currentAutoDetectedRegion);
 			return true;
 		}
@@ -881,10 +881,10 @@ public final class Class_o {
 	}
 	
 	private static void sendCCARD(final int pricepoint, String itemtype) {
-		new coffee.lang.StringBuilder().append("PaySMS.sendRequest CREDIT CARD: Pricepoint:").append(pricepoint).append(" Type:").append(itemtype);
+		new StringBuffer().append("PaySMS.sendRequest CREDIT CARD: Pricepoint:").append(pricepoint).append(" Type:").append(itemtype);
 		final String contentID = getAppProperty("IAP-ContentID-" + itemtype + "-" + pricepoint);
 		if (contentID.equals("")) {
-			new coffee.lang.StringBuilder().append("PaySMS.sendCCARD: Wrong Item. IAP-ContentID-").append(itemtype).append("-").append(pricepoint)
+			new StringBuffer().append("PaySMS.sendCCARD: Wrong Item. IAP-ContentID-").append(itemtype).append("-").append(pricepoint)
 					.append(" missing in JAD");
 			Class_o.var_2afd = -2;
 			return;
@@ -896,7 +896,7 @@ public final class Class_o {
 		itemtype = itemtype + "&code=" + Class_o.code;
 		itemtype = itemtype + "&d=" + Class_o.downloadCode;
 		final String creditCard = Class_o.var_2b4d[11] + itemtype;
-		new coffee.lang.StringBuilder().append("PaySMS.sendRequest CREDIT CARD: ").append(creditCard);
+		new StringBuffer().append("PaySMS.sendRequest CREDIT CARD: ").append(creditCard);
 		if (creditCard != null) {
 			GLLib.PlatformRequestThread(creditCard);
 		}
@@ -924,7 +924,7 @@ public final class Class_o {
 						if ((n = carrierName.indexOf(40)) == -1) {
 							n = carrierName.length();
 						}
-						new coffee.lang.StringBuilder().append("PaySMS.getProfilesCarrierAndIds: regionName = ").append(regionName)
+						new StringBuffer().append("PaySMS.getProfilesCarrierAndIds: regionName = ").append(regionName)
 								.append(", carrierName = ").append(carrierName);
 						if ((Class_o.var_2a1d == null || sub_702c(carrierName, Class_o.var_2a1d))
 								&& !vector.contains(carrierName.substring(0, n))) {
@@ -951,7 +951,7 @@ public final class Class_o {
 	}
 
 	private static String getPrice(final int pricePoint) {
-		new coffee.lang.StringBuilder().append("PaySMS.getPrice: begin (").append(pricePoint).append(")");
+		new StringBuffer().append("PaySMS.getPrice: begin (").append(pricePoint).append(")");
 		if (Class_o.overrideFromJad.equals("1")) {
 			Class_o.var_2aad = getAppProperty("IAP-Price-PP" + pricePoint);
 			if (Class_o.var_2aad.equals("")) {
@@ -959,7 +959,7 @@ public final class Class_o {
 			}
 			return Class_o.var_2aad;
 		} else {
-			new coffee.lang.StringBuilder().append("PaySMS.getPrice: currentValidProfiles: ").append(
+			new StringBuffer().append("PaySMS.getPrice: currentValidProfiles: ").append(
 					(Class_o.currentValidProfiles == null) ? "NULL" : ("Size: " + Class_o.currentValidProfiles.size()));
 			if (Class_o.currentValidProfiles == null) {
 				if (Class_o.creditCardEnabled) {
@@ -986,7 +986,7 @@ public final class Class_o {
 						}
 					}
 				}
-				new coffee.lang.StringBuilder().append("PaySMS.getPrice: profileIndex: ").append(profileIndex);
+				new StringBuffer().append("PaySMS.getPrice: profileIndex: ").append(profileIndex);
 				if (profileIndex != -1) {
 					return Class_o.var_29a5[profileIndex][4];
 				}
@@ -1005,7 +1005,7 @@ public final class Class_o {
 	* returns long: your currency value
 	*/
 	public static long getVirtualCurrency(final long basecurrency, final int pricepoint) {
-		new coffee.lang.StringBuilder().append("PaySMS.getVirtualCurrency: begin basecurrency ").append(basecurrency).append(", pricepoint")
+		new StringBuffer().append("PaySMS.getVirtualCurrency: begin basecurrency ").append(basecurrency).append(", pricepoint")
 				.append(pricepoint);
 		long currency = 0L;
 		if (getTestFieldInt() == 0 && Class_o.currentValidProfiles != null && Class_o.currentValidProfiles.size() > 0) {
@@ -1035,11 +1035,11 @@ public final class Class_o {
 				roundup *= 10;
 			}
 		}
-		new coffee.lang.StringBuilder().append("currency:\t").append(currency).append("\tRound Up:\t").append(roundup);
+		new StringBuffer().append("currency:\t").append(currency).append("\tRound Up:\t").append(roundup);
 		if (currency % roundup != 0L) {
 			currency = (currency / roundup + 1L) * roundup;
 		}
-		new coffee.lang.StringBuilder().append("Rounded currency:\t").append(currency);
+		new StringBuffer().append("Rounded currency:\t").append(currency);
 		return currency;
 	}
 
@@ -1073,7 +1073,7 @@ public final class Class_o {
 				return "cc_2d";
 			}
 		}
-		new coffee.lang.StringBuilder().append("PaySMS.GetBillingType: currentValidProfiles: ").append(
+		new StringBuffer().append("PaySMS.GetBillingType: currentValidProfiles: ").append(
 				(Class_o.currentValidProfiles == null) ? "NULL" : ("Size: " + Class_o.currentValidProfiles.size()));
 		if (Class_o.currentValidProfiles == null) {
 			return "cc_2d";
@@ -1109,7 +1109,7 @@ public final class Class_o {
 	* returns String: your tncs
 	*/
 	public static String GetTermsAndConditions() {
-		new coffee.lang.StringBuilder().append("PaySMS.GetTermsAndConditions: currentValidProfiles: ").append(
+		new StringBuffer().append("PaySMS.GetTermsAndConditions: currentValidProfiles: ").append(
 				(Class_o.currentValidProfiles == null) ? "NULL" : ("Size: " + Class_o.currentValidProfiles.size()));
 		if (Class_o.currentValidProfiles == null) {
 			return null;
@@ -1133,12 +1133,12 @@ public final class Class_o {
 				}
 			}
 		}
-		new coffee.lang.StringBuilder().append("PaySMS.GetTermsAndConditions: tncID = '").append(tncID).append("'");
+		new StringBuffer().append("PaySMS.GetTermsAndConditions: tncID = '").append(tncID).append("'");
 		final String tnc = retrieveTermsAndConditions(tncID);
-		new coffee.lang.StringBuilder().append("PaySMS.GetTermsAndConditions: tnc = '").append(tnc).append("'");
-		new coffee.lang.StringBuilder().append("PaySMS.GetTermsAndConditions: supportNumber = '").append(supportNumber).append("'");
+		new StringBuffer().append("PaySMS.GetTermsAndConditions: tnc = '").append(tnc).append("'");
+		new StringBuffer().append("PaySMS.GetTermsAndConditions: supportNumber = '").append(supportNumber).append("'");
 		final String tncWoPhone = replaceTncStrings(tnc, supportNumber);
-		new coffee.lang.StringBuilder().append("PaySMS.GetTermsAndConditions: tnc without phone number = '").append(tncWoPhone)
+		new StringBuffer().append("PaySMS.GetTermsAndConditions: tnc without phone number = '").append(tncWoPhone)
 				.append("'");
 		return tncWoPhone;
 	}
@@ -1176,7 +1176,7 @@ public final class Class_o {
 				}
 			}
 		} else if (Class_o.creditCardEnabled || getTestFieldInt() != 0) {
-			new coffee.lang.StringBuilder().append("PaySMS.parseValidItems: IAP_TEST_FIELD or CC. creditCardEnabled = ")
+			new StringBuffer().append("PaySMS.parseValidItems: IAP_TEST_FIELD or CC. creditCardEnabled = ")
 					.append(Class_o.creditCardEnabled);
 			for (int j = 1; j <= Class_o.contentIDAmnt; ++j) {
 				if (isValidContentID(j, "Cash")) {
@@ -1207,8 +1207,8 @@ public final class Class_o {
 				}
 			}
 		}
-		new coffee.lang.StringBuilder().append("PaySMS.parseValidItems: number of cash: ").append(Class_o.cashVector.size());
-		new coffee.lang.StringBuilder().append("PaySMS.parseValidItems: number of coin: ").append(Class_o.coinVector.size());
+		new StringBuffer().append("PaySMS.parseValidItems: number of cash: ").append(Class_o.cashVector.size());
+		new StringBuffer().append("PaySMS.parseValidItems: number of coin: ").append(Class_o.coinVector.size());
 	}
 	
 	/**
@@ -1218,7 +1218,7 @@ public final class Class_o {
 	* returns int: your price point
 	*/
 	public static int getPricePoint(final int itemIndex, final String itemType) {
-		new coffee.lang.StringBuilder().append("PaySMS.getPricePoint: itemIndex").append(itemIndex).append(", itemType ").append(itemType);
+		new StringBuffer().append("PaySMS.getPricePoint: itemIndex").append(itemIndex).append(", itemType ").append(itemType);
 		if (itemType.equals("Cash") && itemIndex <= Class_o.cashVector.size()) {
 			return ((Integer) Class_o.cashVector.elementAt(itemIndex)).intValue();
 		}
@@ -1256,18 +1256,18 @@ public final class Class_o {
 		if (Class_o.validContentIds.contains(_contentID)) {
 			value = true;
 		}
-		new coffee.lang.StringBuilder().append("PaySMS.isValidContentID: IAP-ContentID-").append(contentID).append("-").append(pricePoint)
+		new StringBuffer().append("PaySMS.isValidContentID: IAP-ContentID-").append(contentID).append("-").append(pricePoint)
 				.append(": ").append(_contentID).append(value ? " - Valid" : " - Invalid");
 		return value;
 	}
 
 	private static String retrieveTermsAndConditions(final String id) {
-		new coffee.lang.StringBuilder().append("PaySMS.retrieveTermsAndConditions: id = '").append(id).append("'");
+		new StringBuffer().append("PaySMS.retrieveTermsAndConditions: id = '").append(id).append("'");
 		if (id == null || id.length() == 0) {
 			return "";
 		}
 		for (int i = 0; i < Class_o.profilesTexts.length; ++i) {
-			new coffee.lang.StringBuilder().append("PaySMS.retrieveTermsAndConditions: profilesTexts[").append(i)
+			new StringBuffer().append("PaySMS.retrieveTermsAndConditions: profilesTexts[").append(i)
 					.append("][TEXT_PROFILE_ID] = '").append(Class_o.profilesTexts[i][0]).append("'");
 			if (equalsIgnoreCase(Class_o.profilesTexts[i][0], id)) {
 				return Class_o.profilesTexts[i][1];
@@ -1316,7 +1316,7 @@ public final class Class_o {
 			}
 		}
 		for (int j = 0; j < array.length; ++j) {
-			new coffee.lang.StringBuilder().append("PaySMS.loadSpecificTextsFile: ID: ").append(array[j][0]).append(" TEXT: ")
+			new StringBuffer().append("PaySMS.loadSpecificTextsFile: ID: ").append(array[j][0]).append(" TEXT: ")
 					.append(array[j][1]);
 		}
 		return array;
@@ -1350,7 +1350,7 @@ public final class Class_o {
 			return false;
 		}
 		for (int i = 0; i < profilesArgs.length; ++i) {
-			new coffee.lang.StringBuilder().append("PaySMS.loadProfileConfiguration: profilesArgs[").append(i).append("]: ")
+			new StringBuffer().append("PaySMS.loadProfileConfiguration: profilesArgs[").append(i).append("]: ")
 					.append(profilesArgs[i]);
 		}
 		array = array2;
@@ -1408,10 +1408,10 @@ public final class Class_o {
 				if (s2 != null) {
 					Class_o.var_29a5[n6][16] = ""
 							+ sub_7695(s) * (100 + Integer.parseInt(Class_o.var_29a5[n6][5])) * 100000L / sub_7695(s2);
-					new coffee.lang.StringBuilder().append("bonus    ").append(100 + Integer.parseInt(Class_o.var_29a5[n6][5]))
+					new StringBuffer().append("bonus    ").append(100 + Integer.parseInt(Class_o.var_29a5[n6][5]))
 							.append(", tier ").append(tier);
 				}
-				new coffee.lang.StringBuilder().append("profile Id :\t").append(Class_o.var_29a5[n6][0]).append("\tTier:\t")
+				new StringBuffer().append("profile Id :\t").append(Class_o.var_29a5[n6][0]).append("\tTier:\t")
 						.append(tier).append("\tRatios :\t").append(Class_o.var_29a5[n6][16]);
 			}
 		} catch (final Exception ex) {
@@ -1429,48 +1429,48 @@ public final class Class_o {
 		for (int i = 0; i < Class_o.var_29a5.length; ++i) {
 			Class_o.var_29b5[i] = new Vector();
 			final String s = Class_o.var_29a5[i][3];
-			new coffee.lang.StringBuilder().append("PaySMS.parseMultipleCarriers: Carriers - Profile: ")
+			new StringBuffer().append("PaySMS.parseMultipleCarriers: Carriers - Profile: ")
 					.append(Class_o.var_29a5[i][0]);
 			int beginIndex = 0;
 			int j;
 			if ((j = s.indexOf("¬", 0)) == -1) {
 				Class_o.var_29b5[i].addElement(s);
-				new coffee.lang.StringBuilder().append("PaySMS.parseMultipleCarriers: \t\t").append(s);
+				new StringBuffer().append("PaySMS.parseMultipleCarriers: \t\t").append(s);
 			} else {
 				while (j != -1) {
 					Class_o.var_29b5[i].addElement(s.substring(beginIndex, j));
-					new coffee.lang.StringBuilder().append("PaySMS.parseMultipleCarriers: \t\t").append(s.substring(beginIndex, j));
+					new StringBuffer().append("PaySMS.parseMultipleCarriers: \t\t").append(s.substring(beginIndex, j));
 					beginIndex = j + 1;
 					j = s.indexOf("¬", beginIndex);
 				}
 				Class_o.var_29b5[i].addElement(s.substring(beginIndex, s.length()));
-				new coffee.lang.StringBuilder().append("PaySMS.parseMultipleCarriers: \t\t")
+				new StringBuffer().append("PaySMS.parseMultipleCarriers: \t\t")
 						.append(s.substring(beginIndex, s.length()));
 			}
-			new coffee.lang.StringBuilder().append("\tSize: ").append(Class_o.var_29b5[i].size());
+			new StringBuffer().append("\tSize: ").append(Class_o.var_29b5[i].size());
 		}
 		if (Class_o.var_2b4d != null) {
 			Class_o.var_29b5[Class_o.var_29a5.length] = new Vector();
 			final String s2 = Class_o.var_2b4d[3];
-			new coffee.lang.StringBuilder().append("PaySMS.parseMultipleCarriers: Carriers - Profile: ").append(Class_o.var_2b4d[0]);
+			new StringBuffer().append("PaySMS.parseMultipleCarriers: Carriers - Profile: ").append(Class_o.var_2b4d[0]);
 			int beginIndex2 = 0;
 			int k;
 			if ((k = s2.indexOf("¬", 0)) == -1) {
 				Class_o.var_29b5[Class_o.var_29a5.length].addElement(s2);
-				new coffee.lang.StringBuilder().append("PaySMS.parseMultipleCarriers: \t\t").append(s2);
+				new StringBuffer().append("PaySMS.parseMultipleCarriers: \t\t").append(s2);
 			} else {
 				while (k != -1) {
 					Class_o.var_29b5[Class_o.var_29a5.length].addElement(s2.substring(beginIndex2, k));
-					new coffee.lang.StringBuilder().append("PaySMS.parseMultipleCarriers: \t\t")
+					new StringBuffer().append("PaySMS.parseMultipleCarriers: \t\t")
 							.append(s2.substring(beginIndex2, k));
 					beginIndex2 = k + 1;
 					k = s2.indexOf("¬", beginIndex2);
 				}
 				Class_o.var_29b5[Class_o.var_29a5.length].addElement(s2.substring(beginIndex2, s2.length()));
-				new coffee.lang.StringBuilder().append("PaySMS.parseMultipleCarriers: \t\t")
+				new StringBuffer().append("PaySMS.parseMultipleCarriers: \t\t")
 						.append(s2.substring(beginIndex2, s2.length()));
 			}
-			new coffee.lang.StringBuilder().append("\tSize: ").append(Class_o.var_29b5[Class_o.var_29a5.length].size());
+			new StringBuffer().append("\tSize: ").append(Class_o.var_29b5[Class_o.var_29a5.length].size());
 		}
 	}
 
@@ -1513,7 +1513,7 @@ public final class Class_o {
 			baos.close();
 			bytesStr = new String(bytes, 0, bytes.length, "UTF-8");
 		} catch (final Exception ex) {
-			new coffee.lang.StringBuilder().append("PaySMS.readFile: ").append(filename).append(" Exception: ").append(ex.toString());
+			new StringBuffer().append("PaySMS.readFile: ").append(filename).append(" Exception: ").append(ex.toString());
 			return null;
 		}
 		int n = 0;
@@ -1572,7 +1572,7 @@ public final class Class_o {
 							&& n2 <= index3 - index2) {
 						n2 = index3 - index2;
 						Class_o.currentAutoDetectedRegion = j;
-						new coffee.lang.StringBuilder().append("currentAutoDetectedRegion ").append(Class_o.currentAutoDetectedRegion);
+						new StringBuffer().append("currentAutoDetectedRegion ").append(Class_o.currentAutoDetectedRegion);
 						final String[] obj;
 						(obj = new String[2])[0] = regionsConfig[j][0];
 						obj[1] = regionsConfig[j][1];
@@ -1584,9 +1584,9 @@ public final class Class_o {
 				regionsConfig[j][0] = s2;
 				regionsConfig[j][1] = "";
 			}
-			new coffee.lang.StringBuilder().append("PaySMS.getProfilesRegions:          regionsConfig[").append(j)
+			new StringBuffer().append("PaySMS.getProfilesRegions:          regionsConfig[").append(j)
 					.append("][REGION_NAME]: ").append(regionsConfig[j][0]);
-			new coffee.lang.StringBuilder().append("PaySMS.getProfilesRegions:          regionsConfig[").append(j)
+			new StringBuffer().append("PaySMS.getProfilesRegions:          regionsConfig[").append(j)
 					.append("][REGION_CODE]: ").append(regionsConfig[j][1]);
 		}
 		if (n3 > 1) {
@@ -1594,7 +1594,7 @@ public final class Class_o {
 			regionsConfig = new String[vector2.size()][2];
 			vector2.copyInto(regionsConfig);
 		}
-		new coffee.lang.StringBuilder().append("PaySMS.getProfilesRegions: Auto-detected: ")
+		new StringBuffer().append("PaySMS.getProfilesRegions: Auto-detected: ")
 				.append((Class_o.currentAutoDetectedRegion == -1) ? "NONE" : regionsConfig[Class_o.currentAutoDetectedRegion][0]);
 		return regionsConfig;
 	}
@@ -1610,12 +1610,12 @@ public final class Class_o {
 				recordStr = new String(record);
 			}
 		} catch (final Exception ex) {
-			new coffee.lang.StringBuilder().append("PaySMS.rmsLoad: Exception: ").append(recordName).append(" ").append(ex.toString());
+			new StringBuffer().append("PaySMS.rmsLoad: Exception: ").append(recordName).append(" ").append(ex.toString());
 		}
 		try {
 			rs.closeRecordStore();
 		} catch (final Exception ex2) {
-			new coffee.lang.StringBuilder().append("PaySMS.rmsLoad: Exception: ").append(recordName).append(" ").append(ex2.toString());
+			new StringBuffer().append("PaySMS.rmsLoad: Exception: ").append(recordName).append(" ").append(ex2.toString());
 		}
 		return recordStr;
 	}
@@ -1637,13 +1637,13 @@ public final class Class_o {
 				rs.addRecord(bytes, 0, bytes.length);
 			}
 		} catch (final Exception ex) {
-			new coffee.lang.StringBuilder().append("PaySMS.rmsSave: Exception: ").append(ex.toString());
+			new StringBuffer().append("PaySMS.rmsSave: Exception: ").append(ex.toString());
 		}
 		if (rs != null) {
 			try {
 				rs.closeRecordStore();
 			} catch (final Exception ex2) {
-				new coffee.lang.StringBuilder().append("PaySMS.rmsSave: Exception: ").append(ex2.toString());
+				new StringBuffer().append("PaySMS.rmsSave: Exception: ").append(ex2.toString());
 			}
 		}
 	}
@@ -1706,7 +1706,7 @@ public final class Class_o {
 			//profile = profile + vector.elementAt(i) + ";";
 			profile += vector.elementAt(i) + ";";
 		}
-		new coffee.lang.StringBuilder().append("PaySMS.storeProfileID: ").append(profile);
+		new StringBuffer().append("PaySMS.storeProfileID: ").append(profile);
 		rmsSave(Class_o.rmsNames[3], String.valueOf(profile));
 	}
 
@@ -1765,24 +1765,24 @@ public final class Class_o {
 		try {
 			final int h = ((Integer) Class_o.currentValidProfiles.elementAt(0)).intValue();
 			final String profileID = Class_o.var_29a5[h][0];
-			new coffee.lang.StringBuilder().append("profileID : ").append(profileID);
+			new StringBuffer().append("profileID : ").append(profileID);
 			for (int i = 0; i < Class_o.turkeyProfiles.length; ++i) {
 				if (profileID != null && profileID.equals(Class_o.turkeyProfiles[i])) {
-					new coffee.lang.StringBuilder().append("PaySMS. Found valid the Turkey profile: ")
+					new StringBuffer().append("PaySMS. Found valid the Turkey profile: ")
 							.append(Class_o.var_29a5[h][0]);
 					return 3;
 				}
 			}
 			for (int j = 0; j < Class_o.openMarketProfiles.length; ++j) {
 				if (profileID != null && profileID.equals(Class_o.openMarketProfiles[j])) {
-					new coffee.lang.StringBuilder().append("PaySMS. Found valid the FR Open Market profile: ")
+					new StringBuffer().append("PaySMS. Found valid the FR Open Market profile: ")
 							.append(Class_o.var_29a5[h][0]);
 					return 6;
 				}
 			}
 			for (int k = 0; k < Class_o.telkomselProfiles.length; ++k) {
 				if (profileID != null && profileID.equals(Class_o.telkomselProfiles[k])) {
-					new coffee.lang.StringBuilder().append("PaySMS. Found valid the Indonesia Telkomsel profile: ")
+					new StringBuffer().append("PaySMS. Found valid the Indonesia Telkomsel profile: ")
 							.append(Class_o.var_29a5[h][0]);
 					return 11;
 				}
@@ -1792,7 +1792,7 @@ public final class Class_o {
 				return 8;
 			}
 			final String countryCode = s.substring(s.indexOf(40) + 1, s.lastIndexOf(58)).trim();
-			new coffee.lang.StringBuilder().append("PaySMS. Country code ").append(countryCode);
+			new StringBuffer().append("PaySMS. Country code ").append(countryCode);
 			if (Class_o.var_29a5[h][6].equals("SMS")) {
 				
 				// Germany
@@ -1832,7 +1832,7 @@ public final class Class_o {
 				return 9;
 			}
 		} catch (final Exception obj) {
-			new coffee.lang.StringBuilder().append("PaySMS. GetSpecialFlow,  Exception: ").append(obj);
+			new StringBuffer().append("PaySMS. GetSpecialFlow,  Exception: ").append(obj);
 		}
 		return 8;
 	}
@@ -1852,9 +1852,9 @@ public final class Class_o {
 				try {
 					if (Integer.parseInt(Class_o.var_29a5[j][14]) == pricepoint) {
 						final long sub_7695 = sub_7695(Class_o.var_29a5[j][9]);
-						new coffee.lang.StringBuilder().append("Fixed price : ").append(Class_o.var_29a5[j][9]);
+						new StringBuffer().append("Fixed price : ").append(Class_o.var_29a5[j][9]);
 						if (sub_7695 > 500000L) {
-							new coffee.lang.StringBuilder().append("Found Price greater than 5 Euros : ")
+							new StringBuffer().append("Found Price greater than 5 Euros : ")
 									.append(Class_o.var_29a5[j][9]);
 							return 1;
 						}
@@ -1911,7 +1911,7 @@ public final class Class_o {
 
 	private static boolean equalsIgnoreCase(final String s1, final String s2) {
 		if (s1 == null || s2 == null) {
-			new coffee.lang.StringBuilder().append("PaySMS.equalsIgnoreCase: s1 = '").append(s1).append("', s2 = '").append(s2)
+			new StringBuffer().append("PaySMS.equalsIgnoreCase: s1 = '").append(s1).append("', s2 = '").append(s2)
 					.append("'");
 			return false;
 		}

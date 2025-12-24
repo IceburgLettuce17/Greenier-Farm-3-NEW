@@ -276,10 +276,10 @@ final class GLLibPlayer implements Runnable
     
     static final Player Snd_GetChannelPlayer(final int channel) {
         if (channel < 0) {
-            new coffee.lang.StringBuilder().append("Snd_GetChannelPlayer: Index is negative [").append(channel).append("]");
+            new StringBuffer().append("Snd_GetChannelPlayer: Index is negative [").append(channel).append("]");
         }
         if (channel >= GLLibPlayer.k_snd_nbChannel) {
-            new coffee.lang.StringBuilder().append("Snd_GetChannelPlayer: Index [").append(channel).append("] is out of range. Max channels is ").append(GLLibPlayer.k_snd_nbChannel);
+            new StringBuffer().append("Snd_GetChannelPlayer: Index [").append(channel).append("] is out of range. Max channels is ").append(GLLibPlayer.k_snd_nbChannel);
         }
         return GLLibPlayer.s_snd_Player[channel];
     }
@@ -411,10 +411,10 @@ final class GLLibPlayer implements Runnable
     
     static void Snd_Play(final int channel, final int index, final int loop, final int volume, final int priority) {
         if (loop < 0) {
-            new coffee.lang.StringBuilder().append("Snd_Play: Invalid loop number of ").append(loop);
+            new StringBuffer().append("Snd_Play: Invalid loop number of ").append(loop);
         }
         if (channel >= GLLibPlayer.k_snd_nbChannel) {
-            new coffee.lang.StringBuilder().append("Snd_Play: Attempting to play on channel ").append(channel).append(" while only have max ").append(GLLibPlayer.k_snd_nbChannel);
+            new StringBuffer().append("Snd_Play: Attempting to play on channel ").append(channel).append(" while only have max ").append(GLLibPlayer.k_snd_nbChannel);
         }
         if (index < 0 || volume == 0) {
             return;
@@ -538,7 +538,7 @@ final class GLLibPlayer implements Runnable
                         isPlaying = Snd_IsPlaying(channel);
                     }
                     catch (final Exception obj) {
-                        new coffee.lang.StringBuilder().append("Snd_update.error on channel (").append(channel).append(").").append(obj);
+                        new StringBuffer().append("Snd_update.error on channel (").append(channel).append(").").append(obj);
                         isPlaying = false;
                     }
                     if (!isPlaying) {
@@ -586,7 +586,7 @@ final class GLLibPlayer implements Runnable
                         }
                     }
                     catch (final Exception e2) {
-                        new coffee.lang.StringBuilder().append("Snd_update.error on channel (").append(channel).append(").").append(e2);
+                        new StringBuffer().append("Snd_update.error on channel (").append(channel).append(").").append(e2);
                         e2.printStackTrace();
                     }
                     sub_1fe4(channel, GLLibPlayer.var_1667);
@@ -942,7 +942,7 @@ final class GLLibPlayer implements Runnable
             GLLibPlayer.s_TilesetLayerGraphics[0][0] = GLLibPlayer.s_TilesetLayerImage[0][0].image.getGraphics();
         }
         catch (final Exception ex) {
-            new coffee.lang.StringBuilder().append("GLLibPlayer.Tileset_LoadLayer.pb while ceating circular buffer : ").append(ex.toString());
+            new StringBuffer().append("GLLibPlayer.Tileset_LoadLayer.pb while ceating circular buffer : ").append(ex.toString());
         }
     }
     
@@ -1563,7 +1563,7 @@ final class GLLibPlayer implements Runnable
             return;
         }
         if (GLLibPlayer.s_TilesetMaxLayerCount <= 0) {
-            new coffee.lang.StringBuilder().append("Tileset_SetCamera: nLayer invalid : ").append(0);
+            new StringBuffer().append("Tileset_SetCamera: nLayer invalid : ").append(0);
             return;
         }
         if (GLLibPlayer.s_TilesetLayerInfo[0][0] != 1 || GLLibPlayer.s_TilesetLayerInfo[0][1] != 1) {
@@ -1595,7 +1595,7 @@ final class GLLibPlayer implements Runnable
             return -1;
         }
         if (GLLibPlayer.s_TilesetMaxLayerCount <= 0) {
-            new coffee.lang.StringBuilder().append("Tileset_GetCamera: nLayer invalid : ").append(0);
+            new StringBuffer().append("Tileset_GetCamera: nLayer invalid : ").append(0);
             return -1;
         }
         if (GLLibPlayer.s_TilesetLayerInfo[0][0] != 1 || GLLibPlayer.s_TilesetLayerInfo[0][1] != 1) {
@@ -1609,7 +1609,7 @@ final class GLLibPlayer implements Runnable
             return -1;
         }
         if (GLLibPlayer.s_TilesetMaxLayerCount <= 0) {
-            new coffee.lang.StringBuilder().append("Tileset_GetCamera: nLayer invalid : ").append(0);
+            new StringBuffer().append("Tileset_GetCamera: nLayer invalid : ").append(0);
             return -1;
         }
         if (GLLibPlayer.s_TilesetLayerInfo[0][0] != 1 || GLLibPlayer.s_TilesetLayerInfo[0][1] != 1) {
@@ -1626,7 +1626,7 @@ final class GLLibPlayer implements Runnable
             return -1;
         }
         if (GLLibPlayer.s_TilesetMaxLayerCount <= 0) {
-            new coffee.lang.StringBuilder().append("Tileset_GetLayerWidth: nLayer invalid : ").append(0);
+            new StringBuffer().append("Tileset_GetLayerWidth: nLayer invalid : ").append(0);
             return -1;
         }
         if (GLLibPlayer.s_TilesetLayerInfo[0][0] != 1 || GLLibPlayer.s_TilesetLayerInfo[0][1] != 1) {
@@ -1640,7 +1640,7 @@ final class GLLibPlayer implements Runnable
             return -1;
         }
         if (GLLibPlayer.s_TilesetMaxLayerCount <= 0) {
-            new coffee.lang.StringBuilder().append("Tileset_GetLayerHeight: nLayer invalid : ").append(0);
+            new StringBuffer().append("Tileset_GetLayerHeight: nLayer invalid : ").append(0);
             return -1;
         }
         if (GLLibPlayer.s_TilesetLayerInfo[0][0] != 1 || GLLibPlayer.s_TilesetLayerInfo[0][1] != 1) {
@@ -1655,18 +1655,18 @@ final class GLLibPlayer implements Runnable
             return -1;
         }
         if (GLLibPlayer.s_TilesetMaxLayerCount <= 0) {
-            new coffee.lang.StringBuilder().append("Tileset_GetTile: nLayer invalid : ").append(0);
+            new StringBuffer().append("Tileset_GetTile: nLayer invalid : ").append(0);
             return -1;
         }
         if (GLLibPlayer.s_TilesetLayerInfo[0][0] != 1 || GLLibPlayer.s_TilesetLayerInfo[0][1] != 1) {
             return -1;
         }
         if (x < 0 || x > GLLibPlayer.s_TilesetLayerInfo[0][2]) {
-            new coffee.lang.StringBuilder().append("Tileset_GetTile: x value out of bound [").append(x).append("]  0 <= x < ").append(GLLibPlayer.s_TilesetLayerInfo[0][2]);
+            new StringBuffer().append("Tileset_GetTile: x value out of bound [").append(x).append("]  0 <= x < ").append(GLLibPlayer.s_TilesetLayerInfo[0][2]);
             return -1;
         }
         if (y < 0 || y > GLLibPlayer.s_TilesetLayerInfo[0][3]) {
-            new coffee.lang.StringBuilder().append("Tileset_GetTile: y value out of bound [").append(y).append("]  0 <= y < ").append(GLLibPlayer.s_TilesetLayerInfo[0][3]);
+            new StringBuffer().append("Tileset_GetTile: y value out of bound [").append(y).append("]  0 <= y < ").append(GLLibPlayer.s_TilesetLayerInfo[0][3]);
             return -1;
         }
         nLayer = y;
@@ -1680,7 +1680,7 @@ final class GLLibPlayer implements Runnable
             return null;
         }
         if (GLLibPlayer.s_TilesetMaxLayerCount <= 0) {
-            new coffee.lang.StringBuilder().append("Tileset_GetBufferImage: p_iLayer invalid : ").append(0);
+            new StringBuffer().append("Tileset_GetBufferImage: p_iLayer invalid : ").append(0);
             return null;
         }
         return GLLibPlayer.s_TilesetLayerImage[0][0];
@@ -1708,18 +1708,18 @@ final class GLLibPlayer implements Runnable
             return;
         }
         if (GLLibPlayer.s_TilesetMaxLayerCount <= 0) {
-            new coffee.lang.StringBuilder().append("Tileset_SetTile: layer invalid : ").append(0);
+            new StringBuffer().append("Tileset_SetTile: layer invalid : ").append(0);
             return;
         }
         if (GLLibPlayer.s_TilesetLayerInfo[0][0] != 1 || GLLibPlayer.s_TilesetLayerInfo[0][1] != 1) {
             return;
         }
         if (x < 0 || x > GLLibPlayer.s_TilesetLayerInfo[0][2]) {
-            new coffee.lang.StringBuilder().append("Tileset_SetTile: x value out of bound [").append(x).append("]  0 <= x < ").append(GLLibPlayer.s_TilesetLayerInfo[0][2]);
+            new StringBuffer().append("Tileset_SetTile: x value out of bound [").append(x).append("]  0 <= x < ").append(GLLibPlayer.s_TilesetLayerInfo[0][2]);
             return;
         }
         if (y < 0 || y > GLLibPlayer.s_TilesetLayerInfo[0][3]) {
-            new coffee.lang.StringBuilder().append("Tileset_SetTile: y value out of bound [").append(y).append("]  0 <= y < ").append(GLLibPlayer.s_TilesetLayerInfo[0][3]);
+            new StringBuffer().append("Tileset_SetTile: y value out of bound [").append(y).append("]  0 <= y < ").append(GLLibPlayer.s_TilesetLayerInfo[0][3]);
             return;
         }
         x += y * GLLibPlayer.s_TilesetLayerInfo[0][2];
@@ -1790,7 +1790,7 @@ final class GLLibPlayer implements Runnable
                 asprite_frameheight = n4;
             }
             else {
-                new coffee.lang.StringBuilder().append("Tileset_PaintToBuffer: Invalid drawOperation set: ").append(drawOperation);
+                new StringBuffer().append("Tileset_PaintToBuffer: Invalid drawOperation set: ").append(drawOperation);
             }
             y = Tileset_GetTranslatedOriginY(0, y);
             final int n13 = array[13];

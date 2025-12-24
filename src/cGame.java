@@ -798,7 +798,7 @@ public final class cGame extends GLLib implements Class_b
 	static Class_f var_8034;
 	private static int var_803c;
 	static int var_8044;
-	static String s_plantGrowTime;
+	static String s_prepareTime;
 	private static String var_8054;
 	private static short[] var_805c;
 	static int[] var_8064;
@@ -2175,7 +2175,7 @@ public final class cGame extends GLLib implements Class_b
 					break;
 				}
 				default: {
-					new coffee.lang.StringBuilder().append("State [").append(cGame.s_game_states[state]).append("] is undefined. Message sent was: ").append(substate);
+					new StringBuffer().append("State [").append(cGame.s_game_states[state]).append("] is undefined. Message sent was: ").append(substate);
 					break;
 				}
 				}
@@ -2593,7 +2593,7 @@ public final class cGame extends GLLib implements Class_b
 					if (!cGame.var_684c) {
 						cGame.var_684c = true;
 						cGame.var_685c = sub_d691(cGame.var_6874);
-						new coffee.lang.StringBuilder().append("[0/").append(cGame.var_685c).append("] - EXECUTE SPRITE REQUESTS");
+						new StringBuffer().append("[0/").append(cGame.var_685c).append("] - EXECUTE SPRITE REQUESTS");
 					}
 					cGame.var_684c = sub_d1f5(cGame.var_6874);
 					break;
@@ -2602,7 +2602,7 @@ public final class cGame extends GLLib implements Class_b
 					if (!cGame.var_684c) {
 						cGame.var_684c = true;
 						cGame.var_685c = sub_db02();
-						new coffee.lang.StringBuilder().append("[0/").append(cGame.var_685c).append("] - EXECUTE SOUND REQUESTS");
+						new StringBuffer().append("[0/").append(cGame.var_685c).append("] - EXECUTE SOUND REQUESTS");
 					}
 					cGame.var_684c = sub_d8df();
 					break;
@@ -3280,7 +3280,7 @@ public final class cGame extends GLLib implements Class_b
 	static void sub_df48(final int n, final int n2) {
 		if (n2 != 0) {
 			cGame.var_8044 = n * 100 / n2;
-			cGame.s_plantGrowTime = sub_dceb(n2 - n);
+			cGame.s_prepareTime = sub_dceb(n2 - n);
 		}
 	}
 
@@ -4569,7 +4569,7 @@ public final class cGame extends GLLib implements Class_b
 				cGame.var_68cc[1][6] = (((sub_4e1f2 = GLLib.Text_GetStringFromLocaleFile(Define.TEXT_UNTILREADY)) == null) ? "" : sub_4e1f2);
 			}
 			cGame.var_68cc[1][5] = Integer.toString(cGame.var_8034.m_prepareTime);
-			cGame.var_68cc[1][7] = cGame.s_plantGrowTime;
+			cGame.var_68cc[1][7] = cGame.s_prepareTime;
 		}
 	}
 
@@ -8575,15 +8575,15 @@ public final class cGame extends GLLib implements Class_b
 				
 				
 				// Draw the version to the screen!
-				coffee.lang.StringBuilder sb;
+				StringBuffer sb;
 				String version;
 				if (i + 11264 == 11265) {
 					final String sub_4e1f2;
-					sb = new coffee.lang.StringBuilder().append(cGame.var_79d4)
+					sb = new StringBuffer().append(cGame.var_79d4)
 							.append(((sub_4e1f2 = GLLib.Text_GetStringFromLocaleFile(Define.TEXT_CREDITS_VERSION)) == null) ? "" : sub_4e1f2).append(" ");
 					version = GloftGF2M.s_instance.getAppProperty("MIDlet-Version");
 				} else {
-					sb = new coffee.lang.StringBuilder().append(cGame.var_79d4);
+					sb = new StringBuffer().append(cGame.var_79d4);
 					final String sub_4e1f3;
 					version = (((sub_4e1f3 = GLLib.Text_GetStringFromLocaleFile(i + 11264)) == null) ? "" : sub_4e1f3);
 				}
@@ -13251,10 +13251,10 @@ public final class cGame extends GLLib implements Class_b
 		if (cGame.var_69e4) {
 			if ((cGame.var_6a44 < 0 || cGame.var_6a3c[sound][1] >= cGame.var_6a3c[cGame.var_6a44][1])
 					&& System.currentTimeMillis() - cGame.var_6a6c <= 1000L) {
-				new coffee.lang.StringBuilder().append("==========Sound: ").append(sound).append(" --- DELAY");
+				new StringBuffer().append("==========Sound: ").append(sound).append(" --- DELAY");
 				return;
 			}
-			new coffee.lang.StringBuilder().append("==========Sound: ").append(sound).append(" DON'T DELAY");
+			new StringBuffer().append("==========Sound: ").append(sound).append(" DON'T DELAY");
 			cGame.var_6a6c = System.currentTimeMillis();
 			int index = sound;
 			if (index >= 15) {
@@ -13264,7 +13264,7 @@ public final class cGame extends GLLib implements Class_b
 				cGame.var_6a4c = index;
 			}
 			cGame.var_6a44 = sound;
-			new coffee.lang.StringBuilder().append("==========================PlaySound: ").append(sound);
+			new StringBuffer().append("==========================PlaySound: ").append(sound);
 			Label_0243: {
 				int volume = 0;
 				try {
@@ -14045,7 +14045,7 @@ public final class cGame extends GLLib implements Class_b
 				sub_2c69b();
 				sub_1f8c5(1);
 			}
-			cGame.var_68cc[1][7] = cGame.s_plantGrowTime;
+			cGame.var_68cc[1][7] = cGame.s_prepareTime;
 			cGame.var_68cc[1][5] = Integer.toString(cGame.var_8034.m_prepareTime);
 		}
 		sub_26854();
@@ -18809,7 +18809,7 @@ public final class cGame extends GLLib implements Class_b
 		for (int i = 0; i < 34; ++i) {
 			GameDatas.s_allDatas[i] = new GameDatas();
 			final byte[] resourceBytes = GLLib.Pack_ReadData(i);
-			new coffee.lang.StringBuilder().append("Open File ").append(i);
+			new StringBuffer().append("Open File ").append(i);
 			int offset = 0;
 			GameDatas.s_allDatas[i].var_7a = GLLib.Mem_GetInt(resourceBytes, 0);
 			offset += 4;
@@ -26279,7 +26279,7 @@ public final class cGame extends GLLib implements Class_b
 			boolean b = true;
 			boolean b2 = false;
 			boolean b3 = false;
-			if (getPreviousState() == Define.GS_BUYSCR) {
+			if (getPreviousState() == Define.GS_UNK_42) {
 				cGame.var_67cc = 1;
 				sub_2c69b();
 			} else {
@@ -27206,7 +27206,7 @@ public final class cGame extends GLLib implements Class_b
 			final String sub_4e1f;
 			s3 = GLLib.Text_ReplaceText(s, s2, ((sub_4e1f = GLLib.Text_GetStringFromLocaleFile(792)) == null) ? "" : sub_4e1f);
 		} else {
-			final coffee.lang.StringBuilder append = new coffee.lang.StringBuilder().append(sub_45928(s));
+			final StringBuffer append = new StringBuffer().append(sub_45928(s));
 			final int n2 = n;
 			final String s4 = "Cash";
 			n = n2;
@@ -29299,14 +29299,12 @@ public final class cGame extends GLLib implements Class_b
 		GLLib.Game_KeySetKeyCode(false, 54, 12);
 		GLLib.Game_KeySetKeyCode(false, 56, 14);
 		GLLib.Game_KeySetKeyCode(false, 53, 11);
-		//cGame.field_a_int = -1;
-		cGame.s_game_state = 0;
+		cGame.s_game_state = -1;
 		cGame.var_67cc = -1;
 		cGame.var_67c4 = -1;
 		//cGame.var_67ec = 0;
 		cGame.var_67f4 = 0;
 		cGame.s_game_states = new int[15];
-		//cGame.var_67dc[0] = 44;
 		cGame.var_67e4 = new byte[6];
 		for (int i = 0; i < 45; ++i) {
 			sub_818c(i, true);
@@ -29662,10 +29660,10 @@ public final class cGame extends GLLib implements Class_b
 		checkForState(2, cGame.s_game_state);
 		//++cGame.var_67ec;
 		cGame.var_67f4 += GLLib.s_game_frameDT;
-		new coffee.lang.StringBuilder().append("G_DT : ").append(GLLib.s_game_frameDT).append(" ms");
-		new coffee.lang.StringBuilder().append("G_Update : ").append(System.currentTimeMillis() - update).append(" ms");
+		new StringBuffer().append("G_DT : ").append(GLLib.s_game_frameDT).append(" ms");
+		new StringBuffer().append("G_Update : ").append(System.currentTimeMillis() - update).append(" ms");
 		sub_b693();
-		new coffee.lang.StringBuilder().append("G_Paint : ").append(System.currentTimeMillis() - paint).append(" ms");
+		new StringBuffer().append("G_Paint : ").append(System.currentTimeMillis() - paint).append(" ms");
 	}
 
 	public final void hideNotify() {
