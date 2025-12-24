@@ -4486,8 +4486,8 @@ public final class cGame extends GLLib implements Class_b
 			sub_2c69b();
 			sub_1fb8e(1);
 			sub_234cb(3, 6);
-			cGame.var_6914[3][4] = ((cGame.var_68d4[20].sub_3238(116) < 0) ? (-cGame.var_68d4[20].sub_3238(116))
-					: cGame.var_68d4[20].sub_3238(116));
+			cGame.var_6914[3][4] = ((cGame.var_68d4[20].GetFrameY(116) < 0) ? (-cGame.var_68d4[20].GetFrameY(116))
+					: cGame.var_68d4[20].GetFrameY(116));
 			cGame.var_6914[3][10] = cGame.var_68c4[1][67][2];
 			cGame.var_6914[3][11] = cGame.var_68c4[1][67][3];
 			if (cGame.var_6b94 != 0) {
@@ -10800,7 +10800,7 @@ public final class cGame extends GLLib implements Class_b
 				n11 = (class_e._modules_w_short[class_e.GetFrameModule(n7, n17)] & 0xFFFF);
 				final int n18 = n14 - class_e.GetFModuleOY(n12 + n17) - n10;
 				final int sub_30ea2 = class_e.GetFModuleOX(n12 + n17);
-				final int sub_332f = class_e.sub_332f(n7, n17);
+				final int sub_332f = class_e.GetFMFlags(n7, n17);
 				int[] array3 = new int[n10 * n11];
 				if (class_e._modules_data != null) {
 					array3 = (int[]) class_e.DecodeImage(class_e.GetFrameModule(n7, n17));
@@ -10828,7 +10828,7 @@ public final class cGame extends GLLib implements Class_b
 				final int sub_310b2 = class_e.GetFModuleOY(n12 + n21);
 				final int n22 = class_e._modules_w_short[class_e.GetFrameModule(n7, n21)] & 0xFFFF;
 				final int n23 = class_e._modules_h_short[class_e.GetFrameModule(n7, n21)] & 0xFFFF;
-				final int sub_332f2 = class_e.sub_332f(n7, n21);
+				final int sub_332f2 = class_e.GetFMFlags(n7, n21);
 				int n24;
 				if (n22 == 1) {
 					if (sub_30ea3 < n8 >> 1) {
@@ -11041,8 +11041,8 @@ public final class cGame extends GLLib implements Class_b
 									: cGame.s_gameSprites[n8 - 1000])) == null || cGame.var_68bc[n][k][6] < 0) {
 								continue;
 							}
-							sub_31e6 = class_e.sub_31e6(n7);
-							sub_3238 = class_e.sub_3238(n7);
+							sub_31e6 = class_e.GetFrameX(n7);
+							sub_3238 = class_e.GetFrameY(n7);
 							sub_312c = class_e.GetFrameWidth(n7);
 							sub_3239 = class_e.GetFrameHeight(n7);
 							if (cGame.var_68bc[n][k][22] != 0) {

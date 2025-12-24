@@ -89,7 +89,7 @@ final class Class_f
     private int var_180d;
     int var_1815;
     int var_181d;
-    private int var_1825;
+    private int sprFrame;
     short var_182d;
     int var_1835;
     int var_183d;
@@ -885,15 +885,13 @@ final class Class_f
     static void sub_3bcd() {
         for (int i = 0; i < 5; ++i) {
             final int n = i;
-            for (Class_f var_17ad = Class_f.var_157d[n]; var_17ad != null; var_17ad = var_17ad.var_17ad) {
-                final Class_f class_f;
-                if ((class_f = var_17ad).var_187d > -1 && class_f.sub_a2a0(16777224)) {
-                    class_f.sub_5bd2(class_f.var_187d, class_f.var_1885);
+            for (Class_f f = Class_f.var_157d[n]; f != null; f = f.var_17ad) {
+                if (f.var_187d > -1 && f.sub_a2a0(16777224)) {
+                    f.sub_5bd2(f.var_187d, f.var_1885);
                 }
             }
-            for (Class_f var_17ad2 = Class_f.var_157d[n]; var_17ad2 != null; var_17ad2 = var_17ad2.var_17ad) {
-                final Class_f class_f;
-                if ((class_f = var_17ad2).var_17c5 == 10) {
+            for (Class_f f = Class_f.var_157d[n]; f != null; f = f.var_17ad) {
+                if (f.var_17c5 == 10) {
                     if (cGame.var_800c.camY < 576) {
                         int n2 = 138;
                         if (cGame.s_zoomLevel != 100) {
@@ -957,8 +955,8 @@ final class Class_f
                         }
                     }
                 }
-                else if (class_f.sub_a2a0(16777224) && class_f.spriteId > -1 && class_f.var_186d > -1) {
-                    class_f.sub_5bd2(class_f.spriteId, class_f.var_186d);
+                else if (f.sub_a2a0(16777224) && f.spriteId > -1 && f.var_186d > -1) {
+                    f.sub_5bd2(f.spriteId, f.var_186d);
                 }
             }
             for (Class_f var_17ad3 = Class_f.var_157d[n]; var_17ad3 != null; var_17ad3 = var_17ad3.var_17ad) {
@@ -1079,41 +1077,36 @@ final class Class_f
                     }
                 }
                 if (class_f.var_18bd && cGame.var_6aac == class_f) {
-                    final Class_f class_f7 = class_f;
-                    final int var_1878 = class_f.var_1825;
-                    final ASprite class_e3 = cGame.s_gameSprites[14];
-                    final int n15 = var_1878;
-                    final ASprite class_e4 = class_e3;
-                    final Class_f class_f8 = class_f7;
-                    boolean b;
-                    if (class_e4 != null && n15 > -1) {
-                        final int n16 = class_f8.posX + class_e4.sub_31e6(n15);
-                        final int n17 = class_f8.posY + class_e4.sub_3238(n15);
-                        final int n18 = n16 + class_e4.GetFrameWidth(n15);
-                        final int n19 = n17 + class_e4.GetFrameHeight(n15);
-                        final int n20 = 0 + GLLib.s_screenWidth;
-                        final int n21 = 0 + GLLib.s_screenHeight;
-                        b = (n18 > 0 && n16 < n20 && n19 > 0 && n17 < n21);
+                    final int frame = class_f.sprFrame;
+                    final ASprite spr = cGame.s_gameSprites[14];
+                    boolean coordsAreValid;
+                    if (spr != null && frame > -1) {
+                        final int fx = class_f.posX + spr.GetFrameX(frame);
+                        final int fy = class_f.posY + spr.GetFrameY(frame);
+                        final int fwidth = fx + spr.GetFrameWidth(frame);
+                        final int fheight = fy + spr.GetFrameHeight(frame);
+                        final int width = 0 + GLLib.s_screenWidth;
+                        final int height = 0 + GLLib.s_screenHeight;
+                        coordsAreValid = (fwidth > 0 && fx < width && fheight > 0 && fy < height);
                     }
                     else {
-                        b = false;
+                        coordsAreValid = false;
                     }
-                    if (b && cGame.sub_2cad2(class_f)) {
+                    if (coordsAreValid && cGame.sub_2cad2(class_f)) {
                         if (cGame.s_zoomLevel == 100) {
-                            cGame.s_gameSprites[14].PaintFrame(GLLib.g, class_f.var_1825, class_f.posX, class_f.posY, 0);
+                            cGame.s_gameSprites[14].PaintFrame(GLLib.g, class_f.sprFrame, class_f.posX, class_f.posY, 0);
                         }
                         else {
-                            cGame.s_gameSprites[14].PaintFrameWithZoom(GLLib.g, class_f.var_1825, class_f.posX, class_f.posY, cGame.s_zoomLevel);
+                            cGame.s_gameSprites[14].PaintFrameWithZoom(GLLib.g, class_f.sprFrame, class_f.posX, class_f.posY, cGame.s_zoomLevel);
                         }
                     }
                 }
             }
-            for (Class_f var_17ad4 = Class_f.var_157d[n]; var_17ad4 != null; var_17ad4 = var_17ad4.var_17ad) {
-                final Class_f class_f9;
-                if ((class_f9 = var_17ad4).var_18b5 != null) {
-                    class_f9.var_18b5.SetPos(class_f9.posX + class_f9.var_18a5, class_f9.posY + class_f9.var_18ad);
-                    class_f9.var_18b5.SetZoomLevel(cGame.s_zoomLevel);
-                    class_f9.var_18b5.Render();
+            for (Class_f f = Class_f.var_157d[n]; f != null; f = f.var_17ad) {
+                if (f.var_18b5 != null) {
+                    f.var_18b5.SetPos(f.posX + f.var_18a5, f.posY + f.var_18ad);
+                    f.var_18b5.SetZoomLevel(cGame.s_zoomLevel);
+                    f.var_18b5.Render();
                 }
             }
         }
@@ -1615,10 +1608,10 @@ final class Class_f
         }
     }
     
-    private void PaintFrame(int frame, final int frame2) {
-        final ASprite sprite = ((frame & 0x8000) != 0x0) ? cGame.var_68d4[frame & 0x7FFF] : cGame.s_gameSprites[frame & 0x7FFF];
+    private void PaintFrame(int sprId, final int frame) {
+        final ASprite sprite = ((sprId & 0x8000) != 0x0) ? cGame.var_68d4[sprId & 0x7FFF] : cGame.s_gameSprites[sprId & 0x7FFF];
         int palette = this.var_1875;
-        if (sprite == null || frame2 < 0) {
+        if (sprite == null || frame < 0) {
             return;
         }
         if (this.sub_a2a0(65536)) {
@@ -1626,15 +1619,15 @@ final class Class_f
         }
         sprite.SetCurrentPalette(palette);
         if (cGame.s_zoomLevel == 100) {
-            sprite.PaintFrame(GLLib.g, frame2, this.posX, this.posY, 0);
-            return;
-        }
-        if (cGame.s_zoomLevel < 100 && cGame.sub_438b0(frame)) {
-            frame = sprite.GetFrames() / 2 + frame2;
             sprite.PaintFrame(GLLib.g, frame, this.posX, this.posY, 0);
             return;
         }
-        sprite.PaintFrameWithZoom(GLLib.g, frame2, this.posX, this.posY, cGame.s_zoomLevel);
+        if (cGame.s_zoomLevel < 100 && cGame.sub_438b0(sprId)) {
+            sprId = sprite.GetFrames() / 2 + frame;
+            sprite.PaintFrame(GLLib.g, sprId, this.posX, this.posY, 0);
+            return;
+        }
+        sprite.PaintFrameWithZoom(GLLib.g, frame, this.posX, this.posY, cGame.s_zoomLevel);
     }
     
     final void SetCoords() {
@@ -3106,7 +3099,7 @@ final class Class_f
                 class_f.var_186d = array[5];
                 class_f.var_1815 = array[6];
                 class_f.var_181d = array[7];
-                class_f.var_1825 = cGame.sub_2d629(class_f.var_1815, class_f.var_181d);
+                class_f.sprFrame = cGame.sub_2d629(class_f.var_1815, class_f.var_181d);
                 class_f.sub_a21a(16777730);
                 final int n3 = array[8];
                 final int n4 = array[9];
@@ -3141,7 +3134,7 @@ final class Class_f
                 class_f.var_186d = array[6];
                 class_f.var_1815 = array[7];
                 class_f.var_181d = array[8];
-                class_f.var_1825 = cGame.sub_2d629(class_f.var_1815, class_f.var_181d);
+                class_f.sprFrame = cGame.sub_2d629(class_f.var_1815, class_f.var_181d);
                 if (cGame.s_gameSprites[class_f.spriteId].GetAnims() > 0) {
                     (class_f.var_189d = new GLLibPlayer(cGame.s_gameSprites[class_f.spriteId], class_f.camX, class_f.camY)).SetAnim(0, -1);
                     class_f.sub_a21a(33554432);
@@ -3180,7 +3173,7 @@ final class Class_f
                 class_f.var_17dd = array[2];
                 class_f.var_1815 = array[3];
                 class_f.var_181d = array[4];
-                class_f.var_1825 = 16;
+                class_f.sprFrame = 16;
                 final ASprite class_e = cGame.s_gameSprites[array[5]];
                 class_f.var_1875 = array[6];
                 if (array[7] == 1) {
@@ -3237,7 +3230,7 @@ final class Class_f
                 class_f.var_17dd = array[2];
                 class_f.var_1815 = 4;
                 class_f.var_181d = 4;
-                class_f.var_1825 = 16;
+                class_f.sprFrame = 16;
                 class_f.sub_a21a(64);
                 class_f.sub_a21a(16777731);
                 class_f.sub_7795(1);
@@ -3249,7 +3242,7 @@ final class Class_f
                 class_f.var_17dd = array[2];
                 class_f.var_1815 = 4;
                 class_f.var_181d = 4;
-                class_f.var_1825 = 16;
+                class_f.sprFrame = 16;
                 class_f.spriteId = array[3];
                 class_f.sub_a21a(16777763);
                 final int n10 = array[4];
@@ -3273,7 +3266,7 @@ final class Class_f
                 class_f.sub_a21a(16777730);
                 class_f.var_1815 = 4;
                 class_f.var_181d = 4;
-                class_f.var_1825 = 16;
+                class_f.sprFrame = 16;
                 break;
             }
             case 47: {

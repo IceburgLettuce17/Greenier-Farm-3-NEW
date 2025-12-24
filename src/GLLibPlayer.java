@@ -1551,11 +1551,11 @@ final class GLLibPlayer implements Runnable
         ++GLLibPlayer.var_16f7;
     }
     
-    private static final int Tileset_GetTranslatedOriginY(final int n, final int n2) {
-        if (isFlag(n, 8)) {
-            return GLLibPlayer.s_TilesetLayerInfo[n][6] - GLLibPlayer.s_TilesetInfo[1] - n2;
+    private static final int Tileset_GetTranslatedOriginY(final int nLayer, final int y) {
+        if (isFlag(nLayer, 8)) {
+            return GLLibPlayer.s_TilesetLayerInfo[nLayer][6] - GLLibPlayer.s_TilesetInfo[1] - y;
         }
-        return n2;
+        return y;
     }
     
     static final void Tileset_SetCamera(final int nLayer, final int x, final int y) {
@@ -1731,7 +1731,7 @@ final class GLLibPlayer implements Runnable
     
     static final void sub_60d3(int n, int n2, final int n3, final int n4, final boolean b) {
         if (isFlag(0, 4)) {
-            sub_61f8(2, 0, null, 0, 0, 0, 0, n3, n4, 0, b, null);
+            Tileset_PaintToBuffer(2, 0, null, 0, 0, 0, 0, n3, n4, 0, b, null);
             return;
         }
         final int n5 = 0 - sub_5b8b(0);
@@ -1748,7 +1748,7 @@ final class GLLibPlayer implements Runnable
             GLLib.sub_5c77(true);
         }
         if (isFlag(0, 4)) {
-            sub_61f8(0, 0, class_e, 0, n, n2, n3, 0, 0, 0, b, array);
+            Tileset_PaintToBuffer(0, 0, class_e, 0, n, n2, n3, 0, 0, 0, b, array);
         }
         else {
             class_e.PaintFrame(GLLib.g, n, n2 - sub_5b8b(0), n3 - sub_5c0b(0), 0);
@@ -1759,50 +1759,40 @@ final class GLLibPlayer implements Runnable
         }
     }
     
-    private static void sub_61f8(int var_1de7, int sub_31e6, Object o, int n, int n2, int sub_59f0, int n3, int n4, int sub_3238, int n5, final boolean b, int[] array) {
-        final int n6 = var_1de7;
-        final Object o2 = o;
-        final int n7 = n2;
-        final int n8 = sub_59f0;
-        final int n9 = n3;
-        final int n10 = n4;
-        final int n11 = sub_3238;
-        final int[] array2 = array;
+    private static void Tileset_PaintToBuffer(int drawOperation, int x, Object o, int n, int n2, int y, int n3, int n4, int u, int n5, final boolean b, int[] array) {
         n5 = (b ? 1 : 0);
-        n4 = n11;
-        n3 = n10;
-        sub_59f0 = n9;
-        n2 = n8;
-        n = n7;
-        o = o2;
-        var_1de7 = n6;
+        n4 = u;
+        n3 = n4;
+        y = n3;
+        n2 = y;
+        n = n2;
         if (isFlag(0, 4) && (GLLibPlayer.var_16f7 != 0 || n5 != 0)) {
             array = GLLibPlayer.s_TilesetLayerInfo[0];
-            sub_31e6 = 0;
-            sub_3238 = 0;
-            int sub_312c = 0;
-            int sub_3239 = 0;
-            if (var_1de7 == 0) {
-                sub_31e6 = ((ASprite)o).sub_31e6(n);
-                sub_3238 = ((ASprite)o).sub_3238(n);
-                sub_312c = ((ASprite)o).GetFrameWidth(n);
-                sub_3239 = ((ASprite)o).GetFrameHeight(n);
+            x = 0;
+            u = 0;
+            int asprite_framewidth = 0;
+            int asprite_frameheight = 0;
+            if (drawOperation == 0) {
+                x = ((ASprite)o).GetFrameX(n);
+                u = ((ASprite)o).GetFrameY(n);
+                asprite_framewidth = ((ASprite)o).GetFrameWidth(n);
+                asprite_frameheight = ((ASprite)o).GetFrameHeight(n);
                 if ((GLLib.var_1fe7 & 0x2000) != 0x0) {
-                    final int n12 = GLLib.var_1fef[13][1];
-                    sub_31e6 = sub_31e6 * n12 / 100;
-                    sub_3238 = sub_3238 * n12 / 100;
-                    sub_312c = sub_312c * n12 / 100;
-                    sub_3239 = sub_3239 * n12 / 100;
+                    final int zoom = GLLib.var_1fef[13][1];
+                    x = x * zoom / 100;
+                    u = u * zoom / 100;
+                    asprite_framewidth = asprite_framewidth * zoom / 100;
+                    asprite_frameheight = asprite_frameheight * zoom / 100;
                 }
             }
-            else if (var_1de7 == 1 || var_1de7 == 2 || var_1de7 == 3 || var_1de7 == 5 || var_1de7 == 4) {
-                sub_312c = n3;
-                sub_3239 = n4;
+            else if (drawOperation == 1 || drawOperation == 2 || drawOperation == 3 || drawOperation == 5 || drawOperation == 4) {
+                asprite_framewidth = n3;
+                asprite_frameheight = n4;
             }
             else {
-                new coffee.lang.StringBuilder().append("Tileset_PaintToBuffer: Invalid drawOperation set: ").append(var_1de7);
+                new coffee.lang.StringBuilder().append("Tileset_PaintToBuffer: Invalid drawOperation set: ").append(drawOperation);
             }
-            sub_59f0 = Tileset_GetTranslatedOriginY(0, sub_59f0);
+            y = Tileset_GetTranslatedOriginY(0, y);
             final int n13 = array[13];
             final int n14 = array[14];
             int n15;
@@ -1826,7 +1816,7 @@ final class GLLibPlayer implements Runnable
             int n19 = n13 - n17;
             int n20 = n14 - n18;
             n2 -= n19;
-            sub_59f0 -= n20;
+            y -= n20;
             if (isFlag(0, 273) && n19 < 0) {
                 n19 = array[7] + n19 % array[7];
             }
@@ -1838,14 +1828,14 @@ final class GLLibPlayer implements Runnable
             final int n23 = array[7] - n21;
             final int n24 = array[8] - n22;
             final Graphics graphics = GLLibPlayer.s_TilesetLayerGraphics[0][0];
-            final int var_10c7 = GLLibPlayer.s_TilesetLayerInfo[0][7];
-            final int var_10cf = GLLibPlayer.s_TilesetLayerInfo[0][8];
-            ASprite.s_screenHeight = var_10c7;
-            ASprite.s_screenWidth = var_10cf;
-            final int sub_35c6 = GLLib.GetClipX(graphics, true);
-            final int sub_3240 = GLLib.GetClipY(graphics, true);
-            final int sub_3241 = GLLib.GetClipWidth(graphics, true);
-            final int sub_367d = GLLib.GetClipHeight(graphics, true);
+            final int height = GLLibPlayer.s_TilesetLayerInfo[0][7];
+            final int width = GLLibPlayer.s_TilesetLayerInfo[0][8];
+            ASprite.s_screenHeight = height;
+            ASprite.s_screenWidth = width;
+            final int cx = GLLib.GetClipX(graphics, true);
+            final int cy = GLLib.GetClipY(graphics, true);
+            final int cw = GLLib.GetClipWidth(graphics, true);
+            final int ch = GLLib.GetClipHeight(graphics, true);
             int var_16f7 = 1;
             if (n5 == 0) {
                 var_16f7 = GLLibPlayer.var_16f7;
@@ -1859,23 +1849,23 @@ final class GLLibPlayer implements Runnable
             ASprite.s_screenHeight = var_10c9;
             ASprite.s_screenWidth = var_10cf3;
             final int n27 = var_16f7;
-            n2 += sub_31e6;
-            sub_59f0 += sub_3238;
-            final int n28 = n2 + sub_312c;
-            final int n29 = sub_59f0 + sub_3239;
+            n2 += x;
+            y += u;
+            final int n28 = n2 + asprite_framewidth;
+            final int n29 = y + asprite_frameheight;
             int n30 = 0;
             int n31 = 0;
             int n32 = 0;
             int n33 = 0;
-            if (array2 != null) {
-                n30 = array2[0] - n19;
-                n31 = array2[1] - n20;
-                n32 = array2[2] - n19;
-                n33 = array2[3] - n20;
+            if (array != null) {
+                n30 = array[0] - n19;
+                n31 = array[1] - n20;
+                n32 = array[2] - n19;
+                n33 = array[3] - n20;
             }
             for (int i = 0; i < 1; ++i) {
                 final int n34 = n2;
-                final int n35 = sub_59f0;
+                final int n35 = y;
                 final int n36 = n28;
                 final int n37 = n29;
                 for (int j = 0; j < 1; ++j) {
@@ -1903,13 +1893,13 @@ final class GLLibPlayer implements Runnable
                                     continue;
                                 }
                             }
-                            if (n38 < n23 && (array2 == null || n30 < n23)) {
-                                if (n39 < n24 && (array2 == null || n31 < n24)) {
+                            if (n38 < n23 && (array == null || n30 < n23)) {
+                                if (n39 < n24 && (array == null || n31 < n24)) {
                                     int n47;
                                     int n48;
                                     int n49;
                                     int n50;
-                                    if (array2 != null) {
+                                    if (array != null) {
                                         final int n45 = (n30 > 0) ? n30 : 0;
                                         final int n46 = (n31 > 0) ? n31 : 0;
                                         n47 = ((n32 < n23) ? n32 : n23) - n45;
@@ -1923,14 +1913,14 @@ final class GLLibPlayer implements Runnable
                                         n47 = n23;
                                         n48 = n24;
                                     }
-                                    sub_78bd(graphics, o, n, 0, n49, n50, n47, n48, n21 + n38 - sub_31e6, n22 + n39 - sub_3238, n3, n4, var_1de7, sub_35c6, sub_3240, sub_3241, sub_367d, array3, (boolean)(n5 != 0));
+                                    sub_78bd(graphics, o, n, 0, n49, n50, n47, n48, n21 + n38 - x, n22 + n39 - u, n3, n4, drawOperation, cx, cy, cw, ch, array3, (boolean)(n5 != 0));
                                 }
-                                if (n41 >= n24 && n22 != 0 && (array2 == null || n33 >= n24)) {
+                                if (n41 >= n24 && n22 != 0 && (array == null || n33 >= n24)) {
                                     int n52;
                                     int n53;
                                     int n54;
                                     int n55;
-                                    if (array2 != null) {
+                                    if (array != null) {
                                         final int n51 = (n30 > 0) ? n30 : 0;
                                         n52 = ((n31 - n24 > 0) ? (n31 - n24) : 0);
                                         n53 = ((n32 < n23) ? n32 : n23) - n51;
@@ -1943,16 +1933,16 @@ final class GLLibPlayer implements Runnable
                                         n53 = n23;
                                         n54 = n22;
                                     }
-                                    sub_78bd(graphics, o, n, 0, n55, n52, n53, n54, n21 + n38 - sub_31e6, n39 - sub_3238 - n24, n3, n4, var_1de7, sub_35c6, sub_3240, sub_3241, sub_367d, array3, (boolean)(n5 != 0));
+                                    sub_78bd(graphics, o, n, 0, n55, n52, n53, n54, n21 + n38 - x, n39 - u - n24, n3, n4, drawOperation, cx, cy, cw, ch, array3, (boolean)(n5 != 0));
                                 }
                             }
-                            if (n40 >= n23 && n21 != 0 && (array2 == null || n32 >= n23)) {
-                                if (n39 < n24 && (array2 == null || n31 < n24)) {
+                            if (n40 >= n23 && n21 != 0 && (array == null || n32 >= n23)) {
+                                if (n39 < n24 && (array == null || n31 < n24)) {
                                     int n56;
                                     int n58;
                                     int n59;
                                     int n60;
-                                    if (array2 != null) {
+                                    if (array != null) {
                                         n56 = ((n30 - n23 > 0) ? (n30 - n23) : 0);
                                         final int n57 = (n31 > 0) ? n31 : 0;
                                         n58 = ((n32 - n23 < n21) ? (n32 - n23) : n21) - n56;
@@ -1965,16 +1955,16 @@ final class GLLibPlayer implements Runnable
                                         n58 = n21;
                                         n59 = n24;
                                     }
-                                    sub_78bd(graphics, o, n, 0, n56, n60, n58, n59, n38 - sub_31e6 - n23, n22 + n39 - sub_3238, n3, n4, var_1de7, sub_35c6, sub_3240, sub_3241, sub_367d, array3, (boolean)(n5 != 0));
+                                    sub_78bd(graphics, o, n, 0, n56, n60, n58, n59, n38 - x - n23, n22 + n39 - u, n3, n4, drawOperation, cx, cy, cw, ch, array3, (boolean)(n5 != 0));
                                 }
-                                if (n41 < n24 || n22 == 0 || (array2 != null && n33 < n24)) {
+                                if (n41 < n24 || n22 == 0 || (array != null && n33 < n24)) {
                                     continue;
                                 }
                                 int n61;
                                 int n62;
                                 int n63;
                                 int n64;
-                                if (array2 != null) {
+                                if (array != null) {
                                     n61 = ((n30 - n23 > 0) ? (n30 - n23) : 0);
                                     n62 = ((n31 - n24 > 0) ? (n31 - n24) : 0);
                                     n63 = ((n32 - n23 < n21) ? (n32 - n23) : n21) - n61;
@@ -1986,29 +1976,17 @@ final class GLLibPlayer implements Runnable
                                     n63 = n21;
                                     n64 = n22;
                                 }
-                                sub_78bd(graphics, o, n, 0, n61, n62, n63, n64, n38 - sub_31e6 - n23, n39 - sub_3238 - n24, n3, n4, var_1de7, sub_35c6, sub_3240, sub_3241, sub_367d, array3, (boolean)(n5 != 0));
+                                sub_78bd(graphics, o, n, 0, n61, n62, n63, n64, n38 - x - n23, n39 - u - n24, n3, n4, drawOperation, cx, cy, cw, ch, array3, (boolean)(n5 != 0));
                             }
                         }
                     }
                 }
             }
-            final Graphics graphics2 = graphics;
-            final int n65 = sub_35c6;
-            final int n66 = sub_3240;
-            final int n67 = sub_3241;
-            n = sub_367d;
-            final int n68 = n67;
-            sub_31e6 = n66;
-            var_1de7 = n65;
-            GLLib.SetClip(graphics2, n65, sub_31e6, n68, n, true);
-            final int var_10c10 = var_10c8;
-            var_1de7 = var_10cf2;
-            ASprite.s_screenHeight = var_10c10;
-            ASprite.s_screenWidth = var_1de7;
-            final int var_1ddf = GLLib.s_screenWidth;
-            var_1de7 = GLLib.s_screenHeight;
-            ASprite.s_screenHeight = var_1ddf;
-            ASprite.s_screenWidth = var_1de7;
+            GLLib.SetClip(graphics, cx, cy, cw, ch, true);
+            ASprite.s_screenHeight = var_10c8;
+            ASprite.s_screenWidth = var_10cf2;
+            ASprite.s_screenHeight = GLLib.s_screenWidth;
+            ASprite.s_screenWidth = GLLib.s_screenHeight;
         }
     }
     
