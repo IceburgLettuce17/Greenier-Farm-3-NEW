@@ -983,7 +983,7 @@ final class Class_f
                                 class_f.var_189d.Render();
                             }
                             if (class_f.sub_a2a0(33554432)) {
-                                cGame.s_gameSprites[class_f.spriteId].GetRect(Class_f.var_1905, class_f.var_189d.GetAnim(), class_f.var_189d.GetFrame(), class_f.camX, class_f.camY, class_f.var_189d.curFlags);
+                                cGame.s_gameSprites[class_f.spriteId].sub_354b(Class_f.var_1905, class_f.var_189d.GetAnim(), class_f.var_189d.GetFrame(), class_f.camX, class_f.camY, class_f.var_189d.curFlags);
                                 if (cGame.s_zoomLevel != 100) {
                                     Class_f.var_1905[0] = Class_f.var_1905[0] * cGame.s_zoomLevel / 100;
                                     Class_f.var_1905[1] = Class_f.var_1905[1] * cGame.s_zoomLevel / 100;
@@ -1012,7 +1012,7 @@ final class Class_f
                         }
                         class_e.SetCurrentPalette(var_1877);
                         final ASprite class_e2 = class_e;
-                        class_e2.GetRect(Class_f.var_1905, class_f.var_186d, class_f.camX, class_f.camY);
+                        class_e2.sub_3524(Class_f.var_1905, class_f.var_186d, class_f.camX, class_f.camY);
                         if (cGame.s_zoomLevel != 100) {
                             Class_f.var_1905[0] = Class_f.var_1905[0] * cGame.s_zoomLevel / 100;
                             Class_f.var_1905[1] = Class_f.var_1905[1] * cGame.s_zoomLevel / 100;
@@ -1572,7 +1572,7 @@ final class Class_f
         if (n2 > -1) {
             final int n4 = n & 0x7FFF;
             final ASprite class_e2;
-            (class_e2 = (((n & 0x8000) != 0x0) ? cGame.var_68d4[n4] : cGame.s_gameSprites[n4])).GetRect(Class_f.var_1905, n2, this.camX, this.camY);
+            (class_e2 = (((n & 0x8000) != 0x0) ? cGame.var_68d4[n4] : cGame.s_gameSprites[n4])).sub_3524(Class_f.var_1905, n2, this.camX, this.camY);
             if (cGame.s_zoomLevel != 100) {
                 Class_f.var_1905[0] = Class_f.var_1905[0] * cGame.s_zoomLevel / 100;
                 Class_f.var_1905[1] = Class_f.var_1905[1] * cGame.s_zoomLevel / 100;
@@ -3622,7 +3622,7 @@ final class Class_f
             int n3 = cGame.s_gameSprites[0]._modules_w_short[0] & 0xFFFF;
             int n4 = cGame.s_gameSprites[0]._modules_h_short[0] & 0xFFFF;
             final int n5 = n & 0x7FFF;
-            (((n & 0x8000) != 0x0) ? cGame.var_68d4[n5] : cGame.s_gameSprites[n5]).GetRect(Class_f.var_1905, n2, this.camX, this.camY);
+            (((n & 0x8000) != 0x0) ? cGame.var_68d4[n5] : cGame.s_gameSprites[n5]).sub_3524(Class_f.var_1905, n2, this.camX, this.camY);
             if (cGame.s_zoomLevel != 100) {
                 Class_f.var_1905[0] = Class_f.var_1905[0] * cGame.s_zoomLevel / 100;
                 Class_f.var_1905[1] = Class_f.var_1905[1] * cGame.s_zoomLevel / 100;

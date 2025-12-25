@@ -2812,7 +2812,7 @@ public final class cGame extends GLLib implements Class_b
 		spr.Load(GLLib.Pack_ReadData(idx), 0);
 		for (int i = 0; i < cGame.var_7fbc.length; i += 2) {
 			if (idx == cGame.var_7fbc[i] && GLLib.s_pack_filename.equals("/" + cGame.var_7fbc[i + 1])
-					&& !spr.PFXCache_IsInited()) {
+					&& !spr.HasUnkImageArr()) {
 				spr.InitUnkVars();
 			}
 		}
@@ -8599,7 +8599,7 @@ public final class cGame extends GLLib implements Class_b
 			final ASprite class_e = cGame.var_7ffc[sub_237ff(n2)];
 			final short n3 = sub_4ac6[0];
 			final ASprite class_e2 = class_e;
-			cGame.var_79dc = (cGame.var_79b4 = n3 * class_e2.GetLineHeight_1() + (n3 - 1) * class_e2.sub_490a()) / 2;
+			cGame.var_79dc = (cGame.var_79b4 = n3 * class_e2.i_forgot_what_this_is() + (n3 - 1) * class_e2.sub_490a()) / 2;
 			cGame.var_79e4 = cGame.var_79b4 / 2 + (GLLib.s_screenHeight >> 1);
 			cGame.var_79ac = cGame.var_79dc;
 			sub_2000c(15, 18, true);
@@ -23596,7 +23596,7 @@ public final class cGame extends GLLib implements Class_b
 		final ASprite class_e = cGame.var_7ffc[sub_237ff(n3)];
 		final short n4 = sub_4ac6[0];
 		final ASprite class_e2 = class_e;
-		cGame.var_79c4 = (cGame.var_79cc = n4 * class_e2.GetLineHeight_1() + (n4 - 1) * class_e2.sub_490a()) / 2
+		cGame.var_79c4 = (cGame.var_79cc = n4 * class_e2.i_forgot_what_this_is() + (n4 - 1) * class_e2.sub_490a()) / 2
 				- cGame.var_68bc[15][59][6] / 2;
 	}
 
@@ -26877,7 +26877,7 @@ public final class cGame extends GLLib implements Class_b
 		final short[] sub_4ac6 = cGame.var_7ffc[sub_237ff(n3)].WraptextB(cGame.s_iapTermsConditions, cGame.var_68bc[8][156][5], false);
 		final ASprite class_e = cGame.var_7ffc[sub_237ff(n3)];
 		final short n4 = sub_4ac6[0];
-		if ((cGame.var_7d34 = n4 * class_e.GetLineHeight_1() + (n4 - 1) * class_e.sub_490a() - n2 + 24) < 0) {
+		if ((cGame.var_7d34 = n4 * class_e.i_forgot_what_this_is() + (n4 - 1) * class_e.sub_490a() - n2 + 24) < 0) {
 			cGame.var_7d34 = 0;
 		}
 		cGame.var_7d2c = 0;
