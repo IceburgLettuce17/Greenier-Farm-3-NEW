@@ -1686,11 +1686,11 @@ public abstract class GLLib extends Canvas implements Runnable
         SetClip(graphics, clipY, clipX, clipH, clipW, true);
     }
     
-    public static int[] sub_5a52(final int n) {
+    public static int[] PFX_GetParams(final int n) {
         return GLLib.var_1fef[n];
     }
     
-    public static int sub_5a72() {
+    public static int PFX_GetFirstEnabledEffect() {
         final int n;
         if ((n = (GLLib.var_1fe7 & 0xFF7E0)) != 0) {
             for (int i = 0; i < 20; ++i) {
@@ -2123,7 +2123,7 @@ public abstract class GLLib extends Canvas implements Runnable
             n5 = n6;
             n6 = n9;
         }
-        final int[] sub_39a6 = ASprite.InitTempBuffer(null);
+        final int[] sub_39a6 = ASprite.GetPixelBuffer_int(null);
         final int n10 = (i < sub_39a6.length / n8) ? i : (sub_39a6.length / n8);
         final int n11 = n5 >>> 24;
         final int n12 = n5 >> 16 & 0xFF;
