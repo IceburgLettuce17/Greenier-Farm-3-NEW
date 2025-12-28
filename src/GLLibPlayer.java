@@ -1459,7 +1459,7 @@ final class GLLibPlayer implements Runnable
                     }
                     if (GLLibPlayer.k_hundred != 100) {
                         GLLib.sub_5b71();
-                        GLLib.var_1fef[13][1] = GLLibPlayer.k_hundred;
+                        GLLib.s_PFX_params[13][1] = GLLibPlayer.k_hundred;
                         GLLib.sub_5c77(true);
                     }
                     if (GLLibPlayer.s_TilesetSprite[nLayer].GetFrames() == 0) {
@@ -1744,7 +1744,7 @@ final class GLLibPlayer implements Runnable
         if (GLLibPlayer.k_hundred != 100) {
             GLLib.sub_5b71();
             var_1707 = GLLibPlayer.k_hundred;
-            GLLib.var_1fef[13][1] = var_1707;
+            GLLib.s_PFX_params[13][1] = var_1707;
             GLLib.sub_5c77(true);
         }
         if (isFlag(0, 4)) {
@@ -1778,7 +1778,7 @@ final class GLLibPlayer implements Runnable
                 asprite_framewidth = ((ASprite)o).GetFrameWidth(n);
                 asprite_frameheight = ((ASprite)o).GetFrameHeight(n);
                 if ((GLLib.var_1fe7 & 0x2000) != 0x0) {
-                    final int zoom = GLLib.var_1fef[13][1];
+                    final int zoom = GLLib.s_PFX_params[13][1];
                     x = x * zoom / 100;
                     u = u * zoom / 100;
                     asprite_framewidth = asprite_framewidth * zoom / 100;

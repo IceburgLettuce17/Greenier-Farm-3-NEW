@@ -2812,8 +2812,8 @@ public final class cGame extends GLLib implements Class_b
 		spr.Load(GLLib.Pack_ReadData(idx), 0);
 		for (int i = 0; i < cGame.var_7fbc.length; i += 2) {
 			if (idx == cGame.var_7fbc[i] && GLLib.s_pack_filename.equals("/" + cGame.var_7fbc[i + 1])
-					&& !spr.HasUnkImageArr()) {
-				spr.InitUnkVars();
+					&& !spr.PFXCache_IsInited()) {
+				spr.PFXCache_Init();
 			}
 		}
 		if (isSpecialResource(idx) != -1) {

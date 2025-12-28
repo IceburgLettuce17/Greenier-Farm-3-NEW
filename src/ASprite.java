@@ -70,8 +70,8 @@ public final class ASprite
     static int[] s_rc;
     private static boolean useSystemGc;
     private static char var_1157;
-    private GLLibImage[][] _unkImageArr;
-    private int[][] var_1167;
+    private GLLibImage[][] _imgPFXModuleCache;
+    private int[][] _PFXParamsFrameCRC;
     private int _cur_pool;
     private static short[][] _poolCacheStack;
     private static int[] _poolCacheStackIndex;
@@ -929,7 +929,7 @@ public final class ASprite
         }
     }
     
-    static int[] InitTempBuffer(final int[] buf) {
+    static int[] GetPixelBuffer(final int[] buf) {
         if (buf == null || buf != ASprite.temp_int) {
             if (ASprite.temp_int == null) {
                 ASprite.temp_int = new int[27832];
@@ -957,47 +957,43 @@ public final class ASprite
         this._fmodules_oy_short[n] = (short)n2;
     }
     
-    public final void InitUnkVars() {
-        this._unkImageArr = new GLLibImage[this._palettes][this._nModules];
-        this.var_1167 = new int[this._palettes][this._nModules];
+    public final void PFXCache_Init() {
+        this._imgPFXModuleCache = new GLLibImage[this._palettes][this._nModules];
+        this._PFXParamsFrameCRC = new int[this._palettes][this._nModules];
     }
     
-    public final boolean HasUnkImageArr() {
-        return this._unkImageArr != null;
+    public final boolean PFXCache_IsInited() {
+        return this._imgPFXModuleCache != null;
     }
     
-    private static int sub_3b62(final int[] array, final int n) {
-        return GLLib.sub_45c0(array, 0, array.length, n);
+    private static int PFXCache_GetParamsCRC(final int[] PFXparams, final int PFXid) {
+        return GLLib.Crc32(PFXparams, 0, PFXparams.length, PFXid);
     }
     
-    private boolean sub_3b85(int n, final int n2, final int n3, int n4) {
-        if (this.HasUnkImageArr()) {
-            final int sub_5a53;
-            final int[] sub_5a52 = GLLib.sub_5a52(sub_5a53 = GLLib.sub_5a72());
-            final int n5 = sub_5a53;
-            final int[] array = sub_5a52;
-            if (this._unkImageArr != null && this._unkImageArr[this._crt_pal][n] != null && sub_3b62(array, n5) == this.var_1167[this._crt_pal][n]) {
-                final GLLibImage class_l = this._unkImageArr[this._crt_pal][n];
-                final int width = class_l.image.getWidth();
-                final int height = class_l.image.getHeight();
-                GLLib.DrawRegion(GLLib.g, class_l, 0, 0, width, height, ASprite.midp2_flags[n4], n2, n3, 20, false);
+    private boolean PFXCache_TryPaintModule(int module, final int x, final int y, int flags) {
+        if (this.PFXCache_IsInited()) {
+            int PFXid = GLLib.PFX_GetFirstEnabledEffect();
+            final int[] PFXparams = GLLib.PFX_GetParams(PFXid);
+            if (this._imgPFXModuleCache != null && this._imgPFXModuleCache[this._crt_pal][module] != null && PFXCache_GetParamsCRC(PFXparams, PFXid) == this._PFXParamsFrameCRC[this._crt_pal][module]) {
+                final GLLibImage img = this._imgPFXModuleCache[this._crt_pal][module];
+                GLLib.DrawRegion(GLLib.g, img, 0, 0, img.image.getWidth(), img.image.getHeight(), ASprite.midp2_flags[flags], x, y, 20, false);
                 return true;
             }
         }
         return false;
     }
     
-    private boolean sub_3c9a(int n, final int n2, final int n3, final int[] array, int n4) {
-        if (this.HasUnkImageArr() && array != null) {
-            final int sub_5a53;
-            final int[] sub_5a52 = GLLib.sub_5a52(sub_5a53 = GLLib.sub_5a72());
-            final GLLibImage sub_1d9 = GLLibImage.createRGBImage(array, GLLib.var_201f, GLLib.var_2027, true);
+    private boolean PFXCache_TryCacheAndPaintModule(int n, final int n2, final int n3, final int[] data, int n4) {
+        if (this.PFXCache_IsInited() && data != null) {
+            int PFXid = GLLib.PFX_GetFirstEnabledEffect();
+            final int[] PFXparams = GLLib.PFX_GetParams(PFXid);
+            final GLLibImage img = GLLibImage.createRGBImage(data, GLLib.s_PFX_newSizeX, GLLib.s_PFX_newSizeY, true);
             
-            this._unkImageArr[this._crt_pal][n] = sub_1d9;
-            this.var_1167[this._crt_pal][n] = sub_3b62(sub_5a52, sub_5a53);
-            final int width = sub_1d9.image.getWidth();
-            final int height = sub_1d9.image.getHeight();
-            GLLib.DrawRegion(GLLib.g, sub_1d9, 0, 0, width, height, ASprite.midp2_flags[n4], n2, n3, 20, false);
+            this._imgPFXModuleCache[this._crt_pal][n] = img;
+            this._PFXParamsFrameCRC[this._crt_pal][n] = PFXCache_GetParamsCRC(PFXparams, PFXid);
+            final int width = img.image.getWidth();
+            final int height = img.image.getHeight();
+            GLLib.DrawRegion(GLLib.g, img, 0, 0, width, height, ASprite.midp2_flags[n4], n2, n3, 20, false);
             return true;
         }
         return false;
@@ -1750,8 +1746,8 @@ public final class ASprite
                     if (sizeX > 0 && sizeY > 0 && (image_data2 = this.DecodeImage_int(m1)) != null) {
                         if (GLLib.var_1fdf && (GLLib.var_1fe7 & 0xFF7E0) != 0x0) {
                             image_data2 = GLLib.GetRGBData(null, image_data2, 0, 0, sizeX, sizeY, 0, this.var_1097, false, false);
-                            sizeX = GLLib.var_201f;
-                            sizeY = GLLib.var_2027;
+                            sizeX = GLLib.s_PFX_newSizeX;
+                            sizeY = GLLib.s_PFX_newSizeY;
                         }
                         boolean b = false;
                         for (int j = 0; j < sizeX * sizeY; ++j) {
@@ -1949,7 +1945,7 @@ public final class ASprite
             hx = -hy;
             hy = anim;
         }
-        if ((GLLib.var_1fe7 & 0x2000) != 0x0 && GLLib.var_1fef[13][5] == 0) {
+        if ((GLLib.var_1fe7 & 0x2000) != 0x0 && GLLib.s_PFX_params[13][5] == 0) {
             anim = GLLib.sub_5bbb();
             flags = GLLib.sub_5bfe();
             hx = anim * hx / 100;
@@ -2031,11 +2027,11 @@ public final class ASprite
                                 if (GLLib.var_1fdf && (GLLib.var_1fe7 & 0xFF7E0) != 0x0) {
                                     boolean b = false;
                                     if (image != null) {
-                                        final int[] sub_39a6 = InitTempBuffer(null);
+                                        final int[] sub_39a6 = GetPixelBuffer(null);
                                         GLLib.GetRGB(image, sub_39a6, 0, n18, 0, 0, n18, n19);
                                         final int[] sub_5d84 = GLLib.GetRGBData(graphics, sub_39a6, n15, n16, n18, n19, height, var_1097, false, true);
                                         if (sub_5d84 != null) {
-                                            GLLib.DrawRGB(graphics, sub_5d84, 0, GLLib.var_201f, n15, n16, GLLib.var_201f, GLLib.var_2027, GLLib.var_1ff7, true, 0, -1, false);
+                                            GLLib.DrawRGB(graphics, sub_5d84, 0, GLLib.s_PFX_newSizeX, n15, n16, GLLib.s_PFX_newSizeX, GLLib.s_PFX_newSizeY, GLLib.var_1ff7, true, 0, -1, false);
                                         }
                                         b = true;
                                     }
@@ -2095,12 +2091,12 @@ public final class ASprite
                     n34 = -n35 - n31;
                     n35 = n37;
                 }
-                if ((GLLib.var_1fe7 & 0x2000) != 0x0 && GLLib.var_1fef[13][5] == 0) {
+                if ((GLLib.var_1fe7 & 0x2000) != 0x0 && GLLib.s_PFX_params[13][5] == 0) {
                     final int sub_5bbb2 = GLLib.sub_5bbb();
                     final int sub_5bfe2 = GLLib.sub_5bfe();
-                    if (GLLib.var_1fef[13][6] % GLLib.var_1e9f != 0) {
-                        GLLib.var_1fef[16][1] = -n34;
-                        GLLib.var_1fef[16][2] = -n35;
+                    if (GLLib.s_PFX_params[13][6] % GLLib.var_1e9f != 0) {
+                        GLLib.s_PFX_params[16][1] = -n34;
+                        GLLib.s_PFX_params[16][2] = -n35;
                     }
                     n34 = sub_5bbb2 * n34 / 100;
                     n35 = sub_5bfe2 * n35 / 100;
@@ -2136,7 +2132,7 @@ public final class ASprite
         if (this.var_1057 >= 0) {
             module = this.map[this.var_1057][module];
         }
-        if ((GLLib.var_1fe7 & 0x2000) != 0x0 && GLLib.var_1fef[13][5] != 0) {
+        if ((GLLib.var_1fe7 & 0x2000) != 0x0 && GLLib.s_PFX_params[13][5] != 0) {
             posX *= GLLib.sub_5bbb() / 100;
             posY *= GLLib.sub_5bfe() / 100;
         }
@@ -2341,8 +2337,8 @@ public final class ASprite
             }
             return;
         }
-        if ((GLLib.var_1fe7 & 0x2000) != 0x0 && GLLib.var_1fef[13][6] % 360 != 0) {
-            int n44 = ((GLLib.var_1fe7 & 0x2000) != 0x0) ? GLLib.var_1fef[13][6] : GLLib.var_1fef[16][0];
+        if ((GLLib.var_1fe7 & 0x2000) != 0x0 && GLLib.s_PFX_params[13][6] % 360 != 0) {
+            int n44 = ((GLLib.var_1fe7 & 0x2000) != 0x0) ? GLLib.s_PFX_params[13][6] : GLLib.s_PFX_params[16][0];
             if ((n3 & 0x4) != 0x0) {
                 n3 &= 0xFFFFFFFB;
                 n44 += 90 * GLLib.var_1ed7 / 360;
@@ -2350,8 +2346,8 @@ public final class ASprite
             GLLib.sub_5cfb(GLLib.Math_Cos(GLLib.Math_Angle90 - n44), GLLib.Math_Cos(n44), p2x, var_1148, ASprite.s_rc);
             int n45 = ASprite.s_rc[0];
             int n46 = ASprite.s_rc[1];
-            int n47 = p2x - GLLib.var_1fef[16][2];
-            int n48 = GLLib.var_1fef[16][1];
+            int n47 = p2x - GLLib.s_PFX_params[16][2];
+            int n48 = GLLib.s_PFX_params[16][1];
             if ((GLLib.var_1fe7 & 0x2000) != 0x0) {
                 n47 = n47 * GLLib.sub_5bbb() / 100;
                 n48 = n48 * GLLib.sub_5bfe() / 100;
@@ -2377,8 +2373,8 @@ public final class ASprite
                 boolean b = this.var_1097;
                 if (class_l == null) {
                     int[] array;
-                    if (GLLib.var_1fdf && (GLLib.var_1fe7 & 0xFF7E0) != 0x0 && this.HasUnkImageArr()) {
-                        if (this.sub_3b85(module, posX, posY, n3)) {
+                    if (GLLib.var_1fdf && (GLLib.var_1fe7 & 0xFF7E0) != 0x0 && this.PFXCache_IsInited()) {
+                        if (this.PFXCache_TryPaintModule(module, posX, posY, n3)) {
                             return;
                         }
                         array = this.DecodeImage_int(module);
@@ -2389,23 +2385,23 @@ public final class ASprite
                     if (array != null) {
                         boolean b2 = false;
                         if (GLLib.var_1fdf && (GLLib.var_1fe7 & 0xFF7E0) != 0x0) {
-                            if (this.sub_3b85(module, posX, posY, n3)) {
+                            if (this.PFXCache_TryPaintModule(module, posX, posY, n3)) {
                                 return;
                             }
                             final boolean sub_3b2c;
-                            if (!(sub_3b2c = this.HasUnkImageArr())) {
+                            if (!(sub_3b2c = this.PFXCache_IsInited())) {
                                 n3 = (ASprite.var_1107[n3 & 0x7] | (n3 & 0xFFFFFFF8));
                             }
                             array = GLLib.GetRGBData(g, array, posX, posY, n19, n18, sub_3b2c ? 4 : n3, b, false, !sub_3b2c);
-                            if (this.sub_3c9a(module, posX, posY, array, n3) || array == null) {
+                            if (this.PFXCache_TryCacheAndPaintModule(module, posX, posY, array, n3) || array == null) {
                                 return;
                             }
                             b = GLLib.var_1ff7;
                             n3 = 0;
                             posX = GLLib.var_200f;
                             posY = GLLib.var_2017;
-                            p2x = GLLib.var_201f;
-                            var_1148 = GLLib.var_2027;
+                            p2x = GLLib.s_PFX_newSizeX;
+                            var_1148 = GLLib.s_PFX_newSizeY;
                             n18 = p2x;
                             n19 = var_1148;
                             GLLib.DrawRGB(g, array, 0, n18, posX, posY, n18, n19, b, b, 0, -1, false);
@@ -2493,8 +2489,8 @@ public final class ASprite
                     }
                 }
                 else if (GLLib.var_1fdf && (GLLib.var_1fe7 & 0xFF7E0) != 0x0) {
-                    if (!this.sub_3b85(module, posX, posY, n3)) {
-                        final boolean sub_3b2c2 = this.HasUnkImageArr();
+                    if (!this.PFXCache_TryPaintModule(module, posX, posY, n3)) {
+                        final boolean sub_3b2c2 = this.PFXCache_IsInited();
                         final Graphics graphics6 = g;
                         final GLLibImage class_l3 = class_l;
                         final int n65 = posX;
@@ -2512,15 +2508,15 @@ public final class ASprite
                         final int n74 = n65;
                         final GLLibImage class_l4 = class_l3;
                         final Graphics graphics7 = graphics6;
-                        final int[] sub_39a6 = InitTempBuffer(null);
+                        final int[] sub_39a6 = GetPixelBuffer(null);
                         GLLib.GetRGB(class_l4, sub_39a6, 0, n72, 0, 0, n72, n71);
                         final int[] sub_5d84 = GLLib.GetRGBData(graphics7, sub_39a6, n74, n73, n72, n71, n70, b5, false, b4);
-                        if (!this.sub_3c9a(module, posX, posY, sub_5d84, n3) && sub_5d84 != null) {
+                        if (!this.PFXCache_TryCacheAndPaintModule(module, posX, posY, sub_5d84, n3) && sub_5d84 != null) {
                             final boolean var_1ff7 = GLLib.var_1ff7;
                             posX = GLLib.var_200f;
                             posY = GLLib.var_2017;
-                            p2x = GLLib.var_201f;
-                            final int var_1149 = GLLib.var_2027;
+                            p2x = GLLib.s_PFX_newSizeX;
+                            final int var_1149 = GLLib.s_PFX_newSizeY;
                             final int n75 = p2x;
                             GLLib.DrawRGB(g, sub_5d84, 0, n75, posX, posY, n75, var_1149, var_1ff7, true, 0, -1, false);
                         }
@@ -2549,7 +2545,7 @@ public final class ASprite
         if ((n3 & 0x7) == 0x0) {
             return imgData;
         }
-        initBuffer = InitTempBuffer(imgData);
+        initBuffer = GetPixelBuffer(imgData);
         int n4 = 0;
         int n5 = 0;
         switch (n3 & 0x7) {
@@ -2632,7 +2628,7 @@ public final class ASprite
     }
     
     static final int[] _InitTempBuffers(final int[] buf) {
-        return InitTempBuffer(buf);
+        return GetPixelBuffer(buf);
     }
     
     public ASprite() {
