@@ -5,7 +5,7 @@
 // Utility class for GLLib
 
 
-final class PlatformRequester implements Runnable
+final class PlatformRequestWorker implements Runnable
 {
 	
     public final void run() {

@@ -84,11 +84,11 @@ public abstract class GLLib extends Canvas implements Runnable
     private static int Stream_readOffset;
     private static char[] var_1f77;
     private static int[] crcTable;
-    private static boolean var_1f87;
+    private static boolean s_crcTableWasInited;
     static String text_encoding;
     private static int[] idk;
     private static byte[][] s_text_localeGroups;
-    private static int[] var_1fa7;
+    private static int[] text_multiple_nbStrings;
     private static int[][] var_1faf;
     private static String[][] s_text_stringCacheArray;
     private static RecordStore s_rs;
@@ -96,7 +96,7 @@ public abstract class GLLib extends Canvas implements Runnable
     private static int[] var_1fcf;
     private static int[][] var_1fd7;
     static final boolean var_1fdf;
-    static int var_1fe7;
+    static int s_PFX_param;
     static int[][] s_PFX_params;
     static boolean var_1ff7;
     private static int s_rgb_width;
@@ -156,7 +156,7 @@ public abstract class GLLib extends Canvas implements Runnable
         GLLib.s_screenWidth = 800;
         GLLib.s_screenHeight = 480;
         GLLib.var_202f = 0;
-        if (!GLLib.var_1f87) {
+        if (!GLLib.s_crcTableWasInited) {
             GLLib.crcTable = new int[256];
             for (int i = 0; i < 256; ++i) {
                 int crc = i;
@@ -170,7 +170,7 @@ public abstract class GLLib extends Canvas implements Runnable
                 }
                 GLLib.crcTable[i] = crc;
             }
-            GLLib.var_1f87 = true;
+            GLLib.s_crcTableWasInited = true;
         }
         final long currentTimeMillis = System.currentTimeMillis();
         if (GLLib.s_math_random == null) {
@@ -191,7 +191,7 @@ public abstract class GLLib extends Canvas implements Runnable
     protected void Pause() {
         if (!GLLib.s_game_isPaused) {
             GLLib.s_game_isPaused = true;
-            GLLibPlayer.sub_35e7();
+            GLLibPlayer.Snd_PauseNotify();
         }
     }
     
@@ -334,7 +334,7 @@ public abstract class GLLib extends Canvas implements Runnable
     static final void PlatformRequestThread(final String url) {
         GLLib.var_1e47 = true;
         GLLib.s_platformRequestUrl = url;
-        new Thread(new PlatformRequester()).start();
+        new Thread(new PlatformRequestWorker()).start();
     }
     
     static final void PlatformRequest() {
@@ -941,7 +941,7 @@ public abstract class GLLib extends Canvas implements Runnable
                 scanlength = width;
             }
             n8 = width;
-            rgbData = ASprite.GetRGBData(rgbData, width, height, n7, null);
+            rgbData = ASprite.TransformRGB(rgbData, width, height, n7, null);
             if ((n7 & 0x4) != 0x0) {
                 height = n10;
             }
@@ -1128,25 +1128,25 @@ public abstract class GLLib extends Canvas implements Runnable
         return length;
     }
     
-    private static int[] sub_447e(final byte[] key, final boolean b, int[] array2) {
-        final int n = ((key.length & 0x3) == 0x0) ? (key.length >>> 2) : ((key.length >>> 2) + 1);
-        if (b) {
-            (array2 = new int[n + 1])[n] = key.length;
+    private static int[] ToIntArray(final byte[] data, final boolean includeLength, int[] result) {
+        final int n = ((data.length & 0x3) == 0x0) ? (data.length >>> 2) : ((data.length >>> 2) + 1);
+        if (includeLength) {
+            (result = new int[n + 1])[n] = data.length;
         }
         else {
-            array2 = new int[n];
+            result = new int[n];
         }
-        for (int length = key.length, i = 0; i < length; ++i) {
-            array2[i >>> 2] |= (0xFF & key[i]) << ((i & 0x3) << 3);
+        for (int length = data.length, i = 0; i < length; ++i) {
+            result[i >>> 2] |= (0xFF & data[i]) << ((i & 0x3) << 3);
         }
-        return array2;
+        return result;
     }
     
-    static String sub_4545(final byte[] array) {
-        final StringBuffer sb = new StringBuffer(array.length << 1);
-        for (int i = 0; i < array.length; ++i) {
-            sb.append(GLLib.var_1f77[array[i] >> 4 & 0xF]);
-            sb.append(GLLib.var_1f77[array[i] & 0xF]);
+    static String GetHexString(final byte[] bytes) {
+        final StringBuffer sb = new StringBuffer(bytes.length << 1);
+        for (int i = 0; i < bytes.length; ++i) {
+            sb.append(GLLib.var_1f77[bytes[i] >> 4 & 0xF]);
+            sb.append(GLLib.var_1f77[bytes[i] & 0xF]);
         }
         return sb.toString();
     }
@@ -1162,48 +1162,48 @@ public abstract class GLLib extends Canvas implements Runnable
         return ~crc;
     }
     
-	static byte[] sub_4655(byte[] array, final String key, final boolean b) {
+	static byte[] XXTEA_Encrypt(byte[] data, final String key, final boolean b) {
         byte[] keyBytes = null;
         if ("".equals(key) == false && key != null) {
             keyBytes = key.getBytes();
         }
-        if (array.length == 0) {
-            return array;
+        if (data.length == 0) {
+            return data;
         }
-        final int[] sub_447e = sub_447e(array, true, null);
-        int[] sub_447e2 = sub_447e(keyBytes, false, null);
-        final int n = sub_447e.length - 1;
+        final int[] xxtea_data = ToIntArray(data, true, null);
+        int[] keyInts = ToIntArray(keyBytes, false, null);
+        final int n = xxtea_data.length - 1;
         if (n >= 1) {
-            if (sub_447e2.length < 4) {
-                final int[] array5 = new int[4];
-                System.arraycopy(sub_447e2, 0, array5, 0, sub_447e2.length);
-                sub_447e2 = array5;
+            if (keyInts.length < 4) {
+                final int[] tmp = new int[4];
+                System.arraycopy(keyInts, 0, tmp, 0, keyInts.length);
+                keyInts = tmp;
             }
-            int n2 = sub_447e[n];
-            final int n3 = -1640531527;
-            int n4 = 0;
-            int n5 = 6 + 52 / (n + 1);
-            while (n5-- > 0) {
-                final int n6 = (n4 += n3) >>> 2 & 0x3;
-                int i;
-                for (i = 0; i < n; ++i) {
-                    final int n7 = sub_447e[i + 1];
-                    final int n9 = sub_447e[i] + ((n2 >>> 5 ^ n7 << 2) + (n7 >>> 3 ^ n2 << 4) ^ (n4 ^ n7) + (sub_447e2[(i & 0x3) ^ n6] ^ n2));
-                    sub_447e[i] = n9;
-                    n2 = n9;
+            int z = xxtea_data[n];
+            final int delta = -1640531527;
+            int sum = 0;
+            int q = 6 + 52 / (n + 1);
+            while (q-- > 0) {
+                final int e = (sum += delta) >>> 2 & 0x3;
+                int p;
+                for (p = 0; p < n; ++p) {
+                    final int y = xxtea_data[p + 1];
+                    final int n9 = xxtea_data[p] + ((z >>> 5 ^ y << 2) + (y >>> 3 ^ z << 4) ^ (sum ^ y) + (keyInts[(p & 0x3) ^ e] ^ z));
+                    xxtea_data[p] = n9;
+                    z = n9;
                 }
-                final int n10 = sub_447e[0];
-                final int n12 = sub_447e[n] + ((n2 >>> 5 ^ n10 << 2) + (n10 >>> 3 ^ n2 << 4) ^ (n4 ^ n10) + (sub_447e2[(i & 0x3) ^ n6] ^ n2));
-                sub_447e[n] = n12;
-                n2 = n12;
+                final int y = xxtea_data[0];
+                final int n12 = xxtea_data[n] + ((z >>> 5 ^ y << 2) + (y >>> 3 ^ z << 4) ^ (sum ^ y) + (keyInts[(p & 0x3) ^ e] ^ z));
+                xxtea_data[n] = n12;
+                z = n12;
             }
         }
-        final int n13;
-        final byte[] array8 = new byte[n13 = sub_447e.length << 2];
-        for (int j = 0; j < n13; ++j) {
-            array8[j] = (byte)(sub_447e[j >>> 2] >>> ((j & 0x3) << 3));
+        final int tba_n;
+        final byte[] result = new byte[tba_n = xxtea_data.length << 2];
+        for (int j = 0; j < tba_n; ++j) {
+            result[j] = (byte)(xxtea_data[j >>> 2] >>> ((j & 0x3) << 3));
         }
-        return array8;
+        return result;
     }
     
     static int Text_GetPhoneDefaultLangage() {
@@ -1349,26 +1349,26 @@ public abstract class GLLib extends Canvas implements Runnable
         }
     }
     
-    private static int sub_4c47(final InputStream is) {
-        int locId = 0;
+    private static int Text_LoadTextFromStream(final InputStream is) {
+        int tabID = 0;
         try {
-            locId = Stream_Read(is);
-            GLLib.var_1fa7[locId] = Stream_Read32(is);
-            if (GLLib.var_1fa7[locId] > 1024) {
-                GLLib.var_1fa7[locId] = 1024;
+            tabID = Stream_Read(is);
+            GLLib.text_multiple_nbStrings[tabID] = Stream_Read32(is);
+            if (GLLib.text_multiple_nbStrings[tabID] > 1024) {
+                GLLib.text_multiple_nbStrings[tabID] = 1024;
             }
-            GLLib.var_1faf[locId] = new int[GLLib.var_1fa7[locId] + 1];
-            for (int i = 1; i < GLLib.var_1fa7[locId] + 1; ++i) {
-                GLLib.var_1faf[locId][i] = Stream_Read32(is);
+            GLLib.var_1faf[tabID] = new int[GLLib.text_multiple_nbStrings[tabID] + 1];
+            for (int i = 1; i < GLLib.text_multiple_nbStrings[tabID] + 1; ++i) {
+                GLLib.var_1faf[tabID][i] = Stream_Read32(is);
             }
-            Stream_ReadFully(is, GLLib.s_text_localeGroups[locId] = new byte[GLLib.var_1faf[locId][GLLib.var_1fa7[locId]]], 0, GLLib.s_text_localeGroups[locId].length);
+            Stream_ReadFully(is, GLLib.s_text_localeGroups[tabID] = new byte[GLLib.var_1faf[tabID][GLLib.text_multiple_nbStrings[tabID]]], 0, GLLib.s_text_localeGroups[tabID].length);
         }
         catch (final Exception ex) {}
-        return locId;
+        return tabID;
     }
     
     static void Text_LoadTextFromPack(String filename, final int index) {
-        Text_Free(index);
+        Text_FreeIndex(index);
         Pack_Open(filename);
         Pack_PositionAtData(index);
         if (GLLib.idk == null) {
@@ -1378,20 +1378,20 @@ public abstract class GLLib extends Canvas implements Runnable
             }
             GLLib.s_text_localeGroups = new byte[32][];
             GLLib.var_1faf = new int[32][];
-            GLLib.var_1fa7 = new int[32];
+            GLLib.text_multiple_nbStrings = new int[32];
             GLLib.s_text_stringCacheArray = new String[32][];
         }
-        GLLib.idk[index] = sub_4c47(GLLib.s_pack_is);
+        GLLib.idk[index] = Text_LoadTextFromStream(GLLib.s_pack_is);
         Pack_Close(true);
-        final int n2 = GLLib.idk[index];
-        if (GLLib.var_1fa7[n2] != 0) {
-            final String[] array = new String[GLLib.var_1fa7[n2]];
-            for (int j = 0; j < GLLib.var_1fa7[n2]; ++j) {
-                array[j] = Text_GetStringFromLocaleFile(j + (n2 << 10));
+        final int idx = GLLib.idk[index];
+        if (GLLib.text_multiple_nbStrings[idx] != 0) {
+            final String[] array = new String[GLLib.text_multiple_nbStrings[idx]];
+            for (int j = 0; j < GLLib.text_multiple_nbStrings[idx]; ++j) {
+                array[j] = Text_GetStringFromLocaleFile(j + (idx << 10));
             }
-            GLLib.s_text_stringCacheArray[n2] = array;
-            GLLib.var_1faf[n2] = null;
-            GLLib.s_text_localeGroups[n2] = null;
+            GLLib.s_text_stringCacheArray[idx] = array;
+            GLLib.var_1faf[idx] = null;
+            GLLib.s_text_localeGroups[idx] = null;
             System.gc();
         }
     }
@@ -1416,108 +1416,108 @@ public abstract class GLLib extends Canvas implements Runnable
     
     static void Text_FreeAll() {
         for (int i = 0; i < 32; ++i) {
-            Text_Free(i);
+            Text_FreeIndex(i);
         }
     }
     
-    private static void Text_Free(final int index) {
+    private static void Text_FreeIndex(final int index) {
         if (GLLib.idk != null) {
             final int n2;
             if ((n2 = GLLib.idk[index]) == -1) {
                 return;
             }
             if (GLLib.s_text_stringCacheArray[n2] != null) {
-                for (int i = 0; i < GLLib.var_1fa7[n2]; ++i) {
+                for (int i = 0; i < GLLib.text_multiple_nbStrings[n2]; ++i) {
                     GLLib.s_text_stringCacheArray[n2][i] = null;
                 }
                 GLLib.s_text_stringCacheArray[n2] = null;
             }
             GLLib.var_1faf[n2] = null;
             GLLib.s_text_localeGroups[n2] = null;
-            GLLib.var_1fa7[n2] = 0;
+            GLLib.text_multiple_nbStrings[n2] = 0;
             GLLib.idk[index] = -1;
         }
     }
     
-    static String BigNumberSeparate(long number, final int n2, final String s) {
-        if (number < 1000L) {
-            return "" + number;
+    static String Text_FormatNumber(long p_iValue, final int p_iLang, final String spaceSeparator) {
+        if (p_iValue < 1000L) {
+            return "" + p_iValue;
         }
-        String separator = "";
-        switch (n2) {
+        String sSeperator = "";
+        switch (p_iLang) {
             case 0:
             case 7:
             case 8:
             case 9:
             case 15:
             case 17: {
-                separator = ",";
+                sSeperator = ",";
                 break;
             }
             case 1:
             case 3:
             case 5:
             case 16: {
-                separator = ".";
+                sSeperator = ".";
                 break;
             }
             case 12:
             case 13: {
-                separator = s;
+                sSeperator = spaceSeparator;
                 break;
             }
             case 2:
             case 4:
             case 6:
             case 10: {
-                if (number >= 10000L) {
-                    separator = s;
+                if (p_iValue >= 10000L) {
+                    sSeperator = spaceSeparator;
                     break;
                 }
                 break;
             }
             case 11:
             case 14: {
-                if (number >= 10000L) {
-                    separator = ".";
+                if (p_iValue >= 10000L) {
+                    sSeperator = ".";
                     break;
                 }
                 break;
             }
             default: {
-                return "" + number;
+                return "" + p_iValue;
             }
         }
-        String newCurrency = "";
-        long lng = (number % 1000L < 0L) ? (-(number % 1000L)) : (number % 1000L);
-        number /= 1000L;
-        while (lng != 0L || number != 0L) {
-            if (lng < 10L) {
-                newCurrency = "00" + ((lng < 0L) ? (-lng) : lng) + newCurrency;
+        String sResult = "";
+        long end = (p_iValue % 1000L < 0L) ? (-(p_iValue % 1000L)) : (p_iValue % 1000L);
+        p_iValue /= 1000L;
+        while (end != 0L || p_iValue != 0L) {
+            if (end < 10L) {
+                sResult = "00" + ((end < 0L) ? (-end) : end) + sResult;
             }
-            else if (lng < 100L) {
-                newCurrency = "0" + ((lng < 0L) ? (-lng) : lng) + newCurrency;
-            }
-            else {
-                newCurrency = ((lng < 0L) ? (-lng) : lng) + newCurrency;
-            }
-            lng = number % 1000L;
-            if ((number /= 1000L) != 0L) {
-                newCurrency = separator + newCurrency;
+            else if (end < 100L) {
+                sResult = "0" + ((end < 0L) ? (-end) : end) + sResult;
             }
             else {
-                if (lng == 0L) {
+                sResult = ((end < 0L) ? (-end) : end) + sResult;
+            }
+            end = p_iValue % 1000L;
+            if ((p_iValue /= 1000L) != 0L) {
+                sResult = sSeperator + sResult;
+            }
+            else {
+                if (end == 0L) {
                     continue;
                 }
-                newCurrency = lng + separator + newCurrency;
-                lng = 0L;
+                sResult = end + sSeperator + sResult;
+                end = 0L;
             }
         }
-        return newCurrency;
+        return sResult;
     }
     
     static String sub_5307(final String s, final String[] array) {
-        String s2 = "";
+        String r = "";
         if (s.indexOf(37) < 0) {
             return s;
         }
@@ -1525,7 +1525,7 @@ public abstract class GLLib extends Canvas implements Runnable
         int i = 0;
         do {
             if ((i = s.indexOf(37, i)) < 0 || i == s.length() - 1) {
-                s2 += s.substring(n);
+                r += s.substring(n);
                 i = -1;
             }
             else if (s.charAt(i + 1) == 's') {
@@ -1534,7 +1534,7 @@ public abstract class GLLib extends Canvas implements Runnable
                     n2 = s.charAt(i + 2) - '0';
                 }
                 if (n2 >= 0 && n2 <= 9) {
-                    s2 = s2 + s.substring(n, i) + array[n2];
+                    r = r + s.substring(n, i) + array[n2];
                     n = (i += 3);
                 }
                 else {
@@ -1545,7 +1545,7 @@ public abstract class GLLib extends Canvas implements Runnable
                 ++i;
             }
         } while (i >= 0);
-        return s2;
+        return r;
     }
     
     static String Text_ReplaceText(String string, final String replacee, final String replacer) {
@@ -1692,7 +1692,7 @@ public abstract class GLLib extends Canvas implements Runnable
     
     public static int PFX_GetFirstEnabledEffect() {
         final int n;
-        if ((n = (GLLib.var_1fe7 & 0xFF7E0)) != 0) {
+        if ((n = (GLLib.s_PFX_param & 0xFF7E0)) != 0) {
             for (int i = 0; i < 20; ++i) {
                 if ((n & 1 << i) != 0x0) {
                     return i;
@@ -1707,7 +1707,7 @@ public abstract class GLLib extends Canvas implements Runnable
     }
     
     static final void Custom_ResetZoomLevel() {
-        GLLib.var_1fe7 = 0;
+        GLLib.s_PFX_param = 0;
         (GLLib.s_PFX_params = new int[20][])[13] = new int[7];
         GLLib.s_PFX_params[13][1] = 100;
         GLLib.s_PFX_params[13][2] = -1;
@@ -1718,15 +1718,15 @@ public abstract class GLLib extends Canvas implements Runnable
         GLLib.s_PFX_params[13][6] = 0;
     }
     
-    static final void sub_5b71() {
-        GLLib.var_1fe7 |= 0x2000;
+    static final void PFX_EnableScaleEffect() {
+        GLLib.s_PFX_param |= 0x2000;
     }
     
-    static final void sub_5b96() {
-        GLLib.var_1fe7 &= 0xFFFFDFFF;
+    static final void PFX_DisableScaleEffect() {
+        GLLib.s_PFX_param &= 0xFFFFDFFF;
     }
     
-    static final int sub_5bbb() {
+    static final int PFX_Scale_GetScaleX() {
         final int n;
         if ((n = GLLib.s_PFX_params[13][1]) != 100) {
             return n;
@@ -1734,7 +1734,7 @@ public abstract class GLLib extends Canvas implements Runnable
         return GLLib.s_PFX_params[13][3];
     }
     
-    static final int sub_5bfe() {
+    static final int PFX_Scale_GetScaleY() {
         final int n;
         if ((n = GLLib.s_PFX_params[13][1]) != 100) {
             return n;
@@ -1742,10 +1742,10 @@ public abstract class GLLib extends Canvas implements Runnable
         return GLLib.s_PFX_params[13][4];
     }
     
-    static final void Custom_SetZoomLevel(final int level) {
-        GLLib.s_PFX_params[13][1] = level;
-        GLLib.s_PFX_params[13][3] = level;
-        GLLib.s_PFX_params[13][4] = level;
+    static final void PFX_Scale_SetScale(final int scale) {
+        GLLib.s_PFX_params[13][1] = scale;
+        GLLib.s_PFX_params[13][3] = scale;
+        GLLib.s_PFX_params[13][4] = scale;
     }
     
     static final void sub_5c77(final boolean b) {
@@ -1777,19 +1777,19 @@ public abstract class GLLib extends Canvas implements Runnable
         GLLib.s_rgb_height = height;
         GLLib.var_200f = var_200f;
         GLLib.var_2017 = var_2017;
-        if ((GLLib.var_1fe7 & 0x5600) != 0x0) {
+        if ((GLLib.s_PFX_param & 0x5600) != 0x0) {
             if ((n2 & 0x4) != 0x0) {
                 GLLib.s_rgb_width = height;
                 GLLib.s_rgb_height = width;
                 width = GLLib.s_rgb_width;
                 height = GLLib.s_rgb_height;
             }
-            data = ASprite.GetRGBData(data, width, height, n2, null);
+            data = ASprite.TransformRGB(data, width, height, n2, null);
         }
         GLLib.s_PFX_newSizeX = width;
         GLLib.s_PFX_newSizeY = height;
-        int[] array = ASprite._InitTempBuffers(data);
-        if ((GLLib.var_1fe7 & 0x2000) == 0x0) {
+        int[] array = ASprite.GetPixelBuffer(data);
+        if ((GLLib.s_PFX_param & 0x2000) == 0x0) {
             return null;
         }
         final int n3;
@@ -1806,7 +1806,7 @@ public abstract class GLLib extends Canvas implements Runnable
                 n4 += 90 * GLLib.var_1ed7 / 360;
             }
             if (n2 != 0) {
-            	array = ASprite._InitTempBuffers(data = ASprite.GetRGBData(data, width, width, n2, null));
+            	array = ASprite.GetPixelBuffer(data = ASprite.TransformRGB(data, width, width, n2, null));
             }
             final int sub_2be7 = Math_Cos(GLLib.Math_Angle90 - n4);
             final int sub_2be8 = Math_Cos(n4);
@@ -1850,15 +1850,15 @@ public abstract class GLLib extends Canvas implements Runnable
             GLLib.s_PFX_newSizeX = var_201f;
             GLLib.s_PFX_newSizeY = height;
             GLLib.var_1ff7 = true;
-            array = ASprite._InitTempBuffers(data = sub_9f61);
+            array = ASprite.GetPixelBuffer(data = sub_9f61);
             var_200f = GLLib.var_200f;
             var_2017 = GLLib.var_2017;
             width = GLLib.s_PFX_newSizeX;
             height = GLLib.s_PFX_newSizeY;
             n2 &= ~n2;
         }
-        final int sub_5bfe = sub_5bfe();
-        final int sub_5bbb = sub_5bbb();
+        final int sub_5bfe = PFX_Scale_GetScaleY();
+        final int sub_5bbb = PFX_Scale_GetScaleX();
         final int n30 = var_200f;
         final int n31 = var_2017;
         final int n32 = width;
@@ -1898,7 +1898,7 @@ public abstract class GLLib extends Canvas implements Runnable
             final int n46 = width;
             var_2017 = n44;
             var_200f = n46;
-            sub_9f62 = ASprite._InitTempBuffers(sub_9c13 = ASprite.GetRGBData(array6, n45, var_200f, var_2017, null));
+            sub_9f62 = ASprite.GetPixelBuffer(sub_9c13 = ASprite.TransformRGB(array6, n45, var_200f, var_2017, null));
         }
         final int var_201f2 = var_1fff * n40 / 100 + ((var_1fff * n40 % 100 != 0) ? 1 : 0);
         final int var_2019 = width * n39 / 100 + ((width * n39 % 100 != 0) ? 1 : 0);
@@ -2107,99 +2107,77 @@ public abstract class GLLib extends Canvas implements Runnable
         }
     }
     
-    static void sub_7018(final int n, final int n2, final int n3, final int n4) {
-        sub_7041(GLLib.g, 0, n, n2, n3, n4, 0, 16);
+    static void DrawAlphaGradientRect(final int x, final int y, final int w, final int h) {
+        DrawAlphaGradientRect(GLLib.g, 0, x, y, w, h, 0, 16);
     }
     
-    static void sub_7041(final Graphics graphics, int n, int n2, final int n3, final int n4, int n5, int n6, int n7) {
-        int n8 = n3;
-        int i = n4;
-        if (n7 == 16 || n7 == 32) {
-            n8 = n4;
-            i = n3;
+    static void DrawAlphaGradientRect(final Graphics g, int x, int y, final int w, final int h, int c1, int c2, int direction) {
+        int gradLength = w;
+        int gradWidth = h;
+        if (direction == 16 || direction == 32) {
+            gradLength = h;
+            gradWidth = w;
         }
-        if (n7 == 4 || n7 == 16) {
-            final int n9 = n5;
-            n5 = n6;
-            n6 = n9;
+        if (direction == 4 || direction == 16) {
+            final int index = c1;
+            c1 = c2;
+            c2 = index;
         }
-        final int[] sub_39a6 = ASprite.GetPixelBuffer(null);
-        final int n10 = (i < sub_39a6.length / n8) ? i : (sub_39a6.length / n8);
-        final int n11 = n5 >>> 24;
-        final int n12 = n5 >> 16 & 0xFF;
-        final int n13 = n5 >> 8 & 0xFF;
-        final int n14 = n5 & 0xFF;
-        final int n15 = n6 >>> 24;
-        final int n16 = n6 >> 16 & 0xFF;
-        final int n17 = n6 >> 8 & 0xFF;
-        n6 &= 0xFF;
-        --n8;
-        final int n18 = (n15 - n11 << 16) / n8;
-        final int n19 = (n16 - n12 << 16) / n8;
-        final int n20 = (n17 - n13 << 16) / n8;
-        final int n21 = (n6 - n14 << 16) / n8;
-        ++n8;
-        int n22 = n11 << 16;
-        int n23 = n12 << 16;
-        int n24 = n13 << 16;
-        int n25 = n14 << 16;
-        int n26;
-        if (n7 == 4 || n7 == 8) {
-            n26 = n3;
-            n6 = -(n3 * n10) + 1;
+        final int[] buffer = ASprite.GetPixelBuffer_int(null);
+        final int lines = (gradWidth < buffer.length / gradLength) ? gradWidth : (buffer.length / gradLength);
+        final int a1 = c1 >>> 24;
+        final int r1 = c1 >> 16 & 0xFF;
+        final int g1 = c1 >> 8 & 0xFF;
+        final int b1 = c1 & 0xFF;
+        final int a2 = c2 >>> 24;
+        final int r2 = c2 >> 16 & 0xFF;
+        final int g2 = c2 >> 8 & 0xFF;
+        c2 &= 0xFF;
+        --gradLength;
+        final int da = (a2 - a1 << 16) / gradLength;
+        final int n19 = (r2 - r1 << 16) / gradLength;
+        final int n20 = (g2 - g1 << 16) / gradLength;
+        final int n21 = (c2 - b1 << 16) / gradLength;
+        ++gradLength;
+        int n22 = a1 << 16;
+        int n23 = r1 << 16;
+        int n24 = g1 << 16;
+        int n25 = b1 << 16;
+        int g2_2;
+        if (direction == 4 || direction == 8) {
+            g2_2 = w;
+            c2 = -(w * lines) + 1;
         }
         else {
-            n26 = 1;
-            n6 = 0;
+            g2_2 = 1;
+            c2 = 0;
         }
         int n27 = 0;
-        for (int j = 0; j < n8; ++j) {
-            int n28 = n10;
+        for (int j = 0; j < gradLength; ++j) {
+            int n28 = lines;
             while (--n28 >= 0) {
-                sub_39a6[n27] = n5;
-                n27 += n26;
+                buffer[n27] = c1;
+                n27 += g2_2;
             }
-            n22 += n18;
+            n22 += da;
             n23 += n19;
             n24 += n20;
             n25 += n21;
-            n5 = ((n22 << 8 & 0xFF000000) | (n23 & 0xFF0000) | (n24 >> 8 & 0xFF00) | (n25 >> 16 & 0xFF));
-            n27 += n6;
+            c1 = ((n22 << 8 & 0xFF000000) | (n23 & 0xFF0000) | (n24 >> 8 & 0xFF00) | (n25 >> 16 & 0xFF));
+            n27 += c2;
         }
-        if (n7 == 4 || n7 == 8) {
-            while (i > 0) {
-                final int[] array = sub_39a6;
-                final int n29 = n2;
-                final int n30 = (n10 < i) ? n10 : i;
-                final int n31;
-                n7 = (n31 = n29);
-                final int n32 = n30;
-                final int n33;
-                n7 = (n33 = n31);
-                n7 = n3;
-                DrawRGB(graphics, array, 0, n7, n, n33, n3, n32, true, true, 0, -1, true);
-                n2 += n10;
-                i -= n10;
+        if (direction == 4 || direction == 8) {
+            while (gradWidth > 0) {
+                DrawRGB(g, buffer, 0, w, x, y, w, (lines < gradWidth) ? lines : gradWidth, true, true, 0, -1, true);
+                y += lines;
+                gradWidth -= lines;
             }
         }
-        else if (n7 == 16 || n7 == 32) {
-            while (i > 0) {
-                final int[] array2 = sub_39a6;
-                final int n34 = n10;
-                final int n35 = n;
-                final int n36 = (n10 < i) ? n10 : i;
-                n7 = n35;
-                final int n37;
-                n6 = (n37 = n34);
-                final int n38 = n7;
-                final int n39 = n36;
-                n7 = n38;
-                final int n40;
-                n6 = (n40 = n37);
-                n6 = n40;
-                DrawRGB(graphics, array2, 0, n6, n7, n2, n39, n4, true, true, 0, -1, true);
-                n += n10;
-                i -= n10;
+        else if (direction == 16 || direction == 32) {
+            while (gradWidth > 0) {
+                DrawRGB(g, buffer, 0, lines, x, y, ((lines)<(gradWidth)?(lines):(gradWidth)), h, true, true, 0, -1, true);
+                x += lines;
+                gradWidth -= lines;
             }
         }
     }
@@ -2367,7 +2345,7 @@ public abstract class GLLib extends Canvas implements Runnable
         GLLib.var_1f77 = new char[] { '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C', 'D', 'E', 'F' };
         GLLib.text_encoding = "UTF-8";
         var_1fdf = true;
-        GLLib.var_1fe7 = 0;
+        GLLib.s_PFX_param = 0;
         GLLib.s_PFX_params = null;
         GLLib.var_206f = 0L;
     }

@@ -8,7 +8,7 @@ import javax.microedition.lcdui.Graphics;
 public final class ASprite
 {
     static int[] temp_int;
-    private static int[] _temp_int;
+    private static int[] transform_int;
     private int _nModules;
     short[] _modules_w_short;
     short[] _modules_h_short;
@@ -80,20 +80,20 @@ public final class ASprite
     private static int _old_pal;
     static int _text_w;
     private static int _text_h;
-    private int var_11af;
-    private int var_11b7;
-    private int _nHeight;
+    private int _nLineHeight;
+    private int _nLineSpacing;
+    private int _nHeightFake;
     private int _nSpaceWidth;
     private int var_11cf;
     private boolean _bUnderline;
     private boolean _bBold;
     private short[][] _pMapCharShort;
     private short _nDivider;
-    private int var_11f7;
+    private int m_scaleAccelerator;
     private static short[] _warpTextInfo;
     private static int _index1;
     private static int _index2;
-    private static int var_1217;
+    private static int _indexMax;
     private static int _operation;
     
     final void unload() {
@@ -769,12 +769,12 @@ public final class ASprite
         return this._frames_fm_start[frame] + fmodule;
     }
     
-    private int sub_3379(int n) {
+    private int GetFrameModuleX(int n) {
         n = this._frames_fm_start[n];
         return this._fmodules_ox_short[n];
     }
     
-    final int sub_33a1(int n, final int n2) {
+    final int GetFrameModuleY(int n, final int n2) {
         n = this._frames_fm_start[n] + n2;
         return this._fmodules_oy_short[n];
     }
@@ -929,32 +929,32 @@ public final class ASprite
         }
     }
     
-    static int[] GetPixelBuffer(final int[] buf) {
+    static int[] GetPixelBuffer_int(final int[] buf) {
         if (buf == null || buf != ASprite.temp_int) {
             if (ASprite.temp_int == null) {
                 ASprite.temp_int = new int[27832];
             }
             return ASprite.temp_int;
         }
-        if (buf == null || buf != ASprite._temp_int) {
-            if (ASprite._temp_int == null) {
-                ASprite._temp_int = new int[27832];
+        if (buf == null || buf != ASprite.transform_int) {
+            if (ASprite.transform_int == null) {
+                ASprite.transform_int = new int[27832];
             }
-            return ASprite._temp_int;
+            return ASprite.transform_int;
         }
         return null;
     }
     
-    final boolean sub_3a3a(final int n) {
-        return n >= 0 && this._module_image_imageAA != null && n < this._module_image_imageAA.length && this._module_image_imageAA[n] != null;
+    final boolean DoesPaletteHaveImageCache(final int pal) {
+        return pal >= 0 && this._module_image_imageAA != null && pal < this._module_image_imageAA.length && this._module_image_imageAA[pal] != null;
     }
     
-    final void sub_3aab(final int n, final int n2) {
-        this._fmodules_ox_short[n] = (short)n2;
+    final void SetFModuleOX(final int baseOffset, final int value) {
+        this._fmodules_ox_short[baseOffset] = (short)value;
     }
     
-    final void sub_3ace(final int n, final int n2) {
-        this._fmodules_oy_short[n] = (short)n2;
+    final void SetFModuleOY(final int baseOffset, final int value) {
+        this._fmodules_oy_short[baseOffset] = (short)value;
     }
     
     public final void PFXCache_Init() {
@@ -1025,15 +1025,16 @@ public final class ASprite
         }
     }
     
-    final void sub_3e59() {
+    final void FreeCachePoolData() {
         if (this._cur_pool >= 0) {
             for (int i = 0; i < ASprite._poolCacheStackMax[this._cur_pool]; ++i) {
-                if (ASprite._poolCacheSprites[this._cur_pool][i] == this) {
-                    final short n2;
-                    final int n = (n2 = ASprite._poolCacheStack[this._cur_pool][i]) >> 10;
-                    final int n3 = n2 & 0x3FF;
+                if (ASprite._poolCacheSprites[this._cur_pool][i] == this )
+                {
+                    int img_index = ASprite._poolCacheStack[this._cur_pool][i];
+                    int img_pal = img_index >> 10;
+                    final int img_module = img_index & 0x3FF;
                     ASprite._poolCacheSprites[this._cur_pool][i] = null;
-                    this._module_image_imageAA[n][n3] = null;
+                    this._module_image_imageAA[img_pal][img_module] = null;
                 }
             }
         }
@@ -1190,11 +1191,11 @@ public final class ASprite
             }
             this._pMapCharShort[insertIndex] = newEntry;
         }
-        this.var_11cf = this.sub_33a1(0, 0);
-        this.var_11af = this.var_11cf + this.sub_33a1(0, 1);
+        this.var_11cf = this.GetFrameModuleY(0, 0);
+        this._nLineHeight = this.var_11cf + this.GetFrameModuleY(0, 1);
         
-        this.var_11b7 = this.sub_33a1(0, 2) - this.sub_33a1(0, 1);
-        this._nSpaceWidth = this.sub_3379(this.GetCharFrame(32));
+        this._nLineSpacing = this.GetFrameModuleY(0, 2) - this.GetFrameModuleY(0, 1);
+        this._nSpaceWidth = this.GetFrameModuleX(this.GetCharFrame(32));
     }
     
     private int GetCharFrame(final int n) {
@@ -1214,56 +1215,56 @@ public final class ASprite
         return this._pMapCharShort[n2][n3 + 1];
     }
     
-    final int sub_490a() {
-        if (this.var_11f7 >= 0) {
-            return this.var_11b7 * this.var_11f7 >> 8;
+    final int GetLineSpacing() {
+        if (this.m_scaleAccelerator >= 0) {
+            return this._nLineSpacing * this.m_scaleAccelerator >> 8;
         }
-        return this.var_11b7;
+        return this._nLineSpacing;
     }
     
     final int _GetLineHeight() {
-        if (this.var_11f7 >= 0) {
-            return this.var_11af * this.var_11f7 >> 8;
+        if (this.m_scaleAccelerator >= 0) {
+            return this._nLineHeight * this.m_scaleAccelerator >> 8;
         }
-        return this.var_11af;
+        return this._nLineHeight;
     }
     
     private int GetSpaceWidth() {
-        if (this.var_11f7 >= 0) {
-            return this._nSpaceWidth * this.var_11f7 >> 8;
+        if (this.m_scaleAccelerator >= 0) {
+            return this._nSpaceWidth * this.m_scaleAccelerator >> 8;
         }
         return this._nSpaceWidth;
     }
     
-    private int GetLineHeight() {
-        if (this.var_11f7 >= 0) {
-            return this._nHeight * this.var_11f7 >> 8;
+    private int GetLineHeightFake() {
+        if (this.m_scaleAccelerator >= 0) {
+            return this._nHeightFake * this.m_scaleAccelerator >> 8;
         }
-        return this._nHeight;
+        return this._nHeightFake;
     }
     
-    final void SetLineHeight(final int SetLineHeight) {
-        this._nHeight = SetLineHeight;
+    final void SetLineHeightFake(final int heightFake) {
+        this._nHeightFake = heightFake;
     }
     
-    final int i_forgot_what_this_is() {
-        if (this.var_11f7 >= 0) {
-            return this.var_11af * this.var_11f7 >> 8;
+    final int GetLineHeight() {
+        if (this.m_scaleAccelerator >= 0) {
+            return this._nLineHeight * this.m_scaleAccelerator >> 8;
         }
-        return this.var_11af;
+        return this._nLineHeight;
     }
     
-    private static final int sub_4a7e(final short[] array, int n) {
-        n = n * 3 + 1;
-        return array[n];
+    private static final int GetWrapInfo_LineStart(final short[] wrapInfo, int iLine) {
+        iLine = iLine * 3 + 1;
+        return wrapInfo[iLine];
     }
     
-    private static final int sub_4aa2(final short[] array, int n) {
-        n = n * 3 + 2;
-        return array[n];
+    private static final int GetWrapInfo_LineWidth(final short[] wrapInfo, int iLine) {
+        iLine = iLine * 3 + 2;
+        return wrapInfo[iLine];
     }
     
-    final short[] WraptextB(final String s, final int width, final boolean b) {
+    final short[] WraptextB(final String s, final int width, final boolean bFreeWrap) {
         if (ASprite._warpTextInfo == null) {
             ASprite._warpTextInfo = new short[1100];
         }
@@ -1369,7 +1370,7 @@ public final class ASprite
                     }
                     ++i;
                 }
-                int n18 = sub_63ed + this.GetLineHeight();
+                int n18 = sub_63ed + this.GetLineHeightFake();
                 if (var_11df2 != 0) {
                     ++n18;
                 }
@@ -1431,76 +1432,76 @@ public final class ASprite
         return ASprite._warpTextInfo;
     }
     
-    final void DrawPageB(final Graphics g, final String s, final short[] info, final int x, int y, int startLine, int maxLines, final int anchor, int sub_4a3a, final boolean b) {
+    final void DrawPageB(final Graphics g, final String s, final short[] info, final int x, int y, int startLine, int maxLines, final int anchor, int maxChars, final boolean bottomToTop) {
         startLine = info[0];
-        sub_4a3a = this.i_forgot_what_this_is();
+        maxChars = this.GetLineHeight();
         if (maxLines == -1) {
             maxLines = startLine;
         }
         if (maxLines > startLine) {
             maxLines = startLine;
         }
-        sub_4a3a += this.sub_490a();
+        maxChars += this.GetLineSpacing();
         if ((anchor & 0x20) != 0x0) {
-            y -= sub_4a3a * (maxLines - 1);
+            y -= maxChars * (maxLines - 1);
         }
         else if ((anchor & 0x2) != 0x0) {
-            y -= sub_4a3a * (maxLines - 1) >> 1;
+            y -= maxChars * (maxLines - 1) >> 1;
         }
         ASprite._old_pal = this._crt_pal;
-        final boolean var_11df = this._bBold;
-        final boolean var_11d7 = this._bUnderline;
+        final boolean old_bold = this._bBold;
+        final boolean old_underline = this._bUnderline;
         final int sub_3600;
         final int n6 = (sub_3600 = GLLib.GetClipY(g, true)) + GLLib.GetClipHeight(g, true);
-        final int n7 = sub_3600 - sub_4a3a;
-        final int n8 = n6 + sub_4a3a;
-        for (int n9 = 0, n10 = 0; n10 < startLine && n9 <= maxLines - 1; ++n10, ++n9) {
-            ASprite._index1 = ((n10 > 0) ? sub_4a7e(info, n10 - 1) : 0);
-            ASprite._index2 = sub_4a7e(info, n10);
+        final int n7 = sub_3600 - maxChars;
+        final int maxYLimit = n6 + maxChars;
+        for (int k = 0, j = 0; j < startLine && k <= maxLines - 1; ++j, ++k) {
+            ASprite._index1 = ((j > 0) ? GetWrapInfo_LineStart(info, j - 1) : 0);
+            ASprite._index2 = GetWrapInfo_LineStart(info, j);
             if (ASprite._index1 < s.length() && s.charAt(ASprite._index1) == '\n') {
                 ++ASprite._index1;
             }
             int xx = x;
             int yy;
-            if ((yy = y + n9 * sub_4a3a) >= n7) {
-                if (yy > n8) {
+            if ((yy = y + k * maxChars) >= n7) {
+                if (yy > maxYLimit) {
                     break;
                 }
                 if ((anchor & 0x2B) != 0x0) {
-                    if (this.var_11f7 >= 0) {
+                    if (this.m_scaleAccelerator >= 0) {
                         if ((anchor & 0x8) != 0x0) {
-                            xx = x - (sub_4aa2(info, n10) * this.var_11f7 >> 8);
+                            xx = x - (GetWrapInfo_LineWidth(info, j) * this.m_scaleAccelerator >> 8);
                         }
                         else if ((anchor & 0x1) != 0x0) {
-                            xx = x - (sub_4aa2(info, n10) * this.var_11f7 >> 9);
+                            xx = x - (GetWrapInfo_LineWidth(info, j) * this.m_scaleAccelerator >> 9);
                         }
                     }
                     else if ((anchor & 0x8) != 0x0) {
-                        xx = x - sub_4aa2(info, n10);
+                        xx = x - GetWrapInfo_LineWidth(info, j);
                     }
                     else if ((anchor & 0x1) != 0x0) {
-                        xx = x - (sub_4aa2(info, n10) >> 1);
+                        xx = x - (GetWrapInfo_LineWidth(info, j) >> 1);
                     }
                     if ((anchor & 0x20) != 0x0) {
-                        yy -= this.i_forgot_what_this_is();
+                        yy -= this.GetLineHeight();
                     }
                     else if ((anchor & 0x2) != 0x0) {
-                        yy -= this.i_forgot_what_this_is() >> 1;
+                        yy -= this.GetLineHeight() >> 1;
                     }
                 }
-                final short n13 = info[n10 * 3 + 3];
-                this._bBold = ((n13 & 0x1000) != 0x0);
-                this._bUnderline = ((n13 & 0x2000) != 0x0);
-                this.SetCurrentPalette(n13 & 0xFFF);
+                final short format = info[j * 3 + 3];
+                this._bBold = ((format & 0x1000) != 0x0);
+                this._bUnderline = ((format & 0x2000) != 0x0);
+                this.SetCurrentPalette(format & 0xFFF);
                 this.DrawStringOrChars(g, s, xx, yy, 0, false);
             }
         }
         ASprite._index1 = -1;
         ASprite._index2 = -1;
-        ASprite.var_1217 = -1;
+        ASprite._indexMax = -1;
         this._crt_pal = ASprite._old_pal;
-        this._bBold = var_11df;
-        this._bUnderline = var_11d7;
+        this._bBold = old_bold;
+        this._bUnderline = old_underline;
     }
     
     final void UpdateStringOrCharsSize(final String s, final char[] charBuff) {
@@ -1508,7 +1509,7 @@ public final class ASprite
             return;
         }
         ASprite._text_w = 0;
-        ASprite._text_h = this.i_forgot_what_this_is();
+        ASprite._text_h = this.GetLineHeight();
         int n = 0;
         final boolean b = s != null;
         int i = (ASprite._index1 >= 0) ? ASprite._index1 : 0;
@@ -1550,7 +1551,7 @@ public final class ASprite
                                 ASprite._text_w = n;
                             }
                             n = 0;
-                            ASprite._text_h += this.sub_490a() + this.i_forgot_what_this_is();
+                            ASprite._text_h += this.GetLineSpacing() + this.GetLineHeight();
                             break Label_0328;
                         }
                         if (c == '\u0001') {
@@ -1563,7 +1564,7 @@ public final class ASprite
                         ++i;
                         sub_4851 = (b ? s.charAt(i) : 0);
                     }
-                    n += this.GetLineSpacing(sub_4851) + this.GetLineHeight();
+                    n += this.GetLineSpacing(sub_4851) + this.GetLineHeightFake();
                     if (var_11df) {
                         ++n;
                     }
@@ -1575,7 +1576,7 @@ public final class ASprite
             ASprite._text_w = n;
         }
         if (ASprite._text_w > 0) {
-            ASprite._text_w -= this.GetLineHeight();
+            ASprite._text_w -= this.GetLineHeightFake();
         }
     }
     
@@ -1586,8 +1587,8 @@ public final class ASprite
     private void DrawStringOrChars(Graphics graphics, String s, int x, int y, int anchor, final boolean restorecol) {
         
         if (s != null) {
-            if (this.var_11f7 >= 0) {
-                y += this.var_11cf * this.var_11f7 >> 8;
+            if (this.m_scaleAccelerator >= 0) {
+                y += this.var_11cf * this.m_scaleAccelerator >> 8;
             }
             else {
                 y += this.var_11cf;
@@ -1620,8 +1621,8 @@ public final class ASprite
             else {
                 index2 = ((ASprite._index2 >= 0) ? ASprite._index2 : 0);
             }
-            if (ASprite.var_1217 >= 0 && index2 > ASprite.var_1217) {
-                index2 = ASprite.var_1217;
+            if (ASprite._indexMax >= 0 && index2 > ASprite._indexMax) {
+                index2 = ASprite._indexMax;
             }
             for (int i = index1; i < index2; ++i) {
                 final char c;
@@ -1654,7 +1655,7 @@ public final class ASprite
                         }
                         if (c == '\n') {
                             anchor = x;
-                            y += this.sub_490a() + this.i_forgot_what_this_is();
+                            y += this.GetLineSpacing() + this.GetLineHeight();
                             continue;
                         }
                         if (c == '\u0001') {
@@ -1686,7 +1687,7 @@ public final class ASprite
                         ++anchor;
                         this.PaintFrame(graphics, n7, anchor, y, 0);
                     }
-                    anchor += this.GetLineSpacing(n7) + this.GetLineHeight();
+                    anchor += this.GetLineSpacing(n7) + this.GetLineHeightFake();
                 }
             }
             if (restorecol) {
@@ -1696,10 +1697,10 @@ public final class ASprite
     }
     
     private final int GetLineSpacing(final int n) {
-        if (this.var_11f7 >= 0) {
-            return this.sub_3379(n) * this.var_11f7 >> 8;
+        if (this.m_scaleAccelerator >= 0) {
+            return this.GetFrameModuleX(n) * this.m_scaleAccelerator >> 8;
         }
-        return this.sub_3379(n);
+        return this.GetFrameModuleX(n);
     }
     
     final void SetCurrentPalette(final int pal) {
@@ -1713,11 +1714,11 @@ public final class ASprite
         return this._crt_pal;
     }
     
-    final int sub_6494(final int n) {
+    final int GetFrameModulesCount(final int frame) {
         if ((this._bs_flags & 0x100000) != 0x0) {
-            return this._frames_nfm_short[n];
+            return this._frames_nfm_short[frame];
         }
-        return this._frames_nfm[n];
+        return this._frames_nfm[frame];
     }
     
     final void BuildCacheImages(final int pal, int m1, int m2, int pal_copy) {
@@ -1744,7 +1745,7 @@ public final class ASprite
                     int sizeY = this._modules_h_short[m1] & 0xFFFF;
                     int[] image_data2;
                     if (sizeX > 0 && sizeY > 0 && (image_data2 = this.DecodeImage_int(m1)) != null) {
-                        if (GLLib.var_1fdf && (GLLib.var_1fe7 & 0xFF7E0) != 0x0) {
+                        if (GLLib.var_1fdf && (GLLib.s_PFX_param & 0xFF7E0) != 0x0) {
                             image_data2 = GLLib.GetRGBData(null, image_data2, 0, 0, sizeX, sizeY, 0, this.var_1097, false, false);
                             sizeX = GLLib.s_PFX_newSizeX;
                             sizeY = GLLib.s_PFX_newSizeY;
@@ -1756,7 +1757,7 @@ public final class ASprite
                                 break;
                             }
                         }
-                        this._module_image_imageAA[pal][m1] = GLLibImage.createRGBImage(GetRGBData(image_data2, sizeY, sizeX, 4, null), sizeY, sizeX, b);
+                        this._module_image_imageAA[pal][m1] = GLLibImage.createRGBImage(TransformRGB(image_data2, sizeY, sizeX, 4, null), sizeY, sizeX, b);
                     }
                 }
                 ++m1;
@@ -1826,9 +1827,9 @@ public final class ASprite
         for (int i = sub_312c; i <= n2; ++i) {
             sub_312c = this.GetFrameWidth(i);
             int sub_3718 = this.GetFrameHeight(i);
-            if ((GLLib.var_1fe7 & 0x2000) != 0x0) {
-                final int sub_5bbb = GLLib.sub_5bbb();
-                final int sub_5bfe = GLLib.sub_5bfe();
+            if ((GLLib.s_PFX_param & 0x2000) != 0x0) {
+                final int sub_5bbb = GLLib.PFX_Scale_GetScaleX();
+                final int sub_5bfe = GLLib.PFX_Scale_GetScaleY();
                 sub_312c = sub_312c * sub_5bbb / 100;
                 sub_3718 = sub_3718 * sub_5bfe / 100;
             }
@@ -1847,9 +1848,9 @@ public final class ASprite
                 final int sub_3720 = this.GetFrameY(i);
                 int n10 = -sub_31e6;
                 int n11 = -sub_3720;
-                if ((GLLib.var_1fe7 & 0x2000) != 0x0) {
-                    final int sub_5bbb2 = GLLib.sub_5bbb();
-                    final int sub_5bfe2 = GLLib.sub_5bfe();
+                if ((GLLib.s_PFX_param & 0x2000) != 0x0) {
+                    final int sub_5bbb2 = GLLib.PFX_Scale_GetScaleX();
+                    final int sub_5bfe2 = GLLib.PFX_Scale_GetScaleY();
                     sub_312c2 = sub_312c2 * sub_5bbb2 / 100;
                     sub_3719 = sub_3719 * sub_5bfe2 / 100;
                     n10 = n10 * sub_5bbb2 / 100;
@@ -1913,13 +1914,13 @@ public final class ASprite
         final int sub_3600 = GLLib.GetClipY(graphics, true);
         final int sub_3601 = GLLib.GetClipWidth(graphics, true);
         final int sub_367d = GLLib.GetClipHeight(graphics, true);
-        if ((GLLib.var_1fe7 & 0x2000) != 0x0) {
-            final int sub_5bbb = GLLib.sub_5bbb();
-            final int sub_5bfe = GLLib.sub_5bfe();
+        if ((GLLib.s_PFX_param & 0x2000) != 0x0) {
+            final int sub_5bbb = GLLib.PFX_Scale_GetScaleX();
+            final int sub_5bfe = GLLib.PFX_Scale_GetScaleY();
             n3 = n3 * sub_5bbb / 100;
             n4 = n4 * sub_5bfe / 100;
         }
-        else if ((GLLib.var_1fe7 & 1 << 15) != 0x0) {
+        else if ((GLLib.s_PFX_param & 1 << 15) != 0x0) {
             return true;
         }
         return n + n3 >= sub_35c6 && n2 + n4 >= sub_3600 && n < sub_35c6 + sub_3601 && n2 < sub_3600 + sub_367d;
@@ -1928,30 +1929,30 @@ public final class ASprite
     final void PaintAFrame(final Graphics g, int anim, int aframe, final int posX, final int posY, int flags) {
         anim = this._anims_af_start[anim] + aframe;
         aframe = (this._aframes[anim] & 0xFF);
-        int hx = this.GetModuleX(anim);
-        int hy = this.GetModuleY(anim);
+        int offsetX = this.GetModuleX(anim);
+        int offsetY = this.GetModuleY(anim);
         int n4 = this.var_1047[anim] & 0xF;
         if ((flags & 0x1) != 0x0) {
             n4 = (ASprite.var_10f7[n4 & 0x7] | (n4 & 0xFFFFFFF8));
-            hx = -hx;
+            offsetX = -offsetX;
         }
         if ((flags & 0x2) != 0x0) {
             n4 = (ASprite.var_10ff[n4 & 0x7] | (n4 & 0xFFFFFFF8));
-            hy = -hy;
+            offsetY = -offsetY;
         }
         if ((flags & 0x4) != 0x0) {
             n4 = (ASprite.var_1107[n4 & 0x7] | (n4 & 0xFFFFFFF8));
-            anim = hx;
-            hx = -hy;
-            hy = anim;
+            anim = offsetX;
+            offsetX = -offsetY;
+            offsetY = anim;
         }
-        if ((GLLib.var_1fe7 & 0x2000) != 0x0 && GLLib.s_PFX_params[13][5] == 0) {
-            anim = GLLib.sub_5bbb();
-            flags = GLLib.sub_5bfe();
-            hx = anim * hx / 100;
-            hy = flags * hy / 100;
+        if ((GLLib.s_PFX_param & 0x2000) != 0x0 && GLLib.s_PFX_params[13][5] == 0) {
+            anim = GLLib.PFX_Scale_GetScaleX();
+            flags = GLLib.PFX_Scale_GetScaleY();
+            offsetX = anim * offsetX / 100;
+            offsetY = flags * offsetY / 100;
         }
-        this.PaintFrame(g, aframe, posX + hx, posY + hy, n4);
+        this.PaintFrame(g, aframe, posX + offsetX, posY + offsetY, n4);
     }
     
     final void PaintFrame(final Graphics g, final int frame, final int posX, final int posY, final int flags) {
@@ -1985,15 +1986,15 @@ public final class ASprite
                     }
                     int n10 = n2 + sub_31e6;
                     int n11 = width + sub_3021;
-                    if ((GLLib.var_1fe7 & 0x2000) != 0x0) {
-                        final int sub_5bbb = GLLib.sub_5bbb();
-                        final int sub_5bfe = GLLib.sub_5bfe();
+                    if ((GLLib.s_PFX_param & 0x2000) != 0x0) {
+                        final int sub_5bbb = GLLib.PFX_Scale_GetScaleX();
+                        final int sub_5bfe = GLLib.PFX_Scale_GetScaleY();
                         sub_31e6 -= sub_5bbb * sub_31e6 / 100;
                         sub_3021 -= sub_5bfe * sub_3021 / 100;
                         n10 -= sub_31e6;
                         n11 -= sub_3021;
                     }
-                    if ((GLLib.var_1fe7 & 1 << 15) != 0x0) {
+                    if ((GLLib.s_PFX_param & 1 << 15) != 0x0) {
                         n10 -= sub_31e6;
                         n11 -= sub_3021;
                     }
@@ -2011,8 +2012,8 @@ public final class ASprite
                             }
                         }
                         int n13 = sub_3020;
-                        if ((GLLib.var_1fe7 & 0x2000) != 0x0) {
-                            n13 = n13 * GLLib.sub_5bfe() / 100;
+                        if ((GLLib.s_PFX_param & 0x2000) != 0x0) {
+                            n13 = n13 * GLLib.PFX_Scale_GetScaleY() / 100;
                         }
                         final int n14 = n10;
                         final int n15 = ASprite.s_screenWidth - n11 - n13;
@@ -2024,10 +2025,10 @@ public final class ASprite
                         final GLLibImage image;
                         if ((image = ((this.var_10df == null || this.var_10df[_crt_pal2] == null) ? null : this.var_10df[_crt_pal2][this.var_1057 + 1][n])) != null) {
                             Label_0733: {
-                                if (GLLib.var_1fdf && (GLLib.var_1fe7 & 0xFF7E0) != 0x0) {
+                                if (GLLib.var_1fdf && (GLLib.s_PFX_param & 0xFF7E0) != 0x0) {
                                     boolean b = false;
                                     if (image != null) {
-                                        final int[] sub_39a6 = GetPixelBuffer(null);
+                                        final int[] sub_39a6 = GetPixelBuffer_int(null);
                                         GLLib.GetRGB(image, sub_39a6, 0, n18, 0, 0, n18, n19);
                                         final int[] sub_5d84 = GLLib.GetRGBData(graphics, sub_39a6, n15, n16, n18, n19, height, var_1097, false, true);
                                         if (sub_5d84 != null) {
@@ -2091,9 +2092,9 @@ public final class ASprite
                     n34 = -n35 - n31;
                     n35 = n37;
                 }
-                if ((GLLib.var_1fe7 & 0x2000) != 0x0 && GLLib.s_PFX_params[13][5] == 0) {
-                    final int sub_5bbb2 = GLLib.sub_5bbb();
-                    final int sub_5bfe2 = GLLib.sub_5bfe();
+                if ((GLLib.s_PFX_param & 0x2000) != 0x0 && GLLib.s_PFX_params[13][5] == 0) {
+                    final int sub_5bbb2 = GLLib.PFX_Scale_GetScaleX();
+                    final int sub_5bfe2 = GLLib.PFX_Scale_GetScaleY();
                     if (GLLib.s_PFX_params[13][6] % GLLib.var_1e9f != 0) {
                         GLLib.s_PFX_params[16][1] = -n34;
                         GLLib.s_PFX_params[16][2] = -n35;
@@ -2106,11 +2107,11 @@ public final class ASprite
         }
     }
     
-    final void PaintFrameWithZoom(final Graphics g, final int frame, final int posX, final int posY, final int zoom) {
-        GLLib.sub_5b71();
-        GLLib.Custom_SetZoomLevel(zoom);
+    final void _PaintFrameScaled_GraphicsIIIII(final Graphics g, final int frame, final int posX, final int posY, final int scale) {
+        GLLib.PFX_EnableScaleEffect();
+        GLLib.PFX_Scale_SetScale(scale);
         this.PaintFrame(g, frame, posX, posY, 0);
-        GLLib.sub_5b96();
+        GLLib.PFX_DisableScaleEffect();
     }
     
     private int sub_7d5b(final int n) {
@@ -2132,9 +2133,9 @@ public final class ASprite
         if (this.var_1057 >= 0) {
             module = this.map[this.var_1057][module];
         }
-        if ((GLLib.var_1fe7 & 0x2000) != 0x0 && GLLib.s_PFX_params[13][5] != 0) {
-            posX *= GLLib.sub_5bbb() / 100;
-            posY *= GLLib.sub_5bfe() / 100;
+        if ((GLLib.s_PFX_param & 0x2000) != 0x0 && GLLib.s_PFX_params[13][5] != 0) {
+            posX *= GLLib.PFX_Scale_GetScaleX() / 100;
+            posY *= GLLib.PFX_Scale_GetScaleY() / 100;
         }
         
         if (((this._module_types_2 != null) ? this._module_types_2[module] : 0) == 0) {
@@ -2156,8 +2157,8 @@ public final class ASprite
             if (n15 < 0) {
                 n15 += 255;
             }
-            if ((GLLib.var_1fe7 & 0x2000) != 0x0) {
-                n15 = n15 * GLLib.sub_5bfe() / 100;
+            if ((GLLib.s_PFX_param & 0x2000) != 0x0) {
+                n15 = n15 * GLLib.PFX_Scale_GetScaleY() / 100;
             }
             posX = n12 - n15;
             posY = posX;
@@ -2328,7 +2329,7 @@ public final class ASprite
                         }
                     }
                     if (p2x >>> 24 != 255 || p2y >>> 24 != 255) {
-                        GLLib.sub_7041(g, posX, posY, var_1148, p2x, p2x, p2y, n43);
+                        GLLib.DrawAlphaGradientRect(g, posX, posY, var_1148, p2x, p2x, p2y, n43);
                         return;
                     }
                     GLLib.sub_6ccf(g, posX, posY, var_1148, p2x, p2x, p2y, n43);
@@ -2337,8 +2338,8 @@ public final class ASprite
             }
             return;
         }
-        if ((GLLib.var_1fe7 & 0x2000) != 0x0 && GLLib.s_PFX_params[13][6] % 360 != 0) {
-            int n44 = ((GLLib.var_1fe7 & 0x2000) != 0x0) ? GLLib.s_PFX_params[13][6] : GLLib.s_PFX_params[16][0];
+        if ((GLLib.s_PFX_param & 0x2000) != 0x0 && GLLib.s_PFX_params[13][6] % 360 != 0) {
+            int n44 = ((GLLib.s_PFX_param & 0x2000) != 0x0) ? GLLib.s_PFX_params[13][6] : GLLib.s_PFX_params[16][0];
             if ((n3 & 0x4) != 0x0) {
                 n3 &= 0xFFFFFFFB;
                 n44 += 90 * GLLib.var_1ed7 / 360;
@@ -2348,13 +2349,13 @@ public final class ASprite
             int n46 = ASprite.s_rc[1];
             int n47 = p2x - GLLib.s_PFX_params[16][2];
             int n48 = GLLib.s_PFX_params[16][1];
-            if ((GLLib.var_1fe7 & 0x2000) != 0x0) {
-                n47 = n47 * GLLib.sub_5bbb() / 100;
-                n48 = n48 * GLLib.sub_5bfe() / 100;
-                p2x = p2x * GLLib.sub_5bbb() / 100;
-                var_1148 = var_1148 * GLLib.sub_5bfe() / 100;
-                n45 = n45 * GLLib.sub_5bbb() / 100;
-                n46 = n46 * GLLib.sub_5bbb() / 100;
+            if ((GLLib.s_PFX_param & 0x2000) != 0x0) {
+                n47 = n47 * GLLib.PFX_Scale_GetScaleX() / 100;
+                n48 = n48 * GLLib.PFX_Scale_GetScaleY() / 100;
+                p2x = p2x * GLLib.PFX_Scale_GetScaleX() / 100;
+                var_1148 = var_1148 * GLLib.PFX_Scale_GetScaleY() / 100;
+                n45 = n45 * GLLib.PFX_Scale_GetScaleX() / 100;
+                n46 = n46 * GLLib.PFX_Scale_GetScaleX() / 100;
             }
             final int n49 = n44;
             GLLib.sub_5cbc(GLLib.Math_Cos(GLLib.Math_Angle90 - n49), GLLib.Math_Cos(n49), (p2x >> 1) - n47, (var_1148 >> 1) - n48, ASprite.s_rc);
@@ -2373,7 +2374,7 @@ public final class ASprite
                 boolean b = this.var_1097;
                 if (class_l == null) {
                     int[] array;
-                    if (GLLib.var_1fdf && (GLLib.var_1fe7 & 0xFF7E0) != 0x0 && this.PFXCache_IsInited()) {
+                    if (GLLib.var_1fdf && (GLLib.s_PFX_param & 0xFF7E0) != 0x0 && this.PFXCache_IsInited()) {
                         if (this.PFXCache_TryPaintModule(module, posX, posY, n3)) {
                             return;
                         }
@@ -2384,7 +2385,7 @@ public final class ASprite
                     }
                     if (array != null) {
                         boolean b2 = false;
-                        if (GLLib.var_1fdf && (GLLib.var_1fe7 & 0xFF7E0) != 0x0) {
+                        if (GLLib.var_1fdf && (GLLib.s_PFX_param & 0xFF7E0) != 0x0) {
                             if (this.PFXCache_TryPaintModule(module, posX, posY, n3)) {
                                 return;
                             }
@@ -2488,7 +2489,7 @@ public final class ASprite
                         }
                     }
                 }
-                else if (GLLib.var_1fdf && (GLLib.var_1fe7 & 0xFF7E0) != 0x0) {
+                else if (GLLib.var_1fdf && (GLLib.s_PFX_param & 0xFF7E0) != 0x0) {
                     if (!this.PFXCache_TryPaintModule(module, posX, posY, n3)) {
                         final boolean sub_3b2c2 = this.PFXCache_IsInited();
                         final Graphics graphics6 = g;
@@ -2508,7 +2509,7 @@ public final class ASprite
                         final int n74 = n65;
                         final GLLibImage class_l4 = class_l3;
                         final Graphics graphics7 = graphics6;
-                        final int[] sub_39a6 = GetPixelBuffer(null);
+                        final int[] sub_39a6 = GetPixelBuffer_int(null);
                         GLLib.GetRGB(class_l4, sub_39a6, 0, n72, 0, 0, n72, n71);
                         final int[] sub_5d84 = GLLib.GetRGBData(graphics7, sub_39a6, n74, n73, n72, n71, n70, b5, false, b4);
                         if (!this.PFXCache_TryCacheAndPaintModule(module, posX, posY, sub_5d84, n3) && sub_5d84 != null) {
@@ -2541,84 +2542,84 @@ public final class ASprite
         }
     }
     
-    static final int[] GetRGBData(final int[] imgData, final int width, int height, int n3, int[] initBuffer) {
+    static final int[] TransformRGB(final int[] image_data, final int sizeX, int sizeY, int n3, int[] initBuffer) {
         if ((n3 & 0x7) == 0x0) {
-            return imgData;
+            return image_data;
         }
-        initBuffer = GetPixelBuffer(imgData);
+        initBuffer = GetPixelBuffer_int(image_data);
         int n4 = 0;
         int n5 = 0;
         switch (n3 & 0x7) {
             case 1: {
-                int n6 = width * height;
-                int n7 = width * (height - 1);
-                while (--height >= 0) {
-                    n3 = width;
+                int pointer = sizeX * sizeY;
+                int offset = sizeX * (sizeY - 1);
+                while (--sizeY >= 0) {
+                    n3 = sizeX;
                     while (--n3 >= 0) {
-                        initBuffer[--n6] = imgData[n7++];
+                        initBuffer[--pointer] = image_data[offset++];
                     }
-                    n7 -= width << 1;
+                    offset -= sizeX << 1;
                 }
                 break;
             }
             case 2: {
-                int n9 = (height - 1) * width;
-                while (--height >= 0) {
-                    System.arraycopy(imgData, n5, initBuffer, n9, width);
-                    n9 -= width;
-                    n5 += width;
+                int n9 = (sizeY - 1) * sizeX;
+                while (--sizeY >= 0) {
+                    System.arraycopy(image_data, n5, initBuffer, n9, sizeX);
+                    n9 -= sizeX;
+                    n5 += sizeX;
                 }
                 break;
             }
             case 3: {
-                for (int i = width * height - 1; i >= 0; initBuffer[n4++] = imgData[i--]) {}
+                for (int i = sizeX * sizeY - 1; i >= 0; initBuffer[n4++] = image_data[i--]) {}
                 break;
             }
             case 4: {
-                int n11 = width * height;
-                while (--height >= 0) {
-                    n3 = width;
+                int n11 = sizeX * sizeY;
+                while (--sizeY >= 0) {
+                    n3 = sizeX;
                     while (--n3 >= 0) {
-                        initBuffer[--n11] = imgData[height];
-                        height += height;
+                        initBuffer[--n11] = image_data[sizeY];
+                        sizeY += sizeY;
                     }
                 }
                 break;
             }
             case 5: {
-                int n14 = width * height;
-                while (--height >= 0) {
-                    int n16 = height - 1 - height;
-                    n3 = width;
+                int n14 = sizeX * sizeY;
+                while (--sizeY >= 0) {
+                    int n16 = sizeY - 1 - sizeY;
+                    n3 = sizeX;
                     while (--n3 >= 0) {
-                        initBuffer[--n14] = imgData[n16];
-                        n16 += height;
+                        initBuffer[--n14] = image_data[n16];
+                        n16 += sizeY;
                     }
                 }
                 break;
             }
             case 6: {
                 int n18;
-                int n17 = (n18 = width * height) - 1;
-                while (--height >= 0) {
+                int n17 = (n18 = sizeX * sizeY) - 1;
+                while (--sizeY >= 0) {
                     int n20 = n17--;
-                    n3 = width;
+                    n3 = sizeX;
                     while (--n3 >= 0) {
-                        initBuffer[--n18] = imgData[n20];
-                        n20 -= height;
+                        initBuffer[--n18] = image_data[n20];
+                        n20 -= sizeY;
                     }
                 }
                 break;
             }
             case 7: {
                 int n22;
-                int n21 = (n22 = width * height) - height;
-                while (--height >= 0) {
+                int n21 = (n22 = sizeX * sizeY) - sizeY;
+                while (--sizeY >= 0) {
                     int n24 = n21++;
-                    n3 = width;
+                    n3 = sizeX;
                     while (--n3 >= 0) {
-                        initBuffer[--n22] = imgData[n24];
-                        n24 -= height;
+                        initBuffer[--n22] = image_data[n24];
+                        n24 -= sizeY;
                     }
                 }
                 break;
@@ -2627,15 +2628,15 @@ public final class ASprite
         return initBuffer;
     }
     
-    static final int[] _InitTempBuffers(final int[] buf) {
-        return GetPixelBuffer(buf);
+    static final int[] GetPixelBuffer(final int[] buf) {
+        return GetPixelBuffer_int(buf);
     }
     
     public ASprite() {
         this._cur_pool = -1;
         this._bUnderline = false;
         this._bBold = false;
-        this.var_11f7 = -1;
+        this.m_scaleAccelerator = -1;
     }
     
     static {
@@ -2650,7 +2651,7 @@ public final class ASprite
         ASprite.var_1157 = '|';
         ASprite._index1 = -1;
         ASprite._index2 = -1;
-        ASprite.var_1217 = -1;
+        ASprite._indexMax = -1;
         ASprite._operation = 0;
     }
 }

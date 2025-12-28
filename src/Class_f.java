@@ -895,8 +895,8 @@ final class Class_f
                     if (cGame.var_800c.camY < 576) {
                         int n2 = 138;
                         if (cGame.s_zoomLevel != 100) {
-                            GLLib.sub_5b71();
-                            GLLib.Custom_SetZoomLevel(cGame.s_zoomLevel);
+                            GLLib.PFX_EnableScaleEffect();
+                            GLLib.PFX_Scale_SetScale(cGame.s_zoomLevel);
                             n2 = 138 * cGame.s_zoomLevel / 100;
                         }
                         GLLibPlayer.s_TilesetLayerGraphics[0][0].setColor(-15682062);
@@ -910,9 +910,9 @@ final class Class_f
                         }
                         for (int j = 0; j < sub_5cb3; j += n3) {
                             if (cGame.s_zoomLevel < 100 && cGame.sub_438b0(79)) {
-                                GLLib.sub_5b96();
+                                GLLib.PFX_DisableScaleEffect();
                                 GLLibPlayer.sub_6133(0, cGame.s_gameSprites[79], cGame.s_gameSprites[79].GetFrames() / 2, j, n4, cGame.var_8074, null);
-                                GLLib.sub_5b71();
+                                GLLib.PFX_EnableScaleEffect();
                             }
                             else {
                                 GLLibPlayer.sub_6133(0, cGame.s_gameSprites[79], 0, j, n4, cGame.var_8074, null);
@@ -926,9 +926,9 @@ final class Class_f
                         }
                         for (int k = 0; k < sub_5cb3; k += n5) {
                             if (cGame.s_zoomLevel < 100 && cGame.sub_438b0(78)) {
-                                GLLib.sub_5b96();
+                                GLLib.PFX_DisableScaleEffect();
                                 GLLibPlayer.sub_6133(0, cGame.s_gameSprites[78], cGame.s_gameSprites[78].GetFrames() / 2, k, n6, cGame.var_8074, null);
-                                GLLib.sub_5b71();
+                                GLLib.PFX_EnableScaleEffect();
                             }
                             else {
                                 GLLibPlayer.sub_6133(0, cGame.s_gameSprites[78], 0, k, n6, cGame.var_8074, null);
@@ -942,16 +942,16 @@ final class Class_f
                         }
                         for (int l = 0; l < sub_5cb3; l += n7) {
                             if (cGame.s_zoomLevel < 100 && cGame.sub_438b0(77)) {
-                                GLLib.sub_5b96();
+                                GLLib.PFX_DisableScaleEffect();
                                 GLLibPlayer.sub_6133(0, cGame.s_gameSprites[77], cGame.s_gameSprites[77].GetFrames() / 2, l, n8, cGame.var_8074, null);
-                                GLLib.sub_5b71();
+                                GLLib.PFX_EnableScaleEffect();
                             }
                             else {
                                 GLLibPlayer.sub_6133(0, cGame.s_gameSprites[77], 0, l, n8, cGame.var_8074, null);
                             }
                         }
                         if (cGame.s_zoomLevel != 100) {
-                            GLLib.sub_5b96();
+                            GLLib.PFX_DisableScaleEffect();
                         }
                     }
                 }
@@ -1035,7 +1035,7 @@ final class Class_f
                                     class_e2.PaintFrame(GLLib.g, class_e2.GetFrames() / 2 + class_f.var_186d, class_f.posX, class_f.posY, 0);
                                 }
                                 else {
-                                    class_e2.PaintFrameWithZoom(GLLib.g, class_f.var_186d, class_f.posX, class_f.posY, cGame.s_zoomLevel);
+                                    class_e2._PaintFrameScaled_GraphicsIIIII(GLLib.g, class_f.var_186d, class_f.posX, class_f.posY, cGame.s_zoomLevel);
                                 }
                                 GLLib.SetClip(GLLib.g, 0, 0, GLLib.s_screenWidth, GLLib.s_screenHeight, true);
                             }
@@ -1059,7 +1059,7 @@ final class Class_f
                             }
                             else {
                                 n11 += 10;
-                                cGame.var_68d4[1].PaintFrameWithZoom(GLLib.g, 34, n11, n12, cGame.s_zoomLevel);
+                                cGame.var_68d4[1]._PaintFrameScaled_GraphicsIIIII(GLLib.g, 34, n11, n12, cGame.s_zoomLevel);
                             }
                         }
                         if (!class_f.sub_a2a0(2048)) {
@@ -1072,7 +1072,7 @@ final class Class_f
                             break;
                         }
                         n14 += 40;
-                        cGame.var_68d4[1].PaintFrameWithZoom(GLLib.g, 64, n13, n14, cGame.s_zoomLevel);
+                        cGame.var_68d4[1]._PaintFrameScaled_GraphicsIIIII(GLLib.g, 64, n13, n14, cGame.s_zoomLevel);
                         break;
                     }
                 }
@@ -1097,7 +1097,7 @@ final class Class_f
                             cGame.s_gameSprites[14].PaintFrame(GLLib.g, class_f.sprFrame, class_f.posX, class_f.posY, 0);
                         }
                         else {
-                            cGame.s_gameSprites[14].PaintFrameWithZoom(GLLib.g, class_f.sprFrame, class_f.posX, class_f.posY, cGame.s_zoomLevel);
+                            cGame.s_gameSprites[14]._PaintFrameScaled_GraphicsIIIII(GLLib.g, class_f.sprFrame, class_f.posX, class_f.posY, cGame.s_zoomLevel);
                         }
                     }
                 }
@@ -1551,8 +1551,8 @@ final class Class_f
         int var_17cd = this.camX;
         int var_17d5 = this.camY;
         if (cGame.s_zoomLevel != 100) {
-            GLLib.sub_5b71();
-            GLLib.Custom_SetZoomLevel(cGame.s_zoomLevel);
+            GLLib.PFX_EnableScaleEffect();
+            GLLib.PFX_Scale_SetScale(cGame.s_zoomLevel);
             var_17cd = var_17cd * cGame.s_zoomLevel / 100;
             var_17d5 = var_17d5 * cGame.s_zoomLevel / 100;
         }
@@ -1562,9 +1562,9 @@ final class Class_f
         }
         class_e.SetCurrentPalette(var_1875);
         if (cGame.s_zoomLevel < 100 && cGame.sub_438b0(n)) {
-            GLLib.sub_5b96();
+            GLLib.PFX_DisableScaleEffect();
             GLLibPlayer.sub_6133(0, class_e, class_e.GetFrames() / 2 + n2, var_17cd, var_17d5, cGame.var_8074, null);
-            GLLib.sub_5b71();
+            GLLib.PFX_EnableScaleEffect();
         }
         else {
             GLLibPlayer.sub_6133(0, class_e, n2, var_17cd, var_17d5, cGame.var_8074, null);
@@ -1593,9 +1593,9 @@ final class Class_f
                     }
                     class_e2.SetCurrentPalette(var_1876);
                     if (cGame.s_zoomLevel < 100 && cGame.sub_438b0(n)) {
-                        GLLib.sub_5b96();
+                        GLLib.PFX_DisableScaleEffect();
                         GLLibPlayer.sub_6133(0, class_e2, class_e2.GetFrames() / 2 + n2, var_17cd2, var_17d6, true, Class_f.var_190d[i]);
-                        GLLib.sub_5b71();
+                        GLLib.PFX_EnableScaleEffect();
                     }
                     else {
                         GLLibPlayer.sub_6133(0, class_e2, n2, var_17cd2, var_17d6, true, Class_f.var_190d[i]);
@@ -1604,7 +1604,7 @@ final class Class_f
             }
         }
         if (cGame.s_zoomLevel != 100) {
-            GLLib.sub_5b96();
+            GLLib.PFX_DisableScaleEffect();
         }
     }
     
@@ -1627,7 +1627,7 @@ final class Class_f
             sprite.PaintFrame(GLLib.g, sprId, this.posX, this.posY, 0);
             return;
         }
-        sprite.PaintFrameWithZoom(GLLib.g, frame, this.posX, this.posY, cGame.s_zoomLevel);
+        sprite._PaintFrameScaled_GraphicsIIIII(GLLib.g, frame, this.posX, this.posY, cGame.s_zoomLevel);
     }
     
     final void SetCoords() {
@@ -2118,13 +2118,13 @@ final class Class_f
                     cGame.var_7aac = -1;
                     if (cGame.var_6b24 > 0) {
                         final String sub_4e1f;
-                        cGame.var_7ab4 = GLLib.Text_ReplaceText(((sub_4e1f = GLLib.Text_GetStringFromLocaleFile(Define.TEXT_NOTENOUGHCOIN)) == null) ? "" : sub_4e1f, "%d", GLLib.BigNumberSeparate(cGame.var_6b24 - cGame.getCoin(), cGame.s_currencySeprType, " "));
+                        cGame.var_7ab4 = GLLib.Text_ReplaceText(((sub_4e1f = GLLib.Text_GetStringFromLocaleFile(Define.TEXT_NOTENOUGHCOIN)) == null) ? "" : sub_4e1f, "%d", GLLib.Text_FormatNumber(cGame.var_6b24 - cGame.getCoin(), cGame.s_currencySeprType, " "));
                         cGame.var_7aac = 18;
                         cGame.var_7d24 = false;
                     }
                     else if (cGame.var_6b2c > 0) {
                         final String sub_4e1f2;
-                        cGame.var_7ab4 = GLLib.Text_ReplaceText(((sub_4e1f2 = GLLib.Text_GetStringFromLocaleFile(Define.TEXT_NOTENOUGHCASH)) == null) ? "" : sub_4e1f2, "%d", GLLib.BigNumberSeparate(cGame.var_6b2c - cGame.getCash(), cGame.s_currencySeprType, " "));
+                        cGame.var_7ab4 = GLLib.Text_ReplaceText(((sub_4e1f2 = GLLib.Text_GetStringFromLocaleFile(Define.TEXT_NOTENOUGHCASH)) == null) ? "" : sub_4e1f2, "%d", GLLib.Text_FormatNumber(cGame.var_6b2c - cGame.getCash(), cGame.s_currencySeprType, " "));
                         cGame.var_7aac = 19;
                         cGame.var_7d24 = true;
                     }
@@ -2216,13 +2216,13 @@ final class Class_f
             cGame.var_7aac = -1;
             if (this.var_15f5 > 0) {
                 final String sub_4e1f;
-                cGame.var_7ab4 = GLLib.Text_ReplaceText(((sub_4e1f = GLLib.Text_GetStringFromLocaleFile(Define.TEXT_NOTENOUGHCOIN)) == null) ? "" : sub_4e1f, "%d", GLLib.BigNumberSeparate(this.var_15f5 - cGame.getCoin(), cGame.s_currencySeprType, " "));
+                cGame.var_7ab4 = GLLib.Text_ReplaceText(((sub_4e1f = GLLib.Text_GetStringFromLocaleFile(Define.TEXT_NOTENOUGHCOIN)) == null) ? "" : sub_4e1f, "%d", GLLib.Text_FormatNumber(this.var_15f5 - cGame.getCoin(), cGame.s_currencySeprType, " "));
                 cGame.var_7aac = 18;
                 cGame.var_7d24 = false;
             }
             else if (this.var_15fd > 0) {
                 final String sub_4e1f2;
-                cGame.var_7ab4 = GLLib.Text_ReplaceText(((sub_4e1f2 = GLLib.Text_GetStringFromLocaleFile(Define.TEXT_NOTENOUGHCASH)) == null) ? "" : sub_4e1f2, "%d", GLLib.BigNumberSeparate(this.var_15fd - cGame.getCash(), cGame.s_currencySeprType, " "));
+                cGame.var_7ab4 = GLLib.Text_ReplaceText(((sub_4e1f2 = GLLib.Text_GetStringFromLocaleFile(Define.TEXT_NOTENOUGHCASH)) == null) ? "" : sub_4e1f2, "%d", GLLib.Text_FormatNumber(this.var_15fd - cGame.getCash(), cGame.s_currencySeprType, " "));
                 cGame.var_7aac = 19;
                 cGame.var_7d24 = true;
             }
@@ -2896,7 +2896,7 @@ final class Class_f
         }
         if (num > 0) {
             GLLib.sub_5c77(true);
-            cGame.drawStringWithPalette("+" + GLLib.BigNumberSeparate(num, cGame.s_currencySeprType, " "), (this.camX + this.var_1805) * cGame.s_zoomLevel / 100 - cGame.var_800c.camX + 10, (this.camY + this.var_180d) * cGame.s_zoomLevel / 100 - cGame.var_800c.camY + 10, 0, 0, 0, 0, 2, 1, false, false);
+            cGame.drawStringWithPalette("+" + GLLib.Text_FormatNumber(num, cGame.s_currencySeprType, " "), (this.camX + this.var_1805) * cGame.s_zoomLevel / 100 - cGame.var_800c.camX + 10, (this.camY + this.var_180d) * cGame.s_zoomLevel / 100 - cGame.var_800c.camY + 10, 0, 0, 0, 0, 2, 1, false, false);
             GLLib.sub_5c77(false);
         }
     }

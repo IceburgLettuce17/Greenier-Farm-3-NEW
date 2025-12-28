@@ -30,9 +30,9 @@ final class GLLibPlayer implements Runnable
     private int k_animBaseFrameTime;
     private int nbLoop;
     private boolean animIsOver;
-    private int zoomLevel;
+    private int curScale;
     private static int k_fifty;
-    private int sprPalette;
+    private int palette;
     private static final int k_snd_nbChannel;
     static int s_snd_masterVolume;
     private static int s_snd_maxNbSoundSlot;
@@ -93,9 +93,9 @@ final class GLLibPlayer implements Runnable
         this.curFlags = 0;
         this.curTime = 0;
         this.nbLoop = 1;
-        this.sprPalette = -1;
+        this.palette = -1;
         this.animIsOver = true;
-        this.zoomLevel = -1;
+        this.curScale = -1;
     }
     
     final void SetPos(final int x, final int y) {
@@ -187,7 +187,7 @@ final class GLLibPlayer implements Runnable
     }
     
     final void setSprPalette(final int palette) {
-        this.sprPalette = palette;
+        this.palette = palette;
     }
     
     final int GetNbLoop() {
@@ -219,23 +219,23 @@ final class GLLibPlayer implements Runnable
         if (this.animIsOver) {
             return;
         }
-        boolean b = false;
-        if (this.zoomLevel != -1 && this.zoomLevel != 100 && (GLLib.var_1fe7 & 0x2000) == 0x0) {
-            b = true;
-            GLLib.sub_5b71();
-            GLLib.Custom_SetZoomLevel(this.zoomLevel);
+        boolean disableEffects = false;
+        if (this.curScale != -1 && this.curScale != 100 && (GLLib.s_PFX_param & 0x2000) == 0x0) {
+            disableEffects = true;
+            GLLib.PFX_EnableScaleEffect();
+            GLLib.PFX_Scale_SetScale(this.curScale);
         }
-        if (this.sprPalette != -1) {
-            final int sprPalette = this.sprite.GetCurrentPalette();
-            this.sprite.SetCurrentPalette(this.sprPalette);
+        if (this.palette != -1) {
+            final int savePal = this.sprite.GetCurrentPalette();
+            this.sprite.SetCurrentPalette(this.palette);
             this.sprite.PaintAFrame(GLLib.g, this.curAnim, this.curFrame, this.posX, this.posY, this.curFlags);
-            this.sprite.SetCurrentPalette(sprPalette);
+            this.sprite.SetCurrentPalette(savePal);
         }
         else {
             this.sprite.PaintAFrame(GLLib.g, this.curAnim, this.curFrame, this.posX, this.posY, this.curFlags);
         }
-        if (b) {
-            GLLib.var_1fe7 &= 0xFFF0081F;
+        if (disableEffects) {
+            GLLib.s_PFX_param &= 0xFFF0081F;
         }
     }
     
@@ -271,7 +271,7 @@ final class GLLibPlayer implements Runnable
     }
     
     final void SetZoomLevel(final int zoomLevel) {
-        this.zoomLevel = zoomLevel;
+        this.curScale = zoomLevel;
     }
     
     static final Player Snd_GetChannelPlayer(final int channel) {
@@ -892,10 +892,10 @@ final class GLLibPlayer implements Runnable
         GLLibPlayer.var_168f[n] = false;
     }
     
-    static void sub_35e7() {
+    static void Snd_PauseNotify() {
         try {
-            for (int i = 0; i < GLLibPlayer.k_snd_nbChannel; ++i) {
-                sub_239b(i, true);
+            for (int channel = 0; channel < GLLibPlayer.k_snd_nbChannel; ++channel) {
+                sub_239b(channel, true);
             }
             if (GLLib.s_game_isPaused) {
                 Snd_Update_Exec();
@@ -1458,7 +1458,7 @@ final class GLLibPlayer implements Runnable
                         sub_7ab5 = sub_7ab4(nLayer, 1, offsetCur, false);
                     }
                     if (GLLibPlayer.k_hundred != 100) {
-                        GLLib.sub_5b71();
+                        GLLib.PFX_EnableScaleEffect();
                         GLLib.s_PFX_params[13][1] = GLLibPlayer.k_hundred;
                         GLLib.sub_5c77(true);
                     }
@@ -1484,7 +1484,7 @@ final class GLLibPlayer implements Runnable
                     }
                     if (GLLibPlayer.k_hundred != 100) {
                         GLLib.sub_5c77(false);
-                        GLLib.sub_5b96();
+                        GLLib.PFX_DisableScaleEffect();
                     }
                 }
                 destX += tileWidth;
@@ -1740,22 +1740,22 @@ final class GLLibPlayer implements Runnable
         GLLib.FillRect(GLLib.g, n, n2, n3, n4, true);
     }
     
-    static final void sub_6133(int var_1707, final ASprite class_e, final int n, final int n2, final int n3, final boolean b, final int[] array) {
+    static final void sub_6133(int var_1707, final ASprite class_e, final int frame, final int posX, final int posY, final boolean b, final int[] array) {
         if (GLLibPlayer.k_hundred != 100) {
-            GLLib.sub_5b71();
+            GLLib.PFX_EnableScaleEffect();
             var_1707 = GLLibPlayer.k_hundred;
             GLLib.s_PFX_params[13][1] = var_1707;
             GLLib.sub_5c77(true);
         }
         if (isFlag(0, 4)) {
-            Tileset_PaintToBuffer(0, 0, class_e, 0, n, n2, n3, 0, 0, 0, b, array);
+            Tileset_PaintToBuffer(0, 0, class_e, 0, frame, posX, posY, 0, 0, 0, b, array);
         }
         else {
-            class_e.PaintFrame(GLLib.g, n, n2 - sub_5b8b(0), n3 - sub_5c0b(0), 0);
+            class_e.PaintFrame(GLLib.g, frame, posX - sub_5b8b(0), posY - sub_5c0b(0), 0);
         }
         if (GLLibPlayer.k_hundred != 100) {
             GLLib.sub_5c77(false);
-            GLLib.sub_5b96();
+            GLLib.PFX_DisableScaleEffect();
         }
     }
     
@@ -1777,7 +1777,7 @@ final class GLLibPlayer implements Runnable
                 u = ((ASprite)o).GetFrameY(n);
                 asprite_framewidth = ((ASprite)o).GetFrameWidth(n);
                 asprite_frameheight = ((ASprite)o).GetFrameHeight(n);
-                if ((GLLib.var_1fe7 & 0x2000) != 0x0) {
+                if ((GLLib.s_PFX_param & 0x2000) != 0x0) {
                     final int zoom = GLLib.s_PFX_params[13][1];
                     x = x * zoom / 100;
                     u = u * zoom / 100;

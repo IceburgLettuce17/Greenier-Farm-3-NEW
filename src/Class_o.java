@@ -1882,8 +1882,8 @@ public final class Class_o {
 				return supportUrl;
 			}
 			return supportUrl
-					+ "&extra_1=" + GLLib.sub_4545(GLLib
-							.sub_4655(moneySpent.substring(0, moneySpent.indexOf(95)).getBytes(), "a8bc1a23a89", true))
+					+ "&extra_1=" + GLLib.GetHexString(GLLib
+							.XXTEA_Encrypt(moneySpent.substring(0, moneySpent.indexOf(95)).getBytes(), "a8bc1a23a89", true))
 					+ "&extra_2=" + moneySpent.substring(moneySpent.indexOf(95) + 1);
 		} catch (final Exception ex) {
 			return null;

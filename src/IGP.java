@@ -748,13 +748,13 @@ public final class IGP implements Runnable, CommandListener
                     (var_1fdd = sub_680f(var_1d3d, 3, true, false)).SetCharMap((short[])GLLib.Pack_ReadArray(var_1d4d));
                     if (s_screenWidth > 160 && s_screenWidth > 220) {
                         if (s_screenWidth <= 320) {
-                            var_1fd5.SetLineHeight(-1);
+                            var_1fd5.SetLineHeightFake(-1);
                             if (s_screenHeight == 240 || var_1efd) {
-                                var_1fd5.SetLineHeight(0);
+                                var_1fd5.SetLineHeightFake(0);
                             }
                         }
                         else if (s_screenWidth <= 480) {
-                            var_1fdd.SetLineHeight(-1);
+                            var_1fdd.SetLineHeightFake(-1);
                         }
                     }
                     GLLib.Pack_FullyClose();
@@ -912,7 +912,7 @@ public final class IGP implements Runnable, CommandListener
                         var_1f4d[var_1d65][1] = 3;
                         var_1f4d[var_1d6d][0] = (var_1fa5 - n7 >> 2) * 3;
                         var_1f4d[var_1d6d][1] = var_1f4d[var_1d65][1];
-                        final int sub_33a1 = var_1fcd[0].sub_33a1(15, var_1fcd[0].CountFrameModules(15) - 1);
+                        final int sub_33a1 = var_1fcd[0].GetFrameModuleY(15, var_1fcd[0].CountFrameModules(15) - 1);
                         var_1f4d[var_1d75][0] = var_1fa5 >> 2;
                         var_1f4d[var_1d75][1] = var_1f4d[var_1d65][1] + (sub_33a1 >> 1) + n5;
                         var_1f4d[var_1d7d][0] = (var_1fa5 >> 1) + (var_1fa5 >> 2);
@@ -975,7 +975,7 @@ public final class IGP implements Runnable, CommandListener
                         var_1f4d[var_1e05][0] = 0;
                         var_1f4d[var_1e05][1] = var_1f4d[0][1] - (sub_48cb5 >> 1);
                         var_1fa5 = var_1fcd[0].CountFrameModules(15);
-                        var_1fa5 = var_1fcd[0].sub_33a1(15, var_1fa5 - 1);
+                        var_1fa5 = var_1fcd[0].GetFrameModuleY(15, var_1fa5 - 1);
                         var_1f4d[var_1e05][1] = var_1f4d[var_1d65][1] + (var_1fa5 >> 1) - (sub_48cb5 >> 1);
                     }
                     else {
