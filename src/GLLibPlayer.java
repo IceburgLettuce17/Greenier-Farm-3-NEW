@@ -31,7 +31,7 @@ final class GLLibPlayer implements Runnable
     private int nbLoop;
     private boolean animIsOver;
     private int curScale;
-    private static int k_fifty;
+    private static int defaultFrameTime;
     private int palette;
     private static final int k_snd_nbChannel;
     static int s_snd_masterVolume;
@@ -71,7 +71,7 @@ final class GLLibPlayer implements Runnable
     private static int[][][] var_16ef;
     private static int var_16f7;
     private static ASprite[] s_TilesetSprite;
-    private static int k_hundred;
+    private static int curExtraScale;
     
     GLLibPlayer() {
         this.Reset();
@@ -126,7 +126,7 @@ final class GLLibPlayer implements Runnable
     final void SetAnim(int anim, final int nbLoop) {
         if (this.animIsOver || anim != this.curAnim) {
             this.curAnim = anim;
-            this.k_animBaseFrameTime = GLLibPlayer.k_fifty;
+            this.k_animBaseFrameTime = GLLibPlayer.defaultFrameTime;
             if (this.curAnim >= 0) {
                 this.curFrame = 0 % this.GetNbFrame();
                 this.curTime = 0;
@@ -1031,8 +1031,8 @@ final class GLLibPlayer implements Runnable
                 }
                 return;
             }
-            int n5 = GLLibPlayer.s_TilesetLayerInfo[nLayer][18] * 100 / GLLibPlayer.k_hundred;
-            final int n6 = GLLibPlayer.s_TilesetLayerInfo[nLayer][19] * 100 / GLLibPlayer.k_hundred;
+            int n5 = GLLibPlayer.s_TilesetLayerInfo[nLayer][18] * 100 / GLLibPlayer.curExtraScale;
+            final int n6 = GLLibPlayer.s_TilesetLayerInfo[nLayer][19] * 100 / GLLibPlayer.curExtraScale;
             if (n5 == 0) {
                 GLLibPlayer.s_TilesetLayerInfo[nLayer][18] = GLLibPlayer.s_TilesetInfo[0];
                 n5 = GLLibPlayer.s_TilesetLayerInfo[nLayer][18];
@@ -1457,9 +1457,9 @@ final class GLLibPlayer implements Runnable
                     else {
                         sub_7ab5 = sub_7ab4(nLayer, 1, offsetCur, false);
                     }
-                    if (GLLibPlayer.k_hundred != 100) {
+                    if (GLLibPlayer.curExtraScale != 100) {
                         GLLib.PFX_EnableScaleEffect();
-                        GLLib.s_PFX_params[13][1] = GLLibPlayer.k_hundred;
+                        GLLib.s_PFX_params[13][1] = GLLibPlayer.curExtraScale;
                         GLLib.sub_5c77(true);
                     }
                     if (GLLibPlayer.s_TilesetSprite[nLayer].GetFrames() == 0) {
@@ -1482,7 +1482,7 @@ final class GLLibPlayer implements Runnable
                         }
                         GLLibPlayer.s_TilesetSprite[nLayer].PaintFrame(gDest, sub_7ab4, destX, n11, sub_7ab5);
                     }
-                    if (GLLibPlayer.k_hundred != 100) {
+                    if (GLLibPlayer.curExtraScale != 100) {
                         GLLib.sub_5c77(false);
                         GLLib.PFX_DisableScaleEffect();
                     }
@@ -1740,20 +1740,20 @@ final class GLLibPlayer implements Runnable
         GLLib.FillRect(GLLib.g, n, n2, n3, n4, true);
     }
     
-    static final void sub_6133(int var_1707, final ASprite class_e, final int frame, final int posX, final int posY, final boolean b, final int[] array) {
-        if (GLLibPlayer.k_hundred != 100) {
+    static final void Tileset_PaintSpriteWithScale(int scale, final ASprite spr, final int frame, final int posX, final int posY, final boolean b, final int[] array) {
+        if (GLLibPlayer.curExtraScale != 100) {
             GLLib.PFX_EnableScaleEffect();
-            var_1707 = GLLibPlayer.k_hundred;
-            GLLib.s_PFX_params[13][1] = var_1707;
+            scale = GLLibPlayer.curExtraScale;
+            GLLib.s_PFX_params[13][1] = scale;
             GLLib.sub_5c77(true);
         }
         if (isFlag(0, 4)) {
-            Tileset_PaintToBuffer(0, 0, class_e, 0, frame, posX, posY, 0, 0, 0, b, array);
+            Tileset_PaintToBuffer(0, 0, spr, 0, frame, posX, posY, 0, 0, 0, b, array);
         }
         else {
-            class_e.PaintFrame(GLLib.g, frame, posX - sub_5b8b(0), posY - sub_5c0b(0), 0);
+            spr.PaintFrame(GLLib.g, frame, posX - sub_5b8b(0), posY - sub_5c0b(0), 0);
         }
-        if (GLLibPlayer.k_hundred != 100) {
+        if (GLLibPlayer.curExtraScale != 100) {
             GLLib.sub_5c77(false);
             GLLib.PFX_DisableScaleEffect();
         }
@@ -2065,12 +2065,12 @@ final class GLLibPlayer implements Runnable
     }
     
     static {
-        GLLibPlayer.k_fifty = 50;
+        GLLibPlayer.defaultFrameTime = 50;
         k_snd_nbChannel = 1;
         GLLibPlayer.s_bTilesetPlayerInitialized = false;
         GLLibPlayer.s_TilesetMaxLayerCount = 4;
         var_16b7 = 20;
         var_16bf = 6;
-        GLLibPlayer.k_hundred = 100;
+        GLLibPlayer.curExtraScale = 100;
     }
 }

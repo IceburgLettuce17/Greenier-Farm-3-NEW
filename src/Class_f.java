@@ -911,11 +911,11 @@ final class Class_f
                         for (int j = 0; j < sub_5cb3; j += n3) {
                             if (cGame.s_zoomLevel < 100 && cGame.sub_438b0(79)) {
                                 GLLib.PFX_DisableScaleEffect();
-                                GLLibPlayer.sub_6133(0, cGame.s_gameSprites[79], cGame.s_gameSprites[79].GetFrames() / 2, j, n4, cGame.var_8074, null);
+                                GLLibPlayer.Tileset_PaintSpriteWithScale(0, cGame.s_gameSprites[79], cGame.s_gameSprites[79].GetFrames() / 2, j, n4, cGame.var_8074, null);
                                 GLLib.PFX_EnableScaleEffect();
                             }
                             else {
-                                GLLibPlayer.sub_6133(0, cGame.s_gameSprites[79], 0, j, n4, cGame.var_8074, null);
+                                GLLibPlayer.Tileset_PaintSpriteWithScale(0, cGame.s_gameSprites[79], 0, j, n4, cGame.var_8074, null);
                             }
                         }
                         int n5 = 240;
@@ -927,11 +927,11 @@ final class Class_f
                         for (int k = 0; k < sub_5cb3; k += n5) {
                             if (cGame.s_zoomLevel < 100 && cGame.sub_438b0(78)) {
                                 GLLib.PFX_DisableScaleEffect();
-                                GLLibPlayer.sub_6133(0, cGame.s_gameSprites[78], cGame.s_gameSprites[78].GetFrames() / 2, k, n6, cGame.var_8074, null);
+                                GLLibPlayer.Tileset_PaintSpriteWithScale(0, cGame.s_gameSprites[78], cGame.s_gameSprites[78].GetFrames() / 2, k, n6, cGame.var_8074, null);
                                 GLLib.PFX_EnableScaleEffect();
                             }
                             else {
-                                GLLibPlayer.sub_6133(0, cGame.s_gameSprites[78], 0, k, n6, cGame.var_8074, null);
+                                GLLibPlayer.Tileset_PaintSpriteWithScale(0, cGame.s_gameSprites[78], 0, k, n6, cGame.var_8074, null);
                             }
                         }
                         int n7 = 400;
@@ -943,11 +943,11 @@ final class Class_f
                         for (int l = 0; l < sub_5cb3; l += n7) {
                             if (cGame.s_zoomLevel < 100 && cGame.sub_438b0(77)) {
                                 GLLib.PFX_DisableScaleEffect();
-                                GLLibPlayer.sub_6133(0, cGame.s_gameSprites[77], cGame.s_gameSprites[77].GetFrames() / 2, l, n8, cGame.var_8074, null);
+                                GLLibPlayer.Tileset_PaintSpriteWithScale(0, cGame.s_gameSprites[77], cGame.s_gameSprites[77].GetFrames() / 2, l, n8, cGame.var_8074, null);
                                 GLLib.PFX_EnableScaleEffect();
                             }
                             else {
-                                GLLibPlayer.sub_6133(0, cGame.s_gameSprites[77], 0, l, n8, cGame.var_8074, null);
+                                GLLibPlayer.Tileset_PaintSpriteWithScale(0, cGame.s_gameSprites[77], 0, l, n8, cGame.var_8074, null);
                             }
                         }
                         if (cGame.s_zoomLevel != 100) {
@@ -1563,11 +1563,11 @@ final class Class_f
         class_e.SetCurrentPalette(var_1875);
         if (cGame.s_zoomLevel < 100 && cGame.sub_438b0(n)) {
             GLLib.PFX_DisableScaleEffect();
-            GLLibPlayer.sub_6133(0, class_e, class_e.GetFrames() / 2 + n2, var_17cd, var_17d5, cGame.var_8074, null);
+            GLLibPlayer.Tileset_PaintSpriteWithScale(0, class_e, class_e.GetFrames() / 2 + n2, var_17cd, var_17d5, cGame.var_8074, null);
             GLLib.PFX_EnableScaleEffect();
         }
         else {
-            GLLibPlayer.sub_6133(0, class_e, n2, var_17cd, var_17d5, cGame.var_8074, null);
+            GLLibPlayer.Tileset_PaintSpriteWithScale(0, class_e, n2, var_17cd, var_17d5, cGame.var_8074, null);
         }
         if (n2 > -1) {
             final int n4 = n & 0x7FFF;
@@ -1594,11 +1594,11 @@ final class Class_f
                     class_e2.SetCurrentPalette(var_1876);
                     if (cGame.s_zoomLevel < 100 && cGame.sub_438b0(n)) {
                         GLLib.PFX_DisableScaleEffect();
-                        GLLibPlayer.sub_6133(0, class_e2, class_e2.GetFrames() / 2 + n2, var_17cd2, var_17d6, true, Class_f.var_190d[i]);
+                        GLLibPlayer.Tileset_PaintSpriteWithScale(0, class_e2, class_e2.GetFrames() / 2 + n2, var_17cd2, var_17d6, true, Class_f.var_190d[i]);
                         GLLib.PFX_EnableScaleEffect();
                     }
                     else {
-                        GLLibPlayer.sub_6133(0, class_e2, n2, var_17cd2, var_17d6, true, Class_f.var_190d[i]);
+                        GLLibPlayer.Tileset_PaintSpriteWithScale(0, class_e2, n2, var_17cd2, var_17d6, true, Class_f.var_190d[i]);
                     }
                 }
             }
