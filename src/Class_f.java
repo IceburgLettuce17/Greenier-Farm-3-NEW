@@ -2,6 +2,11 @@
 // Decompiled by Procyon v0.6.0
 // 
 
+// Might be some sort of actor class or something
+// Source: Dbg(new StringBuffer("s_curActorDog.m_iconIDfr ========== ").append(amm.f1110Gt).toString());
+// From android leak
+// where amm instanceof Class_f, nameof s_curActorDog && where amm.f1110Gt == s_curActorDog.m_iconIDfr
+
 final class Class_f
 {
     static Class_f[] var_157d;

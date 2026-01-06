@@ -13241,6 +13241,9 @@ public final class cGame extends GLLib implements Class_b
 		playSound(cGame.var_6a3c[snd][0], snd, loop);
 	}
 
+	// BetterMapping: PlaySound
+	// Better name for sound: p_soundID
+	// Source: Android 1.4.7 QA build leak
 	private static void playSound(final int channel, final int sound, final boolean loop) {
 		if (sndPlayingOnChannel(0) && cGame.var_6a3c[sound][1] >= cGame.var_6a3c[cGame.var_6a44][1]) {
 			return;
