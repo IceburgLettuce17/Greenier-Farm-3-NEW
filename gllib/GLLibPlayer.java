@@ -1997,7 +1997,7 @@ final class GLLibPlayer implements Runnable
             GLLib.ClipRect(g, array[0], array[1], array[2], array[3], true);
         }
         if (n11 == 0) {
-            ((ASprite)o).sub_71d4(g, rgbY, rgbX, uWidth, uHeight);
+            ((ASprite)o).PaintCachedFrame(g, rgbY, rgbX, uWidth, uHeight);
         }
         else if (n11 == 5) {
             rgbY = rgbX;

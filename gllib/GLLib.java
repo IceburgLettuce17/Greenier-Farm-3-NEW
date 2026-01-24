@@ -98,14 +98,14 @@ public abstract class GLLib extends Canvas implements Runnable
     static final boolean var_1fdf;
     static int s_PFX_param;
     static int[][] s_PFX_params;
-    static boolean var_1ff7;
-    private static int s_rgb_width;
-    private static int s_rgb_height;
-    static int var_200f;
-    static int var_2017;
+    static boolean s_PFX_hasAlpha;
+    private static int s_PFX_sizeX;
+    private static int s_PFX_sizeY;
+    static int s_PFX_newPosX;
+    static int s_PFX_newPosY;
     static int s_PFX_newSizeX;
     static int s_PFX_newSizeY;
-    static int var_202f;
+    static int s_pointerState;
     static int s_screenX;
     static int s_screenY;
     //private static int var_2047;
@@ -155,7 +155,7 @@ public abstract class GLLib extends Canvas implements Runnable
         }
         GLLib.s_screenWidth = 800;
         GLLib.s_screenHeight = 480;
-        GLLib.var_202f = 0;
+        GLLib.s_pointerState = 0;
         if (!GLLib.s_crcTableWasInited) {
             GLLib.crcTable = new int[256];
             for (int i = 0; i < 256; ++i) {
@@ -286,27 +286,27 @@ public abstract class GLLib extends Canvas implements Runnable
                 ResetKey();
             }
         }
-        switch (GLLib.var_202f) {
+        switch (GLLib.s_pointerState) {
             case 1: {
-                GLLib.var_202f = 4;
+                GLLib.s_pointerState = 4;
                 break;
             }
             case 2: {
-                GLLib.var_202f = 0;
+                GLLib.s_pointerState = 0;
                 break;
             }
         }
         if (GLLib.var_2057) {
-            GLLib.var_202f = 1;
+            GLLib.s_pointerState = 1;
             GLLib.var_2057 = false;
         }
         else if (GLLib.var_205f) {
-            GLLib.var_202f = 2;
+            GLLib.s_pointerState = 2;
             GLLib.var_205f = false;
             GLLib.var_2067 = false;
         }
         else if (GLLib.var_2067) {
-            GLLib.var_202f = 3;
+            GLLib.s_pointerState = 3;
             GLLib.var_2067 = false;
         }
         //GLLib.var_2047 = GLLib.s_screenX;
@@ -1771,24 +1771,24 @@ public abstract class GLLib extends Canvas implements Runnable
         array[1] = Math.max(Math.abs(a2), abs = Math.abs(abs - n3));
     }
     
-    static final int[] GetRGBData(final Graphics g, int[] data, int var_200f, int var_2017, int width, int height, int n2, boolean var_1ff7, final boolean b, final boolean b2) {
-        GLLib.var_1ff7 = var_1ff7;
-        GLLib.s_rgb_width = width;
-        GLLib.s_rgb_height = height;
-        GLLib.var_200f = var_200f;
-        GLLib.var_2017 = var_2017;
+    static final int[] PFX_ProcessSpriteEffects(final Graphics g, int[] source, int x, int y, int w, int h, int flags, boolean hasAlpha, final boolean b, final boolean b2) {
+        GLLib.s_PFX_hasAlpha = hasAlpha;
+        GLLib.s_PFX_sizeX = w;
+        GLLib.s_PFX_sizeY = h;
+        GLLib.s_PFX_newPosX = x;
+        GLLib.s_PFX_newPosY = y;
         if ((GLLib.s_PFX_param & 0x5600) != 0x0) {
-            if ((n2 & 0x4) != 0x0) {
-                GLLib.s_rgb_width = height;
-                GLLib.s_rgb_height = width;
-                width = GLLib.s_rgb_width;
-                height = GLLib.s_rgb_height;
+            if ((flags & 0x4) != 0x0) {
+                GLLib.s_PFX_sizeX = h;
+                GLLib.s_PFX_sizeY = w;
+                w = GLLib.s_PFX_sizeX;
+                h = GLLib.s_PFX_sizeY;
             }
-            data = ASprite.TransformRGB(data, width, height, n2, null);
+            source = ASprite.TransformRGB(source, w, h, flags, null);
         }
-        GLLib.s_PFX_newSizeX = width;
-        GLLib.s_PFX_newSizeY = height;
-        int[] array = ASprite.GetPixelBuffer(data);
+        GLLib.s_PFX_newSizeX = w;
+        GLLib.s_PFX_newSizeY = h;
+        int[] array = ASprite.GetPixelBuffer(source);
         if ((GLLib.s_PFX_param & 0x2000) == 0x0) {
             return null;
         }
@@ -1796,27 +1796,27 @@ public abstract class GLLib extends Canvas implements Runnable
         final boolean b3 = (n3 = GLLib.s_PFX_params[13][0]) != 1 && (n3 == 2 || b);
         int n4;
         if ((n4 = GLLib.s_PFX_params[13][6]) % GLLib.Math_Angle360 != 0) {
-            var_1ff7 = true;
-            width = height;
-            final int var_2018 = var_2017;
-            final int var_200f2 = var_200f;
+            hasAlpha = true;
+            w = h;
+            final int var_2018 = y;
+            final int var_200f2 = x;
             int[] sub_9f61 = array;
-            if ((n2 & 0x4) != 0x0) {
-                n2 = (n2 & 0xFFFFFFFB);
+            if ((flags & 0x4) != 0x0) {
+                flags = (flags & 0xFFFFFFFB);
                 n4 += 90 * GLLib.var_1ed7 / 360;
             }
-            if (n2 != 0) {
-            	array = ASprite.GetPixelBuffer(data = ASprite.TransformRGB(data, width, width, n2, null));
+            if (flags != 0) {
+            	array = ASprite.GetPixelBuffer(source = ASprite.TransformRGB(source, w, w, flags, null));
             }
             final int sub_2be7 = Math_Cos(GLLib.Math_Angle90 - n4);
             final int sub_2be8 = Math_Cos(n4);
-            sub_5cfb(sub_2be7, sub_2be8, width, width, ASprite.s_rc);
+            sub_5cfb(sub_2be7, sub_2be8, w, w, ASprite.s_rc);
             final int var_201f = ASprite.s_rc[0];
-            height = ASprite.s_rc[1];
+            h = ASprite.s_rc[1];
             final int n13 = var_201f >> 1;
-            final int n14 = height >> 1;
-            final int n15 = var_201f - width >> 1;
-            final int n16 = height - width >> 1;
+            final int n14 = h >> 1;
+            final int n15 = var_201f - w >> 1;
+            final int n16 = h - w >> 1;
             final int n17 = n14 * sub_2be7;
             final int n18 = -n14 * sub_2be8;
             final int n19 = n13 * sub_2be7;
@@ -1829,13 +1829,13 @@ public abstract class GLLib extends Canvas implements Runnable
                 int n25 = n23 - n17;
                 int n26 = n18 - n24;
                 int n27 = j;
-                for (int k = 0; k < height; ++k) {
+                for (int k = 0; k < h; ++k) {
                     final int n28 = n21 + (n25 + 128 >> 8);
                     final int n29 = n22 + (n26 + 128 >> 8);
                     n25 += sub_2be7;
                     n26 += sub_2be8;
-                    if (n28 >= 0 && n29 >= 0 && n28 < width && n29 < width) {
-                        sub_9f61[n27] = data[n29 * width + n28];
+                    if (n28 >= 0 && n29 >= 0 && n28 < w && n29 < w) {
+                        sub_9f61[n27] = source[n29 * w + n28];
                     }
                     else {
                         sub_9f61[n27] = 0;
@@ -1845,41 +1845,41 @@ public abstract class GLLib extends Canvas implements Runnable
                 n23 += sub_2be8;
                 n24 += sub_2be7;
             }
-            GLLib.var_200f = var_200f2;
-            GLLib.var_2017 = var_2018;
+            GLLib.s_PFX_newPosX = var_200f2;
+            GLLib.s_PFX_newPosY = var_2018;
             GLLib.s_PFX_newSizeX = var_201f;
-            GLLib.s_PFX_newSizeY = height;
-            GLLib.var_1ff7 = true;
-            array = ASprite.GetPixelBuffer(data = sub_9f61);
-            var_200f = GLLib.var_200f;
-            var_2017 = GLLib.var_2017;
-            width = GLLib.s_PFX_newSizeX;
-            height = GLLib.s_PFX_newSizeY;
-            n2 &= ~n2;
+            GLLib.s_PFX_newSizeY = h;
+            GLLib.s_PFX_hasAlpha = true;
+            array = ASprite.GetPixelBuffer(source = sub_9f61);
+            x = GLLib.s_PFX_newPosX;
+            y = GLLib.s_PFX_newPosY;
+            w = GLLib.s_PFX_newSizeX;
+            h = GLLib.s_PFX_newSizeY;
+            flags &= ~flags;
         }
         final int sub_5bfe = PFX_Scale_GetScaleY();
         final int sub_5bbb = PFX_Scale_GetScaleX();
-        final int n30 = var_200f;
-        final int n31 = var_2017;
-        final int n32 = width;
-        final int n33 = height;
+        final int n30 = x;
+        final int n31 = y;
+        final int n32 = w;
+        final int n33 = h;
         final int n34 = sub_5bfe;
         final int n35 = sub_5bbb;
         final int n36 = GLLib.s_PFX_params[13][2];
-        final boolean b4 = var_1ff7;
+        final boolean b4 = hasAlpha;
         final boolean b5 = b3;
-        int n37 = n2;
+        int n37 = flags;
         final boolean b6 = b5;
         final boolean b7 = b4;
         final int n38 = n36;
         final int n39 = n35;
         final int n40 = n34;
-        width = n33;
+        w = n33;
         int var_1fff = n32;
         final int n41 = n31;
         final int n42 = n30;
         int[] sub_9f62 = array;
-        int[] sub_9c13 = data;
+        int[] sub_9c13 = source;
         int n43 = 0;
         int n44 = n37 & 0xFFFFFFFE;
         if ((n37 & 0x4) != 0x0) {
@@ -1888,27 +1888,27 @@ public abstract class GLLib extends Canvas implements Runnable
         }
         if (n44 != 0) {
             if ((n44 & 0x4) != 0x0) {
-                GLLib.s_rgb_width = width;
-                GLLib.s_rgb_height = var_1fff;
-                var_1fff = GLLib.s_rgb_width;
-                width = GLLib.s_rgb_height;
+                GLLib.s_PFX_sizeX = w;
+                GLLib.s_PFX_sizeY = var_1fff;
+                var_1fff = GLLib.s_PFX_sizeX;
+                w = GLLib.s_PFX_sizeY;
             }
             final int[] array6 = sub_9c13;
             final int n45 = var_1fff;
-            final int n46 = width;
-            var_2017 = n44;
-            var_200f = n46;
-            sub_9f62 = ASprite.GetPixelBuffer(sub_9c13 = ASprite.TransformRGB(array6, n45, var_200f, var_2017, null));
+            final int n46 = w;
+            y = n44;
+            x = n46;
+            sub_9f62 = ASprite.GetPixelBuffer(sub_9c13 = ASprite.TransformRGB(array6, n45, x, y, null));
         }
         final int var_201f2 = var_1fff * n40 / 100 + ((var_1fff * n40 % 100 != 0) ? 1 : 0);
-        final int var_2019 = width * n39 / 100 + ((width * n39 % 100 != 0) ? 1 : 0);
+        final int var_2019 = w * n39 / 100 + ((w * n39 % 100 != 0) ? 1 : 0);
         GLLib.s_PFX_newSizeX = var_201f2;
         GLLib.s_PFX_newSizeY = var_2019;
         if (var_201f2 <= 0 || var_2019 <= 0) {
             return null;
         }
         final int n47 = (var_1fff << 8) / var_201f2;
-        final int n48 = (width << 8) / var_2019;
+        final int n48 = (w << 8) / var_2019;
         GetClipX(g, false);
         GetClipY(g, false);
         GetClipWidth(g, false);
@@ -1922,7 +1922,7 @@ public abstract class GLLib extends Canvas implements Runnable
         int n52 = n51;
         int n53 = n41;
         if (n38 < 0) {
-            width = n51 * var_201f2;
+            w = n51 * var_201f2;
             int n54;
             int n55;
             if ((n37 & 0x1) != 0x0) {
@@ -1940,11 +1940,11 @@ public abstract class GLLib extends Canvas implements Runnable
             int n57 = n56;
             int n58 = n56 * var_201f2;
             int n59 = n41 + var_2019 - n56;
-            int n60 = (height = var_2019) * n48;
-            while (--height >= 0) {
+            int n60 = (h = var_2019) * n48;
+            while (--h >= 0) {
                 int n61 = (((n60 -= n48) >> 8) * var_1fff << 8) + n54;
-                n2 = n50;
-                while (--n2 >= 0) {
+                flags = n50;
+                while (--flags >= 0) {
                     sub_9f62[--n58] = sub_9c13[n61 >> 8];
                     n61 += n55;
                 }
@@ -1955,26 +1955,26 @@ public abstract class GLLib extends Canvas implements Runnable
                     n57 = n51;
                     n59 -= n51;
                     n56 = n51;
-                    n58 = width;
+                    n58 = w;
                 }
             }
         }
         else {
             int n62;
             if ((n37 & 0x1) != 0x0) {
-                width = (n49 - 1) * n47;
+                w = (n49 - 1) * n47;
                 n62 = -n47;
             }
             else {
-                width = 0;
+                w = 0;
                 n62 = n47;
             }
             if (!b6 && !b7) {
                 final int n63 = (n38 & 0xFF) << 24;
                 for (int l = 0, n64 = 0; l < var_2019; ++l, n64 += n48) {
                     final int n65 = (n64 >> 8) * var_1fff;
-                    height = 0;
-                    for (int n66 = width; height < var_201f2; ++height, n66 += n62) {
+                    h = 0;
+                    for (int n66 = w; h < var_201f2; ++h, n66 += n62) {
                         sub_9f62[n43++] = (n63 | (sub_9c13[n65 + (n66 >> 8)] & 0xFFFFFF));
                     }
                     if (--n52 == 0) {
@@ -1991,10 +1991,10 @@ public abstract class GLLib extends Canvas implements Runnable
                 final int n67 = (n38 & 0xFF) << 24;
                 for (int n68 = 0, n69 = 0; n68 < var_2019; ++n68, n69 += n48) {
                     final int n70 = (n69 >> 8) * var_1fff;
-                    height = 0;
-                    for (int n71 = width; height < var_201f2; ++height, n71 += n62) {
-                        if ((n2 = (sub_9c13[n70 + (n71 >> 8)] & 0xFFFFFF)) != 16711935 && n2 != 0) {
-                            sub_9f62[n43++] = (n67 | n2);
+                    h = 0;
+                    for (int n71 = w; h < var_201f2; ++h, n71 += n62) {
+                        if ((flags = (sub_9c13[n70 + (n71 >> 8)] & 0xFFFFFF)) != 16711935 && flags != 0) {
+                            sub_9f62[n43++] = (n67 | flags);
                         }
                         else {
                             sub_9f62[n43++] = 0;
@@ -2013,11 +2013,11 @@ public abstract class GLLib extends Canvas implements Runnable
             else {
                 for (int n72 = 0, n73 = 0; n72 < var_2019; ++n72, n73 += n48) {
                     final int n74 = (n73 >> 8) * var_1fff;
-                    height = 0;
-                    for (int n75 = width; height < var_201f2; ++height, n75 += n62) {
+                    h = 0;
+                    for (int n75 = w; h < var_201f2; ++h, n75 += n62) {
                         final int n76 = n74 + (n75 >> 8);
-                        n2 = ((sub_9c13[n76] >>> 24) * n38 >> 8 & 0xFF & 0xFF) << 24;
-                        sub_9f62[n43++] = (n2 | (sub_9c13[n76] & 0xFFFFFF));
+                        flags = ((sub_9c13[n76] >>> 24) * n38 >> 8 & 0xFF & 0xFF) << 24;
+                        sub_9f62[n43++] = (flags | (sub_9c13[n76] & 0xFFFFFF));
                     }
                     if (--n52 == 0) {
                         if (b2) {
@@ -2187,7 +2187,7 @@ public abstract class GLLib extends Canvas implements Runnable
     }
     
     public static final void sub_755d() {
-        GLLib.var_202f = 0;
+        GLLib.s_pointerState = 0;
     }
     
     private static final void SetCoordinateValues() {
@@ -2220,23 +2220,23 @@ public abstract class GLLib extends Canvas implements Runnable
     }
     
     static final boolean sub_762d() {
-        return GLLib.var_202f == 2;
+        return GLLib.s_pointerState == 2;
     }
     
     static final boolean sub_7660() {
-        return GLLib.var_202f == 1;
+        return GLLib.s_pointerState == 1;
     }
     
     static final boolean sub_7693() {
-        return GLLib.var_202f == 3;
+        return GLLib.s_pointerState == 3;
     }
     
     static final boolean sub_76c6() {
-        return GLLib.var_202f == 4;
+        return GLLib.s_pointerState == 4;
     }
     
     static final boolean sub_76f9() {
-        return GLLib.var_202f == 4 || GLLib.var_202f == 1 || GLLib.var_202f == 3;
+        return GLLib.s_pointerState == 4 || GLLib.s_pointerState == 1 || GLLib.s_pointerState == 3;
     }
     
     static boolean IAP_ParseJADFields() {

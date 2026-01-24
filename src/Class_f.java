@@ -117,7 +117,7 @@ final class Class_f
     int var_18c5;
     int m_prepareTime;
     byte var_18d5;
-    private Class_n var_18dd;
+    private GLLibPathFinding m_pathFinding;
     private int var_18e5;
     private int var_18ed;
     private boolean var_18f5;
@@ -194,7 +194,7 @@ final class Class_f
             for (Class_f class_f = Class_f.var_157d[i]; class_f != null; class_f = var_17ad) {
                 var_17ad = class_f.var_17ad;
                 if (class_f.var_189d != null) {
-                    class_f.var_189d.Update(GLLib.s_game_frameDT);
+                    class_f.var_189d.Update(k.s_game_frameDT);
                 }
                 switch (class_f.var_17c5) {
                     case 42: {
@@ -1040,7 +1040,7 @@ final class Class_f
                                     class_e2.PaintFrame(GLLib.g, class_e2.GetFrames() / 2 + class_f.var_186d, class_f.posX, class_f.posY, 0);
                                 }
                                 else {
-                                    class_e2._PaintFrameScaled_GraphicsIIIII(GLLib.g, class_f.var_186d, class_f.posX, class_f.posY, cGame.s_zoomLevel);
+                                    class_e2.PaintFrameScaled(GLLib.g, class_f.var_186d, class_f.posX, class_f.posY, cGame.s_zoomLevel);
                                 }
                                 GLLib.SetClip(GLLib.g, 0, 0, GLLib.s_screenWidth, GLLib.s_screenHeight, true);
                             }
@@ -1064,7 +1064,7 @@ final class Class_f
                             }
                             else {
                                 n11 += 10;
-                                cGame.var_68d4[1]._PaintFrameScaled_GraphicsIIIII(GLLib.g, 34, n11, n12, cGame.s_zoomLevel);
+                                cGame.var_68d4[1].PaintFrameScaled(GLLib.g, 34, n11, n12, cGame.s_zoomLevel);
                             }
                         }
                         if (!class_f.sub_a2a0(2048)) {
@@ -1077,7 +1077,7 @@ final class Class_f
                             break;
                         }
                         n14 += 40;
-                        cGame.var_68d4[1]._PaintFrameScaled_GraphicsIIIII(GLLib.g, 64, n13, n14, cGame.s_zoomLevel);
+                        cGame.var_68d4[1].PaintFrameScaled(GLLib.g, 64, n13, n14, cGame.s_zoomLevel);
                         break;
                     }
                 }
@@ -1102,7 +1102,7 @@ final class Class_f
                             cGame.s_gameSprites[14].PaintFrame(GLLib.g, class_f.sprFrame, class_f.posX, class_f.posY, 0);
                         }
                         else {
-                            cGame.s_gameSprites[14]._PaintFrameScaled_GraphicsIIIII(GLLib.g, class_f.sprFrame, class_f.posX, class_f.posY, cGame.s_zoomLevel);
+                            cGame.s_gameSprites[14].PaintFrameScaled(GLLib.g, class_f.sprFrame, class_f.posX, class_f.posY, cGame.s_zoomLevel);
                         }
                     }
                 }
@@ -1632,7 +1632,7 @@ final class Class_f
             sprite.PaintFrame(GLLib.g, sprId, this.posX, this.posY, 0);
             return;
         }
-        sprite._PaintFrameScaled_GraphicsIIIII(GLLib.g, frame, this.posX, this.posY, cGame.s_zoomLevel);
+        sprite.PaintFrameScaled(GLLib.g, frame, this.posX, this.posY, cGame.s_zoomLevel);
     }
     
     final void SetCoords() {
@@ -2434,7 +2434,7 @@ final class Class_f
     final void sub_7d3f(final int var_1845, final int var_184d) {
         this.var_1845 = var_1845;
         this.var_184d = var_184d;
-        this.var_18dd = null;
+        this.m_pathFinding = null;
         this.var_18e5 = 0;
         this.var_18ed = 0;
         this.sub_8365(1);
@@ -3470,12 +3470,12 @@ final class Class_f
         array[1] = this.var_184d;
         final int[] array2 = new int[2];
         final int[] array3 = new int[2];
-        if (this.var_18dd != null && this.var_18e5 > 0) {
+        if (this.m_pathFinding != null && this.var_18e5 > 0) {
             final int[] array4 = new int[3];
             final int[] array5 = new int[3];
             for (int i = 0; i < 3; ++i) {
-                array2[0] = this.var_18dd.sub_a03(i);
-                array2[1] = this.var_18dd.sub_a2d(i);
+                array2[0] = this.m_pathFinding.sub_a03(i);
+                array2[1] = this.m_pathFinding.sub_a2d(i);
                 cGame.sub_2c8b0(array2, array3);
                 array4[i] = array3[0];
                 array5[i] = array3[1];
@@ -3651,26 +3651,26 @@ final class Class_f
         final int[] array;
         (array = new int[2])[0] = var_1845;
         array[1] = var_184d;
-        (this.var_18dd = new Class_n()).sub_26c(96, 96, cGame.var_6fc4, 14, 10, 10, 8);
+        (this.m_pathFinding = new GLLibPathFinding()).PathFinding_Init(96, 96, cGame.var_6fc4, 14, 10, 10, 8);
         final int[] array2 = new int[2];
         cGame.sub_2c867(array, array2);
         array2[0] = ((array2[0] < 0) ? 0 : ((array2[0] > 95) ? 95 : array2[0]));
         array2[1] = ((array2[1] < 0) ? 0 : ((array2[1] > 95) ? 95 : array2[1]));
         final int[] array3 = new int[2];
-        final int[] array4;
-        (array4 = new int[2])[0] = this.camX;
-        array4[1] = this.camY;
-        cGame.sub_2c867(array4, array3);
+        final int[] camCoords;
+        (camCoords = new int[2])[0] = this.camX;
+        camCoords[1] = this.camY;
+        cGame.sub_2c867(camCoords, array3);
         array3[0] = ((array3[0] < 0) ? 0 : ((array3[0] > 95) ? 95 : array3[0]));
         array3[1] = ((array3[1] < 0) ? 0 : ((array3[1] > 95) ? 95 : array3[1]));
-        this.var_18dd.sub_2f7(array3[0], array3[1], 0, array2[0], array2[1]);
-        final int sub_9e2 = this.var_18dd.sub_9e2();
+        this.m_pathFinding.PathFinding_Exec(array3[0], array3[1], 0, array2[0], array2[1]);
+        final int pathLen = this.m_pathFinding.PathFinding_GetPathLength();
         this.var_18ed = GLLib.var_1e9f;
         this.var_18e5 = 0;
         if (this.var_17c5 != 42) {
             if (this.var_17c5 == 54) {
-                if (sub_9e2 > 2) {
-                    this.var_18e5 = sub_9e2 - 1;
+                if (pathLen > 2) {
+                    this.var_18e5 = pathLen - 1;
                 }
                 if (this.var_18e5 == 0) {
                     this.sub_8365(0);
@@ -3682,14 +3682,14 @@ final class Class_f
             }
             return;
         }
-        if (sub_9e2 > 0) {
-            this.var_18e5 = sub_9e2 - 1;
+        if (pathLen > 0) {
+            this.var_18e5 = pathLen - 1;
         }
         if (this.var_18e5 > 2) {
             this.var_18e5 = 2;
             final int[] array5;
-            (array5 = new int[2])[0] = this.var_18dd.sub_a03(this.var_18e5);
-            array5[1] = this.var_18dd.sub_a2d(this.var_18e5);
+            (array5 = new int[2])[0] = this.m_pathFinding.sub_a03(this.var_18e5);
+            array5[1] = this.m_pathFinding.sub_a2d(this.var_18e5);
             final int[] array6 = new int[2];
             cGame.sub_2c8b0(array5, array6);
             this.camX = array6[0];
