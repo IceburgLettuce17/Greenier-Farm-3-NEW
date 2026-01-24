@@ -9,8 +9,8 @@ final class PlatformRequestWorker implements Runnable
 {
 	
     public final void run() {
-        while (GLLib.var_1e47) {
-            GLLib.PlatformRequest();
+        while (GLLib.s_bPlatformRequestPending) {
+            GLLib.doPlatformRequest();
             try {
                 Thread.sleep(1000L);
             }

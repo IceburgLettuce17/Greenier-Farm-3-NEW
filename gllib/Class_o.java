@@ -898,7 +898,7 @@ public final class Class_o {
 		final String creditCard = Class_o.var_2b4d[11] + itemtype;
 		new StringBuffer().append("PaySMS.sendRequest CREDIT CARD: ").append(creditCard);
 		if (creditCard != null) {
-			GLLib.PlatformRequestThread(creditCard);
+			GLLib.OpenBrowser(creditCard);
 		}
 		rmsSave(Class_o.rmsNames[0], "1");
 		rmsSave(Class_o.rmsNames[1], Class_o.code);

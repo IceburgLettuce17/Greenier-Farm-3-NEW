@@ -37,7 +37,7 @@ public final class ASprite
     private byte[] _modules_y_byte;
     private byte[] var_1047;
     private short[][] map;
-    private int var_1057;
+    private int _cur_map;
     byte[] _modules_data;
     private int[] _modules_data_off_int;
     private int _bs_flags;
@@ -45,16 +45,16 @@ public final class ASprite
     int _palettes;
     private int[] var_1087;
     private int _crt_pal;
-    private boolean var_1097;
+    private boolean _alpha;
     //private boolean var_109f;
     private int var_10a7;
     private short _data_format;
     private int[] var_10b7;
     private int[] var_10bf;
     static int s_screenHeight;
-    static int s_screenWidth;
+    static int _graphicsHeight;
     GLLibImage[][] _module_image_imageAA;
-    private GLLibImage[][][] var_10df;
+    private GLLibImage[][][] _frame_image_imageAAA;
     private static boolean var_10e7;
     private static int[] midp2_flags;
     private static int[] var_10f7;
@@ -519,7 +519,7 @@ public final class ASprite
                                     int n48 = -16777216;
                                     if ((n47 & 0x8000) != 0x8000) {
                                         n48 = 0;
-                                        this16.var_1097 = true;
+                                        this16._alpha = true;
                                     }
                                     int n49;
                                     if ((n49 = (n48 | (n47 & 0x7C00) << 9 | (n47 & 0x3E0) << 6 | (n47 & 0x1F) << 3)) == 16253176) {
@@ -534,7 +534,7 @@ public final class ASprite
                                     int n52 = -16777216;
                                     if ((n51 & 0xFFFF) == 0xF81F) {
                                         n52 = 0;
-                                        this16.var_1097 = true;
+                                        this16._alpha = true;
                                     }
                                     int n53;
                                     if ((n53 = (n52 | (n51 & 0xF800) << 8 | (n51 & 0x7E0) << 5 | (n51 & 0x1F) << 3)) == 16253176) {
@@ -548,7 +548,7 @@ public final class ASprite
                                 for (int n54 = 0; n54 < n42; ++n54) {
                                     int n55;
                                     if ((n55 = (file[n44++] & 0xFF) + ((file[n44++] & 0xFF) << 8) + ((file[n44++] & 0xFF) << 16)) == 16711935) {
-                                        this16.var_1097 = true;
+                                        this16._alpha = true;
                                     }
                                     else {
                                         n55 |= 0xFF000000;
@@ -615,7 +615,7 @@ public final class ASprite
                     }
                 }
             }
-            this.var_1057 = -1;
+            this._cur_map = -1;
             this.map = new short[16][];
             if ((this._bs_flags & 0x1000) != 0x0) {
                 final int sub_3717;
@@ -1745,8 +1745,8 @@ public final class ASprite
                     int sizeY = this._modules_h_short[m1] & 0xFFFF;
                     int[] image_data2;
                     if (sizeX > 0 && sizeY > 0 && (image_data2 = this.DecodeImage_int(m1)) != null) {
-                        if (GLLib.var_1fdf && (GLLib.s_PFX_param & 0xFF7E0) != 0x0) {
-                            image_data2 = GLLib.PFX_ProcessSpriteEffects(null, image_data2, 0, 0, sizeX, sizeY, 0, this.var_1097, false, false);
+                        if (GLLib.pfx_useSpriteEffects && (GLLib.s_PFX_type & 0xFF7E0) != 0x0) {
+                            image_data2 = GLLib.PFX_ProcessSpriteEffects(null, image_data2, 0, 0, sizeX, sizeY, 0, this._alpha, false, false);
                             sizeX = GLLib.s_PFX_newSizeX;
                             sizeY = GLLib.s_PFX_newSizeY;
                         }
@@ -1800,11 +1800,11 @@ public final class ASprite
         if (n2 == -1 || n2 >= frames) {
             n2 = frames - 1;
         }
-        if (this.var_10df == null) {
-            this.var_10df = new GLLibImage[this._palettes][][];
+        if (this._frame_image_imageAAA == null) {
+            this._frame_image_imageAAA = new GLLibImage[this._palettes][][];
         }
-        final int n4 = this.var_1057 + 1;
-        if (this.var_10df[n] == null) {
+        final int n4 = this._cur_map + 1;
+        if (this._frame_image_imageAAA[n] == null) {
             
             int i = 0;
             int length = 0;
@@ -1819,15 +1819,15 @@ public final class ASprite
                 }
                 length = i;
             }
-            this.var_10df[n] = new GLLibImage[length + 1][];
+            this._frame_image_imageAAA[n] = new GLLibImage[length + 1][];
         }
-        if (this.var_10df[n][n4] == null) {
-            this.var_10df[n][n4] = new GLLibImage[frames];
+        if (this._frame_image_imageAAA[n][n4] == null) {
+            this._frame_image_imageAAA[n][n4] = new GLLibImage[frames];
         }
         for (int i = sub_312c; i <= n2; ++i) {
             sub_312c = this.GetFrameWidth(i);
             int sub_3718 = this.GetFrameHeight(i);
-            if ((GLLib.s_PFX_param & 0x2000) != 0x0) {
+            if ((GLLib.s_PFX_type & 0x2000) != 0x0) {
                 final int sub_5bbb = GLLib.PFX_Scale_GetScaleX();
                 final int sub_5bfe = GLLib.PFX_Scale_GetScaleY();
                 sub_312c = sub_312c * sub_5bbb / 100;
@@ -1848,7 +1848,7 @@ public final class ASprite
                 final int sub_3720 = this.GetFrameY(i);
                 int n10 = -sub_31e6;
                 int n11 = -sub_3720;
-                if ((GLLib.s_PFX_param & 0x2000) != 0x0) {
+                if ((GLLib.s_PFX_type & 0x2000) != 0x0) {
                     final int sub_5bbb2 = GLLib.PFX_Scale_GetScaleX();
                     final int sub_5bfe2 = GLLib.PFX_Scale_GetScaleY();
                     sub_312c2 = sub_312c2 * sub_5bbb2 / 100;
@@ -1879,14 +1879,14 @@ public final class ASprite
                         final int var_10c7 = sub_3719;
                         final int var_10cf = sub_312c2;
                         ASprite.s_screenHeight = var_10c7;
-                        ASprite.s_screenWidth = var_10cf;
+                        ASprite._graphicsHeight = var_10cf;
                     }
                     this.PaintFrame(graphics, i, n10, n11, 0);
                     if ((n12 & 0x4) != 0x0) {
                         final int var_1ddf = GLLib.s_screenWidth;
                         final int var_1de7 = GLLib.s_screenHeight;
                         ASprite.s_screenHeight = var_1ddf;
-                        ASprite.s_screenWidth = var_1de7;
+                        ASprite._graphicsHeight = var_1de7;
                     }
                     GLLib.GetRGB(img, array3, 0, sub_312c2, 0, 0, sub_312c2, sub_3719);
                     final int displayColor = GLLib.g.getDisplayColor(16711935);
@@ -1905,7 +1905,7 @@ public final class ASprite
                 final int n14 = ASprite.var_1107[0];
                 class_l = ((array4 == null) ? null : (((n14 & 0x4) != 0x0) ? GLLibImage.createRGBImage(array4, sub_3718, sub_312c, ASprite.var_10e7) : GLLibImage.createRGBImage(array4, sub_312c, sub_3718, ASprite.var_10e7)));
             }
-            this.var_10df[n][n4][i] = class_l;
+            this._frame_image_imageAAA[n][n4][i] = class_l;
         }
     }
     
@@ -1914,13 +1914,13 @@ public final class ASprite
         final int cy = GLLib.GetClipY(g, true);
         final int cw = GLLib.GetClipWidth(g, true);
         final int ch = GLLib.GetClipHeight(g, true);
-        if ((GLLib.s_PFX_param & 0x2000) != 0x0) {
+        if ((GLLib.s_PFX_type & 0x2000) != 0x0) {
             final int percentX = GLLib.PFX_Scale_GetScaleX();
             final int percentY = GLLib.PFX_Scale_GetScaleY();
             w = w * percentX / 100;
             h = h * percentY / 100;
         }
-        else if ((GLLib.s_PFX_param & 1 << 15) != 0x0) {
+        else if ((GLLib.s_PFX_type & 1 << 15) != 0x0) {
             return true;
         }
         return x + w >= cx && y + h >= cy && x < cx + cw && y < cy + ch;
@@ -1946,7 +1946,7 @@ public final class ASprite
             offsetX = -offsetY;
             offsetY = anim;
         }
-        if ((GLLib.s_PFX_param & 0x2000) != 0x0 && GLLib.s_PFX_params[13][5] == 0) {
+        if ((GLLib.s_PFX_type & 0x2000) != 0x0 && GLLib.s_PFX_params[13][5] == 0) {
             anim = GLLib.PFX_Scale_GetScaleX();
             flags = GLLib.PFX_Scale_GetScaleY();
             offsetX = anim * offsetX / 100;
@@ -1963,7 +1963,7 @@ public final class ASprite
         int sub_3019 = -1;
         Label_0748: {
             if (ASprite._operation == 0) {
-                if (this.var_10df != null && this.var_10df[_crt_pal] != null && this.var_10df[_crt_pal][this.var_1057 + 1][n] != null) {
+                if (this._frame_image_imageAAA != null && this._frame_image_imageAAA[_crt_pal] != null && this._frame_image_imageAAA[_crt_pal][this._cur_map + 1][n] != null) {
                     int n6 = height;
                     int n7 = 0;
                     final int sizeX = this.GetFrameWidth(n);
@@ -1986,7 +1986,7 @@ public final class ASprite
                     }
                     posX = posX + offsetX;
                     posY = posY + offsetY;
-                    if ((GLLib.s_PFX_param & 0x2000) != 0x0) {
+                    if ((GLLib.s_PFX_type & 0x2000) != 0x0) {
                         final int percentX = GLLib.PFX_Scale_GetScaleX();
                         final int percentY = GLLib.PFX_Scale_GetScaleY();
                         offsetX -= percentX * offsetX / 100;
@@ -1994,7 +1994,7 @@ public final class ASprite
                         posX -= offsetX;
                         posY -= offsetY;
                     }
-                    if ((GLLib.s_PFX_param & 1 << 15) != 0x0) {
+                    if ((GLLib.s_PFX_type & 1 << 15) != 0x0) {
                         posX -= offsetX;
                         posY -= offsetY;
                     }
@@ -2012,27 +2012,27 @@ public final class ASprite
                             }
                         }
                         int n13 = sizeY;
-                        if ((GLLib.s_PFX_param & 0x2000) != 0x0) {
+                        if ((GLLib.s_PFX_type & 0x2000) != 0x0) {
                             n13 = n13 * GLLib.PFX_Scale_GetScaleY() / 100;
                         }
                         final int n14 = posX;
-                        final int n15 = ASprite.s_screenWidth - posY - n13;
+                        final int n15 = ASprite._graphicsHeight - posY - n13;
                         final int n16 = n14;
                         final int n17 = sizeX;
                         final int n18 = sizeY;
                         final int n19 = n17;
-                        final int _crt_pal2 = this._crt_pal;
-                        final GLLibImage image;
-                        if ((image = ((this.var_10df == null || this.var_10df[_crt_pal2] == null) ? null : this.var_10df[_crt_pal2][this.var_1057 + 1][n])) != null) {
+                        final int pal = this._crt_pal;
+                        final GLLibImage img_image;
+                        if ((img_image = ((this._frame_image_imageAAA == null || this._frame_image_imageAAA[pal] == null) ? null : this._frame_image_imageAAA[pal][this._cur_map + 1][n])) != null) {
                             Label_0733: {
-                                if (GLLib.var_1fdf && (GLLib.s_PFX_param & 0xFF7E0) != 0x0) {
+                                if (GLLib.pfx_useSpriteEffects && (GLLib.s_PFX_type & 0xFF7E0) != 0x0) {
                                     boolean b = false;
-                                    if (image != null) {
-                                        final int[] sub_39a6 = GetPixelBuffer_int(null);
-                                        GLLib.GetRGB(image, sub_39a6, 0, n18, 0, 0, n18, n19);
-                                        final int[] sub_5d84 = GLLib.PFX_ProcessSpriteEffects(g, sub_39a6, n15, n16, n18, n19, height, var_1097, false, true);
-                                        if (sub_5d84 != null) {
-                                            GLLib.DrawRGB(g, sub_5d84, 0, GLLib.s_PFX_newSizeX, n15, n16, GLLib.s_PFX_newSizeX, GLLib.s_PFX_newSizeY, GLLib.s_PFX_hasAlpha, true, 0, -1, false);
+                                    if (img_image != null) {
+                                        final int[] buffer = GetPixelBuffer_int(null);
+                                        GLLib.GetRGB(img_image, buffer, 0, n18, 0, 0, n18, n19);
+                                        final int[] image_data = GLLib.PFX_ProcessSpriteEffects(g, buffer, n15, n16, n18, n19, height, _alpha, false, true);
+                                        if (image_data != null) {
+                                            GLLib.DrawRGB(g, image_data, 0, GLLib.s_PFX_newSizeX, n15, n16, GLLib.s_PFX_newSizeX, GLLib.s_PFX_newSizeY, GLLib.s_PFX_hasAlpha, true, 0, -1, false);
                                         }
                                         b = true;
                                     }
@@ -2041,10 +2041,10 @@ public final class ASprite
                                     }
                                 }
                                 if (n6 == 0) {
-                                    GLLib.DrawImage(g, image, n15, n16, 20, false);
+                                    GLLib.DrawImage(g, img_image, n15, n16, 20, false);
                                 }
                                 else {
-                                    GLLib.DrawRegion(g, image, 0, 0, n18, n19, ASprite.midp2_flags[height & 0x7], n15, n16, 20, false);
+                                    GLLib.DrawRegion(g, img_image, 0, 0, n18, n19, ASprite.midp2_flags[height & 0x7], n15, n16, 20, false);
                                 }
                             }
                             n7 = 1;
@@ -2064,8 +2064,8 @@ public final class ASprite
                 int sub_330a = this.GetFModuleFlags(sub_3022);
                 final int sub_328e;
                 int n29 = sub_328e = this.GetFModuleIndex(sub_3022);
-                if (this.var_1057 >= 0) {
-                    n29 = this.map[this.var_1057][n29];
+                if (this._cur_map >= 0) {
+                    n29 = this.map[this._cur_map][n29];
                 }
                 int n30 = this._modules_w_short[n29] & 0xFFFF;
                 int n31 = this._modules_h_short[n29] & 0xFFFF;
@@ -2092,10 +2092,10 @@ public final class ASprite
                     n34 = -n35 - n31;
                     n35 = n37;
                 }
-                if ((GLLib.s_PFX_param & 0x2000) != 0x0 && GLLib.s_PFX_params[13][5] == 0) {
+                if ((GLLib.s_PFX_type & 0x2000) != 0x0 && GLLib.s_PFX_params[13][5] == 0) {
                     final int sub_5bbb2 = GLLib.PFX_Scale_GetScaleX();
                     final int sub_5bfe2 = GLLib.PFX_Scale_GetScaleY();
-                    if (GLLib.s_PFX_params[13][6] % GLLib.var_1e9f != 0) {
+                    if (GLLib.s_PFX_params[13][6] % GLLib.s_math_F_1 != 0) {
                         GLLib.s_PFX_params[16][1] = -n34;
                         GLLib.s_PFX_params[16][2] = -n35;
                     }
@@ -2130,10 +2130,10 @@ public final class ASprite
         ASprite.s_rc[1] = p2y;
         
         p2y = posX;
-        if (this.var_1057 >= 0) {
-            module = this.map[this.var_1057][module];
+        if (this._cur_map >= 0) {
+            module = this.map[this._cur_map][module];
         }
-        if ((GLLib.s_PFX_param & 0x2000) != 0x0 && GLLib.s_PFX_params[13][5] != 0) {
+        if ((GLLib.s_PFX_type & 0x2000) != 0x0 && GLLib.s_PFX_params[13][5] != 0) {
             posX *= GLLib.PFX_Scale_GetScaleX() / 100;
             posY *= GLLib.PFX_Scale_GetScaleY() / 100;
         }
@@ -2147,7 +2147,7 @@ public final class ASprite
                     n3 = ((n3 & 0xFFFFFFFD) | 0x1);
                 }
             }
-            final int n12 = ASprite.s_screenWidth - posY;
+            final int n12 = ASprite._graphicsHeight - posY;
             posY = module;
 
             int n15 = this._modules_h_short[posY];
@@ -2157,7 +2157,7 @@ public final class ASprite
             if (n15 < 0) {
                 n15 += 255;
             }
-            if ((GLLib.s_PFX_param & 0x2000) != 0x0) {
+            if ((GLLib.s_PFX_type & 0x2000) != 0x0) {
                 n15 = n15 * GLLib.PFX_Scale_GetScaleY() / 100;
             }
             posX = n12 - n15;
@@ -2338,18 +2338,18 @@ public final class ASprite
             }
             return;
         }
-        if ((GLLib.s_PFX_param & 0x2000) != 0x0 && GLLib.s_PFX_params[13][6] % 360 != 0) {
-            int n44 = ((GLLib.s_PFX_param & 0x2000) != 0x0) ? GLLib.s_PFX_params[13][6] : GLLib.s_PFX_params[16][0];
+        if ((GLLib.s_PFX_type & 0x2000) != 0x0 && GLLib.s_PFX_params[13][6] % 360 != 0) {
+            int n44 = ((GLLib.s_PFX_type & 0x2000) != 0x0) ? GLLib.s_PFX_params[13][6] : GLLib.s_PFX_params[16][0];
             if ((n3 & 0x4) != 0x0) {
                 n3 &= 0xFFFFFFFB;
-                n44 += 90 * GLLib.var_1ed7 / 360;
+                n44 += 90 * GLLib.Math_AngleMUL / 360;
             }
-            GLLib.sub_5cfb(GLLib.Math_Cos(GLLib.Math_Angle90 - n44), GLLib.Math_Cos(n44), p2x, var_1148, ASprite.s_rc);
+            GLLib.PFX_Rotate_GetRotatedRectSize(GLLib.Math_Cos(GLLib.Math_Angle90 - n44), GLLib.Math_Cos(n44), p2x, var_1148, ASprite.s_rc);
             int n45 = ASprite.s_rc[0];
             int n46 = ASprite.s_rc[1];
             int n47 = p2x - GLLib.s_PFX_params[16][2];
             int n48 = GLLib.s_PFX_params[16][1];
-            if ((GLLib.s_PFX_param & 0x2000) != 0x0) {
+            if ((GLLib.s_PFX_type & 0x2000) != 0x0) {
                 n47 = n47 * GLLib.PFX_Scale_GetScaleX() / 100;
                 n48 = n48 * GLLib.PFX_Scale_GetScaleY() / 100;
                 p2x = p2x * GLLib.PFX_Scale_GetScaleX() / 100;
@@ -2371,10 +2371,10 @@ public final class ASprite
                 if (this._module_image_imageAA != null && this._module_image_imageAA[this._crt_pal] != null) {
                     class_l = this._module_image_imageAA[this._crt_pal][module];
                 }
-                boolean b = this.var_1097;
+                boolean b = this._alpha;
                 if (class_l == null) {
                     int[] array;
-                    if (GLLib.var_1fdf && (GLLib.s_PFX_param & 0xFF7E0) != 0x0 && this.PFXCache_IsInited()) {
+                    if (GLLib.pfx_useSpriteEffects && (GLLib.s_PFX_type & 0xFF7E0) != 0x0 && this.PFXCache_IsInited()) {
                         if (this.PFXCache_TryPaintModule(module, posX, posY, n3)) {
                             return;
                         }
@@ -2385,7 +2385,7 @@ public final class ASprite
                     }
                     if (array != null) {
                         boolean b2 = false;
-                        if (GLLib.var_1fdf && (GLLib.s_PFX_param & 0xFF7E0) != 0x0) {
+                        if (GLLib.pfx_useSpriteEffects && (GLLib.s_PFX_type & 0xFF7E0) != 0x0) {
                             if (this.PFXCache_TryPaintModule(module, posX, posY, n3)) {
                                 return;
                             }
@@ -2430,17 +2430,17 @@ public final class ASprite
                                     }
                                 }
                                 if ((n3 & 0x4) != 0x0) {
-                                    class_l2 = GLLibImage.createRGBImage(array2, var_1148, p2x, this.var_1097);
+                                    class_l2 = GLLibImage.createRGBImage(array2, var_1148, p2x, this._alpha);
                                 }
                                 else {
-                                    class_l2 = GLLibImage.createRGBImage(array2, p2x, var_1148, this.var_1097);
+                                    class_l2 = GLLibImage.createRGBImage(array2, p2x, var_1148, this._alpha);
                                 }
                             }
                             else if ((n3 & 0x4) != 0x0) {
-                                class_l2 = GLLibImage.createRGBImage(array, var_1148, p2x, this.var_1097);
+                                class_l2 = GLLibImage.createRGBImage(array, var_1148, p2x, this._alpha);
                             }
                             else {
-                                class_l2 = GLLibImage.createRGBImage(array, p2x, var_1148, this.var_1097);
+                                class_l2 = GLLibImage.createRGBImage(array, p2x, var_1148, this._alpha);
                             }
                             this.UpdatePoolCache(module, class_l2);
                             if (!b2) {
@@ -2489,7 +2489,7 @@ public final class ASprite
                         }
                     }
                 }
-                else if (GLLib.var_1fdf && (GLLib.s_PFX_param & 0xFF7E0) != 0x0) {
+                else if (GLLib.pfx_useSpriteEffects && (GLLib.s_PFX_type & 0xFF7E0) != 0x0) {
                     if (!this.PFXCache_TryPaintModule(module, posX, posY, n3)) {
                         final boolean sub_3b2c2 = this.PFXCache_IsInited();
                         final Graphics graphics6 = g;
@@ -2641,7 +2641,7 @@ public final class ASprite
     
     static {
         ASprite.s_screenHeight = 800;
-        ASprite.s_screenWidth = 480;
+        ASprite._graphicsHeight = 480;
         ASprite.midp2_flags = new int[] { 0, 2, 1, 3, 5, 7, 4, 6 };
         ASprite.var_10f7 = new int[] { 1, 0, 3, 2, 6, 7, 4, 5 };
         ASprite.var_10ff = new int[] { 2, 3, 0, 1, 5, 4, 7, 6 };

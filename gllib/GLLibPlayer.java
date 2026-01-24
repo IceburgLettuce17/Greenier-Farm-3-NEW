@@ -220,7 +220,7 @@ final class GLLibPlayer implements Runnable
             return;
         }
         boolean disableEffects = false;
-        if (this.curScale != -1 && this.curScale != 100 && (GLLib.s_PFX_param & 0x2000) == 0x0) {
+        if (this.curScale != -1 && this.curScale != 100 && (GLLib.s_PFX_type & 0x2000) == 0x0) {
             disableEffects = true;
             GLLib.PFX_EnableScaleEffect();
             GLLib.PFX_Scale_SetScale(this.curScale);
@@ -235,7 +235,7 @@ final class GLLibPlayer implements Runnable
             this.sprite.PaintAFrame(GLLib.g, this.curAnim, this.curFrame, this.posX, this.posY, this.curFlags);
         }
         if (disableEffects) {
-            GLLib.s_PFX_param &= 0xFFF0081F;
+            GLLib.s_PFX_type &= 0xFFF0081F;
         }
     }
     
@@ -1352,7 +1352,7 @@ final class GLLibPlayer implements Runnable
             return;
         }
         GLLib.ClipRect(graphics, n6, n7, n4, n5, true);
-        GLLib.DrawImage(graphics, GLLibPlayer.s_TilesetLayerImage[n][0], n3 - n7 + ASprite.s_screenWidth - GLLibPlayer.s_TilesetLayerInfo[n][8], n6 - n2, 20, false);
+        GLLib.DrawImage(graphics, GLLibPlayer.s_TilesetLayerImage[n][0], n3 - n7 + ASprite._graphicsHeight - GLLibPlayer.s_TilesetLayerInfo[n][8], n6 - n2, 20, false);
     }
     
     private static void Tileset_UpdateBuffer(final Graphics graphics, final int n, final int n2, final int n3, final int n4, final int n5, final int n6, final int n7) {
@@ -1372,7 +1372,7 @@ final class GLLibPlayer implements Runnable
             final int var_10c7 = GLLibPlayer.s_TilesetLayerInfo[nLayer][7];
             final int var_10cf2 = GLLibPlayer.s_TilesetLayerInfo[nLayer][8];
             ASprite.s_screenHeight = var_10c7;
-            ASprite.s_screenWidth = var_10cf2;
+            ASprite._graphicsHeight = var_10cf2;
         }
         if (useCB) {
             originDestX += tileX0 * GLLibPlayer.s_TilesetInfo[2] % GLLibPlayer.s_TilesetLayerInfo[nLayer][7];
@@ -1408,7 +1408,7 @@ final class GLLibPlayer implements Runnable
                 final int var_1ddf = GLLib.s_screenWidth;
                 nLayer = GLLib.s_screenHeight;
                 ASprite.s_screenHeight = var_1ddf;
-                ASprite.s_screenWidth = nLayer;
+                ASprite._graphicsHeight = nLayer;
                 return;
             }
         }
@@ -1436,7 +1436,7 @@ final class GLLibPlayer implements Runnable
                 final int var_1ddf2 = GLLib.s_screenWidth;
                 nLayer = GLLib.s_screenHeight;
                 ASprite.s_screenHeight = var_1ddf2;
-                ASprite.s_screenWidth = nLayer;
+                ASprite._graphicsHeight = nLayer;
                 return;
             }
         }
@@ -1539,7 +1539,7 @@ final class GLLibPlayer implements Runnable
         }
         nLayer = GLLib.s_screenHeight;
         ASprite.s_screenHeight = GLLib.s_screenWidth;
-        ASprite.s_screenWidth = nLayer;
+        ASprite._graphicsHeight = nLayer;
     }
     
     private static final void sub_59b2(final int n, final int n2, final int n3, final int n4, final int n5) {
@@ -1621,7 +1621,7 @@ final class GLLibPlayer implements Runnable
         return GLLibPlayer.s_TilesetLayerInfo[0][14];
     }
     
-    static final int sub_5cb3() {
+    static final int Tileset_GetLayerWidth() {
         if (!GLLibPlayer.s_bTilesetPlayerInitialized) {
             return -1;
         }
@@ -1635,7 +1635,7 @@ final class GLLibPlayer implements Runnable
         return GLLibPlayer.s_TilesetLayerInfo[0][5];
     }
     
-    static final int sub_5d2e() {
+    static final int Tileset_GetLayerHeight() {
         if (!GLLibPlayer.s_bTilesetPlayerInitialized) {
             return -1;
         }
@@ -1777,7 +1777,7 @@ final class GLLibPlayer implements Runnable
                 u = ((ASprite)o).GetFrameY(n);
                 asprite_framewidth = ((ASprite)o).GetFrameWidth(n);
                 asprite_frameheight = ((ASprite)o).GetFrameHeight(n);
-                if ((GLLib.s_PFX_param & 0x2000) != 0x0) {
+                if ((GLLib.s_PFX_type & 0x2000) != 0x0) {
                     final int zoom = GLLib.s_PFX_params[13][1];
                     x = x * zoom / 100;
                     u = u * zoom / 100;
@@ -1831,7 +1831,7 @@ final class GLLibPlayer implements Runnable
             final int height = GLLibPlayer.s_TilesetLayerInfo[0][7];
             final int width = GLLibPlayer.s_TilesetLayerInfo[0][8];
             ASprite.s_screenHeight = height;
-            ASprite.s_screenWidth = width;
+            ASprite._graphicsHeight = width;
             final int cx = GLLib.GetClipX(graphics, true);
             final int cy = GLLib.GetClipY(graphics, true);
             final int cw = GLLib.GetClipWidth(graphics, true);
@@ -1843,11 +1843,11 @@ final class GLLibPlayer implements Runnable
             final int n25 = array[7];
             final int n26 = array[8];
             final int var_10c8 = ASprite.s_screenHeight;
-            final int var_10cf2 = ASprite.s_screenWidth;
+            final int var_10cf2 = ASprite._graphicsHeight;
             final int var_10c9 = n25;
             final int var_10cf3 = n26;
             ASprite.s_screenHeight = var_10c9;
-            ASprite.s_screenWidth = var_10cf3;
+            ASprite._graphicsHeight = var_10cf3;
             final int n27 = var_16f7;
             n2 += x;
             y += u;
@@ -1984,9 +1984,9 @@ final class GLLibPlayer implements Runnable
             }
             GLLib.SetClip(graphics, cx, cy, cw, ch, true);
             ASprite.s_screenHeight = var_10c8;
-            ASprite.s_screenWidth = var_10cf2;
+            ASprite._graphicsHeight = var_10cf2;
             ASprite.s_screenHeight = GLLib.s_screenWidth;
-            ASprite.s_screenWidth = GLLib.s_screenHeight;
+            ASprite._graphicsHeight = GLLib.s_screenHeight;
         }
     }
     
@@ -2001,7 +2001,7 @@ final class GLLibPlayer implements Runnable
         }
         else if (n11 == 5) {
             rgbY = rgbX;
-            rgbX = ASprite.s_screenWidth - uWidth - rgbScanLength;
+            rgbX = ASprite._graphicsHeight - uWidth - rgbScanLength;
             GLLib.DrawRGB(g, (int[])o, 0, rgbScanLength, rgbX, rgbY, rgbScanLength, rgbHeight, true, false, uHeight, -1, false);
         }
         else if (n11 == 4) {
@@ -2033,7 +2033,7 @@ final class GLLibPlayer implements Runnable
         final int var_10c7 = GLLibPlayer.s_TilesetLayerInfo[n][7];
         final int var_10cf = GLLibPlayer.s_TilesetLayerInfo[n][8];
         ASprite.s_screenHeight = var_10c7;
-        ASprite.s_screenWidth = var_10cf;
+        ASprite._graphicsHeight = var_10cf;
         if ((var_1de7 %= var_10c7) < 0) {
             var_1de7 += var_10c7;
         }
@@ -2061,7 +2061,7 @@ final class GLLibPlayer implements Runnable
         final int var_1ddf = GLLib.s_screenWidth;
         var_1de7 = GLLib.s_screenHeight;
         ASprite.s_screenHeight = var_1ddf;
-        ASprite.s_screenWidth = var_1de7;
+        ASprite._graphicsHeight = var_1de7;
     }
     
     static {

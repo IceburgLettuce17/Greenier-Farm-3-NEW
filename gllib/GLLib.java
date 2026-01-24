@@ -38,31 +38,31 @@ public abstract class GLLib extends Canvas implements Runnable
     static MIDlet s_application;
     private static int m_FPSLimiter;
     private long m_frameCoheranceTimer;
-    static int var_1e17;
+    static int m_customSleepTime;
     static int s_game_frameDT;
     private static long s_game_frameDTTimer;
     static int s_game_totalExecutionTime;
 	//private static int s_game_currentFrameNB;
     static GLLib s_gllib_instance;
-    static boolean var_1e47;
-    private static String s_platformRequestUrl;
+    static boolean s_bPlatformRequestPending;
+    private static String s_urlPlatformRequest;
     private static int m_keys_pressed;
     private static int m_keys_released;
     //private static int m_current_keys_state;
     private static int m_current_keys_pressed;
     private static int m_current_keys_released;
-    private static int var_1e7f;
+    private static int s_keysDisabledTimer;
     private static Hashtable standardKeyTable;
     private static Hashtable gameActionKeyTable;
-    private static int var_1e97;
-    static final int var_1e9f;
+    private static int s_nbKey;
+    static final int s_math_F_1;
     static final int ALWAYS_128;
     static Random s_math_random;
     static int var_1eb7;
     static int var_1ebf;
     private static int[] s_math_cosTable;
     private static int[] s_math_sqrtTable;
-    static final int var_1ed7;
+    static final int Math_AngleMUL;
     static final int Math_Angle90;
     private static int Math_Angle180;
     private static int Math_Angle270;
@@ -82,7 +82,7 @@ public abstract class GLLib extends Canvas implements Runnable
     private static byte[] s_Pack_SkipBuffer;
     private static byte[][] MIME_type;
     private static int Stream_readOffset;
-    private static char[] var_1f77;
+    private static char[] hexDigit;
     private static int[] crcTable;
     private static boolean s_crcTableWasInited;
     static String text_encoding;
@@ -95,8 +95,8 @@ public abstract class GLLib extends Canvas implements Runnable
     private static int var_1fc7;
     private static int[] var_1fcf;
     private static int[][] var_1fd7;
-    static final boolean var_1fdf;
-    static int s_PFX_param;
+    static final boolean pfx_useSpriteEffects;
+    static int s_PFX_type;
     static int[][] s_PFX_params;
     static boolean s_PFX_hasAlpha;
     private static int s_PFX_sizeX;
@@ -106,14 +106,14 @@ public abstract class GLLib extends Canvas implements Runnable
     static int s_PFX_newSizeX;
     static int s_PFX_newSizeY;
     static int s_pointerState;
-    static int s_screenX;
-    static int s_screenY;
+    static int s_pointerX;
+    static int s_pointerY;
     //private static int var_2047;
     //private static int var_204f;
-    private static boolean var_2057;
-    private static boolean var_205f;
-    private static boolean var_2067;
-    private static long var_206f;
+    private static boolean s_isPointerPressedSystem;
+    private static boolean s_isPointerReleasedSystem;
+    private static boolean s_isPointerDraggedSystem;
+    private static long s_iapRequestTime;
     
     abstract void Game_update();
     
@@ -236,12 +236,12 @@ public abstract class GLLib extends Canvas implements Runnable
                     this.serviceRepaints();
                     long curTime = System.currentTimeMillis();
                     this.m_frameCoheranceTimer = Math.min(this.m_frameCoheranceTimer, curTime);
-                    if (GLLib.var_1e17 >= 0) {
-                        if (GLLib.var_1e17 == 0) {
+                    if (GLLib.m_customSleepTime >= 0) {
+                        if (GLLib.m_customSleepTime == 0) {
                             Thread.yield();
                         }
                         else {
-                            Thread.sleep(GLLib.var_1e17);
+                            Thread.sleep(GLLib.m_customSleepTime);
                         }
                     }
                     else {
@@ -279,9 +279,9 @@ public abstract class GLLib extends Canvas implements Runnable
             GLLib.m_keys_released = GLLib.m_current_keys_released;
             GLLib.m_current_keys_pressed = 0;
             GLLib.m_current_keys_released = 0;
-            if (GLLib.var_1e7f > 0) {
-                if (GLLib.var_1e7f != Integer.MAX_VALUE) {
-                    GLLib.var_1e7f -= GLLib.s_game_frameDT;
+            if (GLLib.s_keysDisabledTimer > 0) {
+                if (GLLib.s_keysDisabledTimer != Integer.MAX_VALUE) {
+                    GLLib.s_keysDisabledTimer -= GLLib.s_game_frameDT;
                 }
                 ResetKey();
             }
@@ -296,21 +296,21 @@ public abstract class GLLib extends Canvas implements Runnable
                 break;
             }
         }
-        if (GLLib.var_2057) {
+        if (GLLib.s_isPointerPressedSystem) {
             GLLib.s_pointerState = 1;
-            GLLib.var_2057 = false;
+            GLLib.s_isPointerPressedSystem = false;
         }
-        else if (GLLib.var_205f) {
+        else if (GLLib.s_isPointerReleasedSystem) {
             GLLib.s_pointerState = 2;
-            GLLib.var_205f = false;
-            GLLib.var_2067 = false;
+            GLLib.s_isPointerReleasedSystem = false;
+            GLLib.s_isPointerDraggedSystem = false;
         }
-        else if (GLLib.var_2067) {
+        else if (GLLib.s_isPointerDraggedSystem) {
             GLLib.s_pointerState = 3;
-            GLLib.var_2067 = false;
+            GLLib.s_isPointerDraggedSystem = false;
         }
-        //GLLib.var_2047 = GLLib.s_screenX;
-        //GLLib.var_204f = GLLib.s_screenY;
+        //GLLib.var_2047 = GLLib.s_pointerX;
+        //GLLib.var_204f = GLLib.s_pointerY;
         if ((GLLib.s_game_frameDT = (int)((GLLib.s_game_timeWhenFrameStart = System.currentTimeMillis()) - GLLib.s_game_frameDTTimer)) < 0) {
             GLLib.s_game_frameDT = 0;
         }
@@ -331,17 +331,17 @@ public abstract class GLLib extends Canvas implements Runnable
         GLLib.s_game_isInPaint = false;
     }
     
-    static final void PlatformRequestThread(final String url) {
-        GLLib.var_1e47 = true;
-        GLLib.s_platformRequestUrl = url;
+    static final void OpenBrowser(final String uri) {
+        GLLib.s_bPlatformRequestPending = true;
+        GLLib.s_urlPlatformRequest = uri;
         new Thread(new PlatformRequestWorker()).start();
     }
     
-    static final void PlatformRequest() {
-        GLLib.var_1e47 = false;
-        if (GLLib.s_platformRequestUrl != null) {
+    static final void doPlatformRequest() {
+        GLLib.s_bPlatformRequestPending = false;
+        if (GLLib.s_urlPlatformRequest != null) {
             try {
-                GLLib.s_application.platformRequest(GLLib.s_platformRequestUrl);
+                GLLib.s_application.platformRequest(GLLib.s_urlPlatformRequest);
             }
             catch (final Exception ex) {}
         }
@@ -403,7 +403,7 @@ public abstract class GLLib extends Canvas implements Runnable
         if (GLLib.m_keys_pressed == 0) {
             return -1;
         }
-        int i = GLLib.var_1e97;
+        int i = GLLib.s_nbKey;
         while (--i >= 0) {
             if ((GLLib.m_keys_pressed & 1 << i) != 0x0) {
                 return i;
@@ -416,7 +416,7 @@ public abstract class GLLib extends Canvas implements Runnable
         if (GLLib.m_keys_released == 0) {
             return -1;
         }
-        int i = GLLib.var_1e97;
+        int i = GLLib.s_nbKey;
         while (--i >= 0) {
             if ((GLLib.m_keys_released & 1 << i) != 0x0) {
                 return i;
@@ -514,11 +514,11 @@ public abstract class GLLib extends Canvas implements Runnable
         }
     }
     
-    static void sub_2dcf(final int n, final int n2, final int n3, final int n4, final int n5, final int n6, int n7) {
-        final int n11 = GLLib.var_1e9f - n7 * GLLib.var_1e9f - n7;
-        n7 *= GLLib.var_1e9f;
-        GLLib.var_1eb7 = (n * n11 + (n3 << 1) * n7 + n5 * n7 * n7) / (1 << 16);
-        GLLib.var_1ebf = (n2 * n11 + (n4 << 1) * n7 + n6 * n7 * n7) / (1 << 16);
+    static void sub_2dcf(final int n, final int n2, final int n3, final int n4, final int n5, final int n6, int interp) {
+        final int mum2 = GLLib.s_math_F_1 - interp * GLLib.s_math_F_1 - interp;
+        interp *= GLLib.s_math_F_1;
+        GLLib.var_1eb7 = (n * mum2 + (n3 << 1) * interp + n5 * interp * interp) / (1 << 16);
+        GLLib.var_1ebf = (n2 * mum2 + (n4 << 1) * interp + n6 * interp * interp) / (1 << 16);
     }
     
     private static void Pack_GetDataOffset() {
@@ -752,7 +752,7 @@ public abstract class GLLib extends Canvas implements Runnable
     
     static final int GetClipY(final Graphics _g, final boolean x) {
         if (x) {
-            return ASprite.s_screenWidth - _g.getClipX() - _g.getClipWidth();
+            return ASprite._graphicsHeight - _g.getClipX() - _g.getClipWidth();
         }
         return _g.getClipY();
     }
@@ -773,7 +773,7 @@ public abstract class GLLib extends Canvas implements Runnable
     
     static final void ClipRect(final Graphics g, int x, int y, int width, int height, final boolean processAlpha) {
         final int n5 = x;
-        x = ASprite.s_screenWidth - y - height;
+        x = ASprite._graphicsHeight - y - height;
         y = n5;
         final int n6 = width;
         width = height;
@@ -782,7 +782,7 @@ public abstract class GLLib extends Canvas implements Runnable
     }
     
     static final void SetClip(final Graphics _g, int x, int y, int width, int height, final boolean processAlpha) {
-        x = ASprite.s_screenWidth - y - height;
+        x = ASprite._graphicsHeight - y - height;
         y = x;
         width = height;
         height = width;
@@ -790,15 +790,15 @@ public abstract class GLLib extends Canvas implements Runnable
     }
     
     static final void DrawLine(final Graphics _g, int x1, int y1, int x2, int y2, final boolean processAlpha) {
-        x1 = ASprite.s_screenWidth - y1 - 1;
+        x1 = ASprite._graphicsHeight - y1 - 1;
         y1 = x1;
-        x2 = ASprite.s_screenWidth - y2 - 1;
+        x2 = ASprite._graphicsHeight - y2 - 1;
         y2 = x2;
         _g.drawLine(x1, y1, x2, y2);
     }
     
     static final void FillRect(final Graphics _g, int x, int y, int width, int height, final boolean processAlpha) {
-        x = ASprite.s_screenWidth - y - height;
+        x = ASprite._graphicsHeight - y - height;
         y = x;
         width = height;
         height = width;
@@ -806,7 +806,7 @@ public abstract class GLLib extends Canvas implements Runnable
     }
     
     static final void DrawRect(final Graphics _g, int x, int y, int width, int height, final boolean processAlpha) {
-        x = ASprite.s_screenWidth - y - height - 1;
+        x = ASprite._graphicsHeight - y - height - 1;
         y = x;
         width = height;
         height = width;
@@ -814,7 +814,7 @@ public abstract class GLLib extends Canvas implements Runnable
     }
     
     static final void FillArc(final Graphics _g, int x, int y, int width, int height, int startAngle, final int arcAngle, final boolean processAlpha) {
-        x = ASprite.s_screenWidth - y - height;
+        x = ASprite._graphicsHeight - y - height;
         y = x;
         width = height;
         height = width;
@@ -823,7 +823,7 @@ public abstract class GLLib extends Canvas implements Runnable
     }
     
     static final void DrawArc(final Graphics _g, int x, int y, int width, int height, int startAngle, final int arcAngle, final boolean processAlpha) {
-        x = ASprite.s_screenWidth - y - height;
+        x = ASprite._graphicsHeight - y - height;
         y = x;
         width = height;
         height = width;
@@ -873,7 +873,7 @@ public abstract class GLLib extends Canvas implements Runnable
                 transform = 7;
             }
             y_src = x_dest;
-            x_dest = ASprite.s_screenWidth - y_dest;
+            x_dest = ASprite._graphicsHeight - y_dest;
             y_dest = y_src;
             anchor = 24;
         }
@@ -893,11 +893,11 @@ public abstract class GLLib extends Canvas implements Runnable
     }
     
     static final void FillTriangle(final Graphics _g, int x1, int y1, int x2, int y2, int x3, int y3, final boolean b) {
-        x1 = ASprite.s_screenWidth - y1 - 1;
+        x1 = ASprite._graphicsHeight - y1 - 1;
         y1 = x1;
-        x2 = ASprite.s_screenWidth - y2 - 1;
+        x2 = ASprite._graphicsHeight - y2 - 1;
         y2 = x2;
-        x3 = ASprite.s_screenWidth - y3 - 1;
+        x3 = ASprite._graphicsHeight - y3 - 1;
         y3 = x3;
         _g.fillTriangle(x1, y1, x2, y2, x3, y3);
         DrawLine(_g, x1, y1, x2, y2, true);
@@ -929,7 +929,7 @@ public abstract class GLLib extends Canvas implements Runnable
                 n7 |= 0x4;
             }
             n8 = x;
-            x = ASprite.s_screenWidth - y - n9;
+            x = ASprite._graphicsHeight - y - n9;
             y = n8;
         }
         if (n7 != 0) {
@@ -1145,8 +1145,8 @@ public abstract class GLLib extends Canvas implements Runnable
     static String GetHexString(final byte[] bytes) {
         final StringBuffer sb = new StringBuffer(bytes.length << 1);
         for (int i = 0; i < bytes.length; ++i) {
-            sb.append(GLLib.var_1f77[bytes[i] >> 4 & 0xF]);
-            sb.append(GLLib.var_1f77[bytes[i] & 0xF]);
+            sb.append(GLLib.hexDigit[bytes[i] >> 4 & 0xF]);
+            sb.append(GLLib.hexDigit[bytes[i] & 0xF]);
         }
         return sb.toString();
     }
@@ -1672,12 +1672,12 @@ public abstract class GLLib extends Canvas implements Runnable
         j = x;
         SetClip(graphics, x, y, width, height, true);
         if (height * width < 256) {
-            DrawRGB(graphics, GLLib.var_1fd7[GLLib.var_1fc7], 0, width, ASprite.s_screenWidth - _y - height, y, width, height, true, true, 0, -1, false);
+            DrawRGB(graphics, GLLib.var_1fd7[GLLib.var_1fc7], 0, width, ASprite._graphicsHeight - _y - height, y, width, height, true, true, 0, -1, false);
         }
         else {
-            width += ASprite.s_screenWidth - _y - height;
+            width += ASprite._graphicsHeight - _y - height;
             height += y;
-            for (y = ASprite.s_screenWidth - _y - height; y < width; y += 16) {
+            for (y = ASprite._graphicsHeight - _y - height; y < width; y += 16) {
                 for (j = y; j < height; j += 16) {
                     DrawRGB(graphics, GLLib.var_1fd7[GLLib.var_1fc7], 0, 16, y, j, 16, 16, true, true, 0, -1, false);
                 }
@@ -1692,7 +1692,7 @@ public abstract class GLLib extends Canvas implements Runnable
     
     public static int PFX_GetFirstEnabledEffect() {
         final int n;
-        if ((n = (GLLib.s_PFX_param & 0xFF7E0)) != 0) {
+        if ((n = (GLLib.s_PFX_type & 0xFF7E0)) != 0) {
             for (int i = 0; i < 20; ++i) {
                 if ((n & 1 << i) != 0x0) {
                     return i;
@@ -1707,7 +1707,7 @@ public abstract class GLLib extends Canvas implements Runnable
     }
     
     static final void Custom_ResetZoomLevel() {
-        GLLib.s_PFX_param = 0;
+        GLLib.s_PFX_type = 0;
         (GLLib.s_PFX_params = new int[20][])[13] = new int[7];
         GLLib.s_PFX_params[13][1] = 100;
         GLLib.s_PFX_params[13][2] = -1;
@@ -1719,11 +1719,11 @@ public abstract class GLLib extends Canvas implements Runnable
     }
     
     static final void PFX_EnableScaleEffect() {
-        GLLib.s_PFX_param |= 0x2000;
+        GLLib.s_PFX_type |= 0x2000;
     }
     
     static final void PFX_DisableScaleEffect() {
-        GLLib.s_PFX_param &= 0xFFFFDFFF;
+        GLLib.s_PFX_type &= 0xFFFFDFFF;
     }
     
     static final int PFX_Scale_GetScaleX() {
@@ -1757,7 +1757,7 @@ public abstract class GLLib extends Canvas implements Runnable
         array[1] = n4 * n2 + n3 * n + 128 >> 8;
     }
     
-    static final void sub_5cfb(int n, int abs, int abs2, int a, final int[] array) {
+    static final void PFX_Rotate_GetRotatedRectSize(int n, int abs, int abs2, int a, final int[] array) {
         sub_5cbc(n, abs, 0, a, ASprite.s_rc);
         final int n2 = ASprite.s_rc[0];
         final int n3 = ASprite.s_rc[1];
@@ -1777,7 +1777,7 @@ public abstract class GLLib extends Canvas implements Runnable
         GLLib.s_PFX_sizeY = h;
         GLLib.s_PFX_newPosX = x;
         GLLib.s_PFX_newPosY = y;
-        if ((GLLib.s_PFX_param & 0x5600) != 0x0) {
+        if ((GLLib.s_PFX_type & 0x5600) != 0x0) {
             if ((flags & 0x4) != 0x0) {
                 GLLib.s_PFX_sizeX = h;
                 GLLib.s_PFX_sizeY = w;
@@ -1789,7 +1789,7 @@ public abstract class GLLib extends Canvas implements Runnable
         GLLib.s_PFX_newSizeX = w;
         GLLib.s_PFX_newSizeY = h;
         int[] array = ASprite.GetPixelBuffer(source);
-        if ((GLLib.s_PFX_param & 0x2000) == 0x0) {
+        if ((GLLib.s_PFX_type & 0x2000) == 0x0) {
             return null;
         }
         final int n3;
@@ -1803,14 +1803,14 @@ public abstract class GLLib extends Canvas implements Runnable
             int[] sub_9f61 = array;
             if ((flags & 0x4) != 0x0) {
                 flags = (flags & 0xFFFFFFFB);
-                n4 += 90 * GLLib.var_1ed7 / 360;
+                n4 += 90 * GLLib.Math_AngleMUL / 360;
             }
             if (flags != 0) {
             	array = ASprite.GetPixelBuffer(source = ASprite.TransformRGB(source, w, w, flags, null));
             }
             final int sub_2be7 = Math_Cos(GLLib.Math_Angle90 - n4);
             final int sub_2be8 = Math_Cos(n4);
-            sub_5cfb(sub_2be7, sub_2be8, w, w, ASprite.s_rc);
+            PFX_Rotate_GetRotatedRectSize(sub_2be7, sub_2be8, w, w, ASprite.s_rc);
             final int var_201f = ASprite.s_rc[0];
             h = ASprite.s_rc[1];
             final int n13 = var_201f >> 1;
@@ -2191,32 +2191,32 @@ public abstract class GLLib extends Canvas implements Runnable
     }
     
     private static final void SetCoordinateValues() {
-        GLLib.s_screenY = GLLib.s_screenHeight - GLLib.s_screenX;
-        GLLib.s_screenX = s_screenY;
+        GLLib.s_pointerY = GLLib.s_screenHeight - GLLib.s_pointerX;
+        GLLib.s_pointerX = s_pointerY;
     }
     
     protected void pointerReleased(int x, final int y) {
-    	GLLib.s_screenX = x;
-        x = GLLib.s_screenX;
-        GLLib.s_screenY = y;
+    	GLLib.s_pointerX = x;
+        x = GLLib.s_pointerX;
+        GLLib.s_pointerY = y;
         SetCoordinateValues();
-        GLLib.var_205f = true;
+        GLLib.s_isPointerReleasedSystem = true;
     }
     
     protected void pointerPressed(int x, final int y) {
-    	GLLib.s_screenX = x;
-    	x = GLLib.s_screenX;
-        GLLib.s_screenY = y;
+    	GLLib.s_pointerX = x;
+    	x = GLLib.s_pointerX;
+        GLLib.s_pointerY = y;
         SetCoordinateValues();
-        GLLib.var_2057 = true;
+        GLLib.s_isPointerPressedSystem = true;
     }
     
     protected void pointerDragged(int x, final int y) {
-    	GLLib.s_screenX = x;
-    	x = GLLib.s_screenX;
-        GLLib.s_screenY = y;
+    	GLLib.s_pointerX = x;
+    	x = GLLib.s_pointerX;
+        GLLib.s_pointerY = y;
         SetCoordinateValues();
-        GLLib.var_2067 = true;
+        GLLib.s_isPointerDraggedSystem = true;
     }
     
     static final boolean sub_762d() {
@@ -2248,18 +2248,18 @@ public abstract class GLLib extends Canvas implements Runnable
     }
     
     static void IAP_SendRequest(final int itemIndex, final String itemType) {
-        if (System.currentTimeMillis() - GLLib.var_206f <= 3000L) {
+        if (System.currentTimeMillis() - GLLib.s_iapRequestTime <= 3000L) {
             return;
         }
-        GLLib.var_206f = System.currentTimeMillis();
+        GLLib.s_iapRequestTime = System.currentTimeMillis();
         Class_o.sendRequest(Class_o.getPricePoint(itemIndex, itemType), itemType);
     }
     
     static void IAP_SendRedeemRequest() {
-        if (System.currentTimeMillis() - GLLib.var_206f <= 3000L) {
+        if (System.currentTimeMillis() - GLLib.s_iapRequestTime <= 3000L) {
             return;
         }
-        GLLib.var_206f = System.currentTimeMillis();
+        GLLib.s_iapRequestTime = System.currentTimeMillis();
         Class_o.sendRedeemRequest();
     }
     
@@ -2330,23 +2330,23 @@ public abstract class GLLib extends Canvas implements Runnable
         GLLib.s_screenWidth = 800;
         GLLib.s_screenHeight = 480;
         GLLib.m_FPSLimiter = 50;
-        GLLib.var_1e17 = -1;
-        GLLib.var_1e47 = false;
-        GLLib.s_platformRequestUrl = null;
-        GLLib.var_1e97 = 25;
-        var_1e9f = 256;
+        GLLib.m_customSleepTime = -1;
+        GLLib.s_bPlatformRequestPending = false;
+        GLLib.s_urlPlatformRequest = null;
+        GLLib.s_nbKey = 25;
+        s_math_F_1 = 256;
         ALWAYS_128 = 128;
-        var_1ed7 = 256;
-        Math_Angle90 = 90 * GLLib.var_1ed7 / 360;
-        GLLib.Math_Angle180 = 180 * GLLib.var_1ed7 / 360;
-        GLLib.Math_Angle270 = 270 * GLLib.var_1ed7 / 360;
-        GLLib.Math_Angle360 = 360 * GLLib.var_1ed7 / 360;
+        Math_AngleMUL = 256;
+        Math_Angle90 = 90 * GLLib.Math_AngleMUL / 360;
+        GLLib.Math_Angle180 = 180 * GLLib.Math_AngleMUL / 360;
+        GLLib.Math_Angle270 = 270 * GLLib.Math_AngleMUL / 360;
+        GLLib.Math_Angle360 = 360 * GLLib.Math_AngleMUL / 360;
         GLLib.Stream_readOffset = 0;
-        GLLib.var_1f77 = new char[] { '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C', 'D', 'E', 'F' };
+        GLLib.hexDigit = new char[] { '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C', 'D', 'E', 'F' };
         GLLib.text_encoding = "UTF-8";
-        var_1fdf = true;
-        GLLib.s_PFX_param = 0;
+        pfx_useSpriteEffects = true;
+        GLLib.s_PFX_type = 0;
         GLLib.s_PFX_params = null;
-        GLLib.var_206f = 0L;
+        GLLib.s_iapRequestTime = 0L;
     }
 }
