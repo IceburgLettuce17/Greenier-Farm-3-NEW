@@ -1793,14 +1793,14 @@ final class cActor
         if (this.var_185d == 3) {
             return false;
         }
-        if (cGame.var_70d4 == 0 && cGame.sub_2c4ff() < 50) {
+        if (cGame.var_70d4 == 0 && cGame.getRealAddedPointerCoords() < 50) {
             final int[] array = new int[2];
             final int[] array2;
             (array2 = new int[2])[0] = GLLib.s_pointerX;
             array2[1] = GLLib.s_pointerY;
             cGame.sub_26427(array2, array);
             cGame.sub_2c867(array, array2);
-            if (GLLib.sub_762d() && cGame.var_6aa4 == -1) {
+            if (GLLib.Pointer_IsReleased() && cGame.var_6aa4 == -1) {
                 if (cGame.sub_2ceb1(array2[0], array2[1])) {
                     b = true;
                     final int[] array3 = new int[2];
@@ -1818,7 +1818,7 @@ final class cActor
                     }
                 }
             }
-            else if (cGame.var_807c == 0 && GLLib.sub_76f9() && !cGame.sub_2d3f4(cGame.sub_2d213(array2[0], array2[1])) && cGame.sub_2d213(array2[0], array2[1]) > 0 && cGame.var_6aa4 == -1 && cGame.sub_4abbb(cGame.var_80f4[0]) && cGame.sub_4abbb(cGame.var_80f4[1])) {
+            else if (cGame.var_807c == 0 && GLLib.Pointer_IsHeldDown() && !cGame.sub_2d3f4(cGame.sub_2d213(array2[0], array2[1])) && cGame.sub_2d213(array2[0], array2[1]) > 0 && cGame.var_6aa4 == -1 && cGame.sub_4abbb(cGame.var_80f4[0]) && cGame.sub_4abbb(cGame.var_80f4[1])) {
                 final int sub_2d214 = cGame.sub_2d213(array2[0], array2[1]);
                 if (cGame.sub_2d213(array2[0], array2[1]) > 0 && cGame.s_tutorialState == -1) {
                     cGame.var_6d54 = sub_2d214;
@@ -1848,7 +1848,7 @@ final class cActor
     
     final void sub_67aa() {
         if (this.var_185d == 0) {
-            if (GLLib.sub_7660()) {
+            if (GLLib.Pointer_IsPressed()) {
                 this.var_1585 = this.camX;
                 this.var_158d = this.camY;
                 this.m_screenX = GLLib.s_pointerX;
@@ -1856,7 +1856,7 @@ final class cActor
                 this.var_15a5 = true;
                 return;
             }
-            if (GLLib.sub_7693() && this.var_15a5 && !cGame.var_6bec) {
+            if (GLLib.Pointer_IsDragged() && this.var_15a5 && !cGame.var_6bec) {
                 this.camX = this.var_1585 + (this.m_screenX - GLLib.s_pointerX);
                 this.camY = this.var_158d + (this.m_screenY - GLLib.s_pointerY);
                 if (cGame.var_6af4 == 0 && !cGame.var_6bec) {
@@ -1864,14 +1864,14 @@ final class cActor
                     cGame.sub_10e3f(false, 0, cGame.var_6b04);
                 }
             }
-            else if (GLLib.sub_762d()) {
+            else if (GLLib.Pointer_IsReleased()) {
                 this.var_15a5 = false;
             }
         }
     }
     
     final void sub_6872() {
-        if (this.var_185d == 0 && GLLib.sub_7693()) {
+        if (this.var_185d == 0 && GLLib.Pointer_IsDragged()) {
             if (GLLib.s_pointerX < 40) {
                 this.camX -= 1 * GLLib.s_game_frameDT;
             }

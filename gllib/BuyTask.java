@@ -17,54 +17,54 @@ final class BuyTask extends Thread
         try {
             final String smsProto = "sms://";
             String smsAdress;
-            if (!Class_o.getDebugNumber().equals("")) {
-                smsAdress = smsProto + Class_o.getDebugNumber();
+            if (!PaySMS.getDebugNumber().equals("")) {
+                smsAdress = smsProto + PaySMS.getDebugNumber();
             }
             else {
-                if (Class_o.getOverrideFromJad().equals("1")) {
-                    Class_o.setShortCode(Class_o.getProperty("IAP-ShortCode-PP" + Class_o.pricePoint));
+                if (PaySMS.getOverrideFromJad().equals("1")) {
+                    PaySMS.setShortCode(PaySMS.getProperty("IAP-ShortCode-PP" + PaySMS.pricePoint));
                 }
                 else {
-                    Class_o.setShortCode("");
+                    PaySMS.setShortCode("");
                 }
-                if (!Class_o.getShortCode().equals("")) {
-                    smsAdress = smsProto + Class_o.getShortCode();
+                if (!PaySMS.getShortCode().equals("")) {
+                    smsAdress = smsProto + PaySMS.getShortCode();
                 }
                 else {
-                    if (Class_o.getCurrentProfile() == -1) {
-                        Class_o.setIsSms(false);
-                        Class_o.rmsSave(Class_o.rmsNames[0], "0");
-                        Class_o.sub_78dd();
-                        Class_o.sub_78fd(-1);
+                    if (PaySMS.getCurrentProfile() == -1) {
+                        PaySMS.setIsSms(false);
+                        PaySMS.rmsSave(PaySMS.RMS_RECORDS[0], "0");
+                        PaySMS.sub_78dd();
+                        PaySMS.sub_78fd(-1);
                         return;
                     }
-                    smsAdress = smsProto + Class_o.sub_789f()[Class_o.getCurrentProfile()][11];
+                    smsAdress = smsProto + PaySMS.sub_789f()[PaySMS.getCurrentProfile()][11];
                 }
             }
             new StringBuffer().append("PaySMS.buy: smsAdress: ").append(smsAdress);
-            Class_o.conn = (MessageConnection)Connector.open(smsAdress);
-            new StringBuffer().append("PaySMS.buy: Connection opened - conn: ").append(Class_o.conn);
-            final TextMessage msg = (TextMessage)Class_o.conn.newMessage("text");
+            PaySMS.conn = (MessageConnection)Connector.open(smsAdress);
+            new StringBuffer().append("PaySMS.buy: Connection opened - conn: ").append(PaySMS.conn);
+            final TextMessage msg = (TextMessage)PaySMS.conn.newMessage("text");
             new StringBuffer().append("PaySMS.buy: TextMessage created - msg: ").append(msg);
-            msg.setPayloadText(Class_o.getSmsContent());
+            msg.setPayloadText(PaySMS.getSmsContent());
             try {
                 Thread.sleep(200L);
             }
             catch (final Exception ex) {
                 new StringBuffer().append("PaySMS.buy: Exception trying to sleep: ").append(ex.toString());
             }
-            Class_o.setTimer(new Timer());
-            Class_o.getTimer().schedule(new BuyCloseTask(), 30000);
-            Class_o.conn.send((Message)msg);
-            Class_o.setIsSms(Class_o.var_2aed = true);
-            Class_o.rmsSave(Class_o.rmsNames[0], "1");
-            Class_o.rmsSave(Class_o.rmsNames[1], Class_o.getCode());
-            Class_o.rmsSave(Class_o.rmsNames[2], String.valueOf(Class_o.itemAmount));
-            Class_o.rmsSave(Class_o.rmsNames[5], Class_o.itemType);
-            Class_o.addToSmsCount();
-            Class_o.rmsSave(Class_o.rmsNames[11], "" + Class_o.getSmsCount());
-            if (!Class_o.getOverrideFromJad().equals("1")) {
-                Class_o.storeProfile(Class_o.getCurrentValidProfiles());
+            PaySMS.setTimer(new Timer());
+            PaySMS.getTimer().schedule(new BuyCloseTask(), 30000);
+            PaySMS.conn.send((Message)msg);
+            PaySMS.setIsSms(PaySMS.var_2aed = true);
+            PaySMS.rmsSave(PaySMS.RMS_RECORDS[0], "1");
+            PaySMS.rmsSave(PaySMS.RMS_RECORDS[1], PaySMS.getCode());
+            PaySMS.rmsSave(PaySMS.RMS_RECORDS[2], String.valueOf(PaySMS.itemAmount));
+            PaySMS.rmsSave(PaySMS.RMS_RECORDS[5], PaySMS.itemType);
+            PaySMS.addToSmsCount();
+            PaySMS.rmsSave(PaySMS.RMS_RECORDS[11], "" + PaySMS.getSmsCount());
+            if (!PaySMS.getOverrideFromJad().equals("1")) {
+                PaySMS.storeProfile(PaySMS.getCurrentValidProfiles());
             }
             try {
                 Thread.sleep(100L);
@@ -74,30 +74,30 @@ final class BuyTask extends Thread
             }
         }
         catch (final SecurityException ex3) {
-            Class_o.setIsSms(false);
-            Class_o.rmsSave(Class_o.rmsNames[0], "0");
-            Class_o.sub_78fd(-9);
+            PaySMS.setIsSms(false);
+            PaySMS.rmsSave(PaySMS.RMS_RECORDS[0], "0");
+            PaySMS.sub_78fd(-9);
             new StringBuffer().append("PaySMS.buy: SMS sent failed! Security Exception: ").append(ex3.toString());
         }
         catch (final Throwable t) {
-            Class_o.setIsSms(false);
-            Class_o.rmsSave(Class_o.rmsNames[0], "0");
-            if (Class_o.var_2ae5) {
-                Class_o.sub_78fd(-4);
+            PaySMS.setIsSms(false);
+            PaySMS.rmsSave(PaySMS.RMS_RECORDS[0], "0");
+            if (PaySMS.var_2ae5) {
+                PaySMS.sub_78fd(-4);
             }
             else {
-                Class_o.sub_78fd(-1);
+                PaySMS.sub_78fd(-1);
             }
             new StringBuffer().append("PaySMS.buy: SMS sent failed! Exception: ").append(t.toString());
         }
         try {
-            if (Class_o.conn != null) {
-                ((Connection)Class_o.conn).close();
+            if (PaySMS.conn != null) {
+                ((Connection)PaySMS.conn).close();
             }
         }
         catch (final Exception ex4) {
             new StringBuffer().append("PaySMS.buy: Failed to close connection! Exception: ").append(ex4.toString());
         }
-        Class_o.sub_78dd();
+        PaySMS.sub_78dd();
     }
 }

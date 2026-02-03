@@ -2190,16 +2190,17 @@ public abstract class GLLib extends Canvas implements Runnable
         GLLib.s_pointerState = 0;
     }
     
-    private static final void SetCoordinateValues() {
+    private static final void Pointer_AdjustToRotatedCoordinates() {
+        final int temp = GLLib.s_pointerY;
         GLLib.s_pointerY = GLLib.s_screenHeight - GLLib.s_pointerX;
-        GLLib.s_pointerX = s_pointerY;
+        GLLib.s_pointerX = temp;
     }
     
     protected void pointerReleased(int x, final int y) {
     	GLLib.s_pointerX = x;
         x = GLLib.s_pointerX;
         GLLib.s_pointerY = y;
-        SetCoordinateValues();
+        Pointer_AdjustToRotatedCoordinates();
         GLLib.s_isPointerReleasedSystem = true;
     }
     
@@ -2207,7 +2208,7 @@ public abstract class GLLib extends Canvas implements Runnable
     	GLLib.s_pointerX = x;
     	x = GLLib.s_pointerX;
         GLLib.s_pointerY = y;
-        SetCoordinateValues();
+        Pointer_AdjustToRotatedCoordinates();
         GLLib.s_isPointerPressedSystem = true;
     }
     
@@ -2215,36 +2216,36 @@ public abstract class GLLib extends Canvas implements Runnable
     	GLLib.s_pointerX = x;
     	x = GLLib.s_pointerX;
         GLLib.s_pointerY = y;
-        SetCoordinateValues();
+        Pointer_AdjustToRotatedCoordinates();
         GLLib.s_isPointerDraggedSystem = true;
     }
     
-    static final boolean sub_762d() {
+    static final boolean Pointer_IsReleased() {
         return GLLib.s_pointerState == 2;
     }
     
-    static final boolean sub_7660() {
+    static final boolean Pointer_IsPressed() {
         return GLLib.s_pointerState == 1;
     }
     
-    static final boolean sub_7693() {
+    static final boolean Pointer_IsDragged() {
         return GLLib.s_pointerState == 3;
     }
     
-    static final boolean sub_76c6() {
+    static final boolean Pointer_IsDown() {
         return GLLib.s_pointerState == 4;
     }
     
-    static final boolean sub_76f9() {
+    static final boolean Pointer_IsHeldDown() {
         return GLLib.s_pointerState == 4 || GLLib.s_pointerState == 1 || GLLib.s_pointerState == 3;
     }
     
-    static boolean IAP_ParseJADFields() {
-        return Class_o.parseJadFields();
+    static boolean PaySMS_ParseJADFields() {
+        return PaySMS.parseJadFields();
     }
     
-    static void IAP_Init(final String language) {
-        Class_o.Init(language);
+    static void PaySMS_Init(final String language) {
+        PaySMS.Init(language);
     }
     
     static void IAP_SendRequest(final int itemIndex, final String itemType) {
@@ -2252,7 +2253,7 @@ public abstract class GLLib extends Canvas implements Runnable
             return;
         }
         GLLib.s_iapRequestTime = System.currentTimeMillis();
-        Class_o.sendRequest(Class_o.getPricePoint(itemIndex, itemType), itemType);
+        PaySMS.sendRequest(PaySMS.getPricePoint(itemIndex, itemType), itemType);
     }
     
     static void IAP_SendRedeemRequest() {
@@ -2260,68 +2261,68 @@ public abstract class GLLib extends Canvas implements Runnable
             return;
         }
         GLLib.s_iapRequestTime = System.currentTimeMillis();
-        Class_o.sendRedeemRequest();
+        PaySMS.sendRedeemRequest();
     }
     
-    static int sub_780b() {
-        return Class_o.sub_3e90();
+    static int PaySMS_Update() {
+        return PaySMS.update();
     }
     
     static boolean IAP_VerifyRequest(final int inputCode) {
-        return Class_o.verifyRequest(inputCode);
+        return PaySMS.verifyRequest(inputCode);
     }
     
     static boolean IAP_CanRedeemCode() {
-        return Class_o.canRedeemCode();
+        return PaySMS.canRedeemCode();
     }
     
     static int IAP_GetPackageIDInt() {
-        return Class_o.getPackageIdInt();
+        return PaySMS.getPackageIdInt();
     }
     
     static int sub_7884() {
-        return Class_o.sub_4042();
+        return PaySMS.sub_4042();
     }
     
     static String getPrice_2(final int pricePoint, final String s) {
-        return Class_o.getPriceTHUNK(Class_o.getPricePoint(pricePoint, s));
+        return PaySMS.getPriceTHUNK(PaySMS.getPricePoint(pricePoint, s));
     }
     
     static String IAP_GetTermsAndConditions() {
-        return Class_o.GetTermsAndConditions();
+        return PaySMS.GetTermsAndConditions();
     }
     
     static String IAP_GetFullSupportUrl() {
-        return Class_o.getFullSupportUrl();
+        return PaySMS.getFullSupportUrl();
     }
     
     static void IAP_Reset() {
-        Class_o.reset();
+        PaySMS.reset();
     }
     
     static long IAP_GetVirtualCurrency(final long basecurrency, int itemIndex, final String itemType) {
-        itemIndex = Class_o.getPricePoint(itemIndex, itemType);
-        return Class_o.getVirtualCurrency(basecurrency, itemIndex);
+        itemIndex = PaySMS.getPricePoint(itemIndex, itemType);
+        return PaySMS.getVirtualCurrency(basecurrency, itemIndex);
     }
     
     static int IAP_GetSpecialFlow() {
-        return Class_o.GetSpecialFlow();
+        return PaySMS.GetSpecialFlow();
     }
     
     static int IAP_FindPrice(final int itemIndex, final String itemType) {
-        return Class_o.findPrice(Class_o.getPricePoint(itemIndex, itemType));
+        return PaySMS.findPrice(PaySMS.getPricePoint(itemIndex, itemType));
     }
     
     static int IAP_GetCurrencyAmount(final String currency) {
-        return Class_o.getCurrencyAmount(currency);
+        return PaySMS.getCurrencyAmount(currency);
     }
     
     static int IAP_GetPricePoint(final int itemIndex, final String itemType) {
-        return Class_o.getPricePoint(itemIndex, itemType);
+        return PaySMS.getPricePoint(itemIndex, itemType);
     }
     
     static long IAP_GetVirtualCurrencyFromBase(final long basecurrency) {
-        return IAP_GetVirtualCurrency(basecurrency, Class_o.getPackageIdInt(), Class_o.getItemTypeRms());
+        return IAP_GetVirtualCurrency(basecurrency, PaySMS.getPackageIdInt(), PaySMS.getItemTypeRms());
     }
     
     static {
