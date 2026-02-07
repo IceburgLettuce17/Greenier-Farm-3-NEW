@@ -62,7 +62,7 @@ public final class PaySMS {
 	public static boolean var_2ae5;
 	public static boolean var_2aed;
 	private static int var_2af5;
-	private static int var_2afd;
+	private static int errorCode;
 	private static String var_2b05;
 	private static String var_2b0d;
 	private static String var_2b15;
@@ -126,7 +126,7 @@ public final class PaySMS {
 	public static void Init(final String language) {
 		PaySMS.s_language = language;
 		PaySMS.s_midletInstance = GLLib.s_application;
-		PaySMS.var_2afd = 0;
+		PaySMS.errorCode = 0;
 		if (PaySMS.currentValidProfiles == null) {
 			PaySMS.currentValidProfiles = new Vector();
 		}
@@ -200,7 +200,7 @@ public final class PaySMS {
 		boolean isUnlocked;
 		if (unlocked != null && !unlocked.equals("1") && unlocked.equals("0")) {
 			isUnlocked = false;
-			PaySMS.var_2afd = -10;
+			PaySMS.errorCode = -10;
 		} else {
 			PaySMS.s_midletInstance = GLLib.s_application;
 			if ((PaySMS.overrideFromJad = getAppProperty("IAP-OverrideFromJad")).equals("1")) {
@@ -451,7 +451,7 @@ public final class PaySMS {
 				appendToSms(PaySMS.profIDPricePoint);
 			} else {
 				if (PaySMS.currentProfile == -1) {
-					PaySMS.var_2afd = 7;
+					PaySMS.errorCode = 7;
 					return;
 				}
 				appendToSms(PaySMS.var_29a5[PaySMS.currentProfile][0]);
@@ -479,7 +479,7 @@ public final class PaySMS {
 			}
 			new StringBuffer().append("PaySMS.sendHTTP:Error: Wrong Item. IAP-ContentID-").append(PaySMS.itemType)
 					.append("-").append(PaySMS.pricePoint).append(" missing in JAD");
-			PaySMS.var_2afd = -2;
+			PaySMS.errorCode = -2;
 			
 		} else if (b && type.equals("HTTP")) {
 			////HTTP////
@@ -490,14 +490,14 @@ public final class PaySMS {
 				itemType = (PaySMS.profIDPricePoint = getAppProperty("IAP-ProfileID-PP" + PaySMS.pricePoint));
 			} else {
 				if (PaySMS.currentProfile == -1) {
-					PaySMS.var_2afd = 7;
+					PaySMS.errorCode = 7;
 					return;
 				}
 				httpUrl = PaySMS.var_29a5[PaySMS.currentProfile][11];
 				itemType = PaySMS.var_29a5[PaySMS.currentProfile][0];
 			}
 			if (httpUrl.equals("") || itemType.equals("")) {
-				PaySMS.var_2afd = 4;
+				PaySMS.errorCode = 4;
 				return;
 			}
 			new StringBuffer().append("PaySMS.sendHTTP: URL = ").append(httpUrl);
@@ -511,7 +511,7 @@ public final class PaySMS {
 			if (contentID.equals("")) {
 				new StringBuffer().append("PaySMS.sendHTTP:Error: Wrong Item. IAP-ContentID-").append(PaySMS.itemType)
 						.append("-").append(PaySMS.pricePoint).append(" missing in JAD");
-				PaySMS.var_2afd = -2;
+				PaySMS.errorCode = -2;
 				return;
 			}
 			itemType = contentID;
@@ -538,7 +538,7 @@ public final class PaySMS {
 				sendCCARD(pricePoint, itemType);
 				return;
 			}
-			PaySMS.var_2afd = -2;
+			PaySMS.errorCode = -2;
 		}
 	}
 
@@ -549,7 +549,7 @@ public final class PaySMS {
 	public static void sendRedeemRequest() {
 		PaySMS.redeemUnlocked = true;
 		rmsSave(PaySMS.RMS_RECORDS[4], "1");
-		sendRequest(getPricePoint(getPackageIdInt(), getItemTypeRms()), getItemTypeRms());
+		sendRequest(getPricePoint(getPackageId(), getItemTypeRms()), getItemTypeRms());
 	}
 
 	public static int update() {
@@ -578,17 +578,17 @@ public final class PaySMS {
 		} else {
 			if (PaySMS.var_2af5 != 1) {
 				if (!PaySMS.overrideFromJad.equals("1") && getTestFieldInt() == 0) {
-					if (PaySMS.var_2afd != 0) {
+					if (PaySMS.errorCode != 0) {
 						return 3;
 					}
 					if ((PaySMS.currentValidProfiles == null || PaySMS.currentValidProfiles.size() < 1)
 							&& (!PaySMS.creditCardEnabled || PaySMS.var_29ad)) {
 						if (PaySMS.var_29ed < 0) {
-							PaySMS.var_2afd = -3;
+							PaySMS.errorCode = -3;
 							return 3;
 						}
 						if (PaySMS.currentValidProfiles.size() < 1) {
-							PaySMS.var_2afd = -3;
+							PaySMS.errorCode = -3;
 							return 3;
 						}
 					}
@@ -605,35 +605,35 @@ public final class PaySMS {
 			final int var_2afd = var_2995;
 			if (n == 0) {
 				if (verifyRequest(Integer.parseInt(PaySMS.unlockCode))) {
-					PaySMS.var_2afd = 0;
+					PaySMS.errorCode = 0;
 					cleanStatus();
 					return 7;
 				}
-				PaySMS.var_2afd = 1;
+				PaySMS.errorCode = 1;
 				cleanStatus();
 				return 3;
 			} else {
 				if (var_2afd == -2) {
-					PaySMS.var_2afd = -1;
+					PaySMS.errorCode = -1;
 					cleanStatus();
 					return 3;
 				}
-				PaySMS.var_2afd = var_2afd;
+				PaySMS.errorCode = var_2afd;
 				cleanStatus();
 				return 3;
 			}
 		}
 	}
 
-	public static int sub_4042() {
-		return PaySMS.var_2afd;
+	public static int getErrorCode() {
+		return PaySMS.errorCode;
 	}
 
 	/**
 	 * Gets the package ID from an RMS record.
 	* returns int: your package ID
 	*/
-	public static int getPackageIdInt() {
+	public static int getPackageId() {
 		String packageId = rmsLoad(PaySMS.RMS_RECORDS[2]);
 		if (packageId == null || packageId.length() == 0) {
 			return -1;
@@ -667,7 +667,7 @@ public final class PaySMS {
 				if (moneySpent != null && !moneySpent.equals("")) {
 					substring = moneySpent.substring(0, moneySpent.indexOf(95));
 				}
-				inputCode = getPackageIdInt();
+				inputCode = getPackageId();
 				inputCode = getPricePoint(inputCode, getItemTypeRms());
 				final String profileID = sub_5260(0, inputCode);
 				final String sub_5261 = sub_5260(9, inputCode);
@@ -686,8 +686,8 @@ public final class PaySMS {
 			} catch (final Exception obj) {
 				new StringBuffer().append("Exception : ").append(obj);
 			}
-			PaySMS.var_2afd = 0;
-			if (!GetBillingType(getPackageIdInt()).equals("http_2d")) {
+			PaySMS.errorCode = 0;
+			if (!GetBillingType(getPackageId()).equals("http_2d")) {
 				PaySMS.var_2a85 = true;
 			}
 			cleanStatus();
@@ -886,7 +886,7 @@ public final class PaySMS {
 		if (contentID.equals("")) {
 			new StringBuffer().append("PaySMS.sendCCARD: Wrong Item. IAP-ContentID-").append(itemtype).append("-").append(pricepoint)
 					.append(" missing in JAD");
-			PaySMS.var_2afd = -2;
+			PaySMS.errorCode = -2;
 			return;
 		}
 		itemtype = "";
@@ -946,7 +946,7 @@ public final class PaySMS {
 	* parameter - int pricePoint: The price point of your item.
 	* returns String: the price
 	*/
-	public static String getPriceTHUNK(final int pricePoint) {
+	public static String getItemPrice(final int pricePoint) {
 		return getPrice(pricePoint);
 	}
 
@@ -1346,7 +1346,7 @@ public final class PaySMS {
 	private static boolean loadProfileConfiguration(String[] array, final String[] array2,
 			final String[] profilesArgs) {
 		if (profilesArgs == null) {
-			PaySMS.var_2afd = 8;
+			PaySMS.errorCode = 8;
 			return false;
 		}
 		for (int i = 0; i < profilesArgs.length; ++i) {
@@ -1956,7 +1956,7 @@ public final class PaySMS {
 	}
 
 	static int sub_78fd(final int var_2afd) {
-		return PaySMS.var_2afd = var_2afd;
+		return PaySMS.errorCode = var_2afd;
 	}
 
 	static String getSmsContent() {
@@ -2044,7 +2044,7 @@ public final class PaySMS {
 		PaySMS.var_2ae5 = false;
 		PaySMS.var_2aed = false;
 		PaySMS.var_2af5 = 0;
-		PaySMS.var_2afd = 0;
+		PaySMS.errorCode = 0;
 		PaySMS.var_2b05 = "933";
 		PaySMS.var_2b0d = "5023";
 		PaySMS.var_2b15 = "5025";

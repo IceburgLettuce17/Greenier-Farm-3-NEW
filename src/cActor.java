@@ -2118,13 +2118,13 @@ final class cActor
                     cGame.var_7aac = -1;
                     if (cGame.var_6b24 > 0) {
                         final String sub_4e1f;
-                        cGame.var_7ab4 = GLLib.Text_ReplaceText(((sub_4e1f = GLLib.Text_GetStringFromLocaleFile(Define.TEXT_NOTENOUGHCOIN)) == null) ? "" : sub_4e1f, "%d", GLLib.Text_FormatNumber(cGame.var_6b24 - cGame.getCoin(), cGame.s_currencySeprType, " "));
+                        cGame.var_7ab4 = GLLib.Text_FindReplace(((sub_4e1f = GLLib.Text_GetString(Define.TEXT_NOTENOUGHCOIN)) == null) ? "" : sub_4e1f, "%d", GLLib.Text_FormatNumber(cGame.var_6b24 - cGame.getCoin(), cGame.s_currencySeprType, " "));
                         cGame.var_7aac = 18;
                         cGame.var_7d24 = false;
                     }
                     else if (cGame.var_6b2c > 0) {
                         final String sub_4e1f2;
-                        cGame.var_7ab4 = GLLib.Text_ReplaceText(((sub_4e1f2 = GLLib.Text_GetStringFromLocaleFile(Define.TEXT_NOTENOUGHCASH)) == null) ? "" : sub_4e1f2, "%d", GLLib.Text_FormatNumber(cGame.var_6b2c - cGame.getCash(), cGame.s_currencySeprType, " "));
+                        cGame.var_7ab4 = GLLib.Text_FindReplace(((sub_4e1f2 = GLLib.Text_GetString(Define.TEXT_NOTENOUGHCASH)) == null) ? "" : sub_4e1f2, "%d", GLLib.Text_FormatNumber(cGame.var_6b2c - cGame.getCash(), cGame.s_currencySeprType, " "));
                         cGame.var_7aac = 19;
                         cGame.var_7d24 = true;
                     }
@@ -2216,13 +2216,13 @@ final class cActor
             cGame.var_7aac = -1;
             if (this.var_15f5 > 0) {
                 final String sub_4e1f;
-                cGame.var_7ab4 = GLLib.Text_ReplaceText(((sub_4e1f = GLLib.Text_GetStringFromLocaleFile(Define.TEXT_NOTENOUGHCOIN)) == null) ? "" : sub_4e1f, "%d", GLLib.Text_FormatNumber(this.var_15f5 - cGame.getCoin(), cGame.s_currencySeprType, " "));
+                cGame.var_7ab4 = GLLib.Text_FindReplace(((sub_4e1f = GLLib.Text_GetString(Define.TEXT_NOTENOUGHCOIN)) == null) ? "" : sub_4e1f, "%d", GLLib.Text_FormatNumber(this.var_15f5 - cGame.getCoin(), cGame.s_currencySeprType, " "));
                 cGame.var_7aac = 18;
                 cGame.var_7d24 = false;
             }
             else if (this.var_15fd > 0) {
                 final String sub_4e1f2;
-                cGame.var_7ab4 = GLLib.Text_ReplaceText(((sub_4e1f2 = GLLib.Text_GetStringFromLocaleFile(Define.TEXT_NOTENOUGHCASH)) == null) ? "" : sub_4e1f2, "%d", GLLib.Text_FormatNumber(this.var_15fd - cGame.getCash(), cGame.s_currencySeprType, " "));
+                cGame.var_7ab4 = GLLib.Text_FindReplace(((sub_4e1f2 = GLLib.Text_GetString(Define.TEXT_NOTENOUGHCASH)) == null) ? "" : sub_4e1f2, "%d", GLLib.Text_FormatNumber(this.var_15fd - cGame.getCash(), cGame.s_currencySeprType, " "));
                 cGame.var_7aac = 19;
                 cGame.var_7d24 = true;
             }
@@ -2343,7 +2343,7 @@ final class cActor
             if (cGame.sub_2dcf3(5) < cGame.sub_2df26()) {
                 final String sub_4e1f;
                 final String sub_4e1f2;
-                cGame.drawCustomPopupNoOpts(((sub_4e1f = GLLib.Text_GetStringFromLocaleFile(Define.TEXT_POPUP_BARNFULL)) == null) ? "" : sub_4e1f, GLLib.Text_ReplaceText(((sub_4e1f2 = GLLib.Text_GetStringFromLocaleFile(Define.TEXT_POPUP_BARNFULLDESC)) == null) ? "" : sub_4e1f2, "%slots", "3"), 7, 0);
+                cGame.drawCustomPopupNoOpts(((sub_4e1f = GLLib.Text_GetString(Define.TEXT_POPUP_BARNFULL)) == null) ? "" : sub_4e1f, GLLib.Text_FindReplace(((sub_4e1f2 = GLLib.Text_GetString(Define.TEXT_POPUP_BARNFULLDESC)) == null) ? "" : sub_4e1f2, "%slots", "3"), 7, 0);
             }
             else {
                 cGame.sub_40658(471, 477);
@@ -2895,9 +2895,9 @@ final class cActor
             num = this.rewardNum >> 16;
         }
         if (num > 0) {
-            GLLib.sub_5c77(true);
+            GLLib.PFX_Scale_SetUnkScaleProp5(true);
             cGame.drawStringWithPalette("+" + GLLib.Text_FormatNumber(num, cGame.s_currencySeprType, " "), (this.camX + this.var_1805) * cGame.s_zoomLevel / 100 - cGame.var_800c.camX + 10, (this.camY + this.var_180d) * cGame.s_zoomLevel / 100 - cGame.var_800c.camY + 10, 0, 0, 0, 0, 2, 1, false, false);
-            GLLib.sub_5c77(false);
+            GLLib.PFX_Scale_SetUnkScaleProp5(false);
         }
     }
     
@@ -3485,9 +3485,9 @@ final class cActor
                 this.pfIndex = 0;
             }
             else {
-                GLLib.sub_2dcf(array4[0], array5[0], array4[1], array5[1], array4[2], array5[2], this.var_18ed);
-                array[0] = GLLib.var_1eb7;
-                array[1] = GLLib.var_1ebf;
+                GLLib.Math_Bezier2D(array4[0], array5[0], array4[1], array5[1], array4[2], array5[2], this.var_18ed);
+                array[0] = GLLib.s_math_bezierX;
+                array[1] = GLLib.s_math_bezierY;
                 if (this.var_17c5 == 42) {
                     this.sub_6426();
                 }

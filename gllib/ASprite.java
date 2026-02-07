@@ -51,7 +51,7 @@ public final class ASprite
     private short _data_format;
     private int[] var_10b7;
     private int[] var_10bf;
-    static int s_screenHeight;
+    static int _graphicsWidth;
     static int _graphicsHeight;
     GLLibImage[][] _module_image_imageAA;
     private GLLibImage[][][] _frame_image_imageAAA;
@@ -1878,14 +1878,14 @@ public final class ASprite
                     if ((n12 & 0x4) != 0x0) {
                         final int var_10c7 = sub_3719;
                         final int var_10cf = sub_312c2;
-                        ASprite.s_screenHeight = var_10c7;
+                        ASprite._graphicsWidth = var_10c7;
                         ASprite._graphicsHeight = var_10cf;
                     }
                     this.PaintFrame(graphics, i, n10, n11, 0);
                     if ((n12 & 0x4) != 0x0) {
                         final int var_1ddf = GLLib.s_screenWidth;
                         final int var_1de7 = GLLib.s_screenHeight;
-                        ASprite.s_screenHeight = var_1ddf;
+                        ASprite._graphicsWidth = var_1ddf;
                         ASprite._graphicsHeight = var_1de7;
                     }
                     GLLib.GetRGB(img, array3, 0, sub_312c2, 0, 0, sub_312c2, sub_3719);
@@ -2182,8 +2182,8 @@ public final class ASprite
                         GLLib.FillRect(g, posX, posY, var_1148, p2x, true);
                         return;
                     }
-                    GLLib.sub_56ff(module);
-                    GLLib.sub_57eb(g, posX, posY, var_1148, p2x);
+                    GLLib.AlphaRect_SetColor(module);
+                    GLLib.AlphaRect_Draw(g, posX, posY, var_1148, p2x);
                     return;
                 }
                 case 1: {
@@ -2332,7 +2332,7 @@ public final class ASprite
                         GLLib.DrawAlphaGradientRect(g, posX, posY, var_1148, p2x, p2x, p2y, n43);
                         return;
                     }
-                    GLLib.sub_6ccf(g, posX, posY, var_1148, p2x, p2x, p2y, n43);
+                    GLLib.DrawGradientRect(g, posX, posY, var_1148, p2x, p2x, p2y, n43);
                     break;
                 }
             }
@@ -2640,7 +2640,7 @@ public final class ASprite
     }
     
     static {
-        ASprite.s_screenHeight = 800;
+        ASprite._graphicsWidth = 800;
         ASprite._graphicsHeight = 480;
         ASprite.midp2_flags = new int[] { 0, 2, 1, 3, 5, 7, 4, 6 };
         ASprite.var_10f7 = new int[] { 1, 0, 3, 2, 6, 7, 4, 5 };
