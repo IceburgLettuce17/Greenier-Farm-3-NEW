@@ -4,5 +4,5 @@
 
 interface Class_b
 {
-    public static final int var_70 = GLLib.ALWAYS_128 >> 1;
+    public static final int var_70 = GLLib.s_math_F_05 >> 1;
 }

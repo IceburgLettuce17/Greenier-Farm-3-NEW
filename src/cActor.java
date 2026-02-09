@@ -911,7 +911,7 @@ final class cActor
                         for (int j = 0; j < sub_5cb3; j += n3) {
                             if (cGame.s_zoomLevel < 100 && cGame.sub_438b0(79)) {
                                 GLLib.PFX_DisableScaleEffect();
-                                GLLibPlayer.Tileset_PaintSpriteWithScale(0, cGame.s_gameSprites[79], cGame.s_gameSprites[79].GetFrames() / 2, j, n4, cGame.var_8074, null);
+                                GLLibPlayer.Tileset_PaintSpriteWithScale(0, cGame.s_gameSprites[79], cGame.s_gameSprites[79].GetFrameCount() / 2, j, n4, cGame.var_8074, null);
                                 GLLib.PFX_EnableScaleEffect();
                             }
                             else {
@@ -927,7 +927,7 @@ final class cActor
                         for (int k = 0; k < sub_5cb3; k += n5) {
                             if (cGame.s_zoomLevel < 100 && cGame.sub_438b0(78)) {
                                 GLLib.PFX_DisableScaleEffect();
-                                GLLibPlayer.Tileset_PaintSpriteWithScale(0, cGame.s_gameSprites[78], cGame.s_gameSprites[78].GetFrames() / 2, k, n6, cGame.var_8074, null);
+                                GLLibPlayer.Tileset_PaintSpriteWithScale(0, cGame.s_gameSprites[78], cGame.s_gameSprites[78].GetFrameCount() / 2, k, n6, cGame.var_8074, null);
                                 GLLib.PFX_EnableScaleEffect();
                             }
                             else {
@@ -943,7 +943,7 @@ final class cActor
                         for (int l = 0; l < sub_5cb3; l += n7) {
                             if (cGame.s_zoomLevel < 100 && cGame.sub_438b0(77)) {
                                 GLLib.PFX_DisableScaleEffect();
-                                GLLibPlayer.Tileset_PaintSpriteWithScale(0, cGame.s_gameSprites[77], cGame.s_gameSprites[77].GetFrames() / 2, l, n8, cGame.var_8074, null);
+                                GLLibPlayer.Tileset_PaintSpriteWithScale(0, cGame.s_gameSprites[77], cGame.s_gameSprites[77].GetFrameCount() / 2, l, n8, cGame.var_8074, null);
                                 GLLib.PFX_EnableScaleEffect();
                             }
                             else {
@@ -974,7 +974,7 @@ final class cActor
                             if (cGame.s_zoomLevel < 100 && cGame.sub_438b0(class_f.spriteId)) {
                                 final ASprite sub_17f3;
                                 (sub_17f3 = class_f.var_189d.GetSprite()).SetCurrentPalette(palette);
-                                sub_17f3.PaintAFrame(GLLib.g, sub_17f3.GetAnims() / 2 + class_f.var_189d.GetAnim(), class_f.var_189d.GetFrame(), class_f.posX, class_f.posY, 0);
+                                sub_17f3.PaintAFrame(GLLib.g, sub_17f3.GetAnimationCount() / 2 + class_f.var_189d.GetAnim(), class_f.var_189d.GetFrame(), class_f.posX, class_f.posY, 0);
                             }
                             else {
                                 class_f.var_189d.GetSprite().SetCurrentPalette(palette);
@@ -983,7 +983,7 @@ final class cActor
                                 class_f.var_189d.Render();
                             }
                             if (class_f.sub_a2a0(33554432)) {
-                                cGame.s_gameSprites[class_f.spriteId].sub_354b(cActor.var_1905, class_f.var_189d.GetAnim(), class_f.var_189d.GetFrame(), class_f.camX, class_f.camY, class_f.var_189d.curFlags);
+                                cGame.s_gameSprites[class_f.spriteId].GetRect(cActor.var_1905, class_f.var_189d.GetAnim(), class_f.var_189d.GetFrame(), class_f.camX, class_f.camY, class_f.var_189d.curFlags);
                                 if (cGame.s_zoomLevel != 100) {
                                     cActor.var_1905[0] = cActor.var_1905[0] * cGame.s_zoomLevel / 100;
                                     cActor.var_1905[1] = cActor.var_1905[1] * cGame.s_zoomLevel / 100;
@@ -1012,7 +1012,7 @@ final class cActor
                         }
                         class_e.SetCurrentPalette(var_1877);
                         final ASprite class_e2 = class_e;
-                        class_e2.sub_3524(cActor.var_1905, class_f.spriteFrame, class_f.camX, class_f.camY);
+                        class_e2.GetRect(cActor.var_1905, class_f.spriteFrame, class_f.camX, class_f.camY);
                         if (cGame.s_zoomLevel != 100) {
                             cActor.var_1905[0] = cActor.var_1905[0] * cGame.s_zoomLevel / 100;
                             cActor.var_1905[1] = cActor.var_1905[1] * cGame.s_zoomLevel / 100;
@@ -1032,7 +1032,7 @@ final class cActor
                                     class_e2.PaintFrame(GLLib.g, class_f.spriteFrame, class_f.posX, class_f.posY, 0);
                                 }
                                 else if (cGame.sub_438b0(class_f.spriteId)) {
-                                    class_e2.PaintFrame(GLLib.g, class_e2.GetFrames() / 2 + class_f.spriteFrame, class_f.posX, class_f.posY, 0);
+                                    class_e2.PaintFrame(GLLib.g, class_e2.GetFrameCount() / 2 + class_f.spriteFrame, class_f.posX, class_f.posY, 0);
                                 }
                                 else {
                                     class_e2.PaintFrameScaled(GLLib.g, class_f.spriteFrame, class_f.posX, class_f.posY, cGame.s_zoomLevel);
@@ -1081,8 +1081,8 @@ final class cActor
                     final ASprite spr = cGame.s_gameSprites[14];
                     boolean coordsAreValid;
                     if (spr != null && frame > -1) {
-                        final int fx = class_f.posX + spr.GetFrameX(frame);
-                        final int fy = class_f.posY + spr.GetFrameY(frame);
+                        final int fx = class_f.posX + spr.GetFrameMinX(frame);
+                        final int fy = class_f.posY + spr.GetFrameMinY(frame);
                         final int fwidth = fx + spr.GetFrameWidth(frame);
                         final int fheight = fy + spr.GetFrameHeight(frame);
                         final int width = 0 + GLLib.s_screenWidth;
@@ -1563,7 +1563,7 @@ final class cActor
         class_e.SetCurrentPalette(var_1875);
         if (cGame.s_zoomLevel < 100 && cGame.sub_438b0(n)) {
             GLLib.PFX_DisableScaleEffect();
-            GLLibPlayer.Tileset_PaintSpriteWithScale(0, class_e, class_e.GetFrames() / 2 + n2, var_17cd, var_17d5, cGame.var_8074, null);
+            GLLibPlayer.Tileset_PaintSpriteWithScale(0, class_e, class_e.GetFrameCount() / 2 + n2, var_17cd, var_17d5, cGame.var_8074, null);
             GLLib.PFX_EnableScaleEffect();
         }
         else {
@@ -1572,7 +1572,7 @@ final class cActor
         if (n2 > -1) {
             final int n4 = n & 0x7FFF;
             final ASprite class_e2;
-            (class_e2 = (((n & 0x8000) != 0x0) ? cGame.var_68d4[n4] : cGame.s_gameSprites[n4])).sub_3524(cActor.var_1905, n2, this.camX, this.camY);
+            (class_e2 = (((n & 0x8000) != 0x0) ? cGame.var_68d4[n4] : cGame.s_gameSprites[n4])).GetRect(cActor.var_1905, n2, this.camX, this.camY);
             if (cGame.s_zoomLevel != 100) {
                 cActor.var_1905[0] = cActor.var_1905[0] * cGame.s_zoomLevel / 100;
                 cActor.var_1905[1] = cActor.var_1905[1] * cGame.s_zoomLevel / 100;
@@ -1594,7 +1594,7 @@ final class cActor
                     class_e2.SetCurrentPalette(var_1876);
                     if (cGame.s_zoomLevel < 100 && cGame.sub_438b0(n)) {
                         GLLib.PFX_DisableScaleEffect();
-                        GLLibPlayer.Tileset_PaintSpriteWithScale(0, class_e2, class_e2.GetFrames() / 2 + n2, var_17cd2, var_17d6, true, cActor.var_190d[i]);
+                        GLLibPlayer.Tileset_PaintSpriteWithScale(0, class_e2, class_e2.GetFrameCount() / 2 + n2, var_17cd2, var_17d6, true, cActor.var_190d[i]);
                         GLLib.PFX_EnableScaleEffect();
                     }
                     else {
@@ -1623,7 +1623,7 @@ final class cActor
             return;
         }
         if (cGame.s_zoomLevel < 100 && cGame.sub_438b0(sprId)) {
-            sprId = sprite.GetFrames() / 2 + frame;
+            sprId = sprite.GetFrameCount() / 2 + frame;
             sprite.PaintFrame(GLLib.g, sprId, this.posX, this.posY, 0);
             return;
         }
@@ -2882,7 +2882,7 @@ final class cActor
         this.var_1765 = 1;
     }
     
-    final void sub_8d6c() {
+    final void PaintFrame() {
         this.PaintFrame(this.spriteId, this.spriteFrame);
     }
     
@@ -2982,7 +2982,7 @@ final class cActor
             }
         }
         this.var_185d = var_185d;
-        if (this.var_189d.sprite.GetAnims() > n) {
+        if (this.var_189d.sprite.GetAnimationCount() > n) {
             this.var_189d.SetAnim(n, -1);
             if (b) {
                 this.var_189d.SetTransform(2);
@@ -3135,7 +3135,7 @@ final class cActor
                 actor.var_1815 = array[7];
                 actor.var_181d = array[8];
                 actor.sprFrame = cGame.sub_2d629(actor.var_1815, actor.var_181d);
-                if (cGame.s_gameSprites[actor.spriteId].GetAnims() > 0) {
+                if (cGame.s_gameSprites[actor.spriteId].GetAnimationCount() > 0) {
                     (actor.var_189d = new GLLibPlayer(cGame.s_gameSprites[actor.spriteId], actor.camX, actor.camY)).SetAnim(0, -1);
                     actor.sub_a21a(33554432);
                 }
@@ -3622,7 +3622,7 @@ final class cActor
             int n3 = cGame.s_gameSprites[0]._modules_w_short[0] & 0xFFFF;
             int n4 = cGame.s_gameSprites[0]._modules_h_short[0] & 0xFFFF;
             final int n5 = n & 0x7FFF;
-            (((n & 0x8000) != 0x0) ? cGame.var_68d4[n5] : cGame.s_gameSprites[n5]).sub_3524(cActor.var_1905, n2, this.camX, this.camY);
+            (((n & 0x8000) != 0x0) ? cGame.var_68d4[n5] : cGame.s_gameSprites[n5]).GetRect(cActor.var_1905, n2, this.camX, this.camY);
             if (cGame.s_zoomLevel != 100) {
                 cActor.var_1905[0] = cActor.var_1905[0] * cGame.s_zoomLevel / 100;
                 cActor.var_1905[1] = cActor.var_1905[1] * cGame.s_zoomLevel / 100;

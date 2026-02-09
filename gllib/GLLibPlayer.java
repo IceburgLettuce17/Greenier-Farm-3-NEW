@@ -1462,7 +1462,7 @@ final class GLLibPlayer implements Runnable
                         GLLib.s_PFX_params[13][1] = GLLibPlayer.curExtraScale;
                         GLLib.PFX_Scale_SetUnkScaleProp5(true);
                     }
-                    if (GLLibPlayer.s_TilesetSprite[nLayer].GetFrames() == 0) {
+                    if (GLLibPlayer.s_TilesetSprite[nLayer].GetFrameCount() == 0) {
                         GLLibPlayer.s_TilesetSprite[nLayer].sub_7dca(gDest, sub_7ab4, destX, n11, sub_7ab5, GLLibPlayer.s_TilesetInfo[2], GLLibPlayer.s_TilesetInfo[5]);
                     }
                     else {
@@ -1773,8 +1773,8 @@ final class GLLibPlayer implements Runnable
             int asprite_framewidth = 0;
             int asprite_frameheight = 0;
             if (drawOperation == 0) {
-                x = ((ASprite)o).GetFrameX(n);
-                u = ((ASprite)o).GetFrameY(n);
+                x = ((ASprite)o).GetFrameMinX(n);
+                u = ((ASprite)o).GetFrameMinY(n);
                 asprite_framewidth = ((ASprite)o).GetFrameWidth(n);
                 asprite_frameheight = ((ASprite)o).GetFrameHeight(n);
                 if ((GLLib.s_PFX_type & 0x2000) != 0x0) {

@@ -15,8 +15,10 @@ public final class GloftGF2M extends MIDlet
     }
     
     public final void startApp() {
-        if (GloftGF2M.s_game == null) {
-            (GloftGF2M.s_game = new cGame(this, Display.getDisplay(this))).Init();
+        if (GloftGF2M.s_game == null) 
+        {
+            GloftGF2M.s_game = new cGame(this, Display.getDisplay(this));
+            GloftGF2M.s_game.Init();
         }
     }
     

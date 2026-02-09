@@ -1,8 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry kind="con" path="org.elipse.mtj.JavaMEContainer/KEmulator nnmod/KEmulator"/>
 	<classpathentry kind="src" path="src"/>
 	<classpathentry kind="src" path="res"/>
 	<classpathentry kind="src" path="gllib"/>
-	<classpathentry kind="con" path="org.elipse.mtj.JavaMEContainer/KEmulator nnmod/KEmulator"/>
+	<classpathentry kind="lib" path="O:/Jay R. E. the VI/lib/rt.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

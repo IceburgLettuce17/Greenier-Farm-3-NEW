@@ -56,7 +56,7 @@ public abstract class GLLib extends Canvas implements Runnable
     private static Hashtable gameActionKeyTable;
     private static int s_nbKey;
     static final int s_math_F_1;
-    static final int ALWAYS_128;
+    static final int s_math_F_05;
     static Random s_math_random;
     static int s_math_bezierX;
     static int s_math_bezierY;
@@ -2337,7 +2337,7 @@ public abstract class GLLib extends Canvas implements Runnable
         GLLib.s_urlPlatformRequest = null;
         GLLib.s_nbKey = 25;
         s_math_F_1 = 256;
-        ALWAYS_128 = 128;
+        s_math_F_05 = 128;
         Math_AngleMUL = 256;
         Math_Angle90 = 90 * GLLib.Math_AngleMUL / 360;
         GLLib.Math_Angle180 = 180 * GLLib.Math_AngleMUL / 360;

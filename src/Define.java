@@ -15,6 +15,11 @@ interface Define
 {
 	// GameStates..... (in the style of Platinum Sudoku
 	final static int GS_EXIT = -1;
+	
+	/**
+	 * Gameloft splash screen. 
+	 * <br>Switches to {@link Define#GS_INIT}.
+	 */
 	final static int GS_GAMELOFT = 1;
 	final static int GS_INIT = 2;
 	final static int GS_UNK_3 = 3;

@@ -14,7 +14,7 @@ public final class ASprite
     short[] _modules_h_short;
     private short[] _modules_extra_info;
     private short[] _modules_extra_pointer;
-    private byte[] _frames_nfm;
+    private byte[] _frames_nfm_byte;
     private short[] _frames_nfm_short;
     short[] _frames_fm_start;
     private byte[] _frames_rc;
@@ -22,56 +22,56 @@ public final class ASprite
     private byte[] _frames_rects;
     private short[] _frames_rects_short;
     private short[] _frames_rects_start;
-    private byte[] _fmodules_id;
+    private byte[] _fmodules_id_byte;
     private short[] _fmodules_id_short;
     private byte[] _fmodules_flags;
     private short[] _fmodules_ox_short;
     private short[] _fmodules_oy_short;
-    private byte[] _anims_naf;
+    private byte[] _anims_naf_byte;
     private short[] _anims_af_start;
     private byte[] _aframes;
     private byte[] _aframes_time;
-    private short[] _modules_x_short;
-    private short[] _modules_y_short;
-    private byte[] _modules_x_byte;
-    private byte[] _modules_y_byte;
-    private byte[] var_1047;
+    private short[] _aframes_ox_short;
+    private short[] _aframes_oy_short;
+    private byte[] _aframes_ox_byte;
+    private byte[] _aframes_oy_byte;
+    private byte[] _aframes_flags;
     private short[][] map;
     private int _cur_map;
     byte[] _modules_data;
     private int[] _modules_data_off_int;
     private int _bs_flags;
-    private int[][][] _module_image_intAAA;
+    private int[][][] _pal_int;
     int _palettes;
-    private int[] var_1087;
+    private int[] _pal_int_not;
     private int _crt_pal;
     private boolean _alpha;
     //private boolean var_109f;
-    private int var_10a7;
+    private int _flags;
     private short _data_format;
     private int[] var_10b7;
-    private int[] var_10bf;
+    private int[] begone;
     static int _graphicsWidth;
     static int _graphicsHeight;
     GLLibImage[][] _module_image_imageAA;
     private GLLibImage[][][] _frame_image_imageAAA;
     private static boolean var_10e7;
     private static int[] midp2_flags;
-    private static int[] var_10f7;
-    private static int[] var_10ff;
-    private static int[] var_1107;
-    private byte[] _module_types_2;
+    private static int[] TRANSFORM_FLIP_X;
+    private static int[] TRANSFORM_FLIP_Y;
+    private static int[] TRANSFORM_ROT_90;
     private byte[] _module_types;
+    private byte[] _module_img;
     private int[] _module_colors_int;
     private static int _rectX1;
     private static int _rectY1;
     private static int _rectX2;
     private static int _rectY2;
     static int[] s_rc;
-    private static boolean useSystemGc;
-    private static char var_1157;
+    private static boolean s_gcEnabled;
+    private static char k_cCanBreakLine;
     private GLLibImage[][] _imgPFXModuleCache;
-    private int[][] _PFXParamsFrameCRC;
+    private int[][] _PFXParamsModuleCRC;
     private int _cur_pool;
     private static short[][] _poolCacheStack;
     private static int[] _poolCacheStackIndex;
@@ -84,7 +84,7 @@ public final class ASprite
     private int _nLineSpacing;
     private int _nHeightFake;
     private int _nSpaceWidth;
-    private int var_11cf;
+    private int _nFontAscent;
     private boolean _bUnderline;
     private boolean _bBold;
     private short[][] _pMapCharShort;
@@ -100,11 +100,11 @@ public final class ASprite
         this._modules_w_short = null;
         this._modules_h_short = null;
         this._fmodules_id_short = null;
-        this._fmodules_id = null;
+        this._fmodules_id_byte = null;
         this._frames_nfm_short = null;
-        this._frames_nfm = null;
+        this._frames_nfm_byte = null;
         this._aframes = null;
-        this._anims_naf = null;
+        this._anims_naf_byte = null;
         this._frames_fm_start = null;
         this._frames_rc = null;
         this._frames_rc_short = null;
@@ -118,11 +118,11 @@ public final class ASprite
             }
             this.map = null;
         }
-        if (this._module_image_intAAA != null) {
-            for (int j = 0; j < this._module_image_intAAA.length; ++j) {
-                this._module_image_intAAA[j] = null;
+        if (this._pal_int != null) {
+            for (int j = 0; j < this._pal_int.length; ++j) {
+                this._pal_int[j] = null;
             }
-            this._module_image_intAAA = null;
+            this._pal_int = null;
         }
         if (this._module_image_imageAA != null) {
             for (int k = 0; k < this._module_image_imageAA.length; ++k) {
@@ -132,23 +132,23 @@ public final class ASprite
         }
     }
     
-    final void Load(final byte[] file, int offset_) {
+    final void Load(final byte[] file, int offset) {
         if (file == null) {
             return;
         }
         try {
-            if (ASprite.useSystemGc) {
+            if (ASprite.s_gcEnabled) {
                 System.gc();
             }
             this._bs_flags = (file[2] & 0xFF) + ((file[3] & 0xFF) << 8) + ((file[4] & 0xFF) << 16) + ((file[5] & 0xFF) << 24);
             
-            int offset2 = 6;
+            int offset_mod = 6;
             
             final int n3 = 6;
-            ++offset2;
+            ++offset_mod;
             final int n4 = file[n3] & 0xFF;
             final int n5 = 7;
-            ++offset2;
+            ++offset_mod;
             this._nModules = (short)(n4 + ((file[n5] & 0xFF) << 8));
             if (this._nModules > 0) {
                 this._modules_w_short = new short[this._nModules];
@@ -157,116 +157,116 @@ public final class ASprite
                 int tmpExtraInfoSize = 0;
                 short[][] tmpExtraInfo = null;
                 if ((this._bs_flags & 0x4) != 0x0) {
-                    this._module_types = new byte[this._nModules];
+                    this._module_img = new byte[this._nModules];
                 }
                 boolean bLoadAModuleColor = false;
                 boolean bLoadAModuleSize = false;
                 for (int i = 0; i < this._nModules; ++i) {
                     boolean bLoadAModuleArc = false;
                     boolean bLoadAModuleTriangle = false;
-                    boolean a = false;
-                    if ((file[offset2] & 0xFF) == 0x0) {
-                        ++offset2;
+                    boolean bLoadAModuleGrad = false;
+                    if ((file[offset_mod] & 0xFF) == 0x0) {
+                        ++offset_mod;
                         bLoadAModuleColor = false;
                         bLoadAModuleSize = true;
                         if ((this._bs_flags & 0x4) != 0x0) {
-                            this._module_types[i] = file[offset2++];
+                            this._module_img[i] = file[offset_mod++];
                         }
                     }
-                    else if ((file[offset2] & 0xFF) == 0xFF) {
-                        ++offset2;
-                        this.sub_2f12(this._nModules);
-                        this._module_types_2[i] = 1;
+                    else if ((file[offset_mod] & 0xFF) == 0xFF) {
+                        ++offset_mod;
+                        this.InitMultipleModuleTypes(this._nModules);
+                        this._module_types[i] = 1;
                         bLoadAModuleColor = true;
                         bLoadAModuleSize = true;
                     }
-                    else if ((file[offset2] & 0xFF) == 0xFE) {
-                        ++offset2;
-                        this.sub_2f12(this._nModules);
-                        this._module_types_2[i] = 2;
+                    else if ((file[offset_mod] & 0xFF) == 0xFE) {
+                        ++offset_mod;
+                        this.InitMultipleModuleTypes(this._nModules);
+                        this._module_types[i] = 2;
                         bLoadAModuleColor = true;
                         bLoadAModuleSize = true;
                     }
-                    else if ((file[offset2] & 0xFF) == 0xFD) {
-                        ++offset2;
-                        this.sub_2f12(this._nModules);
-                        this._module_types_2[i] = 5;
+                    else if ((file[offset_mod] & 0xFF) == 0xFD) {
+                        ++offset_mod;
+                        this.InitMultipleModuleTypes(this._nModules);
+                        this._module_types[i] = 5;
                         bLoadAModuleColor = false;
                         bLoadAModuleSize = true;
                     }
-                    else if ((file[offset2] & 0xFF) == 0xFC) {
-                        ++offset2;
-                        this.sub_2f12(this._nModules);
-                        this._module_types_2[i] = 3;
+                    else if ((file[offset_mod] & 0xFF) == 0xFC) {
+                        ++offset_mod;
+                        this.InitMultipleModuleTypes(this._nModules);
+                        this._module_types[i] = 3;
                         bLoadAModuleColor = true;
                         bLoadAModuleSize = true;
                         bLoadAModuleArc = true;
                     }
-                    else if ((file[offset2] & 0xFF) == 0xFB) {
-                        ++offset2;
-                        this.sub_2f12(this._nModules);
-                        this._module_types_2[i] = 4;
+                    else if ((file[offset_mod] & 0xFF) == 0xFB) {
+                        ++offset_mod;
+                        this.InitMultipleModuleTypes(this._nModules);
+                        this._module_types[i] = 4;
                         bLoadAModuleColor = true;
                         bLoadAModuleSize = true;
                         bLoadAModuleArc = true;
                     }
-                    else if ((file[offset2] & 0xFF) == 0xFA) {
-                        ++offset2;
-                        this.sub_2f12(this._nModules);
-                        this._module_types_2[i] = 6;
+                    else if ((file[offset_mod] & 0xFF) == 0xFA) {
+                        ++offset_mod;
+                        this.InitMultipleModuleTypes(this._nModules);
+                        this._module_types[i] = 6;
                         bLoadAModuleColor = true;
                         bLoadAModuleSize = false;
                         bLoadAModuleTriangle = true;
                     }
-                    else if ((file[offset2] & 0xFF) == 0xF9) {
-                        ++offset2;
-                        this.sub_2f12(this._nModules);
-                        this._module_types_2[i] = 7;
+                    else if ((file[offset_mod] & 0xFF) == 0xF9) {
+                        ++offset_mod;
+                        this.InitMultipleModuleTypes(this._nModules);
+                        this._module_types[i] = 7;
                         bLoadAModuleColor = true;
                         bLoadAModuleSize = false;
                         bLoadAModuleTriangle = true;
                     }
-                    else if ((file[offset2] & 0xFF) == 0xF8) {
-                        ++offset2;
-                        this.sub_2f12(this._nModules);
-                        this._module_types_2[i] = 8;
+                    else if ((file[offset_mod] & 0xFF) == 0xF8) {
+                        ++offset_mod;
+                        this.InitMultipleModuleTypes(this._nModules);
+                        this._module_types[i] = 8;
                         bLoadAModuleColor = true;
                         bLoadAModuleSize = true;
                         bLoadAModuleTriangle = false;
                     }
-                    else if ((file[offset2] & 0xFF) == 0xF7) {
-                        ++offset2;
-                        this.sub_2f12(this._nModules);
-                        this._module_types_2[i] = 9;
+                    else if ((file[offset_mod] & 0xFF) == 0xF7) {
+                        ++offset_mod;
+                        this.InitMultipleModuleTypes(this._nModules);
+                        this._module_types[i] = 9;
                         bLoadAModuleColor = true;
-                        a = true;
+                        bLoadAModuleGrad = true;
                         bLoadAModuleSize = true;
                         bLoadAModuleTriangle = false;
                     }
                     if (bLoadAModuleColor) {
-                        this._module_colors_int[i] = (file[offset2++] & 0xFF) + ((file[offset2++] & 0xFF) << 8) + ((file[offset2++] & 0xFF) << 16) + ((file[offset2++] & 0xFF) << 24);
+                        this._module_colors_int[i] = (file[offset_mod++] & 0xFF) + ((file[offset_mod++] & 0xFF) << 8) + ((file[offset_mod++] & 0xFF) << 16) + ((file[offset_mod++] & 0xFF) << 24);
                     }
-                    if (a) {
+                    if (bLoadAModuleGrad) {
                         if (tmpExtraInfo == null) {
                             tmpExtraInfo = new short[this._nModules][];
                         }
-                        final short[] array3 = new short[3];
-                        final int n8 = (file[offset2++] & 0xFF) + ((file[offset2++] & 0xFF) << 8) + ((file[offset2++] & 0xFF) << 16) + ((file[offset2++] & 0xFF) << 24);
-                        array3[0] = (short)n8;
-                        array3[1] = (short)(n8 >> 16);
-                        array3[2] = file[offset2++];
-                        tmpExtraInfo[i] = array3;
+                        final short[] aShort = new short[3];
+                        final int altColor = (file[offset_mod++] & 0xFF) + ((file[offset_mod++] & 0xFF) << 8) + ((file[offset_mod++] & 0xFF) << 16) + ((file[offset_mod++] & 0xFF) << 24);
+                        aShort[0] = (short)altColor;
+                        aShort[1] = (short)(altColor >> 16);
+                        aShort[2] = file[offset_mod++];
+                        tmpExtraInfo[i] = aShort;
                         ++tmpExtraInfoCount;
                         tmpExtraInfoSize += 3;
                     }
                     if (bLoadAModuleSize) {
                         if ((this._bs_flags & 0x10) == 0x0) {
-                            this._modules_w_short[i] = (short)(file[offset2++] & 0xFF);
-                            this._modules_h_short[i] = (short)(file[offset2++] & 0xFF);
+                            this._modules_w_short[i] = (short)(file[offset_mod++] & 0xFF);
+                            this._modules_h_short[i] = (short)(file[offset_mod++] & 0xFF);
                         }
                         else {
-                            this._modules_w_short[i] = (short)((file[offset2++] & 0xFF) + ((file[offset2++] & 0xFF) << 8));
-                            this._modules_h_short[i] = (short)((file[offset2++] & 0xFF) + ((file[offset2++] & 0xFF) << 8));
+                            this._modules_w_short[i] = (short)((file[offset_mod++] & 0xFF) + ((file[offset_mod++] & 0xFF) << 8));
+                            this._modules_h_short[i] = (short)((file[offset_mod++] & 0xFF) + ((file[offset_mod++] & 0xFF) << 8));
                         }
                     }
                     if (bLoadAModuleArc) {
@@ -274,8 +274,8 @@ public final class ASprite
                             tmpExtraInfo = new short[this._nModules][];
                         }
                         final short[] aShort;
-                        (aShort = new short[2])[0] = (short)((file[offset2++] & 0xFF) + ((file[offset2++] & 0xFF) << 8));
-                        aShort[1] = (short)((file[offset2++] & 0xFF) + ((file[offset2++] & 0xFF) << 8));
+                        (aShort = new short[2])[0] = (short)((file[offset_mod++] & 0xFF) + ((file[offset_mod++] & 0xFF) << 8));
+                        aShort[1] = (short)((file[offset_mod++] & 0xFF) + ((file[offset_mod++] & 0xFF) << 8));
                         tmpExtraInfo[i] = aShort;
                         ++tmpExtraInfoCount;
                         tmpExtraInfoSize += 2;
@@ -285,10 +285,10 @@ public final class ASprite
                             tmpExtraInfo = new short[this._nModules][];
                         }
                         final short[] aShort;
-                        (aShort = new short[4])[0] = (short)((file[offset2++] & 0xFF) + ((file[offset2++] & 0xFF) << 8));
-                        aShort[1] = (short)((file[offset2++] & 0xFF) + ((file[offset2++] & 0xFF) << 8));
-                        aShort[2] = (short)((file[offset2++] & 0xFF) + ((file[offset2++] & 0xFF) << 8));
-                        aShort[3] = (short)((file[offset2++] & 0xFF) + ((file[offset2++] & 0xFF) << 8));
+                        (aShort = new short[4])[0] = (short)((file[offset_mod++] & 0xFF) + ((file[offset_mod++] & 0xFF) << 8));
+                        aShort[1] = (short)((file[offset_mod++] & 0xFF) + ((file[offset_mod++] & 0xFF) << 8));
+                        aShort[2] = (short)((file[offset_mod++] & 0xFF) + ((file[offset_mod++] & 0xFF) << 8));
+                        aShort[3] = (short)((file[offset_mod++] & 0xFF) + ((file[offset_mod++] & 0xFF) << 8));
                         tmpExtraInfo[i] = aShort;
                         ++tmpExtraInfoCount;
                         tmpExtraInfoSize += 4;
@@ -301,13 +301,13 @@ public final class ASprite
                     short xOffset = 0;
                     for (short m = 0; m < this._nModules; ++m) {
                         int nSize;
-                        if (this._module_types_2[m] == 3 || this._module_types_2[m] == 4) {
+                        if (this._module_types[m] == 3 || this._module_types[m] == 4) {
                             nSize = 2;
                         }
-                        else if (this._module_types_2[m] == 6 || this._module_types_2[m] == 7) {
+                        else if (this._module_types[m] == 6 || this._module_types[m] == 7) {
                             nSize = 4;
                         }
-                        else if (this._module_types_2[m] == 9) {
+                        else if (this._module_types[m] == 9) {
                             nSize = 3;
                         }
                         else {
@@ -326,206 +326,193 @@ public final class ASprite
                     }
                 }
             }
-            offset_ = offset2;
+            offset = offset_mod;
             
-            int n13 = offset_;
+            int offset_fmod = offset;
 
-            final short n14;
-            if ((n14 = (short)((file[n13++] & 0xFF) + ((file[n13++] & 0xFF) << 8))) > 0) {
+            short nFModules = (short)((file[offset_fmod++] & 0xFF) + ((file[offset_fmod++] & 0xFF) << 8));
+            if (nFModules > 0) {
                 if ((this._bs_flags & 0x100000) != 0x0) {
-                    this._fmodules_id_short = new short[n14];
+                    this._fmodules_id_short = new short[nFModules];
                 }
                 else {
-                    this._fmodules_id = new byte[n14];
+                    this._fmodules_id_byte = new byte[nFModules];
                 }
-                this._fmodules_ox_short = new short[n14];
-                this._fmodules_oy_short = new short[n14];
-                this._fmodules_flags = new byte[n14];
-                for (short n15 = 0; n15 < n14; ++n15) {
+                this._fmodules_ox_short = new short[nFModules];
+                this._fmodules_oy_short = new short[nFModules];
+                this._fmodules_flags = new byte[nFModules];
+                for (int i = 0; i < nFModules; ++i) {
                     if ((this._bs_flags & 0x100000) != 0x0) {
-                        this._fmodules_id_short[n15] = (short)((file[n13++] & 0xFF) + ((file[n13++] & 0xFF) << 8));
+                        this._fmodules_id_short[i] = (short)((file[offset_fmod++] & 0xFF) + ((file[offset_fmod++] & 0xFF) << 8));
                     }
                     else {
-                        this._fmodules_id[n15] = file[n13++];
+                        this._fmodules_id_byte[i] = file[offset_fmod++];
                     }
                     if ((this._bs_flags & 0x400) != 0x0) {
-                        this._fmodules_ox_short[n15] = (short)((file[n13++] & 0xFF) + ((file[n13++] & 0xFF) << 8));
-                        this._fmodules_oy_short[n15] = (short)((file[n13++] & 0xFF) + ((file[n13++] & 0xFF) << 8));
+                        this._fmodules_ox_short[i] = (short)((file[offset_fmod++] & 0xFF) + ((file[offset_fmod++] & 0xFF) << 8));
+                        this._fmodules_oy_short[i] = (short)((file[offset_fmod++] & 0xFF) + ((file[offset_fmod++] & 0xFF) << 8));
                     }
                     else {
-                        this._fmodules_ox_short[n15] = file[n13++];
-                        this._fmodules_oy_short[n15] = file[n13++];
+                        this._fmodules_ox_short[i] = file[offset_fmod++];
+                        this._fmodules_oy_short[i] = file[offset_fmod++];
                     }
-                    this._fmodules_flags[n15] = file[n13++];
+                    this._fmodules_flags[i] = file[offset_fmod++];
                 }
             }
-            offset_ = n13;
+            offset = offset_fmod;
 
-            int n16 = offset_;
+            int offset_frame = offset;
             
             if ((this._bs_flags & 0x8000) != 0x0) {
-                final short n17 = (short)((file[n16++] & 0xFF) + ((file[n16++] & 0xFF) << 8));
+                final short nRects = (short)((file[offset_frame++] & 0xFF) + ((file[offset_frame++] & 0xFF) << 8));
                 if ((this._bs_flags & 0x400) == 0x0) {
-                    System.arraycopy(file, n16, this._frames_rects = new byte[n17 << 2], 0, n17 << 2);
-                    n16 += n17 << 2;
+                    System.arraycopy(file, offset_frame, this._frames_rects = new byte[nRects << 2], 0, nRects << 2);
+                    offset_frame += nRects << 2;
                 }
                 else {
-                    this._frames_rects_short = new short[n17 << 2];
-                    final int n18 = n16;
-                    final short[] var_fcf = this._frames_rects_short;
-                    final int n19 = n17 << 2;
-                    final short[] array6 = var_fcf;
-                    int n20 = n18;
-                    for (int k = 0; k < n19; ++k) {
-                        array6[k] = (short)((file[n20++] & 0xFF) + ((file[n20++] & 0xFF) << 8));
+                    this._frames_rects_short = new short[nRects << 2];
+                    for (int k = 0; k < nRects << 2; ++k) {
+                    	_frames_rects_short[k] = (short)((file[offset_frame++] & 0xFF) + ((file[offset_frame++] & 0xFF) << 8));
                     }
-                    n16 = n20;
                 }
             }
             final short nFrames;
-            if ((nFrames = (short)((file[n16++] & 0xFF) + ((file[n16++] & 0xFF) << 8))) > 0) {
+            if ((nFrames = (short)((file[offset_frame++] & 0xFF) + ((file[offset_frame++] & 0xFF) << 8))) > 0) {
                 if ((this._bs_flags & 0x800) != 0x0) {
                     this._frames_nfm_short = new short[nFrames];
                 }
                 else {
-                    this._frames_nfm = new byte[nFrames];
+                    this._frames_nfm_byte = new byte[nFrames];
                 }
                 this._frames_fm_start = new short[nFrames];
                 if ((this._bs_flags & 0x8000) != 0x0) {
                     this._frames_rects_start = new short[nFrames + 1];
                 }
-                short n22 = 0;
-                for (short n23 = 0; n23 < nFrames; ++n23) {
+                short frame_start = 0;
+                for (int i = 0; i < nFrames; ++i) {
                     if ((this._bs_flags & 0x800) != 0x0) {
-                        this._frames_nfm_short[n23] = (short)((file[n16++] & 0xFF) + ((file[n16++] & 0xFF) << 8));
+                        this._frames_nfm_short[i] = (short)((file[offset_frame++] & 0xFF) + ((file[offset_frame++] & 0xFF) << 8));
                     }
                     else {
-                        this._frames_nfm[n23] = file[n16++];
+                        this._frames_nfm_byte[i] = file[offset_frame++];
                     }
-                    this._frames_fm_start[n23] = (short)((file[n16++] & 0xFF) + ((file[n16++] & 0xFF) << 8));
+                    this._frames_fm_start[i] = (short)((file[offset_frame++] & 0xFF) + ((file[offset_frame++] & 0xFF) << 8));
                     if ((this._bs_flags & 0x8000) != 0x0 && (this._bs_flags & 0x8000) != 0x0) {
-                        this._frames_rects_start[n23] = n22;
-                        n22 += file[n16++];
+                        this._frames_rects_start[i] = frame_start;
+                        frame_start += file[offset_frame++];
                     }
                 }
                 if ((this._bs_flags & 0x8000) != 0x0) {
-                    this._frames_rects_start[this._frames_rects_start.length - 1] = n22;
+                    this._frames_rects_start[this._frames_rects_start.length - 1] = frame_start;
                 }
                 if ((this._bs_flags & 0x1000) == 0x0) {
                     final int nFrames2 = nFrames << 2;
                     if ((this._bs_flags & 0x400) == 0x0) {
                         this._frames_rc = new byte[nFrames2];
-                        for (int l = 0; l < nFrames2; ++l) {
-                            this._frames_rc[l] = file[n16++];
+                        for (int j = 0; j < nFrames2; ++j) {
+                            this._frames_rc[j] = file[offset_frame++];
                         }
                     }
                     else {
                         this._frames_rc_short = new short[nFrames2];
-                        for (int n25 = 0; n25 < nFrames2; ++n25) {
-                            this._frames_rc_short[n25] = (short)((file[n16++] & 0xFF) + ((file[n16++] & 0xFF) << 8));
+                        for (int j = 0; j < nFrames2; ++j) {
+                            this._frames_rc_short[j] = (short)((file[offset_frame++] & 0xFF) + ((file[offset_frame++] & 0xFF) << 8));
                         }
                     }
                 }
             }
-            offset_ = n16;
-            int n26 = offset_;
-            final short nModules;
-            if ((nModules = (short)((file[n26++] & 0xFF) + ((file[n26++] & 0xFF) << 8))) > 0) {
-                this._aframes = new byte[nModules];
-                this._aframes_time = new byte[nModules];
+            offset = offset_frame;
+            int offset_aframe = offset;
+            final short nAFrames;
+            if ((nAFrames = (short)((file[offset_aframe++] & 0xFF) + ((file[offset_aframe++] & 0xFF) << 8))) > 0) {
+                this._aframes = new byte[nAFrames];
+                this._aframes_time = new byte[nAFrames];
                 if ((this._bs_flags & 0x40000) != 0x0) {
-                    this._modules_x_short = new short[nModules];
-                    this._modules_y_short = new short[nModules];
+                    this._aframes_ox_short = new short[nAFrames];
+                    this._aframes_oy_short = new short[nAFrames];
                 }
                 else {
-                    this._modules_x_byte = new byte[nModules];
-                    this._modules_y_byte = new byte[nModules];
+                    this._aframes_ox_byte = new byte[nAFrames];
+                    this._aframes_oy_byte = new byte[nAFrames];
                 }
-                this.var_1047 = new byte[nModules];
-                for (int i = 0; i < nModules; ++i) {
-                    this._aframes[i] = file[n26++];
-                    this._aframes_time[i] = file[n26++];
+                this._aframes_flags = new byte[nAFrames];
+                for (int i = 0; i < nAFrames; ++i) {
+                    this._aframes[i] = file[offset_aframe++];
+                    this._aframes_time[i] = file[offset_aframe++];
                     if ((this._bs_flags & 0x40000) != 0x0) {
-                        this._modules_x_short[i] = (short)((file[n26++] & 0xFF) + ((file[n26++] & 0xFF) << 8));
-                        this._modules_y_short[i] = (short)((file[n26++] & 0xFF) + ((file[n26++] & 0xFF) << 8));
+                        this._aframes_ox_short[i] = (short)((file[offset_aframe++] & 0xFF) + ((file[offset_aframe++] & 0xFF) << 8));
+                        this._aframes_oy_short[i] = (short)((file[offset_aframe++] & 0xFF) + ((file[offset_aframe++] & 0xFF) << 8));
                     }
                     else {
-                        this._modules_x_byte[i] = file[n26++];
-                        this._modules_y_byte[i] = file[n26++];
+                        this._aframes_ox_byte[i] = file[offset_aframe++];
+                        this._aframes_oy_byte[i] = file[offset_aframe++];
                     }
-                    this.var_1047[i] = file[n26++];
+                    this._aframes_flags[i] = file[offset_aframe++];
                 }
             }
-            offset_ = n26;
+            offset = offset_aframe;
             
-            int offset = offset_;
-            final short nAnims = (short)((file[offset++] & 0xFF) + ((file[offset++] & 0xFF) << 8));
+            int offset_anim = offset;
+            final short nAnims = (short)((file[offset_anim++] & 0xFF) + ((file[offset_anim++] & 0xFF) << 8));
             if (nAnims > 0) {
-                this._anims_naf = new byte[nAnims];
+                this._anims_naf_byte = new byte[nAnims];
                 this._anims_af_start = new short[nAnims];
-                for (short i = 0; i < nAnims; ++i) {
-                    this._anims_naf[i] = file[offset++];
-                    this._anims_af_start[i] = (short)((file[offset++] & 0xFF) + ((file[offset++] & 0xFF) << 8));
+                for (int i = 0; i < nAnims; ++i) {
+                    this._anims_naf_byte[i] = file[offset_anim++];
+                    this._anims_af_start[i] = (short)((file[offset_anim++] & 0xFF) + ((file[offset_anim++] & 0xFF) << 8));
                 }
             }
-            offset_ = offset;
+            offset = offset_anim;
             if (this._nModules <= 0) {
-                if (ASprite.useSystemGc) {
+                if (ASprite.s_gcEnabled) {
                     System.gc();
                 }
                 return;
             }
             if ((this._bs_flags & 0x1000000) != 0x0) {
-                final ASprite this11 = this;
-                int n32 = offset_;
-                final ASprite this12 = this11;
-                if ((this11._bs_flags & 0x1000000) != 0x0 && n32 < file.length) {
-                    final short n33 = (short)((file[n32++] & 0xFF) + ((file[n32++] & 0xFF) << 8));
-                    int n34 = 1;
-                    if ((this12._bs_flags & 0x40000000) != 0x0) {
-                        n34 = file[n32++];
+                int offset_sngimg = offset;
+                if ((this._bs_flags & 0x1000000) != 0x0 && offset_sngimg < file.length) {
+                    final short _pixel_format = (short)((file[offset_sngimg++] & 0xFF) + ((file[offset_sngimg++] & 0xFF) << 8));
+                    int _number_image = 1;
+                    if ((this._bs_flags & 0x40000000) != 0x0) {
+                        _number_image = file[offset_sngimg++];
                     }
-                    if (this12.var_1087 == null) {
-                        this12.var_1087 = new int[n34];
+                    if (this._pal_int_not == null) {
+                        this._pal_int_not = new int[_number_image];
                     }
-                    for (int n35 = 0; n35 < n34; ++n35) {
-                        this12._palettes = (file[n32++] & 0xFF);
-                        int n36;
-                        if ((n36 = (file[n32++] & 0xFF)) == 0) {
-                            n36 = 256;
+                    for (int p = 0; p < _number_image; ++p) {
+                        this._palettes = (file[offset_sngimg++] & 0xFF);
+                        int colors;
+                        if ((colors = (file[offset_sngimg++] & 0xFF)) == 0) {
+                            colors = 256;
                         }
-                        this12.var_1087[n35] = n36;
-                        final ASprite this13 = this12;
-                        final int n37 = n34;
-                        final ASprite this14 = this13;
-                        if (this13._module_image_intAAA == null) {
-                            this14._module_image_intAAA = new int[n37][16][];
+                        this._pal_int_not[p] = colors;
+                        if (this._pal_int == null) {
+                            this._pal_int = new int[_number_image][16][];
                         }
-                        final ASprite this15 = this12;
-                        final int n38 = n32;
-                        final short n39 = n33;
-                        final int n40 = n36;
-                        final int n41 = n35;
+                        final int n38 = offset_sngimg;
+                        final short n39 = _pixel_format;
+                        final int n40 = colors;
+                        final int n41 = p;
                         final int n42 = n40;
                         final short n43 = n39;
                         int n44 = n38;
-                        final ASprite this16 = this15;
-                        for (int n45 = 0; n45 < this16._palettes; ++n45) {
-                            this16._module_image_intAAA[n41][n45] = new int[n42];
-                            final int[] array7 = this16._module_image_intAAA[n41][n45];
+                        for (int n45 = 0; n45 < this._palettes; ++n45) {
+                            this._pal_int[n41][n45] = new int[n42];
+                            final int[] array7 = this._pal_int[n41][n45];
                             if (n43 == 21781) {
                                 for (int n46 = 0; n46 < n42; ++n46) {
-                                    final short n47 = (short)((file[n44++] & 0xFF) + ((file[n44++] & 0xFF) << 8));
-                                    int n48 = -16777216;
-                                    if ((n47 & 0x8000) != 0x8000) {
-                                        n48 = 0;
-                                        this16._alpha = true;
+                                    final short _4446 = (short)((file[n44++] & 0xFF) + ((file[n44++] & 0xFF) << 8));
+                                    int a = -16777216;
+                                    if ((_4446 & 0x8000) != 0x8000) {
+                                        a = 0;
+                                        this._alpha = true;
                                     }
-                                    int n49;
-                                    if ((n49 = (n48 | (n47 & 0x7C00) << 9 | (n47 & 0x3E0) << 6 | (n47 & 0x1F) << 3)) == 16253176) {
-                                        n49 = 16711935;
+                                    int _temp = (a | (_4446 & 0x7C00) << 9 | (_4446 & 0x3E0) << 6 | (_4446 & 0x1F) << 3);
+                                    if (_temp == 16253176) {
+                                        _temp = 16711935;
                                     }
-                                    array7[n46] = n49;
+                                    array7[n46] = _temp;
                                 }
                             }
                             else if (n43 == 25861) {
@@ -534,7 +521,7 @@ public final class ASprite
                                     int n52 = -16777216;
                                     if ((n51 & 0xFFFF) == 0xF81F) {
                                         n52 = 0;
-                                        this16._alpha = true;
+                                        this._alpha = true;
                                     }
                                     int n53;
                                     if ((n53 = (n52 | (n51 & 0xF800) << 8 | (n51 & 0x7E0) << 5 | (n51 & 0x1F) << 3)) == 16253176) {
@@ -544,11 +531,11 @@ public final class ASprite
                                 }
                             }
                             else if (n43 == -30712) {
-                                //this16.var_109f = false;
+                                //this.var_109f = false;
                                 for (int n54 = 0; n54 < n42; ++n54) {
                                     int n55;
                                     if ((n55 = (file[n44++] & 0xFF) + ((file[n44++] & 0xFF) << 8) + ((file[n44++] & 0xFF) << 16)) == 16711935) {
-                                        this16._alpha = true;
+                                        this._alpha = true;
                                     }
                                     else {
                                         n55 |= 0xFF000000;
@@ -557,59 +544,59 @@ public final class ASprite
                                 }
                             }
                         }
-                        n32 = n44;
+                        offset_sngimg = n44;
                     }
-                    this12._data_format = (short)((file[n32++] & 0xFF) + ((file[n32++] & 0xFF) << 8));
-                    if (this12._data_format == 25840 || this12._data_format == -22976) {
-                        if (this12.var_10b7 == null) {
-                            this12.var_10b7 = new int[n34];
-                            this12.var_10bf = new int[n34];
+                    this._data_format = (short)((file[offset_sngimg++] & 0xFF) + ((file[offset_sngimg++] & 0xFF) << 8));
+                    if (this._data_format == 25840 || this._data_format == -22976) {
+                        if (this.var_10b7 == null) {
+                            this.var_10b7 = new int[_number_image];
+                            this.begone = new int[_number_image];
                         }
-                        for (int n56 = 0; n56 < n34; ++n56) {
-                            int n57 = this12.var_1087[n56] - 1;
-                            this12.var_10b7[n56] = 1;
-                            this12.var_10bf[n56] = 0;
+                        for (int n56 = 0; n56 < _number_image; ++n56) {
+                            int n57 = this._pal_int_not[n56] - 1;
+                            this.var_10b7[n56] = 1;
+                            this.begone[n56] = 0;
                             while (n57 != 0) {
                                 n57 >>= 1;
-                                final int[] var_10b7 = this12.var_10b7;
+                                final int[] var_10b7 = this.var_10b7;
                                 final int n58 = n56;
                                 var_10b7[n58] <<= 1;
-                                final int[] var_10bf = this12.var_10bf;
+                                final int[] var_10bf = this.begone;
                                 final int n59 = n56;
                                 ++var_10bf[n59];
                             }
-                            final int[] var_10b8 = this12.var_10b7;
+                            final int[] var_10b8 = this.var_10b7;
                             final int n60 = n56;
                             --var_10b8[n60];
                         }
                     }
-                    if (this12._nModules > 0) {
-                        this12._modules_data_off_int = new int[this12._nModules];
+                    if (this._nModules > 0) {
+                        this._modules_data_off_int = new int[this._nModules];
                         int n61 = 0;
-                        final int n62 = n32;
-                        for (int n63 = 0; n63 < this12._nModules; ++n63) {
+                        final int n62 = offset_sngimg;
+                        for (int n63 = 0; n63 < this._nModules; ++n63) {
                             int n64;
-                            if ((this12._bs_flags & 0x80) != 0x0) {
-                                n64 = (file[n32++] & 0xFF) + ((file[n32++] & 0xFF) << 8) + ((file[n32++] & 0xFF) << 16) + ((file[n32++] & 0xFF) << 24);
+                            if ((this._bs_flags & 0x80) != 0x0) {
+                                n64 = (file[offset_sngimg++] & 0xFF) + ((file[offset_sngimg++] & 0xFF) << 8) + ((file[offset_sngimg++] & 0xFF) << 16) + ((file[offset_sngimg++] & 0xFF) << 24);
                             }
                             else {
-                                n64 = (short)((file[n32++] & 0xFF) + ((file[n32++] & 0xFF) << 8));
+                                n64 = (short)((file[offset_sngimg++] & 0xFF) + ((file[offset_sngimg++] & 0xFF) << 8));
                             }
-                            this12._modules_data_off_int[n63] = n61;
+                            this._modules_data_off_int[n63] = n61;
                             n61 += n64;
-                            n32 += n64;
+                            offset_sngimg += n64;
                         }
                         int n65 = n62;
-                        this12._modules_data = new byte[n61];
-                        for (int n66 = 0; n66 < this12._nModules; ++n66) {
+                        this._modules_data = new byte[n61];
+                        for (int n66 = 0; n66 < this._nModules; ++n66) {
                             int n67;
-                            if ((this12._bs_flags & 0x80) != 0x0) {
+                            if ((this._bs_flags & 0x80) != 0x0) {
                                 n67 = (file[n65++] & 0xFF) + ((file[n65++] & 0xFF) << 8) + ((file[n65++] & 0xFF) << 16) + ((file[n65++] & 0xFF) << 24);
                             }
                             else {
                                 n67 = (short)((file[n65++] & 0xFF) + ((file[n65++] & 0xFF) << 8));
                             }
-                            System.arraycopy(file, n65, this12._modules_data, this12.getStartModuleData(n66), n67);
+                            System.arraycopy(file, n65, this._modules_data, this.GetStartModuleData(n66), n67);
                             n65 += n67;
                         }
                     }
@@ -618,59 +605,58 @@ public final class ASprite
             this._cur_map = -1;
             this.map = new short[16][];
             if ((this._bs_flags & 0x1000) != 0x0) {
-                final int sub_3717;
-                if ((sub_3717 = this.GetFrames()) > 0) {
-                    offset_ = 0;
-                    if ((this._bs_flags & 0x400) == 0x0 && (this.var_10a7 & 0x4) == 0x0) {
-                        this._frames_rc = new byte[sub_3717 << 2];
-                        for (int n68 = 0; n68 < sub_3717; ++n68) {
-                            this.GetFrameRect(ASprite.s_rc, n68);
-                            this._frames_rc[offset_++] = (byte)ASprite.s_rc[0];
-                            this._frames_rc[offset_++] = (byte)ASprite.s_rc[1];
-                            this._frames_rc[offset_++] = (byte)(ASprite.s_rc[2] - ASprite.s_rc[0]);
-                            this._frames_rc[offset_++] = (byte)(ASprite.s_rc[3] - ASprite.s_rc[1]);
+                int nFrames_ = this.GetFrameCount();
+                if (nFrames_ > 0) {
+                    offset = 0;
+                    if ((this._bs_flags & 0x400) == 0x0 && (this._flags & 0x4) == 0x0) {
+                        this._frames_rc = new byte[nFrames_ << 2];
+                        for (int i = 0; i < nFrames_; ++i) {
+                            this.GetFrameRect(ASprite.s_rc, i);
+                            this._frames_rc[offset++] = (byte)ASprite.s_rc[0];
+                            this._frames_rc[offset++] = (byte)ASprite.s_rc[1];
+                            this._frames_rc[offset++] = (byte)(ASprite.s_rc[2] - ASprite.s_rc[0]);
+                            this._frames_rc[offset++] = (byte)(ASprite.s_rc[3] - ASprite.s_rc[1]);
                         }
                     }
                     else {
-                        this._frames_rc_short = new short[sub_3717 << 2];
-                        for (int n69 = 0; n69 < sub_3717; ++n69) {
-                            this.GetFrameRect(ASprite.s_rc, n69);
-                            this._frames_rc_short[offset_++] = (short)ASprite.s_rc[0];
-                            this._frames_rc_short[offset_++] = (short)ASprite.s_rc[1];
-                            this._frames_rc_short[offset_++] = (short)(ASprite.s_rc[2] - ASprite.s_rc[0]);
-                            this._frames_rc_short[offset_++] = (short)(ASprite.s_rc[3] - ASprite.s_rc[1]);
+                        this._frames_rc_short = new short[nFrames_ << 2];
+                        for (int i = 0; i < nFrames_; ++i) {
+                            this.GetFrameRect(ASprite.s_rc, i);
+                            this._frames_rc_short[offset++] = (short)ASprite.s_rc[0];
+                            this._frames_rc_short[offset++] = (short)ASprite.s_rc[1];
+                            this._frames_rc_short[offset++] = (short)(ASprite.s_rc[2] - ASprite.s_rc[0]);
+                            this._frames_rc_short[offset++] = (short)(ASprite.s_rc[3] - ASprite.s_rc[1]);
                         }
                     }
                 }
             }
-            else if ((this.var_10a7 & 0x4) != 0x0) {
-                final ASprite this17 = this;
-                this17.var_10a7 &= 0xFFFFFFFB;
+            else if ((this._flags & 0x4) != 0x0) {
+                this._flags &= 0xFFFFFFFB;
             }
-            if (ASprite.useSystemGc) {
+            if (ASprite.s_gcEnabled) {
                 System.gc();
             }
         }
         catch (final Exception ex) {}
     }
     
-    private void sub_2f12(final int n) {
-        if (this._module_types_2 == null) {
-            this._module_types_2 = new byte[n];
-            for (int i = 0; i < n; ++i) {
-                this._module_types_2[i] = 0;
+    private void InitMultipleModuleTypes(final int nModules) {
+        if (this._module_types == null) {
+            this._module_types = new byte[nModules];
+            for (int i = 0; i < nModules; ++i) {
+                this._module_types[i] = 0;
             }
         }
         if (this._module_colors_int == null) {
-            this._module_colors_int = new int[n];
+            this._module_colors_int = new int[nModules];
         }
     }
     
     final void FreeCacheData() {
-        this._module_image_intAAA = null;
+        this._pal_int = null;
         this._modules_data = null;
         this._modules_data_off_int = null;
-        if (ASprite.useSystemGc) {
+        if (ASprite.s_gcEnabled) {
             System.gc();
         }
     }
@@ -680,28 +666,28 @@ public final class ASprite
     }
     
     final int GetAFrames(final int anim) {
-        return this._anims_naf[anim] & 0xFF;
+        return this._anims_naf_byte[anim] & 0xFF;
     }
     
     private int GetFModules(final int n) {
         if ((this._bs_flags & 0x800) != 0x0) {
             return this._frames_nfm_short[n];
         }
-        return this._frames_nfm[n] & 0xFF;
+        return this._frames_nfm_byte[n] & 0xFF;
     }
     
-    private int GetModuleX(final int module) {
+    private int GetAFramesOX(final int module) {
         if ((this._bs_flags & 0x40000) != 0x0) {
-            return this._modules_x_short[module];
+            return this._aframes_ox_short[module];
         }
-        return this._modules_x_byte[module];
+        return this._aframes_ox_byte[module];
     }
     
-    private int GetModuleY(final int module) {
+    private int GetAFramesOY(final int module) {
         if ((this._bs_flags & 0x40000) != 0x0) {
-            return this._modules_y_short[module];
+            return this._aframes_oy_short[module];
         }
-        return this._modules_y_byte[module];
+        return this._aframes_oy_byte[module];
     }
     
     final int GetFModuleOX(final int v) {
@@ -713,100 +699,100 @@ public final class ASprite
     }
     
     final int GetFrameWidth(final int frame) {
-        if ((this._bs_flags & 0x400) == 0x0 && (this.var_10a7 & 0x4) == 0x0) {
+        if ((this._bs_flags & 0x400) == 0x0 && (this._flags & 0x4) == 0x0) {
             return this._frames_rc[(frame << 2) + 2] & 0xFF;
         }
         return this._frames_rc_short[(frame << 2) + 2] & 0xFFFF;
     }
     
     final int GetFrameHeight(final int frame) {
-        if ((this._bs_flags & 0x400) == 0x0 && (this.var_10a7 & 0x4) == 0x0) {
+        if ((this._bs_flags & 0x400) == 0x0 && (this._flags & 0x4) == 0x0) {
             return this._frames_rc[(frame << 2) + 3] & 0xFF;
         }
         return this._frames_rc_short[(frame << 2) + 3] & 0xFFFF;
     }
     
-    final int GetFrameX(final int frame) {
-        if ((this._bs_flags & 0x400) == 0x0 && (this.var_10a7 & 0x4) == 0x0) {
+    final int GetFrameMinX(final int frame) {
+        if ((this._bs_flags & 0x400) == 0x0 && (this._flags & 0x4) == 0x0) {
             return this._frames_rc[frame << 2];
         }
         return this._frames_rc_short[frame << 2];
     }
     
-    final int GetFrameY(final int frame) {
-        if ((this._bs_flags & 0x400) == 0x0 && (this.var_10a7 & 0x4) == 0x0) {
+    final int GetFrameMinY(final int frame) {
+        if ((this._bs_flags & 0x400) == 0x0 && (this._flags & 0x4) == 0x0) {
             return this._frames_rc[(frame << 2) + 1];
         }
         return this._frames_rc_short[(frame << 2) + 1];
     }
     
-    private int GetFModuleIndex(final int frame) {
-        int n2;
+    private int GetFrameModule(final int fmoduleOffset) {
+        int index;
         if ((this._bs_flags & 0x100000) != 0x0) {
-            n2 = this._fmodules_id_short[frame];
+            index = this._fmodules_id_short[fmoduleOffset];
         }
         else {
-            n2 = (this._fmodules_id[frame] & 0xFF);
+            index = (this._fmodules_id_byte[fmoduleOffset] & 0xFF);
         }
-        return n2;
+        return index;
     }
     
     final int GetFrameModule(int frame, final int fmodule) {
-        frame = this.GetFrameOffset(frame, fmodule);
-        return this.GetFModuleIndex(frame);
+        frame = this.GetFrameModuleOffset(frame, fmodule);
+        return this.GetFrameModule(frame);
     }
     
-    private int GetFModuleFlags(final int off) {
-        return this._fmodules_flags[off] & 0xFF;
+    private int GetFrameModuleFlags(final int fmoduleOffset) {
+        return this._fmodules_flags[fmoduleOffset] & 0xFF;
     }
     
-    final int GetFMFlags(int sub_3356, final int n) {
-        sub_3356 = this.GetFrameOffset(sub_3356, n);
-        return this.GetFModuleFlags(sub_3356);
+    final int GetFrameModuleFlags(int frame, final int fmodule) {
+        frame = this.GetFrameModuleOffset(frame, fmodule);
+        return this.GetFrameModuleFlags(frame);
     }
     
-    private int GetFrameOffset(final int frame, final int fmodule) {
+    private int GetFrameModuleOffset(final int frame, final int fmodule) {
         return this._frames_fm_start[frame] + fmodule;
     }
     
-    private int GetFrameModuleX(int n) {
-        n = this._frames_fm_start[n];
-        return this._fmodules_ox_short[n];
+    private int GetFrameModuleX(int frame) {
+        frame = this._frames_fm_start[frame];
+        return this._fmodules_ox_short[frame];
     }
     
-    final int GetFrameModuleY(int n, final int n2) {
-        n = this._frames_fm_start[n] + n2;
-        return this._fmodules_oy_short[n];
+    final int GetFrameModuleY(int frame, final int fmodule) {
+        frame = this._frames_fm_start[frame] + fmodule;
+        return this._fmodules_oy_short[frame];
     }
     
     private void GetFrameRect(final int[] rc, final int frame) {
         this.GetFrameRect(rc, frame, 0, 0, 0, false, true);
     }
     
-    private void GetFrameRect(final int[] rc, int frame, final int posX, final int posY, final int flags, final boolean unused, final boolean unlazy) {
-        if (!unlazy) {
-            int fx = this.GetFrameX(frame);
-            int fy = this.GetFrameY(frame);
-            int fwidth = this.GetFrameWidth(frame);
-            int fheight = this.GetFrameHeight(frame);
+    private void GetFrameRect(final int[] rc, int frame, final int posX, final int posY, final int flags, final boolean allowRotation, final boolean forceComputeFrameRect) {
+        if (!forceComputeFrameRect) {
+            int fx = this.GetFrameMinX(frame);
+            int fy = this.GetFrameMinY(frame);
+            int fw = this.GetFrameWidth(frame);
+            int fh = this.GetFrameHeight(frame);
             if ((flags & 0x1) != 0x0) {
-                fx = -fx - fwidth;
+                fx = -fx - fw;
             }
             if ((flags & 0x2) != 0x0) {
-                fy = -fy - fheight;
+                fy = -fy - fh;
             }
             if ((flags & 0x4) != 0x0) {
                 frame = fx;
-                fx = -fy - fheight;
+                fx = -fy - fh;
                 fy = frame;
-                frame = fwidth;
-                fwidth = fheight;
-                fheight = frame;
+                frame = fw;
+                fw = fh;
+                fh = frame;
             }
             ASprite._rectX1 = posX + fx;
             ASprite._rectY1 = posY + fy;
-            ASprite._rectX2 = ASprite._rectX1 + fwidth;
-            ASprite._rectY2 = ASprite._rectY1 + fheight;
+            ASprite._rectX2 = ASprite._rectX1 + fw;
+            ASprite._rectY2 = ASprite._rectY1 + fh;
         }
         else {
             ASprite._rectX1 = Integer.MAX_VALUE;
@@ -823,47 +809,46 @@ public final class ASprite
         rc[3] = ASprite._rectY2;
     }
     
-    final void sub_3524(final int[] array, final int n, final int n2, final int n3) {
-        this.GetFrameRect(array, n, n2, n3, 0, false, false);
+    final void GetRect(final int[] rc, final int frame, final int posX, final int posY) {
+        this.GetFrameRect(rc, frame, posX, posY, 0, false, false);
     }
     
-    final void sub_354b(final int[] array, int sub_30a6, int n, final int n2, final int n3, final int n4) {
-        int n5 = this.var_1047[this._anims_af_start[sub_30a6] + n] & 0xF;
-        if ((n4 & 0x1) != 0x0) {
-            n5 = (ASprite.var_10f7[n5 & 0x7] | (n5 & 0xFFFFFFF8));
+    final void GetRect(final int[] rc, int anim, int aframe, final int posX, final int posY, final int flags) {
+        int rflags = this._aframes_flags[this._anims_af_start[anim] + aframe] & 0xF;
+        if ((flags & 0x1) != 0x0) {
+            rflags = (ASprite.TRANSFORM_FLIP_X[rflags & 0x7] | (rflags & 0xFFFFFFF8));
         }
-        if ((n4 & 0x2) != 0x0) {
-            n5 = (ASprite.var_10ff[n5 & 0x7] | (n5 & 0xFFFFFFF8));
+        if ((flags & 0x2) != 0x0) {
+            rflags = (ASprite.TRANSFORM_FLIP_Y[rflags & 0x7] | (rflags & 0xFFFFFFF8));
         }
-        if ((n4 & 0x4) != 0x0) {
-            n5 = (ASprite.var_1107[n5 & 0x7] | (n5 & 0xFFFFFFF8));
+        if ((flags & 0x4) != 0x0) {
+            rflags = (ASprite.TRANSFORM_ROT_90[rflags & 0x7] | (rflags & 0xFFFFFFF8));
         }
-        final int n6 = n5;
-        final int n7 = this._aframes[this._anims_af_start[sub_30a6] + n] & 0xFF;
-        int sub_3062 = this.GetModuleX(this._anims_af_start[sub_30a6] + n);
-        sub_30a6 = this.GetModuleY(this._anims_af_start[sub_30a6] + n);
-        if ((n4 & 0x1) != 0x0) {
-            sub_3062 = -sub_3062;
+        final int frame = this._aframes[this._anims_af_start[anim] + aframe] & 0xFF;
+        int ox = this.GetAFramesOX(this._anims_af_start[anim] + aframe);
+        anim = this.GetAFramesOY(this._anims_af_start[anim] + aframe);
+        if ((flags & 0x1) != 0x0) {
+            ox = -ox;
         }
-        if ((n4 & 0x2) != 0x0) {
-            sub_30a6 = -sub_30a6;
+        if ((flags & 0x2) != 0x0) {
+            anim = -anim;
         }
-        if ((n4 & 0x4) != 0x0) {
-            n = sub_3062;
-            sub_3062 = -sub_30a6;
-            sub_30a6 = n;
+        if ((flags & 0x4) != 0x0) {
+            aframe = ox;
+            ox = -anim;
+            anim = aframe;
         }
-        this.GetFrameRect(array, n7, n2 + sub_3062, n3 + sub_30a6, n6, false, false);
+        this.GetFrameRect(rc, frame, posX + ox, posY + anim, rflags, false, false);
     }
     
-    final int GetAnims() {
-        if (this._anims_naf == null) {
+    final int GetAnimationCount() {
+        if (this._anims_naf_byte == null) {
             return 0;
         }
-        return this._anims_naf.length;
+        return this._anims_naf_byte.length;
     }
     
-    final int GetFrames() {
+    final int GetFrameCount() {
         if ((this._bs_flags & 0x800) != 0x0) {
             if (this._frames_nfm_short == null) {
                 return 0;
@@ -871,10 +856,10 @@ public final class ASprite
             return this._frames_nfm_short.length;
         }
         else {
-            if (this._frames_nfm == null) {
+            if (this._frames_nfm_byte == null) {
                 return 0;
             }
-            return this._frames_nfm.length;
+            return this._frames_nfm_byte.length;
         }
     }
     
@@ -882,23 +867,23 @@ public final class ASprite
         int realcount;
         for (int count = realcount = this.GetFModules(frame), fmodule = 0; fmodule < count; ++fmodule) {
             final int index = this.GetFrameModule(frame, fmodule);
-            if ((this.GetFMFlags(frame, fmodule) & 0x10) != 0x0) {
+            if ((this.GetFrameModuleFlags(frame, fmodule) & 0x10) != 0x0) {
                 realcount = realcount - 1 + this.CountFrameModules(index);
             }
         }
         return realcount;
     }
     
-    private int getStartModuleData(final int module) {
+    private int GetStartModuleData(final int module) {
         if (this._modules_data_off_int != null) {
             return this._modules_data_off_int[module];
         }
         return -1;
     }
     
-    final int GetFrameRectCount(final int frames) {
+    final int GetFrameRectCount(final int frame) {
         if (this._frames_rects_start != null) {
-            return this._frames_rects_start[frames + 1] - this._frames_rects_start[frames];
+            return this._frames_rects_start[frame + 1] - this._frames_rects_start[frame];
         }
         return 0;
     }
@@ -929,14 +914,14 @@ public final class ASprite
         }
     }
     
-    static int[] GetPixelBuffer_int(final int[] buf) {
-        if (buf == null || buf != ASprite.temp_int) {
+    static int[] GetPixelBuffer_int(final int[] buffer) {
+        if (buffer == null || buffer != ASprite.temp_int) {
             if (ASprite.temp_int == null) {
                 ASprite.temp_int = new int[27832];
             }
             return ASprite.temp_int;
         }
-        if (buf == null || buf != ASprite.transform_int) {
+        if (buffer == null || buffer != ASprite.transform_int) {
             if (ASprite.transform_int == null) {
                 ASprite.transform_int = new int[27832];
             }
@@ -959,7 +944,7 @@ public final class ASprite
     
     public final void PFXCache_Init() {
         this._imgPFXModuleCache = new GLLibImage[this._palettes][this._nModules];
-        this._PFXParamsFrameCRC = new int[this._palettes][this._nModules];
+        this._PFXParamsModuleCRC = new int[this._palettes][this._nModules];
     }
     
     public final boolean PFXCache_IsInited() {
@@ -974,7 +959,7 @@ public final class ASprite
         if (this.PFXCache_IsInited()) {
             int PFXid = GLLib.PFX_GetFirstEnabledEffect();
             final int[] PFXparams = GLLib.PFX_GetParams(PFXid);
-            if (this._imgPFXModuleCache != null && this._imgPFXModuleCache[this._crt_pal][module] != null && PFXCache_GetParamsCRC(PFXparams, PFXid) == this._PFXParamsFrameCRC[this._crt_pal][module]) {
+            if (this._imgPFXModuleCache != null && this._imgPFXModuleCache[this._crt_pal][module] != null && PFXCache_GetParamsCRC(PFXparams, PFXid) == this._PFXParamsModuleCRC[this._crt_pal][module]) {
                 final GLLibImage img = this._imgPFXModuleCache[this._crt_pal][module];
                 GLLib.DrawRegion(GLLib.g, img, 0, 0, img.image.getWidth(), img.image.getHeight(), ASprite.midp2_flags[flags], x, y, 20, false);
                 return true;
@@ -983,17 +968,17 @@ public final class ASprite
         return false;
     }
     
-    private boolean PFXCache_TryCacheAndPaintModule(int n, final int n2, final int n3, final int[] data, int n4) {
+    private boolean PFXCache_TryCacheAndPaintModule(int module, final int x, final int y, final int[] data, int flags) {
         if (this.PFXCache_IsInited() && data != null) {
             int PFXid = GLLib.PFX_GetFirstEnabledEffect();
             final int[] PFXparams = GLLib.PFX_GetParams(PFXid);
             final GLLibImage img = GLLibImage.createRGBImage(data, GLLib.s_PFX_newSizeX, GLLib.s_PFX_newSizeY, true);
             
-            this._imgPFXModuleCache[this._crt_pal][n] = img;
-            this._PFXParamsFrameCRC[this._crt_pal][n] = PFXCache_GetParamsCRC(PFXparams, PFXid);
+            this._imgPFXModuleCache[this._crt_pal][module] = img;
+            this._PFXParamsModuleCRC[this._crt_pal][module] = PFXCache_GetParamsCRC(PFXparams, PFXid);
             final int width = img.image.getWidth();
             final int height = img.image.getHeight();
-            GLLib.DrawRegion(GLLib.g, img, 0, 0, width, height, ASprite.midp2_flags[n4], n2, n3, 20, false);
+            GLLib.DrawRegion(GLLib.g, img, 0, 0, width, height, ASprite.midp2_flags[flags], x, y, 20, false);
             return true;
         }
         return false;
@@ -1063,27 +1048,26 @@ public final class ASprite
     
     private int[] DecodeImage_int(int module) {
         if (this._modules_data_off_int != null && this._modules_data != null) {
-            final byte b = (byte)((this._module_types == null) ? 0 : this._module_types[module]);
-            final int sub_3801 = this.getStartModuleData(module);
+            final byte b = (byte)((this._module_img == null) ? 0 : this._module_img[module]);
             final int sizeX = this._modules_w_short[module] & 0xFFFF;
             final int sizeY = this._modules_h_short[module] & 0xFFFF;
-            module = sub_3801;
+            module = this.GetStartModuleData(module);
             int di = 0;
             int ds = sizeX * sizeY;
             if (ASprite.temp_int == null) {
                 ASprite.temp_int = new int[27832]; // TMP_BUFFER_SIZE
             }
             final int[] pal_int;
-            boolean unkbool;
-            if ((pal_int = (int[])((_crt_pal >= 0 && _crt_pal < this._palettes && this._module_image_intAAA != null && _crt_pal < this._module_image_intAAA[b].length) ? this._module_image_intAAA[b][_crt_pal] : null)) == null) {
-                unkbool = false;
+            boolean ret;
+            if ((pal_int = ((_crt_pal >= 0 && _crt_pal < this._palettes && this._pal_int != null && _crt_pal < this._pal_int[b].length) ? this._pal_int[b][_crt_pal] : null)) == null) {
+                ret = false;
             }
             else {
                 if (this._data_format == 25840) {
                     while (di < ds) {
                         int c = _modules_data[module++] & 0xFF;
                         final int clr_int = pal_int[c & this.var_10b7[b]];
-                        c >>= this.var_10bf[b];
+                        c >>= this.begone[b];
                         while (c-- >= 0) {
                             ASprite.temp_int[di++] = clr_int;
                         }
@@ -1161,9 +1145,9 @@ public final class ASprite
                         ASprite.temp_int[di++] = pal_int[_modules_data[module++] & 0xFF];
                     }
                 }
-                unkbool = true;
+                ret = true;
             }
-            if (unkbool) {
+            if (ret) {
                 return ASprite.temp_int;
             }
         }
@@ -1178,8 +1162,9 @@ public final class ASprite
             (this._pMapCharShort[i] = new short[2])[0] = pNewMap[index++];
             this._pMapCharShort[i][1] = pNewMap[index++];
         }
-        int i = index;
-        while (i < pNewMap.length) {
+        
+     	for (int i = index; i < pNewMap.length;)
+     	{
             final int insertIndex = pNewMap[i++];
             final int count;
             final short[] newEntry;
@@ -1191,8 +1176,8 @@ public final class ASprite
             }
             this._pMapCharShort[insertIndex] = newEntry;
         }
-        this.var_11cf = this.GetFrameModuleY(0, 0);
-        this._nLineHeight = this.var_11cf + this.GetFrameModuleY(0, 1);
+        this._nFontAscent = this.GetFrameModuleY(0, 0);
+        this._nLineHeight = this._nFontAscent + this.GetFrameModuleY(0, 1);
         
         this._nLineSpacing = this.GetFrameModuleY(0, 2) - this.GetFrameModuleY(0, 1);
         this._nSpaceWidth = this.GetFrameModuleX(this.GetCharFrame(32));
@@ -1284,7 +1269,7 @@ public final class ASprite
         for (int i = 0; i < str_len; ++i) {
             final char c = s.charAt(i);
             final int sub_63ed = this.GetLineSpacing(this.GetCharFrame(c));
-            if (c == ' ' || c == ASprite.var_1157) {
+            if (c == ' ' || c == ASprite.k_cCanBreakLine) {
                 if (c == ' ') {
                     lineSize += (short)this.GetSpaceWidth();
                 }
@@ -1296,12 +1281,12 @@ public final class ASprite
                 _crt_pal = _crt_pal2;
                 if (lineSize > width) {
                     n4 = 0;
-                    for (int pos = lastSpacePos; pos >= 0 && (s.charAt(pos) == ' ' || s.charAt(pos) == ASprite.var_1157); --pos) {
+                    for (int pos = lastSpacePos; pos >= 0 && (s.charAt(pos) == ' ' || s.charAt(pos) == ASprite.k_cCanBreakLine); --pos) {
                         if (s.charAt(pos) == ' ') {
                             lineSize -= (short)this.GetSpaceWidth();
                         }
                     }
-                    while (lastSpacePos < str_len && (s.charAt(lastSpacePos) == ' ' || s.charAt(lastSpacePos) == ASprite.var_1157)) {
+                    while (lastSpacePos < str_len && (s.charAt(lastSpacePos) == ' ' || s.charAt(lastSpacePos) == ASprite.k_cCanBreakLine)) {
                         ++lastSpacePos;
                     }
                     lastSpacePos = (i = (short)(lastSpacePos - 1));
@@ -1382,7 +1367,7 @@ public final class ASprite
                         lastSpacePos = (short)(i - 1);
                     }
                     n4 = 0;
-                    for (int n19 = lastSpacePos; n19 >= 0 && (s.charAt(n19) == ' ' || s.charAt(n19) == '\n' || s.charAt(n19) == ASprite.var_1157); --n19) {
+                    for (int n19 = lastSpacePos; n19 >= 0 && (s.charAt(n19) == ' ' || s.charAt(n19) == '\n' || s.charAt(n19) == ASprite.k_cCanBreakLine); --n19) {
                         if (s.charAt(n19) == ' ') {
                             lineSize -= (short)this.GetSpaceWidth();
                         }
@@ -1536,7 +1521,7 @@ public final class ASprite
                         sub_4851 = this.GetCharFrame(c);
                     }
                     else {
-                        if (c == ' ' || c == ASprite.var_1157) {
+                        if (c == ' ' || c == ASprite.k_cCanBreakLine) {
                             if (c == ' ') {
                                 n += this.GetSpaceWidth();
                             }
@@ -1588,10 +1573,10 @@ public final class ASprite
         
         if (s != null) {
             if (this.m_scaleAccelerator >= 0) {
-                y += this.var_11cf * this.m_scaleAccelerator >> 8;
+                y += this._nFontAscent * this.m_scaleAccelerator >> 8;
             }
             else {
-                y += this.var_11cf;
+                y += this._nFontAscent;
             }
             final boolean isDrawString = s != null;
             this.UpdateStringOrCharsSize(s, null);
@@ -1639,7 +1624,7 @@ public final class ASprite
                         this.SetCurrentPalette((c2 & '\u00ff') - 48);
                     }
                 }
-                else if (c != ASprite.var_1157) {
+                else if (c != ASprite.k_cCanBreakLine) {
                     int sub_4851;
                     if (c > ' ') {
                         sub_4851 = this.GetCharFrame(c);
@@ -1718,7 +1703,7 @@ public final class ASprite
         if ((this._bs_flags & 0x100000) != 0x0) {
             return this._frames_nfm_short[frame];
         }
-        return this._frames_nfm[frame];
+        return this._frames_nfm_byte[frame];
     }
     
     final void BuildCacheImages(final int pal, int m1, int m2, int pal_copy) {
@@ -1736,11 +1721,11 @@ public final class ASprite
         }
         if ((this._bs_flags & 0x1000008) != 0x0) {
             this._crt_pal = pal;
-            if (ASprite.useSystemGc) {
+            if (ASprite.s_gcEnabled) {
                 System.gc();
             }
             while (m1 <= m2) {
-                if (((this._module_types_2 != null) ? this._module_types_2[m1] : 0) == 0) {
+                if (((this._module_types != null) ? this._module_types[m1] : 0) == 0) {
                     int sizeX = this._modules_w_short[m1] & 0xFFFF;
                     int sizeY = this._modules_h_short[m1] & 0xFFFF;
                     int[] image_data2;
@@ -1762,21 +1747,21 @@ public final class ASprite
                 }
                 ++m1;
             }
-            if (ASprite.useSystemGc) {
+            if (ASprite.s_gcEnabled) {
                 System.gc();
             }
             this._crt_pal = pal_copy;
         }
-        if (ASprite.useSystemGc) {
+        if (ASprite.s_gcEnabled) {
             System.gc();
         }
     }
     
     final void BuildFrameCacheImages(final int palette, final int frame, int useGc) {
-        useGc = (ASprite.useSystemGc ? 1 : 0);
-        if (ASprite.useSystemGc) {
+        useGc = (ASprite.s_gcEnabled ? 1 : 0);
+        if (ASprite.s_gcEnabled) {
             System.gc();
-            ASprite.useSystemGc = false;
+            ASprite.s_gcEnabled = false;
         }
         for (int numModules = this.GetFModules(frame), m = 0; m < numModules; ++m) {
             final int moduleId = this.GetFrameModule(frame, m);
@@ -1784,7 +1769,7 @@ public final class ASprite
                 this.BuildCacheImages(palette, moduleId, moduleId, -1);
             }
         }
-        if (ASprite.useSystemGc = (useGc != 0)) {
+        if (ASprite.s_gcEnabled = (useGc != 0)) {
             System.gc();
         }
     }
@@ -1796,7 +1781,7 @@ public final class ASprite
     }
     
     final void sub_68e7(int n, int sub_312c, int n2) {
-        final int frames = this.GetFrames();
+        final int frames = this.GetFrameCount();
         if (n2 == -1 || n2 >= frames) {
             n2 = frames - 1;
         }
@@ -1844,8 +1829,8 @@ public final class ASprite
                 boolean var_10e7 = false;
                 int sub_312c2 = this.GetFrameWidth(i);
                 int sub_3719 = this.GetFrameHeight(i);
-                final int sub_31e6 = this.GetFrameX(i);
-                final int sub_3720 = this.GetFrameY(i);
+                final int sub_31e6 = this.GetFrameMinX(i);
+                final int sub_3720 = this.GetFrameMinY(i);
                 int n10 = -sub_31e6;
                 int n11 = -sub_3720;
                 if ((GLLib.s_PFX_type & 0x2000) != 0x0) {
@@ -1866,7 +1851,7 @@ public final class ASprite
                     final int _crt_pal2 = this._crt_pal;
                     this._crt_pal = _crt_pal;
                     final int n12;
-                    if (((n12 = ASprite.var_1107[0]) & 0x4) != 0x0) {
+                    if (((n12 = ASprite.TRANSFORM_ROT_90[0]) & 0x4) != 0x0) {
                         final int n13 = sub_312c2;
                         sub_312c2 = sub_3719;
                         sub_3719 = n13;
@@ -1902,7 +1887,7 @@ public final class ASprite
                     array2 = array3;
                 }
                 final int[] array4 = array2;
-                final int n14 = ASprite.var_1107[0];
+                final int n14 = ASprite.TRANSFORM_ROT_90[0];
                 class_l = ((array4 == null) ? null : (((n14 & 0x4) != 0x0) ? GLLibImage.createRGBImage(array4, sub_3718, sub_312c, ASprite.var_10e7) : GLLibImage.createRGBImage(array4, sub_312c, sub_3718, ASprite.var_10e7)));
             }
             this._frame_image_imageAAA[n][n4][i] = class_l;
@@ -1929,19 +1914,19 @@ public final class ASprite
     final void PaintAFrame(final Graphics g, int anim, int aframe, final int posX, final int posY, int flags) {
         anim = this._anims_af_start[anim] + aframe;
         aframe = (this._aframes[anim] & 0xFF);
-        int offsetX = this.GetModuleX(anim);
-        int offsetY = this.GetModuleY(anim);
-        int n4 = this.var_1047[anim] & 0xF;
+        int offsetX = this.GetAFramesOX(anim);
+        int offsetY = this.GetAFramesOY(anim);
+        int n4 = this._aframes_flags[anim] & 0xF;
         if ((flags & 0x1) != 0x0) {
-            n4 = (ASprite.var_10f7[n4 & 0x7] | (n4 & 0xFFFFFFF8));
+            n4 = (ASprite.TRANSFORM_FLIP_X[n4 & 0x7] | (n4 & 0xFFFFFFF8));
             offsetX = -offsetX;
         }
         if ((flags & 0x2) != 0x0) {
-            n4 = (ASprite.var_10ff[n4 & 0x7] | (n4 & 0xFFFFFFF8));
+            n4 = (ASprite.TRANSFORM_FLIP_Y[n4 & 0x7] | (n4 & 0xFFFFFFF8));
             offsetY = -offsetY;
         }
         if ((flags & 0x4) != 0x0) {
-            n4 = (ASprite.var_1107[n4 & 0x7] | (n4 & 0xFFFFFFF8));
+            n4 = (ASprite.TRANSFORM_ROT_90[n4 & 0x7] | (n4 & 0xFFFFFFF8));
             anim = offsetX;
             offsetX = -offsetY;
             offsetY = anim;
@@ -1968,8 +1953,8 @@ public final class ASprite
                     int n7 = 0;
                     final int sizeX = this.GetFrameWidth(n);
                     final int sizeY = this.GetFrameHeight(n);
-                    int offsetX = this.GetFrameX(n);
-                    int offsetY = this.GetFrameY(n);
+                    int offsetX = this.GetFrameMinX(n);
+                    int offsetY = this.GetFrameMinY(n);
                     if ((height & 0x4) != 0x0) {
                         offsetX = offsetY;
                         offsetY = offsetX;
@@ -2060,10 +2045,10 @@ public final class ASprite
         }
         if (sub_3019 > 0) {
             for (int i = 0; i < sub_3019; ++i) {
-                final int sub_3022 = this.GetFrameOffset(n, i);
-                int sub_330a = this.GetFModuleFlags(sub_3022);
+                final int sub_3022 = this.GetFrameModuleOffset(n, i);
+                int sub_330a = this.GetFrameModuleFlags(sub_3022);
                 final int sub_328e;
-                int n29 = sub_328e = this.GetFModuleIndex(sub_3022);
+                int n29 = sub_328e = this.GetFrameModule(sub_3022);
                 if (this._cur_map >= 0) {
                     n29 = this.map[this._cur_map][n29];
                 }
@@ -2079,15 +2064,15 @@ public final class ASprite
                     n31 = n36;
                 }
                 if ((height & 0x1) != 0x0) {
-                    sub_330a = (ASprite.var_10f7[sub_330a & 0x7] | (sub_330a & 0xFFFFFFF8));
+                    sub_330a = (ASprite.TRANSFORM_FLIP_X[sub_330a & 0x7] | (sub_330a & 0xFFFFFFF8));
                     n34 = -n34 - n30;
                 }
                 if ((height & 0x2) != 0x0) {
-                    sub_330a = (ASprite.var_10ff[sub_330a & 0x7] | (sub_330a & 0xFFFFFFF8));
+                    sub_330a = (ASprite.TRANSFORM_FLIP_Y[sub_330a & 0x7] | (sub_330a & 0xFFFFFFF8));
                     n35 = -n35 - n31;
                 }
                 if ((height & 0x4) != 0x0) {
-                    sub_330a = (ASprite.var_1107[sub_330a & 0x7] | (sub_330a & 0xFFFFFFF8));
+                    sub_330a = (ASprite.TRANSFORM_ROT_90[sub_330a & 0x7] | (sub_330a & 0xFFFFFFF8));
                     final int n37 = n34;
                     n34 = -n35 - n31;
                     n35 = n37;
@@ -2138,7 +2123,7 @@ public final class ASprite
             posY *= GLLib.PFX_Scale_GetScaleY() / 100;
         }
         
-        if (((this._module_types_2 != null) ? this._module_types_2[module] : 0) == 0) {
+        if (((this._module_types != null) ? this._module_types[module] : 0) == 0) {
             if ((n3 & 0x1) == 0x0 || (n3 & 0x2) == 0x0) {
                 if ((n3 & 0x1) != 0x0) {
                     n3 = ((n3 & 0xFFFFFFFE) | 0x2);
@@ -2173,10 +2158,10 @@ public final class ASprite
             p2x = var_1148;
             var_1148 = n20;
         }
-        if (((this._module_types_2 != null) ? this._module_types_2[module] : 0) != 0 && g != null) {
+        if (((this._module_types != null) ? this._module_types[module] : 0) != 0 && g != null) {
             module = this._module_colors_int[module];
             g.setColor(module);
-            switch (this._module_types_2[module]) {
+            switch (this._module_types[module]) {
                 case 2: {
                     if ((module & 0xFF000000) == 0xFF000000 || (module & 0xFF000000) == 0x0) {
                         GLLib.FillRect(g, posX, posY, var_1148, p2x, true);
@@ -2207,7 +2192,7 @@ public final class ASprite
                         if ((n3 & 0x4) != 0x0) {
                             p2x -= 90;
                         }
-                        if (this._module_types_2[module] == 3) {
+                        if (this._module_types[module] == 3) {
                             GLLib.DrawArc(g, posX, posY, var_1148, p2x, p2x, p2y, true);
                             return;
                         }
@@ -2254,7 +2239,7 @@ public final class ASprite
                             p3x = -p3y;
                             p3y = n38;
                         }
-                        if (this._module_types_2[module] == 6) {
+                        if (this._module_types[module] == 6) {
                             GLLib.DrawLine(g, posX, posY, posX + p2x, posY + p2y, true);
                             GLLib.DrawLine(g, posX + p2x, posY + p2y, posX + p3x, posY + p3y, true);
                             GLLib.DrawLine(g, posX, posY, posX + p3x, posY + p3y, true);
@@ -2358,7 +2343,7 @@ public final class ASprite
                 n46 = n46 * GLLib.PFX_Scale_GetScaleX() / 100;
             }
             final int n49 = n44;
-            GLLib.sub_5cbc(GLLib.Math_Cos(GLLib.Math_Angle90 - n49), GLLib.Math_Cos(n49), (p2x >> 1) - n47, (var_1148 >> 1) - n48, ASprite.s_rc);
+            GLLib.PFX_Rotate_UnkFunc5cbc(GLLib.Math_Cos(GLLib.Math_Angle90 - n49), GLLib.Math_Cos(n49), (p2x >> 1) - n47, (var_1148 >> 1) - n48, ASprite.s_rc);
             posX += ASprite.s_rc[0] - n45 / 2 + n47;
             posY += ASprite.s_rc[1] - n46 / 2 + n48;
         }
@@ -2391,7 +2376,7 @@ public final class ASprite
                             }
                             final boolean sub_3b2c;
                             if (!(sub_3b2c = this.PFXCache_IsInited())) {
-                                n3 = (ASprite.var_1107[n3 & 0x7] | (n3 & 0xFFFFFFF8));
+                                n3 = (ASprite.TRANSFORM_ROT_90[n3 & 0x7] | (n3 & 0xFFFFFFF8));
                             }
                             array = GLLib.PFX_ProcessSpriteEffects(g, array, posX, posY, n19, n18, sub_3b2c ? 4 : n3, b, false, !sub_3b2c);
                             if (this.PFXCache_TryCacheAndPaintModule(module, posX, posY, array, n3) || array == null) {
@@ -2542,20 +2527,20 @@ public final class ASprite
         }
     }
     
-    static final int[] TransformRGB(final int[] image_data, final int sizeX, int sizeY, int n3, int[] initBuffer) {
-        if ((n3 & 0x7) == 0x0) {
+    static final int[] TransformRGB(final int[] image_data, final int sizeX, int sizeY, int flags, int[] initBuffer) {
+        if ((flags & 0x7) == 0x0) {
             return image_data;
         }
         initBuffer = GetPixelBuffer_int(image_data);
         int n4 = 0;
         int n5 = 0;
-        switch (n3 & 0x7) {
+        switch (flags & 0x7) {
             case 1: {
                 int pointer = sizeX * sizeY;
                 int offset = sizeX * (sizeY - 1);
                 while (--sizeY >= 0) {
-                    n3 = sizeX;
-                    while (--n3 >= 0) {
+                    flags = sizeX;
+                    while (--flags >= 0) {
                         initBuffer[--pointer] = image_data[offset++];
                     }
                     offset -= sizeX << 1;
@@ -2578,8 +2563,8 @@ public final class ASprite
             case 4: {
                 int n11 = sizeX * sizeY;
                 while (--sizeY >= 0) {
-                    n3 = sizeX;
-                    while (--n3 >= 0) {
+                    flags = sizeX;
+                    while (--flags >= 0) {
                         initBuffer[--n11] = image_data[sizeY];
                         sizeY += sizeY;
                     }
@@ -2590,8 +2575,8 @@ public final class ASprite
                 int n14 = sizeX * sizeY;
                 while (--sizeY >= 0) {
                     int n16 = sizeY - 1 - sizeY;
-                    n3 = sizeX;
-                    while (--n3 >= 0) {
+                    flags = sizeX;
+                    while (--flags >= 0) {
                         initBuffer[--n14] = image_data[n16];
                         n16 += sizeY;
                     }
@@ -2603,8 +2588,8 @@ public final class ASprite
                 int n17 = (n18 = sizeX * sizeY) - 1;
                 while (--sizeY >= 0) {
                     int n20 = n17--;
-                    n3 = sizeX;
-                    while (--n3 >= 0) {
+                    flags = sizeX;
+                    while (--flags >= 0) {
                         initBuffer[--n18] = image_data[n20];
                         n20 -= sizeY;
                     }
@@ -2616,8 +2601,8 @@ public final class ASprite
                 int n21 = (n22 = sizeX * sizeY) - sizeY;
                 while (--sizeY >= 0) {
                     int n24 = n21++;
-                    n3 = sizeX;
-                    while (--n3 >= 0) {
+                    flags = sizeX;
+                    while (--flags >= 0) {
                         initBuffer[--n22] = image_data[n24];
                         n24 -= sizeY;
                     }
@@ -2628,8 +2613,9 @@ public final class ASprite
         return initBuffer;
     }
     
-    static final int[] GetPixelBuffer(final int[] buf) {
-        return GetPixelBuffer_int(buf);
+    // Only used in GLLib.PFX_ProcessSpriteEffects...
+    static final int[] GetPixelBuffer(final int[] buffer) {
+        return GetPixelBuffer_int(buffer);
     }
     
     public ASprite() {
@@ -2643,12 +2629,12 @@ public final class ASprite
         ASprite._graphicsWidth = 800;
         ASprite._graphicsHeight = 480;
         ASprite.midp2_flags = new int[] { 0, 2, 1, 3, 5, 7, 4, 6 };
-        ASprite.var_10f7 = new int[] { 1, 0, 3, 2, 6, 7, 4, 5 };
-        ASprite.var_10ff = new int[] { 2, 3, 0, 1, 5, 4, 7, 6 };
-        ASprite.var_1107 = new int[] { 4, 5, 6, 7, 3, 2, 1, 0 };
+        ASprite.TRANSFORM_FLIP_X = new int[] { 1, 0, 3, 2, 6, 7, 4, 5 };
+        ASprite.TRANSFORM_FLIP_Y = new int[] { 2, 3, 0, 1, 5, 4, 7, 6 };
+        ASprite.TRANSFORM_ROT_90 = new int[] { 4, 5, 6, 7, 3, 2, 1, 0 };
         ASprite.s_rc = new int[4];
-        ASprite.useSystemGc = true;
-        ASprite.var_1157 = '|';
+        ASprite.s_gcEnabled = true;
+        ASprite.k_cCanBreakLine = '|';
         ASprite._index1 = -1;
         ASprite._index2 = -1;
         ASprite._indexMax = -1;
