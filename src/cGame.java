@@ -690,7 +690,7 @@ public final class cGame extends GLLib implements Class_b
 	private static int[][] s_specialFilenames;
 	private static int[] var_7c14;
 	private static int[] var_7c1c;
-	private static int var_7c24;
+	private static int s_toastType;
 	private static String var_7c2c;
 	private static int var_7c34;
 	private static boolean var_7c3c;
@@ -6785,7 +6785,7 @@ public final class cGame extends GLLib implements Class_b
 		playSndNoLoop(57);
 		if (cGame.var_696c == 3 && cGame.var_6964) {
 			cGame.var_7c34 = getPreviousState();
-			cGame.var_7c24 = 11;
+			cGame.s_toastType = Define.TOAST_REDEEM_EXIT;
 			switchToState(42);
 			return;
 		}
@@ -6798,7 +6798,7 @@ public final class cGame extends GLLib implements Class_b
 			return;
 		}
 		if (cGame.var_7d54 > 0) {
-			cGame.var_7c24 = cGame.var_7d54;
+			cGame.s_toastType = cGame.var_7d54;
 			switchToState(42);
 			cGame.var_7d54 = 0;
 			return;
@@ -6810,7 +6810,7 @@ public final class cGame extends GLLib implements Class_b
 	private static void sub_15f2c() {
 		cGame.var_697c = 4;
 		if (sub_16aba()) {
-			cGame.var_7c24 = 3 + cGame.var_7ce4;
+			cGame.s_toastType = 3 + cGame.var_7ce4;
 			switchToState(42);
 			return;
 		}
@@ -6822,7 +6822,7 @@ public final class cGame extends GLLib implements Class_b
 	private static void buyCashItem0() {
 		cGame.var_697c = 4;
 		if (sub_16aba()) {
-			cGame.var_7c24 = 3;
+			cGame.s_toastType = 3;
 			switchToState(42);
 			return;
 		}
@@ -6834,7 +6834,7 @@ public final class cGame extends GLLib implements Class_b
 	private static void buyCashItem1() {
 		cGame.var_697c = 4;
 		if (sub_16aba()) {
-			cGame.var_7c24 = 4;
+			cGame.s_toastType = 4;
 			switchToState(42);
 			return;
 		}
@@ -6846,7 +6846,7 @@ public final class cGame extends GLLib implements Class_b
 	private static void buyCashItem2() {
 		cGame.var_697c = 4;
 		if (sub_16aba()) {
-			cGame.var_7c24 = 5;
+			cGame.s_toastType = 5;
 			switchToState(42);
 			return;
 		}
@@ -6858,7 +6858,7 @@ public final class cGame extends GLLib implements Class_b
 	private static void buyCashItem3() {
 		cGame.var_697c = 4;
 		if (sub_16aba()) {
-			cGame.var_7c24 = 6;
+			cGame.s_toastType = 6;
 			switchToState(42);
 			return;
 		}
@@ -6870,7 +6870,7 @@ public final class cGame extends GLLib implements Class_b
 	private static void buyCashItem4() {
 		cGame.var_697c = 4;
 		if (sub_16aba()) {
-			cGame.var_7c24 = 7;
+			cGame.s_toastType = 7;
 			switchToState(42);
 			return;
 		}
@@ -6882,7 +6882,7 @@ public final class cGame extends GLLib implements Class_b
 	private static void buyCashItem5() {
 		cGame.var_697c = 4;
 		if (sub_16aba()) {
-			cGame.var_7c24 = 8;
+			cGame.s_toastType = 8;
 			switchToState(42);
 			return;
 		}
@@ -7090,13 +7090,13 @@ public final class cGame extends GLLib implements Class_b
 			cGame.var_7d0c[cGame.var_7ca4] = -1;
 			return;
 		}
-		cGame.var_7c24 = 9;
+		cGame.s_toastType = 9;
 		switchToState(42);
 	}
 
 	private static void sub_16834() {
 		if (cGame.var_7ca4 < 5) {
-			cGame.var_7c24 = 10;
+			cGame.s_toastType = 10;
 			switchToState(42);
 			return;
 		}
@@ -7125,7 +7125,7 @@ public final class cGame extends GLLib implements Class_b
 
 	private static void sub_168f1() {
 		if (cGame.var_7cdc == 7) {
-			cGame.var_7c24 = 2;
+			cGame.s_toastType = 2;
 			switchToState(42);
 			return;
 		}
@@ -8618,11 +8618,11 @@ public final class cGame extends GLLib implements Class_b
 			sub_1b3fa(cGame.s_displayPauseCreds = true);
 			cGame.var_79d4 = "";
 			for (int i = 0; i < 278; ++i) {
-				if (i + 11264 == 11534) {
+				if (i + Define.TEXT_CREDITS_TITLE == 11534) {
 					for (int j = 0; j < 77; ++j) {
 						final String sub_4e1f;
 						cGame.var_79d4 = cGame.var_79d4
-								+ (((sub_4e1f = GLLib.Text_GetString(j + 11547)) == null) ? "" : sub_4e1f) + '\n';
+								+ (((sub_4e1f = GLLib.Text_GetString(j + Define.TEXT_CREDITS_PORTBASE)) == null) ? "" : sub_4e1f) + '\n';
 					}
 				}
 				
@@ -8630,7 +8630,7 @@ public final class cGame extends GLLib implements Class_b
 				// Draw the version to the screen!
 				StringBuffer sb;
 				String version;
-				if (i + 11264 == 11265) {
+				if (i + Define.TEXT_CREDITS_TITLE == Define.TEXT_CREDITS_VERSION) {
 					final String sub_4e1f2;
 					sb = new StringBuffer().append(cGame.var_79d4)
 							.append(((sub_4e1f2 = GLLib.Text_GetString(Define.TEXT_CREDITS_VERSION)) == null) ? "" : sub_4e1f2).append(" ");
@@ -8638,7 +8638,7 @@ public final class cGame extends GLLib implements Class_b
 				} else {
 					sb = new StringBuffer().append(cGame.var_79d4);
 					final String sub_4e1f3;
-					version = (((sub_4e1f3 = GLLib.Text_GetString(i + 11264)) == null) ? "" : sub_4e1f3);
+					version = (((sub_4e1f3 = GLLib.Text_GetString(i + Define.TEXT_CREDITS_TITLE)) == null) ? "" : sub_4e1f3);
 				}
 				
 				cGame.var_79d4 = sb.append(version).append('\n').toString();
@@ -9747,7 +9747,7 @@ public final class cGame extends GLLib implements Class_b
 
 	private static void sub_1c4d0() {
 		playSndNoLoop(61);
-		if (cGame.var_7c24 == 1) {
+		if (cGame.s_toastType == Define.TOAST_EXIT) {
 			try {
 				Thread.sleep(400L);
 			} catch (final Exception ex) {
@@ -9764,7 +9764,7 @@ public final class cGame extends GLLib implements Class_b
 	private static void sub_1c546() {
 		playSndNoLoop(61);
 		cGame.var_7c2c = "";
-		switch (cGame.var_7c24) {
+		switch (cGame.s_toastType) {
 		case 13: {
 			if (getPreviousState() == Define.GS_LOADING) {
 				cGame.var_7194 = true;
@@ -9812,7 +9812,7 @@ public final class cGame extends GLLib implements Class_b
 
 	private static void sub_1c67b() {
 		playSndNoLoop(61);
-		cGame.var_7d54 = cGame.var_7c24;
+		cGame.var_7d54 = cGame.s_toastType;
 		cGame.var_7d5c = true;
 		cGame.s_switcherState = 1;
 		sub_2c69b();
@@ -26359,20 +26359,20 @@ public final class cGame extends GLLib implements Class_b
 				cGame.s_switcherState = 1;
 				sub_2c69b();
 			} else {
-				switch (cGame.var_7c24) {
-				case 1: {
+				switch (cGame.s_toastType) {
+				case Define.TOAST_EXIT: {
 					final String sub_4e1f;
 					cGame.var_7c2c = (((sub_4e1f = GLLib.Text_GetString(Define.TEXT_PAUSE_EXITDESC)) == null) ? "" : sub_4e1f);
 					b3 = true;
 					break;
 				}
-				case 11: {
+				case Define.TOAST_REDEEM_EXIT: {
 					final String sub_4e1f2;
 					cGame.var_7c2c = (((sub_4e1f2 = GLLib.Text_GetString(Define.TEXT_IAP_REDEEMEXITDESC)) == null) ? "" : sub_4e1f2);
 					b3 = true;
 					break;
 				}
-				case 2: {
+				case Define.TOAST_SMSCHARGE: {
 					final String sub_4e1f3;
 					cGame.var_7c2c = (((sub_4e1f3 = GLLib.Text_GetString(Define.TEXT_IAP_SMSRSCHARGE)) == null) ? "" : sub_4e1f3);
 					b3 = true;
@@ -26555,7 +26555,7 @@ public final class cGame extends GLLib implements Class_b
 					sub_2000c(27, 17, false);
 				}
 				if (b) {
-					switch (cGame.var_7c24) {
+					switch (cGame.s_toastType) {
 					case 3:
 					case 4:
 					case 5:
@@ -26649,12 +26649,12 @@ public final class cGame extends GLLib implements Class_b
 
 	private static void sub_4474a() {
 		cGame.var_7c2c = "";
-		switch (cGame.var_7c24) {
-		case 1: {
+		switch (cGame.s_toastType) {
+		case Define.TOAST_EXIT: {
 			GLLib.s_game_state = Define.GS_EXIT;
 			return;
 		}
-		case 2: {
+		case Define.TOAST_SMSCHARGE: {
 			cGame.s_switcherState = 1;
 			sub_2c69b();
 			GLLib.PaySMS_SendRedeemRequest();
@@ -26704,7 +26704,7 @@ public final class cGame extends GLLib implements Class_b
 			cGame.var_6944 = false;
 			return;
 		}
-		case 11: {
+		case Define.TOAST_REDEEM_EXIT: {
 			sub_8370(cGame.var_7c34);
 			cGame.var_694c = 2;
 			return;
@@ -26874,13 +26874,13 @@ public final class cGame extends GLLib implements Class_b
 
 	private static void sub_44b9b() {
 		cGame.var_7c2c = "";
-		switch (cGame.var_7c24) {
+		switch (cGame.s_toastType) {
 		case 1: {
 			cGame.s_switcherState = 1;
 			sub_2c69b();
 			return;
 		}
-		case 2: {
+		case Define.TOAST_SMSCHARGE: {
 			cGame.s_switcherState = 1;
 			sub_2c69b();
 			sub_17536();
@@ -26911,7 +26911,7 @@ public final class cGame extends GLLib implements Class_b
 			cGame.var_7d24 = true;
 			break;
 		}
-		case 11: {
+		case Define.TOAST_REDEEM_EXIT: {
 			cGame.s_switcherState = 1;
 			sub_2c69b();
 			return;
@@ -26942,7 +26942,7 @@ public final class cGame extends GLLib implements Class_b
 	}
 
 	private static void sub_44ced(final int var_7c24) {
-		cGame.var_7c24 = var_7c24;
+		cGame.s_toastType = var_7c24;
 		switchToState(42);
 	}
 
@@ -27345,7 +27345,7 @@ public final class cGame extends GLLib implements Class_b
 			return;
 		}
 		if (b) {
-			cGame.var_7c24 = 9;
+			cGame.s_toastType = 9;
 			switchToState(42);
 		}
 	}
@@ -30353,7 +30353,7 @@ public final class cGame extends GLLib implements Class_b
 		cGame.var_7c1c = new int[] { 17, 8, 7, 18, 5, 19, 20, 98, 156, 6, 1, 77, 78, 79, 83, 102, 15, 82, 4, 145, 9,
 				139, 153, 154, 141, 152, 36, 115, 116, 117, 118, 119, 120, 37, 104, 105, 106, 42, 108, 109, 110, 111,
 				123, 124, 125, 126, 64, 142, 66, 67, 68, 69, 70, 71, 72, 73, 74, 75, 76, 2 };
-		cGame.var_7c24 = 0;
+		cGame.s_toastType = 0;
 		cGame.var_7c2c = "";
 		cGame.var_7c34 = 0;
 		cGame.var_7c3c = false;

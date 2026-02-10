@@ -69,7 +69,16 @@ interface Define
 	
 	final static int GS_LAST = GS_IGP;
 	
-	
+	// Toast Types
+	final static int TOAST_EXIT = 1;
+	final static int TOAST_SMSCHARGE = 2;
+	final static int TOAST_PURCHASE0 = 3;
+	final static int TOAST_PURCHASE1 = 4;
+	final static int TOAST_PURCHASE2 = 5;
+	final static int TOAST_PURCHASE3 = 6;
+	final static int TOAST_PURCHASE4 = 7;
+	final static int TOAST_PURCHASE5 = 8;
+	final static int TOAST_REDEEM_EXIT = 11;
 	
 	// Text indices. These are used in GLLib.Text_GetString method
 	final static int TEXT_TUTORIAL_HARVEST = 4;
@@ -282,5 +291,7 @@ interface Define
 	// 85XX is Collection
 	final static int TEXT_ITEM_COLLBASE = 8512;
 	
+	final static int TEXT_CREDITS_TITLE = 11264;
 	final static int TEXT_CREDITS_VERSION = 11265;
+	final static int TEXT_CREDITS_PORTBASE = 11547;
 }
