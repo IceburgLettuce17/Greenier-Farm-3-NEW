@@ -50,26 +50,26 @@ final class GLLibPlayer implements Runnable
     private static int[] s_snd_queue;
     private static int[] s_snd_queue_pointer;
     private static int[] s_snd_queue_size;
-    private static boolean k_unkBool;
-    private static int[] var_1667;
-    private static int[] var_166f;
-    private static int[] var_1677;
-    private static int[] var_167f;
-    private static int[] var_1687;
-    private static boolean[] var_168f;
-    private static int[] var_1697;
-    private static int var_169f;
+    private static boolean s_snd_bInUpdate;
+    private static int[] s_snd_requestBuffer;
+    private static int[] s_snd_fade;
+    private static int[] s_snd_fadeTempo;
+    private static int[] s_snd_fadeMidi;
+    private static int[] s_snd_MidiChannelActiveFlags;
+    private static boolean[] s_snd_fadeParamsNeedRefresh;
+    private static int[] s_snd_fadeLoopingFixState;
+    private static int s_snd_fadeDeltaTime;
     private static boolean s_bTilesetPlayerInitialized;
     private static int s_TilesetMaxLayerCount;
-    private static final int var_16b7;
-    private static final int var_16bf;
+    private static final int k_TilesetLayerCOUNT;
+    private static final int k_TilesetLayerAreaCount;
     private static int[] s_TilesetInfo;
     private static int[][] s_TilesetLayerInfo;
     private static byte[][][] s_TilesetLayerData;
-    private static GLLibImage[][] s_TilesetLayerImage;
+    private static ImageG[][] s_TilesetLayerImage;
     static Graphics[][] s_TilesetLayerGraphics;
-    private static int[][][] var_16ef;
-    private static int var_16f7;
+    private static int[][][] s_TilesetLayerLastUpdatedArea;
+    private static int s_TilesetLayerLastUpdatedAreaIndex;
     private static ASprite[] s_TilesetSprite;
     private static int curExtraScale;
     
@@ -140,7 +140,7 @@ final class GLLibPlayer implements Runnable
         return this.curAnim;
     }
     
-    final void SetRandomFrame() {
+    final void RandomizeAnim() {
         this.curFrame = GLLib.Math_Rand(0, this.GetNbFrame());
         this.curTime = 0;
     }
@@ -186,11 +186,11 @@ final class GLLibPlayer implements Runnable
         }
     }
     
-    final void setSprPalette(final int palette) {
+    final void SetPalette(final int palette) {
         this.palette = palette;
     }
     
-    final int GetNbLoop() {
+    final int GetNumLoops() {
         return this.nbLoop;
     }
     
@@ -270,8 +270,8 @@ final class GLLibPlayer implements Runnable
         this.curTime += DT;
     }
     
-    final void SetZoomLevel(final int zoomLevel) {
-        this.curScale = zoomLevel;
+    final void SetScale(final int scale) {
+        this.curScale = scale;
     }
     
     static final Player Snd_GetChannelPlayer(final int channel) {
@@ -294,7 +294,7 @@ final class GLLibPlayer implements Runnable
         return index;
     }
     
-    private static synchronized void SndQueue_Push_THUNK(int channel, int command, int index, int priority, int volume, final int loop) {
+    private static synchronized void SndQueue_Push_Normal(int channel, int command, int index, int priority, int volume, final int loop) {
         if (GLLibPlayer.s_snd_isSoundEngineInitialized) {
             final int start = GLLibPlayer.s_snd_queue_pointer[channel];
             final int size = GLLibPlayer.s_snd_queue_size[channel];
@@ -317,17 +317,15 @@ final class GLLibPlayer implements Runnable
     
     
     private static void SndQueue_Push(int channel, int command, int index, int priority, int volume, final int loop) {
-        SndQueue_Push_THUNK(channel, command, index, priority, volume, loop);
+        SndQueue_Push_Normal(channel, command, index, priority, volume, loop);
     }
     
-    private static synchronized void sub_1fe4(int n, final int[] array) {
-        array[5] = GLLibPlayer.s_snd_queue_size[n];
-        if (GLLibPlayer.s_snd_queue_size[n] > 0) {
-            System.arraycopy(GLLibPlayer.s_snd_queue, n * 7 * 5 + GLLibPlayer.s_snd_queue_pointer[n] * 5, array, 0, 5);
-            GLLibPlayer.s_snd_queue_pointer[n] = SndQueue_NormalizeIndex(GLLibPlayer.s_snd_queue_pointer[n] + 1);
-            final int[] var_1657 = GLLibPlayer.s_snd_queue_size;
-            final int n2 = n;
-            --var_1657[n2];
+    private static synchronized void SndQueue_Pop(int channel, final int[] channelInfo) {
+        channelInfo[5] = GLLibPlayer.s_snd_queue_size[channel];
+        if (GLLibPlayer.s_snd_queue_size[channel] > 0) {
+            System.arraycopy(GLLibPlayer.s_snd_queue, channel * 7 * 5 + GLLibPlayer.s_snd_queue_pointer[channel] * 5, channelInfo, 0, 5);
+            GLLibPlayer.s_snd_queue_pointer[channel] = SndQueue_NormalizeIndex(GLLibPlayer.s_snd_queue_pointer[channel] + 1);
+            --s_snd_queue_size[channel];
         }
     }
     
@@ -341,27 +339,27 @@ final class GLLibPlayer implements Runnable
         GLLibPlayer.s_snd_queue = new int[GLLibPlayer.k_snd_nbChannel * 7 * 5];
         GLLibPlayer.s_snd_queue_pointer = new int[GLLibPlayer.k_snd_nbChannel];
         GLLibPlayer.s_snd_queue_size = new int[GLLibPlayer.k_snd_nbChannel];
-        GLLibPlayer.var_1667 = new int[6];
-        GLLibPlayer.var_166f = new int[GLLibPlayer.k_snd_nbChannel * 3];
-        GLLibPlayer.var_1677 = new int[GLLibPlayer.k_snd_nbChannel * 3];
-        GLLibPlayer.var_167f = new int[(GLLibPlayer.k_snd_nbChannel << 4) * 9];
-        GLLibPlayer.var_1687 = new int[GLLibPlayer.k_snd_nbChannel];
-        GLLibPlayer.var_168f = new boolean[GLLibPlayer.k_snd_nbChannel];
-        GLLibPlayer.var_1697 = new int[GLLibPlayer.k_snd_nbChannel];
+        GLLibPlayer.s_snd_requestBuffer = new int[6];
+        GLLibPlayer.s_snd_fade = new int[GLLibPlayer.k_snd_nbChannel * 3];
+        GLLibPlayer.s_snd_fadeTempo = new int[GLLibPlayer.k_snd_nbChannel * 3];
+        GLLibPlayer.s_snd_fadeMidi = new int[(GLLibPlayer.k_snd_nbChannel << 4) * 9];
+        GLLibPlayer.s_snd_MidiChannelActiveFlags = new int[GLLibPlayer.k_snd_nbChannel];
+        GLLibPlayer.s_snd_fadeParamsNeedRefresh = new boolean[GLLibPlayer.k_snd_nbChannel];
+        GLLibPlayer.s_snd_fadeLoopingFixState = new int[GLLibPlayer.k_snd_nbChannel];
         int n;
         for (nbSoundSlot = 0; nbSoundSlot < GLLibPlayer.k_snd_nbChannel; ++nbSoundSlot) {
-            GLLibPlayer.var_1687[nbSoundSlot] = 0;
-            GLLibPlayer.var_166f[nbSoundSlot * 3] = 0;
-            GLLibPlayer.var_1677[nbSoundSlot * 3] = 0;
-            GLLibPlayer.var_168f[nbSoundSlot] = false;
+            GLLibPlayer.s_snd_MidiChannelActiveFlags[nbSoundSlot] = 0;
+            GLLibPlayer.s_snd_fade[nbSoundSlot * 3] = 0;
+            GLLibPlayer.s_snd_fadeTempo[nbSoundSlot * 3] = 0;
+            GLLibPlayer.s_snd_fadeParamsNeedRefresh[nbSoundSlot] = false;
             for (int j = 0; j < 16; ++j) {
                 n = ((nbSoundSlot << 4) + j) * 9;
-                GLLibPlayer.var_167f[n] = 0;
-                GLLibPlayer.var_167f[n + 3] = 127;
+                GLLibPlayer.s_snd_fadeMidi[n] = 0;
+                GLLibPlayer.s_snd_fadeMidi[n + 3] = 127;
             }
-            GLLibPlayer.var_1697[nbSoundSlot] = 0;
+            GLLibPlayer.s_snd_fadeLoopingFixState[nbSoundSlot] = 0;
         }
-        GLLibPlayer.var_169f = 0;
+        GLLibPlayer.s_snd_fadeDeltaTime = 0;
         for (nbSoundSlot = 0; nbSoundSlot < GLLibPlayer.k_snd_nbChannel; ++nbSoundSlot) {
             GLLibPlayer.s_snd_index[nbSoundSlot] = -1;
             GLLibPlayer.s_snd_queue_pointer[nbSoundSlot] = 0;
@@ -394,7 +392,7 @@ final class GLLibPlayer implements Runnable
         }
     }
     
-    static boolean Snd_IsInSlot(final int index) {
+    static boolean Snd_IsLoaded(final int index) {
         return GLLibPlayer.s_snd_sndSlot != null && index < GLLibPlayer.s_snd_sndSlot.length && GLLibPlayer.s_snd_sndSlot[index] != null;
     }
     
@@ -422,12 +420,13 @@ final class GLLibPlayer implements Runnable
         SndQueue_Push(channel, 3, index, priority, volume, loop);
     }
     
-    static final void sub_239b(int i, final boolean b) {
-        SndQueue_Push(i, 4, -1, -1, -1, -1);
-        sub_2ca7(0, i);
-        sub_2cdc(0, i);
-        for (i = 0; i < 16; ++i) {
-            sub_2d26(0, i, i, 0);
+    // Just a speculation on stopMidiChannels since the function was merged
+    static final void Snd_Stop(int channel, final boolean stopMidiChannels) {
+        SndQueue_Push(channel, 4, -1, -1, -1, -1);
+        Snd_FadeCommand(0, channel);
+        Snd_FadeTempoCommand(0, channel);
+        for (channel = 0; channel < 16; ++channel) {
+            Snd_FadeMidiCommand(0, channel, channel, 0);
         }
     }
     
@@ -488,34 +487,33 @@ final class GLLibPlayer implements Runnable
         GLLibPlayer.s_snd_masterVolume = volume;
         try {
             for (volume = 0; volume < GLLibPlayer.k_snd_nbChannel; ++volume) {
-                Snd_SetVolumeForPlayer(volume, GLLibPlayer.s_snd_volume[volume]);
+                Snd_SetChannelVolume(volume, GLLibPlayer.s_snd_volume[volume]);
             }
         }
         catch (final Exception ex) {}
     }
     
-    private static int sub_2635(final int n) {
+    private static int Snd_GetChannelVolume(final int channel) {
         if (!GLLibPlayer.s_snd_isSoundEngineInitialized) {
             return 0;
         }
-        int n2 = 0;
         try {
-            if (GLLibPlayer.s_snd_Player[n] == null) {
-                n2 = 0;
+            if (GLLibPlayer.s_snd_Player[channel] == null) {
+                return 0;
             }
-            n2 = ((VolumeControl)((Controllable)GLLibPlayer.s_snd_Player[n]).getControl("VolumeControl")).getLevel() * 100 * 100 / (GLLibPlayer.s_snd_masterVolume * 100);
+            return ((VolumeControl)((Controllable)GLLibPlayer.s_snd_Player[channel]).getControl("VolumeControl")).getLevel() * 100 * 100 / (GLLibPlayer.s_snd_masterVolume * 100);
         }
         catch (final Exception ex) {}
-        return n2;
+        return 0;
     }
     
-    private static void Snd_SetVolumeForPlayer(final int volume, final int beforeVolume) {
-        if (!GLLibPlayer.s_snd_isSoundEngineInitialized || GLLibPlayer.s_snd_Player[volume] == null) {
+    private static void Snd_SetChannelVolume(final int channel, final int volume) {
+        if (!GLLibPlayer.s_snd_isSoundEngineInitialized || GLLibPlayer.s_snd_Player[channel] == null) {
             return;
         }
         try {
-            if (GLLibPlayer.s_snd_Player[volume] != null) {
-                ((VolumeControl)((Controllable)GLLibPlayer.s_snd_Player[volume]).getControl("VolumeControl")).setLevel(beforeVolume * GLLibPlayer.s_snd_masterVolume * 100 / 10000);
+            if (GLLibPlayer.s_snd_Player[channel] != null) {
+                ((VolumeControl)((Controllable)GLLibPlayer.s_snd_Player[channel]).getControl("VolumeControl")).setLevel(volume * GLLibPlayer.s_snd_masterVolume * 100 / 10000);
             }
         }
         catch (final Exception ex) {}
@@ -525,13 +523,13 @@ final class GLLibPlayer implements Runnable
         if (!GLLibPlayer.s_snd_isSoundEngineInitialized) {
             return;
         }
-        if (GLLibPlayer.k_unkBool) {
+        if (GLLibPlayer.s_snd_bInUpdate) {
             return;
         }
-        GLLibPlayer.k_unkBool = true;
+        GLLibPlayer.s_snd_bInUpdate = true;
         for (int channel = 0; channel < GLLibPlayer.k_snd_nbChannel; ++channel) {
-            sub_1fe4(channel, GLLibPlayer.var_1667);
-            if (GLLibPlayer.var_1667[5] > 0) {
+            SndQueue_Pop(channel, GLLibPlayer.s_snd_requestBuffer);
+            if (GLLibPlayer.s_snd_requestBuffer[5] > 0) {
                 if (GLLibPlayer.s_snd_state[channel] == 2) {
                     boolean isPlaying;
                     try {
@@ -545,11 +543,11 @@ final class GLLibPlayer implements Runnable
                         GLLibPlayer.s_snd_state[channel] = 1;
                     }
                 }
-                while (GLLibPlayer.var_1667[5] > 0) {
+                while (GLLibPlayer.s_snd_requestBuffer[5] > 0) {
                     try {
-                        switch (GLLibPlayer.var_1667[0]) {
+                        switch (GLLibPlayer.s_snd_requestBuffer[0]) {
                             case 1: {
-                                Snd_PrepareExec(channel, GLLibPlayer.var_1667[1], GLLibPlayer.var_1667[2]);
+                                Snd_PrepareExec(channel, GLLibPlayer.s_snd_requestBuffer[1], GLLibPlayer.s_snd_requestBuffer[2]);
                                 break;
                             }
                             case 2: {
@@ -557,7 +555,7 @@ final class GLLibPlayer implements Runnable
                                 break;
                             }
                             case 3: {
-                                Snd_PlayExec(channel, GLLibPlayer.var_1667[1], GLLibPlayer.var_1667[2], GLLibPlayer.var_1667[4], GLLibPlayer.var_1667[3]);
+                                Snd_PlayExec(channel, GLLibPlayer.s_snd_requestBuffer[1], GLLibPlayer.s_snd_requestBuffer[2], GLLibPlayer.s_snd_requestBuffer[4], GLLibPlayer.s_snd_requestBuffer[3]);
                                 break;
                             }
                             case 4: {
@@ -589,12 +587,12 @@ final class GLLibPlayer implements Runnable
                         new StringBuffer().append("Snd_update.error on channel (").append(channel).append(").").append(e2);
                         e2.printStackTrace();
                     }
-                    sub_1fe4(channel, GLLibPlayer.var_1667);
+                    SndQueue_Pop(channel, GLLibPlayer.s_snd_requestBuffer);
                 }
             }
-            sub_2d9e(channel);
+            SndFade_Update(channel);
         }
-        GLLibPlayer.k_unkBool = false;
+        GLLibPlayer.s_snd_bInUpdate = false;
     }
     
     public final void run() {
@@ -660,14 +658,13 @@ final class GLLibPlayer implements Runnable
         if (!GLLibPlayer.s_snd_isSoundEngineInitialized) {
             return false;
         }
-        boolean b = false;
-        GLLibPlayer.var_167f[((channel << 4) + MIDIChannel) * 9 + 3] = volume;
+        GLLibPlayer.s_snd_fadeMidi[((channel << 4) + MIDIChannel) * 9 + 3] = volume;
         final MIDIControl midiControl;
         if ((midiControl = (MIDIControl)((Controllable)GLLibPlayer.s_snd_Player[channel]).getControl("MIDIControl")) != null) {
             midiControl.shortMidiEvent(0xB0 | MIDIChannel, 7, volume);
-            b = true;
+            return true;
         }
-        return b;
+        return false;
     }
     
     private static int Snd_TempoGet(final int channel) {
@@ -696,67 +693,67 @@ final class GLLibPlayer implements Runnable
         return false;
     }
     
-    private static void sub_2ca7(int n, final int n2) {
-        n = n2 * 3;
-        GLLibPlayer.var_166f[n] = 0;
-        GLLibPlayer.var_166f[n + 1] = 0;
-        GLLibPlayer.var_166f[n + 2] = 0;
+    private static void Snd_FadeCommand(int idx, final int channel) {
+        idx = channel * 3;
+        GLLibPlayer.s_snd_fade[idx] = 0;
+        GLLibPlayer.s_snd_fade[idx + 1] = 0;
+        GLLibPlayer.s_snd_fade[idx + 2] = 0;
     }
     
-    private static void sub_2cdc(final int n, int n2) {
-        n2 *= 3;
-        GLLibPlayer.var_1677[n2] = n;
-        if (n != 1) {
-            GLLibPlayer.var_1677[n2 + 1] = 0;
-            GLLibPlayer.var_1677[n2 + 2] = 0;
+    private static void Snd_FadeTempoCommand(final int fadeCommand, int channel) {
+        channel *= 3;
+        GLLibPlayer.s_snd_fadeTempo[channel] = fadeCommand;
+        if (fadeCommand != 1) {
+            GLLibPlayer.s_snd_fadeTempo[channel + 1] = 0;
+            GLLibPlayer.s_snd_fadeTempo[channel + 2] = 0;
         }
     }
     
-    private static void sub_2d26(final int n, final int n2, final int n3, int n4) {
-        n4 = ((n2 << 4) + n3) * 9;
-        GLLibPlayer.var_167f[n4] = n;
-        if (n == 0 || n == 1) {
-            final int[] var_1687 = GLLibPlayer.var_1687;
-            var_1687[n2] &= ~(1 << n3);
+    private static void Snd_FadeMidiCommand(final int fadeCommand, final int channel, final int midiChannel, int idx) {
+        idx = ((channel << 4) + midiChannel) * 9;
+        GLLibPlayer.s_snd_fadeMidi[idx] = fadeCommand;
+        if (fadeCommand == 0 || fadeCommand == 1) {
+            final int[] s_snd_MidiChannelActiveFlags = GLLibPlayer.s_snd_MidiChannelActiveFlags;
+            s_snd_MidiChannelActiveFlags[channel] &= ~(1 << midiChannel);
             return;
         }
-        GLLibPlayer.var_167f[n4 + 1] = 0;
-        GLLibPlayer.var_167f[n4 + 2] = 0;
-        final int[] var_1688 = GLLibPlayer.var_1687;
-        var_1688[n2] |= 1 << n3;
+        GLLibPlayer.s_snd_fadeMidi[idx + 1] = 0;
+        GLLibPlayer.s_snd_fadeMidi[idx + 2] = 0;
+        final int[] s_snd_MidiChannelActiveFlags2 = GLLibPlayer.s_snd_MidiChannelActiveFlags;
+        s_snd_MidiChannelActiveFlags2[channel] |= 1 << midiChannel;
     }
     
-    private static void sub_2d9e(final int n) {
-        if ((GLLibPlayer.var_169f += GLLib.s_game_frameDT) < 0) {
+    private static void SndFade_Update(final int channel) {
+        if ((GLLibPlayer.s_snd_fadeDeltaTime += GLLib.s_game_frameDT) < 0) {
             return;
         }
-        final int var_169f = GLLibPlayer.var_169f;
-        GLLibPlayer.var_169f = 0;
-        final long sub_2b00;
-        if ((sub_2b00 = Snd_MediaTimeGet(n)) >= 0L && sub_2b00 <= var_169f * 1000) {
-            GLLibPlayer.var_168f[n] = true;
+        final int deltaTime = GLLibPlayer.s_snd_fadeDeltaTime;
+        GLLibPlayer.s_snd_fadeDeltaTime = 0;
+        final long mediaTime;
+        if ((mediaTime = Snd_MediaTimeGet(channel)) >= 0L && mediaTime <= deltaTime * 1000) {
+            GLLibPlayer.s_snd_fadeParamsNeedRefresh[channel] = true;
         }
         try {
-            if (!Snd_IsPlaying(n)) {
-                if (!GLLib.s_game_isPaused && GLLibPlayer.s_snd_loop[n] == 0 && GLLibPlayer.var_1697[n] < 3) {
-                    switch (GLLibPlayer.var_1697[n]) {
+            if (!Snd_IsPlaying(channel)) {
+                if (!GLLib.s_game_isPaused && GLLibPlayer.s_snd_loop[channel] == 0 && GLLibPlayer.s_snd_fadeLoopingFixState[channel] < 3) {
+                    switch (GLLibPlayer.s_snd_fadeLoopingFixState[channel]) {
                         case 0: {
-                            if (GLLibPlayer.s_snd_state[n] == 2) {
-                                GLLibPlayer.var_1697[n] = 1;
-                                GLLibPlayer.var_168f[n] = true;
+                            if (GLLibPlayer.s_snd_state[channel] == 2) {
+                                GLLibPlayer.s_snd_fadeLoopingFixState[channel] = 1;
+                                GLLibPlayer.s_snd_fadeParamsNeedRefresh[channel] = true;
                                 return;
                             }
                             break;
                         }
                         case 1: {
-                            GLLibPlayer.var_1697[n] = 2;
-                            GLLibPlayer.s_snd_Player[n].stop();
-                            GLLibPlayer.s_snd_state[n] = 1;
+                            GLLibPlayer.s_snd_fadeLoopingFixState[channel] = 2;
+                            GLLibPlayer.s_snd_Player[channel].stop();
+                            GLLibPlayer.s_snd_state[channel] = 1;
                             return;
                         }
                         case 2: {
-                            Snd_PlayExec(n, GLLibPlayer.s_snd_index[n], GLLibPlayer.s_snd_priority[n], 0, GLLibPlayer.s_snd_volume[n]);
-                            GLLibPlayer.var_1697[n] = 3;
+                            Snd_PlayExec(channel, GLLibPlayer.s_snd_index[channel], GLLibPlayer.s_snd_priority[channel], 0, GLLibPlayer.s_snd_volume[channel]);
+                            GLLibPlayer.s_snd_fadeLoopingFixState[channel] = 3;
                             break;
                         }
                     }
@@ -767,68 +764,68 @@ final class GLLibPlayer implements Runnable
         catch (final Exception ex) {
             return;
         }
-        GLLibPlayer.var_1697[n] = 0;
-        final int n2 = n * 3;
-        final int n3;
-        if ((n3 = GLLibPlayer.var_166f[n2]) != 0 && n3 != 1) {
-            final int n4 = GLLibPlayer.var_166f[n2 + 1];
-            int n6;
+        GLLibPlayer.s_snd_fadeLoopingFixState[channel] = 0;
+        final int idx = channel * 3;
+        final int cmd;
+        if ((cmd = GLLibPlayer.s_snd_fade[idx]) != 0 && cmd != 1) {
+            final int finalVolume = GLLibPlayer.s_snd_fade[idx + 1];
+            int volume;
             try {
-                final int sub_2635 = sub_2635(n);
-                final int n5 = (1 > GLLibPlayer.var_166f[n2 + 2] * var_169f / 1000) ? 1 : (GLLibPlayer.var_166f[n2 + 2] * var_169f / 1000);
-                n6 = ((sub_2635 < n4) ? ((n4 < sub_2635 + n5) ? n4 : (sub_2635 + n5)) : ((n4 > sub_2635 - n5) ? n4 : (sub_2635 - n5)));
-                Snd_SetVolumeForPlayer(n, n6);
+                final int curVolume = Snd_GetChannelVolume(channel);
+                final int delta = (1 > GLLibPlayer.s_snd_fade[idx + 2] * deltaTime / 1000) ? 1 : (GLLibPlayer.s_snd_fade[idx + 2] * deltaTime / 1000);
+                volume = ((curVolume < finalVolume) ? ((finalVolume < curVolume + delta) ? finalVolume : (curVolume + delta)) : ((finalVolume > curVolume - delta) ? finalVolume : (curVolume - delta)));
+                Snd_SetChannelVolume(channel, volume);
             }
             catch (final Exception ex2) {
-                n6 = n4;
+                volume = finalVolume;
             }
-            if (n6 == n4) {
-                if (n3 == 4) {
-                    sub_239b(n, true);
+            if (volume == finalVolume) {
+                if (cmd == 4) {
+                    Snd_Stop(channel, true);
                 }
-                sub_2ca7(0, n);
+                Snd_FadeCommand(0, channel);
             }
         }
-        final int n7;
-        if ((n7 = GLLibPlayer.var_1677[n2]) != 0 && n7 != 1) {
-            final int n8 = GLLibPlayer.var_1677[n2 + 1];
-            int sub_2bd9 = -1;
+        final int cmd2;
+        if ((cmd2 = GLLibPlayer.s_snd_fadeTempo[idx]) != 0 && cmd2 != 1) {
+            final int finalTempo = GLLibPlayer.s_snd_fadeTempo[idx + 1];
+            int tempo = -1;
             try {
-                sub_2bd9 = Snd_TempoGet(n);
-                final int n9 = (1 > GLLibPlayer.var_1677[n2 + 2] * var_169f / 1000) ? 1 : (GLLibPlayer.var_1677[n2 + 2] * var_169f / 1000);
-                sub_2bd9 = ((sub_2bd9 < n8) ? ((n8 < sub_2bd9 + n9) ? n8 : (sub_2bd9 + n9)) : ((n8 > sub_2bd9 - n9) ? n8 : (sub_2bd9 - n9)));
-                Snd_TempoSet(n, sub_2bd9);
+                tempo = Snd_TempoGet(channel);
+                final int delta = (1 > GLLibPlayer.s_snd_fadeTempo[idx + 2] * deltaTime / 1000) ? 1 : (GLLibPlayer.s_snd_fadeTempo[idx + 2] * deltaTime / 1000);
+                tempo = ((tempo < finalTempo) ? ((finalTempo < tempo + delta) ? finalTempo : (tempo + delta)) : ((finalTempo > tempo - delta) ? finalTempo : (tempo - delta)));
+                Snd_TempoSet(channel, tempo);
             }
             catch (final Exception ex3) {
-                sub_2cdc(0, n);
+                Snd_FadeTempoCommand(0, channel);
             }
-            if (sub_2bd9 < 0 || ((sub_2bd9 - n8 < 0) ? (-(sub_2bd9 - n8)) : (sub_2bd9 - n8)) < 500) {
-                sub_2cdc(1, n);
+            if (tempo < 0 || ((tempo - finalTempo < 0) ? (-(tempo - finalTempo)) : (tempo - finalTempo)) < 500) {
+                Snd_FadeTempoCommand(1, channel);
             }
         }
-        else if (GLLibPlayer.var_168f[n] && n7 == 1) {
+        else if (GLLibPlayer.s_snd_fadeParamsNeedRefresh[channel] && cmd2 == 1) {
             try {
-                final int n10 = GLLibPlayer.var_1677[n2 + 1];
-                final int sub_2bd10;
-                if ((((sub_2bd10 = Snd_TempoGet(n)) - n10 < 0) ? (-(sub_2bd10 - n10)) : (sub_2bd10 - n10)) >= 500) {
-                    Snd_TempoSet(n, n10);
+                final int finalTempo = GLLibPlayer.s_snd_fadeTempo[idx + 1];
+                final int tempo;
+                if ((((tempo = Snd_TempoGet(channel)) - finalTempo < 0) ? (-(tempo - finalTempo)) : (tempo - finalTempo)) >= 500) {
+                    Snd_TempoSet(channel, finalTempo);
                 }
             }
             catch (final Exception ex4) {}
         }
-        if (GLLibPlayer.var_1687[n] == 0 && !GLLibPlayer.var_168f[n]) {
+        if (GLLibPlayer.s_snd_MidiChannelActiveFlags[channel] == 0 && !GLLibPlayer.s_snd_fadeParamsNeedRefresh[channel]) {
             return;
         }
         for (int i = 0; i < 16; ++i) {
-            if ((GLLibPlayer.var_1687[n] & 1 << i) != 0x0 || GLLibPlayer.var_168f[n]) {
-                final int n11 = ((n << 4) + i) * 9;
-                final int n12;
-                switch (n12 = GLLibPlayer.var_167f[n11]) {
+            if ((GLLibPlayer.s_snd_MidiChannelActiveFlags[channel] & 1 << i) != 0x0 || GLLibPlayer.s_snd_fadeParamsNeedRefresh[channel]) {
+                final int idx2 = ((channel << 4) + i) * 9;
+                final int cmd3;
+                switch (cmd3 = GLLibPlayer.s_snd_fadeMidi[idx2]) {
                     case 1: {
-                        if (GLLibPlayer.var_168f[n]) {
-                            final int n13 = GLLibPlayer.var_167f[n11 + 1];
+                        if (GLLibPlayer.s_snd_fadeParamsNeedRefresh[channel]) {
+                            final int finalVolume2 = GLLibPlayer.s_snd_fadeMidi[idx2 + 1];
                             try {
-                                Snd_MidiSetChannelVolume(n, i, n13);
+                                Snd_MidiSetChannelVolume(channel, i, finalVolume2);
                             }
                             catch (final Exception ex5) {}
                             break;
@@ -836,66 +833,64 @@ final class GLLibPlayer implements Runnable
                         break;
                     }
                     case 2: {
-                        final int n14 = GLLibPlayer.var_167f[n11 + 1];
-                        final int n15 = GLLibPlayer.var_167f[n11 + 3];
-                        final int n16 = (1 > GLLibPlayer.var_167f[n11 + 2] * var_169f / 1000) ? 1 : (GLLibPlayer.var_167f[n11 + 2] * var_169f / 1000);
-                        int n17 = (n15 < n14) ? ((n14 < n15 + n16) ? n14 : (n15 + n16)) : ((n14 > n15 - n16) ? n14 : (n15 - n16));
+                        final int finalVolume2 = GLLibPlayer.s_snd_fadeMidi[idx2 + 1];
+                        final int volume2 = GLLibPlayer.s_snd_fadeMidi[idx2 + 3];
+                        final int delta2 = (1 > GLLibPlayer.s_snd_fadeMidi[idx2 + 2] * deltaTime / 1000) ? 1 : (GLLibPlayer.s_snd_fadeMidi[idx2 + 2] * deltaTime / 1000);
+                        int volumeNew2 = (volume2 < finalVolume2) ? ((finalVolume2 < volume2 + delta2) ? finalVolume2 : (volume2 + delta2)) : ((finalVolume2 > volume2 - delta2) ? finalVolume2 : (volume2 - delta2));
                         try {
-                            Snd_MidiSetChannelVolume(n, i, n17);
+                            Snd_MidiSetChannelVolume(channel, i, volumeNew2);
                         }
                         catch (final Exception ex6) {
-                            n17 = n14;
+                            volumeNew2 = finalVolume2;
                         }
-                        if (n17 == n14) {
-                            sub_2d26(1, n, i, 0);
+                        if (volumeNew2 == finalVolume2) {
+                            Snd_FadeMidiCommand(1, channel, i, 0);
                             break;
                         }
                         break;
                     }
                     case 6:
                     case 7: {
-                        final int n18 = (n12 == 6) ? GLLibPlayer.var_167f[n11 + 1] : 0;
-                        final int n19;
-                        if ((n19 = GLLibPlayer.var_167f[n11 + 3]) != n18) {
-                            final int n20 = (1 > GLLibPlayer.var_167f[n11 + 2] * var_169f / 1000) ? 1 : (GLLibPlayer.var_167f[n11 + 2] * var_169f / 1000);
-                            final int n21 = (n19 < n18) ? ((n18 < n19 + n20) ? n18 : (n19 + n20)) : ((n18 > n19 - n20) ? n18 : (n19 - n20));
+                        final int finalVolume2 = (cmd3 == 6) ? GLLibPlayer.s_snd_fadeMidi[idx2 + 1] : 0;
+                        final int volume2;
+                        if ((volume2 = GLLibPlayer.s_snd_fadeMidi[idx2 + 3]) != finalVolume2) {
+                            final int delta2 = (1 > GLLibPlayer.s_snd_fadeMidi[idx2 + 2] * deltaTime / 1000) ? 1 : (GLLibPlayer.s_snd_fadeMidi[idx2 + 2] * deltaTime / 1000);
+                            final int volumeNew2 = (volume2 < finalVolume2) ? ((finalVolume2 < volume2 + delta2) ? finalVolume2 : (volume2 + delta2)) : ((finalVolume2 > volume2 - delta2) ? finalVolume2 : (volume2 - delta2));
                             try {
-                                Snd_MidiSetChannelVolume(n, i, n21);
+                                Snd_MidiSetChannelVolume(channel, i, volumeNew2);
                             }
                             catch (final Exception ex7) {}
                         }
-                        final int[] var_167f = GLLibPlayer.var_167f;
-                        final int n22 = n11 + 8;
-                        var_167f[n22] -= var_169f;
-                        if (GLLibPlayer.var_167f[n11 + 8] > 0) {
+                        final int[] s_snd_fadeMidi = GLLibPlayer.s_snd_fadeMidi;
+                        final int n = idx2 + 8;
+                        s_snd_fadeMidi[n] -= deltaTime;
+                        if (GLLibPlayer.s_snd_fadeMidi[idx2 + 8] > 0) {
                             break;
                         }
-                        final int n23 = i;
-                        final boolean b = n12 == 7;
-                        final int n24 = ((n << 4) + n23) * 9;
-                        final int n25;
-                        if ((n25 = GLLibPlayer.var_167f[n24]) != 6 && n25 != 7) {
+                        final int idx3 = ((channel << 4) + i) * 9;
+                        final int cmd4;
+                        if ((cmd4 = GLLibPlayer.s_snd_fadeMidi[idx3]) != 6 && cmd4 != 7) {
                             break;
                         }
-                        if (b) {
-                            GLLibPlayer.var_167f[n24] = 6;
-                            GLLibPlayer.var_167f[n24 + 8] = GLLib.Math_Rand(GLLibPlayer.var_167f[n24 + 4], GLLibPlayer.var_167f[n24 + 5] + 1);
+                        if (cmd3 == 7) {
+                            GLLibPlayer.s_snd_fadeMidi[idx3] = 6;
+                            GLLibPlayer.s_snd_fadeMidi[idx3 + 8] = GLLib.Math_Rand(GLLibPlayer.s_snd_fadeMidi[idx3 + 4], GLLibPlayer.s_snd_fadeMidi[idx3 + 5] + 1);
                             break;
                         }
-                        GLLibPlayer.var_167f[n24] = 7;
-                        GLLibPlayer.var_167f[n24 + 8] = GLLib.Math_Rand(GLLibPlayer.var_167f[n24 + 6], GLLibPlayer.var_167f[n24 + 7] + 1);
+                        GLLibPlayer.s_snd_fadeMidi[idx3] = 7;
+                        GLLibPlayer.s_snd_fadeMidi[idx3 + 8] = GLLib.Math_Rand(GLLibPlayer.s_snd_fadeMidi[idx3 + 6], GLLibPlayer.s_snd_fadeMidi[idx3 + 7] + 1);
                         break;
                     }
                 }
             }
         }
-        GLLibPlayer.var_168f[n] = false;
+        GLLibPlayer.s_snd_fadeParamsNeedRefresh[channel] = false;
     }
     
     static void Snd_PauseNotify() {
         try {
             for (int channel = 0; channel < GLLibPlayer.k_snd_nbChannel; ++channel) {
-                sub_239b(channel, true);
+                Snd_Stop(channel, true);
             }
             if (GLLib.s_game_isPaused) {
                 Snd_Update_Exec();
@@ -909,8 +904,8 @@ final class GLLibPlayer implements Runnable
     
     static void Tileset_Init(final int nDestWidth, final int nDestHeight, final int nTileWidth, final int nTileHeight) {
         GLLibPlayer.s_TilesetInfo = new int[8];
-        GLLibPlayer.s_TilesetLayerInfo = new int[GLLibPlayer.s_TilesetMaxLayerCount][GLLibPlayer.var_16b7];
-        GLLibPlayer.s_TilesetLayerImage = new GLLibImage[GLLibPlayer.s_TilesetMaxLayerCount][1];
+        GLLibPlayer.s_TilesetLayerInfo = new int[GLLibPlayer.s_TilesetMaxLayerCount][GLLibPlayer.k_TilesetLayerCOUNT];
+        GLLibPlayer.s_TilesetLayerImage = new ImageG[GLLibPlayer.s_TilesetMaxLayerCount][1];
         GLLibPlayer.s_TilesetLayerGraphics = new Graphics[GLLibPlayer.s_TilesetMaxLayerCount][1];
         if (nTileWidth > 0 && nTileHeight > 0) {
             GLLibPlayer.s_TilesetLayerData = new byte[GLLibPlayer.s_TilesetMaxLayerCount][2][];
@@ -920,25 +915,25 @@ final class GLLibPlayer implements Runnable
             GLLibPlayer.s_TilesetInfo[5] = nTileHeight;
             GLLibPlayer.s_TilesetInfo[7] = 0;
         }
-        GLLibPlayer.var_16ef = new int[GLLibPlayer.s_TilesetMaxLayerCount][GLLibPlayer.var_16bf][4];
+        GLLibPlayer.s_TilesetLayerLastUpdatedArea = new int[GLLibPlayer.s_TilesetMaxLayerCount][GLLibPlayer.k_TilesetLayerAreaCount][4];
         GLLibPlayer.s_TilesetInfo[0] = nDestWidth;
         GLLibPlayer.s_TilesetInfo[1] = nDestHeight;
         GLLibPlayer.s_bTilesetPlayerInitialized = true;
     }
     
-    private static void sub_370b(int n) {
-        n = 0;
-        n = GLLibPlayer.s_TilesetLayerInfo[0][18];
+    private static void Tileset_Buffer_CalculateSize(int nLayer) {
+        nLayer = 0;
+        nLayer = GLLibPlayer.s_TilesetLayerInfo[0][18];
         final int n2 = GLLibPlayer.s_TilesetLayerInfo[0][19];
-        final int n3 = n % GLLibPlayer.s_TilesetInfo[2];
-        GLLibPlayer.s_TilesetLayerInfo[0][7] = n - n3 + (1 + ((n3 != 0) ? 1 : 0)) * GLLibPlayer.s_TilesetInfo[2];
-        n = n2 % GLLibPlayer.s_TilesetInfo[5];
-        GLLibPlayer.s_TilesetLayerInfo[0][8] = n2 - n + (1 + ((n != 0) ? 1 : 0)) * GLLibPlayer.s_TilesetInfo[5];
+        final int n3 = nLayer % GLLibPlayer.s_TilesetInfo[2];
+        GLLibPlayer.s_TilesetLayerInfo[0][7] = nLayer - n3 + (1 + ((n3 != 0) ? 1 : 0)) * GLLibPlayer.s_TilesetInfo[2];
+        nLayer = n2 % GLLibPlayer.s_TilesetInfo[5];
+        GLLibPlayer.s_TilesetLayerInfo[0][8] = n2 - nLayer + (1 + ((nLayer != 0) ? 1 : 0)) * GLLibPlayer.s_TilesetInfo[5];
     }
     
-    private static void sub_37be(final int n) {
+    private static void Tileset_Buffer_Create(final int nLayer) {
         try {
-            GLLibPlayer.s_TilesetLayerImage[0][0] = GLLibImage.createImage(GLLibPlayer.s_TilesetLayerInfo[0][8], GLLibPlayer.s_TilesetLayerInfo[0][7]);
+            GLLibPlayer.s_TilesetLayerImage[0][0] = ImageG.createImage(GLLibPlayer.s_TilesetLayerInfo[0][8], GLLibPlayer.s_TilesetLayerInfo[0][7]);
             GLLibPlayer.s_TilesetLayerGraphics[0][0] = GLLibPlayer.s_TilesetLayerImage[0][0].image.getGraphics();
         }
         catch (final Exception ex) {
@@ -946,24 +941,24 @@ final class GLLibPlayer implements Runnable
         }
     }
     
-    static void sub_3837() {
+    static void Tileset_CreateBuffer() {
         if (!GLLibPlayer.s_bTilesetPlayerInitialized) {
             return;
         }
-        sub_370b(0);
-        sub_37be(0);
+        Tileset_Buffer_CalculateSize(0);
+        Tileset_Buffer_Create(0);
     }
     
-    private static boolean isFlag(final int n, final int n2) {
-        return (GLLibPlayer.s_TilesetLayerInfo[n][15] & n2) != 0x0;
+    private static boolean isFlag(final int nLayer, final int flag) {
+        return (GLLibPlayer.s_TilesetLayerInfo[nLayer][15] & flag) != 0x0;
     }
     
-    private static void setFlag(final int n, final int n2, final boolean b) {
-        if (b) {
-            GLLibPlayer.s_TilesetLayerInfo[0][15] |= n2;
+    private static void setFlag(final int nLayer, final int flag, final boolean value) {
+        if (value) {
+            GLLibPlayer.s_TilesetLayerInfo[0][15] |= flag;
             return;
         }
-        GLLibPlayer.s_TilesetLayerInfo[0][15] &= ~n2;
+        GLLibPlayer.s_TilesetLayerInfo[0][15] &= ~flag;
     }
     
     static void Tileset_LoadLayer(final int nLayer, byte[] MapSizes, byte[] MapData, byte[] MapFlip, final ASprite MapSprite, final int n2, final int n3, final int n4, final int n5, final boolean b) {
@@ -980,9 +975,9 @@ final class GLLibPlayer implements Runnable
             GLLibPlayer.s_TilesetLayerInfo[0][5] = GLLibPlayer.s_TilesetLayerInfo[0][2] * GLLibPlayer.s_TilesetInfo[2];
             GLLibPlayer.s_TilesetLayerInfo[0][6] = GLLibPlayer.s_TilesetLayerInfo[0][3] * GLLibPlayer.s_TilesetInfo[5];
             GLLibPlayer.s_TilesetSprite[0] = MapSprite;
-            sub_370b(0);
+            Tileset_Buffer_CalculateSize(0);
             if (GLLibPlayer.s_TilesetLayerImage[0][0] == null || GLLibPlayer.s_TilesetLayerImage[0][0].image.getWidth() != GLLibPlayer.s_TilesetLayerInfo[0][8] || GLLibPlayer.s_TilesetLayerImage[0][0].image.getHeight() != GLLibPlayer.s_TilesetLayerInfo[0][7]) {
-                sub_37be(0);
+                Tileset_Buffer_Create(0);
             }
             setFlag(0, 64, true);
             setFlag(0, 4, true);
@@ -1012,9 +1007,9 @@ final class GLLibPlayer implements Runnable
         if (!GLLibPlayer.s_bTilesetPlayerInitialized) {
             return;
         }
-        GLLibPlayer.s_TilesetLayerInfo[nLayer] = new int[GLLibPlayer.var_16b7];
+        GLLibPlayer.s_TilesetLayerInfo[nLayer] = new int[GLLibPlayer.k_TilesetLayerCOUNT];
         if (bFreeBufferImage) {
-            GLLibPlayer.s_TilesetLayerImage[nLayer] = new GLLibImage[1];
+            GLLibPlayer.s_TilesetLayerImage[nLayer] = new ImageG[1];
             GLLibPlayer.s_TilesetLayerGraphics[nLayer] = new Graphics[1];
         }
         if (GLLibPlayer.s_TilesetLayerData != null) {
@@ -1059,7 +1054,7 @@ final class GLLibPlayer implements Runnable
                     ch = GLLib.GetClipHeight(g, true);
                 }
                 if (isFlag(nLayer, 128)) {
-                    GLLibPlayer.var_16f7 = 0;
+                    GLLibPlayer.s_TilesetLayerLastUpdatedAreaIndex = 0;
                 }
                 Label_1365: {
                     if (isFlag(nLayer, 256)) {
@@ -1100,7 +1095,7 @@ final class GLLibPlayer implements Runnable
                                     final int n30 = array2[8];
                                     n25 = n29;
                                     n26 = n29;
-                                    sub_7adc(nLayer, array2[5] = n27, n28, n29, n30);
+                                    Tileset_UpdateEmpyTilemapBuffer(nLayer, array2[5] = n27, n28, n29, n30);
                                 }
                                 else if (n7 + n9 >= n13) {
                                     final int n31 = n18 / n16 * n16;
@@ -1108,19 +1103,19 @@ final class GLLibPlayer implements Runnable
                                     final int n33 = array2[8];
                                     n26 = n32;
                                     array2[5] = n17 / n15 * n15;
-                                    sub_7adc(nLayer, n13, n31, n26, n33);
+                                    Tileset_UpdateEmpyTilemapBuffer(nLayer, n13, n31, n26, n33);
                                 }
                                 if (n8 < n12) {
                                     final int n34 = n17 / n15 * n15 + n25;
                                     final int n35 = n18 / n16 * n16;
-                                    sub_7adc(nLayer, n34, array2[6] = n35, array2[7] - n26, n12 - n35);
+                                    Tileset_UpdateEmpyTilemapBuffer(nLayer, n34, array2[6] = n35, array2[7] - n26, n12 - n35);
                                 }
                                 else if (n8 + n10 >= n14) {
                                     final int n36 = n17 / n15 * n15 + n25;
                                     final int n37 = array2[7] - n26;
                                     final int n38 = ((n8 + n10 - n14) / n16 + 1) * n16;
                                     array2[6] = n18 / n16 * n16;
-                                    sub_7adc(nLayer, n36, n14, n37, n38);
+                                    Tileset_UpdateEmpyTilemapBuffer(nLayer, n36, n14, n37, n38);
                                 }
                                 array2[10] = 0;
                                 break Label_1365;
@@ -1128,7 +1123,7 @@ final class GLLibPlayer implements Runnable
                         }
                         final int n39 = n17 / n15 * n15;
                         final int n40 = n18 / n16 * n16;
-                        sub_7adc(nLayer, n39, n40, array2[7], array2[8]);
+                        Tileset_UpdateEmpyTilemapBuffer(nLayer, n39, n40, array2[7], array2[8]);
                         array2[5] = n39;
                         array2[6] = n40;
                         if (b) {
@@ -1254,27 +1249,27 @@ final class GLLibPlayer implements Runnable
                     GLLib.SetClip(g, cx, cy, cw, ch, true);
                     if (n55 > n53) {
                         if (n56 > n54) {
-                            sub_4e59(g, nLayer, n53, n54, n5, n6, dx, dy, cx, cy, cw, ch, 100);
+                            Tileset_Draw2Screen(g, nLayer, n53, n54, n5, n6, dx, dy, cx, cy, cw, ch, 100);
                         }
                         else {
-                            sub_4e59(g, nLayer, n53, n54, n5, n6 - n56, dx, dy, cx, cy, cw, ch, 100);
+                            Tileset_Draw2Screen(g, nLayer, n53, n54, n5, n6 - n56, dx, dy, cx, cy, cw, ch, 100);
                             GLLib.SetClip(g, cx, cy, cw, ch, true);
-                            sub_4e59(g, nLayer, n53, 0, n5, n56, dx, n6 - n56 + dy, cx, cy, cw, ch, 100);
+                            Tileset_Draw2Screen(g, nLayer, n53, 0, n5, n56, dx, n6 - n56 + dy, cx, cy, cw, ch, 100);
                         }
                     }
                     else if (n56 > n54) {
-                        sub_4e59(g, nLayer, n53, n54, n5 - n55, n6, dx, dy, cx, cy, cw, ch, 100);
+                        Tileset_Draw2Screen(g, nLayer, n53, n54, n5 - n55, n6, dx, dy, cx, cy, cw, ch, 100);
                         GLLib.SetClip(g, cx, cy, cw, ch, true);
-                        sub_4e59(g, nLayer, 0, n54, n55, n6, n5 - n55 + dx, dy, cx, cy, cw, ch, 100);
+                        Tileset_Draw2Screen(g, nLayer, 0, n54, n55, n6, n5 - n55 + dx, dy, cx, cy, cw, ch, 100);
                     }
                     else {
-                        sub_4e59(g, nLayer, n53, n54, n5 - n55, n6 - n56, dx, dy, cx, cy, cw, ch, 100);
+                        Tileset_Draw2Screen(g, nLayer, n53, n54, n5 - n55, n6 - n56, dx, dy, cx, cy, cw, ch, 100);
                         GLLib.SetClip(g, cx, cy, cw, ch, true);
-                        sub_4e59(g, nLayer, n53, 0, n5 - n55, n56, dx, n6 - n56 + dy, cx, cy, cw, ch, 100);
+                        Tileset_Draw2Screen(g, nLayer, n53, 0, n5 - n55, n56, dx, n6 - n56 + dy, cx, cy, cw, ch, 100);
                         GLLib.SetClip(g, cx, cy, cw, ch, true);
-                        sub_4e59(g, nLayer, 0, n54, n55, n6 - n56, n5 - n55 + dx, dy, cx, cy, cw, ch, 100);
+                        Tileset_Draw2Screen(g, nLayer, 0, n54, n55, n6 - n56, n5 - n55 + dx, dy, cx, cy, cw, ch, 100);
                         GLLib.SetClip(g, cx, cy, cw, ch, true);
-                        sub_4e59(g, nLayer, 0, 0, n55, n56, n5 - n55 + dx, n6 - n56 + dy, cx, cy, cw, ch, 100);
+                        Tileset_Draw2Screen(g, nLayer, 0, 0, n55, n56, n5 - n55 + dx, n6 - n56 + dy, cx, cy, cw, ch, 100);
                     }
                     final Graphics graphics3 = g;
                     final int n57 = cx;
@@ -1312,47 +1307,47 @@ final class GLLibPlayer implements Runnable
         }
     }
     
-    static void sub_4c02(int n, int n2, int n3, int n4, final int n5) {
-        if (!GLLibPlayer.s_bTilesetPlayerInitialized || !isFlag(n5, 4)) {
+    static void Tileset_Draw(int dx, int dy, int tx, int ty, final int nLayer) {
+        if (!GLLibPlayer.s_bTilesetPlayerInitialized || !isFlag(nLayer, 4)) {
             return;
         }
-        if (n5 == -1) {
+        if (nLayer == -1) {
             for (int i = 0; i < GLLibPlayer.s_TilesetMaxLayerCount; ++i) {
-                sub_4c02(n, n2, n3, n4, i);
+                Tileset_Draw(dx, dy, tx, ty, i);
             }
             return;
         }
         final int[] array;
-        if ((array = GLLibPlayer.s_TilesetLayerInfo[n5])[0] != 1 || array[1] != 1) {
+        if ((array = GLLibPlayer.s_TilesetLayerInfo[nLayer])[0] != 1 || array[1] != 1) {
             return;
         }
-        if (n + n3 > array[13] && n < array[13] + array[7] && n2 + n4 > array[14] && n2 < array[14] + array[8]) {
-            n3 = ((n + n3 < array[13] + array[7]) ? (n + n3) : (array[13] + array[7]));
-            n4 = ((n2 + n4 < array[14] + array[8]) ? (n2 + n4) : (array[14] + array[8]));
-            n = ((n > array[13]) ? n : array[13]);
-            n2 = ((n2 > array[14]) ? n2 : array[14]);
-            n3 -= n;
-            n4 -= n2;
-            if (n < 0) {
-                n -= GLLibPlayer.s_TilesetInfo[2];
+        if (dx + tx > array[13] && dx < array[13] + array[7] && dy + ty > array[14] && dy < array[14] + array[8]) {
+            tx = ((dx + tx < array[13] + array[7]) ? (dx + tx) : (array[13] + array[7]));
+            ty = ((dy + ty < array[14] + array[8]) ? (dy + ty) : (array[14] + array[8]));
+            dx = ((dx > array[13]) ? dx : array[13]);
+            dy = ((dy > array[14]) ? dy : array[14]);
+            tx -= dx;
+            ty -= dy;
+            if (dx < 0) {
+                dx -= GLLibPlayer.s_TilesetInfo[2];
             }
-            if (n2 < 0) {
-                n2 -= GLLibPlayer.s_TilesetInfo[5];
+            if (dy < 0) {
+                dy -= GLLibPlayer.s_TilesetInfo[5];
             }
-            n /= GLLibPlayer.s_TilesetInfo[2];
-            n2 /= GLLibPlayer.s_TilesetInfo[5];
-            n3 = n3 / GLLibPlayer.s_TilesetInfo[2] - 1;
-            n4 = n4 / GLLibPlayer.s_TilesetInfo[5] - 1;
-            Tileset_UpdateBuffer(GLLibPlayer.s_TilesetLayerGraphics[n5][0], n5, n, n2, n3, n4, 0, 0, true);
+            dx /= GLLibPlayer.s_TilesetInfo[2];
+            dy /= GLLibPlayer.s_TilesetInfo[5];
+            tx = tx / GLLibPlayer.s_TilesetInfo[2] - 1;
+            ty = ty / GLLibPlayer.s_TilesetInfo[5] - 1;
+            Tileset_UpdateBuffer(GLLibPlayer.s_TilesetLayerGraphics[nLayer][0], nLayer, dx, dy, tx, ty, 0, 0, true);
         }
     }
     
-    private static void sub_4e59(final Graphics graphics, final int n, final int n2, final int n3, final int n4, final int n5, final int n6, final int n7, final int n8, final int n9, final int n10, final int n11, final int n12) {
-        if (n6 > (n8 + n10) * 100 || n7 > (n9 + n11) * 100 || n6 + n4 < n8 * 100 || n7 + n5 < n9 * 100) {
+    private static void Tileset_Draw2Screen(final Graphics g, final int nLayer, final int srcX, final int srcY, final int width, final int height, final int destX, final int destY, final int cx, final int cy, final int cw, final int ch, final int unk) {
+        if (destX > (cx + cw) * 100 || destY > (cy + ch) * 100 || destX + width < cx * 100 || destY + height < cy * 100) {
             return;
         }
-        GLLib.ClipRect(graphics, n6, n7, n4, n5, true);
-        GLLib.DrawImage(graphics, GLLibPlayer.s_TilesetLayerImage[n][0], n3 - n7 + ASprite._graphicsHeight - GLLibPlayer.s_TilesetLayerInfo[n][8], n6 - n2, 20, false);
+        GLLib.ClipRect(g, destX, destY, width, height, true);
+        GLLib.DrawImage(g, GLLibPlayer.s_TilesetLayerImage[nLayer][0], srcY - destY + ASprite._graphicsHeight - GLLibPlayer.s_TilesetLayerInfo[nLayer][8], destX - srcX, 20, false);
     }
     
     private static void Tileset_UpdateBuffer(final Graphics graphics, final int n, final int n2, final int n3, final int n4, final int n5, final int n6, final int n7) {
@@ -1367,7 +1362,7 @@ final class GLLibPlayer implements Runnable
         final int tileMapHeight = GLLibPlayer.s_TilesetLayerInfo[nLayer][3];
         final int tileWidth = GLLibPlayer.s_TilesetInfo[2];
         final int tileHeight = GLLibPlayer.s_TilesetInfo[5];
-        final int n9 = tileMapWidth * tileMapHeight;
+        final int dataArrayLength = tileMapWidth * tileMapHeight;
         if (useCB) {
             final int var_10c7 = GLLibPlayer.s_TilesetLayerInfo[nLayer][7];
             final int var_10cf2 = GLLibPlayer.s_TilesetLayerInfo[nLayer][8];
@@ -1449,13 +1444,13 @@ final class GLLibPlayer implements Runnable
             while (nbX-- >= 0) {
                 final int offsetCur;
                 final int sub_7ab4;
-                if ((offsetCur = tileX + tileY0 * tileMapWidth) < n9 && (sub_7ab4 = sub_7ab4(nLayer, 0, offsetCur, false)) != 255) {
+                if ((offsetCur = tileX + tileY0 * tileMapWidth) < dataArrayLength && (sub_7ab4 = Tileset_GetLayerData(nLayer, 0, offsetCur, false)) != 255) {
                     int sub_7ab5;
                     if (GLLibPlayer.s_TilesetLayerData[nLayer][1] == null) {
                         sub_7ab5 = 0;
                     }
                     else {
-                        sub_7ab5 = sub_7ab4(nLayer, 1, offsetCur, false);
+                        sub_7ab5 = Tileset_GetLayerData(nLayer, 1, offsetCur, false);
                     }
                     if (GLLibPlayer.curExtraScale != 100) {
                         GLLib.PFX_EnableScaleEffect();
@@ -1542,13 +1537,13 @@ final class GLLibPlayer implements Runnable
         ASprite._graphicsHeight = nLayer;
     }
     
-    private static final void Tileset_AddUpdatedArea(final int n, final int n2, final int n3, final int n4, final int n5) {
-        final int[] array;
-        (array = GLLibPlayer.var_16ef[n][GLLibPlayer.var_16f7])[0] = n2;
-        array[1] = n3;
-        array[2] = n4;
-        array[3] = n5;
-        ++GLLibPlayer.var_16f7;
+    private static final void Tileset_AddUpdatedArea(final int nLayer, final int rX, final int rY, final int rW, final int rH) {
+        final int[] rect;
+        (rect = GLLibPlayer.s_TilesetLayerLastUpdatedArea[nLayer][GLLibPlayer.s_TilesetLayerLastUpdatedAreaIndex])[0] = rX;
+        rect[1] = rY;
+        rect[2] = rW;
+        rect[3] = rH;
+        ++GLLibPlayer.s_TilesetLayerLastUpdatedAreaIndex;
     }
     
     private static final int Tileset_GetTranslatedOriginY(final int nLayer, final int y) {
@@ -1590,7 +1585,7 @@ final class GLLibPlayer implements Runnable
         }
     }
     
-    static final int sub_5b8b(final int n) {
+    static final int Tileset_GetCameraX(final int nLayer) {
         if (!GLLibPlayer.s_bTilesetPlayerInitialized) {
             return -1;
         }
@@ -1604,7 +1599,7 @@ final class GLLibPlayer implements Runnable
         return GLLibPlayer.s_TilesetLayerInfo[0][13];
     }
     
-    static final int sub_5c0b(final int n) {
+    static final int Tileset_GetCameraY(final int nLayer) {
         if (!GLLibPlayer.s_bTilesetPlayerInitialized) {
             return -1;
         }
@@ -1672,10 +1667,10 @@ final class GLLibPlayer implements Runnable
         nLayer = y;
         y = x;
         x = GLLibPlayer.s_TilesetLayerInfo[0][2];
-        return sub_7ab4(0, 0, nLayer * x + y, false);
+        return Tileset_GetLayerData(0, 0, nLayer * x + y, false);
     }
     
-    static final GLLibImage Tileset_GetBufferImage() {
+    static final ImageG Tileset_GetBufferImage() {
         if (!GLLibPlayer.s_bTilesetPlayerInitialized) {
             return null;
         }
@@ -1729,18 +1724,17 @@ final class GLLibPlayer implements Runnable
         sub_7a8a(0, 1, x, 0);
     }
     
-    static final void sub_60d3(int n, int n2, final int n3, final int n4, final boolean b) {
+    static final void Tileset_FillRect(int x, int y, final int w, final int h, final boolean force) {
         if (isFlag(0, 4)) {
-            Tileset_PaintToBuffer(2, 0, null, 0, 0, 0, 0, n3, n4, 0, b, null);
+            Tileset_PaintToBuffer(2, 0, null, 0, 0, 0, 0, w, h, 0, force, null);
             return;
         }
-        final int n5 = 0 - sub_5b8b(0);
-        n2 = 0 - sub_5c0b(0);
-        n = n5;
-        GLLib.FillRect(GLLib.g, n, n2, n3, n4, true);
+        y = 0 - Tileset_GetCameraY(0);
+        x = 0 - Tileset_GetCameraX(0);
+        GLLib.FillRect(GLLib.g, x, y, w, h, true);
     }
     
-    static final void Tileset_PaintSpriteWithScale(int scale, final ASprite spr, final int frame, final int posX, final int posY, final boolean b, final int[] array) {
+    static final void Tileset_PaintSpriteWithScale(int scale, final ASprite sprite, final int frame, final int posX, final int posY, final boolean force, final int[] layerInfo) {
         if (GLLibPlayer.curExtraScale != 100) {
             GLLib.PFX_EnableScaleEffect();
             scale = GLLibPlayer.curExtraScale;
@@ -1748,10 +1742,10 @@ final class GLLibPlayer implements Runnable
             GLLib.PFX_Scale_SetUnkScaleProp5(true);
         }
         if (isFlag(0, 4)) {
-            Tileset_PaintToBuffer(0, 0, spr, 0, frame, posX, posY, 0, 0, 0, b, array);
+            Tileset_PaintToBuffer(0, 0, sprite, 0, frame, posX, posY, 0, 0, 0, force, layerInfo);
         }
         else {
-            spr.PaintFrame(GLLib.g, frame, posX - sub_5b8b(0), posY - sub_5c0b(0), 0);
+            sprite.PaintFrame(GLLib.g, frame, posX - Tileset_GetCameraX(0), posY - Tileset_GetCameraY(0), 0);
         }
         if (GLLibPlayer.curExtraScale != 100) {
             GLLib.PFX_Scale_SetUnkScaleProp5(false);
@@ -1759,47 +1753,47 @@ final class GLLibPlayer implements Runnable
         }
     }
     
-    private static void Tileset_PaintToBuffer(int drawOperation, int x, Object o, int n, int n2, int y, int n3, int n4, int u, int n5, final boolean b, int[] array) {
-        n5 = (b ? 1 : 0);
-        n4 = u;
-        n3 = n4;
-        y = n3;
-        n2 = y;
-        n = n2;
-        if (isFlag(0, 4) && (GLLibPlayer.var_16f7 != 0 || n5 != 0)) {
-            array = GLLibPlayer.s_TilesetLayerInfo[0];
-            x = 0;
-            u = 0;
+    private static void Tileset_PaintToBuffer(int drawOperation, int nLayer, Object sprite, int anim, int frame, int x, int y, int p0, int p1, int flags, final boolean force, int[] layerInfo) {
+        flags = (force ? 1 : 0);
+        p0 = p1;
+        y = p0;
+        x = y;
+        frame = x;
+        anim = frame;
+        if (isFlag(0, 4) && (GLLibPlayer.s_TilesetLayerLastUpdatedAreaIndex != 0 || flags != 0)) {
+            layerInfo = GLLibPlayer.s_TilesetLayerInfo[0];
+            nLayer = 0;
+            p1 = 0;
             int asprite_framewidth = 0;
             int asprite_frameheight = 0;
             if (drawOperation == 0) {
-                x = ((ASprite)o).GetFrameMinX(n);
-                u = ((ASprite)o).GetFrameMinY(n);
-                asprite_framewidth = ((ASprite)o).GetFrameWidth(n);
-                asprite_frameheight = ((ASprite)o).GetFrameHeight(n);
+                nLayer = ((ASprite)sprite).GetFrameMinX(anim);
+                p1 = ((ASprite)sprite).GetFrameMinY(anim);
+                asprite_framewidth = ((ASprite)sprite).GetFrameWidth(anim);
+                asprite_frameheight = ((ASprite)sprite).GetFrameHeight(anim);
                 if ((GLLib.s_PFX_type & 0x2000) != 0x0) {
                     final int zoom = GLLib.s_PFX_params[13][1];
-                    x = x * zoom / 100;
-                    u = u * zoom / 100;
+                    nLayer = nLayer * zoom / 100;
+                    p1 = p1 * zoom / 100;
                     asprite_framewidth = asprite_framewidth * zoom / 100;
                     asprite_frameheight = asprite_frameheight * zoom / 100;
                 }
             }
             else if (drawOperation == 1 || drawOperation == 2 || drawOperation == 3 || drawOperation == 5 || drawOperation == 4) {
-                asprite_framewidth = n3;
-                asprite_frameheight = n4;
+                asprite_framewidth = y;
+                asprite_frameheight = p0;
             }
             else {
                 new StringBuffer().append("Tileset_PaintToBuffer: Invalid drawOperation set: ").append(drawOperation);
             }
-            y = Tileset_GetTranslatedOriginY(0, y);
-            final int n13 = array[13];
-            final int n14 = array[14];
+            x = Tileset_GetTranslatedOriginY(0, x);
+            final int n13 = layerInfo[13];
+            final int n14 = layerInfo[14];
             int n15;
             int n16;
             if (isFlag(0, 256)) {
-                n15 = array[2];
-                n16 = array[3];
+                n15 = layerInfo[2];
+                n16 = layerInfo[3];
             }
             else {
                 n15 = GLLibPlayer.s_TilesetInfo[2];
@@ -1815,18 +1809,18 @@ final class GLLibPlayer implements Runnable
             }
             int n19 = n13 - n17;
             int n20 = n14 - n18;
-            n2 -= n19;
-            y -= n20;
+            frame -= n19;
+            x -= n20;
             if (isFlag(0, 273) && n19 < 0) {
-                n19 = array[7] + n19 % array[7];
+                n19 = layerInfo[7] + n19 % layerInfo[7];
             }
             if (isFlag(0, 290) && n20 < 0) {
-                n20 = array[8] + n20 % array[8];
+                n20 = layerInfo[8] + n20 % layerInfo[8];
             }
-            final int n21 = n19 % array[7];
-            final int n22 = n20 % array[8];
-            final int n23 = array[7] - n21;
-            final int n24 = array[8] - n22;
+            final int n21 = n19 % layerInfo[7];
+            final int n22 = n20 % layerInfo[8];
+            final int n23 = layerInfo[7] - n21;
+            final int n24 = layerInfo[8] - n22;
             final Graphics graphics = GLLibPlayer.s_TilesetLayerGraphics[0][0];
             final int height = GLLibPlayer.s_TilesetLayerInfo[0][7];
             final int width = GLLibPlayer.s_TilesetLayerInfo[0][8];
@@ -1837,11 +1831,11 @@ final class GLLibPlayer implements Runnable
             final int cw = GLLib.GetClipWidth(graphics, true);
             final int ch = GLLib.GetClipHeight(graphics, true);
             int var_16f7 = 1;
-            if (n5 == 0) {
-                var_16f7 = GLLibPlayer.var_16f7;
+            if (flags == 0) {
+                var_16f7 = GLLibPlayer.s_TilesetLayerLastUpdatedAreaIndex;
             }
-            final int n25 = array[7];
-            final int n26 = array[8];
+            final int n25 = layerInfo[7];
+            final int n26 = layerInfo[8];
             final int var_10c8 = ASprite._graphicsWidth;
             final int var_10cf2 = ASprite._graphicsHeight;
             final int var_10c9 = n25;
@@ -1849,23 +1843,23 @@ final class GLLibPlayer implements Runnable
             ASprite._graphicsWidth = var_10c9;
             ASprite._graphicsHeight = var_10cf3;
             final int n27 = var_16f7;
-            n2 += x;
-            y += u;
-            final int n28 = n2 + asprite_framewidth;
-            final int n29 = y + asprite_frameheight;
+            frame += nLayer;
+            x += p1;
+            final int n28 = frame + asprite_framewidth;
+            final int n29 = x + asprite_frameheight;
             int n30 = 0;
             int n31 = 0;
             int n32 = 0;
             int n33 = 0;
-            if (array != null) {
-                n30 = array[0] - n19;
-                n31 = array[1] - n20;
-                n32 = array[2] - n19;
-                n33 = array[3] - n20;
+            if (layerInfo != null) {
+                n30 = layerInfo[0] - n19;
+                n31 = layerInfo[1] - n20;
+                n32 = layerInfo[2] - n19;
+                n33 = layerInfo[3] - n20;
             }
             for (int i = 0; i < 1; ++i) {
-                final int n34 = n2;
-                final int n35 = y;
+                final int n34 = frame;
+                final int n35 = x;
                 final int n36 = n28;
                 final int n37 = n29;
                 for (int j = 0; j < 1; ++j) {
@@ -1877,29 +1871,29 @@ final class GLLibPlayer implements Runnable
                         int n42 = n27;
                         while (--n42 >= 0) {
                             int[] array3 = null;
-                            if (n5 == 0) {
-                                int n43 = (array3 = GLLibPlayer.var_16ef[0][n42])[0] - n21;
+                            if (flags == 0) {
+                                int n43 = (array3 = GLLibPlayer.s_TilesetLayerLastUpdatedArea[0][n42])[0] - n21;
                                 if (array3[0] < n21) {
-                                    n43 += array[7];
+                                    n43 += layerInfo[7];
                                 }
                                 if (n38 >= n43 + array3[2] || n40 < n43) {
                                     continue;
                                 }
                                 int n44 = array3[1] - n22;
                                 if (array3[1] < n22) {
-                                    n44 += array[8];
+                                    n44 += layerInfo[8];
                                 }
                                 if (n39 >= n44 + array3[3] || n41 < n44) {
                                     continue;
                                 }
                             }
-                            if (n38 < n23 && (array == null || n30 < n23)) {
-                                if (n39 < n24 && (array == null || n31 < n24)) {
+                            if (n38 < n23 && (layerInfo == null || n30 < n23)) {
+                                if (n39 < n24 && (layerInfo == null || n31 < n24)) {
                                     int n47;
                                     int n48;
                                     int n49;
                                     int n50;
-                                    if (array != null) {
+                                    if (layerInfo != null) {
                                         final int n45 = (n30 > 0) ? n30 : 0;
                                         final int n46 = (n31 > 0) ? n31 : 0;
                                         n47 = ((n32 < n23) ? n32 : n23) - n45;
@@ -1913,14 +1907,14 @@ final class GLLibPlayer implements Runnable
                                         n47 = n23;
                                         n48 = n24;
                                     }
-                                    sub_78bd(graphics, o, n, 0, n49, n50, n47, n48, n21 + n38 - x, n22 + n39 - u, n3, n4, drawOperation, cx, cy, cw, ch, array3, (boolean)(n5 != 0));
+                                    sub_78bd(graphics, sprite, anim, 0, n49, n50, n47, n48, n21 + n38 - nLayer, n22 + n39 - p1, y, p0, drawOperation, cx, cy, cw, ch, array3, (boolean)(flags != 0));
                                 }
-                                if (n41 >= n24 && n22 != 0 && (array == null || n33 >= n24)) {
+                                if (n41 >= n24 && n22 != 0 && (layerInfo == null || n33 >= n24)) {
                                     int n52;
                                     int n53;
                                     int n54;
                                     int n55;
-                                    if (array != null) {
+                                    if (layerInfo != null) {
                                         final int n51 = (n30 > 0) ? n30 : 0;
                                         n52 = ((n31 - n24 > 0) ? (n31 - n24) : 0);
                                         n53 = ((n32 < n23) ? n32 : n23) - n51;
@@ -1933,16 +1927,16 @@ final class GLLibPlayer implements Runnable
                                         n53 = n23;
                                         n54 = n22;
                                     }
-                                    sub_78bd(graphics, o, n, 0, n55, n52, n53, n54, n21 + n38 - x, n39 - u - n24, n3, n4, drawOperation, cx, cy, cw, ch, array3, (boolean)(n5 != 0));
+                                    sub_78bd(graphics, sprite, anim, 0, n55, n52, n53, n54, n21 + n38 - nLayer, n39 - p1 - n24, y, p0, drawOperation, cx, cy, cw, ch, array3, (boolean)(flags != 0));
                                 }
                             }
-                            if (n40 >= n23 && n21 != 0 && (array == null || n32 >= n23)) {
-                                if (n39 < n24 && (array == null || n31 < n24)) {
+                            if (n40 >= n23 && n21 != 0 && (layerInfo == null || n32 >= n23)) {
+                                if (n39 < n24 && (layerInfo == null || n31 < n24)) {
                                     int n56;
                                     int n58;
                                     int n59;
                                     int n60;
-                                    if (array != null) {
+                                    if (layerInfo != null) {
                                         n56 = ((n30 - n23 > 0) ? (n30 - n23) : 0);
                                         final int n57 = (n31 > 0) ? n31 : 0;
                                         n58 = ((n32 - n23 < n21) ? (n32 - n23) : n21) - n56;
@@ -1955,16 +1949,16 @@ final class GLLibPlayer implements Runnable
                                         n58 = n21;
                                         n59 = n24;
                                     }
-                                    sub_78bd(graphics, o, n, 0, n56, n60, n58, n59, n38 - x - n23, n22 + n39 - u, n3, n4, drawOperation, cx, cy, cw, ch, array3, (boolean)(n5 != 0));
+                                    sub_78bd(graphics, sprite, anim, 0, n56, n60, n58, n59, n38 - nLayer - n23, n22 + n39 - p1, y, p0, drawOperation, cx, cy, cw, ch, array3, (boolean)(flags != 0));
                                 }
-                                if (n41 < n24 || n22 == 0 || (array != null && n33 < n24)) {
+                                if (n41 < n24 || n22 == 0 || (layerInfo != null && n33 < n24)) {
                                     continue;
                                 }
                                 int n61;
                                 int n62;
                                 int n63;
                                 int n64;
-                                if (array != null) {
+                                if (layerInfo != null) {
                                     n61 = ((n30 - n23 > 0) ? (n30 - n23) : 0);
                                     n62 = ((n31 - n24 > 0) ? (n31 - n24) : 0);
                                     n63 = ((n32 - n23 < n21) ? (n32 - n23) : n21) - n61;
@@ -1976,7 +1970,7 @@ final class GLLibPlayer implements Runnable
                                     n63 = n21;
                                     n64 = n22;
                                 }
-                                sub_78bd(graphics, o, n, 0, n61, n62, n63, n64, n38 - x - n23, n39 - u - n24, n3, n4, drawOperation, cx, cy, cw, ch, array3, (boolean)(n5 != 0));
+                                sub_78bd(graphics, sprite, anim, 0, n61, n62, n63, n64, n38 - nLayer - n23, n39 - p1 - n24, y, p0, drawOperation, cx, cy, cw, ch, array3, (boolean)(flags != 0));
                             }
                         }
                     }
@@ -2005,7 +1999,7 @@ final class GLLibPlayer implements Runnable
             GLLib.DrawRGB(g, (int[])o, 0, rgbScanLength, rgbX, rgbY, rgbScanLength, rgbHeight, true, false, uHeight, -1, false);
         }
         else if (n11 == 4) {
-            GLLib.DrawImage(g, (GLLibImage)o, rgbX, uWidth, 20, true);
+            GLLib.DrawImage(g, (ImageG)o, rgbX, uWidth, 20, true);
         }
         else if (n11 == 1) {
             GLLib.DrawRect(g, rgbX, uWidth, rgbHeight, rgbScanLength, true);
@@ -2023,45 +2017,43 @@ final class GLLibPlayer implements Runnable
         GLLibPlayer.s_TilesetLayerData[0][n2][n3] = (byte)n4;
     }
     
-    private static int sub_7ab4(final int n, final int n2, final int n3, final boolean b) {
-        return GLLibPlayer.s_TilesetLayerData[n][n2][n3] & 0xFF;
+    private static int Tileset_GetLayerData(final int nLayer, final int type, final int index, final boolean b) {
+        return GLLibPlayer.s_TilesetLayerData[nLayer][type][index] & 0xFF;
     }
     
-    private static void sub_7adc(final int n, int var_1de7, int n2, int n3, int n4) {
-        final Graphics graphics;
-        (graphics = GLLibPlayer.s_TilesetLayerGraphics[n][0]).setColor(GLLibPlayer.s_TilesetLayerInfo[n][4]);
-        final int var_10c7 = GLLibPlayer.s_TilesetLayerInfo[n][7];
-        final int var_10cf = GLLibPlayer.s_TilesetLayerInfo[n][8];
-        ASprite._graphicsWidth = var_10c7;
-        ASprite._graphicsHeight = var_10cf;
-        if ((var_1de7 %= var_10c7) < 0) {
-            var_1de7 += var_10c7;
+    private static void Tileset_UpdateEmpyTilemapBuffer(final int nLayer, int rX, int rY, int rW, int rH) {
+        final Graphics gDest;
+        (gDest = GLLibPlayer.s_TilesetLayerGraphics[nLayer][0]).setColor(GLLibPlayer.s_TilesetLayerInfo[nLayer][4]);
+        final int bufferW = GLLibPlayer.s_TilesetLayerInfo[nLayer][7];
+        final int bufferH = GLLibPlayer.s_TilesetLayerInfo[nLayer][8];
+        ASprite._graphicsWidth = bufferW;
+        ASprite._graphicsHeight = bufferH;
+        if ((rX %= bufferW) < 0) {
+            rX += bufferW;
         }
-        if ((n2 %= var_10cf) < 0) {
-            n2 += var_10cf;
+        if ((rY %= bufferH) < 0) {
+            rY += bufferH;
         }
-        if (var_1de7 + n3 > var_10c7) {
-            int n5 = n4;
-            if (n2 + n4 > var_10cf) {
-                GLLib.FillRect(graphics, 0, 0, var_1de7 + n3 - var_10c7, n2 + n4 - var_10cf, true);
-                Tileset_AddUpdatedArea(n, 0, 0, var_1de7 + n3 - var_10c7, n2 + n4 - var_10cf);
-                n5 = var_10cf - n2;
+        if (rX + rW > bufferW) {
+            int rightH = rH;
+            if (rY + rH > bufferH) {
+                GLLib.FillRect(gDest, 0, 0, rX + rW - bufferW, rY + rH - bufferH, true);
+                Tileset_AddUpdatedArea(nLayer, 0, 0, rX + rW - bufferW, rY + rH - bufferH);
+                rightH = bufferH - rY;
             }
-            GLLib.FillRect(graphics, 0, n2, var_1de7 + n3 - var_10c7, n5, true);
-            Tileset_AddUpdatedArea(n, 0, n2, var_1de7 + n3 - var_10c7, n5);
-            n3 = var_10c7 - var_1de7;
+            GLLib.FillRect(gDest, 0, rY, rX + rW - bufferW, rightH, true);
+            Tileset_AddUpdatedArea(nLayer, 0, rY, rX + rW - bufferW, rightH);
+            rW = bufferW - rX;
         }
-        if (n2 + n4 > var_10cf) {
-            GLLib.FillRect(graphics, var_1de7, 0, n3, n2 + n4 - var_10cf, true);
-            Tileset_AddUpdatedArea(n, var_1de7, 0, n3, n2 + n4 - var_10cf);
-            n4 = var_10cf - n2;
+        if (rY + rH > bufferH) {
+            GLLib.FillRect(gDest, rX, 0, rW, rY + rH - bufferH, true);
+            Tileset_AddUpdatedArea(nLayer, rX, 0, rW, rY + rH - bufferH);
+            rH = bufferH - rY;
         }
-        GLLib.FillRect(graphics, var_1de7, n2, n3, n4, true);
-        Tileset_AddUpdatedArea(n, var_1de7, n2, n3, n4);
-        final int var_1ddf = GLLib.s_screenWidth;
-        var_1de7 = GLLib.s_screenHeight;
-        ASprite._graphicsWidth = var_1ddf;
-        ASprite._graphicsHeight = var_1de7;
+        GLLib.FillRect(gDest, rX, rY, rW, rH, true);
+        Tileset_AddUpdatedArea(nLayer, rX, rY, rW, rH);
+        ASprite._graphicsWidth = GLLib.s_screenWidth;
+        ASprite._graphicsHeight = GLLib.s_screenHeight;
     }
     
     static {
@@ -2069,8 +2061,8 @@ final class GLLibPlayer implements Runnable
         k_snd_nbChannel = 1;
         GLLibPlayer.s_bTilesetPlayerInitialized = false;
         GLLibPlayer.s_TilesetMaxLayerCount = 4;
-        var_16b7 = 20;
-        var_16bf = 6;
+        k_TilesetLayerCOUNT = 20;
+        k_TilesetLayerAreaCount = 6;
         GLLibPlayer.curExtraScale = 100;
     }
 }

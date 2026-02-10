@@ -845,7 +845,7 @@ public abstract class GLLib extends Canvas implements Runnable
         catch (final Exception ex) {}
     }
     
-    static final void DrawImage(final Graphics g, GLLibImage img, final int x, final int y, int anchor, final boolean allowRotation) {
+    static final void DrawImage(final Graphics g, ImageG img, final int x, final int y, int anchor, final boolean allowRotation) {
         try {
             if (allowRotation) {
                 anchor = img.image.getWidth();
@@ -857,7 +857,7 @@ public abstract class GLLib extends Canvas implements Runnable
         catch (final Exception ex) {}
     }
     
-    static final void DrawRegion(final Graphics g, final GLLibImage src, final int x_src, int y_src, int width, int height, int transform, int x_dest, int y_dest, int anchor, final boolean allowRotation) {
+    static final void DrawRegion(final Graphics g, final ImageG src, final int x_src, int y_src, int width, int height, int transform, int x_dest, int y_dest, int anchor, final boolean allowRotation) {
         if (allowRotation) {
             if (transform == 0) {
                 transform = 5;
@@ -951,7 +951,7 @@ public abstract class GLLib extends Canvas implements Runnable
         g.drawRGB(rgbData, 0, scanlength, x, y, width, height, processAlpha);
     }
     
-    static final void GetRGB(final GLLibImage img, final int[] rgbData, final int offset, final int scanlength, final int x, final int y, final int w, final int h) {
+    static final void GetRGB(final ImageG img, final int[] rgbData, final int offset, final int scanlength, final int x, final int y, final int w, final int h) {
         img.getRGB(rgbData, 0, scanlength, 0, 0, w, h);
     }
     

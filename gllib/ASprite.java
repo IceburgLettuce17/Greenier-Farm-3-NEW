@@ -53,8 +53,8 @@ public final class ASprite
     private int[] begone;
     static int _graphicsWidth;
     static int _graphicsHeight;
-    GLLibImage[][] _module_image_imageAA;
-    private GLLibImage[][][] _frame_image_imageAAA;
+    ImageG[][] _module_image_imageAA;
+    private ImageG[][][] _frame_image_imageAAA;
     private static boolean var_10e7;
     private static int[] midp2_flags;
     private static int[] TRANSFORM_FLIP_X;
@@ -70,7 +70,7 @@ public final class ASprite
     static int[] s_rc;
     private static boolean s_gcEnabled;
     private static char k_cCanBreakLine;
-    private GLLibImage[][] _imgPFXModuleCache;
+    private ImageG[][] _imgPFXModuleCache;
     private int[][] _PFXParamsModuleCRC;
     private int _cur_pool;
     private static short[][] _poolCacheStack;
@@ -943,7 +943,7 @@ public final class ASprite
     }
     
     public final void PFXCache_Init() {
-        this._imgPFXModuleCache = new GLLibImage[this._palettes][this._nModules];
+        this._imgPFXModuleCache = new ImageG[this._palettes][this._nModules];
         this._PFXParamsModuleCRC = new int[this._palettes][this._nModules];
     }
     
@@ -960,7 +960,7 @@ public final class ASprite
             int PFXid = GLLib.PFX_GetFirstEnabledEffect();
             final int[] PFXparams = GLLib.PFX_GetParams(PFXid);
             if (this._imgPFXModuleCache != null && this._imgPFXModuleCache[this._crt_pal][module] != null && PFXCache_GetParamsCRC(PFXparams, PFXid) == this._PFXParamsModuleCRC[this._crt_pal][module]) {
-                final GLLibImage img = this._imgPFXModuleCache[this._crt_pal][module];
+                final ImageG img = this._imgPFXModuleCache[this._crt_pal][module];
                 GLLib.DrawRegion(GLLib.g, img, 0, 0, img.image.getWidth(), img.image.getHeight(), ASprite.midp2_flags[flags], x, y, 20, false);
                 return true;
             }
@@ -972,7 +972,7 @@ public final class ASprite
         if (this.PFXCache_IsInited() && data != null) {
             int PFXid = GLLib.PFX_GetFirstEnabledEffect();
             final int[] PFXparams = GLLib.PFX_GetParams(PFXid);
-            final GLLibImage img = GLLibImage.createRGBImage(data, GLLib.s_PFX_newSizeX, GLLib.s_PFX_newSizeY, true);
+            final ImageG img = ImageG.createRGBImage(data, GLLib.s_PFX_newSizeX, GLLib.s_PFX_newSizeY, true);
             
             this._imgPFXModuleCache[this._crt_pal][module] = img;
             this._PFXParamsModuleCRC[this._crt_pal][module] = PFXCache_GetParamsCRC(PFXparams, PFXid);
@@ -1003,9 +1003,9 @@ public final class ASprite
     final void SetPool(int poolIndex) {
         this._cur_pool = poolIndex;
         if (this._module_image_imageAA == null) {
-            this._module_image_imageAA = new GLLibImage[this._palettes][];
+            this._module_image_imageAA = new ImageG[this._palettes][];
             for (poolIndex = 0; poolIndex < this._palettes; ++poolIndex) {
-                this._module_image_imageAA[poolIndex] = new GLLibImage[this._nModules];
+                this._module_image_imageAA[poolIndex] = new ImageG[this._nModules];
             }
         }
     }
@@ -1038,7 +1038,7 @@ public final class ASprite
             ASprite._poolCacheStack[this._cur_pool][cur_index] = (short)((module & 0x3FF) + (this._crt_pal << 10));
             ASprite._poolCacheSprites[this._cur_pool][cur_index] = this;
             ASprite._poolCacheStackIndex[this._cur_pool] = (ASprite._poolCacheStackIndex[this._cur_pool] + 1) % ASprite._poolCacheStackMax[this._cur_pool];
-            this._module_image_imageAA[this._crt_pal][module] = (GLLibImage)cached;
+            this._module_image_imageAA[this._crt_pal][module] = (ImageG)cached;
         }
     }
     
@@ -1708,10 +1708,10 @@ public final class ASprite
     
     final void BuildCacheImages(final int pal, int m1, int m2, int pal_copy) {
         if (this._module_image_imageAA == null) {
-            this._module_image_imageAA = new GLLibImage[this._palettes][];
+            this._module_image_imageAA = new ImageG[this._palettes][];
         }
         if (this._module_image_imageAA[pal] == null) {
-            this._module_image_imageAA[pal] = new GLLibImage[this._nModules];
+            this._module_image_imageAA[pal] = new ImageG[this._nModules];
         }
         if (this._nModules == 0) {
             return;
@@ -1742,7 +1742,7 @@ public final class ASprite
                                 break;
                             }
                         }
-                        this._module_image_imageAA[pal][m1] = GLLibImage.createRGBImage(TransformRGB(image_data2, sizeY, sizeX, 4, null), sizeY, sizeX, b);
+                        this._module_image_imageAA[pal][m1] = ImageG.createRGBImage(TransformRGB(image_data2, sizeY, sizeX, 4, null), sizeY, sizeX, b);
                     }
                 }
                 ++m1;
@@ -1786,7 +1786,7 @@ public final class ASprite
             n2 = frames - 1;
         }
         if (this._frame_image_imageAAA == null) {
-            this._frame_image_imageAAA = new GLLibImage[this._palettes][][];
+            this._frame_image_imageAAA = new ImageG[this._palettes][][];
         }
         final int n4 = this._cur_map + 1;
         if (this._frame_image_imageAAA[n] == null) {
@@ -1804,10 +1804,10 @@ public final class ASprite
                 }
                 length = i;
             }
-            this._frame_image_imageAAA[n] = new GLLibImage[length + 1][];
+            this._frame_image_imageAAA[n] = new ImageG[length + 1][];
         }
         if (this._frame_image_imageAAA[n][n4] == null) {
-            this._frame_image_imageAAA[n][n4] = new GLLibImage[frames];
+            this._frame_image_imageAAA[n][n4] = new ImageG[frames];
         }
         for (int i = sub_312c; i <= n2; ++i) {
             sub_312c = this.GetFrameWidth(i);
@@ -1818,7 +1818,7 @@ public final class ASprite
                 sub_312c = sub_312c * sub_5bbb / 100;
                 sub_3718 = sub_3718 * sub_5bfe / 100;
             }
-            GLLibImage class_l;
+            ImageG class_l;
             if (sub_312c == 0 || sub_3718 == 0) {
                 class_l = null;
             }
@@ -1856,9 +1856,9 @@ public final class ASprite
                         sub_312c2 = sub_3719;
                         sub_3719 = n13;
                     }
-                    final GLLibImage img;
+                    final ImageG img;
                     final Graphics graphics;
-                    (graphics = (img = GLLibImage.createImage(sub_312c2, sub_3719)).image.getGraphics()).setColor(-65281);
+                    (graphics = (img = ImageG.createImage(sub_312c2, sub_3719)).image.getGraphics()).setColor(-65281);
                     graphics.fillRect(0, 0, sub_312c2, sub_3719);
                     if ((n12 & 0x4) != 0x0) {
                         final int var_10c7 = sub_3719;
@@ -1888,7 +1888,7 @@ public final class ASprite
                 }
                 final int[] array4 = array2;
                 final int n14 = ASprite.TRANSFORM_ROT_90[0];
-                class_l = ((array4 == null) ? null : (((n14 & 0x4) != 0x0) ? GLLibImage.createRGBImage(array4, sub_3718, sub_312c, ASprite.var_10e7) : GLLibImage.createRGBImage(array4, sub_312c, sub_3718, ASprite.var_10e7)));
+                class_l = ((array4 == null) ? null : (((n14 & 0x4) != 0x0) ? ImageG.createRGBImage(array4, sub_3718, sub_312c, ASprite.var_10e7) : ImageG.createRGBImage(array4, sub_312c, sub_3718, ASprite.var_10e7)));
             }
             this._frame_image_imageAAA[n][n4][i] = class_l;
         }
@@ -2007,7 +2007,7 @@ public final class ASprite
                         final int n18 = sizeY;
                         final int n19 = n17;
                         final int pal = this._crt_pal;
-                        final GLLibImage img_image;
+                        final ImageG img_image;
                         if ((img_image = ((this._frame_image_imageAAA == null || this._frame_image_imageAAA[pal] == null) ? null : this._frame_image_imageAAA[pal][this._cur_map + 1][n])) != null) {
                             Label_0733: {
                                 if (GLLib.pfx_useSpriteEffects && (GLLib.s_PFX_type & 0xFF7E0) != 0x0) {
@@ -2351,7 +2351,7 @@ public final class ASprite
             return;
         }
         if (g == null || CheckVisibility(g, p2y, posY, var_1148, p2x)) {
-            GLLibImage class_l = null;
+            ImageG class_l = null;
             if ((this._bs_flags & 0x1000008) != 0x0) {
                 if (this._module_image_imageAA != null && this._module_image_imageAA[this._crt_pal] != null) {
                     class_l = this._module_image_imageAA[this._crt_pal][module];
@@ -2395,12 +2395,12 @@ public final class ASprite
                         }
                         if (this._cur_pool >= 0) {
                             if (this._module_image_imageAA == null) {
-                                this._module_image_imageAA = new GLLibImage[this._palettes][];
+                                this._module_image_imageAA = new ImageG[this._palettes][];
                                 for (int i = 0; i < this._palettes; ++i) {
-                                    this._module_image_imageAA[i] = new GLLibImage[this._nModules];
+                                    this._module_image_imageAA[i] = new ImageG[this._nModules];
                                 }
                             }
-                            GLLibImage class_l2;
+                            ImageG class_l2;
                             if (!b2) {
                                 final int[] array2 = new int[p2x * var_1148];
                                 p2y = var_1148;
@@ -2415,17 +2415,17 @@ public final class ASprite
                                     }
                                 }
                                 if ((n3 & 0x4) != 0x0) {
-                                    class_l2 = GLLibImage.createRGBImage(array2, var_1148, p2x, this._alpha);
+                                    class_l2 = ImageG.createRGBImage(array2, var_1148, p2x, this._alpha);
                                 }
                                 else {
-                                    class_l2 = GLLibImage.createRGBImage(array2, p2x, var_1148, this._alpha);
+                                    class_l2 = ImageG.createRGBImage(array2, p2x, var_1148, this._alpha);
                                 }
                             }
                             else if ((n3 & 0x4) != 0x0) {
-                                class_l2 = GLLibImage.createRGBImage(array, var_1148, p2x, this._alpha);
+                                class_l2 = ImageG.createRGBImage(array, var_1148, p2x, this._alpha);
                             }
                             else {
-                                class_l2 = GLLibImage.createRGBImage(array, p2x, var_1148, this._alpha);
+                                class_l2 = ImageG.createRGBImage(array, p2x, var_1148, this._alpha);
                             }
                             this.UpdatePoolCache(module, class_l2);
                             if (!b2) {
@@ -2478,7 +2478,7 @@ public final class ASprite
                     if (!this.PFXCache_TryPaintModule(module, posX, posY, n3)) {
                         final boolean sub_3b2c2 = this.PFXCache_IsInited();
                         final Graphics graphics6 = g;
-                        final GLLibImage class_l3 = class_l;
+                        final ImageG class_l3 = class_l;
                         final int n65 = posX;
                         final int n66 = posY;
                         final int n67 = n18;
@@ -2492,7 +2492,7 @@ public final class ASprite
                         final int n72 = n67;
                         final int n73 = n66;
                         final int n74 = n65;
-                        final GLLibImage class_l4 = class_l3;
+                        final ImageG class_l4 = class_l3;
                         final Graphics graphics7 = graphics6;
                         final int[] sub_39a6 = GetPixelBuffer_int(null);
                         GLLib.GetRGB(class_l4, sub_39a6, 0, n72, 0, 0, n72, n71);
