@@ -91,7 +91,7 @@ final class cActor
     int var_181d;
     private int sprFrame;
     short var_182d;
-    int var_1835;
+    int actorID;
     int var_183d;
     int var_1845;
     int var_184d;
@@ -176,7 +176,7 @@ final class cActor
         this.var_17a5 = 0;
         this.var_17bd = -1;
         this.var_182d = 0;
-        this.var_1835 = -1;
+        this.actorID = -1;
         this.var_1845 = 0;
         this.var_184d = 0;
         this.prepareTime = 0;
@@ -250,8 +250,8 @@ final class cActor
                         break;
                     }
                     case 50: {
-                        if (class_f.var_1835 != 18) {
-                            if ((class_f.var_1835 == 12 || class_f.var_1835 == 11) && cGame.var_807c == 0 && class_f.sub_a2a0(512)) {
+                        if (class_f.actorID != Define.ACTOR_MANOR) {
+                            if ((class_f.actorID == Define.ACTOR_STABLES || class_f.actorID == Define.ACTOR_HENHOUSE) && cGame.var_807c == 0 && class_f.sub_a2a0(512)) {
                                 final long n;
                                 if ((n = System.currentTimeMillis() / 1000L - class_f.var_15c5) < 86400L && cGame.var_8034 == class_f) {
                                     cGame.sub_df48((int)n, 86400);
@@ -266,7 +266,7 @@ final class cActor
                                     }
                                 }
                             }
-                            else if (class_f.var_1835 == 15) {
+                            else if (class_f.actorID == Define.ACTOR_MAIL) {
                                 final GLLibPlayer var_189d = class_f.var_189d;
                                 if (cGame.sub_2a397()) {
                                     if (class_f.var_15d5 >= 0) {
@@ -291,7 +291,7 @@ final class cActor
                                     class_f.sub_aac5();
                                 }
                             }
-                            else if (class_f.var_1835 == 9) {
+                            else if (class_f.actorID == Define.ACTOR_SALEDESK) {
                                 if (cGame.var_807c == 0 && cGame.sub_2b680()) {
                                     if (!class_f.var_15dd && cGame.sub_4abbb(cGame.var_80f4[0]) && cGame.sub_4abbb(cGame.var_80f4[1])) {
                                         class_f.var_15dd = true;
@@ -326,7 +326,7 @@ final class cActor
                                     class_f.sub_aac5();
                                 }
                             }
-                            else if (class_f.var_1835 == 2) {
+                            else if (class_f.actorID == 2) {
                                 if (cGame.sub_35bc4()) {
                                     if (class_f.var_18b5 == null) {
                                         final ASprite class_e;
@@ -353,12 +353,12 @@ final class cActor
                                     class_f.var_18b5 = null;
                                 }
                             }
-                            else if (class_f.var_1835 == 1) {
+                            else if (class_f.actorID == 1) {
                                 if (class_f.var_18b5 != null) {
                                     class_f.var_18b5 = null;
                                 }
                             }
-                            else if (class_f.var_1835 == 14) {
+                            else if (class_f.actorID == Define.ACTOR_MILL) {
                                 if (!class_f.var_15cd && cGame.sub_376da()) {
                                     class_f.var_15cd = true;
                                     class_f.sub_a21a(16);
@@ -380,7 +380,7 @@ final class cActor
                                     class_f.var_189d = null;
                                 }
                             }
-                            else if (class_f.var_1835 == 17) {
+                            else if (class_f.actorID == Define.ACTOR_POND) {
                                 if (class_f.var_15d5 >= 0) {
                                     final cActor class_f9 = class_f;
                                     class_f9.var_15d5 -= GLLib.s_game_frameDT;
@@ -422,14 +422,14 @@ final class cActor
                                 class_f10.sub_8723();
                             }
                         }
-                        if (!class_f10.var_16f5 && class_f10.sub_b03e() && class_f10.var_1835 == 2) {
+                        if (!class_f10.var_16f5 && class_f10.sub_b03e() && class_f10.actorID == 2) {
                             if (cGame.var_6a0c) {
                                 cGame.playSndNoLoop(22);
                             }
                             class_f10.var_16f5 = true;
                             break;
                         }
-                        if (class_f10.var_16f5 && !class_f10.sub_b03e() && class_f10.var_1835 == 2) {
+                        if (class_f10.var_16f5 && !class_f10.sub_b03e() && class_f10.actorID == 2) {
                             class_f10.var_16f5 = false;
                         }
                         break;
@@ -442,9 +442,9 @@ final class cActor
                                 if ((sub_1923 = class_f11.var_18b5.GetAnim()) == 0) {
                                     if (class_f11.var_16a5 == 0) {
                                         final GameDatas class_h = GameDatas.s_allDatas[0];
-                                        class_f11.var_16a5 = (short)class_h.m_dataVars[class_f11.var_1835][30];
+                                        class_f11.var_16a5 = (short)class_h.m_dataVars[class_f11.actorID][30];
                                         final ASprite class_e2;
-                                        final short n5 = (class_e2 = cGame.s_gameSprites[class_h.m_dataVars[class_f11.var_1835][31]])._frames_fm_start[class_f11.var_16a5];
+                                        final short n5 = (class_e2 = cGame.s_gameSprites[class_h.m_dataVars[class_f11.actorID][31]])._frames_fm_start[class_f11.var_16a5];
                                         class_f11.var_16bd = class_e2.GetFModuleOX(n5);
                                         class_f11.var_16c5 = class_e2.GetFModuleOY(n5);
                                         class_f11.var_18a5 = class_f11.var_16bd;
@@ -603,12 +603,12 @@ final class cActor
                                         final int[] array8 = { 0, 0, 14 };
                                         newActor(47, 2, array8).sub_8c4c(class_f13.cameraX, class_f13.cameraY, 37, 1000, false, 1);
                                         final GameDatas class_h2;
-                                        int n8 = (class_h2 = GameDatas.s_allDatas[0]).m_dataVars[class_f13.var_1835][18];
-                                        final int var_188d = class_h2.m_dataVars[class_f13.var_1835][19];
-                                        final int n9 = class_h2.m_dataVars[class_f13.var_1835][20];
-                                        int n10 = class_h2.m_dataVars[class_f13.var_1835][21];
-                                        final int n11 = class_h2.m_dataVars[class_f13.var_1835][22];
-                                        final int n12 = class_h2.m_dataVars[class_f13.var_1835][23];
+                                        int n8 = (class_h2 = GameDatas.s_allDatas[0]).m_dataVars[class_f13.actorID][18];
+                                        final int var_188d = class_h2.m_dataVars[class_f13.actorID][19];
+                                        final int n9 = class_h2.m_dataVars[class_f13.actorID][20];
+                                        int n10 = class_h2.m_dataVars[class_f13.actorID][21];
+                                        final int n11 = class_h2.m_dataVars[class_f13.actorID][22];
+                                        final int n12 = class_h2.m_dataVars[class_f13.actorID][23];
                                         boolean b2 = false;
                                         if (class_f13.var_1675) {
                                             if (n8 > 0) {
@@ -660,7 +660,7 @@ final class cActor
                                     final long currentTimeMillis;
                                     final long n14 = (currentTimeMillis = System.currentTimeMillis()) / 1000L - class_f11.var_1645;
                                     if (class_f11.var_16d5 && class_f11.var_16dd > 0L) {
-                                        class_f11.var_163d = (int)(GameDatas.s_allDatas[0].m_dataVars[class_f11.var_1835][13] * 60 + (currentTimeMillis - class_f11.var_16dd) / 1000L);
+                                        class_f11.var_163d = (int)(GameDatas.s_allDatas[0].m_dataVars[class_f11.actorID][13] * 60 + (currentTimeMillis - class_f11.var_16dd) / 1000L);
                                     }
                                     if (class_f11.var_163d > 0 && cGame.var_8034 == class_f11) {
                                         cGame.sub_df48((int)n14, class_f11.var_163d);
@@ -1270,7 +1270,7 @@ final class cActor
         cActor var_17ad = cActor.var_157d[0];
         n2 = 0;
         while (var_17ad != null) {
-            if (var_17ad.var_17c5 == 54 && var_17ad.sub_a2a0(512) && var_17ad.var_1835 % 2 == 1 && var_17ad.var_1835 >= n3 && var_17ad.var_1835 <= n4) {
+            if (var_17ad.var_17c5 == 54 && var_17ad.sub_a2a0(512) && var_17ad.actorID % 2 == 1 && var_17ad.actorID >= n3 && var_17ad.actorID <= n4) {
                 ++n2;
             }
             var_17ad = var_17ad.var_17ad;
@@ -1294,7 +1294,7 @@ final class cActor
         cActor var_17ad = cActor.var_157d[0];
         n2 = 0;
         while (var_17ad != null) {
-            if (var_17ad.var_17c5 == 54 && var_17ad.sub_a2a0(512) && var_17ad.var_1835 % 2 == 1 && var_17ad.sub_a2a0(2048)) {
+            if (var_17ad.var_17c5 == 54 && var_17ad.sub_a2a0(512) && var_17ad.actorID % 2 == 1 && var_17ad.sub_a2a0(2048)) {
                 ++n2;
             }
             var_17ad = var_17ad.var_17ad;
@@ -1403,7 +1403,7 @@ final class cActor
         cActor var_17ad;
         int n5;
         for (var_17ad = cActor.var_157d[n], n5 = 0; var_17ad != null && n5 < n4; var_17ad = var_17ad.var_17ad) {
-            if ((n2 == -1 || var_17ad.var_17c5 == n2) && (n3 == -1 || var_17ad.var_1835 == n3)) {
+            if ((n2 == -1 || var_17ad.var_17c5 == n2) && (n3 == -1 || var_17ad.actorID == n3)) {
                 array[n5++] = var_17ad;
             }
         }
@@ -1413,7 +1413,7 @@ final class cActor
     static int sub_550f(final int n, int n2, final int n3, final int n4, final cActor[] array, final int n5) {
         cActor var_17ad;
         for (var_17ad = cActor.var_157d[0], n2 = 0; var_17ad != null && n2 < n5; var_17ad = var_17ad.var_17ad) {
-            if (var_17ad.var_17c5 == 54 && var_17ad.sub_a2a0(512) && var_17ad.var_1835 >= n3 && var_17ad.var_1835 <= n4 && var_17ad.var_1835 % 2 == 1) {
+            if (var_17ad.var_17c5 == 54 && var_17ad.sub_a2a0(512) && var_17ad.actorID >= n3 && var_17ad.actorID <= n4 && var_17ad.actorID % 2 == 1) {
                 array[n2++] = var_17ad;
             }
         }
@@ -1423,7 +1423,7 @@ final class cActor
     static int sub_55b2(final int n, int n2, final int n3, final cActor[] array) {
         cActor var_17ad;
         for (var_17ad = cActor.var_157d[0], n2 = 0; var_17ad != null && n2 < 1; var_17ad = var_17ad.var_17ad) {
-            if (var_17ad.var_17c5 == 48 && var_17ad.sub_a2a0(512) && (n3 == -1 || var_17ad.var_1835 == n3)) {
+            if (var_17ad.var_17c5 == 48 && var_17ad.sub_a2a0(512) && (n3 == -1 || var_17ad.actorID == n3)) {
                 array[n2++] = var_17ad;
             }
         }
@@ -1682,11 +1682,11 @@ final class cActor
                     }
                     case 2: {
                         anim = 3;
-                        if (cGame.var_70c4[cGame.var_70cc] != null && (cGame.var_70c4[cGame.var_70cc].var_1835 == 0 || cGame.var_70c4[cGame.var_70cc].var_1835 == 51 || cGame.var_70c4[cGame.var_70cc].var_1835 == 52)) {
+                        if (cGame.var_70c4[cGame.var_70cc] != null && (cGame.var_70c4[cGame.var_70cc].actorID == 0 || cGame.var_70c4[cGame.var_70cc].actorID == 51 || cGame.var_70c4[cGame.var_70cc].actorID == 52)) {
                             n3 = 23;
                             break;
                         }
-                        if (cGame.var_70c4[cGame.var_70cc] != null && (cGame.var_70c4[cGame.var_70cc].var_1835 == 1 || cGame.var_70c4[cGame.var_70cc].var_1835 == 53 || cGame.var_70c4[cGame.var_70cc].var_1835 == 54)) {
+                        if (cGame.var_70c4[cGame.var_70cc] != null && (cGame.var_70c4[cGame.var_70cc].actorID == 1 || cGame.var_70c4[cGame.var_70cc].actorID == 53 || cGame.var_70c4[cGame.var_70cc].actorID == 54)) {
                             n3 = 41;
                             break;
                         }
@@ -1995,7 +1995,7 @@ final class cActor
         }
         while (var_17ad != null) {
             if (var_17ad.var_17c5 == 50) {
-                switch (var_17ad.var_1835) {
+                switch (var_17ad.actorID) {
                     case 2: {
                         var_17ad.sub_aac5();
                         if (var_808c < 1) {
@@ -2185,13 +2185,13 @@ final class cActor
             return;
         }
         this.var_160d = true;
-        this.var_1835 = (char)n;
+        this.actorID = (char)n;
         this.var_188d = cGame.var_6b14;
         this.var_15ed = cGame.var_6b1c;
         this.var_1605 = cGame.var_6b4c;
         this.var_15f5 = cGame.var_6b24;
         this.var_15fd = cGame.var_6b2c;
-        this.var_1835 = cGame.var_6b0c;
+        this.actorID = cGame.var_6b0c;
         this.var_18c5 = cGame.var_6b34;
         this.spriteId = cGame.var_6b3c;
     }
@@ -2282,7 +2282,7 @@ final class cActor
             case 1: {
                 this.spriteId = -1;
                 this.spriteFrame = -1;
-                this.var_1835 = 0;
+                this.actorID = 0;
                 this.var_160d = false;
                 this.var_17dd = 11;
                 break;
@@ -2407,10 +2407,10 @@ final class cActor
         }
         cGame.sub_2c9ec(this);
         final GameDatas class_h;
-        final int n4 = (class_h = GameDatas.s_allDatas[11]).m_dataVars[this.var_1835][3];
-        final int n5 = class_h.m_dataVars[this.var_1835][4];
-        final int n6 = class_h.m_dataVars[this.var_1835][5];
-        final int n7 = class_h.m_dataVars[this.var_1835][6];
+        final int n4 = (class_h = GameDatas.s_allDatas[11]).m_dataVars[this.actorID][3];
+        final int n5 = class_h.m_dataVars[this.actorID][4];
+        final int n6 = class_h.m_dataVars[this.actorID][5];
+        final int n7 = class_h.m_dataVars[this.actorID][6];
         final int[] array = { 0, 0, 14 };
         if (n4 > 0) {
             newActor(47, 2, array).sub_8c4c(this.cameraX, this.cameraY, 37, 1000, false, n4);
@@ -2481,12 +2481,12 @@ final class cActor
     }
     
     final void sub_7ed6() {
-        this.var_1625 = GameDatas.s_allDatas[0].m_dataVars[this.var_1835][25] * 60;
+        this.var_1625 = GameDatas.s_allDatas[0].m_dataVars[this.actorID][25] * 60;
         this.var_161d = System.currentTimeMillis();
     }
     
     final void sub_7f11() {
-        this.var_163d = GameDatas.s_allDatas[0].m_dataVars[this.var_1835][13] * 60;
+        this.var_163d = GameDatas.s_allDatas[0].m_dataVars[this.actorID][13] * 60;
         this.var_1645 = System.currentTimeMillis() / 1000L;
     }
     
@@ -2555,19 +2555,19 @@ final class cActor
             final int var_18c5 = this.var_18c5;
             cGame.sub_11320(false, null);
             this.sub_a25c(32);
-            ++this.var_1835;
+            ++this.actorID;
             final GameDatas class_h = GameDatas.s_allDatas[0];
-            this.var_164d = class_h.m_dataVars[this.var_1835][24];
-            this.var_162d = class_h.m_dataVars[this.var_1835][14];
-            this.var_167d = class_h.m_dataVars[this.var_1835][17];
+            this.var_164d = class_h.m_dataVars[this.actorID][24];
+            this.var_162d = class_h.m_dataVars[this.actorID][14];
+            this.var_167d = class_h.m_dataVars[this.actorID][17];
             this.var_1635 = 0;
-            this.var_1815 = class_h.m_dataVars[this.var_1835][27];
-            this.var_181d = class_h.m_dataVars[this.var_1835][28];
-            final ASprite class_e = cGame.s_gameSprites[class_h.m_dataVars[this.var_1835][31]];
-            this.var_1875 = class_h.m_dataVars[this.var_1835][32];
-            this.spriteFrame = class_h.m_dataVars[this.var_1835][33];
-            this.var_169d = (short)class_h.m_dataVars[this.var_1835][29];
-            this.var_16a5 = (short)class_h.m_dataVars[this.var_1835][30];
+            this.var_1815 = class_h.m_dataVars[this.actorID][27];
+            this.var_181d = class_h.m_dataVars[this.actorID][28];
+            final ASprite class_e = cGame.s_gameSprites[class_h.m_dataVars[this.actorID][31]];
+            this.var_1875 = class_h.m_dataVars[this.actorID][32];
+            this.spriteFrame = class_h.m_dataVars[this.actorID][33];
+            this.var_169d = (short)class_h.m_dataVars[this.actorID][29];
+            this.var_16a5 = (short)class_h.m_dataVars[this.actorID][30];
             if (this.var_189d != null && class_e != null) {
                 this.var_189d.SetSprite(class_e);
                 this.var_189d.SetAnim(0, -1);
@@ -2576,18 +2576,18 @@ final class cActor
             if (cGame.var_807c == 0) {
                 cGame.sub_4a20b(var_18c5, 1, 21);
             }
-            this.var_18c5 = class_h.m_dataVars[this.var_1835][1];
+            this.var_18c5 = class_h.m_dataVars[this.actorID][1];
             if (cGame.var_807c == 0) {
                 cGame.sub_4ad3f(this.var_18c5);
                 cGame.sub_2c0fa(true);
             }
             this.sub_7ed6();
             this.sub_8365(2);
-            if (class_h.m_dataVars[this.var_1835][19] != 5 && class_h.m_dataVars[this.var_1835][19] != 110) {
-                this.var_16e5 = class_h.m_dataVars[this.var_1835][18];
+            if (class_h.m_dataVars[this.actorID][19] != 5 && class_h.m_dataVars[this.actorID][19] != 110) {
+                this.var_16e5 = class_h.m_dataVars[this.actorID][18];
             }
-            if (class_h.m_dataVars[this.var_1835][22] != 5 && class_h.m_dataVars[this.var_1835][22] != 110) {
-                this.var_16ed = class_h.m_dataVars[this.var_1835][21];
+            if (class_h.m_dataVars[this.actorID][22] != 5 && class_h.m_dataVars[this.actorID][22] != 110) {
+                this.var_16ed = class_h.m_dataVars[this.actorID][21];
             }
             cGame.playSndNoLoop(44);
             final short n = class_e._frames_fm_start[this.var_169d];
@@ -3093,7 +3093,7 @@ final class cActor
                 actor.cameraX = array[0];
                 actor.cameraY = array[1];
                 actor.var_17dd = array[2];
-                actor.var_1835 = array[3];
+                actor.actorID = array[3];
                 actor.spriteId = array[4];
                 actor.spriteFrame = array[5];
                 actor.var_1815 = array[6];
@@ -3112,7 +3112,7 @@ final class cActor
                 if (n5 == 1) {
                     actor.sub_a21a(1);
                 }
-                if (actor.var_1835 == 18) {
+                if (actor.actorID == Define.ACTOR_MANOR) {
                     actor.var_187d = 135;
                     actor.var_1885 = 0;
                     cGame.var_8124 = actor.cameraX;
@@ -3127,7 +3127,7 @@ final class cActor
                 actor.cameraX = array[0];
                 actor.cameraY = array[1];
                 actor.var_17dd = array[2];
-                actor.var_1835 = array[3];
+                actor.actorID = array[3];
                 actor.spriteId = array[4];
                 actor.var_1875 = array[5];
                 actor.spriteFrame = array[6];
@@ -3525,24 +3525,24 @@ final class cActor
         final int var_18c5;
         switch ((((var_18c5 = this.var_18c5) >= 1000 && var_18c5 < 2000) || (var_18c5 >= 10000 && var_18c5 < 11000)) ? 50 : ((var_18c5 >= 2000 && var_18c5 < 3000) ? 54 : ((var_18c5 >= 3000 && var_18c5 < 4000) ? 49 : ((var_18c5 >= 7000 && var_18c5 < 8000) ? 20 : ((var_18c5 >= 25000 && var_18c5 < 26000) ? 48 : -1))))) {
             case 50: {
-                n = GameDatas.s_allDatas[3].m_dataVars[this.var_1835][33];
+                n = GameDatas.s_allDatas[3].m_dataVars[this.actorID][33];
                 break;
             }
             case 49: {
-                n = GameDatas.s_allDatas[2].m_dataVars[this.var_1835][18];
+                n = GameDatas.s_allDatas[2].m_dataVars[this.actorID][18];
                 break;
             }
             case 20: {
-                n = GameDatas.s_allDatas[4].m_dataVars[this.var_1835][18];
+                n = GameDatas.s_allDatas[4].m_dataVars[this.actorID][18];
                 break;
             }
             case 54: {
                 final GameDatas class_h = GameDatas.s_allDatas[0];
                 if (this.sub_a2a0(2048)) {
-                    n = class_h.m_dataVars[this.var_1835][11];
+                    n = class_h.m_dataVars[this.actorID][11];
                     break;
                 }
-                n = class_h.m_dataVars[this.var_1835][10];
+                n = class_h.m_dataVars[this.actorID][10];
                 break;
             }
         }

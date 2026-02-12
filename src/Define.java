@@ -69,6 +69,18 @@ interface Define
 	
 	final static int GS_LAST = GS_IGP;
 	
+	// ActorIDs
+	final static int ACTOR_SALEDESK = 9;	
+	final static int ACTOR_BARN = 10;	
+	final static int ACTOR_HENHOUSE = 11;	
+	final static int ACTOR_STABLES = 12;	
+	final static int ACTOR_SILO = 13;	
+	final static int ACTOR_MILL = 14;	
+	final static int ACTOR_MAIL = 15;
+	final static int ACTOR_UNK16 = 16;	
+	final static int ACTOR_POND = 17;	
+	final static int ACTOR_MANOR = 18;	
+	
 	// Toast Types
 	final static int TOAST_EXIT = 1;
 	final static int TOAST_SMSCHARGE = 2;
