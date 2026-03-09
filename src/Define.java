@@ -13,6 +13,10 @@
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 interface Define 
 {
+	public static final boolean DECOMP_MODE = true;
+	
+	public static final boolean DECOMP_CUSTOM_PRINTS = true;
+	
 	// GameStates..... (in the style of Platinum Sudoku
 	final static int GS_EXIT = -1;
 	

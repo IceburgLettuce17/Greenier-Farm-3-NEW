@@ -263,7 +263,7 @@ public final class IGP implements Runnable, CommandListener
     }
     
     public static void initialize(MIDlet midlet, Canvas game, int screenWidth, final int screenHeight) {
-        new StringBuffer().append("initialize(midlet = ").append(midlet).append(", game = ").append(game).append(", screenWidth = ").append(screenWidth).append(", screenHeight = ").append(screenHeight).append(", cmdListener = ").append((Object)null).append(")");
+        if (Define.DECOMP_MODE) System.out.println("initialize(midlet = " + midlet + ", game = " + game + ", screenWidth = " + screenWidth + ", screenHeight = " + screenHeight + ", cmdListener = " + (Object)null + ")");
         s_screenHeight = screenHeight;
         s_screenWidth = screenWidth;
         var_206d = s_screenHeight >> 1;
@@ -275,7 +275,7 @@ public final class IGP implements Runnable, CommandListener
             MidletInstance = midlet;
             //s_game = game;
             sub_2bc9();
-            new StringBuffer().append(s_fullIgpSignature).append("");
+            if (Define.DECOMP_MODE) System.out.println(s_fullIgpSignature + "");
             sub_3367();
             s_igaUrlRedir = null;
             var_1edd = null;
@@ -389,7 +389,7 @@ public final class IGP implements Runnable, CommandListener
                             if (var_1ee5) {
                                 final StringBuffer sb2 = new StringBuffer();
                                 final String[] var_1fed2 = var_1fed;
-                                var_1fed2[page] = sb2.append(var_1fed2[page]).append(var_1eb5).append(SCFR_PREFIX).toString();
+                                var_1fed2[page] = sb2.append(var_1fed2[page] + var_1eb5 + SCFR_PREFIX).toString();
                                 return;
                             }
                             break;
@@ -398,7 +398,7 @@ public final class IGP implements Runnable, CommandListener
                             if (var_1ee5) {
                                 final StringBuffer sb3 = new StringBuffer();
                                 final String[] var_1fed3 = var_1fed;
-                                var_1fed3[page] = sb3.append(var_1fed3[page]).append(var_1eb5).append(GMCL_PREFIX).toString();
+                                var_1fed3[page] = sb3.append(var_1fed3[page] + var_1eb5 + GMCL_PREFIX).toString();
                                 return;
                             }
                             break;
@@ -407,7 +407,7 @@ public final class IGP implements Runnable, CommandListener
                             if (var_1ee5) {
                                 final StringBuffer sb4 = new StringBuffer();
                                 final String[] var_1fed4 = var_1fed;
-                                var_1fed4[page] = sb4.append(var_1fed4[page]).append(var_1eb5).append(CCTL_PREFIX).toString();
+                                var_1fed4[page] = sb4.append(var_1fed4[page] + var_1eb5 + CCTL_PREFIX).toString();
                                 break;
                             }
                             break;
@@ -456,11 +456,11 @@ public final class IGP implements Runnable, CommandListener
             }
             try {
                 s_dataIGPVersion = new String(data, dataOffset, readInt(data));
-                new StringBuffer().append("IGP dataIGP version: ").append(s_dataIGPVersion);
-                new StringBuffer().append(s_igpClassVersion).append("z");
+                if (Define.DECOMP_MODE) System.out.println("IGP dataIGP version: " + s_dataIGPVersion);
+                if (Define.DECOMP_MODE) System.out.println(s_igpClassVersion + "z");
                 if (!s_dataIGPVersion.startsWith(s_igpClassVersion)) {
-                    new StringBuffer().append("Invalid dataIGP file, dataIGP file IGP Version : ").append(s_dataIGPVersion);
-                    new StringBuffer().append("IGP Class version : ").append(s_igpClassVersion);
+                    if (Define.DECOMP_MODE) System.out.println("Invalid dataIGP file, dataIGP file IGP Version : " + s_dataIGPVersion);
+                    if (Define.DECOMP_MODE) System.out.println("IGP Class version : " + s_igpClassVersion);
                 }
             }
             catch (final Exception ex) {
@@ -531,7 +531,7 @@ public final class IGP implements Runnable, CommandListener
         if (sub_3607() > 0) {
             IsAvailable = true;
         }
-        new StringBuffer().append("isAvailable = ").append(IsAvailable);
+        if (Define.DECOMP_MODE) System.out.println("isAvailable = " + IsAvailable);
     }
     
     private static String sub_3135(String upperCase) {
@@ -560,7 +560,7 @@ public final class IGP implements Runnable, CommandListener
     }
     
     public static void enterIGP(String loadingMsg, final int lang) {
-        new StringBuffer().append("enterIGP(loadingMsg = ").append(loadingMsg).append(", appLanguage = ").append(0).append(" (").append(var_1f05[0]).append(")");
+        if (Define.DECOMP_MODE) System.out.println("enterIGP(loadingMsg = " + loadingMsg + ", appLanguage = " + 0 + " (" + var_1f05[0] + ")");
         if (var_2055) {
             sub_3539();
             var_1f85 = true;
@@ -1669,7 +1669,7 @@ public final class IGP implements Runnable, CommandListener
     }
     
     public final void run() {
-        new StringBuffer().append("Thread.activeCount() = ").append(Thread.activeCount());
+        if (Define.DECOMP_MODE) System.out.println("Thread.activeCount() = " + Thread.activeCount());
         while (var_1f85) {
             try {
                 if (var_1f8d != null) {
@@ -1678,7 +1678,7 @@ public final class IGP implements Runnable, CommandListener
                         var_1f55 = false;
                         final String urlPlatformRequest = s_platformRequestUrl;
                         s_platformRequestUrl = null;
-                        new StringBuffer().append("urlPlatformRequest = ").append(urlPlatformRequest);
+                        if (Define.DECOMP_MODE) System.out.println("urlPlatformRequest = " + urlPlatformRequest);
                         try {
                             MidletInstance.platformRequest(urlPlatformRequest);
                             Thread.sleep(200L);

@@ -17,7 +17,7 @@ public final class ImageG
     
     // Re-refactor because the refactoring went wrong
     public final void getRGB(final int[] rgbData, final int offset, final int scanlength, final int x, final int y, final int width, final int height) {
-        this.javax.microedition.lcdui.Image.getRGB(rgbData, offset, scanlength, x, y, width, height);
+        this.image.getRGB(rgbData, offset, scanlength, x, y, width, height);
     }
     
     private ImageG(final javax.microedition.lcdui.Image image) {

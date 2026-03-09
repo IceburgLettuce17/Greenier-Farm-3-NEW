@@ -276,10 +276,10 @@ final class GLLibPlayer implements Runnable
     
     static final Player Snd_GetChannelPlayer(final int channel) {
         if (channel < 0) {
-            new StringBuffer().append("Snd_GetChannelPlayer: Index is negative [").append(channel).append("]");
+            if (Define.DECOMP_MODE) System.out.println("Snd_GetChannelPlayer: Index is negative [" + channel + "]");
         }
         if (channel >= GLLibPlayer.k_snd_nbChannel) {
-            new StringBuffer().append("Snd_GetChannelPlayer: Index [").append(channel).append("] is out of range. Max channels is ").append(GLLibPlayer.k_snd_nbChannel);
+            if (Define.DECOMP_MODE) System.out.println("Snd_GetChannelPlayer: Index [" + channel + "] is out of range. Max channels is " + GLLibPlayer.k_snd_nbChannel);
         }
         return GLLibPlayer.s_snd_Player[channel];
     }
@@ -409,10 +409,10 @@ final class GLLibPlayer implements Runnable
     
     static void Snd_Play(final int channel, final int index, final int loop, final int volume, final int priority) {
         if (loop < 0) {
-            new StringBuffer().append("Snd_Play: Invalid loop number of ").append(loop);
+            if (Define.DECOMP_MODE) System.out.println("Snd_Play: Invalid loop number of " + loop);
         }
         if (channel >= GLLibPlayer.k_snd_nbChannel) {
-            new StringBuffer().append("Snd_Play: Attempting to play on channel ").append(channel).append(" while only have max ").append(GLLibPlayer.k_snd_nbChannel);
+            if (Define.DECOMP_MODE) System.out.println("Snd_Play: Attempting to play on channel " + channel + " while only have max " + GLLibPlayer.k_snd_nbChannel);
         }
         if (index < 0 || volume == 0) {
             return;
@@ -536,7 +536,7 @@ final class GLLibPlayer implements Runnable
                         isPlaying = Snd_IsPlaying(channel);
                     }
                     catch (final Exception obj) {
-                        new StringBuffer().append("Snd_update.error on channel (").append(channel).append(").").append(obj);
+                        if (Define.DECOMP_MODE) System.out.println("Snd_update.error on channel (" + channel + ")." + obj);
                         isPlaying = false;
                     }
                     if (!isPlaying) {
@@ -584,7 +584,7 @@ final class GLLibPlayer implements Runnable
                         }
                     }
                     catch (final Exception e2) {
-                        new StringBuffer().append("Snd_update.error on channel (").append(channel).append(").").append(e2);
+                        if (Define.DECOMP_MODE) System.out.println("Snd_update.error on channel (" + channel + ")." + e2);
                         e2.printStackTrace();
                     }
                     SndQueue_Pop(channel, GLLibPlayer.s_snd_requestBuffer);
@@ -937,7 +937,7 @@ final class GLLibPlayer implements Runnable
             GLLibPlayer.s_TilesetLayerGraphics[0][0] = GLLibPlayer.s_TilesetLayerImage[0][0].image.getGraphics();
         }
         catch (final Exception ex) {
-            new StringBuffer().append("GLLibPlayer.Tileset_LoadLayer.pb while ceating circular buffer : ").append(ex.toString());
+            if (Define.DECOMP_MODE) System.out.println("GLLibPlayer.Tileset_LoadLayer.pb while ceating circular buffer : " + ex.toString());
         }
     }
     
@@ -1558,7 +1558,7 @@ final class GLLibPlayer implements Runnable
             return;
         }
         if (GLLibPlayer.s_TilesetMaxLayerCount <= 0) {
-            new StringBuffer().append("Tileset_SetCamera: nLayer invalid : ").append(0);
+            if (Define.DECOMP_MODE) System.out.println("Tileset_SetCamera: nLayer invalid : " + 0);
             return;
         }
         if (GLLibPlayer.s_TilesetLayerInfo[0][0] != 1 || GLLibPlayer.s_TilesetLayerInfo[0][1] != 1) {
@@ -1590,7 +1590,7 @@ final class GLLibPlayer implements Runnable
             return -1;
         }
         if (GLLibPlayer.s_TilesetMaxLayerCount <= 0) {
-            new StringBuffer().append("Tileset_GetCamera: nLayer invalid : ").append(0);
+            if (Define.DECOMP_MODE) System.out.println("Tileset_GetCamera: nLayer invalid : " + 0);
             return -1;
         }
         if (GLLibPlayer.s_TilesetLayerInfo[0][0] != 1 || GLLibPlayer.s_TilesetLayerInfo[0][1] != 1) {
@@ -1604,7 +1604,7 @@ final class GLLibPlayer implements Runnable
             return -1;
         }
         if (GLLibPlayer.s_TilesetMaxLayerCount <= 0) {
-            new StringBuffer().append("Tileset_GetCamera: nLayer invalid : ").append(0);
+            if (Define.DECOMP_MODE) System.out.println("Tileset_GetCamera: nLayer invalid : " + 0);
             return -1;
         }
         if (GLLibPlayer.s_TilesetLayerInfo[0][0] != 1 || GLLibPlayer.s_TilesetLayerInfo[0][1] != 1) {
@@ -1621,7 +1621,7 @@ final class GLLibPlayer implements Runnable
             return -1;
         }
         if (GLLibPlayer.s_TilesetMaxLayerCount <= 0) {
-            new StringBuffer().append("Tileset_GetLayerWidth: nLayer invalid : ").append(0);
+            if (Define.DECOMP_MODE) System.out.println("Tileset_GetLayerWidth: nLayer invalid : " + 0);
             return -1;
         }
         if (GLLibPlayer.s_TilesetLayerInfo[0][0] != 1 || GLLibPlayer.s_TilesetLayerInfo[0][1] != 1) {
@@ -1635,7 +1635,7 @@ final class GLLibPlayer implements Runnable
             return -1;
         }
         if (GLLibPlayer.s_TilesetMaxLayerCount <= 0) {
-            new StringBuffer().append("Tileset_GetLayerHeight: nLayer invalid : ").append(0);
+            if (Define.DECOMP_MODE) System.out.println("Tileset_GetLayerHeight: nLayer invalid : " + 0);
             return -1;
         }
         if (GLLibPlayer.s_TilesetLayerInfo[0][0] != 1 || GLLibPlayer.s_TilesetLayerInfo[0][1] != 1) {
@@ -1650,18 +1650,18 @@ final class GLLibPlayer implements Runnable
             return -1;
         }
         if (GLLibPlayer.s_TilesetMaxLayerCount <= 0) {
-            new StringBuffer().append("Tileset_GetTile: nLayer invalid : ").append(0);
+            if (Define.DECOMP_MODE) System.out.println("Tileset_GetTile: nLayer invalid : " + 0);
             return -1;
         }
         if (GLLibPlayer.s_TilesetLayerInfo[0][0] != 1 || GLLibPlayer.s_TilesetLayerInfo[0][1] != 1) {
             return -1;
         }
         if (x < 0 || x > GLLibPlayer.s_TilesetLayerInfo[0][2]) {
-            new StringBuffer().append("Tileset_GetTile: x value out of bound [").append(x).append("]  0 <= x < ").append(GLLibPlayer.s_TilesetLayerInfo[0][2]);
+            if (Define.DECOMP_MODE) System.out.println("Tileset_GetTile: x value out of bound [" + x + "]  0 <= x < " + GLLibPlayer.s_TilesetLayerInfo[0][2]);
             return -1;
         }
         if (y < 0 || y > GLLibPlayer.s_TilesetLayerInfo[0][3]) {
-            new StringBuffer().append("Tileset_GetTile: y value out of bound [").append(y).append("]  0 <= y < ").append(GLLibPlayer.s_TilesetLayerInfo[0][3]);
+            if (Define.DECOMP_MODE) System.out.println("Tileset_GetTile: y value out of bound [" + y + "]  0 <= y < " + GLLibPlayer.s_TilesetLayerInfo[0][3]);
             return -1;
         }
         nLayer = y;
@@ -1675,7 +1675,7 @@ final class GLLibPlayer implements Runnable
             return null;
         }
         if (GLLibPlayer.s_TilesetMaxLayerCount <= 0) {
-            new StringBuffer().append("Tileset_GetBufferImage: p_iLayer invalid : ").append(0);
+            if (Define.DECOMP_MODE) System.out.println("Tileset_GetBufferImage: p_iLayer invalid : " + 0);
             return null;
         }
         return GLLibPlayer.s_TilesetLayerImage[0][0];
@@ -1703,18 +1703,18 @@ final class GLLibPlayer implements Runnable
             return;
         }
         if (GLLibPlayer.s_TilesetMaxLayerCount <= 0) {
-            new StringBuffer().append("Tileset_SetTile: layer invalid : ").append(0);
+            if (Define.DECOMP_MODE) System.out.println("Tileset_SetTile: layer invalid : " + 0);
             return;
         }
         if (GLLibPlayer.s_TilesetLayerInfo[0][0] != 1 || GLLibPlayer.s_TilesetLayerInfo[0][1] != 1) {
             return;
         }
         if (x < 0 || x > GLLibPlayer.s_TilesetLayerInfo[0][2]) {
-            new StringBuffer().append("Tileset_SetTile: x value out of bound [").append(x).append("]  0 <= x < ").append(GLLibPlayer.s_TilesetLayerInfo[0][2]);
+            if (Define.DECOMP_MODE) System.out.println("Tileset_SetTile: x value out of bound [" + x + "]  0 <= x < " + GLLibPlayer.s_TilesetLayerInfo[0][2]);
             return;
         }
         if (y < 0 || y > GLLibPlayer.s_TilesetLayerInfo[0][3]) {
-            new StringBuffer().append("Tileset_SetTile: y value out of bound [").append(y).append("]  0 <= y < ").append(GLLibPlayer.s_TilesetLayerInfo[0][3]);
+            if (Define.DECOMP_MODE) System.out.println("Tileset_SetTile: y value out of bound [" + y + "]  0 <= y < " + GLLibPlayer.s_TilesetLayerInfo[0][3]);
             return;
         }
         x += y * GLLibPlayer.s_TilesetLayerInfo[0][2];
@@ -1784,7 +1784,7 @@ final class GLLibPlayer implements Runnable
                 asprite_frameheight = p0;
             }
             else {
-                new StringBuffer().append("Tileset_PaintToBuffer: Invalid drawOperation set: ").append(drawOperation);
+                if (Define.DECOMP_MODE) System.out.println("Tileset_PaintToBuffer: Invalid drawOperation set: " + drawOperation);
             }
             x = Tileset_GetTranslatedOriginY(0, x);
             final int n13 = layerInfo[13];

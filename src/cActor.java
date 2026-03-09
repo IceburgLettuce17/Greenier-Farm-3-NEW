@@ -2856,7 +2856,7 @@ final class cActor
         this.m_rewardNumber = var_1736;
         if (var_16fd == 59) {
             itemIndex = (this.m_rewardNumber & 0xFFFF);
-            new StringBuffer().append("itemIndex : ").append(itemIndex);
+            if (Define.DECOMP_MODE) System.out.println("itemIndex : " + itemIndex);
             this.spriteId = (cGame.var_80d4[itemIndex] | 0x8000);
             this.spriteFrame = cGame.var_80dc[itemIndex];
         }

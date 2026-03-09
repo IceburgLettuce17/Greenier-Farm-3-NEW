@@ -234,8 +234,7 @@ public final class PaySMS {
 						PaySMS.testProfile = "";
 					}
 				}
-				new StringBuffer().append("PaySMS.parseJadFields:iapTestField: ").append(PaySMS.iapTestField)
-						.append(" useTestProfile: ").append(PaySMS.testProfile);
+				if (Define.DECOMP_MODE) System.out.println("PaySMS.parseJadFields:iapTestField: " + PaySMS.iapTestField + " useTestProfile: " + PaySMS.testProfile);
 				PaySMS.debugNum = getAppProperty("IAP-DebugNumber");
 				final String smsProp;
 				if ((smsProp = System.getProperty("wireless.messaging.sms.smsc")) != null && smsProp.length() > 0) {
@@ -265,7 +264,7 @@ public final class PaySMS {
 						}
 					}
 				}
-				new StringBuffer().append("PaySMS.parseJadFields: ValidContentIDs: ").append(PaySMS.validContentIds);
+				if (Define.DECOMP_MODE) System.out.println("PaySMS.parseJadFields: ValidContentIDs: " + PaySMS.validContentIds);
 				for (int k = 0; k < PaySMS.validContentIds.size(); ++k) {
 					final String obj = (String) PaySMS.validContentIds.elementAt(k);
 					boolean b2 = false;
@@ -284,8 +283,7 @@ public final class PaySMS {
 				if (PaySMS.validContentIds.size() == 0) {
 					hasIGPCode = false;
 				} else {
-					new StringBuffer().append("PaySMS.parseJadFields: ValidContentIDs: ")
-							.append(PaySMS.validContentIds);
+					if (Define.DECOMP_MODE) System.out.println("PaySMS.parseJadFields: ValidContentIDs: " + PaySMS.validContentIds);
 					String str;
 					if ((str = getAppProperty("IAP-Profiles")).equals("")) {
 						hasIGPCode = false;
@@ -305,7 +303,7 @@ public final class PaySMS {
 					}
 				}
 			}
-			new StringBuffer().append("PaySMS.checkAvailable:parseJadFields: ").append(hasIGPCode ? "true" : "false");
+			if (Define.DECOMP_MODE) System.out.println("PaySMS.checkAvailable:parseJadFields: " + (hasIGPCode ? "true" : "false"));
 			isUnlocked = (hasIGPCode && checkAvailable());
 		}
 		return isUnlocked;
@@ -336,7 +334,7 @@ public final class PaySMS {
 		} else {
 			validProfiles = false;
 		}
-		new StringBuffer().append("PaySMS.checkAvailable:validProfiles: ").append(validProfiles ? "true" : "false");
+		if (Define.DECOMP_MODE) System.out.println("PaySMS.checkAvailable:validProfiles: " + (validProfiles ? "true" : "false"));
 		return validProfiles;
 	}
 
@@ -358,8 +356,7 @@ public final class PaySMS {
 	* returns void
 	*/
 	public static void sendRequest(final int pricePoint, String itemType) {
-		new StringBuffer().append("PaySMS.sendRequest: start (PricePoint:").append(pricePoint).append(") (Item Type: ")
-				.append(itemType).append(")");
+		if (Define.DECOMP_MODE) System.out.println("PaySMS.sendRequest: start (PricePoint:" + pricePoint + ") (Item Type: " + itemType + ")");
 		PaySMS.pricePoint = pricePoint;
 		PaySMS.itemAmount = getItemAmount(pricePoint, itemType);
 		PaySMS.itemType = itemType;
@@ -383,9 +380,8 @@ public final class PaySMS {
 					}
 				}
 			} else {
-				new StringBuffer().append("PaySMS.sendRequest: currentValidProfiles: ")
-						.append((PaySMS.currentValidProfiles == null) ? "null"
-								: ("Size: " + PaySMS.currentValidProfiles.size()));
+				if (Define.DECOMP_MODE) System.out.println("PaySMS.sendRequest: currentValidProfiles: " + (PaySMS.currentValidProfiles == null ? "null"
+								: ("Size: " + PaySMS.currentValidProfiles.size())));
 				if (PaySMS.currentValidProfiles == null || PaySMS.currentValidProfiles.size() == 0) {
 					PaySMS.currentProfile = -1;
 				} else {
@@ -405,20 +401,15 @@ public final class PaySMS {
 					}
 				}
 			}
-			new StringBuffer().append("PaySMS.sendRequest: currentProfile: ").append(PaySMS.currentProfile);
+			if (Define.DECOMP_MODE) System.out.println("PaySMS.sendRequest: currentProfile: " + PaySMS.currentProfile);
 			if (b && PaySMS.currentProfile != -1) {
-				new StringBuffer().append("PaySMS.sendRequest: Id: ")
-						.append(PaySMS.profilesData[PaySMS.currentProfile][0]).append(" Billing: ")
-						.append(PaySMS.profilesData[PaySMS.currentProfile][6]).append(" Region: ")
-						.append(PaySMS.profilesData[PaySMS.currentProfile][2]).append(" Carrier: ")
-						.append(PaySMS.profilesData[PaySMS.currentProfile][3]).append(" Pricepoint: ")
-						.append(PaySMS.profilesData[PaySMS.currentProfile][14]);
+				if (Define.DECOMP_MODE) System.out.println("PaySMS.sendRequest: Id: " + PaySMS.profilesData[PaySMS.currentProfile][0] + " Billing: " + PaySMS.profilesData[PaySMS.currentProfile][6] + " Region: " + PaySMS.profilesData[PaySMS.currentProfile][2] + " Carrier: " + PaySMS.profilesData[PaySMS.currentProfile][3] + " Pricepoint: " + PaySMS.profilesData[PaySMS.currentProfile][14]);
 			}
 		}
 		if (!PaySMS.var_299d) {
 			return;
 		}
-		new StringBuffer().append("creditCardEnabled: ").append(PaySMS.creditCardEnabled);
+		if (Define.DECOMP_MODE) System.out.println("creditCardEnabled: " + PaySMS.creditCardEnabled);
 		if (b && type.equals("SMS")) {
 			PaySMS.var_2a65 = true;
 			PaySMS.isSMSSent = false;
@@ -473,13 +464,12 @@ public final class PaySMS {
 				appendToSms(sub_5e3c);
 				appendToSms(PaySMS.downloadCode);
 				appendToSms("ct" + PaySMS.smsCount);
-				new StringBuffer().append("PaySMS.sendSMS: smsContent: ").append(PaySMS.smsContent);
+				if (Define.DECOMP_MODE) System.out.println("PaySMS.sendSMS: smsContent: " + PaySMS.smsContent);
 				PaySMS.isSMSBeingSent = true;
 				new BuyTask().start();
 				return;
 			}
-			new StringBuffer().append("PaySMS.sendHTTP:Error: Wrong Item. IAP-ContentID-").append(PaySMS.itemType)
-					.append("-").append(PaySMS.pricePoint).append(" missing in JAD");
+			if (Define.DECOMP_MODE) System.out.println("PaySMS.sendHTTP:Error: Wrong Item. IAP-ContentID-" + PaySMS.itemType + "-" + PaySMS.pricePoint + " missing in JAD");
 			PaySMS.errorCode = -2;
 			
 		} else if (b && type.equals("HTTP")) {
@@ -501,7 +491,7 @@ public final class PaySMS {
 				PaySMS.errorCode = 4;
 				return;
 			}
-			new StringBuffer().append("PaySMS.sendHTTP: URL = ").append(httpUrl);
+			if (Define.DECOMP_MODE) System.out.println("PaySMS.sendHTTP: URL = " + httpUrl);
 			if (!httpUrl.startsWith("http://")) {
 				httpUrl = "http://" + httpUrl;
 			}
@@ -510,8 +500,7 @@ public final class PaySMS {
 			}
 			final String contentID = getAppProperty("IAP-ContentID-" + PaySMS.itemType + "-" + PaySMS.pricePoint);
 			if (contentID.equals("")) {
-				new StringBuffer().append("PaySMS.sendHTTP:Error: Wrong Item. IAP-ContentID-").append(PaySMS.itemType)
-						.append("-").append(PaySMS.pricePoint).append(" missing in JAD");
+				if (Define.DECOMP_MODE) System.out.println("PaySMS.sendHTTP:Error: Wrong Item. IAP-ContentID-" + PaySMS.itemType + "-" + PaySMS.pricePoint + " missing in JAD");
 				PaySMS.errorCode = -2;
 				return;
 			}
@@ -659,8 +648,7 @@ public final class PaySMS {
 		if ((PaySMS.unlockCode = getUnlockCodeStored()) != null && PaySMS.unlockCode.length() > 0) {
 			equals = String.valueOf(inputCode).equals(String.valueOf(Integer.parseInt(PaySMS.unlockCode) ^ 0xD0A4));
 		}
-		new StringBuffer().append("PaySMS.verifyRequest: inputCode: ").append(inputCode).append(" ")
-				.append(equals ? "Unlocked" : "Still Locked");
+		if (Define.DECOMP_MODE) System.out.println("PaySMS.verifyRequest: inputCode: " + inputCode + " " + (equals ? "Unlocked" : "Still Locked"));
 		if (equals) {
 			try {
 				final String moneySpent = rmsLoad(PaySMS.RMS_RECORDS[7]);
@@ -682,10 +670,10 @@ public final class PaySMS {
 				final long n = sub_5262 + sub_5263;
 				final String totalMoneySpent = (inputCode == 32) ? (n / 100000L + "")
 						: ("" + n / 100000L + (char) inputCode + n % 100000L);
-				new StringBuffer().append("totalMoneySpent : ").append(totalMoneySpent).append("  profileID: ").append(profileID);
+				if (Define.DECOMP_MODE) System.out.println("totalMoneySpent : " + totalMoneySpent + "  profileID: " + profileID);
 				rmsSave(PaySMS.RMS_RECORDS[7], totalMoneySpent + "_" + profileID);
 			} catch (final Exception obj) {
-				new StringBuffer().append("Exception : ").append(obj);
+				if (Define.DECOMP_MODE) System.out.println("Exception : " + obj);
 			}
 			PaySMS.errorCode = 0;
 			if (!GetBillingType(getPackageId()).equals("http_2d")) {
@@ -732,8 +720,7 @@ public final class PaySMS {
 		}
 		if (PaySMS.currentValidProfiles.size() == 1) {
 			PaySMS.currentProfile = ((Integer) PaySMS.currentValidProfiles.elementAt(0)).intValue();
-			new StringBuffer().append("PaySMS.detectCarrier: Carrier selection skipped, detected profile: ")
-					.append(PaySMS.currentProfile);
+			if (Define.DECOMP_MODE) System.out.println("PaySMS.detectCarrier: Carrier selection skipped, detected profile: " + PaySMS.currentProfile);
 			return true;
 		}
 		PaySMS.var_29dd = -1;
@@ -748,8 +735,7 @@ public final class PaySMS {
 		}
 		PaySMS.carrierNames = sub_70ca(PaySMS.carrierNames);
 		final String[] currentIDS = sub_70ca(array);
-		new StringBuffer().append("PaySMS.detectCarrier: currentIDS ").append(currentIDS.length)
-				.append(", currentCarriers = ").append(PaySMS.carrierNames.length);
+		if (Define.DECOMP_MODE) System.out.println("PaySMS.detectCarrier: currentIDS " + currentIDS.length + ", currentCarriers = " + PaySMS.carrierNames.length);
 		if (currentIDS.length == 1) {
 			PaySMS.var_29dd = 0;
 			for (int j = 0; j < PaySMS.profilesData.length; ++j) {
@@ -757,15 +743,13 @@ public final class PaySMS {
 					PaySMS.currentValidProfiles.addElement(new Integer(j));
 				}
 			}
-			new StringBuffer().append(
-					"PaySMS.detectCarrier: Carrier selection skipped, only one profile. currentValidProfiles.size() ")
-					.append(PaySMS.currentValidProfiles.size());
+			if (Define.DECOMP_MODE) System.out.println(
+					"PaySMS.detectCarrier: Carrier selection skipped, only one profile. currentValidProfiles.size() " + PaySMS.currentValidProfiles.size());
 			return true;
 		}
 		if (PaySMS.carrierNames.length == 1) {
 			PaySMS.var_29dd = 0;
-			new StringBuffer().append("PaySMS.detectCarrier: Carrier selection skipped, only one carrier: ")
-					.append(PaySMS.carrierNames[PaySMS.var_29dd]);
+			if (Define.DECOMP_MODE) System.out.println("PaySMS.detectCarrier: Carrier selection skipped, only one carrier: " + PaySMS.carrierNames[PaySMS.var_29dd]);
 			for (int k = 0; k < PaySMS.profilesData.length; ++k) {
 				if (PaySMS.profilesData[k][2].indexOf(PaySMS.profilesAndRegions[PaySMS.regionId][0]) != -1) {
 					for (int l = 0; l < PaySMS.var_29b5[k].size(); ++l) {
@@ -776,23 +760,20 @@ public final class PaySMS {
 					}
 				}
 			}
-			new StringBuffer().append("PaySMS.detectCarrier: currentValidProfiles.size =  ")
-					.append(PaySMS.currentValidProfiles.size());
+			if (Define.DECOMP_MODE) System.out.println("PaySMS.detectCarrier: currentValidProfiles.size =  " + PaySMS.currentValidProfiles.size());
 			return true;
 		}
 		if (PaySMS.carrierNames.length >= 1) {
 			final String[][] multiCarrierProfiles = new String[currentIDS.length][2];
 			boolean b = true;
 			for (int m = 0; m < currentIDS.length; ++m) {
-				new StringBuffer().append("PaySMS.detectCarrier: currentIDS[").append(m).append("]= ")
-						.append(currentIDS[m]);
+				if (Define.DECOMP_MODE) System.out.println("PaySMS.detectCarrier: currentIDS[" + m + "]= " + currentIDS[m]);
 				int i2 = 0;
 				while (i2 < PaySMS.profilesData.length) {
 					if (PaySMS.profilesData[i2][0].equals(currentIDS[m])) {
 						multiCarrierProfiles[m][0] = PaySMS.profilesData[i2][3];
 						multiCarrierProfiles[m][1] = "" + i2;
-						new StringBuffer().append("PaySMS.detectCarrier: is Openmarket???? ")
-								.append(PaySMS.profilesData[i2][1]);
+						if (Define.DECOMP_MODE) System.out.println("PaySMS.detectCarrier: is Openmarket???? " + PaySMS.profilesData[i2][1]);
 						if (PaySMS.profilesData[i2][1].indexOf("Open Market") == -1) {
 							b = false;
 							break;
@@ -807,13 +788,11 @@ public final class PaySMS {
 			for (int i = 1; i < multiCarrierProfiles.length; ++i) {
 				if (!multiCarrierProfiles[i][0].equals(multiCarrierProfiles[i - 1][0])) {
 					b2 = false;
-					new StringBuffer().append("PaySMS.detectCarrier: multiCarrierProfiles[i] ").append(multiCarrierProfiles[i][0]);
-					new StringBuffer().append("PaySMS.detectCarrier: multiCarrierProfiles[i-1] ")
-							.append(multiCarrierProfiles[i - 1][0]);
+					if (Define.DECOMP_MODE) System.out.println("PaySMS.detectCarrier: multiCarrierProfiles[i] " + multiCarrierProfiles[i][0]);
+					if (Define.DECOMP_MODE) System.out.println("PaySMS.detectCarrier: multiCarrierProfiles[i-1] " + multiCarrierProfiles[i - 1][0]);
 				}
 			}
-			new StringBuffer().append("PaySMS.detectCarrier: multiCarrierProfiles: ").append(b2)
-					.append(", isOpenMarket: ").append(b);
+			if (Define.DECOMP_MODE) System.out.println("PaySMS.detectCarrier: multiCarrierProfiles: " + b2 + ", isOpenMarket: " + b);
 			if (b2) {
 				for (int n2 = 0; n2 < currentIDS.length; ++n2) {
 					for (int value = 0; value < PaySMS.profilesData.length; ++value) {
@@ -823,11 +802,9 @@ public final class PaySMS {
 						}
 					}
 				}
-				new StringBuffer().append(
-						"PaySMS.detectCarrier: Dont auto skip carrier selection(except OpenMarket). currentValidProfiles.size() ")
-						.append(PaySMS.currentValidProfiles.size());
-				new StringBuffer().append("PaySMS.detectCarrier: More than one carrier, but multicarrier profiles: ")
-						.append(multiCarrierProfiles[0][0]);
+				if (Define.DECOMP_MODE) System.out.println(
+						"PaySMS.detectCarrier: Dont auto skip carrier selection(except OpenMarket). currentValidProfiles.size() " + PaySMS.currentValidProfiles.size());
+				if (Define.DECOMP_MODE) System.out.println("PaySMS.detectCarrier: More than one carrier, but multicarrier profiles: " + multiCarrierProfiles[0][0]);
 				return true;
 			}
 			final int length = PaySMS.carrierNames.length;
@@ -837,8 +814,7 @@ public final class PaySMS {
 			final int[] array3 = new int[length];
 			for (int i3 = 0; i3 < length; ++i3) {
 				array3[i3] = i3;
-				new StringBuffer().append("PaySMS.detectCarrier: carrierNames[").append(i3).append("]: ")
-						.append(PaySMS.carrierNames[i3]);
+				if (Define.DECOMP_MODE) System.out.println("PaySMS.detectCarrier: carrierNames[" + i3 + "]: " + PaySMS.carrierNames[i3]);
 			}
 		}
 		return false;
@@ -859,14 +835,12 @@ public final class PaySMS {
 		if (PaySMS.var_29fd.length == 1 && (PaySMS.smsProperty == null || PaySMS.currentAutoDetectedRegion == -1)) {
 			PaySMS.regionId = 0;
 			PaySMS.currentAutoDetectedRegion = 0;
-			new StringBuffer().append("PaySMS.detectRegion: Region selection skipped, only one region: ")
-					.append(PaySMS.var_29fd[PaySMS.regionId]);
+			if (Define.DECOMP_MODE) System.out.println("PaySMS.detectRegion: Region selection skipped, only one region: " + PaySMS.var_29fd[PaySMS.regionId]);
 			return true;
 		}
 		if (PaySMS.smsProperty != null && PaySMS.currentAutoDetectedRegion != -1) {
 			PaySMS.regionId = PaySMS.currentAutoDetectedRegion;
-			new StringBuffer().append("PaySMS.detectRegion: Region selection skipped, region auto-detected: ")
-					.append(PaySMS.currentAutoDetectedRegion);
+			if (Define.DECOMP_MODE) System.out.println("PaySMS.detectRegion: Region selection skipped, region auto-detected: " + PaySMS.currentAutoDetectedRegion);
 			return true;
 		}
 		for (int length = PaySMS.var_29fd.length, j = 0; j < length - 1; ++j) {
@@ -882,11 +856,10 @@ public final class PaySMS {
 	}
 	
 	private static void sendCCARD(final int pricepoint, String itemtype) {
-		new StringBuffer().append("PaySMS.sendRequest CREDIT CARD: Pricepoint:").append(pricepoint).append(" Type:").append(itemtype);
+		if (Define.DECOMP_MODE) System.out.println("PaySMS.sendRequest CREDIT CARD: Pricepoint:" + pricepoint + " Type:" + itemtype);
 		final String contentID = getAppProperty("IAP-ContentID-" + itemtype + "-" + pricepoint);
 		if (contentID.equals("")) {
-			new StringBuffer().append("PaySMS.sendCCARD: Wrong Item. IAP-ContentID-").append(itemtype).append("-").append(pricepoint)
-					.append(" missing in JAD");
+			if (Define.DECOMP_MODE) System.out.println("PaySMS.sendCCARD: Wrong Item. IAP-ContentID-" + itemtype + "-" + pricepoint + " missing in JAD");
 			PaySMS.errorCode = -2;
 			return;
 		}
@@ -897,7 +870,7 @@ public final class PaySMS {
 		itemtype = itemtype + "&unlockCode=" + PaySMS.unlockCode;
 		itemtype = itemtype + "&d=" + PaySMS.downloadCode;
 		final String creditCard = PaySMS.var_2b4d[11] + itemtype;
-		new StringBuffer().append("PaySMS.sendRequest CREDIT CARD: ").append(creditCard);
+		if (Define.DECOMP_MODE) System.out.println("PaySMS.sendRequest CREDIT CARD: " + creditCard);
 		if (creditCard != null) {
 			GLLib.OpenBrowser(creditCard);
 		}
@@ -925,8 +898,7 @@ public final class PaySMS {
 						if ((n = carrierName.indexOf(40)) == -1) {
 							n = carrierName.length();
 						}
-						new StringBuffer().append("PaySMS.getProfilesCarrierAndIds: regionName = ").append(regionName)
-								.append(", carrierName = ").append(carrierName);
+						if (Define.DECOMP_MODE) System.out.println("PaySMS.getProfilesCarrierAndIds: regionName = " + regionName + ", carrierName = " + carrierName);
 						if ((PaySMS.var_2a1d == null || sub_702c(carrierName, PaySMS.var_2a1d))
 								&& !vector.contains(carrierName.substring(0, n))) {
 							vector.addElement(new String[] { carrierName.substring(0, n), s2 });
@@ -952,7 +924,7 @@ public final class PaySMS {
 	}
 
 	private static String getPrice(final int pricePoint) {
-		new StringBuffer().append("PaySMS.getPrice: begin (").append(pricePoint).append(")");
+		if (Define.DECOMP_MODE) System.out.println("PaySMS.getPrice: begin (" + pricePoint + ")");
 		if (PaySMS.overrideFromJad.equals("1")) {
 			PaySMS.var_2aad = getAppProperty("IAP-Price-PP" + pricePoint);
 			if (PaySMS.var_2aad.equals("")) {
@@ -960,8 +932,8 @@ public final class PaySMS {
 			}
 			return PaySMS.var_2aad;
 		} else {
-			new StringBuffer().append("PaySMS.getPrice: currentValidProfiles: ").append(
-					(PaySMS.currentValidProfiles == null) ? "NULL" : ("Size: " + PaySMS.currentValidProfiles.size()));
+			if (Define.DECOMP_MODE) System.out.println("PaySMS.getPrice: currentValidProfiles: " + 
+					(PaySMS.currentValidProfiles == null ? "NULL" : ("Size: " + PaySMS.currentValidProfiles.size())));
 			if (PaySMS.currentValidProfiles == null) {
 				if (PaySMS.creditCardEnabled) {
 					return " ";
@@ -987,7 +959,7 @@ public final class PaySMS {
 						}
 					}
 				}
-				new StringBuffer().append("PaySMS.getPrice: profileIndex: ").append(profileIndex);
+				if (Define.DECOMP_MODE) System.out.println("PaySMS.getPrice: profileIndex: " + profileIndex);
 				if (profileIndex != -1) {
 					return PaySMS.profilesData[profileIndex][4];
 				}
@@ -1006,8 +978,7 @@ public final class PaySMS {
 	* returns long: your currency value
 	*/
 	public static long getVirtualCurrency(final long basecurrency, final int pricepoint) {
-		new StringBuffer().append("PaySMS.getVirtualCurrency: begin basecurrency ").append(basecurrency).append(", pricepoint")
-				.append(pricepoint);
+		if (Define.DECOMP_MODE) System.out.println("PaySMS.getVirtualCurrency: begin basecurrency " + basecurrency + ", pricepoint" + pricepoint);
 		long currency = 0L;
 		if (getTestFieldInt() == 0 && PaySMS.currentValidProfiles != null && PaySMS.currentValidProfiles.size() > 0) {
 			for (int j = 0; j < PaySMS.currentValidProfiles.size(); ++j) {
@@ -1036,11 +1007,11 @@ public final class PaySMS {
 				roundup *= 10;
 			}
 		}
-		new StringBuffer().append("currency:\t").append(currency).append("\tRound Up:\t").append(roundup);
+		if (Define.DECOMP_MODE) System.out.println("currency:\t" + currency + "\tRound Up:\t" + roundup);
 		if (currency % roundup != 0L) {
 			currency = (currency / roundup + 1L) * roundup;
 		}
-		new StringBuffer().append("Rounded currency:\t").append(currency);
+		if (Define.DECOMP_MODE) System.out.println("Rounded currency:\t" + currency);
 		return currency;
 	}
 
@@ -1074,8 +1045,8 @@ public final class PaySMS {
 				return "cc_2d";
 			}
 		}
-		new StringBuffer().append("PaySMS.GetBillingType: currentValidProfiles: ").append(
-				(PaySMS.currentValidProfiles == null) ? "NULL" : ("Size: " + PaySMS.currentValidProfiles.size()));
+		if (Define.DECOMP_MODE) System.out.println("PaySMS.GetBillingType: currentValidProfiles: " + 
+				(PaySMS.currentValidProfiles == null ? "NULL" : ("Size: " + PaySMS.currentValidProfiles.size())));
 		if (PaySMS.currentValidProfiles == null) {
 			return "cc_2d";
 		}
@@ -1110,8 +1081,8 @@ public final class PaySMS {
 	* returns String: your tncs
 	*/
 	public static String GetTermsAndConditions() {
-		new StringBuffer().append("PaySMS.GetTermsAndConditions: currentValidProfiles: ").append(
-				(PaySMS.currentValidProfiles == null) ? "NULL" : ("Size: " + PaySMS.currentValidProfiles.size()));
+		if (Define.DECOMP_MODE) System.out.println("PaySMS.GetTermsAndConditions: currentValidProfiles: " + 
+				(PaySMS.currentValidProfiles == null ? "NULL" : ("Size: " + PaySMS.currentValidProfiles.size())));
 		if (PaySMS.currentValidProfiles == null) {
 			return null;
 		}
@@ -1134,13 +1105,12 @@ public final class PaySMS {
 				}
 			}
 		}
-		new StringBuffer().append("PaySMS.GetTermsAndConditions: tncID = '").append(tncID).append("'");
+		if (Define.DECOMP_MODE) System.out.println("PaySMS.GetTermsAndConditions: tncID = '" + tncID + "'");
 		final String tnc = retrieveTermsAndConditions(tncID);
-		new StringBuffer().append("PaySMS.GetTermsAndConditions: tnc = '").append(tnc).append("'");
-		new StringBuffer().append("PaySMS.GetTermsAndConditions: supportNumber = '").append(supportNumber).append("'");
+		if (Define.DECOMP_MODE) System.out.println("PaySMS.GetTermsAndConditions: tnc = '" + tnc + "'");
+		if (Define.DECOMP_MODE) System.out.println("PaySMS.GetTermsAndConditions: supportNumber = '" + supportNumber + "'");
 		final String tncWoPhone = replaceTncStrings(tnc, supportNumber);
-		new StringBuffer().append("PaySMS.GetTermsAndConditions: tnc without phone number = '").append(tncWoPhone)
-				.append("'");
+		if (Define.DECOMP_MODE) System.out.println("PaySMS.GetTermsAndConditions: tnc without phone number = '" + tncWoPhone + "'");
 		return tncWoPhone;
 	}
 	
@@ -1177,8 +1147,7 @@ public final class PaySMS {
 				}
 			}
 		} else if (PaySMS.creditCardEnabled || getTestFieldInt() != 0) {
-			new StringBuffer().append("PaySMS.parseValidItems: IAP_TEST_FIELD or CC. creditCardEnabled = ")
-					.append(PaySMS.creditCardEnabled);
+			if (Define.DECOMP_MODE) System.out.println("PaySMS.parseValidItems: IAP_TEST_FIELD or CC. creditCardEnabled = " + PaySMS.creditCardEnabled);
 			for (int j = 1; j <= PaySMS.contentIDAmnt; ++j) {
 				if (isValidContentID(j, "Cash")) {
 					PaySMS.cashVector.addElement(new Integer(j));
@@ -1208,8 +1177,8 @@ public final class PaySMS {
 				}
 			}
 		}
-		new StringBuffer().append("PaySMS.parseValidItems: number of cash: ").append(PaySMS.cashVector.size());
-		new StringBuffer().append("PaySMS.parseValidItems: number of coin: ").append(PaySMS.coinVector.size());
+		if (Define.DECOMP_MODE) System.out.println("PaySMS.parseValidItems: number of cash: " + PaySMS.cashVector.size());
+		if (Define.DECOMP_MODE) System.out.println("PaySMS.parseValidItems: number of coin: " + PaySMS.coinVector.size());
 	}
 	
 	/**
@@ -1219,7 +1188,7 @@ public final class PaySMS {
 	* returns int: your price point
 	*/
 	public static int getPricePoint(final int itemIndex, final String itemType) {
-		new StringBuffer().append("PaySMS.getPricePoint: itemIndex").append(itemIndex).append(", itemType ").append(itemType);
+		if (Define.DECOMP_MODE) System.out.println("PaySMS.getPricePoint: itemIndex" + itemIndex + ", itemType " + itemType);
 		if (itemType.equals("Cash") && itemIndex <= PaySMS.cashVector.size()) {
 			return ((Integer) PaySMS.cashVector.elementAt(itemIndex)).intValue();
 		}
@@ -1257,19 +1226,17 @@ public final class PaySMS {
 		if (PaySMS.validContentIds.contains(_contentID)) {
 			value = true;
 		}
-		new StringBuffer().append("PaySMS.isValidContentID: IAP-ContentID-").append(contentID).append("-").append(pricePoint)
-				.append(": ").append(_contentID).append(value ? " - Valid" : " - Invalid");
+		if (Define.DECOMP_MODE) System.out.println("PaySMS.isValidContentID: IAP-ContentID-" + contentID + "-" + pricePoint + ": " + _contentID + (value ? " - Valid" : " - Invalid"));
 		return value;
 	}
 
 	private static String retrieveTermsAndConditions(final String id) {
-		new StringBuffer().append("PaySMS.retrieveTermsAndConditions: id = '").append(id).append("'");
+		if (Define.DECOMP_MODE) System.out.println("PaySMS.retrieveTermsAndConditions: id = '" + id + "'");
 		if (id == null || id.length() == 0) {
 			return "";
 		}
 		for (int i = 0; i < PaySMS.profilesTexts.length; ++i) {
-			new StringBuffer().append("PaySMS.retrieveTermsAndConditions: profilesTexts[").append(i)
-					.append("][TEXT_PROFILE_ID] = '").append(PaySMS.profilesTexts[i][0]).append("'");
+			if (Define.DECOMP_MODE) System.out.println("PaySMS.retrieveTermsAndConditions: profilesTexts[" + i + "][TEXT_PROFILE_ID] = '" + PaySMS.profilesTexts[i][0] + "'");
 			if (equalsIgnoreCase(PaySMS.profilesTexts[i][0], id)) {
 				return PaySMS.profilesTexts[i][1];
 			}
@@ -1317,8 +1284,7 @@ public final class PaySMS {
 			}
 		}
 		for (int j = 0; j < array.length; ++j) {
-			new StringBuffer().append("PaySMS.loadSpecificTextsFile: ID: ").append(array[j][0]).append(" TEXT: ")
-					.append(array[j][1]);
+			if (Define.DECOMP_MODE) System.out.println("PaySMS.loadSpecificTextsFile: ID: " + array[j][0] + " TEXT: " + array[j][1]);
 		}
 		return array;
 	}
@@ -1351,8 +1317,7 @@ public final class PaySMS {
 			return false;
 		}
 		for (int i = 0; i < profilesArgs.length; ++i) {
-			new StringBuffer().append("PaySMS.loadProfileConfiguration: profilesArgs[").append(i).append("]: ")
-					.append(profilesArgs[i]);
+			if (Define.DECOMP_MODE) System.out.println("PaySMS.loadProfileConfiguration: profilesArgs[" + i + "]: " + profilesArgs[i]);
 		}
 		array = array2;
 		int n = 0;
@@ -1409,11 +1374,9 @@ public final class PaySMS {
 				if (s2 != null) {
 					PaySMS.profilesData[n6][16] = ""
 							+ sub_7695(s) * (100 + Integer.parseInt(PaySMS.profilesData[n6][5])) * 100000L / sub_7695(s2);
-					new StringBuffer().append("bonus    ").append(100 + Integer.parseInt(PaySMS.profilesData[n6][5]))
-							.append(", tier ").append(tier);
+					if (Define.DECOMP_MODE) System.out.println("bonus    " + 100 + Integer.parseInt(PaySMS.profilesData[n6][5]) + ", tier " + tier);
 				}
-				new StringBuffer().append("profile Id :\t").append(PaySMS.profilesData[n6][0]).append("\tTier:\t")
-						.append(tier).append("\tRatios :\t").append(PaySMS.profilesData[n6][16]);
+				if (Define.DECOMP_MODE) System.out.println("profile Id :\t" + PaySMS.profilesData[n6][0] + "\tTier:\t" + tier + "\tRatios :\t" + PaySMS.profilesData[n6][16]);
 			}
 		} catch (final Exception ex) {
 		}
@@ -1430,48 +1393,44 @@ public final class PaySMS {
 		for (int i = 0; i < PaySMS.profilesData.length; ++i) {
 			PaySMS.var_29b5[i] = new Vector();
 			final String s = PaySMS.profilesData[i][3];
-			new StringBuffer().append("PaySMS.parseMultipleCarriers: Carriers - Profile: ")
-					.append(PaySMS.profilesData[i][0]);
+			if (Define.DECOMP_MODE) System.out.println("PaySMS.parseMultipleCarriers: Carriers - Profile: " + PaySMS.profilesData[i][0]);
 			int beginIndex = 0;
 			int j;
 			if ((j = s.indexOf("¬", 0)) == -1) {
 				PaySMS.var_29b5[i].addElement(s);
-				new StringBuffer().append("PaySMS.parseMultipleCarriers: \t\t").append(s);
+				if (Define.DECOMP_MODE) System.out.println("PaySMS.parseMultipleCarriers: \t\t" + s);
 			} else {
 				while (j != -1) {
 					PaySMS.var_29b5[i].addElement(s.substring(beginIndex, j));
-					new StringBuffer().append("PaySMS.parseMultipleCarriers: \t\t").append(s.substring(beginIndex, j));
+					if (Define.DECOMP_MODE) System.out.println("PaySMS.parseMultipleCarriers: \t\t" + s.substring(beginIndex, j));
 					beginIndex = j + 1;
 					j = s.indexOf("¬", beginIndex);
 				}
 				PaySMS.var_29b5[i].addElement(s.substring(beginIndex, s.length()));
-				new StringBuffer().append("PaySMS.parseMultipleCarriers: \t\t")
-						.append(s.substring(beginIndex, s.length()));
+				if (Define.DECOMP_MODE) System.out.println("PaySMS.parseMultipleCarriers: \t\t" + s.substring(beginIndex, s.length()));
 			}
-			new StringBuffer().append("\tSize: ").append(PaySMS.var_29b5[i].size());
+			if (Define.DECOMP_MODE) System.out.println("\tSize: " + PaySMS.var_29b5[i].size());
 		}
 		if (PaySMS.var_2b4d != null) {
 			PaySMS.var_29b5[PaySMS.profilesData.length] = new Vector();
 			final String s2 = PaySMS.var_2b4d[3];
-			new StringBuffer().append("PaySMS.parseMultipleCarriers: Carriers - Profile: ").append(PaySMS.var_2b4d[0]);
+			if (Define.DECOMP_MODE) System.out.println("PaySMS.parseMultipleCarriers: Carriers - Profile: " + PaySMS.var_2b4d[0]);
 			int beginIndex2 = 0;
 			int k;
 			if ((k = s2.indexOf("¬", 0)) == -1) {
 				PaySMS.var_29b5[PaySMS.profilesData.length].addElement(s2);
-				new StringBuffer().append("PaySMS.parseMultipleCarriers: \t\t").append(s2);
+				if (Define.DECOMP_MODE) System.out.println("PaySMS.parseMultipleCarriers: \t\t" + s2);
 			} else {
 				while (k != -1) {
 					PaySMS.var_29b5[PaySMS.profilesData.length].addElement(s2.substring(beginIndex2, k));
-					new StringBuffer().append("PaySMS.parseMultipleCarriers: \t\t")
-							.append(s2.substring(beginIndex2, k));
+					if (Define.DECOMP_MODE) System.out.println("PaySMS.parseMultipleCarriers: \t\t" + s2.substring(beginIndex2, k));
 					beginIndex2 = k + 1;
 					k = s2.indexOf("¬", beginIndex2);
 				}
 				PaySMS.var_29b5[PaySMS.profilesData.length].addElement(s2.substring(beginIndex2, s2.length()));
-				new StringBuffer().append("PaySMS.parseMultipleCarriers: \t\t")
-						.append(s2.substring(beginIndex2, s2.length()));
+				if (Define.DECOMP_MODE) System.out.println("PaySMS.parseMultipleCarriers: \t\t" + s2.substring(beginIndex2, s2.length()));
 			}
-			new StringBuffer().append("\tSize: ").append(PaySMS.var_29b5[PaySMS.profilesData.length].size());
+			if (Define.DECOMP_MODE) System.out.println("\tSize: " + PaySMS.var_29b5[PaySMS.profilesData.length].size());
 		}
 	}
 
@@ -1514,7 +1473,7 @@ public final class PaySMS {
 			baos.close();
 			bytesStr = new String(bytes, 0, bytes.length, "UTF-8");
 		} catch (final Exception ex) {
-			new StringBuffer().append("PaySMS.readFile: ").append(filename).append(" Exception: ").append(ex.toString());
+			if (Define.DECOMP_MODE) System.out.println("PaySMS.readFile: " + filename + " Exception: " + ex.toString());
 			return null;
 		}
 		int n = 0;
@@ -1573,7 +1532,7 @@ public final class PaySMS {
 							&& n2 <= index3 - index2) {
 						n2 = index3 - index2;
 						PaySMS.currentAutoDetectedRegion = j;
-						new StringBuffer().append("currentAutoDetectedRegion ").append(PaySMS.currentAutoDetectedRegion);
+						if (Define.DECOMP_MODE) System.out.println("currentAutoDetectedRegion " + PaySMS.currentAutoDetectedRegion);
 						final String[] obj;
 						(obj = new String[2])[0] = regionsConfig[j][0];
 						obj[1] = regionsConfig[j][1];
@@ -1585,18 +1544,15 @@ public final class PaySMS {
 				regionsConfig[j][0] = s2;
 				regionsConfig[j][1] = "";
 			}
-			new StringBuffer().append("PaySMS.getProfilesRegions:          regionsConfig[").append(j)
-					.append("][REGION_NAME]: ").append(regionsConfig[j][0]);
-			new StringBuffer().append("PaySMS.getProfilesRegions:          regionsConfig[").append(j)
-					.append("][REGION_CODE]: ").append(regionsConfig[j][1]);
+			if (Define.DECOMP_MODE) System.out.println("PaySMS.getProfilesRegions:          regionsConfig[" + j + "][REGION_NAME]: " + regionsConfig[j][0]);
+			if (Define.DECOMP_MODE) System.out.println("PaySMS.getProfilesRegions:          regionsConfig[" + j + "][REGION_CODE]: " + regionsConfig[j][1]);
 		}
 		if (n3 > 1) {
 			PaySMS.currentAutoDetectedRegion = -1;
 			regionsConfig = new String[vector2.size()][2];
 			vector2.copyInto(regionsConfig);
 		}
-		new StringBuffer().append("PaySMS.getProfilesRegions: Auto-detected: ")
-				.append((PaySMS.currentAutoDetectedRegion == -1) ? "NONE" : regionsConfig[PaySMS.currentAutoDetectedRegion][0]);
+		if (Define.DECOMP_MODE) System.out.println("PaySMS.getProfilesRegions: Auto-detected: " + (PaySMS.currentAutoDetectedRegion == -1 ? "NONE" : regionsConfig[PaySMS.currentAutoDetectedRegion][0]));
 		return regionsConfig;
 	}
 
@@ -1611,12 +1567,12 @@ public final class PaySMS {
 				recordStr = new String(record);
 			}
 		} catch (final Exception ex) {
-			new StringBuffer().append("PaySMS.rmsLoad: Exception: ").append(recordName).append(" ").append(ex.toString());
+			if (Define.DECOMP_MODE) System.out.println("PaySMS.rmsLoad: Exception: " + recordName + " " + ex.toString());
 		}
 		try {
 			rs.closeRecordStore();
 		} catch (final Exception ex2) {
-			new StringBuffer().append("PaySMS.rmsLoad: Exception: ").append(recordName).append(" ").append(ex2.toString());
+			if (Define.DECOMP_MODE) System.out.println("PaySMS.rmsLoad: Exception: " + recordName + " " + ex2.toString());
 		}
 		return recordStr;
 	}
@@ -1638,13 +1594,13 @@ public final class PaySMS {
 				rs.addRecord(bytes, 0, bytes.length);
 			}
 		} catch (final Exception ex) {
-			new StringBuffer().append("PaySMS.rmsSave: Exception: ").append(ex.toString());
+			if (Define.DECOMP_MODE) System.out.println("PaySMS.rmsSave: Exception: " + ex.toString());
 		}
 		if (rs != null) {
 			try {
 				rs.closeRecordStore();
 			} catch (final Exception ex2) {
-				new StringBuffer().append("PaySMS.rmsSave: Exception: ").append(ex2.toString());
+				if (Define.DECOMP_MODE) System.out.println("PaySMS.rmsSave: Exception: " + ex2.toString());
 			}
 		}
 	}
@@ -1707,7 +1663,7 @@ public final class PaySMS {
 			//profile = profile + vector.elementAt(i) + ";";
 			profile += vector.elementAt(i) + ";";
 		}
-		new StringBuffer().append("PaySMS.storeProfileID: ").append(profile);
+		if (Define.DECOMP_MODE) System.out.println("PaySMS.storeProfileID: " + profile);
 		rmsSave(PaySMS.RMS_RECORDS[3], String.valueOf(profile));
 	}
 
@@ -1766,25 +1722,22 @@ public final class PaySMS {
 		try {
 			final int h = ((Integer) PaySMS.currentValidProfiles.elementAt(0)).intValue();
 			final String profileID = PaySMS.profilesData[h][0];
-			new StringBuffer().append("profileID : ").append(profileID);
+			if (Define.DECOMP_MODE) System.out.println("profileID : " + profileID);
 			for (int i = 0; i < PaySMS.turkeyProfiles.length; ++i) {
 				if (profileID != null && profileID.equals(PaySMS.turkeyProfiles[i])) {
-					new StringBuffer().append("PaySMS. Found valid the Turkey profile: ")
-							.append(PaySMS.profilesData[h][0]);
+					if (Define.DECOMP_MODE) System.out.println("PaySMS. Found valid the Turkey profile: " + PaySMS.profilesData[h][0]);
 					return 3;
 				}
 			}
 			for (int j = 0; j < PaySMS.openMarketProfiles.length; ++j) {
 				if (profileID != null && profileID.equals(PaySMS.openMarketProfiles[j])) {
-					new StringBuffer().append("PaySMS. Found valid the FR Open Market profile: ")
-							.append(PaySMS.profilesData[h][0]);
+					if (Define.DECOMP_MODE) System.out.println("PaySMS. Found valid the FR Open Market profile: " + PaySMS.profilesData[h][0]);
 					return 6;
 				}
 			}
 			for (int k = 0; k < PaySMS.telkomselProfiles.length; ++k) {
 				if (profileID != null && profileID.equals(PaySMS.telkomselProfiles[k])) {
-					new StringBuffer().append("PaySMS. Found valid the Indonesia Telkomsel profile: ")
-							.append(PaySMS.profilesData[h][0]);
+					if (Define.DECOMP_MODE) System.out.println("PaySMS. Found valid the Indonesia Telkomsel profile: " + PaySMS.profilesData[h][0]);
 					return 11;
 				}
 			}
@@ -1793,7 +1746,7 @@ public final class PaySMS {
 				return 8;
 			}
 			final String countryCode = s.substring(s.indexOf(40) + 1, s.lastIndexOf(58)).trim();
-			new StringBuffer().append("PaySMS. Country unlockCode ").append(countryCode);
+			if (Define.DECOMP_MODE) System.out.println("PaySMS. Country unlockCode " + countryCode);
 			if (PaySMS.profilesData[h][6].equals("SMS")) {
 				
 				// Germany
@@ -1833,7 +1786,7 @@ public final class PaySMS {
 				return 9;
 			}
 		} catch (final Exception obj) {
-			new StringBuffer().append("PaySMS. GetSpecialFlow,  Exception: ").append(obj);
+			if (Define.DECOMP_MODE) System.out.println("PaySMS. GetSpecialFlow,  Exception: " + obj);
 		}
 		return 8;
 	}
@@ -1853,10 +1806,9 @@ public final class PaySMS {
 				try {
 					if (Integer.parseInt(PaySMS.profilesData[j][14]) == pricepoint) {
 						final long sub_7695 = sub_7695(PaySMS.profilesData[j][9]);
-						new StringBuffer().append("Fixed price : ").append(PaySMS.profilesData[j][9]);
+						if (Define.DECOMP_MODE) System.out.println("Fixed price : " + PaySMS.profilesData[j][9]);
 						if (sub_7695 > 500000L) {
-							new StringBuffer().append("Found Price greater than 5 Euros : ")
-									.append(PaySMS.profilesData[j][9]);
+							if (Define.DECOMP_MODE) System.out.println("Found Price greater than 5 Euros : " + PaySMS.profilesData[j][9]);
 							return 1;
 						}
 						break;
@@ -1912,8 +1864,7 @@ public final class PaySMS {
 
 	private static boolean equalsIgnoreCase(final String s1, final String s2) {
 		if (s1 == null || s2 == null) {
-			new StringBuffer().append("PaySMS.equalsIgnoreCase: s1 = '").append(s1).append("', s2 = '").append(s2)
-					.append("'");
+			if (Define.DECOMP_MODE) System.out.println("PaySMS.equalsIgnoreCase: s1 = '" + s1 + "', s2 = '" + s2 + "'");
 			return false;
 		}
 		return s1.toUpperCase().equals(s2.toUpperCase());
