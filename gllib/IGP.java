@@ -21,7 +21,7 @@ public final class IGP implements Runnable, CommandListener
     private static String s_igpClassVersion;
     private static String s_fullIgpSignature;
     private static String s_dataIGPVersion;
-    private static String var_1c15;
+    private static String s_platformRequestUrl;
     private static Font s_igpFont;
     private static String URL_PREFIX;
     private static int var_1c2d;
@@ -136,9 +136,9 @@ public final class IGP implements Runnable, CommandListener
     private static int CurrentState;
     private static int var_1fa5;
     private static int var_1fad;
-    private static int var_1fb5;
+    private static int OldState;
     private static int CurrentLoadingStep;
-    private static int var_1fc5;
+    private static int TotalLoadingSteps;
     private static ASprite[] var_1fcd;
     private static ASprite var_1fd5;
     private static ASprite var_1fdd;
@@ -567,19 +567,19 @@ public final class IGP implements Runnable, CommandListener
             var_1f8d = var_204d;
         }
         else {
-            sub_4f48();
+            reset();
             if (0 < var_1f05.length) {
                 //var_201d = 0;
                 StringLoading = loadingMsg;
                 CurrentLoadingStep = -1;
                 CurrentState = 0;
-                var_1fb5 = -1;
+                OldState = -1;
                 var_1fad = 0;
                 var_1f85 = true;
                 s_igpFont = Font.getFont(0, 0, 8);
                 sub_3539();
             }
-            var_1fc5 = 4 + var_1f0d;
+            TotalLoadingSteps = 4 + var_1f0d;
             var_1fad = sub_3660();
         }
         RecordStore igp19 = null;
@@ -803,22 +803,22 @@ public final class IGP implements Runnable, CommandListener
         System.gc();
     }
     
-    public static void sub_3b06(final boolean b) {
-        if (b) {
+    public static void exitIGP(final boolean reset) {
+        if (reset) {
             if (CurrentState == 0 || CurrentState == 2) {
-                var_1fb5 = CurrentState;
+                OldState = CurrentState;
                 CurrentState = 5;
             }
-            sub_4f48();
+            reset();
             return;
         }
         if (CurrentState == 5) {
-            CurrentState = var_1fb5;
+            CurrentState = OldState;
             CurrentLoadingStep = -1;
         }
     }
     
-    public static boolean sub_3b75(int var_1fa5) {
+    public static boolean update(int action) {
         if (var_2055) {
             return true;
         }
@@ -829,15 +829,15 @@ public final class IGP implements Runnable, CommandListener
             var_2085 = false;
         }
         else {
-            var_1fa5 = IGP.var_1fa5;
+            action = IGP.var_1fa5;
         }
         Label_2560: {
             switch (CurrentState) {
                 case 0: {
-                    if (CurrentLoadingStep >= var_1fc5) {
+                    if (CurrentLoadingStep >= TotalLoadingSteps) {
                         CurrentState = 1;
                         var_2015 = var_1fad;
-                        var_1fa5 = s_screenWidth;
+                        action = s_screenWidth;
                         
                         var_1f4d = new int[var_1e15][];
                         for (int i = 0; i < var_1e15; ++i) {
@@ -851,14 +851,14 @@ public final class IGP implements Runnable, CommandListener
                         final int sub_48cb3 = GetFrameHeight(0, 9);
                         int n = GetFrameWidth(0, 10);
                         int n2 = GetFrameHeight(0, 10);
-                        if ((var_1fa5 == 240 && (s_screenHeight == 320 || s_screenHeight == 400)) || (var_1fa5 == 360 && (s_screenHeight == 640 || s_screenHeight == 480))) {
+                        if ((action == 240 && (s_screenHeight == 320 || s_screenHeight == 400)) || (action == 360 && (s_screenHeight == 640 || s_screenHeight == 480))) {
                             n = GetFrameWidth(0, 35);
                             n2 = GetFrameHeight(0, 35);
                         }
                         final int sub_48cb4 = GetFrameHeight(0, 15);
                         final int sub_48cb5 = GetFrameHeight(0, 29);
                         var_1fd5.UpdateStringOrCharsSize(sub_2306(var_1cd5), null);
-                        final short[] sub_4ac6 = var_1fd5.WraptextB(sub_2306(var_1cd5), var_1fa5 - sub_48a7, false);
+                        final short[] sub_4ac6 = var_1fd5.WraptextB(sub_2306(var_1cd5), action - sub_48a7, false);
                         var_1e55 = ASprite._text_w;
                         int n3 = var_1e4d = sub_4ac6[0] * var_1e35;
                         if (sub_48cb > var_1e4d) {
@@ -880,7 +880,7 @@ public final class IGP implements Runnable, CommandListener
                         }
                         else if (s_screenHeight <= 320) {
                             n5 = 0;
-                            if (var_1fa5 == 240) {
+                            if (action == 240) {
                                 n5 = 1;
                             }
                         }
@@ -892,7 +892,7 @@ public final class IGP implements Runnable, CommandListener
                         }
                         else if (s_screenHeight <= 480) {
                             n5 = 6;
-                            if (var_1fa5 == 360) {
+                            if (action == 360) {
                                 n5 = 0;
                             }
                         }
@@ -904,35 +904,35 @@ public final class IGP implements Runnable, CommandListener
                         }
                         int n6 = GetFrameWidth(0, 15);
                         int n7 = GetFrameWidth(0, 17);
-                        if ((var_1fa5 == 240 && (s_screenHeight == 320 || s_screenHeight == 400)) || (var_1fa5 == 360 && (s_screenHeight == 640 || s_screenHeight == 480))) {
+                        if ((action == 240 && (s_screenHeight == 320 || s_screenHeight == 400)) || (action == 360 && (s_screenHeight == 640 || s_screenHeight == 480))) {
                             n6 = GetFrameWidth(0, 31);
                             n7 = GetFrameWidth(0, 33);
                         }
-                        var_1f4d[var_1d65][0] = var_1fa5 - n6 >> 2;
+                        var_1f4d[var_1d65][0] = action - n6 >> 2;
                         var_1f4d[var_1d65][1] = 3;
-                        var_1f4d[var_1d6d][0] = (var_1fa5 - n7 >> 2) * 3;
+                        var_1f4d[var_1d6d][0] = (action - n7 >> 2) * 3;
                         var_1f4d[var_1d6d][1] = var_1f4d[var_1d65][1];
                         final int sub_33a1 = var_1fcd[0].GetFrameModuleY(15, var_1fcd[0].CountFrameModules(15) - 1);
-                        var_1f4d[var_1d75][0] = var_1fa5 >> 2;
+                        var_1f4d[var_1d75][0] = action >> 2;
                         var_1f4d[var_1d75][1] = var_1f4d[var_1d65][1] + (sub_33a1 >> 1) + n5;
-                        var_1f4d[var_1d7d][0] = (var_1fa5 >> 1) + (var_1fa5 >> 2);
+                        var_1f4d[var_1d7d][0] = (action >> 1) + (action >> 2);
                         var_1f4d[var_1d7d][1] = var_1f4d[var_1d75][1];
-                        var_1f4d[0][0] = var_1fa5 >> 1;
+                        var_1f4d[0][0] = action >> 1;
                         var_1f4d[0][1] = n4 + (var_1e35 >> 1) + n5 - 2;
                         final int[] array = var_1f4d[0];
                         final int n8 = 1;
                         array[n8] += var_1f4d[var_1d65][1] + sub_48cb4;
                         var_1f4d[var_1d85][0] = 0;
                         var_1f4d[var_1d85][1] = var_1f4d[0][1] + n4 + (var_1e35 >> 1) - n5 + 2;
-                        var_1f4d[var_1d5d][0] = var_1fa5 >> 1;
+                        var_1f4d[var_1d5d][0] = action >> 1;
                         var_1f4d[var_1d5d][1] = var_1f4d[var_1d85][1] + (sub_48cb3 >> 1) + n5 - 2;
                         final int sub_48a9 = GetFrameWidth(0, 2);
                         final int sub_48cb6 = GetFrameHeight(0, 2);
                         var_1f4d[var_1dbd][0] = 5;
                         var_1f4d[var_1dbd][1] = var_1f4d[var_1d85][1] + (sub_48cb3 >> 1) - (sub_48cb6 >> 1);
-                        var_1f4d[var_1dc5][0] = var_1fa5 - 5 - sub_48a9;
+                        var_1f4d[var_1dc5][0] = action - 5 - sub_48a9;
                         var_1f4d[var_1dc5][1] = var_1f4d[var_1dbd][1];
-                        var_1f4d[var_1dad][0] = var_1fa5 - var_1c2d - sub_48a7;
+                        var_1f4d[var_1dad][0] = action - var_1c2d - sub_48a7;
                         var_1f4d[var_1dad][1] = s_screenHeight - 2 - sub_48cb;
                         var_1f4d[var_1e0d][0] = var_1c2d;
                         var_1f4d[var_1e0d][1] = s_screenHeight - 2 - sub_48cb;
@@ -945,28 +945,28 @@ public final class IGP implements Runnable, CommandListener
                         var_1f4d[var_1dcd][1] = var_1f4d[var_1dd5][1];
                         var_1f4d[var_1ded][0] = var_1f4d[var_1dcd][0] + (n >> 1) + n % 2;
                         var_1f4d[var_1ded][1] = var_1f4d[var_1dcd][1] + (n2 >> 1) + n5;
-                        var_1f4d[var_1ddd][0] = (var_1fa5 >> 1) - (n >> 1);
+                        var_1f4d[var_1ddd][0] = (action >> 1) - (n >> 1);
                         var_1f4d[var_1ddd][1] = var_1f4d[var_1dd5][1];
                         var_1f4d[var_1df5][0] = var_1f4d[var_1ddd][0] + (n >> 1) + n % 2;
                         var_1f4d[var_1df5][1] = var_1f4d[var_1ddd][1] + (n2 >> 1) + n5;
-                        var_1f4d[var_1d8d][0] = (var_1fa5 >> 1) - (sub_48a8 >> 1);
+                        var_1f4d[var_1d8d][0] = (action >> 1) - (sub_48a8 >> 1);
                         var_1f4d[var_1d8d][1] = var_1f4d[var_1d85][1] + sub_48cb3 + n4;
-                        var_1f4d[var_1dfd][0] = var_1fa5 - sub_48a7 >> 1;
+                        var_1f4d[var_1dfd][0] = action - sub_48a7 >> 1;
                         var_1f4d[var_1dfd][1] = var_1f4d[var_1d8d][1] + sub_48cb2 + (s_screenHeight - var_1f4d[var_1d8d][1] - sub_48cb2 >> 1);
-                        var_1f4d[var_1dfd][0] = var_1fa5 - n >> 2;
-                        if (s_screenHeight > var_1fa5) {
+                        var_1f4d[var_1dfd][0] = action - n >> 2;
+                        if (s_screenHeight > action) {
                             var_1f4d[var_1dfd][1] = var_1f4d[var_1d8d][1] + sub_48cb2 + (var_1f4d[var_1ddd][1] - (var_1f4d[var_1d8d][1] + sub_48cb2) >> 1);
-                            var_1f4d[var_1dfd][0] = var_1fa5 >> 1;
+                            var_1f4d[var_1dfd][0] = action >> 1;
                         }
-                        var_1f4d[var_1d95][0] = var_1fa5 >> 1;
+                        var_1f4d[var_1d95][0] = action >> 1;
                         var_1f4d[var_1d95][1] = var_1f4d[var_1d8d][1] + (sub_48cb2 << 1) / 3;
                         var_1f4d[var_1d9d][0] = 5;
                         var_1f4d[var_1d9d][1] = var_1f4d[var_1d8d][1] + (sub_48cb2 >> 1) - (GetFrameHeight(0, 6) >> 1);
-                        var_1f4d[var_1da5][0] = var_1fa5 - GetFrameWidth(0, 4) - 5;
+                        var_1f4d[var_1da5][0] = action - GetFrameWidth(0, 4) - 5;
                         var_1f4d[var_1da5][1] = var_1f4d[var_1d9d][1];
                         int n10 = GetFrameWidth(0, 8);
                         int n11 = GetFrameHeight(0, 8);
-                        if (var_1fa5 == 360 && s_screenHeight == 480) {
+                        if (action == 360 && s_screenHeight == 480) {
                             n10 = GetFrameWidth(0, 39);
                             n11 = GetFrameHeight(0, 39);
                         }
@@ -974,9 +974,9 @@ public final class IGP implements Runnable, CommandListener
                         var_1f4d[var_1db5][1] = var_1f4d[var_1d8d][1] + sub_48cb2 - n11;
                         var_1f4d[var_1e05][0] = 0;
                         var_1f4d[var_1e05][1] = var_1f4d[0][1] - (sub_48cb5 >> 1);
-                        var_1fa5 = var_1fcd[0].CountFrameModules(15);
-                        var_1fa5 = var_1fcd[0].GetFrameModuleY(15, var_1fa5 - 1);
-                        var_1f4d[var_1e05][1] = var_1f4d[var_1d65][1] + (var_1fa5 >> 1) - (sub_48cb5 >> 1);
+                        action = var_1fcd[0].CountFrameModules(15);
+                        action = var_1fcd[0].GetFrameModuleY(15, action - 1);
+                        var_1f4d[var_1e05][1] = var_1f4d[var_1d65][1] + (action >> 1) - (sub_48cb5 >> 1);
                     }
                     else {
                         sub_36b3(CurrentLoadingStep);
@@ -987,17 +987,17 @@ public final class IGP implements Runnable, CommandListener
                 case 1: {
                     Label_2264: {
                         Label_2258: {
-                            switch (var_1fa5) {
+                            switch (action) {
                                 case 26: {
                                     CurrentState = 4;
                                     break Label_2560;
                                 }
                                 case 23: {
-                                    var_1fa5 = 0;
+                                    action = 0;
                                     if (var_1fad >= var_1c55) {
-                                        var_1fa5 = 1;
+                                        action = 1;
                                     }
-                                    if (var_1fe5[var_1fa5] > 1) {
+                                    if (var_1fe5[action] > 1) {
                                         if (var_1fad == 0) {
                                             var_1fad = var_1c55 - 1;
                                         }
@@ -1024,11 +1024,11 @@ public final class IGP implements Runnable, CommandListener
                                     break Label_2264;
                                 }
                                 case 24: {
-                                    var_1fa5 = 0;
+                                    action = 0;
                                     if (var_1fad >= var_1c55) {
-                                        var_1fa5 = 1;
+                                        action = 1;
                                     }
-                                    if (var_1fe5[var_1fa5] > 1) {
+                                    if (var_1fe5[action] > 1) {
                                         if (!var_1f3d) {
                                             if (var_1fad == var_1c55 - 1) {
                                                 var_1fad = 0;
@@ -1127,15 +1127,15 @@ public final class IGP implements Runnable, CommandListener
                 }
                 case 2: {
                     unloadResources(false);
-                    var_1fa5 = var_1fad;
+                    action = var_1fad;
                     int var_1fbd;
-                    final int n12 = (var_1ff5[var_1fa5] == 4) ? (var_1fbd = var_1ff5[var_1fa5]) : ((var_1ff5[var_1fa5] == 6) ? (var_1fbd = 6) : ((var_1ff5[var_1fa5] == 7) ? (var_1fbd = 7) : ((var_1ff5[var_1fa5] == 8) ? (var_1fbd = 8) : (var_1fbd = -1))));
+                    final int n12 = (var_1ff5[action] == 4) ? (var_1fbd = var_1ff5[action]) : ((var_1ff5[action] == 6) ? (var_1fbd = 6) : ((var_1ff5[action] == 7) ? (var_1fbd = 7) : ((var_1ff5[action] == 8) ? (var_1fbd = 8) : (var_1fbd = -1))));
                     CurrentLoadingStep = var_1fbd;
                     sub_36b3(n12);
                     CurrentState = 1;
                 }
                 case 3: {
-                    switch (var_1fa5) {
+                    switch (action) {
                         case 26: {
                             CurrentState = 1;
                             break;
@@ -1290,7 +1290,7 @@ public final class IGP implements Runnable, CommandListener
         return 0;
     }
     
-    private static void sub_4f48() {
+    private static void reset() {
         var_1fa5 = 0;
         var_207d = 0;
         var_2085 = true;
@@ -1319,8 +1319,8 @@ public final class IGP implements Runnable, CommandListener
             case STATE_LOADING: { 
                 g.setColor(0);
                 GLLib.FillRect(g, 0, 0, s_screenWidth, s_screenHeight, true);
-                if (CurrentLoadingStep > var_1fc5) {
-                	CurrentLoadingStep = var_1fc5;
+                if (CurrentLoadingStep > TotalLoadingSteps) {
+                	CurrentLoadingStep = TotalLoadingSteps;
                 }
                 setClip(g, 0, 0, s_screenHeight, s_screenWidth);
                 g.setColor(16777215);
@@ -1328,7 +1328,7 @@ public final class IGP implements Runnable, CommandListener
                 g.setColor(0);
                 GLLib.FillRect(g, (s_screenWidth - s_screenWidth * 3 / 4) / 2 + 1 + 1, var_206d + 1 + 1, s_screenWidth * 3 / 4 - 2 - 1, 3, true);
                 g.setColor(16711680);
-                GLLib.FillRect(g, (s_screenWidth - s_screenWidth * 3 / 4) / 2 + 1 + 1, var_206d + 1 + 1, (s_screenWidth * 3 / 4) * CurrentLoadingStep / var_1fc5 + 1, 3, true);
+                GLLib.FillRect(g, (s_screenWidth - s_screenWidth * 3 / 4) / 2 + 1 + 1, var_206d + 1 + 1, (s_screenWidth * 3 / 4) * CurrentLoadingStep / TotalLoadingSteps + 1, 3, true);
                 if (StringLoading != null && !StringLoading.trim().equals("")) {
                     Image image = Image.createImage(s_screenWidth, 30);
                     final Graphics graphics5 = image.getGraphics();
@@ -1673,11 +1673,11 @@ public final class IGP implements Runnable, CommandListener
         while (var_1f85) {
             try {
                 if (var_1f8d != null) {
-                	var_1c15 = var_1f8d;
-                    if (var_1c15 != null && var_1c15.length() > 0) {
+                	s_platformRequestUrl = var_1f8d;
+                    if (s_platformRequestUrl != null && s_platformRequestUrl.length() > 0) {
                         var_1f55 = false;
-                        final String urlPlatformRequest = var_1c15;
-                        var_1c15 = null;
+                        final String urlPlatformRequest = s_platformRequestUrl;
+                        s_platformRequestUrl = null;
                         new StringBuffer().append("urlPlatformRequest = ").append(urlPlatformRequest);
                         try {
                             MidletInstance.platformRequest(urlPlatformRequest);

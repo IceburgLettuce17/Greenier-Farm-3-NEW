@@ -8,9 +8,9 @@ import java.util.TimerTask;
 final class BuyCloseTask extends TimerTask
 {
     public final void run() {
-        if (!PaySMS.var_2aed) {
+        if (!PaySMS.unkBool) {
             try {
-                PaySMS.var_2ae5 = true;
+                PaySMS.connClosed = true;
                 PaySMS.conn.close();
             }
             catch (final Exception ex) {

@@ -2182,7 +2182,7 @@ public final class cGame extends GLLib implements Class_b
 							break;
 						}
 						}
-						if (IGP.sub_3b75(mode)) {
+						if (IGP.update(mode)) {
 							cGame.s_switcherState = 1;
 							sub_2c69b();
 						}
@@ -2191,10 +2191,10 @@ public final class cGame extends GLLib implements Class_b
 						IGP.paint(GLLib.g);
 					}
 					if (depth == 6) {
-						IGP.sub_3b06(false);
+						IGP.exitIGP(false);
 					}
 					if (depth == 7) {
-						IGP.sub_3b06(true);
+						IGP.exitIGP(true);
 					}
 					b = false;
 					break;

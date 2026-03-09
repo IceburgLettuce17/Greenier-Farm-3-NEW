@@ -34,11 +34,11 @@ final class BuyTask extends Thread
                     if (PaySMS.getCurrentProfile() == -1) {
                         PaySMS.setIsSms(false);
                         PaySMS.rmsSave(PaySMS.RMS_RECORDS[0], "0");
-                        PaySMS.sub_78dd();
-                        PaySMS.sub_78fd(-1);
+                        PaySMS.setNotSendingSMS();
+                        PaySMS.setErrorCode(-1);
                         return;
                     }
-                    smsAdress = smsProto + PaySMS.sub_789f()[PaySMS.getCurrentProfile()][11];
+                    smsAdress = smsProto + PaySMS.getProfilesData()[PaySMS.getCurrentProfile()][11];
                 }
             }
             new StringBuffer().append("PaySMS.buy: smsAdress: ").append(smsAdress);
@@ -56,7 +56,7 @@ final class BuyTask extends Thread
             PaySMS.setTimer(new Timer());
             PaySMS.getTimer().schedule(new BuyCloseTask(), 30000);
             PaySMS.conn.send((Message)msg);
-            PaySMS.setIsSms(PaySMS.var_2aed = true);
+            PaySMS.setIsSms(PaySMS.unkBool = true);
             PaySMS.rmsSave(PaySMS.RMS_RECORDS[0], "1");
             PaySMS.rmsSave(PaySMS.RMS_RECORDS[1], PaySMS.getCode());
             PaySMS.rmsSave(PaySMS.RMS_RECORDS[2], String.valueOf(PaySMS.itemAmount));
@@ -76,17 +76,17 @@ final class BuyTask extends Thread
         catch (final SecurityException ex3) {
             PaySMS.setIsSms(false);
             PaySMS.rmsSave(PaySMS.RMS_RECORDS[0], "0");
-            PaySMS.sub_78fd(-9);
+            PaySMS.setErrorCode(-9);
             new StringBuffer().append("PaySMS.buy: SMS sent failed! Security Exception: ").append(ex3.toString());
         }
         catch (final Throwable t) {
             PaySMS.setIsSms(false);
             PaySMS.rmsSave(PaySMS.RMS_RECORDS[0], "0");
-            if (PaySMS.var_2ae5) {
-                PaySMS.sub_78fd(-4);
+            if (PaySMS.connClosed) {
+                PaySMS.setErrorCode(-4);
             }
             else {
-                PaySMS.sub_78fd(-1);
+                PaySMS.setErrorCode(-1);
             }
             new StringBuffer().append("PaySMS.buy: SMS sent failed! Exception: ").append(t.toString());
         }
@@ -98,6 +98,6 @@ final class BuyTask extends Thread
         catch (final Exception ex4) {
             new StringBuffer().append("PaySMS.buy: Failed to close connection! Exception: ").append(ex4.toString());
         }
-        PaySMS.sub_78dd();
+        PaySMS.setNotSendingSMS();
     }
 }
