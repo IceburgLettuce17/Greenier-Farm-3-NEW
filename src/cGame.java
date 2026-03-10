@@ -714,7 +714,7 @@ public final class cGame extends GLLib implements Class_b
 	private static boolean var_7ccc;
 	private static boolean var_7cd4;
 	private static int var_7cdc;
-	private static int var_7ce4;
+	private static int s_iapCashIndex;
 	private static long[] var_7cec;
 	private static int[] var_7cf4;
 	private static int[] s_iapCashIndices;
@@ -1039,7 +1039,7 @@ public final class cGame extends GLLib implements Class_b
 						if (mode == Define.GS_POPUP || mode == Define.GS_KITCHEN) {
 							GLLib.s_game_state = Define.GS_EXIT;
 						}
-						switchToState(2);
+						switchToState(Define.GS_INIT);
 					}
 					b = false;
 					break;
@@ -1257,7 +1257,7 @@ public final class cGame extends GLLib implements Class_b
 									}
 									if (cGame.var_8024.actorID == Define.ACTOR_POND) {
 										if (cGame.var_8024.sub_a2a0(512)) {
-											switchToState(25);
+											switchToState(Define.GS_POND);
 											b2 = true;
 											break Label_2355;
 										}
@@ -1312,14 +1312,14 @@ public final class cGame extends GLLib implements Class_b
 							}
 						}
 						if (depth == SS_FARM_TUTORIAL_UNK2) {
-							if ((mode = GLLib.IsAnyKeyDown()) == Define.GS_POPUP || mode == 24) {
+							if ((mode = GLLib.IsAnyKeyDown()) == Define.GS_POPUP || mode == Define.GS_UNREF_24) {
 								if (sub_202b7(1, 37) && sub_20167(1, 37)) {
 									onPauseButton();
 								} else if (mode == Define.GS_POPUP) {
 									final String sub_4e1f3;
 									platformRequest("Show_Toast_"
 											+ (((sub_4e1f3 = GLLib.Text_GetString(Define.TEXT_CANNOTGOBACK)) == null) ? "" : sub_4e1f3));
-								} else if (mode == 24) {
+								} else if (mode == Define.GS_UNREF_24) {
 									final String sub_4e1f4;
 									platformRequest("Show_Toast_"
 											+ (((sub_4e1f4 = GLLib.Text_GetString(Define.TEXT_CANNOTPAUSE)) == null) ? "" : sub_4e1f4));
@@ -2088,7 +2088,7 @@ public final class cGame extends GLLib implements Class_b
 						int n13 = 2;
 						if (mode == Define.GS_POPUP) {
 							sub_834e();
-						} else if (mode == 18 || mode == 5 || mode == Define.GS_KITCHEN) {
+						} else if (mode == Define.GS_FARM_TUTORIAL || mode == Define.GS_UNREF_5 || mode == Define.GS_KITCHEN) {
 							n13 = 4;
 						}
 						if (cGame.var_682c > 30) {
@@ -2211,7 +2211,7 @@ public final class cGame extends GLLib implements Class_b
 				// Ditto.
 				case Define.GS_UNK_3: {
 					if (depth == 2) {
-						switchToState(5);
+						switchToState(Define.GS_UNREF_5);
 					}
 					b = false;
 					break;
@@ -4317,7 +4317,7 @@ public final class cGame extends GLLib implements Class_b
 
 	private static void onPauseButton() {
 		sub_11320(false, null);
-		switchToState(14);
+		switchToState(Define.GS_PAUSE);
 	}
 
 	private static void sub_10947(final boolean b) {
@@ -5281,7 +5281,7 @@ public final class cGame extends GLLib implements Class_b
 			cGame.var_7aac = 19;
 			cGame.var_7d24 = true;
 			cGame.var_815c = true;
-			switchToState(34);
+			switchToState(Define.GS_BUYSCR);
 		}
 	}
 
@@ -5303,7 +5303,7 @@ public final class cGame extends GLLib implements Class_b
 			cGame.var_7aac = 19;
 			cGame.var_7d24 = true;
 			cGame.var_815c = true;
-			switchToState(34);
+			switchToState(Define.GS_BUYSCR);
 		}
 	}
 
@@ -5325,7 +5325,7 @@ public final class cGame extends GLLib implements Class_b
 			cGame.var_7aac = 19;
 			cGame.var_7d24 = true;
 			cGame.var_815c = true;
-			switchToState(34);
+			switchToState(Define.GS_BUYSCR);
 		}
 	}
 
@@ -5910,7 +5910,7 @@ public final class cGame extends GLLib implements Class_b
 				cGame.var_7aac = 19;
 				cGame.var_7d24 = true;
 				cGame.var_815c = true;
-				switchToState(34);
+				switchToState(Define.GS_BUYSCR);
 			}
 			return;
 		}
@@ -5936,7 +5936,7 @@ public final class cGame extends GLLib implements Class_b
 				cGame.var_7aac = 19;
 				cGame.var_7d24 = true;
 				cGame.var_815c = true;
-				switchToState(34);
+				switchToState(Define.GS_BUYSCR);
 			}
 			return;
 		}
@@ -6070,7 +6070,7 @@ public final class cGame extends GLLib implements Class_b
 				cGame.var_7aac = 19;
 				cGame.var_815c = true;
 				cGame.var_7d24 = true;
-				switchToState(34);
+				switchToState(Define.GS_BUYSCR);
 			}
 			return;
 		}
@@ -6096,7 +6096,7 @@ public final class cGame extends GLLib implements Class_b
 				cGame.var_7aac = 19;
 				cGame.var_815c = true;
 				cGame.var_7d24 = true;
-				switchToState(34);
+				switchToState(Define.GS_BUYSCR);
 			}
 			return;
 		}
@@ -6415,7 +6415,7 @@ public final class cGame extends GLLib implements Class_b
 			cGame.var_7aac = 19;
 			cGame.var_815c = true;
 			cGame.var_7d24 = true;
-			switchToState(34);
+			switchToState(Define.GS_BUYSCR);
 		}
 	}
 
@@ -6433,7 +6433,7 @@ public final class cGame extends GLLib implements Class_b
 			cGame.var_7aac = 19;
 			cGame.var_815c = true;
 			cGame.var_7d24 = true;
-			switchToState(34);
+			switchToState(Define.GS_BUYSCR);
 		}
 	}
 
@@ -6560,7 +6560,7 @@ public final class cGame extends GLLib implements Class_b
 				cGame.var_7aac = 19;
 				cGame.var_815c = true;
 				cGame.var_7d24 = true;
-				switchToState(34);
+				switchToState(Define.GS_BUYSCR);
 			}
 			return;
 		}
@@ -6581,7 +6581,7 @@ public final class cGame extends GLLib implements Class_b
 			cGame.var_7aac = 19;
 			cGame.var_815c = true;
 			cGame.var_7d24 = true;
-			switchToState(34);
+			switchToState(Define.GS_BUYSCR);
 		}
 	}
 
@@ -6590,7 +6590,7 @@ public final class cGame extends GLLib implements Class_b
 			cGame.var_7604 = cGame.var_758c;
 			if (getLevel() >= cGame.var_75cc[cGame.var_7604]) {
 				playSndNoLoop(61);
-				switchToState(9);
+				switchToState(Define.GS_MILL_PRODUCE);
 			} else {
 				playSndNoLoop(56);
 			}
@@ -6601,7 +6601,7 @@ public final class cGame extends GLLib implements Class_b
 			cGame.var_736c = cGame.var_72fc[cGame.var_7304];
 			if (getLevel() >= cGame.var_734c[cGame.var_7304][cGame.var_736c]) {
 				playSndNoLoop(61);
-				switchToState(10);
+				switchToState(Define.GS_KITCHEN_PRODUCE);
 				return;
 			}
 			playSndNoLoop(56);
@@ -6613,7 +6613,7 @@ public final class cGame extends GLLib implements Class_b
 			cGame.var_7604 = cGame.var_758c + 1;
 			if (getLevel() >= cGame.var_75cc[cGame.var_7604]) {
 				playSndNoLoop(61);
-				switchToState(9);
+				switchToState(Define.GS_MILL_PRODUCE);
 				return;
 			}
 			playSndNoLoop(56);
@@ -6621,7 +6621,7 @@ public final class cGame extends GLLib implements Class_b
 			cGame.var_736c = cGame.var_72fc[cGame.var_7304] + 1;
 			if (getLevel() >= cGame.var_734c[cGame.var_7304][cGame.var_736c]) {
 				playSndNoLoop(61);
-				switchToState(10);
+				switchToState(Define.GS_KITCHEN_PRODUCE);
 				return;
 			}
 			playSndNoLoop(56);
@@ -6633,7 +6633,7 @@ public final class cGame extends GLLib implements Class_b
 			cGame.var_7604 = cGame.var_758c + 2;
 			if (getLevel() >= cGame.var_75cc[cGame.var_7604]) {
 				playSndNoLoop(61);
-				switchToState(9);
+				switchToState(Define.GS_MILL_PRODUCE);
 				return;
 			}
 			playSndNoLoop(56);
@@ -6641,7 +6641,7 @@ public final class cGame extends GLLib implements Class_b
 			cGame.var_736c = cGame.var_72fc[cGame.var_7304] + 2;
 			if (getLevel() >= cGame.var_734c[cGame.var_7304][cGame.var_736c]) {
 				playSndNoLoop(61);
-				switchToState(10);
+				switchToState(Define.GS_KITCHEN_PRODUCE);
 				return;
 			}
 			playSndNoLoop(56);
@@ -6653,7 +6653,7 @@ public final class cGame extends GLLib implements Class_b
 			cGame.var_7604 = cGame.var_758c + 3;
 			if (getLevel() >= cGame.var_75cc[cGame.var_7604]) {
 				playSndNoLoop(61);
-				switchToState(9);
+				switchToState(Define.GS_MILL_PRODUCE);
 				return;
 			}
 			playSndNoLoop(56);
@@ -6661,7 +6661,7 @@ public final class cGame extends GLLib implements Class_b
 			cGame.var_736c = cGame.var_72fc[cGame.var_7304] + 3;
 			if (getLevel() >= cGame.var_734c[cGame.var_7304][cGame.var_736c]) {
 				playSndNoLoop(61);
-				switchToState(10);
+				switchToState(Define.GS_KITCHEN_PRODUCE);
 				return;
 			}
 			playSndNoLoop(56);
@@ -6673,7 +6673,7 @@ public final class cGame extends GLLib implements Class_b
 			cGame.var_7604 = cGame.var_758c + 4;
 			if (getLevel() >= cGame.var_75cc[cGame.var_7604]) {
 				playSndNoLoop(61);
-				switchToState(9);
+				switchToState(Define.GS_MILL_PRODUCE);
 				return;
 			}
 			playSndNoLoop(56);
@@ -6681,7 +6681,7 @@ public final class cGame extends GLLib implements Class_b
 			cGame.var_736c = cGame.var_72fc[cGame.var_7304] + 4;
 			if (getLevel() >= cGame.var_734c[cGame.var_7304][cGame.var_736c]) {
 				playSndNoLoop(61);
-				switchToState(10);
+				switchToState(Define.GS_KITCHEN_PRODUCE);
 				return;
 			}
 			playSndNoLoop(56);
@@ -6693,7 +6693,7 @@ public final class cGame extends GLLib implements Class_b
 			cGame.var_7604 = cGame.var_758c + 5;
 			if (getLevel() >= cGame.var_75cc[cGame.var_7604]) {
 				playSndNoLoop(61);
-				switchToState(9);
+				switchToState(Define.GS_MILL_PRODUCE);
 				return;
 			}
 			playSndNoLoop(56);
@@ -6701,7 +6701,7 @@ public final class cGame extends GLLib implements Class_b
 			cGame.var_736c = cGame.var_72fc[cGame.var_7304] + 5;
 			if (getLevel() >= cGame.var_734c[cGame.var_7304][cGame.var_736c]) {
 				playSndNoLoop(61);
-				switchToState(10);
+				switchToState(Define.GS_KITCHEN_PRODUCE);
 				return;
 			}
 			playSndNoLoop(56);
@@ -6731,7 +6731,7 @@ public final class cGame extends GLLib implements Class_b
 
 	private static void sub_15cd3() {
 		if (cGame.s_tutorialState == -1 && cGame.var_6c5c == 160) {
-			switchToState(34);
+			switchToState(Define.GS_BUYSCR);
 		}
 	}
 
@@ -6739,7 +6739,7 @@ public final class cGame extends GLLib implements Class_b
 		if (cGame.s_tutorialState == -1 && cGame.var_6c5c == 160) {
 			cGame.var_815c = true;
 			cGame.var_7d24 = true;
-			switchToState(34);
+			switchToState(Define.GS_BUYSCR);
 		}
 	}
 
@@ -6790,7 +6790,7 @@ public final class cGame extends GLLib implements Class_b
 		if (cGame.var_696c == 3 && cGame.var_6964) {
 			cGame.var_7c34 = getPreviousState();
 			cGame.s_toastType = Define.TOAST_REDEEM_EXIT;
-			switchToState(42);
+			switchToState(Define.GS_UNK_42);
 			return;
 		}
 		sub_16a66();
@@ -6803,7 +6803,7 @@ public final class cGame extends GLLib implements Class_b
 		}
 		if (cGame.var_7d54 > 0) {
 			cGame.s_toastType = cGame.var_7d54;
-			switchToState(42);
+			switchToState(Define.GS_UNK_42);
 			cGame.var_7d54 = 0;
 			return;
 		}
@@ -6814,11 +6814,11 @@ public final class cGame extends GLLib implements Class_b
 	private static void sub_15f2c() {
 		cGame.var_697c = 4;
 		if (sub_16aba()) {
-			cGame.s_toastType = 3 + cGame.var_7ce4;
-			switchToState(42);
+			cGame.s_toastType = 3 + cGame.s_iapCashIndex;
+			switchToState(Define.GS_UNK_42);
 			return;
 		}
-		GLLib.PaySMS_SendRequest(cGame.s_iapCashIndices[cGame.var_7ce4], "Cash");
+		GLLib.PaySMS_SendRequest(cGame.s_iapCashIndices[cGame.s_iapCashIndex], "Cash");
 		cGame.var_6944 = false;
 		sub_1715b();
 	}
@@ -6827,7 +6827,7 @@ public final class cGame extends GLLib implements Class_b
 		cGame.var_697c = 4;
 		if (sub_16aba()) {
 			cGame.s_toastType = 3;
-			switchToState(42);
+			switchToState(Define.GS_UNK_42);
 			return;
 		}
 		GLLib.PaySMS_SendRequest(cGame.s_iapCashIndices[0], "Cash");
@@ -6839,7 +6839,7 @@ public final class cGame extends GLLib implements Class_b
 		cGame.var_697c = 4;
 		if (sub_16aba()) {
 			cGame.s_toastType = 4;
-			switchToState(42);
+			switchToState(Define.GS_UNK_42);
 			return;
 		}
 		GLLib.PaySMS_SendRequest(cGame.s_iapCashIndices[1], "Cash");
@@ -6851,7 +6851,7 @@ public final class cGame extends GLLib implements Class_b
 		cGame.var_697c = 4;
 		if (sub_16aba()) {
 			cGame.s_toastType = 5;
-			switchToState(42);
+			switchToState(Define.GS_UNK_42);
 			return;
 		}
 		GLLib.PaySMS_SendRequest(cGame.s_iapCashIndices[2], "Cash");
@@ -6863,7 +6863,7 @@ public final class cGame extends GLLib implements Class_b
 		cGame.var_697c = 4;
 		if (sub_16aba()) {
 			cGame.s_toastType = 6;
-			switchToState(42);
+			switchToState(Define.GS_UNK_42);
 			return;
 		}
 		GLLib.PaySMS_SendRequest(cGame.s_iapCashIndices[3], "Cash");
@@ -6875,7 +6875,7 @@ public final class cGame extends GLLib implements Class_b
 		cGame.var_697c = 4;
 		if (sub_16aba()) {
 			cGame.s_toastType = 7;
-			switchToState(42);
+			switchToState(Define.GS_UNK_42);
 			return;
 		}
 		GLLib.PaySMS_SendRequest(cGame.s_iapCashIndices[4], "Cash");
@@ -6887,7 +6887,7 @@ public final class cGame extends GLLib implements Class_b
 		cGame.var_697c = 4;
 		if (sub_16aba()) {
 			cGame.s_toastType = 8;
-			switchToState(42);
+			switchToState(Define.GS_UNK_42);
 			return;
 		}
 		GLLib.PaySMS_SendRequest(cGame.s_iapCashIndices[5], "Cash");
@@ -6933,7 +6933,7 @@ public final class cGame extends GLLib implements Class_b
 			switchToCashIAP();
 			cGame.var_8164 = true;
 			cGame.var_7d24 = true;
-			switchToState(34);
+			switchToState(Define.GS_BUYSCR);
 		}
 		final String sub_4e1f;
 		String sub_4e1f2;
@@ -7095,13 +7095,13 @@ public final class cGame extends GLLib implements Class_b
 			return;
 		}
 		cGame.s_toastType = 9;
-		switchToState(42);
+		switchToState(Define.GS_UNK_42);
 	}
 
 	private static void sub_16834() {
 		if (cGame.var_7ca4 < 5) {
 			cGame.s_toastType = 10;
-			switchToState(42);
+			switchToState(Define.GS_UNK_42);
 			return;
 		}
 		int n = 0;
@@ -7130,7 +7130,7 @@ public final class cGame extends GLLib implements Class_b
 	private static void sub_168f1() {
 		if (cGame.var_7cdc == 7) {
 			cGame.s_toastType = 2;
-			switchToState(42);
+			switchToState(Define.GS_UNK_42);
 			return;
 		}
 		GLLib.PaySMS_SendRedeemRequest();
@@ -7166,7 +7166,7 @@ public final class cGame extends GLLib implements Class_b
 			return;
 		}
 		cGame.var_7d24 = true;
-		switchToState(34);
+		switchToState(Define.GS_BUYSCR);
 	}
 
 	private static void sub_169d6() {
@@ -7286,7 +7286,7 @@ public final class cGame extends GLLib implements Class_b
 				sub_2000c(8, 16, false);
 				sub_16b22();
 				int n = 0;
-				cGame.var_7ce4 = -1;
+				cGame.s_iapCashIndex = -1;
 				for (int i = 0; i < cGame.var_7cbc; ++i) {
 					if (cGame.s_iapPriceTexts[i] != null) {
 						++n;
@@ -7303,7 +7303,7 @@ public final class cGame extends GLLib implements Class_b
 						}
 					}
 					int n3 = 0;
-					cGame.var_7ce4 = -1;
+					cGame.s_iapCashIndex = -1;
 					if (cGame.var_7cbc > 0) {
 						sub_2000c(8, 17, true);
 						sub_2000c(8, 25, true);
@@ -7956,7 +7956,7 @@ public final class cGame extends GLLib implements Class_b
 	private static void sub_182ed() {
 		if (System.currentTimeMillis() / 1000L - cGame.var_6e34[cGame.var_7bb4][4] >= 86400L) {
 			playSndNoLoop(61);
-			switchToState(16);
+			switchToState(Define.GS_MAIL_SEND);
 			return;
 		}
 		playSndNoLoop(56);
@@ -7983,7 +7983,7 @@ public final class cGame extends GLLib implements Class_b
 	private static void sub_183b6() {
 		if (System.currentTimeMillis() / 1000L - cGame.var_6e34[cGame.var_7bb4][1] >= 86400L) {
 			playSndNoLoop(61);
-			switchToState(15);
+			switchToState(Define.GS_MAIL_REQUEST);
 			return;
 		}
 		playSndNoLoop(56);
@@ -8003,7 +8003,7 @@ public final class cGame extends GLLib implements Class_b
 			cGame.var_7aac = 19;
 			cGame.var_815c = true;
 			cGame.var_7d24 = true;
-			switchToState(34);
+			switchToState(Define.GS_BUYSCR);
 		}
 	}
 
@@ -8021,7 +8021,7 @@ public final class cGame extends GLLib implements Class_b
 			cGame.var_7aac = 19;
 			cGame.var_815c = true;
 			cGame.var_7d24 = true;
-			switchToState(34);
+			switchToState(Define.GS_BUYSCR);
 		}
 	}
 
@@ -8279,7 +8279,7 @@ public final class cGame extends GLLib implements Class_b
 			cGame.var_7aac = 18;
 			cGame.var_815c = true;
 			cGame.var_7d24 = false;
-			switchToState(34);
+			switchToState(Define.GS_BUYSCR);
 			return;
 		}
 		playSndNoLoop(49);
@@ -8331,7 +8331,7 @@ public final class cGame extends GLLib implements Class_b
 			cGame.var_7aac = 19;
 			cGame.var_815c = true;
 			cGame.var_7d24 = true;
-			switchToState(34);
+			switchToState(Define.GS_BUYSCR);
 			return;
 		}
 		playSndNoLoop(49);
@@ -8351,7 +8351,7 @@ public final class cGame extends GLLib implements Class_b
 			cGame.var_7aac = 19;
 			cGame.var_815c = true;
 			cGame.var_7d24 = true;
-			switchToState(34);
+			switchToState(Define.GS_BUYSCR);
 			return;
 		}
 		playSndNoLoop(49);
@@ -8401,9 +8401,9 @@ public final class cGame extends GLLib implements Class_b
 		if (cGame.var_808c < 1) {
 			if (sub_1903d(cGame.var_808c)) {
 				if (cGame.var_77f4 == 3) {
-					switchToState(30);
+					switchToState(Define.GS_MANOR_RESTORE);
 				} else {
-					switchToState(30);
+					switchToState(Define.GS_MANOR_RESTORE);
 					if (cGame.var_6c5c == 163 || cGame.var_6c5c == 161) {
 						cGame.var_6c5c = 164;
 						cGame.var_6c8c = (cGame.s_hasFinishedTut = false);
@@ -8413,7 +8413,7 @@ public final class cGame extends GLLib implements Class_b
 				sub_19074(cGame.var_808c);
 			}
 		} else {
-			switchToState(11);
+			switchToState(Define.GS_KITCHEN);
 		}
 		playSndNoLoop(61);
 	}
@@ -8424,7 +8424,7 @@ public final class cGame extends GLLib implements Class_b
 			sub_193c3();
 		} else {
 			cGame.var_7a2c = 0;
-			switchToState(31);
+			switchToState(Define.GS_MANOR_COLLECTIONS);
 		}
 		playSndNoLoop(61);
 	}
@@ -8435,7 +8435,7 @@ public final class cGame extends GLLib implements Class_b
 			sub_193c3();
 		} else {
 			sub_49db0(cGame.var_80b4[3], 1, 7, false);
-			switchToState(32);
+			switchToState(Define.GS_MANOR_TROPHIES);
 		}
 		playSndNoLoop(61);
 	}
@@ -8496,7 +8496,7 @@ public final class cGame extends GLLib implements Class_b
 
 	private static void sub_193c3() {
 		if (sub_1903d(cGame.var_808c)) {
-			switchToState(30);
+			switchToState(Define.GS_MANOR_RESTORE);
 			playSndNoLoop(61);
 			return;
 		}
@@ -8542,7 +8542,7 @@ public final class cGame extends GLLib implements Class_b
 				cGame.var_7aac = 18;
 				cGame.var_7d24 = false;
 				cGame.var_815c = true;
-				switchToState(34);
+				switchToState(Define.GS_BUYSCR);
 			}
 		} else {
 			playSndNoLoop(56);
@@ -8569,7 +8569,7 @@ public final class cGame extends GLLib implements Class_b
 			cGame.var_7aac = 19;
 			cGame.var_7d24 = true;
 			cGame.var_815c = true;
-			switchToState(34);
+			switchToState(Define.GS_BUYSCR);
 		}
 	}
 
@@ -8686,7 +8686,7 @@ public final class cGame extends GLLib implements Class_b
 
 	private static void pauseIGP() {
 		sub_23d73();
-		switchToState(44);
+		switchToState(Define.GS_IGP);
 	}
 
 	private static void undrawPauseCreds() {
@@ -9673,7 +9673,7 @@ public final class cGame extends GLLib implements Class_b
 					GLLib.Text_FormatNumber(cGame.s_pond_highRodCashCost - getCash(), cGame.s_currencySeprType, " "));
 			cGame.var_7aac = 19;
 			cGame.var_7d24 = true;
-			switchToState(34);
+			switchToState(Define.GS_BUYSCR);
 			cGame.var_815c = true;
 		}
 	}
@@ -9693,7 +9693,7 @@ public final class cGame extends GLLib implements Class_b
 					GLLib.Text_FormatNumber(cGame.s_pond_lowRodCashCost - getCash(), cGame.s_currencySeprType, " "));
 			cGame.var_7aac = 19;
 			cGame.var_7d24 = true;
-			switchToState(34);
+			switchToState(Define.GS_BUYSCR);
 			cGame.var_815c = true;
 		}
 	}
@@ -9856,12 +9856,12 @@ public final class cGame extends GLLib implements Class_b
 	private static void sub_1c7ce(int i) {
 		int n = 1;
 		switch (i) {
-		case 2: {
+		case Define.GS_INIT: {
 			sub_d500(1, 19, 1, 0, 24, 0, -1);
 			break;
 		}
-		case 4:
-		case 5: {
+		case Define.GS_LOADING:
+		case Define.GS_UNREF_5: {
 			sub_d500(1, 0, 1, 0, 24, 0, -1);
 			sub_d500(1, 49, 1, 0, 24, 0, -1);
 			sub_d500(1, 20, 1, 0, 24, 0, -1);
@@ -9869,25 +9869,25 @@ public final class cGame extends GLLib implements Class_b
 			sub_d500(1, 29, 1, 0, 24, 0, -1);
 			break;
 		}
-		case 38: {
+		case Define.GS_MAIL: {
 			sub_d500(1, 4, 1, 0, 24, 0, -1);
 			sub_d500(1, 28, 1, 0, 24, 0, -1);
 			sub_d500(1, 45, 1, 0, 24, 0, -1);
 			break;
 		}
-		case 37: {
+		case Define.GS_MAIL_NEIGHBOR: {
 			break;
 		}
-		case 8: {
+		case Define.GS_SALEDESK: {
 			sub_d500(1, 28, 1, 0, 24, 0, -1);
 			break;
 		}
-		case 36: {
+		case Define.GS_FARM_NEIGHBOR: {
 			sub_d500(1, 18, 1, 0, 24, 0, -1);
 			sub_d500(1, 31, 1, 0, 24, 0, -1);
 			sub_d500(1, 10, 1, 0, 24, 0, -1);
 		}
-		case 17: {
+		case Define.GS_FARM: {
 			sub_d500(1, 1, 1, 0, 24, 0, -1);
 			sub_d500(1, 6, 1, 0, 24, 0, -1);
 			sub_d500(1, 3, 1, 0, 24, 0, -1);
@@ -9906,72 +9906,72 @@ public final class cGame extends GLLib implements Class_b
 			sub_d500(1, 48, 1, 0, 24, 0, -1);
 			break;
 		}
-		case 7: {
+		case Define.GS_MARKET: {
 			sub_d500(1, 4, 1, 0, 24, 0, -1);
 			break;
 		}
-		case 28: {
+		case Define.GS_BARN: {
 			sub_d500(1, 4, 1, 0, 24, 0, -1);
 			break;
 		}
-		case 26: {
+		case Define.GS_FARMDIARY: {
 			sub_d500(1, 11, 1, 0, 24, 0, -1);
 			break;
 		}
-		case 10: {
+		case Define.GS_KITCHEN_PRODUCE: {
 			sub_d500(1, 12, 1, 0, 24, 0, -1);
 			break;
 		}
-		case 27: {
+		case Define.GS_MILL: {
 			sub_d500(1, 11, 1, 0, 24, 0, -1);
 			sub_d500(1, 34, 1, 0, 24, 0, -1);
 			break;
 		}
-		case 11: {
+		case Define.GS_KITCHEN: {
 			sub_d500(1, 14, 1, 0, 24, 0, -1);
 			sub_d500(1, 11, 1, 0, 24, 0, -1);
 			break;
 		}
-		case 12: {
+		case Define.GS_ACRE: {
 			sub_d500(1, 11, 1, 0, 24, 0, -1);
 			break;
 		}
-		case 13: {
+		case Define.GS_LEVELUP: {
 			sub_d500(1, 7, 1, 0, 24, 0, -1);
 			sub_d500(1, 21, 1, 0, 24, 0, -1);
 			break;
 		}
-		case 14: {
+		case Define.GS_PAUSE: {
 			sub_d500(1, 7, 1, 0, 24, 0, -1);
 			sub_d500(1, 21, 1, 0, 24, 0, -1);
 			sub_d500(1, 14, 1, 0, 24, 0, -1);
 			sub_d500(1, 34, 1, 0, 24, 0, -1);
 			break;
 		}
-		case 29: {
+		case Define.GS_MANOR: {
 			sub_d500(1, 16, 1, 0, 24, 0, -1);
 			sub_d500(1, 27, 1, 0, 24, 0, -1);
 			sub_d500(1, 35, 1, 0, 24, 0, -1);
 			sub_d500(1, 36, 1, 0, 24, 0, -1);
 			break;
 		}
-		case 30: {
+		case Define.GS_MANOR_RESTORE: {
 			sub_d500(1, 35, 1, 0, 24, 0, -1);
 			sub_d500(1, 36, 1, 0, 24, 0, -1);
 			break;
 		}
-		case 39: {
+		case Define.GS_SILO: {
 			sub_d500(1, 34, 1, 0, 24, 0, -1);
 			break;
 		}
-		case 25: {
+		case Define.GS_POND: {
 			sub_d500(1, 7, 1, 0, 24, 0, -1);
 			sub_d500(1, 32, 1, 0, 24, 0, -1);
 			sub_d500(1, 35, 1, 0, 24, 0, -1);
 			sub_d500(1, 34, 1, 0, 24, 0, -1);
 			break;
 		}
-		case 34: {
+		case Define.GS_BUYSCR: {
 			sub_d500(1, 43, 1, 0, 24, 0, -1);
 			sub_d500(1, 37, 1, 0, 24, 0, -1);
 			sub_d500(1, 38, 1, 0, 24, 0, -1);
@@ -9988,7 +9988,7 @@ public final class cGame extends GLLib implements Class_b
 			GLLib.Pack_FullyClose();
 		}
 		switch (i) {
-		case 29: {
+		case Define.GS_MANOR: {
 			cGame.var_68fc = new GLLibPlayer[6];
 			for (i = 0; i < 6; ++i) {
 				cGame.var_68fc[i] = new GLLibPlayer(cGame.var_68d4[36], 0, 0);
@@ -10000,7 +10000,7 @@ public final class cGame extends GLLib implements Class_b
 			cGame.var_6904 = new GLLibPlayer(cGame.var_68d4[36], 0, 0);
 			return;
 		}
-		case 25: {
+		case Define.GS_POND: {
 			cGame.s_pond_bubblePlayers = new GLLibPlayer[7];
 			for (i = 0; i < 7; ++i) {
 				cGame.s_pond_bubblePlayers[i] = new GLLibPlayer(cGame.var_68d4[32], 0, 0);
@@ -10012,38 +10012,38 @@ public final class cGame extends GLLib implements Class_b
 
 	private static void sub_1cd44(int i) {
 		switch (i) {
-		case 2: {
+		case Define.GS_INIT: {
 			i = 65535;
 			sub_d500(1, 19, i, 1, 0, 0, -1);
 			break;
 		}
-		case 4:
-		case 5: {
+		case Define.GS_LOADING:
+		case Define.GS_UNREF_5: {
 			i = 65535;
 			sub_d500(1, 0, i, 1, 0, 0, -1);
 			i = 65535;
 			sub_d500(1, 49, i, 1, 0, 0, -1);
 			break;
 		}
-		case 38: {
+		case Define.GS_MAIL: {
 			i = 65535;
 			sub_d500(1, 4, i, 1, 0, 0, -1);
 			i = 65535;
 			sub_d500(1, 28, i, 1, 0, 0, -1);
 			break;
 		}
-		case 8: {
+		case Define.GS_SALEDESK: {
 			i = 65535;
 			sub_d500(1, 28, i, 1, 0, 0, -1);
 			break;
 		}
-		case 36: {
+		case Define.GS_FARM_NEIGHBOR: {
 			i = 65535;
 			sub_d500(1, 18, i, 1, 0, 0, -1);
 			i = 65535;
 			sub_d500(1, 31, i, 1, 0, 0, -1);
 		}
-		case 17: {
+		case Define.GS_FARM: {
 			i = 65535;
 			sub_d500(1, 6, i, 1, 0, 0, -1);
 			i = 65535;
@@ -10064,60 +10064,60 @@ public final class cGame extends GLLib implements Class_b
 			sub_d500(1, 5, i, 1, 0, 0, -1);
 			break;
 		}
-		case 7: {
+		case Define.GS_MARKET: {
 			i = 65535;
 			sub_d500(1, 4, i, 1, 0, 0, -1);
 			break;
 		}
-		case 28: {
+		case Define.GS_BARN: {
 			i = 65535;
 			sub_d500(1, 4, i, 1, 0, 0, -1);
 			break;
 		}
-		case 26: {
+		case Define.GS_FARMDIARY: {
 			i = 65535;
 			sub_d500(1, 11, i, 1, 0, 0, -1);
 			break;
 		}
-		case 10: {
+		case Define.GS_KITCHEN_PRODUCE: {
 			i = 65535;
 			sub_d500(1, 12, i, 1, 0, 0, -1);
 			break;
 		}
-		case 27: {
+		case Define.GS_MILL: {
 			i = 65535;
 			sub_d500(1, 34, i, 1, 0, 0, -1);
 			i = 65535;
 			sub_d500(1, 11, i, 1, 0, 0, -1);
 			break;
 		}
-		case 11: {
+		case Define.GS_KITCHEN: {
 			i = 65535;
 			sub_d500(1, 14, i, 1, 0, 0, -1);
 			i = 65535;
 			sub_d500(1, 11, i, 1, 0, 0, -1);
 			break;
 		}
-		case 12: {
+		case Define.GS_ACRE: {
 			i = 65535;
 			sub_d500(1, 11, i, 1, 0, 0, -1);
 			break;
 		}
-		case 13: {
+		case Define.GS_LEVELUP: {
 			i = 65535;
 			sub_d500(1, 7, i, 1, 0, 0, -1);
 			i = 65535;
 			sub_d500(1, 21, i, 1, 0, 0, -1);
 			break;
 		}
-		case 14: {
+		case Define.GS_PAUSE: {
 			i = 65535;
 			sub_d500(1, 7, i, 1, 0, 0, -1);
 			i = 65535;
 			sub_d500(1, 21, i, 1, 0, 0, -1);
 			break;
 		}
-		case 29: {
+		case Define.GS_MANOR: {
 			for (i = 0; i < 6; ++i) {
 				cGame.var_68fc[i] = null;
 			}
@@ -10135,19 +10135,19 @@ public final class cGame extends GLLib implements Class_b
 			sub_d500(1, 36, i, 1, 0, 0, -1);
 			break;
 		}
-		case 30: {
+		case Define.GS_MANOR_RESTORE: {
 			i = 65535;
 			sub_d500(1, 35, i, 1, 0, 0, -1);
 			i = 65535;
 			sub_d500(1, 36, i, 1, 0, 0, -1);
 			break;
 		}
-		case 39: {
+		case Define.GS_SILO: {
 			i = 65535;
 			sub_d500(1, 34, i, 1, 0, 0, -1);
 			break;
 		}
-		case 25: {
+		case Define.GS_POND: {
 			for (i = 0; i < 7; ++i) {
 				cGame.s_pond_bubblePlayers[i] = null;
 			}
@@ -10161,7 +10161,7 @@ public final class cGame extends GLLib implements Class_b
 			sub_d500(1, 34, i, 1, 0, 0, -1);
 			break;
 		}
-		case 34: {
+		case Define.GS_BUYSCR: {
 			i = 65535;
 			sub_d500(1, 43, i, 1, 0, 0, -1);
 			i = 65535;
@@ -11230,7 +11230,7 @@ public final class cGame extends GLLib implements Class_b
 						cGame.s_popup_onCloseAct2 = 26;
 					} else {
 						playSndNoLoop(60);
-						switchToState(26);
+						switchToState(Define.GS_FARMDIARY);
 					}
 					sub_10947(false);
 					return;
@@ -11242,7 +11242,7 @@ public final class cGame extends GLLib implements Class_b
 						cGame.s_popup_onCloseAct2 = 26;
 					} else {
 						playSndNoLoop(60);
-						switchToState(26);
+						switchToState(Define.GS_FARMDIARY);
 					}
 					sub_10947(false);
 					return;
@@ -11254,7 +11254,7 @@ public final class cGame extends GLLib implements Class_b
 						cGame.s_popup_onCloseAct2 = 26;
 					} else {
 						playSndNoLoop(60);
-						switchToState(26);
+						switchToState(Define.GS_FARMDIARY);
 					}
 					sub_10947(false);
 					return;
@@ -11266,7 +11266,7 @@ public final class cGame extends GLLib implements Class_b
 						cGame.s_popup_onCloseAct2 = 26;
 					} else {
 						playSndNoLoop(60);
-						switchToState(26);
+						switchToState(Define.GS_FARMDIARY);
 					}
 					sub_10947(false);
 					return;
@@ -11358,7 +11358,7 @@ public final class cGame extends GLLib implements Class_b
 									cGame.var_815c = true;
 								}
 								if (cGame.var_7aac != -1) {
-									switchToState(34);
+									switchToState(Define.GS_BUYSCR);
 									break;
 								}
 								break;
@@ -11389,7 +11389,7 @@ public final class cGame extends GLLib implements Class_b
 									cGame.var_815c = true;
 								}
 								if (cGame.var_7aac != -1) {
-									switchToState(34);
+									switchToState(Define.GS_BUYSCR);
 									break;
 								}
 								break;
@@ -11420,7 +11420,7 @@ public final class cGame extends GLLib implements Class_b
 					if (getLevel() >= 3) {
 						playSndNoLoop(60);
 						cGame.var_7d24 = false;
-						switchToState(34);
+						switchToState(Define.GS_BUYSCR);
 						return;
 					}
 					playSndNoLoop(56);
@@ -11431,7 +11431,7 @@ public final class cGame extends GLLib implements Class_b
 						if (getLevel() >= 3) {
 							playSndNoLoop(60);
 							cGame.var_7d24 = true;
-							switchToState(34);
+							switchToState(Define.GS_BUYSCR);
 							return;
 						}
 						playSndNoLoop(56);
@@ -11552,7 +11552,7 @@ public final class cGame extends GLLib implements Class_b
 						sub_48d55();
 						cGame.s_popup_onCloseAct2 = 26;
 					} else {
-						switchToState(26);
+						switchToState(Define.GS_FARMDIARY);
 					}
 					sub_26a6a(false, cGame.s_currentQuest, '\0');
 					return;
@@ -11579,7 +11579,7 @@ public final class cGame extends GLLib implements Class_b
 								cGame.var_7aac = 19;
 								cGame.var_7d24 = true;
 								cGame.var_815c = true;
-								switchToState(34);
+								switchToState(Define.GS_BUYSCR);
 							}
 						} else {
 							playSndNoLoop(49);
@@ -11642,7 +11642,7 @@ public final class cGame extends GLLib implements Class_b
 						sub_2000c(4, 13, true);
 						sub_2000c(4, 15, true);
 						sub_2000c(4, 16, true);
-						switchToState(19);
+						switchToState(Define.GS_POPUP);
 						if (cGame.var_6aac != null && cGame.var_6aac.var_17c5 == 54) {
 							cGame.var_6aac.sub_867b();
 						}
@@ -11682,7 +11682,7 @@ public final class cGame extends GLLib implements Class_b
 					if (cGame.var_808c > 1) {
 						playSndNoLoop(57);
 						sub_3d6da(false, -1);
-						switchToState(31);
+						switchToState(Define.GS_MANOR_COLLECTIONS);
 						return;
 					}
 					playSndNoLoop(56);
@@ -11692,7 +11692,7 @@ public final class cGame extends GLLib implements Class_b
 					playSndNoLoop(57);
 					if (sub_4abbb(cGame.var_80f4[5])) {
 						sub_3e7c1();
-						switchToState(32);
+						switchToState(Define.GS_MANOR_TROPHIES);
 					}
 					return;
 				}
@@ -11716,14 +11716,14 @@ public final class cGame extends GLLib implements Class_b
 				case 131076: {
 					if (cGame.s_tutorialState == -1 && cGame.var_6c5c == 160) {
 						cGame.var_7d24 = false;
-						switchToState(34);
+						switchToState(Define.GS_BUYSCR);
 					}
 					return;
 				}
 				case 131080: {
 					if (cGame.s_tutorialState == -1 && cGame.var_6c5c == 160) {
 						cGame.var_7d24 = true;
-						switchToState(34);
+						switchToState(Define.GS_BUYSCR);
 					}
 					return;
 				}
@@ -13571,7 +13571,7 @@ public final class cGame extends GLLib implements Class_b
 										cGame.var_7aac = 18;
 										cGame.var_7d24 = false;
 										cGame.var_815c = true;
-										switchToState(34);
+										switchToState(Define.GS_BUYSCR);
 										break Label_0807;
 									}
 									if (cGame.var_7094 > 0) {
@@ -13583,7 +13583,7 @@ public final class cGame extends GLLib implements Class_b
 										cGame.var_7aac = 19;
 										cGame.var_7d24 = true;
 										cGame.var_815c = true;
-										switchToState(34);
+										switchToState(Define.GS_BUYSCR);
 									}
 									break Label_0807;
 								} else {
@@ -13596,7 +13596,7 @@ public final class cGame extends GLLib implements Class_b
 										cGame.var_7aac = 18;
 										cGame.var_7d24 = false;
 										cGame.var_815c = true;
-										switchToState(34);
+										switchToState(Define.GS_BUYSCR);
 										break Label_0807;
 									}
 									if (cGame.var_6b2c > 0) {
@@ -13608,7 +13608,7 @@ public final class cGame extends GLLib implements Class_b
 										cGame.var_7aac = 19;
 										cGame.var_7d24 = true;
 										cGame.var_815c = true;
-										switchToState(34);
+										switchToState(Define.GS_BUYSCR);
 									}
 									break Label_0807;
 								}
@@ -14062,7 +14062,7 @@ public final class cGame extends GLLib implements Class_b
 			cGame.var_7cb4 = 2;
 			cGame.var_7ccc = false;
 			cGame.var_7d24 = true;
-			switchToState(34);
+			switchToState(Define.GS_BUYSCR);
 			cGame.var_815c = true;
 		}
 		if (cGame.var_6914[3] != null && !sub_2351a(3, 1) && cGame.var_6b8c > 6) {
@@ -14544,7 +14544,7 @@ public final class cGame extends GLLib implements Class_b
 		final int var_7f6c;
 		if ((var_7f6c = n) != -1) {
 			cGame.s_currentQuest = var_7f6c;
-			switchToState(26);
+			switchToState(Define.GS_FARMDIARY);
 			cGame.var_6bc4 = false;
 			cGame.var_6bcc = '\0';
 			sub_2000c(1, 45, false);
@@ -18197,7 +18197,7 @@ public final class cGame extends GLLib implements Class_b
 			}
 		}
 		cGame.var_6c84 = true;
-		switchToState(13);
+		switchToState(Define.GS_LEVELUP);
 		final GameDatas class_h2 = GameDatas.s_allDatas[23];
 		for (int j = 0; j < class_h2.m_dataVars[getLevel() - 1][6]; ++j) {
 			if (decryptInt(cGame.var_6e4c[j][0]) == 0) {
@@ -18517,7 +18517,7 @@ public final class cGame extends GLLib implements Class_b
 		if (var_711c == 19) {
 			playSndNoLoop(43);
 		}
-		switchToState(35);
+		switchToState(Define.GS_HUD);
 	}
 
 	private static void sub_2f45d() {
@@ -19753,7 +19753,7 @@ public final class cGame extends GLLib implements Class_b
 					cGame.var_7aac = 19;
 					cGame.var_815c = true;
 					cGame.var_7d24 = true;
-					switchToState(34);
+					switchToState(Define.GS_BUYSCR);
 				}
 			} else if (cGame.s_marketItemCosts[n] > 0) {
 				final String sub_4e1f2;
@@ -19762,7 +19762,7 @@ public final class cGame extends GLLib implements Class_b
 				cGame.var_7aac = 18;
 				cGame.var_815c = true;
 				cGame.var_7d24 = false;
-				switchToState(34);
+				switchToState(Define.GS_BUYSCR);
 			}
 		}
 		if (cGame.s_tutorialState == 14) {
@@ -19794,7 +19794,7 @@ public final class cGame extends GLLib implements Class_b
 		sub_3151e(n, -1);
 		cGame.var_722c = var_722c;
 		if (b) {
-			switchToState(7);
+			switchToState(Define.GS_MARKET);
 			return;
 		}
 		sub_82a7(7);
@@ -24690,7 +24690,7 @@ public final class cGame extends GLLib implements Class_b
 					} else if (cGame.var_8024.actorID == Define.ACTOR_SILO) {
 						if (sub_4abbb(cGame.var_80f4[1])) {
 							playSndNoLoop(60);
-							switchToState(39);
+							switchToState(Define.GS_SILO);
 							return true;
 						}
 						break;
@@ -24711,7 +24711,7 @@ public final class cGame extends GLLib implements Class_b
 							sub_4019a(7, 0, 10);
 							cGame.s_popup_title = var_7ac4;
 							cGame.s_popup_desc = var_7acc;
-							switchToState(19);
+							switchToState(Define.GS_POPUP);
 							return true;
 						}
 						break;
@@ -24842,7 +24842,7 @@ public final class cGame extends GLLib implements Class_b
 				}
 			}
 			if (cGame.s_popup_onCloseAct == 34) {
-				switchToState(34);
+				switchToState(Define.GS_BUYSCR);
 			} else if (cGame.s_popup_onCloseAct2 != -1) {
 				switchToState(cGame.s_popup_onCloseAct2);
 				cGame.s_popup_onCloseAct2 = -1;
@@ -24852,7 +24852,7 @@ public final class cGame extends GLLib implements Class_b
 				cGame.var_69dc = true;
 				GLLibPlayer.Tileset_Destroy(0);
 				GLLibPlayer.Tileset_Destroy(1);
-				switchToState(25);
+				switchToState(Define.GS_POND);
 			}
 			cGame.s_popup_boxset = 0;
 		}
@@ -24984,7 +24984,7 @@ public final class cGame extends GLLib implements Class_b
 			n2 = 105;
 		}
 		cGame.var_68bc[4][4][3] = (short) (n2 + cGame.var_68bc[4][2][3] + 10);
-		switchToState(19);
+		switchToState(Define.GS_POPUP);
 	}
 
 	static void sub_4049d(final int n, final int n2, final int n3, final int n4, final int n5) {
@@ -25018,7 +25018,7 @@ public final class cGame extends GLLib implements Class_b
 		sub_4019a(n, n2, 10);
 		cGame.s_popup_title = var_7ac4;
 		cGame.s_popup_desc = var_7acc;
-		switchToState(19);
+		switchToState(Define.GS_POPUP);
 	}
 
 	static void sub_40631() {
@@ -25046,7 +25046,7 @@ public final class cGame extends GLLib implements Class_b
 		sub_4019a(7, 0, 10);
 		cGame.s_popup_title = title;
 		cGame.s_popup_desc = desc;
-		switchToState(19);
+		switchToState(Define.GS_POPUP);
 	}
 
 	private static void sub_4074f() {
@@ -25597,7 +25597,7 @@ public final class cGame extends GLLib implements Class_b
 			return;
 		}
 		playSndNoLoop(61);
-		switchToState(37);
+		switchToState(Define.GS_MAIL_NEIGHBOR);
 		cGame.var_7bb4 = n + cGame.s_mailbox_scrollLevel;
 	}
 
@@ -26947,7 +26947,7 @@ public final class cGame extends GLLib implements Class_b
 
 	private static void sub_44ced(final int var_7c24) {
 		cGame.s_toastType = var_7c24;
-		switchToState(42);
+		switchToState(Define.GS_UNK_42);
 	}
 
 	private static void sub_44d11() {
@@ -27050,7 +27050,7 @@ public final class cGame extends GLLib implements Class_b
 			final String sub_4e1f14;
 			cGame.var_68cc[8][16] = (((sub_4e1f14 = GLLib.Text_GetString(Define.TEXT_IAP_PACKNOTFOUND)) == null) ? "" : sub_4e1f14);
 			sub_2000c(8, 16, false);
-			cGame.var_7ce4 = -1;
+			cGame.s_iapCashIndex = -1;
 		}
 		if (n == 1) {
 			if (!cGame.var_7d24) {
@@ -27350,7 +27350,7 @@ public final class cGame extends GLLib implements Class_b
 		}
 		if (b) {
 			cGame.s_toastType = 9;
-			switchToState(42);
+			switchToState(Define.GS_UNK_42);
 		}
 	}
 
@@ -29379,7 +29379,7 @@ public final class cGame extends GLLib implements Class_b
 		GLLib.Game_KeySetKeyCode(false, 54, 12);
 		GLLib.Game_KeySetKeyCode(false, 56, 14);
 		GLLib.Game_KeySetKeyCode(false, 53, 11);
-		cGame.s_game_state = Define.DECOMP_MODE ? 1 : -1;
+		cGame.s_game_state = Define.DECOMP_MODE ? 0 : -1;
 		cGame.s_switcherState = -1;
 		cGame.s_game_stateToSwitch = -1;
 		//cGame.var_67ec = 0;
@@ -29391,7 +29391,7 @@ public final class cGame extends GLLib implements Class_b
 		}
 		sub_818c(19, false);
 		sub_818c(42, false);
-		switchToState(1);
+		switchToState(Define.GS_GAMELOFT);
 		cGame.var_8014 = null;
 		cGame.var_801c = null;
 		cGame.var_8024 = null;
@@ -30381,7 +30381,7 @@ public final class cGame extends GLLib implements Class_b
 		cGame.var_7ccc = false;
 		cGame.var_7cd4 = false;
 		cGame.var_7cdc = 0;
-		cGame.var_7ce4 = -1;
+		cGame.s_iapCashIndex = -1;
 		cGame.var_7cec = new long[] { 20L, 50L, 100L, 200L, 500L, 1000L };
 		cGame.var_7cf4 = new int[] { 20, 50, 100, 200, 500, 1000 };
 		cGame.s_iapCashIndices = new int[6];

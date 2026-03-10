@@ -28,7 +28,9 @@ interface Define
 	final static int GS_INIT = 2;
 	final static int GS_UNK_3 = 3;
 	final static int GS_LOADING = 4;
-	// 5?
+	
+	// Not a real state, but referenced by GS_UNK_3
+	final static int GS_UNREF_5 = 5;
 	// 6?
 	final static int GS_MARKET = 7;
 	final static int GS_SALEDESK = 8;
@@ -47,7 +49,7 @@ interface Define
 	final static int GS_UNK_21 = 21; // This one is really unknown...
 	// 22?
 	// 23?
-	// 24?
+	final static int GS_UNREF_24 = 24;
 	final static int GS_POND = 25;
 	final static int GS_FARMDIARY = 26;
 	final static int GS_MILL = 27;
@@ -63,10 +65,10 @@ interface Define
 	final static int GS_MAIL_NEIGHBOR = 37;
 	final static int GS_MAIL = 38;
 	final static int GS_SILO = 39;
-	
-	
+	// 40?
+	// 41?
 	final static int GS_UNK_42 = 42;
-	
+	// 43?
 	final static int GS_IGP = 44;
 
 	final static int GS_FIRST = GS_GAMELOFT;
