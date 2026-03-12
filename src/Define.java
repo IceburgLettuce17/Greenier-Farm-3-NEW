@@ -18,6 +18,11 @@ interface Define
 	public static final boolean DECOMP_CUSTOM_PRINTS = true;
 	
 	// GameStates..... (in the style of Platinum Sudoku
+	
+	/**
+	 * Default GLLib exit state.
+	 * Destroys the MIDlet if switched to.
+	 */
 	final static int GS_EXIT = -1;
 	
 	/**
@@ -25,54 +30,247 @@ interface Define
 	 * <br>Switches to {@link Define#GS_INIT}.
 	 */
 	final static int GS_GAMELOFT = 1;
+	
+	/**
+	 * Initializes crucial game variables and
+	 * <br>prepares for the next state.
+	 * <br>
+	 * <br>Switches to {@link Define#GS_LOADING}.
+	 */
 	final static int GS_INIT = 2;
+	
+	/**
+	 * Unknown purpose.
+	 * <br>Switches to {@link Define#GS_UNREF_5}.
+	 */
 	final static int GS_UNK_3 = 3;
+	
+	/**
+	 * The loading screen.
+	 * <br>Eventually switches to {@link Define#GS_FARM} 
+	 * <br>(or {@link Define#GS_FARM_NEIGHBOR} if called from the Mailbox).
+	 */
 	final static int GS_LOADING = 4;
 	
-	// Not a real state, but referenced by GS_UNK_3
+	/**
+	 * Not dispatched.
+	 * <br>Referenced by many state related functions, but not {@link cGame#dispatchState} (it is referenced by {@link Define#GS_UNK_3} there, but it is undefined.
+	 */
 	final static int GS_UNREF_5 = 5;
+	
 	// 6?
+	
+	/**
+	 * The Market screen.
+	 * <br>Accessible by the Store button in {@link Define#GS_HUD} (or ActionID {@link cGame#ACT_FARM_MARKET}/65595)
+	 */
 	final static int GS_MARKET = 7;
+	
+	/**
+	 * The Sales Desk screen.
+	 * <br>Accessible by interacting with a {@link cActor} with ActorID {@link Define#ACTOR_SALEDESK}
+	 */
 	final static int GS_SALEDESK = 8;
+	
+	/**
+	 * The Feed Mill's Producal screen.
+	 * <br>Accessible by selecting any Feed type in state {@link Define#GS_MILL}.
+	 */
 	final static int GS_MILL_PRODUCE = 9;
+	
+	/**
+	 * The Kitchen's Producal screen.
+	 * <br>Accessible by selecting any Food in state {@link Define#GS_KITCHEN}.
+	 */
 	final static int GS_KITCHEN_PRODUCE = 10;
+	
+	/**
+	 * The Kitchen screen.
+	 * <br>Accessible by selecting the Kitchen icon in state {@link Define#GS_MANOR} (once the Kitchen has been restored/the quest The Family Manor (idx 0) has been completed).
+	 */
 	final static int GS_KITCHEN = 11;
+	
+	/**
+	 * The Acre Restoration screen.
+	 * <br>Accessible by selecting any Acre in state {@link Define#GS_FARM} (after the quest The Pretty Acre (idx TBD) has been seen).
+	 */
 	final static int GS_ACRE = 12;
+	
+	/**
+	 * The Levelup screen.
+	 * <br>Accessible as early as leveling up to Level 2. It is no longer accessible once you
+	 * <br>reaching Level 50.
+	 */
 	final static int GS_LEVELUP = 13;
+	
+	/**
+	 * The Pause screen.
+	 * <br>Accessible when pausing the game (except at the tutorial, where a system toast using string {@link Define#TEXT_CANNOTPAUSE}.
+	 * Also controls displaying the Options, Sound Options, Help, Credits, and the Debug Menu (accessible using ActionID 983051).
+	 */
 	final static int GS_PAUSE = 14;
+	
+	/**
+	 * The "Request Item" Mailbox screen.
+	 * <br>Accessible when requesting an item from a Neighbor (when it is available).
+	 */
 	final static int GS_MAIL_REQUEST = 15;
+	
+	/**
+	 * The "Send Item" Mailbox screen.
+	 * <br>Accessible when sending an item to a Neighbor (when it is available).
+	 */
 	final static int GS_MAIL_SEND = 16;
+	
+	/**
+	 * The farm itself.
+	 * Has variants, such as {@link Define#GS_FARM_NEIGHBOR} and {@link Define#GS_FARM_TUTORIAL}.
+	 * <br>Accessible from state {@link Define#GS_LOADING}.
+	 */
     final static int GS_FARM = 17;
-	final static int GS_FARM_TUTORIAL = 18; // Used to be UNK_18
+	
+	/**
+	 * The farm featured in the crop tutorial.
+	 * Only contains logic used in the tutorial.
+	 * Inaccessible once the tutorial is done (and {@link cGame#s_tutorialState} is set to -1)
+	 */
+	final static int GS_FARM_TUTORIAL = 18;
+	
+	/**
+	 * The regular popup screen.
+	 * Supports different boxsets, and even loading a state after closing.
+	 */
 	final static int GS_POPUP = 19;	
+	
 	// 20?
+	
+	/**
+	 * Unknown purpose.
+	 * Work needs to be done on this state.
+	 */
 	final static int GS_UNK_21 = 21; // This one is really unknown...
+	
 	// 22?
+	
 	// 23?
+	
+	// False positive maybe?
 	final static int GS_UNREF_24 = 24;
+	
+	 /**
+	 * The Pond/Lottery mini-game.
+	 * <br>Accessible by interacting with a {@link cActor} with ActorID {@link Define#ACTOR_POND}
+	 */
 	final static int GS_POND = 25;
+	
+	 /**
+	 * The Farm Diary (Quest/Task/whatever-you-wanna-call-it menu). (I'll refer to it as Quest)
+	 * <br>Accessible by opening the Quest button in {@link Define#GS_HUD} and selecting a quest (though you will have to go through a {@link Define#GS_POPUP} first)
+	 */
 	final static int GS_FARMDIARY = 26;
+	
+	 /**
+	 * The Feed Mill screen.
+	 * <br>Accessible by interacting with a {@link cActor} with ActorID {@link Define#ACTOR_MILL}
+	 */
 	final static int GS_MILL = 27;
+	
+	 /**
+	 * The Barn screen.
+	 * <br>Accessible by interacting with a {@link cActor} with ActorID {@link Define#ACTOR_BARN}
+	 */
 	final static int GS_BARN = 28;
+	
+	/**
+	 * The Manor screen.
+	 * <br>Accessible by interacting with a {@link cActor} with ActorID {@link Define#ACTOR_MANOR}
+	 * <br>Links to many other states.
+	 */
 	final static int GS_MANOR = 29;
+	
+	/**
+	 * The Manor Restoration screen.
+	 * <br>Accessible by selecting the Restore icon in state {@link Define#GS_MANOR} when a Manor room is ongoing a restoration.
+	 */
 	final static int GS_MANOR_RESTORE = 30;
+	
+	/**
+	 * The Manor's Collection Room screen.
+	 * <br>Accessible by selecting the Collection icon in state {@link Define#GS_MANOR} (as long as the Collection Room was restored).
+	 */
 	final static int GS_MANOR_COLLECTIONS = 31;
+	
+	/**
+	 * The Manor's Trophy Room screen.
+	 * <br>Accessible by selecting the Trophy icon in state {@link Define#GS_MANOR} (as long as the Trophy Room was restored).
+	 */
 	final static int GS_MANOR_TROPHIES = 32;
+	
 	// 33?
+	
+	/**
+	 * The "Buy Currency" screen.
+	 * <br>Accessible by selecting the plus ([+]) icon next to the Coin icon (for the Coin mode), or the Cash icon if {@link cGame#s_iapEnabled} is true (for the Cash mode). Only the latter is an IAP mode.
+	 */
 	final static int GS_BUYSCR = 34;
+	
+	/**
+	 * The HUD.
+	 * <br>Accessible through the same conditions as {@link Define#GS_FARM}.
+	 */
 	final static int GS_HUD = 35;
+	
+	/**
+	 * The exact same as {@link Define#GS_FARM}, but with other features
+	 * (like a home button, most of the HUD being gone, and other stuff)
+	 * <br>Accessible by visiting a Neighbor's farm (in {@link Define#GS_MAIL_NEIGHBOR}) at any time
+	 */
 	final static int GS_FARM_NEIGHBOR = 36;
+	
+	/**
+	 * The Mailbox's Neighbor screen.
+	 * <br>Accessible by selecting a Neighbor in {@link Define#GS_MAIL}.
+	 */
 	final static int GS_MAIL_NEIGHBOR = 37;
+	
+	/**
+	 * The Mailbox screen.
+	 * <br>Accessible by interacting with a {@link cActor} with ActorID {@link Define#ACTOR_MAIL}
+	 */
 	final static int GS_MAIL = 38;
+	
+	/**
+	 * The Silo screen.
+	 * <br>Accessible by interacting with a {@link cActor} with ActorID {@link Define#ACTOR_SILO}
+	 */
 	final static int GS_SILO = 39;
+	
 	// 40?
+	
 	// 41?
-	final static int GS_UNK_42 = 42;
+	
+	/**
+	 * The generic toast screen.
+	 * <br>Accessible using a lot of methods (fastest is {@link Define#GS_PAUSE}'s Exit button)
+	 */
+	final static int GS_TOAST = 42;
+	
 	// 43?
+	
+	/**
+	 * Stub state that makes calls to {@link IGP}.
+	 * <br>Accessible using {@link Define#GS_PAUSE}'s IGP button (as long as {@link IGP#IsAvailable} is true)
+	 */
 	final static int GS_IGP = 44;
 
+	/**
+	 * Here for convenience purposes only. (First valid state)
+	 */
 	final static int GS_FIRST = GS_GAMELOFT;
 	
+	/**
+	 * Here for convenience purposes only. (Last valid state)
+	 */
 	final static int GS_LAST = GS_IGP;
 	
 	// ActorIDs

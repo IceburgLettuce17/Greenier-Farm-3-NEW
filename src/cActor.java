@@ -91,6 +91,12 @@ final class cActor
     int var_181d;
     private int sprFrame;
     short var_182d;
+	
+	/**
+	* The ID of the actor.
+	* <br>See {@link Define} for a list of valid ActorIDs.
+	* <br>For farm buildings, it starts at {@link Define#ACTOR_SALEDESK}.
+	*/
     int actorID;
     int var_183d;
     int var_1845;
@@ -2881,7 +2887,10 @@ final class cActor
         this.var_1765 = 1;
     }
     
-    final void PaintFrame() {
+	/**
+	* Paints a sprite frame using the current Sprite ID and Frame.
+	*/
+	final void PaintFrame() {
         this.PaintFrame(this.spriteId, this.spriteFrame);
     }
     
@@ -2912,7 +2921,9 @@ final class cActor
         if (this.var_189d != null && this.var_189d.IsAnimOver() && (cActor.var_1775 == -1 || cActor.var_1775 < cActor.var_177d)) {
             cGame.playSndNoLoop(GLLib.Math_Rand(26, 30));
             this.var_189d.SetAnim(0, 1);
-            final int sub_312c = this.var_189d.GetSprite().GetFrameWidth(0);
+    
+	
+	final int sub_312c = this.var_189d.GetSprite().GetFrameWidth(0);
             final int sub_3189 = this.var_189d.GetSprite().GetFrameHeight(0);
             this.cameraX = (cGame.var_800c.cameraX + GLLib.Math_Rand(sub_312c, GLLib.s_screenWidth - sub_312c)) * 100 / cGame.s_zoomLevel;
             this.cameraY = (cGame.var_800c.cameraY + GLLib.Math_Rand(sub_3189, GLLib.s_screenHeight - sub_3189)) * 100 / cGame.s_zoomLevel;
