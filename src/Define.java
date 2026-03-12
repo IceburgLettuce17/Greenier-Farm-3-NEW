@@ -13,11 +13,17 @@
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 interface Define 
 {
+	/**
+	* Changes made to ease the building of the decomp. Should not be needed to build a release.
+	*/
 	public static final boolean DECOMP_MODE = true;
 	
+	/**
+	* Custom stdout prints made to ease the building of the decomp. Along with {@link Define#DECOMP_MODE}, it should not be needed to build a release.
+	*/
 	public static final boolean DECOMP_CUSTOM_PRINTS = true;
 	
-	// GameStates..... (in the style of Platinum Sudoku
+	// States (in the style of Platinum Sudoku's leaked source (also available on GitHub as IceburgLettuce17/PlatSudoku)
 	
 	/**
 	 * Default GLLib exit state.
@@ -274,18 +280,69 @@ interface Define
 	final static int GS_LAST = GS_IGP;
 	
 	// ActorIDs
+	
+	/**
+	 * ActorID of the Sales Desk.
+	 * Loads state {@link Define#GS_SALEDESK} when interacted with.
+	 */
 	final static int ACTOR_SALEDESK = 9;	
+	
+	/**
+	 * ActorID of the Barn.
+	 * Loads state {@link Define#GS_BARN} when interacted with.
+	 */
 	final static int ACTOR_BARN = 10;	
+	
+	/**
+	 * ActorID of the Henhouse.
+	 * I will update this documentation when more about Prepare Time is discovered.
+	 */
 	final static int ACTOR_HENHOUSE = 11;	
-	final static int ACTOR_STABLES = 12;	
-	final static int ACTOR_SILO = 13;	
+	
+	/**
+	 * ActorID of the Stables.
+	 * I will update this documentation when more about Prepare Time is discovered.
+	 */
+	final static int ACTOR_STABLES = 12;
+
+	/**
+	 * ActorID of the Silo.
+	 * Loads state {@link Define#GS_SILO} when interacted with.
+	 */	
+	final static int ACTOR_SILO = 13;
+	
+	/**
+	 * ActorID of the Feed Mill.
+	 * Loads state {@link Define#GS_MILL} when interacted with.
+	 */
 	final static int ACTOR_MILL = 14;	
+	
+	/**
+	 * ActorID of the Mailbox.
+	 * Loads state {@link Define#GS_MAIL} when interacted with.
+	 */
 	final static int ACTOR_MAIL = 15;
+	
+	/**
+	 * Unknown purpose.
+	 * Does not load correctly into the Barn.
+	 */
 	final static int ACTOR_UNK16 = 16;	
+	
+	/**
+	 * ActorID of the Pond.
+	 * Loads state {@link Define#GS_POPUP} (leading to {@link Define#GS_POND}) when interacted with.
+	 */
 	final static int ACTOR_POND = 17;	
+	
+	/**
+	 * ActorID of The Manor.
+	 * Loads state {@link Define#GS_MANOR} when interacted with.
+	 */
 	final static int ACTOR_MANOR = 18;	
 	
 	// Toast Types
+	// TODO: Document once I import these into cGame
 	final static int TOAST_EXIT = 1;
 	final static int TOAST_SMSCHARGE = 2;
 	final static int TOAST_PURCHASE0 = 3;
@@ -297,6 +354,8 @@ interface Define
 	final static int TOAST_REDEEM_EXIT = 11;
 	
 	// Text indices. These are used in GLLib.Text_GetString method
+	
+	
 	final static int TEXT_TUTORIAL_HARVEST = 4;
 	final static int TEXT_TUTORIAL_GROW = 5;
 	final static int TEXT_TUTORIAL_PLANT = 6;
