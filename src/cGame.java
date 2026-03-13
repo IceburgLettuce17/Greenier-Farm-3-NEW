@@ -1947,9 +1947,9 @@ public final class cGame extends GLLib implements Class_b
 							}
 						}
 						if (cGame.var_785c) {
-							sub_4052e(493, 494, 26, 0);
+							sub_4052e(Define.TEXT_POPUP_ACREERROR, Define.TEXT_POPUP_ACREERROR_DESC_ANIMAL, 26, 0);
 						} else if (cGame.var_7864) {
-							sub_4052e(493, 495, 26, 0);
+							sub_4052e(Define.TEXT_POPUP_ACREERROR, Define.TEXT_POPUP_ACREERROR_DESC_TREE, 26, 0);
 						}
 						cGame.var_785c = false;
 						cGame.var_7864 = false;
@@ -3307,31 +3307,31 @@ public final class cGame extends GLLib implements Class_b
 		final int i = n / 86400;
 		final int j = (n % 86400) / 3600;
 		final int k = (n % 3600) / 60;
-		final int l = n % 60;
-		String s = "";
+		final int seconds = n % 60;
+		String result = "";
 		if (n > 0) {
 			if (i > 0) {
-				s = s + i + (((GLLib.Text_GetString(Define.TEXT_DAYS)) == null) ? "" : GLLib.Text_GetString(Define.TEXT_DAYS)) + " ";
+				result = result + i + (((GLLib.Text_GetString(Define.TEXT_DAYS)) == null) ? "" : GLLib.Text_GetString(Define.TEXT_DAYS)) + " ";
 			}
 			if (j > 0) {
-				s = s + j + (((GLLib.Text_GetString(Define.TEXT_HOURS)) == null) ? "" : GLLib.Text_GetString(Define.TEXT_HOURS)) + " ";
+				result = result + j + (((GLLib.Text_GetString(Define.TEXT_HOURS)) == null) ? "" : GLLib.Text_GetString(Define.TEXT_HOURS)) + " ";
 			}
 			if (k > 0) {
 				if (k / 10 < 1) {
-					s += "0";
+					result += "0";
 				}
-				s = s + k + (((GLLib.Text_GetString(Define.TEXT_MINUTES)) == null) ? "" : GLLib.Text_GetString(Define.TEXT_MINUTES)) + " ";
+				result = result + k + (((GLLib.Text_GetString(Define.TEXT_MINUTES)) == null) ? "" : GLLib.Text_GetString(Define.TEXT_MINUTES)) + " ";
 			}
-			if (l > 0) {
-				if (l / 10 < 1) {
-					s += "0";
+			if (seconds > 0) {
+				if (seconds / 10 < 1) {
+					result += "0";
 				}
-				s = s + l + (((GLLib.Text_GetString(Define.TEXT_SECONDS)) == null) ? "" : GLLib.Text_GetString(Define.TEXT_SECONDS));
+				result = result + seconds + (((GLLib.Text_GetString(Define.TEXT_SECONDS)) == null) ? "" : GLLib.Text_GetString(Define.TEXT_SECONDS));
 			}
 		} else {
-			s = "-";
+			result = "-";
 		}
-		return s;
+		return result;
 	}
 
 	static void sub_df48(final int n, final int n2) {
@@ -4747,7 +4747,7 @@ public final class cGame extends GLLib implements Class_b
 		}
 		if (cGame.var_721c == 2 && cGame.s_market_currPage == 0 && cActor.sub_4cf5(0, 49) >= getMaxPlots()) {
 			playSndNoLoop(56);
-			sub_4052e(487, 488, 7, 0);
+			sub_4052e(Define.TEXT_POPUP_PLOTSFULL, Define.TEXT_POPUP_PLOTSFULLDESC, 7, 0);
 			return;
 		}
 		buyMarketItem(0);
@@ -5152,14 +5152,14 @@ public final class cGame extends GLLib implements Class_b
 		if (cGame.s_popup_boxset != 2 && cGame.s_popup_boxset != 3 && cGame.s_popup_boxset != 4) {
 			final String sub_4e1f;
 			
-			// Skip the Line!
+			// Let's Tell Everyone!
 			if (cGame.s_popup_title == (((sub_4e1f = GLLib.Text_GetString(Define.TEXT_POPUP_LETSTELLEVERYONE)) == null) ? "" : sub_4e1f)
 					&& cGame.var_7ad4 != "") {
 				cGame.s_popup_title = cGame.var_7ad4;
 				b = true;
 			} else {
 				
-				// Task completed!
+				// Whoops!
 				final String sub_4e1f2;
 				if (cGame.s_popup_title == (((sub_4e1f2 = GLLib.Text_GetString(Define.TEXT_POPUP_WHOOPS)) == null) ? "" : sub_4e1f2)
 						&& cGame.var_7ad4 != "") {
@@ -5511,7 +5511,7 @@ public final class cGame extends GLLib implements Class_b
 						cGame.s_switcherState = 1;
 						sub_2c69b();
 						if (n <= cGame.var_808c) {
-							sub_4049d(292, 293, 15, 0, 1);
+							sub_4049d(Define.TEXT_POPUP_ROOMRESTORED, Define.TEXT_POPUP_ROOMRESTOREDDESC, 15, 0, 1);
 							return;
 						}
 						final cActor[] array5 = { null };
@@ -7727,7 +7727,7 @@ public final class cGame extends GLLib implements Class_b
 
 	private static void sub_17bbf() {
 		playSndNoLoop(57);
-		if (cGame.var_7b9c == 4 && getPreviousState() != 41) {
+		if (cGame.var_7b9c == 4 && getPreviousState() != Define.GS_UNREF_41) {
 			sub_82a7(41);
 			return;
 		}
@@ -8052,7 +8052,7 @@ public final class cGame extends GLLib implements Class_b
 			addCoin(cGame.var_7bcc);
 			sub_2b022(cGame.var_7bb4);
 			sub_41ff0();
-			sub_4014a(756 + cGame.var_7bb4, cGame.var_68bc[17][22][5], cGame.var_68bc[17][22][6]);
+			drawPopupToastWithSpr(756 + cGame.var_7bb4, cGame.var_68bc[17][22][5], cGame.var_68bc[17][22][6]);
 		}
 	}
 
@@ -11626,7 +11626,7 @@ public final class cGame extends GLLib implements Class_b
 				case 65610: {
 					actionId = cActor.sub_4cf5(0, 49);
 					if (cGame.var_6aac.actorID == 0 && actionId <= cGame.var_8064[22]) {
-						sub_4052e(485, 486, 7, 0);
+						sub_4052e(Define.TEXT_POPUP_MINPLOTS, Define.TEXT_POPUP_MINPLOTSDESC, 7, 0);
 					} else {
 						final String sub_4e1f6 = (GLLib.Text_GetString(Define.TEXT_POPUP_SELL)) == null ? "" : GLLib.Text_GetString(Define.TEXT_POPUP_SELL);
 						final String sub_4e1f7 = (GLLib.Text_GetString(Define.TEXT_POPUP_SELLDESC)) == null ? "" : GLLib.Text_GetString(Define.TEXT_POPUP_SELLDESC);
@@ -11652,7 +11652,7 @@ public final class cGame extends GLLib implements Class_b
 				}
 				case 65611: {
 					if (sub_2dcf3(5) + cActor.sub_59d2(2) >= sub_2df26()) {
-						sub_40658(471, 477);
+						cGame.drawCustomPopupNoOpts(Define.TEXT_POPUP_BARNFULL, Define.TEXT_POPUP_BARNFULLDESC);
 						break Label_7332;
 					}
 					playSndNoLoop(50);
@@ -14272,7 +14272,7 @@ public final class cGame extends GLLib implements Class_b
 			} else {
 				class_f.var_162d = class_h.m_dataVars[n2][14];
 				class_f.var_167d = class_h.m_dataVars[n2][17];
-				class_f.var_164d = class_h.m_dataVars[n2][24];
+				class_f.requiredFeedAmnt = class_h.m_dataVars[n2][24];
 			}
 			class_f.var_1635 = 0;
 			class_f.var_18c5 = class_h.m_dataVars[n2][1];
@@ -14294,7 +14294,7 @@ public final class cGame extends GLLib implements Class_b
 			} else if (n == 5) {
 				var_1685 = 5;
 			}
-			class_f2.var_1685 = var_1685;
+			class_f2.feedIndex = var_1685;
 			class_f.var_18d5 = (byte) class_h.m_dataVars[n2][37];
 			if (class_f.actorID >= 2 && class_f.actorID <= 3) {
 				class_f.var_18d5 = 21;
@@ -14609,7 +14609,7 @@ public final class cGame extends GLLib implements Class_b
 			if (!cGame.var_6c8c) {
 				cGame.var_6c8c = true;
 				final String sub_4e1f;
-				sub_40279(((sub_4e1f = GLLib.Text_GetString(Define.TEXT_TUTORIAL_MANOR)) == null) ? "" : sub_4e1f, 15, 0);
+				drawPopupToastWithSpr(((sub_4e1f = GLLib.Text_GetString(Define.TEXT_TUTORIAL_MANOR)) == null) ? "" : sub_4e1f, 15, 0);
 			}
 			if (cGame.s_hasFinishedTut) {
 				++cGame.var_6c5c;
@@ -14658,7 +14658,7 @@ public final class cGame extends GLLib implements Class_b
 			if (!cGame.var_6c8c) {
 				cGame.var_6c8c = true;
 				final String sub_4e1f2;
-				sub_40279(((sub_4e1f2 = GLLib.Text_GetString(Define.TEXT_TUTORIAL_MAILBOX)) == null) ? "" : sub_4e1f2, 7, 0);
+				drawPopupToastWithSpr(((sub_4e1f2 = GLLib.Text_GetString(Define.TEXT_TUTORIAL_MAILBOX)) == null) ? "" : sub_4e1f2, 7, 0);
 				final cActor[] array3 = { null };
 				cActor.sub_545c(0, 50, 15, array3, 1);
 				if (array3[0] != null) {
@@ -14850,11 +14850,13 @@ public final class cGame extends GLLib implements Class_b
 			cGame.s_hasFinishedTut = true;
 			return;
 		}
+		
+		// Draw welcome popup
 		case 2: {
 			if (!cGame.var_6c8c && cGame.var_800c.var_185d == 0) {
 				cGame.var_70e4 &= 0xFFFFFF00;
 				sub_27132();
-				sub_4052e(2, 3, 7, 0);
+				sub_4052e(Define.TEXT_POPUP_TUTINTRO, Define.TEXT_POPUP_TUTINTRODESC, 7, 0);
 				cGame.var_6c8c = true;
 				cGame.s_hasFinishedTut = false;
 			}
@@ -14865,14 +14867,14 @@ public final class cGame extends GLLib implements Class_b
 			cGame.s_hasFinishedTut = true;
 			return;
 		}
-		// This draws the welcome popup
+		// This draws the harvest popup
 		case 3: {
 			if (!cGame.var_6c8c) {
 				cGame.var_6c8c = true;
 				cGame.s_hasFinishedTut = false;
 				sub_271e4(cGame.s_tutorialState);
 				final String sub_4e1f;
-				sub_40279(((sub_4e1f = GLLib.Text_GetString(Define.TEXT_TUTORIAL_HARVEST)) == null) ? "" : sub_4e1f, 7, 0);
+				drawPopupToastWithSpr(((sub_4e1f = GLLib.Text_GetString(Define.TEXT_TUTORIAL_HARVEST)) == null) ? "" : sub_4e1f, 7, 0);
 			}
 			if (cGame.s_hasFinishedTut) {
 				sub_2738d();
@@ -14933,7 +14935,7 @@ public final class cGame extends GLLib implements Class_b
 			if (!cGame.var_6c8c) {
 				cGame.var_6c8c = true;
 				final String sub_4e1f2;
-				sub_40279(((sub_4e1f2 = GLLib.Text_GetString(Define.TEXT_TUTORIAL_PLANT)) == null) ? "" : sub_4e1f2, 7, 0);
+				drawPopupToastWithSpr(((sub_4e1f2 = GLLib.Text_GetString(Define.TEXT_TUTORIAL_PLANT)) == null) ? "" : sub_4e1f2, 7, 0);
 			}
 			if (cGame.s_hasFinishedTut) {
 				sub_2738d();
@@ -15000,7 +15002,7 @@ public final class cGame extends GLLib implements Class_b
 		case 9: {
 			if (!cGame.var_6c8c) {
 				cGame.var_6c8c = true;
-				sub_4052e(17, 18, 7, 0);
+				sub_4052e(Define.TEXT_POPUP_TUTNEWTASK, Define.TEXT_POPUP_TUTNEWTASKDESC, 7, 0);
 			}
 			if (cGame.s_hasFinishedTut) {
 				sub_2738d();
@@ -15112,7 +15114,7 @@ public final class cGame extends GLLib implements Class_b
 			if (!cGame.var_6c8c) {
 				cGame.var_6c8c = true;
 				final String sub_4e1f3;
-				sub_40279(((sub_4e1f3 = GLLib.Text_GetString(Define.TEXT_TUTORIAL_GROW)) == null) ? "" : sub_4e1f3, 7, 0);
+				drawPopupToastWithSpr(((sub_4e1f3 = GLLib.Text_GetString(Define.TEXT_TUTORIAL_GROW)) == null) ? "" : sub_4e1f3, 7, 0);
 			}
 			if (cGame.s_hasFinishedTut) {
 				sub_2738d();
@@ -15167,7 +15169,7 @@ public final class cGame extends GLLib implements Class_b
 			if (!cGame.var_6c8c) {
 				cGame.var_6c8c = true;
 				final String sub_4e1f4;
-				sub_40279(((sub_4e1f4 = GLLib.Text_GetString(Define.TEXT_TUTORIAL_ADULTCOW)) == null) ? "" : sub_4e1f4, 7, 0);
+				drawPopupToastWithSpr(((sub_4e1f4 = GLLib.Text_GetString(Define.TEXT_TUTORIAL_ADULTCOW)) == null) ? "" : sub_4e1f4, 7, 0);
 			}
 			if (cGame.s_hasFinishedTut) {
 				sub_2738d();
@@ -15179,7 +15181,7 @@ public final class cGame extends GLLib implements Class_b
 			if (!cGame.var_6c8c) {
 				cGame.var_6c8c = true;
 				final String sub_4e1f5;
-				sub_40279(((sub_4e1f5 = GLLib.Text_GetString(Define.TEXT_TUTORIAL_FEED1)) == null) ? "" : sub_4e1f5, 7, 0);
+				drawPopupToastWithSpr(((sub_4e1f5 = GLLib.Text_GetString(Define.TEXT_TUTORIAL_FEED1)) == null) ? "" : sub_4e1f5, 7, 0);
 			}
 			if (cGame.s_hasFinishedTut) {
 				sub_2738d();
@@ -15207,7 +15209,7 @@ public final class cGame extends GLLib implements Class_b
 			if (!cGame.var_6c8c) {
 				cGame.var_6c8c = true;
 				final String sub_4e1f6;
-				sub_40279(((sub_4e1f6 = GLLib.Text_GetString(Define.TEXT_TUTORIAL_FEED2)) == null) ? "" : sub_4e1f6, 7, 0);
+				drawPopupToastWithSpr(((sub_4e1f6 = GLLib.Text_GetString(Define.TEXT_TUTORIAL_FEED2)) == null) ? "" : sub_4e1f6, 7, 0);
 			}
 			if (sub_202b7(1, 44)) {
 				sub_2024d(1, 44, false);
@@ -15373,7 +15375,7 @@ public final class cGame extends GLLib implements Class_b
 		case 31: {
 			if (!cGame.var_6c8c) {
 				cGame.var_6c8c = true;
-				sub_4052e(27, 24, 7, 0);
+				sub_4052e(Define.TEXT_POPUP_TUTCASH, Define.TEXT_POPUP_TUTCASHDESC, 7, 0);
 			}
 			if (cGame.s_hasFinishedTut) {
 				sub_2738d();
@@ -15402,7 +15404,7 @@ public final class cGame extends GLLib implements Class_b
 				cGame.var_6c8c = true;
 				sub_28ca1();
 				final String sub_4e1f7;
-				sub_40279(((sub_4e1f7 = GLLib.Text_GetString(Define.TEXT_TUTORIAL_FEEDCASH)) == null) ? "" : sub_4e1f7, 7, 0);
+				drawPopupToastWithSpr(((sub_4e1f7 = GLLib.Text_GetString(Define.TEXT_TUTORIAL_FEEDCASH)) == null) ? "" : sub_4e1f7, 7, 0);
 			}
 			if (cGame.s_hasFinishedTut) {
 				sub_2738d();
@@ -15469,7 +15471,7 @@ public final class cGame extends GLLib implements Class_b
 					array16[j].sub_aac5();
 				}
 				final String sub_4e1f8;
-				sub_40279(((sub_4e1f8 = GLLib.Text_GetString(Define.TEXT_TUTORIAL_WHEATREADY)) == null) ? "" : sub_4e1f8, 7, 0);
+				drawPopupToastWithSpr(((sub_4e1f8 = GLLib.Text_GetString(Define.TEXT_TUTORIAL_WHEATREADY)) == null) ? "" : sub_4e1f8, 7, 0);
 			}
 			if (cGame.s_hasFinishedTut) {
 				sub_2738d();
@@ -15516,7 +15518,7 @@ public final class cGame extends GLLib implements Class_b
 				sub_271e4(cGame.s_tutorialState);
 				cGame.var_70e4 &= 0xFFFFFFFE;
 				final String sub_4e1f9;
-				sub_40279(((sub_4e1f9 = GLLib.Text_GetString(Define.TEXT_TUTORIAL_PLOTS)) == null) ? "" : sub_4e1f9, 7, 0);
+				drawPopupToastWithSpr(((sub_4e1f9 = GLLib.Text_GetString(Define.TEXT_TUTORIAL_PLOTS)) == null) ? "" : sub_4e1f9, 7, 0);
 			}
 			if (cGame.s_hasFinishedTut) {
 				sub_2738d();
@@ -15622,7 +15624,7 @@ public final class cGame extends GLLib implements Class_b
 				cGame.var_6c8c = true;
 				sub_271e4(cGame.s_tutorialState);
 				final String sub_4e1f10;
-				sub_40279(((sub_4e1f10 = GLLib.Text_GetString(Define.TEXT_TUTORIAL_TOMATO)) == null) ? "" : sub_4e1f10, 7, 0);
+				drawPopupToastWithSpr(((sub_4e1f10 = GLLib.Text_GetString(Define.TEXT_TUTORIAL_TOMATO)) == null) ? "" : sub_4e1f10, 7, 0);
 			}
 			if (cGame.s_hasFinishedTut) {
 				sub_2738d();
@@ -15677,7 +15679,7 @@ public final class cGame extends GLLib implements Class_b
 		case 46: {
 			if (!cGame.var_6c8c) {
 				cGame.var_6c8c = true;
-				sub_4052e(9, 10, 7, 0);
+				sub_4052e(Define.TEXT_POPUP_TUTSALE, Define.TEXT_POPUP_TUTSALEDESC, 7, 0);
 			}
 			if (cGame.s_hasFinishedTut) {
 				sub_2738d();
@@ -15708,7 +15710,7 @@ public final class cGame extends GLLib implements Class_b
 				cGame.s_hasFinishedTut = false;
 				cGame.var_6c8c = true;
 				final String sub_4e1f11;
-				sub_40279(((sub_4e1f11 = GLLib.Text_GetString(Define.TEXT_TUTORIAL_BARN)) == null) ? "" : sub_4e1f11, 7, 0);
+				drawPopupToastWithSpr(((sub_4e1f11 = GLLib.Text_GetString(Define.TEXT_TUTORIAL_BARN)) == null) ? "" : sub_4e1f11, 7, 0);
 			}
 			if (cGame.s_hasFinishedTut) {
 				final cActor[] array21 = { null };
@@ -15794,7 +15796,7 @@ public final class cGame extends GLLib implements Class_b
 			if (!cGame.var_6c8c) {
 				cGame.var_6c8c = true;
 				final String sub_4e1f12;
-				sub_40279(((sub_4e1f12 = GLLib.Text_GetString(Define.TEXT_TUTORIAL_SALESDESK)) == null) ? "" : sub_4e1f12, 7, 0);
+				drawPopupToastWithSpr(((sub_4e1f12 = GLLib.Text_GetString(Define.TEXT_TUTORIAL_SALESDESK)) == null) ? "" : sub_4e1f12, 7, 0);
 			}
 			if (cGame.s_hasFinishedTut) {
 				sub_2738d();
@@ -17788,7 +17790,7 @@ public final class cGame extends GLLib implements Class_b
 	static boolean sub_2da54(int n, int n2, final int n3) {
 		final int sub_2dcf3 = sub_2dcf3(5);
 		if (n3 > 0 && sub_2dcf3 > sub_2df26()) {
-			sub_40658(471, 477);
+			cGame.drawCustomPopupNoOpts(Define.TEXT_POPUP_BARNFULL, Define.TEXT_POPUP_BARNFULLDESC);
 			return false;
 		}
 		if (n3 < 0 && sub_2dcf3 < 0) {
@@ -18407,13 +18409,13 @@ public final class cGame extends GLLib implements Class_b
 							if (sub_2dcf3(5) < sub_2df26()) {
 								final String sub_4e1f;
 								final String sub_4e1f2;
-								drawCustomPopupNoOpts(((sub_4e1f = GLLib.Text_GetString(Define.TEXT_POPUP_BARNFULL)) == null) ? "" : sub_4e1f,
-										GLLib.Text_FindReplace(((sub_4e1f2 = GLLib.Text_GetString(Define.TEXT_POPUP_BARNFULLDESC)) == null) ? "" : sub_4e1f2,
+								drawCustomPopupNoOpts(((sub_4e1f = GLLib.Text_GetString(Define.TEXT_POPUP_BARNALMOSTFULL)) == null) ? "" : sub_4e1f,
+										GLLib.Text_FindReplace(((sub_4e1f2 = GLLib.Text_GetString(Define.TEXT_POPUP_BARNALMOSTFULLDESC)) == null) ? "" : sub_4e1f2,
 												"%slots", "" + GLLib.Text_FormatNumber(n, cGame.s_currencySeprType, " ")),
 										7, 0);
 								break;
 							}
-							sub_40658(471, 477);
+							cGame.drawCustomPopupNoOpts(Define.TEXT_POPUP_BARNFULL, Define.TEXT_POPUP_BARNFULLDESC);
 							break;
 						} else {
 							final int n2 = 3 + (cGame.var_70c4[cGame.var_70cc].sub_a2a0(1024) ? 1 : 0);
@@ -18428,13 +18430,13 @@ public final class cGame extends GLLib implements Class_b
 							if (sub_2dcf3(5) < sub_2df26()) {
 								final String sub_4e1f3;
 								final String sub_4e1f4;
-								drawCustomPopupNoOpts(((sub_4e1f3 = GLLib.Text_GetString(Define.TEXT_POPUP_BARNFULL)) == null) ? "" : sub_4e1f3,
-										GLLib.Text_FindReplace(((sub_4e1f4 = GLLib.Text_GetString(Define.TEXT_POPUP_BARNFULLDESC)) == null) ? "" : sub_4e1f4,
+								drawCustomPopupNoOpts(((sub_4e1f3 = GLLib.Text_GetString(Define.TEXT_POPUP_BARNALMOSTFULL)) == null) ? "" : sub_4e1f3,
+										GLLib.Text_FindReplace(((sub_4e1f4 = GLLib.Text_GetString(Define.TEXT_POPUP_BARNALMOSTFULLDESC)) == null) ? "" : sub_4e1f4,
 												"%slots", "" + GLLib.Text_FormatNumber(n2, cGame.s_currencySeprType, " ")),
 										7, 0);
 								break;
 							}
-							sub_40658(471, 477);
+							cGame.drawCustomPopupNoOpts(Define.TEXT_POPUP_BARNFULL, Define.TEXT_POPUP_BARNFULLDESC);
 							break;
 						}
 
@@ -18481,14 +18483,14 @@ public final class cGame extends GLLib implements Class_b
 						if (sub_2dcf3(5) < sub_2df26()) {
 							final String sub_4e1f5;
 							final String sub_4e1f6;
-							drawCustomPopupNoOpts(((sub_4e1f5 = GLLib.Text_GetString(Define.TEXT_POPUP_BARNFULL)) == null) ? "" : sub_4e1f5,
-									GLLib.Text_FindReplace(((sub_4e1f6 = GLLib.Text_GetString(Define.TEXT_POPUP_BARNFULLDESC)) == null) ? "" : sub_4e1f6,
+							drawCustomPopupNoOpts(((sub_4e1f5 = GLLib.Text_GetString(Define.TEXT_POPUP_BARNALMOSTFULL)) == null) ? "" : sub_4e1f5,
+									GLLib.Text_FindReplace(((sub_4e1f6 = GLLib.Text_GetString(Define.TEXT_POPUP_BARNALMOSTFULLDESC)) == null) ? "" : sub_4e1f6,
 											"%slots",
 											"" + GLLib.Text_FormatNumber(var_16e5 + var_16ed, cGame.s_currencySeprType, " ")),
 									7, 0);
 							break;
 						}
-						sub_40658(471, 477);
+						cGame.drawCustomPopupNoOpts(Define.TEXT_POPUP_BARNFULL, Define.TEXT_POPUP_BARNFULLDESC);
 						break;
 					}
 					}
@@ -18587,7 +18589,7 @@ public final class cGame extends GLLib implements Class_b
 			}
 			case 110: {
 				final String sub_4e1f;
-				sub_40279(
+				drawPopupToastWithSpr(
 						((sub_4e1f = GLLib.Text_GetString(cGame.var_7114[cGame.var_70ec][i * 6])) == null) ? ""
 								: sub_4e1f,
 						cGame.var_7114[cGame.var_70ec][i * 6 + 1], cGame.var_7114[cGame.var_70ec][i * 6 + 2]);
@@ -19689,7 +19691,7 @@ public final class cGame extends GLLib implements Class_b
 				if (cActor.sub_4cf5(0, 52) >= getIdk()) {
 					cGame.var_708c = (cGame.var_7094 = 0);
 					playSndNoLoop(56);
-					sub_4052e(491, 492, 7, 0);
+					sub_4052e(Define.TEXT_POPUP_TREESFULL, Define.TEXT_POPUP_TREESFULLDESC, 7, 0);
 					return;
 				}
 				b2 = true;
@@ -19714,7 +19716,7 @@ public final class cGame extends GLLib implements Class_b
 				if (cGame.var_721c == 0 && cActor.sub_4cf5(0, 54) >= getMaxSiloAmount()) {
 					cGame.var_708c = (cGame.var_7094 = 0);
 					playSndNoLoop(56);
-					sub_4052e(489, 490, 7, 0);
+					sub_4052e(Define.TEXT_POPUP_ANIMALFULL, Define.TEXT_POPUP_ANIMALFULLDESC, 7, 0);
 					return;
 				}
 				b2 = true;
@@ -20509,7 +20511,7 @@ public final class cGame extends GLLib implements Class_b
 			}
 			if (cGame.var_7aac != -1) {
 				if (cGame.var_7aac == 10) {
-					sub_4052e(202, 203, 7, 0);
+					sub_4052e(Define.TEXT_POPUP_QUEUEFULL, Define.TEXT_POPUP_QUEUEFULLDESC, 7, 0);
 				}
 				cGame.var_7aac = -1;
 			}
@@ -21067,7 +21069,7 @@ public final class cGame extends GLLib implements Class_b
 			}
 			if (cGame.var_7aac != -1) {
 				if (cGame.var_7aac == 9) {
-					sub_4052e(204, 205, 7, 0);
+					sub_4052e(Define.TEXT_POPUP_MILLQUEUEFULL, Define.TEXT_POPUP_MILLQUEUEFULLDESC, 7, 0);
 				}
 				cGame.var_7aac = -1;
 			}
@@ -22914,7 +22916,7 @@ public final class cGame extends GLLib implements Class_b
 			cGame.var_78b4 = null;
 			sub_d7d7(1);
 			if (cGame.var_78bc) {
-				sub_4014a(756 + cGame.var_7bb4, cGame.s_mailbox_neighborSprs[cGame.var_7bb4],
+				drawPopupToastWithSpr(756 + cGame.var_7bb4, cGame.s_mailbox_neighborSprs[cGame.var_7bb4],
 						cGame.s_mailbox_neighborSprIdxs[cGame.var_7bb4]);
 			}
 			sub_239ef(10);
@@ -23066,7 +23068,7 @@ public final class cGame extends GLLib implements Class_b
 		sub_49db0(n3 = cGame.var_80bc[0] + cGame.var_7bb4, 1, 28, false);
 		sub_49db0(cGame.var_78ac[n + cGame.var_786c], 1, 26, false);
 		sub_2bae9(n3, 1, 28);
-		sub_4014a(756 + cGame.var_7bb4, cGame.s_mailbox_neighborSprs[cGame.var_7bb4], cGame.s_mailbox_neighborSprIdxs[cGame.var_7bb4]);
+		drawPopupToastWithSpr(756 + cGame.var_7bb4, cGame.s_mailbox_neighborSprs[cGame.var_7bb4], cGame.s_mailbox_neighborSprIdxs[cGame.var_7bb4]);
 		cGame.var_78bc = true;
 		cGame.s_switcherState = 1;
 		sub_2c69b();
@@ -23135,7 +23137,7 @@ public final class cGame extends GLLib implements Class_b
 			cGame.var_7904 = null;
 			sub_d7d7(1);
 			if (cGame.var_7914) {
-				sub_4014a(166, 7, 0);
+				drawPopupToastWithSpr(166, 7, 0);
 			}
 			sub_239ef(10);
 		}
@@ -24376,37 +24378,39 @@ public final class cGame extends GLLib implements Class_b
 			}
 			if (cGame.var_7aac != -1) {
 				if (cGame.var_7aac == 1) {
-					sub_40658(472, 478);
+					cGame.drawCustomPopupNoOpts(Define.TEXT_POPUP_SILOFULL, Define.TEXT_POPUP_SILOFULLDESC);
 				} else if (cGame.var_7aac == 2) {
-					sub_40658(471, 477);
+					cGame.drawCustomPopupNoOpts(Define.TEXT_POPUP_BARNFULL, Define.TEXT_POPUP_BARNFULLDESC);
 				} else if (cGame.var_7aac == 3) {
-					sub_4052e(489, 490, 7, 0);
+					sub_4052e(Define.TEXT_POPUP_ANIMALFULL, Define.TEXT_POPUP_ANIMALFULLDESC, 7, 0);
 				} else if (cGame.var_7aac == 4) {
-					sub_4052e(500, 501, 15, 0);
+					sub_4052e(Define.TEXT_POPUP_LASTTASK, Define.TEXT_POPUP_LASTTASKDESC, 15, 0);
 				} else if (cGame.var_7aac == 5) {
-					sub_4052e(502, 503, 26, 0);
+					sub_4052e(Define.TEXT_POPUP_LEVEL50, Define.TEXT_POPUP_LEVEL50DESC, 26, 0);
 				} else if (cGame.var_7aac == 6) {
-					sub_4052e(504, 505, 7, 0);
+					sub_4052e(Define.TEXT_POPUP_LASTACRE, Define.TEXT_POPUP_LASTACREDESC, 7, 0);
 				} else if (cGame.var_7aac == 7) {
-					sub_4052e(295, 296, 7, 0);
+					sub_4052e(Define.TEXT_POPUP_MANORRESTORED, Define.TEXT_POPUP_MANORRESTOREDDESC, 7, 0);
 				} else if (cGame.var_7aac == 8) {
-					sub_4052e(623, 624, 7, 0);
+					sub_4052e(Define.TEXT_POPUP_WALTSPLANE, Define.TEXT_POPUP_WALTSPLANEDESC, 7, 0);
 				} else if (cGame.var_7aac == 11) {
-					sub_4052e(163, 164, 7, 0);
+					sub_4052e(Define.TEXT_POPUP_WHOOPS, Define.TEXT_POPUP_WHOOPSDESC, 7, 0);
 				} else if (cGame.var_7aac == 12) {
-					sub_4052e(637, 638, 7, 0);
+					sub_4052e(Define.TEXT_POPUP_NEIGHBOR, Define.TEXT_POPUP_NEIGHBORDESC, 7, 0);
 				} else if (cGame.var_7aac == 14) {
-					sub_4052e(621, 622, 7, 0);
+					sub_4052e(Define.TEXT_POPUP_DELUXIFIER, Define.TEXT_POPUP_DELUXIFIERDESC, 7, 0);
 				} else if (cGame.var_7aac == 15) {
-					sub_4052e(633, 634, 7, 0);
+					sub_4052e(Define.TEXT_POPUP_COLL, Define.TEXT_POPUP_COLLDESC, 7, 0);
+					
+				// Appears twice?
 				} else if (cGame.var_7aac == 16) {
-					sub_4052e(637, 638, 7, 0);
+					sub_4052e(Define.TEXT_POPUP_NEIGHBOR, Define.TEXT_POPUP_NEIGHBORDESC, 7, 0);
 				} else if (cGame.var_7aac == 17) {
 					if (sub_2a22a() > 0) {
-						sub_4049d(300, 230 + (sub_2a22a() - 1), 7, 0, 2);
+						sub_4049d(Define.TEXT_POPUP_CONGRATS, Define.TEXT_POPUP_RECOVERED_PRETTYACRE + (sub_2a22a() - 1), 7, 0, 2);
 					}
 				} else if (cGame.var_7aac == 20) {
-					sub_4052e(491, 492, 7, 0);
+					sub_4052e(Define.TEXT_POPUP_TREESFULL, Define.TEXT_POPUP_TREESFULLDESC, 7, 0);
 				}
 				cGame.var_7aac = -1;
 			}
@@ -24441,7 +24445,7 @@ public final class cGame extends GLLib implements Class_b
 				sub_251a0(cGame.var_6afc);
 			}
 			if (getNextState() != Define.GS_MARKET && getNextState() != Define.GS_MANOR && getNextState() != Define.GS_BARN && getNextState() != Define.GS_FARMDIARY && getNextState() != Define.GS_POPUP
-					&& getNextState() != 20 && getNextState() != Define.GS_HUD && getNextState() != Define.GS_MILL && getNextState() != Define.GS_SALEDESK
+					&& getNextState() != Define.GS_UNREF_20 && getNextState() != Define.GS_HUD && getNextState() != Define.GS_MILL && getNextState() != Define.GS_SALEDESK
 					&& getNextState() != Define.GS_ACRE) {
 				saveGame(false);
 			}
@@ -24478,7 +24482,7 @@ public final class cGame extends GLLib implements Class_b
 		}
 		if (n == 8) {
 			if (GLLib.Pointer_IsReleased()) {
-				if (cGame.var_8034 != null && cGame.s_tutorialState != 35 && cGame.s_tutorialState != Define.GS_FARM_TUTORIAL) {
+				if (cGame.var_8034 != null && cGame.s_tutorialState != 35 && cGame.s_tutorialState != 18) {
 					sub_11320(false, null);
 				}
 				if (cGame.var_6aa4 != 3) {
@@ -24531,10 +24535,8 @@ public final class cGame extends GLLib implements Class_b
 					final String string = (((sub_4e1f = GLLib.Text_GetString(Define.TEXT_MISC_FOUNDITEM)) == null) ? "" : sub_4e1f)
 							+ ((sub_4f79.var_17a5 == -1) ? ("%RETRIEVE ITEM NAME ERROR%" + sub_4f79.var_17a5)
 									: (((sub_4e1f2 = GLLib.Text_GetString(sub_4f79.var_17a5)) == null) ? "" : sub_4e1f2));
-					final cActor var_7b34 = sub_4f79;
-					final String s = string;
-					cGame.var_7b34 = var_7b34;
-					sub_40279(s, 7, 0);
+					cGame.var_7b34 = sub_4f79;
+					drawPopupToastWithSpr(string, 7, 0);
 				}
 				return true;
 			}
@@ -24668,12 +24670,12 @@ public final class cGame extends GLLib implements Class_b
 							if (sub_2dcf3(5) < sub_2df26()) {
 								final String sub_4e1f3;
 								final String sub_4e1f4;
-								drawCustomPopupNoOpts(((sub_4e1f3 = GLLib.Text_GetString(Define.TEXT_POPUP_BARNFULL)) == null) ? "" : sub_4e1f3,
-										GLLib.Text_FindReplace(((sub_4e1f4 = GLLib.Text_GetString(Define.TEXT_POPUP_BARNFULLDESC)) == null) ? "" : sub_4e1f4,
+								drawCustomPopupNoOpts(((sub_4e1f3 = GLLib.Text_GetString(Define.TEXT_POPUP_BARNALMOSTFULL)) == null) ? "" : sub_4e1f3,
+										GLLib.Text_FindReplace(((sub_4e1f4 = GLLib.Text_GetString(Define.TEXT_POPUP_BARNALMOSTFULLDESC)) == null) ? "" : sub_4e1f4,
 												"%slots", "" + j),
 										7, 0);
 							} else {
-								sub_40658(471, 477);
+								cGame.drawCustomPopupNoOpts(Define.TEXT_POPUP_BARNFULL, Define.TEXT_POPUP_BARNFULLDESC);
 							}
 							return true;
 						}
@@ -24923,9 +24925,9 @@ public final class cGame extends GLLib implements Class_b
 		return false;
 	}
 
-	static void sub_4014a(final int n, final int n2, final int n3) {
+	static void drawPopupToastWithSpr(final int textId, final int n2, final int n3) {
 		final String sub_4e1f;
-		sub_40279(((sub_4e1f = GLLib.Text_GetString(n)) == null) ? "" : sub_4e1f, n2, n3);
+		drawPopupToastWithSpr(((sub_4e1f = GLLib.Text_GetString(textId)) == null) ? "" : sub_4e1f, n2, n3);
 	}
 
 	private static void sub_4019a(final int var_7ae4, final int var_7aec, final int n) {
@@ -24947,37 +24949,36 @@ public final class cGame extends GLLib implements Class_b
 		cGame.var_68bc[4][n][6] = (short) var_7aec;
 	}
 
-	private static void sub_40279(final String var_7acc, int sub_237ff, int n) {
+	private static void drawPopupToastWithSpr(final String desc, int sub_237ff, int n) {
 		cGame.s_popup_boxset = 0;
-		cGame.s_popup_desc = var_7acc;
+		cGame.s_popup_desc = desc;
 		sub_2000c(4, 1, true);
 		sub_2000c(4, 7, false);
 		sub_4019a(sub_237ff, n, 3);
 		sub_237ff = sanitizeTextSprIdx(cGame.var_68bc[4][2][7]);
-		final short[] sub_4ac6 = cGame.var_7ffc[sub_237ff].WraptextB(var_7acc, cGame.var_68bc[4][2][5], false);
+		final short[] sub_4ac6 = cGame.var_7ffc[sub_237ff].WraptextB(desc, cGame.var_68bc[4][2][5], false);
 		int n2 = (sub_4ac6[0] + (sub_4ac6[0] >> 1)) * cGame.var_7ffc[sub_237ff]._GetLineHeight();
-		final int n3 = cGame.var_68bc[4][2][5] + 40;
 		final int n4 = n2 + 40;
-		n = n3;
+		n = cGame.var_68bc[4][2][5] + 40;
 		sub_237ff = cGame.var_68bc[4][1][5];
-		final short n5 = cGame.var_68bc[4][1][6];
-		ASprite class_e = sub_237ff < 1000 ? cGame.var_68d4[sub_237ff] : cGame.s_gameSprites[sub_237ff - 1000];
-		final short n6 = class_e._frames_fm_start[n5];
-		final int sub_6494 = class_e.GetFrameModulesCount(n5);
-		final int n7 = class_e._modules_w_short[class_e.GetFrameModule(n5, 0)] & 0xFFFF;
-		final int n8 = class_e._modules_h_short[class_e.GetFrameModule(n5, 0)] & 0xFFFF;
+		final short frame = cGame.var_68bc[4][1][6];
+		ASprite sprite = sub_237ff < 1000 ? cGame.var_68d4[sub_237ff] : cGame.s_gameSprites[sub_237ff - 1000];
+		final short offset = sprite._frames_fm_start[frame];
+		final int sub_6494 = sprite.GetFrameModulesCount(frame);
+		final int n7 = sprite._modules_w_short[sprite.GetFrameModule(frame, 0)] & 0xFFFF;
+		final int n8 = sprite._modules_h_short[sprite.GetFrameModule(frame, 0)] & 0xFFFF;
 		for (short n9 = 4; n9 < sub_6494; ++n9) {
-			if (class_e.GetFModuleOX(n6 + n9) == class_e.GetFModuleOX(n6 + 1)) {
-				class_e.SetFModuleOX(n6 + n9, n - n7);
-			} else if (class_e.GetFModuleOY(n6 + n9) == class_e.GetFModuleOY(n6 + 2)) {
-				class_e.SetFModuleOY(n6 + n9, n4 - n8);
+			if (sprite.GetFModuleOX(offset + n9) == sprite.GetFModuleOX(offset + 1)) {
+				sprite.SetFModuleOX(offset + n9, n - n7);
+			} else if (sprite.GetFModuleOY(offset + n9) == sprite.GetFModuleOY(offset + 2)) {
+				sprite.SetFModuleOY(offset + n9, n4 - n8);
 			}
 		}
-		class_e.SetFModuleOX(n6 + 1, n - n7);
-		class_e.SetFModuleOY(n6 + 2, n4 - n8);
-		class_e.SetFModuleOX(n6 + 3, n - n7);
-		class_e.SetFModuleOY(n6 + 3, n4 - n8);
-		cGame.var_68dc[n5] = null;
+		sprite.SetFModuleOX(offset + 1, n - n7);
+		sprite.SetFModuleOY(offset + 2, n4 - n8);
+		sprite.SetFModuleOX(offset + 3, n - n7);
+		sprite.SetFModuleOY(offset + 3, n4 - n8);
+		cGame.var_68dc[frame] = null;
 		sub_2000c(4, 4, true);
 		sub_2024d(4, 4, true);
 		if (n2 > 105) {
@@ -24987,25 +24988,25 @@ public final class cGame extends GLLib implements Class_b
 		switchToState(Define.GS_POPUP);
 	}
 
-	static void sub_4049d(final int n, final int n2, final int n3, final int n4, final int n5) {
+	static void sub_4049d(final int titleId, final int descId, final int n3, final int n4, final int n5) {
 		final String sub_4e1f;
 		final String sub_4e1f2;
-		sub_405d4(((sub_4e1f = GLLib.Text_GetString(n)) == null) ? "" : sub_4e1f,
-				((sub_4e1f2 = GLLib.Text_GetString(n2)) == null) ? "" : sub_4e1f2, n3, 0, true);
+		sub_405d4(((sub_4e1f = GLLib.Text_GetString(titleId)) == null) ? "" : sub_4e1f,
+				((sub_4e1f2 = GLLib.Text_GetString(descId)) == null) ? "" : sub_4e1f2, n3, 0, true);
 	}
 
-	private static void sub_4052e(final int n, final int n2, final int n3, final int n4) {
+	private static void sub_4052e(final int titleId, final int descId, final int n3, final int n4) {
 		final String sub_4e1f;
 		final String sub_4e1f2;
-		sub_405d4(((sub_4e1f = GLLib.Text_GetString(n)) == null) ? "" : sub_4e1f,
-				((sub_4e1f2 = GLLib.Text_GetString(n2)) == null) ? "" : sub_4e1f2, n3, 0, false);
+		sub_405d4(((sub_4e1f = GLLib.Text_GetString(titleId)) == null) ? "" : sub_4e1f,
+				((sub_4e1f2 = GLLib.Text_GetString(descId)) == null) ? "" : sub_4e1f2, n3, 0, false);
 	}
 
-	private static void sub_405b1(final String s, final String s2, final int n) {
-		sub_405d4(s, s2, n, 0, false);
+	private static void sub_405b1(final String title, final String desc, final int n) {
+		sub_405d4(title, desc, n, 0, false);
 	}
 
-	private static void sub_405d4(final String var_7ac4, final String var_7acc, final int n, final int n2,
+	private static void sub_405d4(final String title, final String desc, final int n, final int n2,
 			final boolean var_7afc) {
 		//cGame.var_7afc = var_7afc;
 		cGame.s_popup_boxset = 1;
@@ -25016,20 +25017,20 @@ public final class cGame extends GLLib implements Class_b
 		sub_2000c(4, 11, true);
 		sub_2024d(4, 11, true);
 		sub_4019a(n, n2, 10);
-		cGame.s_popup_title = var_7ac4;
-		cGame.s_popup_desc = var_7acc;
+		cGame.s_popup_title = title;
+		cGame.s_popup_desc = desc;
 		switchToState(Define.GS_POPUP);
 	}
 
-	static void sub_40631() {
-		sub_4052e(469, 470, 7, 0);
+	static void drawPrizedPopup() {
+		sub_4052e(Define.TEXT_POPUP_PRIZED, Define.TEXT_POPUP_PRIZEDDESC, 7, 0);
 	}
 
-	static void sub_40658(final int n, final int n2) {
+	static void drawCustomPopupNoOpts(final int titleId, final int descId) {
 		final String sub_4e1f;
 		final String sub_4e1f2;
-		drawCustomPopupNoOpts(((sub_4e1f = GLLib.Text_GetString(n)) == null) ? "" : sub_4e1f,
-				((sub_4e1f2 = GLLib.Text_GetString(n2)) == null) ? "" : sub_4e1f2, 7, 0);
+		drawCustomPopupNoOpts(((sub_4e1f = GLLib.Text_GetString(titleId)) == null) ? "" : sub_4e1f,
+				((sub_4e1f2 = GLLib.Text_GetString(descId)) == null) ? "" : sub_4e1f2, 7, 0);
 	}
 
 	static void drawCustomPopupNoOpts(final String title, final String desc, final int n, final int n2) {
@@ -25542,7 +25543,7 @@ public final class cGame extends GLLib implements Class_b
 
 	private static void sub_41938(final int n) {
 		if (sub_2dcf3(5) + cActor.sub_59d2(2) + 1 > sub_2df26()) {
-			sub_40658(471, 477);
+			cGame.drawCustomPopupNoOpts(Define.TEXT_POPUP_BARNFULL, Define.TEXT_POPUP_BARNFULLDESC);
 			return;
 		}
 		if (sub_2da54(0, cGame.var_6e24[n + cGame.s_mailbox_scrollLevel][3], 1)) {
@@ -25558,7 +25559,7 @@ public final class cGame extends GLLib implements Class_b
 
 	private static void sub_41a13(int n) {
 		if (sub_2dcf3(5) + cActor.sub_59d2(2) + 1 > sub_2df26()) {
-			sub_40658(471, 477);
+			cGame.drawCustomPopupNoOpts(Define.TEXT_POPUP_BARNFULL, Define.TEXT_POPUP_BARNFULLDESC);
 			return;
 		}
 		if (sub_2da54(0, cGame.var_6e24[n + cGame.s_mailbox_scrollLevel][4], 1)) {
@@ -27000,8 +27001,10 @@ public final class cGame extends GLLib implements Class_b
 				sub_2024d(8, 9, false);
 				sub_2000c(8, 10, false);
 			}
+			
+			// This will never happen.
 			if (getLevel() < 3) {
-				sub_4052e(473, 474, 7, 0);
+				sub_4052e(Define.TEXT_POPUP_UNUSED_BEFORELV3, Define.TEXT_POPUP_UNUSED_BEFORELV3DESC, 7, 0);
 				sub_82a7(19);
 			}
 			final GameDatas class_h = GameDatas.s_allDatas[30];

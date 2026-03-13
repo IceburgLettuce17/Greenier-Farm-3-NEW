@@ -30,14 +30,14 @@ final class cActor
     int var_1635;
     int var_163d;
     long var_1645;
-    int var_164d;
+    int requiredFeedAmnt;
     private boolean var_1655;
     private boolean var_165d;
     private boolean var_1665;
     private boolean var_166d;
     boolean var_1675;
     int var_167d;
-    short var_1685;
+    short feedIndex;
     private boolean var_168d;
     private boolean var_1695;
     short var_169d;
@@ -143,14 +143,14 @@ final class cActor
         this.var_1635 = 0;
         this.var_163d = 0;
         this.var_1645 = 0L;
-        this.var_164d = 0;
+        this.requiredFeedAmnt = 0;
         this.var_1655 = false;
         this.var_165d = false;
         this.var_1665 = false;
         this.var_166d = false;
         this.var_1675 = false;
         this.var_167d = 0;
-        this.var_1685 = 0;
+        this.feedIndex = 0;
         this.var_168d = false;
         this.var_1695 = false;
         this.var_169d = 0;
@@ -226,7 +226,7 @@ final class cActor
                             case 3: {
                                 if (class_f.var_189d.IsAnimOver()) {
                                     class_f.sub_60d7(0);
-                                    cGame.sub_4049d(292, 293, 15, 0, 1);
+                                    cGame.sub_4049d(Define.TEXT_POPUP_ROOMRESTORED, Define.TEXT_POPUP_ROOMRESTOREDDESC, 15, 0, 1);
                                     cGame.var_6c64 = 0;
                                     break;
                                 }
@@ -2155,7 +2155,7 @@ final class cActor
         if ((cGame.var_807c == 0 && cGame.sub_2dcf3(5) + sub_59d2(2) + 1 > cGame.sub_2df26()) || (cGame.var_807c == 0 && cGame.sub_2dcf3(5) + cGame.var_6fd4 + 1 > cGame.sub_2df26())) {
             cGame.var_6fdc = true;
             cGame.sub_10e3f(false, 1, cGame.var_6b04);
-            cGame.sub_40658(471, 477);
+            cGame.drawCustomPopupNoOpts(Define.TEXT_POPUP_BARNFULL, Define.TEXT_POPUP_BARNFULLDESC);
             return false;
         }
         cGame.sub_2ec47(1, this);
@@ -2348,10 +2348,10 @@ final class cActor
             if (cGame.sub_2dcf3(5) < cGame.sub_2df26()) {
                 final String sub_4e1f;
                 final String sub_4e1f2;
-                cGame.drawCustomPopupNoOpts(((sub_4e1f = GLLib.Text_GetString(Define.TEXT_POPUP_BARNFULL)) == null) ? "" : sub_4e1f, GLLib.Text_FindReplace(((sub_4e1f2 = GLLib.Text_GetString(Define.TEXT_POPUP_BARNFULLDESC)) == null) ? "" : sub_4e1f2, "%slots", "3"), 7, 0);
+                cGame.drawCustomPopupNoOpts(((sub_4e1f = GLLib.Text_GetString(Define.TEXT_POPUP_BARNALMOSTFULL)) == null) ? "" : sub_4e1f, GLLib.Text_FindReplace(((sub_4e1f2 = GLLib.Text_GetString(Define.TEXT_POPUP_BARNALMOSTFULLDESC)) == null) ? "" : sub_4e1f2, "%slots", "3"), 7, 0);
             }
             else {
-                cGame.sub_40658(471, 477);
+                cGame.drawCustomPopupNoOpts(Define.TEXT_POPUP_BARNFULL, Define.TEXT_POPUP_BARNFULLDESC);
             }
             return false;
         }
@@ -2455,11 +2455,11 @@ final class cActor
             cGame.sub_28ca1();
         }
         if (this.sub_a2a0(4)) {
-            if (cGame.getFeed(this.var_1685) >= this.var_164d) {
+            if (cGame.getFeed(this.feedIndex) >= this.requiredFeedAmnt) {
                 cGame.sub_2ec47(4, this);
             }
             else {
-                cGame.sub_4014a(391, 7, 0);
+                cGame.drawPopupToastWithSpr(Define.TEXT_POPUP_NOTENOUGHFEED, 7, 0);
             }
             return true;
         }
@@ -2468,7 +2468,7 @@ final class cActor
                 cGame.sub_2ec47(7, this);
                 return true;
             }
-            cGame.sub_40658(471, 477);
+            cGame.drawCustomPopupNoOpts(Define.TEXT_POPUP_BARNFULL, Define.TEXT_POPUP_BARNFULLDESC);
             return false;
         }
         else {
@@ -2511,12 +2511,12 @@ final class cActor
             return;
         }
         if (this.var_185d != 3 && cGame.var_807c == 0) {
-            cGame.sub_2e40d(this.var_164d, this.var_1685);
+            cGame.sub_2e40d(this.requiredFeedAmnt, this.feedIndex);
             this.sub_8365(3);
             ++this.var_1635;
             if (this.var_1635 >= this.var_162d && !this.sub_a2a0(2048)) {
                 this.sub_a21a(2048);
-                cGame.sub_40631();
+                cGame.drawPrizedPopup();
                 cGame.sub_4ad3f(0);
             }
             cGame.sub_4a20b(this.var_18c5, 1, 19);
@@ -2524,10 +2524,9 @@ final class cActor
             this.sub_aa8a();
             this.var_161d = System.currentTimeMillis();
             this.var_1655 = false;
-            final boolean var_165d = false;
-            this.var_166d = var_165d;
-            this.var_1665 = var_165d;
-            this.var_165d = var_165d;
+            this.var_166d = false;
+            this.var_1665 = false;
+            this.var_165d = false;
             this.var_1675 = false;
             cGame.playSndNoLoop(36);
             return;
@@ -2538,10 +2537,9 @@ final class cActor
             this.sub_aa8a();
             this.var_161d = System.currentTimeMillis();
             this.var_1655 = false;
-            final boolean var_165d2 = false;
-            this.var_166d = var_165d2;
-            this.var_1665 = var_165d2;
-            this.var_165d = var_165d2;
+            this.var_166d = false;
+            this.var_1665 = false;
+            this.var_165d = false;
             this.var_1675 = false;
             cGame.playSndNoLoop(36);
             return;
@@ -2563,7 +2561,7 @@ final class cActor
             this.sub_a25c(32);
             ++this.actorID;
             final GameDatas class_h = GameDatas.s_allDatas[0];
-            this.var_164d = class_h.m_dataVars[this.actorID][24];
+            this.requiredFeedAmnt = class_h.m_dataVars[this.actorID][24];
             this.var_162d = class_h.m_dataVars[this.actorID][14];
             this.var_167d = class_h.m_dataVars[this.actorID][17];
             this.var_1635 = 0;

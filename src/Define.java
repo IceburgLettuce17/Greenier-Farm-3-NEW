@@ -14,12 +14,12 @@
 interface Define 
 {
 	/**
-	* Changes made to ease the building of the decomp. Should not be needed to build a release.
+	* Changes made to ease the build process of the decomp. Should not be needed to build a release.
 	*/
 	public static final boolean DECOMP_MODE = true;
 	
 	/**
-	* Custom stdout prints made to ease the building of the decomp. Along with {@link Define#DECOMP_MODE}, it should not be needed to build a release.
+	* Custom stdout prints made to ease the build process of the decomp. Along with {@link Define#DECOMP_MODE}, it should not be needed to build a release.
 	*/
 	public static final boolean DECOMP_CUSTOM_PRINTS = true;
 	
@@ -148,7 +148,11 @@ interface Define
 	 */
 	final static int GS_POPUP = 19;	
 	
-	// 20?
+	/**
+	 * Not dispatched.
+	 * <br>Only referenced 10 times by {@link cGame#openFarmView}.
+	 */
+	final static int GS_UNREF_20 = 20;
 	
 	/**
 	 * Unknown purpose.
@@ -253,7 +257,10 @@ interface Define
 	
 	// 40?
 	
-	// 41?
+	/**
+	 * Not dispatched.
+	 */
+	final static int GS_UNREF_41 = 41;
 	
 	/**
 	 * The generic toast screen.
@@ -354,22 +361,30 @@ interface Define
 	final static int TOAST_REDEEM_EXIT = 11;
 	
 	// Text indices. These are used in GLLib.Text_GetString method
+	// Not documenting these
 	
-	
+	final static int TEXT_POPUP_TUTINTRO = 2;
+	final static int TEXT_POPUP_TUTINTRODESC = 3;
 	final static int TEXT_TUTORIAL_HARVEST = 4;
 	final static int TEXT_TUTORIAL_GROW = 5;
 	final static int TEXT_TUTORIAL_PLANT = 6;
 	final static int TEXT_TUTORIAL_SALESDESK = 8;
+	final static int TEXT_POPUP_TUTSALE = 9;
+	final static int TEXT_POPUP_TUTSALEDESC = 10;
 	final static int TEXT_TUTORIAL_BARN = 11;
 	final static int TEXT_TUTORIAL_WHEATREADY = 12;
 	final static int TEXT_TUTORIAL_PLOTS = 13;
 	final static int TEXT_TUTORIAL_TOMATO = 15;
 	final static int TEXT_TUTORIAL_ADULTCOW = 16;
+	final static int TEXT_POPUP_TUTNEWTASK = 17;
+	final static int TEXT_POPUP_TUTNEWTASKDESC = 18;
 	final static int TEXT_TUTORIAL_MANOR = 19;
 	final static int TEXT_TUTORIAL_FEED1 = 20;
 	final static int TEXT_TUTORIAL_FEED2 = 22;
 	final static int TEXT_TUTORIAL_FEEDCASH = 23;
+	final static int TEXT_POPUP_TUTCASHDESC = 24;
 	final static int TEXT_TUTORIAL_MAILBOX = 25;
+	final static int TEXT_POPUP_TUTCASH = 27;
 	final static int TEXT_YES = 30;
 	final static int TEXT_NO = 31;
 	final static int TEXT_SURE = 32;
@@ -412,6 +427,7 @@ interface Define
 	final static int TEXT_MAILBOX_DELIVER = 161;	
 	final static int TEXT_REQUEST = 162;
 	final static int TEXT_POPUP_WHOOPS = 163;
+	final static int TEXT_POPUP_WHOOPSDESC = 164;
 	final static int TEXT_SEND_ITEM = 171;
 	final static int TEXT_MAILBOX_DECLINE = 173;	
 	final static int TEXT_SEND_DESC = 175;
@@ -426,7 +442,12 @@ interface Define
 	final static int TEXT_EMPTY = 197;
 	
 	final static int TEXT_RECIPES = 200;
+	final static int TEXT_POPUP_QUEUEFULL = 202;
+	final static int TEXT_POPUP_QUEUEFULLDESC = 203;
+	final static int TEXT_POPUP_MILLQUEUEFULL = 204;
+	final static int TEXT_POPUP_MILLQUEUEFULLDESC = 205;
 	final static int TEXT_COLLECTIONS = 219;
+	final static int TEXT_POPUP_RECOVERED_PRETTYACRE = 230;
 	final static int TEXT_MANOR_KITCHENDESC = 243;
 	final static int TEXT_MANOR_COLLROOMDESC = 244;
 	final static int TEXT_MANOR_TROPHYROOMDESC = 245;
@@ -442,6 +463,9 @@ interface Define
 	final static int TEXT_MANOR_ROOMRESTORE = 284;
 	final static int TEXT_MANOR_STARTRESTORING = 285;
 	final static int TEXT_POPUP_ROOMRESTORED = 292;
+	final static int TEXT_POPUP_ROOMRESTOREDDESC = 293;
+	final static int TEXT_POPUP_MANORRESTORED = 295;
+	final static int TEXT_POPUP_MANORRESTOREDDESC = 296;
 	final static int TEXT_ACRE_BUY = 297;
 	final static int TEXT_ACRE_EXPANDTONEWACRE = 298;
 	
@@ -466,6 +490,7 @@ interface Define
 	final static int TEXT_EXP = 386;
 	final static int TEXT_MAKE = 387;
 	final static int TEXT_FEEDMILL = 388;
+	final static int TEXT_POPUP_NOTENOUGHFEED = 391;
 	final static int TEXT_POND_FREEROD = 397;
 	final static int TEXT_PONDOK = 398;
 	final static int TEXT_POPUP_PONDWIN = 399;
@@ -489,15 +514,40 @@ interface Define
 	final static int TEXT_UNTILREADY = 463;	
 	final static int TEXT_UNTILADULT = 464;
 	final static int TEXT_FEEDTYPES = 468;
-	final static int TEXT_POPUP_BARNFULL = 475;
-	final static int TEXT_POPUP_BARNFULLDESC = 476;
+	final static int TEXT_POPUP_PRIZED = 469;
+	final static int TEXT_POPUP_PRIZEDDESC = 470;
+	final static int TEXT_POPUP_BARNFULL = 471;
+	final static int TEXT_POPUP_SILOFULL = 472;
+	final static int TEXT_POPUP_UNUSED_BEFORELV3 = 473;
+	final static int TEXT_POPUP_UNUSED_BEFORELV3DESC = 474;
+	final static int TEXT_POPUP_BARNALMOSTFULL = 475;
+	final static int TEXT_POPUP_BARNALMOSTFULLDESC = 476;
+	final static int TEXT_POPUP_BARNFULLDESC = 477;
+	final static int TEXT_POPUP_SILOFULLDESC = 478;
 	final static int TEXT_MARKETTITLE = 481;
 	final static int TEXT_SILOTITLE = 482;
 	final static int TEXT_MAXIMUM = 483;
 	final static int TEXT_MORE = 484;
+	final static int TEXT_POPUP_MINPLOTS = 485;
+	final static int TEXT_POPUP_MINPLOTSDESC = 486;
+	final static int TEXT_POPUP_PLOTSFULL = 487;
+	final static int TEXT_POPUP_PLOTSFULLDESC = 488;
+	final static int TEXT_POPUP_ANIMALFULL = 489;
+	final static int TEXT_POPUP_ANIMALFULLDESC = 490;
+	final static int TEXT_POPUP_TREESFULL = 491;
+	final static int TEXT_POPUP_TREESFULLDESC = 492;
+	final static int TEXT_POPUP_ACREERROR = 493;
+	final static int TEXT_POPUP_ACREERROR_DESC_ANIMAL = 494;
+	final static int TEXT_POPUP_ACREERROR_DESC_TREE = 495;
 	final static int TEXT_CANNOTGOBACK = 498;
 	final static int TEXT_CANNOTPAUSE = 499;
 	
+	final static int TEXT_POPUP_LASTTASK = 500;
+	final static int TEXT_POPUP_LASTTASKDESC = 501;
+	final static int TEXT_POPUP_LEVEL50 = 502;
+	final static int TEXT_POPUP_LEVEL50DESC = 503;
+	final static int TEXT_POPUP_LASTACRE = 504;
+	final static int TEXT_POPUP_LASTACREDESC = 505;
 	final static int TEXT_POPUP_CUSTOMERCARECASHDESC = 507;
 	final static int TEXT_POPUP_CUSTOMERCARECOINSDESC = 508;
 	final static int TEXT_POPUP_CUSTOMERCARECOINSRESETDESC = 509;
@@ -511,8 +561,16 @@ interface Define
 	final static int TEXT_LEVELDESC = 522;
 	final static int TEXT_LEVELFLAVORBASE = 523;
 	
+	final static int TEXT_POPUP_DELUXIFIER = 621;
+	final static int TEXT_POPUP_DELUXIFIERDESC = 622;
+	final static int TEXT_POPUP_WALTSPLANE = 623;
+	final static int TEXT_POPUP_WALTSPLANEDESC = 624;
 	final static int TEXT_POPUP_POND = 627;
 	final static int TEXT_POPUP_PONDDESC = 628;
+	final static int TEXT_POPUP_COLL = 633;
+	final static int TEXT_POPUP_COLLDESC = 634;
+	final static int TEXT_POPUP_NEIGHBOR = 637;
+	final static int TEXT_POPUP_NEIGHBORDESC = 638;
 	
 	final static int TEXT_MAILBOX_HELPBASE = 746;
 	final static int TEXT_IAP_MORE = 766;
@@ -555,7 +613,7 @@ interface Define
 	final static int TEXT_NOTIAP_NOTENOUGHCASHDESC = 852;
 	final static int TEXT_IAP_PRICEOF2SMS = 853;
 	
-	// 82XX are mostly Item names
+	// 81-2XX are mostly Item names
 	final static int TEXT_ITEM_COWFEED = 8263;
 	final static int TEXT_ITEM_CHICKENFEED = 8264;
 	final static int TEXT_ITEM_PIGFEED = 8265;
