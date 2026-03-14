@@ -2407,7 +2407,7 @@ final class cActor
                 this.sub_aac5();
             }
             else {
-                GLLibPlayer.sub_5f26();
+                GLLibPlayer.Tileset_Refresh();
                 cGame.var_8074 = true;
             }
         }

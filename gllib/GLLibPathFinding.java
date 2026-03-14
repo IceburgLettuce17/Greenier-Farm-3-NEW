@@ -25,7 +25,7 @@ final class GLLibPathFinding
     public GLLibPathFinding() {
     }
     
-    public final void PathFinding_Init(final int nMapWidth, final int nMapHeight, final byte[] pPhysicalMap, final int n3, final int n4, final int n5, final int n6) {
+    public final void PathFinding_Init(final int nMapWidth, final int nMapHeight, final byte[] pPhysicalMap, final int nCostMove, final int nCostMoveDiag, final int nCostChangeDir, final int n6) {
         this.m_nMapW = 96;
         this.m_nMapH = 96;
         this.m_pPhysMap = pPhysicalMap;

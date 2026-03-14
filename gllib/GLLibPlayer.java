@@ -1681,7 +1681,7 @@ final class GLLibPlayer implements Runnable
         return GLLibPlayer.s_TilesetLayerImage[0][0];
     }
     
-    static void sub_5f26() {
+    static void Tileset_Refresh() {
         if (!GLLibPlayer.s_bTilesetPlayerInitialized) {
             return;
         }

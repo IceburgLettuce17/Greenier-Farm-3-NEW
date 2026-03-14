@@ -4696,7 +4696,7 @@ public final class cGame extends GLLib implements Class_b
 	private static void sub_1179d(final boolean b) {
 		sub_10dd3(false);
 		sub_25043(b);
-		GLLibPlayer.sub_5f26();
+		GLLibPlayer.Tileset_Refresh();
 		cGame.var_8074 = true;
 		if (cGame.var_6aa4 == 0 || cGame.var_6aa4 == 1 || cGame.var_6aa4 == 4) {
 			cGame.var_6aa4 = -1;
@@ -13781,7 +13781,7 @@ public final class cGame extends GLLib implements Class_b
 						&& cGame.var_6aac.cameraY - n3 > GLLibPlayer.Tileset_GetCameraY(0)) {
 					cGame.var_6aac.sub_aac5();
 				} else {
-					GLLibPlayer.sub_5f26();
+					GLLibPlayer.Tileset_Refresh();
 					cGame.var_8074 = true;
 				}
 			}
@@ -16304,7 +16304,7 @@ public final class cGame extends GLLib implements Class_b
 			if (cGame.var_6dec[cGame.var_6d54] != null) {
 				cGame.var_6dec[cGame.var_6d54].var_17c5 = -1;
 			}
-			GLLibPlayer.sub_5f26();
+			GLLibPlayer.Tileset_Refresh();
 			final int var_6d74 = cGame.var_6d74;
 			final int var_6d7c = cGame.var_6d7c;
 			final int var_6d75 = cGame.var_6d84;
@@ -16347,7 +16347,7 @@ public final class cGame extends GLLib implements Class_b
 					}
 				}
 			}
-			GLLibPlayer.sub_5f26();
+			GLLibPlayer.Tileset_Refresh();
 			cGame.var_8074 = true;
 		}
 	}
