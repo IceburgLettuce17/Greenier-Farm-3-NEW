@@ -1719,9 +1719,9 @@ final class GLLibPlayer implements Runnable
         }
         x += y * GLLibPlayer.s_TilesetLayerInfo[0][2];
         if (nLayer != -1) {
-            sub_7a8a(0, 0, x, nLayer);
+            Tileset_SetLayerData(0, 0, x, nLayer);
         }
-        sub_7a8a(0, 1, x, 0);
+        Tileset_SetLayerData(0, 1, x, 0);
     }
     
     static final void Tileset_FillRect(int x, int y, final int w, final int h, final boolean force) {
@@ -1907,7 +1907,7 @@ final class GLLibPlayer implements Runnable
                                         n47 = n23;
                                         n48 = n24;
                                     }
-                                    sub_78bd(graphics, sprite, anim, 0, n49, n50, n47, n48, n21 + n38 - nLayer, n22 + n39 - p1, y, p0, drawOperation, cx, cy, cw, ch, array3, (boolean)(flags != 0));
+                                    Tileset_PaintWithDrawOperation(graphics, sprite, anim, 0, n49, n50, n47, n48, n21 + n38 - nLayer, n22 + n39 - p1, y, p0, drawOperation, cx, cy, cw, ch, array3, (boolean)(flags != 0));
                                 }
                                 if (n41 >= n24 && n22 != 0 && (layerInfo == null || n33 >= n24)) {
                                     int n52;
@@ -1927,7 +1927,7 @@ final class GLLibPlayer implements Runnable
                                         n53 = n23;
                                         n54 = n22;
                                     }
-                                    sub_78bd(graphics, sprite, anim, 0, n55, n52, n53, n54, n21 + n38 - nLayer, n39 - p1 - n24, y, p0, drawOperation, cx, cy, cw, ch, array3, (boolean)(flags != 0));
+                                    Tileset_PaintWithDrawOperation(graphics, sprite, anim, 0, n55, n52, n53, n54, n21 + n38 - nLayer, n39 - p1 - n24, y, p0, drawOperation, cx, cy, cw, ch, array3, (boolean)(flags != 0));
                                 }
                             }
                             if (n40 >= n23 && n21 != 0 && (layerInfo == null || n32 >= n23)) {
@@ -1949,7 +1949,7 @@ final class GLLibPlayer implements Runnable
                                         n58 = n21;
                                         n59 = n24;
                                     }
-                                    sub_78bd(graphics, sprite, anim, 0, n56, n60, n58, n59, n38 - nLayer - n23, n22 + n39 - p1, y, p0, drawOperation, cx, cy, cw, ch, array3, (boolean)(flags != 0));
+                                    Tileset_PaintWithDrawOperation(graphics, sprite, anim, 0, n56, n60, n58, n59, n38 - nLayer - n23, n22 + n39 - p1, y, p0, drawOperation, cx, cy, cw, ch, array3, (boolean)(flags != 0));
                                 }
                                 if (n41 < n24 || n22 == 0 || (layerInfo != null && n33 < n24)) {
                                     continue;
@@ -1970,7 +1970,7 @@ final class GLLibPlayer implements Runnable
                                     n63 = n21;
                                     n64 = n22;
                                 }
-                                sub_78bd(graphics, sprite, anim, 0, n61, n62, n63, n64, n38 - nLayer - n23, n39 - p1 - n24, y, p0, drawOperation, cx, cy, cw, ch, array3, (boolean)(flags != 0));
+                                Tileset_PaintWithDrawOperation(graphics, sprite, anim, 0, n61, n62, n63, n64, n38 - nLayer - n23, n39 - p1 - n24, y, p0, drawOperation, cx, cy, cw, ch, array3, (boolean)(flags != 0));
                             }
                         }
                     }
@@ -1984,37 +1984,37 @@ final class GLLibPlayer implements Runnable
         }
     }
     
-    private static void sub_78bd(final Graphics g, final Object o, int rgbY, final int uHeight, final int crX, int crY, int width, int height, int rgbX, final int uWidth, final int rgbHeight, final int rgbScanLength, final int n11, final int n12, final int n13, final int n14, final int n15, final int[] array, final boolean b) {
-        GLLib.ClipRect(g, crX, crY, width, height, true);
-        if (!b) {
-            crY = array[0];
-            GLLib.ClipRect(g, array[0], array[1], array[2], array[3], true);
+    private static void Tileset_PaintWithDrawOperation(final Graphics gDest, final Object o, int frame, final int uHeight, final int camX0, int camY0, int camW0, int camH0, int x, final int y, final int p0, final int p1, final int drawOperation, final int n12, final int n13, final int n14, final int n15, final int[] array, final boolean force) {
+        GLLib.ClipRect(gDest, camX0, camY0, camW0, camH0, true);
+        if (!force) {
+            camY0 = array[0];
+            GLLib.ClipRect(gDest, array[0], array[1], array[2], array[3], true);
         }
-        if (n11 == 0) {
-            ((ASprite)o).PaintCachedFrame(g, rgbY, rgbX, uWidth, uHeight);
+        if (drawOperation == 0) {
+            ((ASprite)o).PaintCachedFrame(gDest, frame, x, y, uHeight);
         }
-        else if (n11 == 5) {
-            rgbY = rgbX;
-            rgbX = ASprite._graphicsHeight - uWidth - rgbScanLength;
-            GLLib.DrawRGB(g, (int[])o, 0, rgbScanLength, rgbX, rgbY, rgbScanLength, rgbHeight, true, false, uHeight, -1, false);
+        else if (drawOperation == 5) {
+            frame = x;
+            x = ASprite._graphicsHeight - y - p1;
+            GLLib.DrawRGB(gDest, (int[])o, 0, p1, x, frame, p1, p0, true, false, uHeight, -1, false);
         }
-        else if (n11 == 4) {
-            GLLib.DrawImage(g, (ImageG)o, rgbX, uWidth, 20, true);
+        else if (drawOperation == 4) {
+            GLLib.DrawImage(gDest, (ImageG)o, x, y, 20, true);
         }
-        else if (n11 == 1) {
-            GLLib.DrawRect(g, rgbX, uWidth, rgbHeight, rgbScanLength, true);
+        else if (drawOperation == 1) {
+            GLLib.DrawRect(gDest, x, y, p0, p1, true);
         }
-        else if (n11 == 2) {
-            GLLib.FillRect(g, rgbX, uWidth, rgbHeight, rgbScanLength, true);
+        else if (drawOperation == 2) {
+            GLLib.FillRect(gDest, x, y, p0, p1, true);
         }
-        else if (n11 == 3) {
-            GLLib.AlphaRect_Draw(g, rgbX, uWidth, rgbHeight, rgbScanLength);
+        else if (drawOperation == 3) {
+            GLLib.AlphaRect_Draw(gDest, x, y, p0, p1);
         }
-        GLLib.SetClip(g, n12, n13, n14, n15, true);
+        GLLib.SetClip(gDest, n12, n13, n14, n15, true);
     }
     
-    private static final void sub_7a8a(final int n, int n2, int n3, final int n4) {
-        GLLibPlayer.s_TilesetLayerData[0][n2][n3] = (byte)n4;
+    private static final void Tileset_SetLayerData(final int nLayer, int type, int index, final int data) {
+        GLLibPlayer.s_TilesetLayerData[0][type][index] = (byte)data;
     }
     
     private static int Tileset_GetLayerData(final int nLayer, final int type, final int index, final boolean b) {

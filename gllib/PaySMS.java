@@ -75,7 +75,7 @@ public final class PaySMS {
 	private static Vector coinVector;
 	private static String[] var_2b4d;
 	private static boolean creditCardEnabled;
-	//private static boolean var_2b5d;
+	private static boolean var_2b5d;
 	private static String[] turkeyProfiles;
 	private static String[] openMarketProfiles;
 	private static String[] telkomselProfiles;
@@ -474,7 +474,7 @@ public final class PaySMS {
 			
 		} else if (b && type.equals("HTTP")) {
 			////HTTP////
-			PaySMS.http = new HTTP();
+			PaySMS.http = new HTTP(false);
 			String httpUrl;
 			if (PaySMS.overrideFromJad.equals("1")) {
 				httpUrl = PaySMS.billingUrl;
@@ -693,7 +693,7 @@ public final class PaySMS {
 		rmsSave(PaySMS.RMS_RECORDS[0], "0");
 		PaySMS.redeemUnlocked = false;
 		rmsSave(PaySMS.RMS_RECORDS[4], "0");
-		//PaySMS.var_2b5d = false;
+		PaySMS.var_2b5d = false;
 	}
 	
 	/**
@@ -2008,7 +2008,7 @@ public final class PaySMS {
 		PaySMS.coinVector = null;
 		PaySMS.var_2b4d = null;
 		PaySMS.creditCardEnabled = false;
-		//PaySMS.var_2b5d = false;
+		PaySMS.var_2b5d = false;
 		PaySMS.turkeyProfiles = new String[] { "2124", "2126", "2128", "2130", "3501", "3503", "3505", "3507", "3509",
 				"3511" };
 		PaySMS.openMarketProfiles = new String[] { "1152", "1154", "1049", "1156", "2741", "2743", "2745", "2878" };

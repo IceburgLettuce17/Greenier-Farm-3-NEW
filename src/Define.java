@@ -428,6 +428,7 @@ interface Define
 	final static int TEXT_REQUEST = 162;
 	final static int TEXT_POPUP_WHOOPS = 163;
 	final static int TEXT_POPUP_WHOOPSDESC = 164;
+	final static int TEXT_POPUP_SENTREQUEST = 166;
 	final static int TEXT_SEND_ITEM = 171;
 	final static int TEXT_MAILBOX_DECLINE = 173;	
 	final static int TEXT_SEND_DESC = 175;
@@ -573,6 +574,7 @@ interface Define
 	final static int TEXT_POPUP_NEIGHBORDESC = 638;
 	
 	final static int TEXT_MAILBOX_HELPBASE = 746;
+	final static int TEXT_MAILBOX_THANKBASE = 756;
 	final static int TEXT_IAP_MORE = 766;
 	final static int TEXT_IAP_TERMSCONDS = 767;
 	final static int TEXT_IAP_VATINCLUDED = 770;

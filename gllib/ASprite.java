@@ -46,7 +46,7 @@ public final class ASprite
     private int[] _pal_int_not;
     private int _crt_pal;
     private boolean _alpha;
-    //private boolean var_109f;
+    private boolean var_109f;
     private int _flags;
     private short _data_format;
     private int[] var_10b7;
@@ -531,7 +531,7 @@ public final class ASprite
                                 }
                             }
                             else if (n43 == -30712) {
-                                //this.var_109f = false;
+                                this.var_109f = false;
                                 for (int n54 = 0; n54 < n42; ++n54) {
                                     int n55;
                                     if ((n55 = (file[n44++] & 0xFF) + ((file[n44++] & 0xFF) << 8) + ((file[n44++] & 0xFF) << 16)) == 16711935) {

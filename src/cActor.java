@@ -2893,16 +2893,16 @@ final class cActor
     }
     
     final void sub_8d93() {
-        int num = 0;
+        int value = 0;
         if (this.var_16fd == 37 || this.var_16fd == 36 || this.var_16fd == 6) {
-            num = this.m_rewardNumber;
+            value = this.m_rewardNumber;
         }
         else if (this.var_16fd == 59) {
-            num = this.m_rewardNumber >> 16;
+            value = this.m_rewardNumber >> 16;
         }
-        if (num > 0) {
+        if (value > 0) {
             GLLib.PFX_Scale_SetUnkScaleProp5(true);
-            cGame.drawStringWithPalette("+" + GLLib.Text_FormatNumber(num, cGame.s_currencySeprType, " "), (this.cameraX + this.var_1805) * cGame.s_zoomLevel / 100 - cGame.var_800c.cameraX + 10, (this.cameraY + this.var_180d) * cGame.s_zoomLevel / 100 - cGame.var_800c.cameraY + 10, 0, 0, 0, 0, 2, 1, false, false);
+            cGame.drawStringWithPalette("+" + GLLib.Text_FormatNumber(value, cGame.s_currencySeprType, " "), (this.cameraX + this.var_1805) * cGame.s_zoomLevel / 100 - cGame.var_800c.cameraX + 10, (this.cameraY + this.var_180d) * cGame.s_zoomLevel / 100 - cGame.var_800c.cameraY + 10, 0, 0, 0, 0, 2, 1, false, false);
             GLLib.PFX_Scale_SetUnkScaleProp5(false);
         }
     }

@@ -7,28 +7,33 @@ import java.io.OutputStream;
 import java.io.InputStream;
 import javax.microedition.io.HttpConnection;
 
-// 
-// Decompiled by Procyon v0.6.0
-// 
-
 public final class HTTP implements Runnable
 {
+	private boolean var_64f;
     private Thread m_thread;
     private String m_sUrl;
     private HttpConnection m_c;
     private InputStream m_i;
     private OutputStream m_o;
     public String m_response;
-    //private boolean var_687;
+    private boolean m_bSendByPost;
     boolean m_bIsInProgress;
     boolean m_bCanceled;
     boolean m_bError;
     private int responseCode;
-    //private String mimeType;
     
+    // TODO: Better name, only used in <init>
+    private String mimeType;
+    
+    // From VF
     public HTTP() {
-        //this.mimeType = "application/x-www-form-urlencoded";
-    }
+    	this(true);
+	}
+
+	public HTTP(boolean var_64f) {
+		this.var_64f = var_64f;
+		this.mimeType = "application/x-www-form-urlencoded";
+	}
     
     public final synchronized void cancel() {
         if (!this.m_bCanceled) {
@@ -69,7 +74,7 @@ public final class HTTP implements Runnable
     }
     
     public final void sendByGet(final String sUrl, final String sQuery) {
-        //this.var_687 = false;
+        this.m_bSendByPost = false;
         System.gc();
         while (this.m_bIsInProgress) {
             try {
@@ -110,8 +115,8 @@ public final class HTTP implements Runnable
             this.m_c.setRequestMethod("GET");
             this.m_c.setRequestProperty("Connection", "close");
             this.responseCode = this.m_c.getResponseCode();
-            //this.m_c.getResponseMessage();
-            //this.m_c.getDate();
+            this.m_c.getResponseMessage();
+            this.m_c.getDate();
             if (this.responseCode != 200 && this.responseCode != 202) {
                 this.cancel();
                 this.m_bError = true;
@@ -145,7 +150,7 @@ public final class HTTP implements Runnable
                 bao.write(abInBuffer, 0, nBytesRead);
             }
             this.m_response = bao.toString();
-            //bao.toByteArray();
+            bao.toByteArray();
         }
         catch (final Exception ex) {
             this.m_bError = true;

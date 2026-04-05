@@ -2,9 +2,6 @@
 // Decompiled by Procyon v0.6.0
 // 
 
-// Utility class for GLLib
-
-
 final class PlatformRequestWorker implements Runnable
 {
 	
