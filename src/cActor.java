@@ -2203,7 +2203,7 @@ final class cActor
     }
     
     final void sub_73e7() {
-        if ((this.var_15f5 > 0 && cGame.sub_2e369(this.var_15f5)) || (this.var_15fd > 0 && cGame.sub_2e449(this.var_15fd))) {
+        if ((this.var_15f5 > 0 && cGame.spendCoins(this.var_15f5)) || (this.var_15fd > 0 && cGame.spendCash(this.var_15fd))) {
             this.sub_7795(3);
             if (cGame.s_tutorialState == 45) {
                 ++cGame.var_6cbc;
@@ -2496,7 +2496,7 @@ final class cActor
         this.var_1645 = System.currentTimeMillis() / 1000L;
     }
     
-    final void sub_7f50() {
+    final void feedAnimal() {
         if (!this.sub_a2a0(4)) {
             if (this.sub_a2a0(256)) {
                 this.sub_8365(7);
@@ -2511,7 +2511,7 @@ final class cActor
             return;
         }
         if (this.var_185d != 3 && cGame.var_807c == 0) {
-            cGame.sub_2e40d(this.requiredFeedAmnt, this.feedIndex);
+            cGame.spendFeed(this.requiredFeedAmnt, this.feedIndex);
             this.sub_8365(3);
             ++this.var_1635;
             if (this.var_1635 >= this.var_162d && !this.sub_a2a0(2048)) {
@@ -3625,12 +3625,12 @@ final class cActor
         this.sub_aaf8(this.spriteId, this.spriteFrame);
     }
     
-    private void sub_aaf8(final int n, final int n2) {
-        if (n > -1 && n2 > -1) {
+    private void sub_aaf8(final int sprId, final int sprFrame) {
+        if (sprId > -1 && sprFrame > -1) {
             int n3 = cGame.s_gameSprites[0]._modules_w_short[0] & 0xFFFF;
             int n4 = cGame.s_gameSprites[0]._modules_h_short[0] & 0xFFFF;
-            final int n5 = n & 0x7FFF;
-            (((n & 0x8000) != 0x0) ? cGame.var_68d4[n5] : cGame.s_gameSprites[n5]).GetRect(cActor.s_spriteRc, n2, this.cameraX, this.cameraY);
+            final int n5 = sprId & 0x7FFF;
+            (((sprId & 0x8000) != 0x0) ? cGame.var_68d4[n5] : cGame.s_gameSprites[n5]).GetRect(cActor.s_spriteRc, sprFrame, this.cameraX, this.cameraY);
             if (cGame.s_zoomLevel != 100) {
                 cActor.s_spriteRc[0] = cActor.s_spriteRc[0] * cGame.s_zoomLevel / 100;
                 cActor.s_spriteRc[1] = cActor.s_spriteRc[1] * cGame.s_zoomLevel / 100;
