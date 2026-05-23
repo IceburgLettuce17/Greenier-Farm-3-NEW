@@ -33,14 +33,14 @@ public final class GloftGF2M extends MIDlet
 			// make sure to collect any Coins or Experience that was dropped.
             if (cGame.getState() == Define.GS_MANOR_COLLECTIONS) {
                 if (cGame.var_7a34 > 0) {
-                    cGame.addCoin(cGame.var_7a34);
+                    cGame.addCoins(cGame.var_7a34);
                 }
                 if (cGame.var_7a3c > 0) {
                     cGame.addExperience(cGame.var_7a3c);
                 }
             }
             cGame.sub_4c768();
-            cGame.sub_e503();
+            cGame.saveGame();
             GLLib.s_game_state = -1;
         }
     }

@@ -1146,7 +1146,7 @@ final class cActor
                     cGame.addExperience(var_17ad.m_rewardNumber);
                 }
                 else if (var_17ad.var_16fd == 36) {
-                    cGame.addCoin(var_17ad.m_rewardNumber);
+                    cGame.addCoins(var_17ad.m_rewardNumber);
                 }
                 else if (var_17ad.var_16fd == 6) {
                     cGame.addCash(var_17ad.m_rewardNumber);
@@ -1155,7 +1155,7 @@ final class cActor
                     final int n = var_17ad.m_rewardNumber & 0xFFFF;
                     final int n2 = var_17ad.m_rewardNumber >> 16;
                     if (n == 110) {
-                        cGame.sub_2e64f(n2);
+                        cGame.addDeluxifier(n2);
                     }
                     else if (n == 5) {
                         cGame.sub_2e5a7(n2);
@@ -1994,7 +1994,7 @@ final class cActor
         cActor var_17ad = cActor.var_157d[0];
         int var_808c;
         if (cGame.var_807c == 0) {
-            var_808c = cGame.var_808c;
+            var_808c = cGame.s_manor_restoreLevel;
         }
         else {
             var_808c = 0;
@@ -2123,7 +2123,7 @@ final class cActor
                     cGame.var_7aac = -1;
                     if (cGame.var_6b24 > 0) {
                         final String sub_4e1f;
-                        cGame.var_7ab4 = GLLib.Text_FindReplace(((sub_4e1f = GLLib.Text_GetString(Define.TEXT_NOTENOUGHCOIN)) == null) ? "" : sub_4e1f, "%d", GLLib.Text_FormatNumber(cGame.var_6b24 - cGame.getCoin(), cGame.s_currencySeprType, " "));
+                        cGame.var_7ab4 = GLLib.Text_FindReplace(((sub_4e1f = GLLib.Text_GetString(Define.TEXT_NOTENOUGHCOIN)) == null) ? "" : sub_4e1f, "%d", GLLib.Text_FormatNumber(cGame.var_6b24 - cGame.getCoins(), cGame.s_currencySeprType, " "));
                         cGame.var_7aac = 18;
                         cGame.var_7d24 = false;
                     }
@@ -2221,7 +2221,7 @@ final class cActor
             cGame.var_7aac = -1;
             if (this.var_15f5 > 0) {
                 final String sub_4e1f;
-                cGame.var_7ab4 = GLLib.Text_FindReplace(((sub_4e1f = GLLib.Text_GetString(Define.TEXT_NOTENOUGHCOIN)) == null) ? "" : sub_4e1f, "%d", GLLib.Text_FormatNumber(this.var_15f5 - cGame.getCoin(), cGame.s_currencySeprType, " "));
+                cGame.var_7ab4 = GLLib.Text_FindReplace(((sub_4e1f = GLLib.Text_GetString(Define.TEXT_NOTENOUGHCOIN)) == null) ? "" : sub_4e1f, "%d", GLLib.Text_FormatNumber(this.var_15f5 - cGame.getCoins(), cGame.s_currencySeprType, " "));
                 cGame.var_7aac = 18;
                 cGame.var_7d24 = false;
             }
@@ -2809,7 +2809,7 @@ final class cActor
                     return;
                 }
                 if (this.var_16fd == 36) {
-                    cGame.addCoin(this.m_rewardNumber);
+                    cGame.addCoins(this.m_rewardNumber);
                     return;
                 }
                 if (this.var_16fd == 6) {
@@ -2820,7 +2820,7 @@ final class cActor
                     final int n3 = this.m_rewardNumber & 0xFFFF;
                     final int n4 = this.m_rewardNumber >> 16;
                     if (n3 == 110) {
-                        cGame.sub_2e64f(n4);
+                        cGame.addDeluxifier(n4);
                         final short n5;
                         cGame.sub_2bae9(n5 = cGame.var_80cc[n3], n4, 34);
                         cGame.sub_4a20b(n5, n4, 34);
@@ -2847,7 +2847,7 @@ final class cActor
         }
     }
     
-    final void sub_8c4c(int itemIndex, int var_171d, final int var_16fd, final int var_170d, final boolean var_1735, final int var_1736) {
+    final void sub_8c4c(int itemIndex, int var_171d, final int var_16fd, final int var_170d, final boolean var_1735, final int rewardNumber) {
         this.var_16fd = var_16fd;
         this.m_itemIndex = itemIndex;
         this.var_171d = var_171d;
@@ -2857,7 +2857,7 @@ final class cActor
         this.var_1705 = 0;
         this.var_172d = false;
         this.var_1735 = var_1735;
-        this.m_rewardNumber = var_1736;
+        this.m_rewardNumber = rewardNumber;
         if (var_16fd == 59) {
             itemIndex = (this.m_rewardNumber & 0xFFFF);
             if (Define.DECOMP_MODE) System.out.println("itemIndex : " + itemIndex);
@@ -3529,7 +3529,7 @@ final class cActor
         this.cameraY += n5;
     }
     
-    final int sub_a709() {
+    final int getSellPrice() {
         int n = 0;
         final int var_18c5;
         switch ((((var_18c5 = this.var_18c5) >= 1000 && var_18c5 < 2000) || (var_18c5 >= 10000 && var_18c5 < 11000)) ? 50 : ((var_18c5 >= 2000 && var_18c5 < 3000) ? 54 : ((var_18c5 >= 3000 && var_18c5 < 4000) ? 49 : ((var_18c5 >= 7000 && var_18c5 < 8000) ? 20 : ((var_18c5 >= 25000 && var_18c5 < 26000) ? 48 : -1))))) {
@@ -3562,7 +3562,7 @@ final class cActor
         int n;
         if (this.var_17c5 == 49) {
             if (this.var_185d == 3 || this.var_185d == 4) {
-                n = this.sub_a709();
+                n = this.getSellPrice();
                 this.sub_7795(1);
                 this.var_18c5 = cGame.var_8094[0];
                 this.sub_a25c(1024);
@@ -3571,7 +3571,7 @@ final class cActor
                 if (this.sub_a2a0(2)) {
                     cGame.sub_2c9ec(this);
                 }
-                n = this.sub_a709();
+                n = this.getSellPrice();
                 this.sub_4bf4();
             }
         }
@@ -3579,7 +3579,7 @@ final class cActor
             if (this.sub_a2a0(2)) {
                 cGame.sub_2c9ec(this);
             }
-            n = this.sub_a709();
+            n = this.getSellPrice();
             this.sub_4bf4();
         }
         this.sub_aa8a();
