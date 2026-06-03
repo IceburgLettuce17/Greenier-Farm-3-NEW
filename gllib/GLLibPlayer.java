@@ -124,6 +124,15 @@ final class GLLibPlayer implements Runnable
     }
     
     final void SetAnim(int anim, final int nbLoop) {
+		if (this.sprite == null) {
+            GLLib.Assert(false, "GLLibPlayer.SetAnim().sprite is not set");
+        }
+        if (anim >= this.GetNbanim()) {
+            GLLib.Assert(false, "GLLibPlayer.SetAnim().anim out of range");
+        }
+        if (nbLoop == 0) {
+            GLLib.Assert(false, "GLLibPlayer.SetAnim().nbLoop is invalid");
+        }
         if (this.animIsOver || anim != this.curAnim) {
             this.curAnim = anim;
             this.k_animBaseFrameTime = GLLibPlayer.defaultFrameTime;
@@ -195,6 +204,9 @@ final class GLLibPlayer implements Runnable
     }
     
     private int GetNbFrame() {
+		if (this.sprite == null) {
+            GLLib.Assert(false, "GLLibPlayer.GetNbFrame().sprite is not set");
+        }
         if (this.curAnim >= 0) {
             return this.sprite.GetAFrames(this.curAnim);
         }
@@ -202,6 +214,9 @@ final class GLLibPlayer implements Runnable
     }
     
     private int GetDuration() {
+		if (this.sprite == null) {
+            GLLib.Assert(false, "GLLibPlayer.GetDuration().sprite is not set");
+        }
         if (this.curAnim >= 0) {
             return this.sprite.GetAFrameTime(this.curAnim, this.curFrame) * this.k_animBaseFrameTime;
         }
@@ -209,10 +224,16 @@ final class GLLibPlayer implements Runnable
     }
     
     final boolean IsAnimOver() {
+		if (this.sprite == null) {
+            GLLib.Assert(false, "GLLibPlayer.isAnimOver().sprite is not set");
+        }
         return this.curAnim < 0 || (this.nbLoop >= 0 && this.animIsOver);
     }
     
     final void Render() {
+		if (this.sprite == null) {
+            GLLib.Assert(false, "GLLibPlayer.render().sprite is not set");
+        }
         if (this.curAnim < 0) {
             return;
         }
@@ -240,12 +261,18 @@ final class GLLibPlayer implements Runnable
     }
     
     final void Update(final int DT) {
+		if (DT < 0) {
+            GLLib.Assert(false, "GLLibPlayer.Update.DT is negative");
+        }
+		else if (DT == 1) {
+            GLLib.Warning("GLLibPlayer.Update was called with DT equal 1, the player is currently working as a Time Based Player, it should be more than 1 ms ?");
+        }
         if (this.animIsOver || this.curAnim < 0) {
             return;
         }
         int duration = this.GetDuration();
         if (duration == 0) {
-           return;
+            GLLib.Assert(false, "GLLibPlayer.Update.frame " + this.curFrame + " of animation " + this.curAnim + " has a duration of 0");
         }
         while (this.curTime >= duration) {
             this.curTime -= duration;
@@ -264,7 +291,8 @@ final class GLLibPlayer implements Runnable
             }
             duration = this.GetDuration();
             if (duration == 0) {
-                break;
+                GLLib.Assert(false, "GLLibPlayer.Update.frame " + this.curFrame + " of animation " + this.curAnim + " has a duration of 0");
+				break; // if necessary
             }
         }
         this.curTime += DT;
@@ -295,7 +323,14 @@ final class GLLibPlayer implements Runnable
     }
     
     private static synchronized void SndQueue_Push_Normal(int channel, int command, int index, int priority, int volume, final int loop) {
-        if (GLLibPlayer.s_snd_isSoundEngineInitialized) {
+		if (!GLLibPlayer.s_snd_isSoundEngineInitialized) {
+            return;
+        }
+        if (GLLibPlayer.s_snd_queue_size[channel] >= 7) {
+            GLLib.Assert(false, "SndQueue_Push: Too many sound requests given before Snd_Update!");
+        }
+		// don't wanna indent
+        if (true) {
             final int start = GLLibPlayer.s_snd_queue_pointer[channel];
             final int size = GLLibPlayer.s_snd_queue_size[channel];
             final int end = SndQueue_NormalizeIndex(start + size);
@@ -330,6 +365,7 @@ final class GLLibPlayer implements Runnable
     }
     
     static void Snd_Init(int nbSoundSlot) {
+		GLLib.Dbg("SOUND : Init : JSR135");
         GLLibPlayer.s_snd_Player = new Player[GLLibPlayer.k_snd_nbChannel];
         GLLibPlayer.s_snd_index = new int[GLLibPlayer.k_snd_nbChannel];
         GLLibPlayer.s_snd_priority = new int[GLLibPlayer.k_snd_nbChannel];
@@ -377,8 +413,14 @@ final class GLLibPlayer implements Runnable
         if (!GLLibPlayer.s_snd_isSoundEngineInitialized) {
             return;
         }
+        if (resourceIndex >= GLLibPlayer.s_snd_sndSlot.length) {
+            GLLib.Assert(false, "resourceIndex is larger that slot count. Read the Warning in the doc.");
+        }
         if (resourceIndex < 0) {
             return;
+        }
+        if (GLLibPlayer.s_snd_sndSlot == null) {
+            GLLib.Assert(false, "Snd_LoadSound.snd not correctly initialized");
         }
         GLLib.Pack_Open(dataFileName);
         final byte[] pData = GLLib.Pack_ReadData(resourceIndex);
@@ -397,8 +439,11 @@ final class GLLibPlayer implements Runnable
     }
     
     static void Snd_UnLoadSound(final int index) {
-        if (!GLLibPlayer.s_snd_isSoundEngineInitialized) {
+		if (!GLLibPlayer.s_snd_isSoundEngineInitialized) {
             return;
+        }
+        if (GLLibPlayer.s_snd_sndSlot == null) {
+            GLLib.Assert(false, "Snd_unLoadSound.array is not initialised");
         }
         if (index < 0) {
             return;
@@ -444,7 +489,8 @@ final class GLLibPlayer implements Runnable
             }
 			GLLibPlayer.s_snd_Player[channel] = Manager.createPlayer((InputStream)new ByteArrayInputStream(GLLibPlayer.s_snd_sndSlot[index]), GLLib.GetMIME(GLLibPlayer.s_snd_sndType[index]));
         }
-        if (GLLibPlayer.s_snd_Player[channel] == null) {
+		if (GLLibPlayer.s_snd_Player[channel] == null) {
+            GLLib.Dbg("    ERROR.player is null 1092");
             return;
         }
 		GLLibPlayer.s_snd_Player[channel].realize();
@@ -535,8 +581,8 @@ final class GLLibPlayer implements Runnable
                     try {
                         isPlaying = Snd_IsPlaying(channel);
                     }
-                    catch (final Exception obj) {
-                        GLLib.Assert(false, "Snd_update.error on channel (" + channel + ")." + obj);
+                    catch (final Exception e) {
+                        GLLib.Assert(false, "Snd_update.error on channel (" + channel + ")." + e);
                         isPlaying = false;
                     }
                     if (!isPlaying) {
@@ -599,7 +645,7 @@ final class GLLibPlayer implements Runnable
         while (GLLibPlayer.s_pThread != null) {
             Snd_Update_Exec();
             try {
-                Thread.sleep(50);
+                Thread.sleep(50); // FPSLimiter is also 20?
             }
             catch (final Exception ex) {}
         }
@@ -962,7 +1008,32 @@ final class GLLibPlayer implements Runnable
     }
     
     static void Tileset_LoadLayer(final int nLayer, byte[] MapSizes, byte[] MapData, byte[] MapFlip, final ASprite MapSprite, final int n2, final int n3, final int n4, final int n5, final boolean b) {
-        if (GLLibPlayer.s_bTilesetPlayerInitialized) {
+		if (MapSizes == null) {
+            GLLib.Assert(false, "GLLibPlayer.Tileset_LoadLayer.MapSizes is null");
+        }
+        if (MapData == null) {
+            GLLib.Assert(false, "GLLibPlayer.Tileset_LoadLayer.MapData is null");
+        }
+        if (MapSprite == null) {
+            GLLib.Assert(false, "GLLibPlayer.Tileset_LoadLayer.MapSprite is null");
+        }
+		// TODO: figure these out
+        /*if (wrappingX != 0 && wrappingX != 1) {
+            GLLib.Assert(false, "GLLibPlayer.Tileset_LoadLayer. X wrapping is not valid");
+        }
+        if (wrappingY != 0 && wrappingY != 1) {
+            GLLib.Assert(false, "GLLibPlayer.Tileset_LoadLayer. Y wrapping is not valid");
+        }
+        if (origin != 16 && origin != 32) {
+            GLLib.Assert(false, "GLLibPlayer.Tileset_LoadLayer. origin is not valid");
+        }*/
+        if (MapFlip == null) {
+            GLLib.Dbg("WARNING GLLibPlayer.Tileset_LoadLayer.MapFlip is null, no flip will occur");
+        }
+        if (!GLLibPlayer.s_bTilesetPlayerInitialized) {
+            return;
+        }
+        if (true) {
             Tileset_Destroy(0, false);
             GLLibPlayer.s_TilesetLayerInfo[0][18] = 0;
             GLLibPlayer.s_TilesetLayerInfo[0][19] = 0;
@@ -1554,14 +1625,16 @@ final class GLLibPlayer implements Runnable
     }
     
     static final void Tileset_SetCamera(final int nLayer, final int x, final int y) {
-        if (!GLLibPlayer.s_bTilesetPlayerInitialized) {
+		if (!GLLibPlayer.s_bTilesetPlayerInitialized) {
+            GLLib.Assert(false, "Tileset_SetCamera: Tileset player is not initialized");
             return;
         }
-        if (GLLibPlayer.s_TilesetMaxLayerCount <= 0) {
+        if (0 <= GLLibPlayer.s_TilesetMaxLayerCount) {
             GLLib.Assert(false, "Tileset_SetCamera: nLayer invalid : " + 0);
             return;
         }
         if (GLLibPlayer.s_TilesetLayerInfo[0][0] != 1 || GLLibPlayer.s_TilesetLayerInfo[0][1] != 1) {
+            GLLib.Assert(false, "Tileset_SetCamera: nLayer in not initialized or not enabled.");
             return;
         }
         GLLibPlayer.s_TilesetLayerInfo[0][13] = x;
@@ -1586,7 +1659,8 @@ final class GLLibPlayer implements Runnable
     }
     
     static final int Tileset_GetCameraX(final int nLayer) {
-        if (!GLLibPlayer.s_bTilesetPlayerInitialized) {
+		if (!GLLibPlayer.s_bTilesetPlayerInitialized) {
+            GLLib.Assert(false, "Tileset_GetCamera: Tileset player is not initialized");
             return -1;
         }
         if (GLLibPlayer.s_TilesetMaxLayerCount <= 0) {
@@ -1594,13 +1668,15 @@ final class GLLibPlayer implements Runnable
             return -1;
         }
         if (GLLibPlayer.s_TilesetLayerInfo[0][0] != 1 || GLLibPlayer.s_TilesetLayerInfo[0][1] != 1) {
+            GLLib.Assert(false, "Tileset_GetCamera: nLayer in not initialized or not enabled.");
             return -1;
         }
         return GLLibPlayer.s_TilesetLayerInfo[0][13];
     }
     
     static final int Tileset_GetCameraY(final int nLayer) {
-        if (!GLLibPlayer.s_bTilesetPlayerInitialized) {
+		if (!GLLibPlayer.s_bTilesetPlayerInitialized) {
+            GLLib.Assert(false, "Tileset_GetCamera: Tileset player is not initialized");
             return -1;
         }
         if (GLLibPlayer.s_TilesetMaxLayerCount <= 0) {
@@ -1608,6 +1684,7 @@ final class GLLibPlayer implements Runnable
             return -1;
         }
         if (GLLibPlayer.s_TilesetLayerInfo[0][0] != 1 || GLLibPlayer.s_TilesetLayerInfo[0][1] != 1) {
+            GLLib.Assert(false, "Tileset_GetCamera: nLayer in not initialized or not enabled.");
             return -1;
         }
         if (isFlag(0, 8)) {
@@ -1618,6 +1695,7 @@ final class GLLibPlayer implements Runnable
     
     static final int Tileset_GetLayerWidth() {
         if (!GLLibPlayer.s_bTilesetPlayerInitialized) {
+            GLLib.Assert(false, "Tileset_GetLayerWidth: Tileset player is not initialized");
             return -1;
         }
         if (GLLibPlayer.s_TilesetMaxLayerCount <= 0) {
@@ -1625,13 +1703,15 @@ final class GLLibPlayer implements Runnable
             return -1;
         }
         if (GLLibPlayer.s_TilesetLayerInfo[0][0] != 1 || GLLibPlayer.s_TilesetLayerInfo[0][1] != 1) {
+            GLLib.Assert(false, "Tileset_GetLayerWidth: nLayer in not initialized or not enabled.");
             return -1;
         }
         return GLLibPlayer.s_TilesetLayerInfo[0][5];
     }
     
     static final int Tileset_GetLayerHeight() {
-        if (!GLLibPlayer.s_bTilesetPlayerInitialized) {
+         if (!GLLibPlayer.s_bTilesetPlayerInitialized) {
+            GLLib.Assert(false, "Tileset_GetLayerHeight: Tileset player is not initialized");
             return -1;
         }
         if (GLLibPlayer.s_TilesetMaxLayerCount <= 0) {
@@ -1639,6 +1719,7 @@ final class GLLibPlayer implements Runnable
             return -1;
         }
         if (GLLibPlayer.s_TilesetLayerInfo[0][0] != 1 || GLLibPlayer.s_TilesetLayerInfo[0][1] != 1) {
+            GLLib.Assert(false, "Tileset_GetLayerHeight: nLayer in not initialized or not enabled.");
             return -1;
         }
         return GLLibPlayer.s_TilesetLayerInfo[0][6];
@@ -1647,6 +1728,7 @@ final class GLLibPlayer implements Runnable
     static final int Tileset_GetTile(int nLayer, int x, int y) {
         y = Tileset_GetTranslatedOriginY(0, y);
         if (!GLLibPlayer.s_bTilesetPlayerInitialized) {
+			GLLib.Assert(false, "Tileset_GetTile: Tileset player is not initialized");
             return -1;
         }
         if (GLLibPlayer.s_TilesetMaxLayerCount <= 0) {
@@ -1654,6 +1736,7 @@ final class GLLibPlayer implements Runnable
             return -1;
         }
         if (GLLibPlayer.s_TilesetLayerInfo[0][0] != 1 || GLLibPlayer.s_TilesetLayerInfo[0][1] != 1) {
+			GLLib.Assert(false, "Tileset_GetTile: nLayer in not initialized or not enabled.");
             return -1;
         }
         if (x < 0 || x > GLLibPlayer.s_TilesetLayerInfo[0][2]) {
@@ -1664,14 +1747,12 @@ final class GLLibPlayer implements Runnable
             GLLib.Assert(false, "Tileset_GetTile: y value out of bound [" + y + "]  0 <= y < " + GLLibPlayer.s_TilesetLayerInfo[0][3]);
             return -1;
         }
-        nLayer = y;
-        y = x;
-        x = GLLibPlayer.s_TilesetLayerInfo[0][2];
-        return Tileset_GetLayerData(0, 0, nLayer * x + y, false);
+        return Tileset_GetLayerData(0, 0, y * GLLibPlayer.s_TilesetLayerInfo[0][2] + x, false);
     }
     
     static final ImageG Tileset_GetBufferImage() {
         if (!GLLibPlayer.s_bTilesetPlayerInitialized) {
+            GLLib.Assert(false, "Tileset_GetBufferImage: Tileset player is not initialized");
             return null;
         }
         if (GLLibPlayer.s_TilesetMaxLayerCount <= 0) {
@@ -2057,7 +2138,7 @@ final class GLLibPlayer implements Runnable
     }
     
     static {
-        GLLibPlayer.defaultFrameTime = 50;
+        GLLibPlayer.defaultFrameTime = 50; // GLLibConfig.sprite_animFPS is 20 based on this (1000 / 20 = 50.0)
         k_snd_nbChannel = 1;
         GLLibPlayer.s_bTilesetPlayerInitialized = false;
         GLLibPlayer.s_TilesetMaxLayerCount = 4;
