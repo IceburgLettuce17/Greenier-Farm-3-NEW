@@ -326,8 +326,6 @@ final class GLLibPlayer implements Runnable
         if (GLLibPlayer.s_snd_queue_size[channel] >= 7) {
             GLLib.Assert(false, "SndQueue_Push: Too many sound requests given before Snd_Update!");
         }
-		// don't wanna indent
-        if (true) {
             final int start = GLLibPlayer.s_snd_queue_pointer[channel];
             final int size = GLLibPlayer.s_snd_queue_size[channel];
             final int end = SndQueue_NormalizeIndex(start + size);
@@ -344,7 +342,6 @@ final class GLLibPlayer implements Runnable
             GLLibPlayer.s_snd_queue[idx + 3] = volume;
             GLLibPlayer.s_snd_queue[idx + 4] = loop;
             ++s_snd_queue_size[channel];
-        }
     }
     
     
@@ -1030,7 +1027,6 @@ final class GLLibPlayer implements Runnable
         if (!GLLibPlayer.s_bTilesetPlayerInitialized) {
             return;
         }
-        if (true) {
             Tileset_Destroy(0, false);
             GLLibPlayer.s_TilesetLayerInfo[0][18] = 0;
             GLLibPlayer.s_TilesetLayerInfo[0][19] = 0;
@@ -1064,7 +1060,6 @@ final class GLLibPlayer implements Runnable
             setFlag(0, 2, false);
             setFlag(0, 32, false);
             setFlag(0, 8, false);
-        }
     }
     
     static void Tileset_Destroy(final int nLayer) {

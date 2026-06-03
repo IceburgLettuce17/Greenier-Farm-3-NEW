@@ -553,9 +553,15 @@ public abstract class GLLib extends Canvas implements Runnable
         else {
             nbData = GLLib.s_pack_subPack_fat[GLLib.s_pack_subPack_curSubPack + 1] - GLLib.s_pack_subPack_fat[GLLib.s_pack_subPack_curSubPack];
         }
+		if (GLLibConfig.pack_dbgDataAccess) {
+            Dbg("   nb of data in this subpack : " + nbData);
+        }
         GLLib.s_pack_offset = new int[nbData + 1];
         for (int i = 0; i < nbData + 1; ++i) {
             GLLib.s_pack_offset[i] = ((Pack_Read() & 0xFF) | (Pack_Read() & 0xFF) << 8 | ((Pack_Read() & 0xFF) << 16 | (Pack_Read() & 0xFF) << 24));
+			if (GLLibConfig.pack_dbgDataAccess) {
+                Dbg("   data " + i + " is @ offset : " + GLLib.s_pack_offset[i]);
+            }
         }
     }
     
@@ -563,21 +569,41 @@ public abstract class GLLib extends Canvas implements Runnable
 		if (filename == null) {
             Assert(false, "Pack_Open.filename is null");
         }
+		if (GLLibConfig.pack_dbgDataAccess) {
+            Dbg("Pack_Open(" + filename + ")");
+        }
+        if (GLLib.s_pack_filename != null && filename.compareTo(GLLib.s_pack_filename) == 0) {
+            if (GLLibConfig.pack_dbgDataAccess) {
+                Dbg("Pack_Open(" + filename + ").file already open");
+            }
+            return;
+        }
         GLLib.s_pack_dataSource = 1;
-        if (GLLib.s_pack_filename == null || filename == null || filename.compareTo(GLLib.s_pack_filename) != 0) {
             Pack_Close(true);
             GLLib.s_pack_filename = filename;
             GLLib.s_pack_memBufSrc = null;
             GLLib.s_pack_memBufSrcOff = 0;
             GLLib.s_pack_is = Pack_GetInputStreamFromName(GLLib.s_pack_filename);
-            GLLib.s_pack_nbData = (short)Pack_Read16();
-            GLLib.s_pack_subPack_fat = new short[GLLib.s_pack_subPack_nbOf = (short)Pack_Read16()];
-            for (short n = 0; n < GLLib.s_pack_subPack_nbOf; ++n) {
-                GLLib.s_pack_subPack_fat[n] = (short)Pack_Read16();
-            }
-            GLLib.s_pack_subPack_curSubPack = 0;
+			if (GLLib.s_pack_is == null) {
+				Assert(false, "Pack_Open.unable to find file");
+			}
+			GLLib.s_pack_nbData = (short)Pack_Read16();
+			if (GLLibConfig.pack_dbgDataAccess) {
+				Dbg("   nb of data in pack : " + GLLib.s_pack_nbData);
+			}
+			GLLib.s_pack_subPack_nbOf = (short)Pack_Read16();
+			if (GLLibConfig.pack_dbgDataAccess) {
+				Dbg("   nb of subpack for this pack : " + GLLib.s_pack_subPack_nbOf);
+			}
+			GLLib.s_pack_subPack_fat = new short[GLLib.s_pack_subPack_nbOf];
+			for (int i = 0; i < GLLib.s_pack_subPack_nbOf; ++i) {
+				GLLib.s_pack_subPack_fat[i] = (short)Pack_Read16();
+				if (GLLibConfig.pack_dbgDataAccess) {
+					Dbg("   subpack " + i + " start with data : " + GLLib.s_pack_subPack_fat[i]);
+				}
+			}
+			GLLib.s_pack_subPack_curSubPack = 0;
             Pack_GetDataOffset();
-        }
     }
     
     private static InputStream Pack_GetInputStreamFromName(String s) {
@@ -624,9 +650,18 @@ public abstract class GLLib extends Canvas implements Runnable
         if (idx >= GLLib.s_pack_nbData) {
             Assert(false, "Pack_PositionAtData.idx is invalid");
         }
+		if (GLLibConfig.pack_dbgDataAccess) {
+            Dbg("Pack_PositionAtData(" + idx + ")  current sub : " + GLLib.s_pack_subPack_curSubPack);
+        }
     	int subpack;
         for (subpack = GLLib.s_pack_subPack_nbOf - 1; subpack >= 0 && GLLib.s_pack_subPack_fat[subpack] > idx; --subpack) {}
+		if (GLLibConfig.pack_dbgDataAccess) {
+            Dbg("   data " + idx + " is in subpack : " + subpack);
+        }
         if (GLLib.s_pack_subPack_curSubPack != subpack) {
+			if (GLLibConfig.pack_dbgDataAccess) {
+                Dbg("   opening subpack : " + subpack);
+            }
             GLLib.s_pack_subPack_curSubPack = subpack;
             Pack_Close(false);
             if (GLLib.s_pack_subPack_curSubPack == 0) {
@@ -640,6 +675,9 @@ public abstract class GLLib extends Canvas implements Runnable
             }
         }
         else if (GLLib.s_pack_is == null) {
+			if (GLLibConfig.pack_dbgDataAccess) {
+                Dbg("   reopening subpack : " + subpack);
+            }
             if (GLLib.s_pack_subPack_curSubPack == 0) {
                 final String name = GLLib.s_pack_filename;
                 GLLib.s_pack_filename = null;
@@ -651,9 +689,15 @@ public abstract class GLLib extends Canvas implements Runnable
         }
         idx -= GLLib.s_pack_subPack_fat[GLLib.s_pack_subPack_curSubPack];
         int offset = GLLib.s_pack_offset[idx];
-        idx = GLLib.s_pack_offset[idx + 1] - GLLib.s_pack_offset[idx];
+        int size = GLLib.s_pack_offset[idx + 1] - GLLib.s_pack_offset[idx];
+		if (GLLibConfig.pack_dbgDataAccess) {
+            Dbg("   data is at index " + idx + " in this subpack @ offset " + offset + " (" + size + " byte)");
+        }
         if (GLLib.s_pack_curOffset != offset) {
             if (GLLib.s_pack_curOffset > offset) {
+				if (GLLibConfig.pack_dbgDataAccess) {
+					Dbg("Pack Close BAD READING ORDER");
+				}
                 Pack_ResetInputStream();
                 if (GLLib.s_pack_subPack_curSubPack == 0) {
                     GLLib.s_pack_is = Pack_GetInputStreamFromName(GLLib.s_pack_filename);
@@ -661,17 +705,23 @@ public abstract class GLLib extends Canvas implements Runnable
                 else {
                     GLLib.s_pack_is = Pack_GetInputStreamFromName(GLLib.s_pack_filename + "." + GLLib.s_pack_subPack_curSubPack);
                 }
+				if (GLLib.s_pack_is == null) {
+					Assert(false, "Pack_Seek.internal error");
+				}
             }
             else {
                 offset -= GLLib.s_pack_curOffset;
             }
             Pack_Skip(offset);
         }
-        if (idx > 0) {
+        if (size > 0) {
             GLLib.s_pack_lastDataReadMimeType = (Pack_Read() & 0xFF);
-            --idx;
+            --size;
         }
-        return idx;
+		if (GLLibConfig.pack_dbgDataAccess && GLLib.MIME_type != null) {
+            Dbg("   data mime type is " + GLLib.s_pack_lastDataReadMimeType + " (" + GetMIME(GLLib.s_pack_lastDataReadMimeType) + ")");
+        }
+        return size;
     }
     
     static final byte[] Pack_ReadData(int idx) {
@@ -681,8 +731,14 @@ public abstract class GLLib extends Canvas implements Runnable
         if (idx >= GLLib.s_pack_nbData) {
             Assert(false, "Pack_ReadData.idx is invalid");
         }
+		if (GLLibConfig.pack_dbgDataAccess) {
+            Dbg("Pack_ReadData(" + idx + ")");
+        }
         byte[] data = new byte[idx = Pack_PositionAtData(idx)];
         Pack_ReadFully(data, 0, data.length);
+        if (GLLibConfig.pack_dbgDataAccess) {
+            Dbg("     Pack_ReadData(" + idx + ")  DONE");
+        }
         return data;
     }
     
@@ -773,7 +829,13 @@ public abstract class GLLib extends Canvas implements Runnable
         if (idx >= GLLib.s_pack_nbData) {
             Assert(false, "Pack_ReadArray.idx is invalid");
         }
-        Pack_PositionAtData(idx);
+		if (GLLibConfig.pack_dbgDataAccess) {
+            Dbg("Pack_ReadArray(" + idx + ")");
+        }
+        final int size = Pack_PositionAtData(idx);
+        if (GLLibConfig.pack_dbgDataAccess) {
+            Dbg("size of data is " + size);
+        }
         GLLib.Stream_readOffset = 0;
         final Object array = Mem_ReadArray(GLLib.s_pack_is);
         GLLib.s_pack_curOffset += GLLib.Stream_readOffset;
@@ -786,8 +848,12 @@ public abstract class GLLib extends Canvas implements Runnable
         }
         if (GLLib.MIME_type == null) {
             GLLib.s_pack_is = Pack_GetInputStreamFromName(filename);
-            GLLib.MIME_type = new byte[Pack_Read()][];
-            for (int i = 0; i < Pack_Read(); ++i) {
+            final int nbOfMime = Pack_Read();
+            if (GLLibConfig.pack_dbgDataAccess) {
+                Dbg("nb Of MIME type : " + nbOfMime);
+            }
+            GLLib.MIME_type = new byte[nbOfMime][];
+            for (int i = 0; i < nbOfMime; ++i) {
                 Pack_ReadFully(GLLib.MIME_type[i] = new byte[Pack_Read()], 0, Pack_Read());
             }
             try {
