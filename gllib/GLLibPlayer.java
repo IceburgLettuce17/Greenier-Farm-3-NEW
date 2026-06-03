@@ -127,9 +127,6 @@ final class GLLibPlayer implements Runnable
 		if (this.sprite == null) {
             GLLib.Assert(false, "GLLibPlayer.SetAnim().sprite is not set");
         }
-        if (anim >= this.GetNbanim()) {
-            GLLib.Assert(false, "GLLibPlayer.SetAnim().anim out of range");
-        }
         if (nbLoop == 0) {
             GLLib.Assert(false, "GLLibPlayer.SetAnim().nbLoop is invalid");
         }

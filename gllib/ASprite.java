@@ -2626,8 +2626,8 @@ public final class ASprite
     }
     
     static {
-        ASprite._graphicsWidth = 800;
-        ASprite._graphicsHeight = 480;
+        ASprite._graphicsWidth = GLLibConfig.screenWidth;
+        ASprite._graphicsHeight = GLLibConfig.screenHeight;
         ASprite.midp2_flags = new int[] { 0, 2, 1, 3, 5, 7, 4, 6 };
         ASprite.TRANSFORM_FLIP_X = new int[] { 1, 0, 3, 2, 6, 7, 4, 5 };
         ASprite.TRANSFORM_FLIP_Y = new int[] { 2, 3, 0, 1, 5, 4, 7, 6 };

@@ -155,8 +155,8 @@ public abstract class GLLib extends Canvas implements Runnable
         if (GLLib.s_game_state >= 0) {
             return;
         }
-        GLLib.s_screenWidth = 800;
-        GLLib.s_screenHeight = 480;
+        GLLib.s_screenWidth = GLLibConfig.screenWidth;
+        GLLib.s_screenHeight = GLLibConfig.screenHeight;
         GLLib.s_pointerState = 0;
         if (!GLLib.s_crcTableWasInited) {
             GLLib.crcTable = new int[256];
@@ -335,8 +335,8 @@ public abstract class GLLib extends Canvas implements Runnable
             this.Game_update();
         }
         catch (final Exception ex) {
-			Dbg("!!FATAL ERROR!! in Game_paint()." + e);
-            e.printStackTrace();
+			Dbg("!!FATAL ERROR!! in Game_paint()." + ex);
+            ex.printStackTrace();
             GLLib.s_game_state = -1;
         }
         GLLib.s_game_isInPaint = false;
@@ -981,12 +981,6 @@ public abstract class GLLib extends Canvas implements Runnable
         if (y_src < 0) {
             Assert(false, "DrawRegion.y_src is negative");
         }
-        if (x_src + width > src.getWidth()) {
-            Assert(false, "DrawRegion.x_src+width is bigger than source image");
-        }
-        if (y_src + height > src.getHeight()) {
-            Assert(false, "DrawRegion.x_src+height is bigger than source image");
-        }
         if (allowRotation) {
             if (transform == 0) {
                 transform = 5;
@@ -1291,7 +1285,6 @@ public abstract class GLLib extends Canvas implements Runnable
 				if (read < 0) {
                     Assert(false, "Pack_ReadFully.EOF");
                 }
-                len 
                 len -= read;
                 offset += read;
             }
@@ -1588,7 +1581,7 @@ public abstract class GLLib extends Canvas implements Runnable
             return new String(GLLib.s_text_localeGroups[arrayID], GLLib.text_multiple_arrayOffsets[arrayID][index], length, GLLib.text_encoding);
         }
         catch (final Exception ex) {
-            Assert(false, "Text_GetString.unable to create string, might try another encoding." + e);
+            Assert(false, "Text_GetString.unable to create string, might try another encoding." + ex);
             return null;
         }
     }
@@ -2515,8 +2508,8 @@ public abstract class GLLib extends Canvas implements Runnable
     static {
         GLLib.g = null;
         GLLib.s_lastPaintGraphics = null;
-        GLLib.s_screenWidth = 800;
-        GLLib.s_screenHeight = 480;
+        GLLib.s_screenWidth = GLLibConfig.screenWidth;
+        GLLib.s_screenHeight = GLLibConfig.screenHeight;
         GLLib.m_FPSLimiter = 50;
         GLLib.m_customSleepTime = -1;
         GLLib.s_bPlatformRequestPending = false;

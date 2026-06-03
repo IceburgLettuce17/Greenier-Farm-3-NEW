@@ -902,7 +902,14 @@ public final class cGame extends GLLib implements Class_b
 	* @param state the state to switch to.
 	*/
 	static void switchToState(final int state) {
-		int curState = cGame.s_game_states[cGame.s_game_state];
+		boolean d = false;
+		if (Define.DECOMP_CUSTOM_PRINTS && s_game_state == Define.GS_EXIT)
+		{
+			GLLib.Assert(false, "switchToState: s_game_state is null - state: " + state);
+			GLLib.Dbg("Switching to default state");
+			d = true;
+		}
+		int curState = d ? Define.GS_GAMELOFT : cGame.s_game_states[cGame.s_game_state];
 		if (cGame.s_game_states != null 
 		&& cGame.s_game_state != Define.GS_EXIT 
 		&& curState == Define.GS_FARM || curState == Define.GS_FARM_TUTORIAL 
@@ -29381,7 +29388,7 @@ public final class cGame extends GLLib implements Class_b
 		GLLib.Game_KeySetKeyCode(false, 54, 12);
 		GLLib.Game_KeySetKeyCode(false, 56, 14);
 		GLLib.Game_KeySetKeyCode(false, 53, 11);
-		cGame.s_game_state = Define.DECOMP_MODE ? 0 : -1;
+		cGame.s_game_state = -1; // could be the problem?
 		cGame.s_switcherState = -1;
 		cGame.s_game_stateToSwitch = -1;
 		cGame.var_67ec = 0;
@@ -29394,6 +29401,7 @@ public final class cGame extends GLLib implements Class_b
 		sub_818c(19, false);
 		sub_818c(42, false);
 		switchToState(Define.GS_GAMELOFT);
+		if (Define.DECOMP_CUSTOM_PRINTS) GLLib.Assert(s_game_state != Define.GS_EXIT, "cGame.constructor: s_game_state is still -1, even after switchToState");
 		cGame.var_8014 = null;
 		cGame.var_801c = null;
 		cGame.var_8024 = null;
@@ -29734,7 +29742,15 @@ public final class cGame extends GLLib implements Class_b
 				}
 			}
 		}
+		if (Define.DECOMP_CUSTOM_PRINTS)
+		{
+			GLLib.Dbg("Updating players");
+		}
 		for (int n45 = 0; n45 < 30; ++n45) {
+			if (Define.DECOMP_CUSTOM_PRINTS && cGame.var_68ec[n45] != null)
+			{
+				GLLib.Assert(false, "Game_update: var_68ec[" + n45 + "] is null");
+			}
 			if (cGame.var_68ec[n45] != null) {
 				cGame.var_68ec[n45].Update(GLLib.s_game_frameDT);
 			}
