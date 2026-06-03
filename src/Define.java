@@ -19,7 +19,13 @@ interface Define
 	public static final boolean DECOMP_MODE = true;
 	
 	/**
-	* Custom stdout prints made to ease the build process of the decomp. Along with {@link Define#DECOMP_MODE}, it should not be needed to build a release.
+	* Enables GLLib's debug printing functions. Should not be needed to build a release.
+	*/
+	public static final boolean GLLIB_DEBUG_MODE = true;
+	
+	/**
+	* Includes custom asserts and prints made to ease the build process of the decomp. Along with {@link Define#DECOMP_MODE} and {@link Define#GLLIB_DEBUG_MODE}, it should not be needed to build a release.
+	* Note that {@link Define#GLLIB_DEBUG_MODE} must be on in order for {@GLLib#Dbg}, {@GLLib#Assert} and {@GLLib#Warning} to actually print text.
 	*/
 	public static final boolean DECOMP_CUSTOM_PRINTS = true;
 	

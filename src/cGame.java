@@ -1010,7 +1010,7 @@ public final class cGame extends GLLib implements Class_b
 	private static boolean dispatchState(int depth, int mode) {
 		if (Define.DECOMP_CUSTOM_PRINTS)
 		{
-			System.out.println(depth + " " + mode);
+			GLLib.Dbg("cGame.dispatchState - Depth: " + depth + "Mode: " + mode);
 		}
 		// I'm gonna document the states and my speculations for them in the switch statement btw
 		boolean b = false;
@@ -2230,7 +2230,7 @@ public final class cGame extends GLLib implements Class_b
 					break;
 				}
 				default: {
-					if (Define.DECOMP_MODE) System.out.println("State [" + cGame.s_game_states[mode] + "] is undefined. Message sent was: " + depth);
+					GLLib.Dbg("State [" + cGame.s_game_states[mode] + "] is undefined. Message sent was: " + depth);
 					break;
 				}
 				}
@@ -2648,7 +2648,7 @@ public final class cGame extends GLLib implements Class_b
 					if (!cGame.var_684c) {
 						cGame.var_684c = true;
 						cGame.var_685c = sub_d691(cGame.var_6874);
-						if (Define.DECOMP_MODE) System.out.println("[0/" + cGame.var_685c + "] - EXECUTE SPRITE REQUESTS");
+						GLLib.Dbg("[0/" + cGame.var_685c + "] - EXECUTE SPRITE REQUESTS");
 					}
 					cGame.var_684c = sub_d1f5(cGame.var_6874);
 					break;
@@ -2657,7 +2657,7 @@ public final class cGame extends GLLib implements Class_b
 					if (!cGame.var_684c) {
 						cGame.var_684c = true;
 						cGame.var_685c = sub_db02();
-						if (Define.DECOMP_MODE) System.out.println("[0/" + cGame.var_685c + "] - EXECUTE SOUND REQUESTS");
+						GLLib.Dbg("[0/" + cGame.var_685c + "] - EXECUTE SOUND REQUESTS");
 					}
 					cGame.var_684c = sub_d8df();
 					break;
@@ -13329,10 +13329,10 @@ public final class cGame extends GLLib implements Class_b
 		if (cGame.var_69e4) {
 			if ((cGame.var_6a44 < 0 || cGame.var_6a3c[sound][1] >= cGame.var_6a3c[cGame.var_6a44][1])
 					&& System.currentTimeMillis() - cGame.var_6a6c <= 1000L) {
-				if (Define.DECOMP_MODE) System.out.println("==========Sound: " + sound + " --- DELAY");
+				GLLib.Dbg("==========Sound: " + sound + " --- DELAY");
 				return;
 			}
-			if (Define.DECOMP_MODE) System.out.println("==========Sound: " + sound + " DON'T DELAY");
+			GLLib.Dbg("==========Sound: " + sound + " DON'T DELAY");
 			cGame.var_6a6c = System.currentTimeMillis();
 			int index = sound;
 			if (index >= 15) {
@@ -13342,7 +13342,7 @@ public final class cGame extends GLLib implements Class_b
 				cGame.var_6a4c = index;
 			}
 			cGame.var_6a44 = sound;
-			if (Define.DECOMP_MODE) System.out.println("==========================PlaySound: " + sound);
+			GLLib.Dbg("==========================PlaySound: " + sound);
 			Label_0243: {
 				int volume = 0;
 				try {
@@ -18888,7 +18888,7 @@ public final class cGame extends GLLib implements Class_b
 		for (int i = 0; i < 34; ++i) {
 			GameDatas.s_allDatas[i] = new GameDatas();
 			final byte[] resourceBytes = GLLib.Pack_ReadData(i);
-			if (Define.DECOMP_MODE) System.out.println("Open File " + i);
+			GLLib.Dbg("Open File " + i);
 			int offset = 0;
 			GameDatas.s_allDatas[i].var_7a = GLLib.Mem_GetInt(resourceBytes, 0);
 			offset += 4;
@@ -29742,10 +29742,10 @@ public final class cGame extends GLLib implements Class_b
 		dispatchState(2, cGame.s_game_state);
 		++cGame.var_67ec;
 		cGame.var_67f4 += GLLib.s_game_frameDT;
-		if (Define.DECOMP_MODE) System.out.println("G_DT : " + GLLib.s_game_frameDT + " ms");
-		if (Define.DECOMP_MODE) System.out.println("G_Update : " + (System.currentTimeMillis() - update) + " ms");
+		GLLib.Dbg("G_DT : " + GLLib.s_game_frameDT + " ms");
+		GLLib.Dbg("G_Update : " + (System.currentTimeMillis() - update) + " ms");
 		sub_b693();
-		if (Define.DECOMP_MODE) System.out.println("G_Paint : " + (System.currentTimeMillis() - paint) + " ms");
+		GLLib.Dbg("G_Paint : " + (System.currentTimeMillis() - paint) + " ms");
 	}
 
 	public final void hideNotify() {

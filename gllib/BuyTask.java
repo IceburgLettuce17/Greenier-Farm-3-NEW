@@ -41,17 +41,17 @@ final class BuyTask extends Thread
                     smsAdress = smsProto + PaySMS.getProfilesData()[PaySMS.getCurrentProfile()][11];
                 }
             }
-            if (Define.DECOMP_MODE) System.out.println("PaySMS.buy: smsAdress: " + smsAdress);
+            GLLib.Dbg("PaySMS.buy: smsAdress: " + smsAdress);
             PaySMS.conn = (MessageConnection)Connector.open(smsAdress);
-            if (Define.DECOMP_MODE) System.out.println("PaySMS.buy: Connection opened - conn: " + PaySMS.conn);
+            GLLib.Dbg("PaySMS.buy: Connection opened - conn: " + PaySMS.conn);
             final TextMessage msg = (TextMessage)PaySMS.conn.newMessage("text");
-            if (Define.DECOMP_MODE) System.out.println("PaySMS.buy: TextMessage created - msg: " + msg);
+            GLLib.Dbg("PaySMS.buy: TextMessage created - msg: " + msg);
             msg.setPayloadText(PaySMS.getSmsContent());
             try {
                 Thread.sleep(200L);
             }
             catch (final Exception ex) {
-                if (Define.DECOMP_MODE) System.out.println("PaySMS.buy: Exception trying to sleep: " + ex.toString());
+                GLLib.Dbg("PaySMS.buy: Exception trying to sleep: " + ex.toString());
             }
             PaySMS.setTimer(new Timer());
             PaySMS.getTimer().schedule(new BuyCloseTask(), 30000);
@@ -70,14 +70,14 @@ final class BuyTask extends Thread
                 Thread.sleep(100L);
             }
             catch (final Exception ex2) {
-                if (Define.DECOMP_MODE) System.out.println("PaySMS.buy: Exception trying to sleep: " + ex2.toString());
+                GLLib.Dbg("PaySMS.buy: Exception trying to sleep: " + ex2.toString());
             }
         }
         catch (final SecurityException ex3) {
             PaySMS.setIsSms(false);
             PaySMS.rmsSave(PaySMS.RMS_RECORDS[0], "0");
             PaySMS.setErrorCode(-9);
-            if (Define.DECOMP_MODE) System.out.println("PaySMS.buy: SMS sent failed! Security Exception: " + ex3.toString());
+            GLLib.Dbg("PaySMS.buy: SMS sent failed! Security Exception: " + ex3.toString());
         }
         catch (final Throwable t) {
             PaySMS.setIsSms(false);
@@ -88,7 +88,7 @@ final class BuyTask extends Thread
             else {
                 PaySMS.setErrorCode(-1);
             }
-            if (Define.DECOMP_MODE) System.out.println("PaySMS.buy: SMS sent failed! Exception: " + t.toString());
+            GLLib.Dbg("PaySMS.buy: SMS sent failed! Exception: " + t.toString());
         }
         try {
             if (PaySMS.conn != null) {
@@ -96,7 +96,7 @@ final class BuyTask extends Thread
             }
         }
         catch (final Exception ex4) {
-            if (Define.DECOMP_MODE) System.out.println("PaySMS.buy: Failed to close connection! Exception: " + ex4.toString());
+            GLLib.Dbg("PaySMS.buy: Failed to close connection! Exception: " + ex4.toString());
         }
         PaySMS.setNotSendingSMS();
     }

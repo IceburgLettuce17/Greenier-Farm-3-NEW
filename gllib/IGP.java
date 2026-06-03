@@ -263,7 +263,7 @@ public final class IGP implements Runnable, CommandListener
     }
     
     public static void initialize(MIDlet midlet, Canvas game, int screenWidth, final int screenHeight) {
-        if (Define.DECOMP_MODE) System.out.println("initialize(midlet = " + midlet + ", game = " + game + ", screenWidth = " + screenWidth + ", screenHeight = " + screenHeight + ", cmdListener = " + (Object)null + ")");
+        GLLib.Dbg("initialize(midlet = " + midlet + ", game = " + game + ", screenWidth = " + screenWidth + ", screenHeight = " + screenHeight + ", cmdListener = " + (Object)null + ")");
         s_screenHeight = screenHeight;
         s_screenWidth = screenWidth;
         var_206d = s_screenHeight >> 1;
@@ -275,7 +275,7 @@ public final class IGP implements Runnable, CommandListener
             MidletInstance = midlet;
             s_game = game;
             sub_2bc9();
-            if (Define.DECOMP_MODE) System.out.println(s_fullIgpSignature + "");
+            GLLib.Dbg(s_fullIgpSignature + "");
             sub_3367();
             s_igaUrlRedir = null;
             var_1edd = null;
@@ -456,11 +456,11 @@ public final class IGP implements Runnable, CommandListener
             }
             try {
                 s_dataIGPVersion = new String(data, dataOffset, readInt(data));
-                if (Define.DECOMP_MODE) System.out.println("IGP dataIGP version: " + s_dataIGPVersion);
-                if (Define.DECOMP_MODE) System.out.println(s_igpClassVersion + "z");
+                GLLib.Dbg("IGP dataIGP version: " + s_dataIGPVersion);
+                GLLib.Dbg(s_igpClassVersion + "z");
                 if (!s_dataIGPVersion.startsWith(s_igpClassVersion)) {
-                    if (Define.DECOMP_MODE) System.out.println("Invalid dataIGP file, dataIGP file IGP Version : " + s_dataIGPVersion);
-                    if (Define.DECOMP_MODE) System.out.println("IGP Class version : " + s_igpClassVersion);
+                    GLLib.Dbg("Invalid dataIGP file, dataIGP file IGP Version : " + s_dataIGPVersion);
+                    GLLib.Dbg("IGP Class version : " + s_igpClassVersion);
                 }
             }
             catch (final Exception ex) {
@@ -533,7 +533,7 @@ var_1c8d = (var_1cd5 = (var_1ccd = (var_1cc5 = (var_1cbd = (var_1cb5 = (var_1cad
         if (sub_3607() > 0) {
             IsAvailable = true;
         }
-        if (Define.DECOMP_MODE) System.out.println("isAvailable = " + IsAvailable);
+        GLLib.Dbg("isAvailable = " + IsAvailable);
     }
     
     private static String sub_3135(String s) {
@@ -562,7 +562,7 @@ var_1c8d = (var_1cd5 = (var_1ccd = (var_1cc5 = (var_1cbd = (var_1cb5 = (var_1cad
     }
     
     public static void enterIGP(String loadingMsg, final int appLanguage) {
-        if (Define.DECOMP_MODE) System.out.println("enterIGP(loadingMsg = " + loadingMsg + ", appLanguage = " + 0 + " (" + var_1f05[0] + ")");
+        GLLib.Dbg("enterIGP(loadingMsg = " + loadingMsg + ", appLanguage = " + 0 + " (" + var_1f05[0] + ")");
         if (var_2055) {
             initThread();
             var_1f85 = true;
@@ -1670,7 +1670,7 @@ var_1c8d = (var_1cd5 = (var_1ccd = (var_1cc5 = (var_1cbd = (var_1cb5 = (var_1cad
     }
     
     public final void run() {
-        if (Define.DECOMP_MODE) System.out.println("Thread.activeCount() = " + Thread.activeCount());
+        GLLib.Dbg("Thread.activeCount() = " + Thread.activeCount());
         while (var_1f85) {
             try {
                 if (var_1f8d != null) {
@@ -1679,7 +1679,7 @@ var_1c8d = (var_1cd5 = (var_1ccd = (var_1cc5 = (var_1cbd = (var_1cb5 = (var_1cad
                         var_1f55 = false;
                         final String urlPlatformRequest = s_platformRequestUrl;
                         s_platformRequestUrl = null;
-                        if (Define.DECOMP_MODE) System.out.println("urlPlatformRequest = " + urlPlatformRequest);
+                        GLLib.Dbg("urlPlatformRequest = " + urlPlatformRequest);
                         try {
                             MidletInstance.platformRequest(urlPlatformRequest);
                             Thread.sleep(200L);

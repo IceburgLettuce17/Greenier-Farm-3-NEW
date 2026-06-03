@@ -2847,9 +2847,9 @@ final class cActor
         }
     }
     
-    final void sub_8c4c(int itemIndex, int var_171d, final int var_16fd, final int var_170d, final boolean var_1735, final int rewardNumber) {
+    final void sub_8c4c(int itemIndex2, int var_171d, final int var_16fd, final int var_170d, final boolean var_1735, final int rewardNumber) {
         this.var_16fd = var_16fd;
-        this.m_itemIndex = itemIndex;
+        this.m_itemIndex = itemIndex2;
         this.var_171d = var_171d;
         this.posX = this.m_itemIndex;
         this.posY = this.var_171d;
@@ -2859,13 +2859,13 @@ final class cActor
         this.var_1735 = var_1735;
         this.m_rewardNumber = rewardNumber;
         if (var_16fd == 59) {
-            itemIndex = (this.m_rewardNumber & 0xFFFF);
-            if (Define.DECOMP_MODE) System.out.println("itemIndex : " + itemIndex);
+            int itemIndex = (this.m_rewardNumber & 0xFFFF);
+            GLLib.Dbg("itemIndex : " + itemIndex);
             this.spriteId = (cGame.var_80d4[itemIndex] | 0x8000);
             this.spriteFrame = cGame.var_80dc[itemIndex];
         }
         else if (var_16fd == 60) {
-            itemIndex = cGame.sub_3dbf6();
+            int itemIndex = cGame.sub_3dbf6();
             var_171d = 107 + itemIndex / 4;
             this.spriteId = (var_171d | 0x8000);
             this.spriteFrame = itemIndex % 4;

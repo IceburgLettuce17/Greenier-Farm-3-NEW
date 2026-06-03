@@ -118,6 +118,7 @@ public abstract class GLLib extends Canvas implements Runnable
     abstract void Game_update();
     
     public GLLib(final Object application, final Object display) {
+		Dbg("GLLib.constructor");
         GLLib.s_gllib_instance = this;
         GLLib.s_game_state = -1;
         GLLib.s_game_isInPaint = true;
@@ -150,6 +151,7 @@ public abstract class GLLib extends Canvas implements Runnable
     }
     
     protected final void Init() {
+		Dbg("GLLib.init");
         if (GLLib.s_game_state >= 0) {
             return;
         }
@@ -184,6 +186,7 @@ public abstract class GLLib extends Canvas implements Runnable
     }
     
     protected void UnInit() {
+		Dbg("GLLib.deInit");
         GLLib.MIME_type = null;
         System.gc();
     }
@@ -191,11 +194,13 @@ public abstract class GLLib extends Canvas implements Runnable
     protected void Pause() {
         if (!GLLib.s_game_isPaused) {
             GLLib.s_game_isPaused = true;
+			Dbg("GLLib.pause");
             GLLibPlayer.Snd_PauseNotify();
         }
     }
     
     private void Resume() {
+		Dbg("GLLib.resume");
         if (GLLib.s_game_isPaused) {
             final long time = GLLib.s_game_frameDTTimer = (GLLib.s_game_timeWhenFrameStart = System.currentTimeMillis());
             this.m_frameCoheranceTimer = time;
@@ -220,6 +225,7 @@ public abstract class GLLib extends Canvas implements Runnable
     }
     
     private void SetupDisplay() {
+		Dbg("GLLib.SetupDisplay");
         this.setFullScreenMode(true);
         if (GLLib.s_display != null && GLLib.s_display.getCurrent() != this) {
             GLLib.s_display.setCurrent((Displayable)this);
@@ -227,6 +233,7 @@ public abstract class GLLib extends Canvas implements Runnable
     }
     
     public void run() {
+		Dbg("GLLib.run");
         try {
             this.SetupDisplay();
             GLLib.s_game_isInPaint = false;
@@ -256,11 +263,13 @@ public abstract class GLLib extends Canvas implements Runnable
             }
         }
         catch (final Exception ex) {
+			Dbg("!!FATAL ERROR!! in cGame.run()." + ex);
+			ex.printStackTrace();
             GLLib.s_game_state = -1;
-            this.UnInit();
-            GLLib.s_application.notifyDestroyed();
-            
         }
+		Dbg("GLLib.Quitting main loop");
+        this.UnInit();
+        GLLib.s_application.notifyDestroyed();
     }
     
     public void paint(final Graphics _g) {
@@ -326,6 +335,8 @@ public abstract class GLLib extends Canvas implements Runnable
             this.Game_update();
         }
         catch (final Exception ex) {
+			Dbg("!!FATAL ERROR!! in Game_paint()." + e);
+            e.printStackTrace();
             GLLib.s_game_state = -1;
         }
         GLLib.s_game_isInPaint = false;
@@ -426,6 +437,9 @@ public abstract class GLLib extends Canvas implements Runnable
     }
     
     static void Math_Init(final String packName) {
+		if (packName == null) {
+            Assert(false, "Math_Init.packName is null");
+        }
         Pack_Open(packName);
         GLLib.s_math_cosTable = (int[])Pack_ReadArray(1);
         GLLib.s_math_sqrtTable = (int[])Pack_ReadArray(0);
@@ -433,6 +447,12 @@ public abstract class GLLib extends Canvas implements Runnable
     }
     
     static int Math_Rand(final int a, final int b) {
+        if (GLLib.s_math_random == null) {
+            Assert(false, "Math_Rand.GLLib mut be initialised prior to using this function");
+        }
+        if (a > b) {
+            Assert(false, "Math_Rand.a must be <= b");
+        }
         if (b != a) {
             int rnd = GLLib.s_math_random.nextInt();
             if (rnd < 0) {
@@ -444,6 +464,9 @@ public abstract class GLLib extends Canvas implements Runnable
     }
     
     static int Math_Cos(int angle) {
+		if (GLLib.s_math_cosTable == null) {
+            Assert(false, "!!ERROR!! Math_Cos.s_math_cosTable is null, call Math_Init first");
+        }
         if (angle < 0) {
             angle = -angle;
         }
@@ -464,6 +487,7 @@ public abstract class GLLib extends Canvas implements Runnable
     }
     
     static int Math_Sqrt(final int x) {
+		Assert(GLLib.s_math_sqrtTable != null, "!!ERROR!! Math_sqrt.s_math_sqrtTable is null, call Math_Init first");
         if (x >= 65536) {
             if (x >= 16777216) {
                 if (x >= 268435456) {
@@ -536,6 +560,9 @@ public abstract class GLLib extends Canvas implements Runnable
     }
     
     static final void Pack_Open(final String filename) {
+		if (filename == null) {
+            Assert(false, "Pack_Open.filename is null");
+        }
         GLLib.s_pack_dataSource = 1;
         if (GLLib.s_pack_filename == null || filename == null || filename.compareTo(GLLib.s_pack_filename) != 0) {
             Pack_Close(true);
@@ -591,6 +618,12 @@ public abstract class GLLib extends Canvas implements Runnable
     }
     
     private static int Pack_PositionAtData(int idx) {
+		if (idx < 0) {
+            Assert(false, "Pack_PositionAtData.idx is invalid");
+        }
+        if (idx >= GLLib.s_pack_nbData) {
+            Assert(false, "Pack_PositionAtData.idx is invalid");
+        }
     	int subpack;
         for (subpack = GLLib.s_pack_subPack_nbOf - 1; subpack >= 0 && GLLib.s_pack_subPack_fat[subpack] > idx; --subpack) {}
         if (GLLib.s_pack_subPack_curSubPack != subpack) {
@@ -642,6 +675,12 @@ public abstract class GLLib extends Canvas implements Runnable
     }
     
     static final byte[] Pack_ReadData(int idx) {
+		if (idx < 0) {
+            Assert(false, "Pack_ReadData.idx is invalid");
+        }
+        if (idx >= GLLib.s_pack_nbData) {
+            Assert(false, "Pack_ReadData.idx is invalid");
+        }
         byte[] data = new byte[idx = Pack_PositionAtData(idx)];
         Pack_ReadFully(data, 0, data.length);
         return data;
@@ -660,7 +699,8 @@ public abstract class GLLib extends Canvas implements Runnable
                 return;
             }
             catch (final Exception ex) {
-                return;
+                //return;
+				Assert(false, "Pack_Skip.IO exception occured");
             }
         }
         if (GLLib.s_Pack_SkipBuffer == null) {
@@ -680,7 +720,12 @@ public abstract class GLLib extends Canvas implements Runnable
         try {
             read = GLLib.s_pack_is.read();
         }
-        catch (final Exception ex) {}
+        catch (final Exception e) {
+            Assert(false, "Pack_Read.IO exception occured");
+        }
+        if (read < 0) {
+            Assert(false, "Pack_Read.EOF");
+        }
         ++GLLib.s_pack_curOffset;
         return read;
     }
@@ -690,21 +735,44 @@ public abstract class GLLib extends Canvas implements Runnable
     }
     
     private static int Pack_ReadFully(final byte[] array, int offset, final int length) {
+		if (array == null) {
+            Assert(false, "Pack_ReadFully.array is null");
+        }
+        if (offset < 0) {
+            Assert(false, "Pack_ReadFully.offset is negative");
+        }
+        if (length < 0) {
+            Assert(false, "Pack_ReadFully.length is negative");
+        }
+        if (offset + length > array.length) {
+            Assert(false, "Pack_ReadFully.offset+length is bigger than array size");
+        }
         offset = 0;
         int len = length;
         try {
             while (len > 0) {
                 final int read = GLLib.s_pack_is.read(array, offset, len);
+				if (read < 0) {
+                    Assert(false, "Pack_ReadFully.EOF");
+                }
                 len -= read;
                 offset += read;
             }
         }
-        catch (final Exception ex) {}
+        catch (final Exception e) {
+            Assert(false, "Pack_Read.IO exception occured");
+        }
         GLLib.s_pack_curOffset += length;
         return length;
     }
     
     static final Object Pack_ReadArray(final int idx) {
+		if (idx < 0) {
+            Assert(false, "Pack_ReadArray.idx is invalid");
+        }
+        if (idx >= GLLib.s_pack_nbData) {
+            Assert(false, "Pack_ReadArray.idx is invalid");
+        }
         Pack_PositionAtData(idx);
         GLLib.Stream_readOffset = 0;
         final Object array = Mem_ReadArray(GLLib.s_pack_is);
@@ -713,6 +781,9 @@ public abstract class GLLib extends Canvas implements Runnable
     }
     
     static void Pack_LoadMIME(final String filename) {
+		if (filename == null) {
+            Assert(false, "Pack_LoadMIME.filename is null");
+        }
         if (GLLib.MIME_type == null) {
             GLLib.s_pack_is = Pack_GetInputStreamFromName(filename);
             GLLib.MIME_type = new byte[Pack_Read()][];
@@ -722,11 +793,16 @@ public abstract class GLLib extends Canvas implements Runnable
             try {
                 GLLib.s_pack_is.close();
             }
-            catch (final Exception ex) {}
+            catch (final Exception e) {
+                Assert(false, "Pack_LoadMIME.IO Error");
+            }
         }
     }
     
     static String GetMIME(final int idx) {
+		if (GLLib.MIME_type == null) {
+            Assert(false, "GetMIME. MIME type not loaded yet, use Pack_LoadMIME first");
+        }
         if (idx >= GLLib.MIME_type.length) {
             return "";
         }
@@ -739,8 +815,16 @@ public abstract class GLLib extends Canvas implements Runnable
     }
     
     private static void SetColor(final Graphics _g, int red, final int green, final int blue) {
-        red = ((red & 0xFF) << 16 | (green & 0xFF) << 8 | blue);
-        _g.setColor(red);
+		if (red > 255) {
+            Assert(false, "setColor. red is bigger than 0xFF");
+        }
+        if (green > 255) {
+            Assert(false, "setColor. green is bigger than 0xFF");
+        }
+        if (blue > 255) {
+            Assert(false, "setColor. blue is bigger than 0xFF");
+        }
+		_g.setColor(red << 16 | green << 8 | blue);
     }
     
     static final int GetClipX(final Graphics _g, final boolean allowRotation) {
@@ -834,6 +918,15 @@ public abstract class GLLib extends Canvas implements Runnable
     }
     
     static final void DrawString(final String str, final int x, final int y, int anchor) {
+		if (str == null) {
+            Assert(false, "DrawString.str is null");
+        }
+        if ((anchor & 0x32) == 0x0) {
+            Assert(false, "DrawString.anchor miss vertical positionning");
+        }
+        if ((anchor & 0xD) == 0x0) {
+            Assert(false, "DrawString.anchor miss horizontal positionning");
+        }
         try {
             int _anchor = anchor;
             if ((anchor & 0x2) != 0x0) {
@@ -846,6 +939,15 @@ public abstract class GLLib extends Canvas implements Runnable
     }
     
     static final void DrawImage(final Graphics g, ImageG img, final int x, final int y, int anchor, final boolean allowRotation) {
+		if (img == null) {
+            Assert(false, "DrawImage.data is null");
+        }
+        if ((anchor & 0x32) == 0x0) {
+            Assert(false, "DrawImage.anchor miss vertical positionning");
+        }
+        if ((anchor & 0xD) == 0x0) {
+            Assert(false, "DrawImage.anchor miss horizontal positionning");
+        }
         try {
             if (allowRotation) {
                 anchor = img.image.getWidth();
@@ -858,6 +960,33 @@ public abstract class GLLib extends Canvas implements Runnable
     }
     
     static final void DrawRegion(final Graphics g, final ImageG src, final int x_src, int y_src, int width, int height, int transform, int x_dest, int y_dest, int anchor, final boolean allowRotation) {
+		if (src == null) {
+            Assert(false, "DrawRegion.src is null");
+        }
+        if ((anchor & 0x32) == 0x0) {
+            Assert(false, "DrawRegion.anchor miss vertical positionning");
+        }
+        if ((anchor & 0xD) == 0x0) {
+            Assert(false, "DrawRegion.anchor miss horizontal positionning");
+        }
+        if (transform < 0) {
+            Assert(false, "DrawRegion.transform is invalid");
+        }
+        if (transform > 7) {
+            Assert(false, "DrawRegion.transform is invalid");
+        }
+        if (x_src < 0) {
+            Assert(false, "DrawRegion.x_src is negative");
+        }
+        if (y_src < 0) {
+            Assert(false, "DrawRegion.y_src is negative");
+        }
+        if (x_src + width > src.getWidth()) {
+            Assert(false, "DrawRegion.x_src+width is bigger than source image");
+        }
+        if (y_src + height > src.getHeight()) {
+            Assert(false, "DrawRegion.x_src+height is bigger than source image");
+        }
         if (allowRotation) {
             if (transform == 0) {
                 transform = 5;
@@ -891,6 +1020,9 @@ public abstract class GLLib extends Canvas implements Runnable
         try {
             g.drawRegion(src.image, 0, 0, width, height, transform, x_dest, y_dest, anchor);
         }
+		catch (final IllegalArgumentException iae) {
+            Assert(false, "DrawRegion.src cannot be the current graphic context");
+        }
         catch (final Exception ex) {}
     }
     
@@ -910,6 +1042,24 @@ public abstract class GLLib extends Canvas implements Runnable
     }
     
     static final void DrawRGB(final Graphics g, int[] rgbData, final int offset, int scanlength, int x, int y, int width, int height, final boolean processAlpha, final boolean processComplexAlpha, int flags, int _palTranspIndex, final boolean allowRotatedModules) {
+		if (rgbData == null) {
+            Assert(false, "DrawRGB.rgbData is null");
+        }
+        if (offset < 0) {
+            Assert(false, "DrawRGB. invalid parameter: offset < 0");
+        }
+        if (width < 0) {
+            Assert(false, "DrawRGB. invalid parameter: width < 0");
+        }
+        if (height < 0) {
+            Assert(false, "DrawRGB. invalid parameter: height < 0");
+        }
+        if (scanlength < 0) {
+            Assert(false, "DrawRGB. invalid parameter: scanlength < 0");
+        }
+        if (offset + width + (height - 1) * scanlength > rgbData.length) {
+            Assert(false, "DrawRGB. invalid parameter(s) out of array bounds");
+		}
         if (allowRotatedModules) {
             int n9 = height;
             if ((flags & 0x4) != 0x0) {
@@ -1003,6 +1153,9 @@ public abstract class GLLib extends Canvas implements Runnable
     }
     
     private static Object Mem_ReadArray(final InputStream is) {
+		if (is == null) {
+            Assert(false, "Mem_ReadArray.is is null");
+        }
         Object o = null;
         try {
             final int ID;
@@ -1095,7 +1248,9 @@ public abstract class GLLib extends Canvas implements Runnable
                 }
             }
         }
-        catch (final Exception ex) {}
+        catch (final Exception e) {
+            Assert(false, "Mem_ReadArray.IO error");
+        }
         return o;
     }
     
@@ -1116,16 +1271,34 @@ public abstract class GLLib extends Canvas implements Runnable
     }
     
     private static int Stream_ReadFully(final InputStream is, final byte[] array, int offset, final int length) {
+		if (array == null) {
+            Assert(false, "Stream_ReadFully.array is null");
+        }
+        if (offset < 0) {
+            Assert(false, "Stream_ReadFully.offset is negative");
+        }
+        if (length < 0) {
+            Assert(false, "Stream_ReadFully.length is negative");
+        }
+        if (offset + length > array.length) {
+            Assert(false, "Stream_ReadFully.offset+length is bigger than array size");
+        }
         offset = 0;
         int len = length;
         try {
             while (len > 0) {
                 final int read = is.read(array, offset, len);
+				if (read < 0) {
+                    Assert(false, "Pack_ReadFully.EOF");
+                }
+                len 
                 len -= read;
                 offset += read;
             }
         }
-        catch (final Exception ex) {}
+        catch (final Exception e) {
+            Assert(false, "Stream_ReadFully.IO exception occured");
+        }
         GLLib.Stream_readOffset += length;
         return length;
     }
@@ -1399,6 +1572,9 @@ public abstract class GLLib extends Canvas implements Runnable
     }
     
 	static String Text_GetString(int index) {
+		if (GLLib.text_encoding == null) {
+            Assert(false, "Text_GetString.current text encoding is not set, use Text_SetEncoding()");
+        }
         final int arrayID = index >> 10;
         index &= 0x3FF;
         if (GLLib.text_multiple_stringCacheArrays != null && GLLib.text_multiple_stringCacheArrays[arrayID] != null) {
@@ -1412,6 +1588,7 @@ public abstract class GLLib extends Canvas implements Runnable
             return new String(GLLib.s_text_localeGroups[arrayID], GLLib.text_multiple_arrayOffsets[arrayID][index], length, GLLib.text_encoding);
         }
         catch (final Exception ex) {
+            Assert(false, "Text_GetString.unable to create string, might try another encoding." + e);
             return null;
         }
     }
@@ -1564,11 +1741,14 @@ public abstract class GLLib extends Canvas implements Runnable
         try {
             GLLib.s_rs.closeRecordStore();
         }
-        catch (final RecordStoreException ex) {}
+        catch (final RecordStoreException e) {
+            Dbg("ERROR! Failed closing RMS: " + e);
+        }
         GLLib.s_rs = null;
     }
     
     private static void Rms_Open(final String strName) throws RecordStoreFullException, RecordStoreNotFoundException, RecordStoreException {
+		Dbg(" Open recordstore : " + strName);
         GLLib.s_rs = RecordStore.openRecordStore(strName, true);
     }
     
@@ -1589,7 +1769,8 @@ public abstract class GLLib extends Canvas implements Runnable
                 data = GLLib.s_rs.getRecord(1);
             }
         }
-        catch (final RecordStoreException ex) {
+         catch (final RecordStoreException e) {
+            Dbg("ERROR! Failed reading from RMS: " + e);
             data = null;
         }
         Rms_Close();
@@ -1606,12 +1787,17 @@ public abstract class GLLib extends Canvas implements Runnable
     }
     
     static void Rms_Write_Single(final String strName, byte[] data, final int offset, final int size, final byte[] unk) throws RecordStoreNotOpenException, InvalidRecordIDException, RecordStoreFullException, RecordStoreException {
-        Rms_Open(strName);
-        if (GLLib.s_rs.getNumRecords() > 0) {
-            GLLib.s_rs.setRecord(1, data, 0, size);
+        try {
+            Rms_Open(strName);
+            if (GLLib.s_rs.getNumRecords() > 0) {
+                GLLib.s_rs.setRecord(1, data, 0, data.length);
+            }
+            else {
+                GLLib.s_rs.addRecord(data, 0, data.length);
+            }
         }
-        else {
-            GLLib.s_rs.addRecord(data, 0, size);
+        catch (final RecordStoreException e) {
+            Dbg("ERROR! Failed writing into RMS: " + e);
         }
         Rms_Close();
     }
@@ -2350,5 +2536,28 @@ public abstract class GLLib extends Canvas implements Runnable
         GLLib.s_PFX_type = 0;
         GLLib.s_PFX_params = null;
         GLLib.s_iapRequestTime = 0L;
+    }
+	
+	// These debug methods are patched from the originals to use the Define.GLLIB_DEBUG_MODE boolean in order to allow printing
+	static void Dbg(final String log) {
+		if (Define.GLLIB_DEBUG_MODE)
+			System.out.println(log);
+    }
+    
+    static void Assert(final boolean test, final String errMessage) {
+        if (!test && Define.GLLIB_DEBUG_MODE) {
+            Dbg("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+            Dbg("ERROR . " + errMessage);
+            Dbg("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+            new Throwable().printStackTrace();
+        }
+    }
+    
+    static void Warning(final String message) {
+		if (Define.GLLIB_DEBUG_MODE) {
+			Dbg("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+			Dbg("WARNING . " + message);
+			Dbg("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+		}
     }
 }
