@@ -17,6 +17,7 @@ I will start work on these when I can work on the project.
 - (N) Fully document everything in Define.java
 - (N) Update the Eclipse project to use the right ProGuard version
 - (N) Make the game load the splash screen GS (GS_GAMELOFT)
+- (N) Make symbol mappings to use in emulators for modding purposes
 
 # Q&A
 Q: Where did cGame originate from?
